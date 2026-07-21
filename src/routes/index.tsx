@@ -1,24 +1,44 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Button } from "@/components/ui/button";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "ChefXP · Cozinha, ganha XP, sobe de nível" },
+      {
+        name: "description",
+        content:
+          "ChefXP é a plataforma social gamificada para quem cozinha: descobre receitas, aceita desafios e evolui como chef.",
+      },
+      { property: "og:title", content: "ChefXP · Cozinha, ganha XP, sobe de nível" },
+      {
+        property: "og:description",
+        content:
+          "ChefXP é a plataforma social gamificada para quem cozinha: descobre receitas, aceita desafios e evolui como chef.",
+      },
+    ],
+  }),
+  component: Landing,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Landing() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="flex min-h-screen items-center justify-center bg-background px-6">
+      <div className="max-w-xl text-center">
+        <p className="text-sm font-medium uppercase tracking-widest text-primary">
+          Projeto Final de Licenciatura
+        </p>
+        <h1 className="mt-3 text-5xl font-bold tracking-tight text-foreground">ChefXP</h1>
+        <p className="mt-4 text-lg text-muted-foreground">
+          Uma plataforma social gamificada para quem quer cozinhar mais, descobrir novas
+          receitas e criar hábitos alimentares mais saudáveis.
+        </p>
+        <div className="mt-8 flex justify-center gap-3">
+          <Button asChild size="lg">
+            <Link to="/auth">Começar</Link>
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
