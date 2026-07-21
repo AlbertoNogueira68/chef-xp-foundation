@@ -16,9 +16,10 @@ export class LovableUserRepository implements UserRepository {
   }
 
   async update(id: string, patch: UserUpdate): Promise<User> {
-    const payload: Record<string, unknown> = {};
+    const payload: { username?: string; photo_url?: string | null } = {};
     if (patch.username !== undefined) payload.username = patch.username;
     if (patch.photoUrl !== undefined) payload.photo_url = patch.photoUrl;
+
 
     const { data, error } = await supabase
       .from("users")
