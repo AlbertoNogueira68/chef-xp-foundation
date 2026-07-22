@@ -1,9 +1,6 @@
 /**
  * Erros de domínio, independentes do data provider.
- *
- * Toda a comunicação com backend deve normalizar erros para estas classes,
- * garantindo que a UI e os serviços não dependem do formato do Supabase (ou
- * de qualquer outro provider futuro).
+ * A UI e os serviços devem depender apenas destas classes.
  */
 
 export class AppError extends Error {

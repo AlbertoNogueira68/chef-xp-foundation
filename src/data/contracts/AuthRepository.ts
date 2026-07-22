@@ -1,8 +1,6 @@
 /**
  * Contrato do repositório de autenticação.
- *
- * A UI e os serviços devem depender APENAS desta interface. Trocar de provider
- * (Lovable Cloud → API REST própria) consiste em criar outra implementação.
+ * A UI e os serviços devem depender APENAS desta interface.
  */
 export interface AuthSession {
   userId: string;

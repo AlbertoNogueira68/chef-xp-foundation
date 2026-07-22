@@ -2,9 +2,7 @@ import type { User, UserUpdate } from "@/types/user";
 
 /**
  * Contrato do repositório de utilizadores.
- *
- * Toda a leitura/escrita da tabela `users` passa por aqui. Nenhum componente
- * ou hook deve importar diretamente o cliente do provider.
+ * Nenhum componente ou hook deve importar o cliente HTTP/DB diretamente.
  */
 export interface UserRepository {
   getById(id: string): Promise<User | null>;

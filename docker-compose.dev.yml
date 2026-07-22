@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-chef}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-chefdev}
+      POSTGRES_DB: ${POSTGRES_DB:-chef_xp}
+    ports:
+      - "5432:5432"
+    volumes:
+      - chef_xp_pgdata:/var/lib/postgresql/data
+      - ./server/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./server/db/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-chef} -d ${POSTGRES_DB:-chef_xp}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    image: node:20-alpine
+    working_dir: /app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-chef}:${POSTGRES_PASSWORD:-chefdev}@postgres:5432/${POSTGRES_DB:-chef_xp}
+      PORT: 3010
+      NODE_ENV: development
+      JWT_SECRET: ${JWT_SECRET:-dev-only-insecure-jwt-secret-min-32-chars}
+      FRONTEND_URL: http://localhost:5173
+      CORS_ORIGIN: http://localhost:5173
+      VITE_API_URL: /api
+      VITE_APP_ENV: development
+    ports:
+      - "5173:5173"
+      - "3010:3010"
+    volumes:
+      - .:/app
+      - chef_xp_node_modules:/app/node_modules
+    command: sh -c "npm install && npm run dev:all"
+
+volumes:
+  chef_xp_pgdata:
+  chef_xp_node_modules:

@@ -1,203 +1,98 @@
 # ChefXP
 
-> Plataforma social gamificada para quem cozinha.
-> Projeto Final de Licenciatura.
+Plataforma social gamificada para quem cozinha. Projeto Final de Licenciatura.
 
-ChefXP incentiva os utilizadores a cozinhar mais, descobrir novas receitas
-e desenvolver hábitos alimentares mais saudáveis através de um sistema de
-níveis, XP, desafios e interação social.
-
----
+Export Lovable convertido para stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
 
 ## MVP
 
-Esta fase entrega **apenas a fundação** da aplicação:
+- Landing pública + autenticação email/password
+- Rotas protegidas com bottom navigation
+- Perfil de utilizador (username, email, level, xp)
+- Feed de receitas, pesquisa, publicação e desafios (dados seed + API)
 
-- Configuração e estrutura de pastas
-- Sistema de routing (público / privado)
-- Layout com bottom navigation
-- Autenticação (email/password + Google) e proteção de rotas
-- Criação automática do registo de utilizador na base de dados
-- Camada de acesso a dados abstraída (Data Provider substituível)
-
-Fora de âmbito no MVP: receitas, XP real, desafios, comentários, likes,
-notificações, upload de fotos, pesquisa.
-
----
+Fora de âmbito: Google OAuth, upload de fotos, likes persistentes por utilizador, ranking global.
 
 ## Stack
 
-- **React 19** + **TypeScript** + **Vite**
-- **TanStack Start** (SSR/roteamento file-based, equivalente moderno a React Router v7)
-- **TanStack Query v5** (cache e estado servidor)
-- **React Hook Form** + **Zod** (formulários e validação)
-- **Tailwind CSS v4** + **shadcn/ui** (design system)
-- **Lovable Cloud** (Auth + PostgreSQL + Storage) — provider **temporário**;
-  substituível por backend próprio sem alterar a UI
+- React 19 + TypeScript + Vite + React Router
+- Tailwind CSS v4 (`@tailwindcss/vite`, local)
+- TanStack Query + React Hook Form + Zod + shadcn/ui
+- Express (ESM) + PostgreSQL 15 (`pg`, SQL-first)
+- JWT HttpOnly cookie + CSRF double-submit + bcrypt
+- Docker Compose (dev/prod)
 
-### Migração futura planeada
+## Pré-requisitos
 
-O backend será substituído por **Node.js + TypeScript + Fastify + Prisma +
-PostgreSQL** em **Docker**. Para minimizar alterações no frontend, toda a
-comunicação passa por uma camada de repositórios (ver Arquitetura).
+- Node.js 20+
+- Docker / Docker Compose (recomendado para Postgres)
 
----
+## Setup local
+
+```bash
+cp .env.example .env
+docker compose -f docker-compose.dev.yml up -d postgres
+npm install
+npm run db:migrate
+npm run dev:all
+```
+
+- Frontend: http://localhost:5173
+- API: http://localhost:3010
+- Health: http://localhost:3010/api/health
+
+## Setup Docker (app + Postgres)
+
+```bash
+cp .env.example .env
+docker compose -f docker-compose.dev.yml up --build
+```
+
+Vite fica em `:5173`, API em `:3010`.
+
+## Credenciais de seed (dev only)
+
+| Email | Password | Notas |
+| --- | --- | --- |
+| `demo@chef-xp.local` | `chef123` | chefdemo · nível 3 |
+| `sous@chef-xp.local` | `chef123` | souschef |
+| `maria@chef-xp.local` | `chef123` | mariacozinha |
+| `joao@chef-xp.local` | `chef123` | joaoforno |
+
+Seed inclui 5 receitas e 3 desafios. Se a base já existir:
+
+```bash
+npm run db:migrate
+npm run db:seed
+```
+
+## Scripts
+
+| Script | Descrição |
+| --- | --- |
+| `npm run dev:all` | Vite + Express em paralelo |
+| `npm run build` | Build do frontend |
+| `npm start` | Serve API (+ `dist` em produção) |
+| `npm run db:migrate` | Aplica migrations SQL |
+| `npm run db:seed` | Popula dados de demonstração |
+| `npm run test:hardening` | Build + bloqueia CDNs proibidas |
+| `npm run lint` | ESLint |
+
+## Produção
+
+```bash
+# criar .env.prod a partir de .env.example (JWT_SECRET >= 32 chars)
+docker compose -f docker-compose.prod.yml up --build -d
+# ou
+docker build -t chef-xp:local .
+```
+
+Em produção o Express serve `dist/` e a API em `/api` (same-origin).
 
 ## Arquitetura
 
-Camadas, de cima para baixo:
-
 ```text
-UI  (routes + components)
-     │  chamam apenas hooks
-     ▼
-Hooks  (wrappers React Query: useSignIn, useCurrentUser, …)
-     │  chamam services
-     ▼
-Services  (regras de negócio, TypeScript puro)
-     │  usam interfaces
-     ▼
-Repositories  (contratos: AuthRepository, UserRepository)
-     │  implementados por
-     ▼
-Data Provider  (Lovable Cloud hoje; Fastify REST amanhã)
+UI → hooks → services → repositories → Express API → PostgreSQL
 ```
 
-**Regra de ouro:** componentes React **nunca** importam
-`@/integrations/supabase/*` nem fazem `fetch` direto. Tudo passa por
-`services → repositories`. Trocar de provider = criar
-`src/data/providers/rest/*` e reconfigurar `src/data/index.ts`.
-
----
-
-## Estrutura de pastas
-
-```text
-src/
-├── routes/                     # rotas TanStack file-based
-│   ├── __root.tsx              # layout raiz + head + auth listener
-│   ├── index.tsx               # landing pública
-│   ├── auth.tsx                # login + registo
-│   └── _authenticated/         # rotas protegidas
-│       ├── route.tsx           # gate (redireciona para /auth)
-│       ├── feed.tsx
-│       ├── search.tsx
-│       ├── publish.tsx
-│       ├── challenges.tsx
-│       └── profile.tsx
-│
-├── features/                   # arquitetura feature-first
-│   ├── auth/
-│   │   ├── components/         # LoginForm, RegisterForm
-│   │   ├── hooks/              # useSignIn, useSignUp, useSignOut, useSignInWithGoogle
-│   │   ├── services/           # authService
-│   │   └── schemas.ts          # zod
-│   ├── profile/                # userService + useCurrentUser
-│   ├── feed/                   # placeholder
-│   ├── recipes/                # placeholder
-│   ├── search/                 # placeholder
-│   ├── challenges/             # placeholder
-│   └── xp/                     # placeholder
-│
-├── components/
-│   ├── ui/                     # shadcn/ui
-│   └── layout/                 # AppShell, BottomNav
-│
-├── data/                       # camada de dados
-│   ├── contracts/              # interfaces + DTOs + erros de domínio
-│   ├── providers/lovable/      # adapter atual (isola Supabase)
-│   └── index.ts                # container: repositórios ativos
-│
-├── hooks/                      # hooks partilhados
-├── lib/                        # utils
-├── types/                      # tipos de domínio
-└── styles.css                  # Tailwind v4 + tokens do tema
-```
-
-Aliases: `@/features`, `@/components`, `@/hooks`, `@/data`, `@/lib`, `@/types`.
-
----
-
-## Modelo de dados
-
-Tabela `public.users` (equivalente ao "profiles" no idioma Supabase, mas com
-nomenclatura agnóstica ao provider):
-
-| coluna       | tipo         | notas                                    |
-| ------------ | ------------ | ---------------------------------------- |
-| `id`         | uuid PK      | FK para `auth.users(id)`                 |
-| `username`   | text unique  | derivado do email no signup              |
-| `email`      | text         |                                          |
-| `photo_url`  | text         | nullable                                 |
-| `level`      | int          | default `1`                              |
-| `xp`         | int          | default `0`                              |
-| `created_at` | timestamptz  | default `now()`                          |
-| `updated_at` | timestamptz  | mantido por trigger                      |
-
-RLS ativo: qualquer autenticado consegue ler; apenas o próprio pode atualizar.
-Trigger `on_auth_user_created` cria automaticamente o registo após o signup.
-
----
-
-## Executar localmente
-
-Pré-requisitos: **Node.js 20+** e **npm** (ou **bun**).
-
-```bash
-git clone <this-repository>
-cd <repository>
-npm install
-npm run dev
-```
-
-Variáveis de ambiente (`.env`, geridas pelo Lovable Cloud enquanto usado):
-
-```env
-VITE_SUPABASE_URL="..."
-VITE_SUPABASE_PUBLISHABLE_KEY="..."
-SUPABASE_URL="..."
-SUPABASE_PUBLISHABLE_KEY="..."
-```
-
-Scripts:
-
-- `npm run dev` — servidor de desenvolvimento
-- `npm run build` — build de produção
-- `npm run lint` — ESLint
-- `npm run format` — Prettier
-
----
-
-## Convenções de desenvolvimento
-
-- **Feature-first**: cada funcionalidade contém apenas o que lhe pertence
-  (`components/`, `hooks/`, `services/`, `schemas.ts`).
-- **UI ≠ infra**: nenhum componente/hook importa clientes de rede/DB.
-- **DTOs em camelCase**: mappers isolam o snake_case do Postgres.
-- **Tipagem forte**: `strict: true`, sem `any` implícito, Zod nas fronteiras.
-- **Imports por alias** (`@/...`), nunca caminhos relativos longos.
-- **Ficheiros pequenos** e componentes reutilizáveis; extrair quando >200 LOC.
-- **Design system**: cores/tokens vivem em `src/styles.css`; nada de
-  `text-white`/`bg-[#...]` hardcoded.
-- **Formatação**: Prettier + ESLint antes de commit.
-
----
-
-## Estratégia de evolução
-
-1. **Continuar features** sobre esta base (receitas, XP, desafios, feed).
-2. **Migrar backend** quando o MVP estabilizar:
-   - Criar API em Node.js + Fastify + Prisma + PostgreSQL (Docker).
-   - Implementar `RestAuthRepository` e `RestUserRepository` em
-     `src/data/providers/rest/` respeitando as interfaces existentes.
-   - Trocar as duas linhas em `src/data/index.ts` para apontar aos novos
-     repositórios.
-   - Nenhum componente, hook ou service precisa de mudar.
-3. **Deploy**: `docker-compose` para API + Postgres; frontend continua
-   estático (Vite build) servido em qualquer CDN.
-
----
-
-## Licença
-
-Projeto académico. Todos os direitos reservados.
+Trocar provider = editar `src/data/index.ts`. O cliente usa `src/services/api.ts` (credentials + CSRF).

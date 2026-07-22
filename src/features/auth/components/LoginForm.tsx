@@ -29,7 +29,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="login-email">Email</Label>
-        <Input id="login-email" type="email" autoComplete="email" {...register("email")} />
+        <Input id="login-email" type="email" autoComplete="email" className="rounded-xl" {...register("email")} />
         {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
       </div>
       <div className="space-y-2">
@@ -38,13 +38,18 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
           id="login-password"
           type="password"
           autoComplete="current-password"
+          className="rounded-xl"
           {...register("password")}
         />
         {errors.password && (
           <p className="text-xs text-destructive">{errors.password.message}</p>
         )}
       </div>
-      <Button type="submit" className="w-full" disabled={signIn.isPending}>
+      <Button
+        type="submit"
+        className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
+        disabled={signIn.isPending}
+      >
         {signIn.isPending ? "A entrar…" : "Entrar"}
       </Button>
     </form>

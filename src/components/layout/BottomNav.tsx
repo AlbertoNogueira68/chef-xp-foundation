@@ -1,37 +1,40 @@
-import { Link } from "@tanstack/react-router";
-import { Home, Search, PlusSquare, Trophy, User } from "lucide-react";
-import type { ComponentType, SVGProps } from "react";
+import { NavLink } from "react-router-dom";
+import { Home, Plus, Search, Trophy, User } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-type NavItem = {
-  to: "/feed" | "/search" | "/publish" | "/challenges" | "/profile";
-  label: string;
-  icon: ComponentType<SVGProps<SVGSVGElement>>;
-};
-
-const items: NavItem[] = [
-  { to: "/feed", label: "Feed", icon: Home },
-  { to: "/search", label: "Pesquisa", icon: Search },
-  { to: "/publish", label: "Publicar", icon: PlusSquare },
-  { to: "/challenges", label: "Desafios", icon: Trophy },
-  { to: "/profile", label: "Perfil", icon: User },
-];
+const items = [
+  { to: "/feed", icon: Home, label: "Feed" },
+  { to: "/search", icon: Search, label: "Explorar" },
+  { to: "/publish", icon: Plus, label: "Publicar", accent: true },
+  { to: "/challenges", icon: Trophy, label: "Desafios" },
+  { to: "/profile", icon: User, label: "Perfil" },
+] as const;
 
 export function BottomNav() {
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 backdrop-blur"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-background/90 backdrop-blur-xl"
       aria-label="Navegação principal"
     >
-      <ul className="mx-auto flex max-w-lg items-stretch justify-between px-2">
-        {items.map(({ to, label, icon: Icon }) => (
-          <li key={to} className="flex-1">
-            <Link
+      <ul className="mx-auto flex max-w-lg items-center justify-around px-2 py-1.5">
+        {items.map(({ to, icon: Icon, label, accent }) => (
+          <li key={to}>
+            <NavLink
               to={to}
-              className="flex flex-col items-center gap-1 py-3 text-xs text-muted-foreground transition-colors data-[status=active]:text-primary"
+              aria-label={label}
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center justify-center rounded-full transition-colors",
+                  accent
+                    ? "mx-1 size-11 bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg shadow-orange-500/25"
+                    : "size-10",
+                  !accent && isActive && "text-amber-600",
+                  !accent && !isActive && "text-muted-foreground",
+                )
+              }
             >
-              <Icon className="size-5" aria-hidden />
-              <span>{label}</span>
-            </Link>
+              <Icon className={cn("size-5", accent && "size-6")} strokeWidth={accent ? 2.5 : 2} />
+            </NavLink>
           </li>
         ))}
       </ul>
