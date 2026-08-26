@@ -1,33 +1,24 @@
 import { Router } from "express";
 import { query } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
+import { asyncHandler } from "../middleware/errorHandler.js";
+import { toChallenge } from "../lib/mappers.js";
 
 const router = Router();
 
-function mapChallenge(row) {
-  return {
-    id: row.id,
-    title: row.title,
-    description: row.description,
-    xpReward: row.xp_reward,
-    endsAt: row.ends_at,
-    createdAt: row.created_at,
-    active: new Date(row.ends_at) > new Date(),
-  };
-}
+router.use(requireAuth);
 
-router.get("/", requireAuth, async (_req, res) => {
-  try {
+router.get(
+  "/",
+  asyncHandler(async (_req, res) => {
     const { rows } = await query(
-      `SELECT * FROM challenges
-       ORDER BY ends_at ASC
-       LIMIT 50`,
+      `SELECT id, title, description, xp_reward, image_url, ends_at, created_at
+         FROM challenges
+        ORDER BY (ends_at > now()) DESC, ends_at ASC
+        LIMIT 50`,
     );
-    return res.json({ challenges: rows.map(mapChallenge) });
-  } catch (error) {
-    console.error("[challenges/list]", error);
-    return res.status(500).json({ error: "Failed to load challenges" });
-  }
-});
+    res.json({ challenges: rows.map(toChallenge) });
+  }),
+);
 
 export default router;
