@@ -1,12 +1,26 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import type { Lesson, LessonPlayerPhase, Question } from "@/types/learning";
 import { learningService } from "../services/learningService";
-import { useInvalidateLearningPath } from "./useLearningPath";
+import { useInvalidateLearningPath, useSetLearningPath } from "./useLearningPath";
+import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
 
 const MAX_HEARTS = 3;
 
+type GivenAnswer = { questionId: string; answer: string };
+
+/**
+ * O leitor de lições mantém o ritmo do Duolingo (feedback imediato a cada
+ * resposta) mas nenhuma correção acontece no browser: cada resposta é
+ * validada pelo servidor, e o XP só é atribuído quando o servidor volta a
+ * corrigir tudo no fim.
+ */
 export function useLessonPlayer() {
+  const queryClient = useQueryClient();
   const invalidatePath = useInvalidateLearningPath();
+  const setPath = useSetLearningPath();
+
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [phase, setPhase] = useState<LessonPlayerPhase>("intro");
   const [prepStepIndex, setPrepStepIndex] = useState(0);
@@ -15,7 +29,13 @@ export function useLessonPlayer() {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
+  const [explanation, setExplanation] = useState<string | null>(null);
+  const [correctAnswer, setCorrectAnswer] = useState<string | null>(null);
   const [xpEarned, setXpEarned] = useState(0);
+  const [isChecking, setIsChecking] = useState(false);
+  const [isFinishing, setIsFinishing] = useState(false);
+
+  const answers = useRef<GivenAnswer[]>([]);
 
   const currentQuestion: Question | null = lesson?.questions[questionIndex] ?? null;
   const currentPrepStep = lesson?.preparationSteps[prepStepIndex] ?? null;
@@ -27,15 +47,19 @@ export function useLessonPlayer() {
 
   const progress = useMemo(() => {
     if (!lesson) return 0;
-    let done = 0;
     if (phase === "intro") return (1 / totalSteps) * 100;
-    if (phase === "prep") done = 1 + prepStepIndex + 1;
-    if (phase === "quiz") done = 1 + lesson.preparationSteps.length + questionIndex + (showFeedback ? 1 : 0);
     if (phase === "complete") return 100;
+
+    let done = 0;
+    if (phase === "prep") done = 1 + prepStepIndex + 1;
+    if (phase === "quiz") {
+      done = 1 + lesson.preparationSteps.length + questionIndex + (showFeedback ? 1 : 0);
+    }
     return (done / totalSteps) * 100;
   }, [lesson, phase, prepStepIndex, questionIndex, showFeedback, totalSteps]);
 
   const resetSession = useCallback((loaded: Lesson) => {
+    answers.current = [];
     setLesson(loaded);
     setPhase("intro");
     setPrepStepIndex(0);
@@ -43,14 +67,20 @@ export function useLessonPlayer() {
     setHearts(MAX_HEARTS);
     setSelectedAnswer(null);
     setShowFeedback(false);
+    setIsCorrect(false);
+    setExplanation(null);
+    setCorrectAnswer(null);
     setXpEarned(0);
   }, []);
 
   const openLesson = useCallback(
     async (lessonId: string) => {
-      const loaded = await learningService.getLesson(lessonId);
-      if (!loaded) return;
-      resetSession(loaded);
+      try {
+        const { lesson: loaded } = await learningService.getLesson(lessonId);
+        resetSession(loaded);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : "Não foi possível abrir a lição");
+      }
     },
     [resetSession],
   );
@@ -84,48 +114,91 @@ export function useLessonPlayer() {
   }, [prepStepIndex]);
 
   const submitAnswer = useCallback(
-    (answer: string) => {
-      if (!lesson || !currentQuestion || showFeedback || phase !== "quiz") return;
+    async (answer: string) => {
+      if (!lesson || !currentQuestion || showFeedback || phase !== "quiz" || isChecking) return;
 
-      const correct = answer === currentQuestion.correctAnswer;
       setSelectedAnswer(answer);
-      setIsCorrect(correct);
-      setShowFeedback(true);
+      setIsChecking(true);
 
-      if (!correct) {
-        const newHearts = hearts - 1;
-        setHearts(newHearts);
-        if (newHearts <= 0) {
-          setTimeout(() => setPhase("failed"), 800);
+      try {
+        const result = await learningService.checkAnswer(lesson.id, currentQuestion.id, answer);
+
+        answers.current = [
+          ...answers.current.filter((a) => a.questionId !== currentQuestion.id),
+          { questionId: currentQuestion.id, answer },
+        ];
+
+        setIsCorrect(result.correct);
+        setExplanation(result.explanation);
+        setCorrectAnswer(result.correctAnswer);
+        setShowFeedback(true);
+
+        if (!result.correct) {
+          const remaining = hearts - 1;
+          setHearts(remaining);
+          if (remaining <= 0) {
+            setTimeout(() => setPhase("failed"), 800);
+          }
         }
+      } catch (error) {
+        setSelectedAnswer(null);
+        toast.error(error instanceof Error ? error.message : "Não foi possível validar a resposta");
+      } finally {
+        setIsChecking(false);
       }
     },
-    [lesson, currentQuestion, showFeedback, phase, hearts],
+    [lesson, currentQuestion, showFeedback, phase, hearts, isChecking],
   );
 
   const nextQuestion = useCallback(async () => {
-    if (!lesson || phase !== "quiz") return;
+    if (!lesson || phase !== "quiz" || isFinishing) return;
 
     const isLast = questionIndex >= lesson.questions.length - 1;
 
-    if (isLast) {
-      if (hearts > 0) {
-        setXpEarned(lesson.xpReward);
-        await learningService.completeLesson(lesson.id, lesson.xpReward);
-        invalidatePath();
-        setPhase("complete");
-      }
+    if (!isLast) {
+      setQuestionIndex((i) => i + 1);
+      setSelectedAnswer(null);
+      setShowFeedback(false);
+      setExplanation(null);
+      setCorrectAnswer(null);
       return;
     }
 
-    setQuestionIndex((i) => i + 1);
-    setSelectedAnswer(null);
-    setShowFeedback(false);
-  }, [lesson, phase, questionIndex, hearts, invalidatePath]);
+    if (hearts <= 0) return;
+
+    setIsFinishing(true);
+    try {
+      const result = await learningService.completeLesson(lesson.id, answers.current);
+
+      if (!result.passed) {
+        setPhase("failed");
+        return;
+      }
+
+      setXpEarned(result.xpEarned + (result.streakBonus ?? 0));
+      if (result.path) setPath(result.path);
+      else invalidatePath();
+
+      // O XP e o nível mudaram: o perfil e o cabeçalho têm de saber.
+      queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
+      queryClient.invalidateQueries({ queryKey: ["userStats"] });
+
+      if (result.streakBonus) {
+        toast.success(`Streak de ${result.streak} dias! +${result.streakBonus} XP extra`);
+      }
+
+      setPhase("complete");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Não foi possível concluir a lição");
+    } finally {
+      setIsFinishing(false);
+    }
+  }, [lesson, phase, questionIndex, hearts, isFinishing, setPath, invalidatePath, queryClient]);
 
   const retryLesson = useCallback(() => {
     if (!lesson) return;
     resetSession(lesson);
+    setPhase("quiz");
   }, [lesson, resetSession]);
 
   return {
@@ -140,8 +213,12 @@ export function useLessonPlayer() {
     selectedAnswer,
     showFeedback,
     isCorrect,
+    explanation,
+    correctAnswer,
     progress,
     xpEarned,
+    isChecking,
+    isFinishing,
     openLesson,
     closeLesson,
     startPreparation,

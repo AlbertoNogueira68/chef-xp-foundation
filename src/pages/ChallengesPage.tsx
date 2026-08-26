@@ -72,6 +72,9 @@ export function ChallengesPage() {
             selectedAnswer={player.selectedAnswer}
             showFeedback={player.showFeedback}
             isCorrect={player.isCorrect}
+            correctAnswer={player.correctAnswer}
+            explanation={player.explanation}
+            isChecking={player.isChecking}
             xpEarned={player.xpEarned}
             onClose={player.closeLesson}
             onStartPreparation={player.startPreparation}

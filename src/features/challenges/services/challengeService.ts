@@ -1,9 +1,9 @@
+import { apiFetch } from "@/services/api";
 import type { Challenge } from "@/types/challenge";
-import { delay, getDemoChallenges } from "@/constants/demo";
 
 export const challengeService = {
   async list(): Promise<Challenge[]> {
-    await delay();
-    return getDemoChallenges();
+    const data = await apiFetch<{ challenges: Challenge[] }>("/challenges");
+    return data.challenges;
   },
 };

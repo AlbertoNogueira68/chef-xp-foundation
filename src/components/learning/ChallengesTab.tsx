@@ -13,9 +13,7 @@ export function ChallengesTab() {
           <Flame className="size-5" />
           <h2 className="text-lg font-bold">Desafios da comunidade</h2>
         </div>
-        <p className="mt-1 text-sm text-white/85">
-          Completa missões, sobe de nível e destaca-te.
-        </p>
+        <p className="mt-1 text-sm text-white/85">Completa missões, sobe de nível e destaca-te.</p>
         <div className="mt-3 flex items-center gap-2 text-xs text-white/75">
           <Zap className="size-3.5" />
           <span>{challenges?.length ?? 0} desafios ativos</span>

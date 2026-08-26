@@ -64,7 +64,9 @@ export function LessonNode({
             "animate-pulse border-emerald-400 bg-gradient-to-b from-emerald-400 to-emerald-600 text-white ring-4 ring-emerald-200",
           isLocked && "border-muted bg-muted text-muted-foreground",
           lesson.type === "boss" && !isLocked && "size-[4.5rem]",
-          lesson.type === "chest" && !isLocked && "border-amber-300 bg-gradient-to-b from-amber-200 to-amber-400",
+          lesson.type === "chest" &&
+            !isLocked &&
+            "border-amber-300 bg-gradient-to-b from-amber-200 to-amber-400",
         )}
       >
         {isLocked ? (

@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { Lesson, LessonPlayerPhase } from "@/types/learning";
+import type { Lesson, LessonPlayerPhase, Question } from "@/types/learning";
 import { LessonComplete } from "./LessonComplete";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +33,9 @@ export function LessonPlayer({
   selectedAnswer,
   showFeedback,
   isCorrect,
+  correctAnswer,
+  explanation,
+  isChecking,
   xpEarned,
   onClose,
   onStartPreparation,
@@ -45,13 +48,7 @@ export function LessonPlayer({
 }: {
   lesson: Lesson | null;
   phase: LessonPlayerPhase;
-  currentQuestion: {
-    type: string;
-    prompt: string;
-    options?: string[];
-    correctAnswer: string;
-    explanation: string;
-  } | null;
+  currentQuestion: Question | null;
   currentPrepStep: { title: string; description: string } | null;
   prepStepIndex: number;
   questionIndex: number;
@@ -61,6 +58,13 @@ export function LessonPlayer({
   selectedAnswer: string | null;
   showFeedback: boolean;
   isCorrect: boolean;
+  /**
+   * A resposta certa e a explicação só existem depois de o servidor corrigir.
+   * Não vêm dentro da lição — se viessem, estariam no bundle do browser.
+   */
+  correctAnswer: string | null;
+  explanation: string | null;
+  isChecking: boolean;
   xpEarned: number;
   onClose: () => void;
   onStartPreparation: () => void;
@@ -76,11 +80,7 @@ export function LessonPlayer({
   if (phase === "complete") {
     return (
       <div className="flex flex-1 flex-col">
-        <LessonComplete
-          xpEarned={xpEarned}
-          lessonTitle={lesson.dishName}
-          onContinue={onContinue}
-        />
+        <LessonComplete xpEarned={xpEarned} lessonTitle={lesson.dishName} onContinue={onContinue} />
       </div>
     );
   }
@@ -116,9 +116,7 @@ export function LessonPlayer({
         onClose={onClose}
       />
 
-      {phase === "intro" && (
-        <LessonIntro lesson={lesson} onStart={onStartPreparation} />
-      )}
+      {phase === "intro" && <LessonIntro lesson={lesson} onStart={onStartPreparation} />}
 
       {phase === "prep" && currentPrepStep && (
         <LessonPrep
@@ -140,6 +138,9 @@ export function LessonPlayer({
           selectedAnswer={selectedAnswer}
           showFeedback={showFeedback}
           isCorrect={isCorrect}
+          correctAnswer={correctAnswer}
+          explanation={explanation}
+          isChecking={isChecking}
           hearts={hearts}
           onSubmit={onSubmit}
           onNext={onNextQuestion}
@@ -192,7 +193,11 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
   return (
     <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6 pt-4">
       <Badge className="mb-2 w-fit rounded-full border-0 bg-emerald-100 text-emerald-800">
-        {lesson.type === "chest" ? "Bónus" : lesson.type === "boss" ? "Revisão" : `Dia ${lesson.dayNumber}`}
+        {lesson.type === "chest"
+          ? "Bónus"
+          : lesson.type === "boss"
+            ? "Revisão"
+            : `Dia ${lesson.dayNumber}`}
       </Badge>
       <h2 className="text-2xl font-bold leading-tight">{lesson.dishName}</h2>
       <p className="mt-1 text-sm text-muted-foreground">{lesson.description}</p>
@@ -201,9 +206,7 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
         <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1">
           <Clock className="size-3" /> {lesson.cookTimeMin} min
         </span>
-        <span className="rounded-full bg-muted px-2.5 py-1">
-          {DIFFICULTY[lesson.difficulty]}
-        </span>
+        <span className="rounded-full bg-muted px-2.5 py-1">{DIFFICULTY[lesson.difficulty]}</span>
         <span className="rounded-full bg-amber-100 px-2.5 py-1 text-amber-800">
           +{lesson.xpReward} XP
         </span>
@@ -283,7 +286,11 @@ function LessonPrep({
               key={i}
               className={cn(
                 "h-1.5 rounded-full transition-all",
-                i === stepIndex ? "w-6 bg-emerald-500" : i < stepIndex ? "w-1.5 bg-emerald-300" : "w-1.5 bg-muted",
+                i === stepIndex
+                  ? "w-6 bg-emerald-500"
+                  : i < stepIndex
+                    ? "w-1.5 bg-emerald-300"
+                    : "w-1.5 bg-muted",
               )}
             />
           ))}
@@ -324,23 +331,23 @@ function LessonQuiz({
   selectedAnswer,
   showFeedback,
   isCorrect,
+  correctAnswer,
+  explanation,
+  isChecking,
   hearts,
   onSubmit,
   onNext,
 }: {
   dishName: string;
-  question: {
-    type: string;
-    prompt: string;
-    options?: string[];
-    correctAnswer: string;
-    explanation: string;
-  };
+  question: Question;
   questionIndex: number;
   totalQuestions: number;
   selectedAnswer: string | null;
   showFeedback: boolean;
   isCorrect: boolean;
+  correctAnswer: string | null;
+  explanation: string | null;
+  isChecking: boolean;
   hearts: number;
   onSubmit: (answer: string) => void;
   onNext: () => void;
@@ -367,10 +374,9 @@ function LessonQuiz({
         {question.type === "multiple_choice" &&
           question.options?.map((option) => {
             const selected = selectedAnswer === option;
-            const isAnswer = option === question.correctAnswer;
+            const isAnswer = option === correctAnswer;
             let variant = "border-border bg-card hover:border-emerald-300";
-            if (showFeedback && selected && isCorrect)
-              variant = "border-emerald-500 bg-emerald-50";
+            if (showFeedback && selected && isCorrect) variant = "border-emerald-500 bg-emerald-50";
             if (showFeedback && selected && !isCorrect) variant = "border-rose-500 bg-rose-50";
             if (showFeedback && !selected && isAnswer)
               variant = "border-emerald-400 bg-emerald-50/50";
@@ -379,7 +385,7 @@ function LessonQuiz({
               <button
                 key={option}
                 type="button"
-                disabled={showFeedback}
+                disabled={showFeedback || isChecking}
                 onClick={() => onSubmit(option)}
                 className={`rounded-2xl border-2 px-4 py-4 text-left text-sm font-medium transition-colors ${variant}`}
               >
@@ -391,10 +397,9 @@ function LessonQuiz({
         {question.type === "true_false" &&
           tfOptions.map(({ label, value }) => {
             const selected = selectedAnswer === value;
-            const isAnswer = value === question.correctAnswer;
+            const isAnswer = value === correctAnswer;
             let variant = "border-border bg-card hover:border-emerald-300";
-            if (showFeedback && selected && isCorrect)
-              variant = "border-emerald-500 bg-emerald-50";
+            if (showFeedback && selected && isCorrect) variant = "border-emerald-500 bg-emerald-50";
             if (showFeedback && selected && !isCorrect) variant = "border-rose-500 bg-rose-50";
             if (showFeedback && !selected && isAnswer)
               variant = "border-emerald-400 bg-emerald-50/50";
@@ -403,7 +408,7 @@ function LessonQuiz({
               <button
                 key={value}
                 type="button"
-                disabled={showFeedback}
+                disabled={showFeedback || isChecking}
                 onClick={() => onSubmit(value)}
                 className={`rounded-2xl border-2 px-4 py-4 text-center text-sm font-semibold transition-colors ${variant}`}
               >
@@ -418,7 +423,7 @@ function LessonQuiz({
           className={`mt-4 rounded-2xl p-4 ${isCorrect ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-900"}`}
         >
           <p className="font-semibold">{isCorrect ? "Correto!" : "Ups…"}</p>
-          <p className="mt-1 text-sm opacity-90">{question.explanation}</p>
+          <p className="mt-1 text-sm opacity-90">{explanation}</p>
           <Button
             className="mt-3 w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
             onClick={onNext}
