@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, tipos, testes e build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Verificação de tipos
+        run: npm run typecheck
+
+      - name: Testes de domínio
+        run: npm test
+
+      - name: Build do frontend
+        run: npm run build
+
+      - name: Verificação de hardening (sem CDNs proibidas)
+        run: node scripts/hardening-check.mjs
+
+  database:
+    name: Migrations e seed contra Postgres
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: chef
+          POSTGRES_PASSWORD: chefci
+          POSTGRES_DB: chef_xp
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U chef -d chef_xp"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://chef:chefci@localhost:5432/chef_xp
+      JWT_SECRET: ci-only-secret-with-at-least-32-characters
+      NODE_ENV: development
+      PORT: 3010
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Aplicar migrations
+        run: npm run db:migrate
+
+      - name: Migrations são idempotentes (correr duas vezes)
+        run: npm run db:migrate
+
+      - name: Popular dados de demonstração
+        run: npm run db:seed
+
+      - name: Arrancar a API e verificar o health check
+        run: |
+          npm start &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3010/api/health > /dev/null; then
+              echo "API a responder"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "A API não respondeu a tempo"
+          exit 1
