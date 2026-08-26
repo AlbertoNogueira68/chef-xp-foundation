@@ -1,8 +1,4 @@
-import type {
-  AuthChangeEvent,
-  AuthRepository,
-  AuthSession,
-} from "@/data/contracts/AuthRepository";
+import type { AuthChangeEvent, AuthRepository, AuthSession } from "@/data/contracts/AuthRepository";
 import { AuthError } from "@/data/contracts/errors";
 import { apiFetch, clearProfile, saveProfile } from "@/services/api";
 import type { User } from "@/types/user";
@@ -16,7 +12,7 @@ function notify(event: AuthChangeEvent, session: AuthSession | null) {
 }
 
 function toSession(user: User): AuthSession {
-  return { userId: user.id, email: user.email };
+  return { userId: user.id, email: user.email ?? null };
 }
 
 export class ApiAuthRepository implements AuthRepository {
@@ -25,13 +21,14 @@ export class ApiAuthRepository implements AuthRepository {
       const data = await apiFetch<{ user: User }>("/auth/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
+        silentOn401: true,
       });
       saveProfile(data.user);
       const session = toSession(data.user);
       notify("SIGNED_IN", session);
       return session;
     } catch (error) {
-      throw new AuthError(error instanceof Error ? error.message : "Login failed", error);
+      throw new AuthError(error instanceof Error ? error.message : "Falha no login", error);
     }
   }
 
@@ -43,10 +40,7 @@ export class ApiAuthRepository implements AuthRepository {
     try {
       const data = await apiFetch<{ user: User; needsEmailConfirmation: boolean }>(
         "/auth/register",
-        {
-          method: "POST",
-          body: JSON.stringify(input),
-        },
+        { method: "POST", body: JSON.stringify(input), silentOn401: true },
       );
       saveProfile(data.user);
       notify("SIGNED_IN", toSession(data.user));
@@ -55,16 +49,13 @@ export class ApiAuthRepository implements AuthRepository {
         needsEmailConfirmation: data.needsEmailConfirmation,
       };
     } catch (error) {
-      throw new AuthError(
-        error instanceof Error ? error.message : "Registration failed",
-        error,
-      );
+      throw new AuthError(error instanceof Error ? error.message : "Falha no registo", error);
     }
   }
 
   async signInWithGoogle(_redirectUri: string): Promise<void> {
     void _redirectUri;
-    throw new AuthError("Google sign-in is not available in this build");
+    throw new AuthError("O login com Google não está disponível nesta versão");
   }
 
   async signOut(): Promise<void> {
@@ -78,9 +69,9 @@ export class ApiAuthRepository implements AuthRepository {
 
   async getCurrentSession(): Promise<AuthSession | null> {
     try {
-      const data = await apiFetch<{ user: User }>("/auth/me", {
-        skipAuthRedirect: true,
-      });
+      // `silentOn401` evita disparar o evento de sessão expirada: aqui um 401
+      // é a resposta normal para "ainda não iniciaste sessão".
+      const data = await apiFetch<{ user: User }>("/auth/me", { silentOn401: true });
       saveProfile(data.user);
       return toSession(data.user);
     } catch {

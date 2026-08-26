@@ -1,35 +1,52 @@
 const PROFILE_KEY = "chef-xp:user";
 
+/**
+ * Em produção o cookie de CSRF tem o prefixo `__Host-`; em desenvolvimento não.
+ * O cliente aceita os dois para não ficar preso a um ambiente.
+ */
+const CSRF_COOKIE_NAMES = ["__Host-csrf", "csrf"];
+
+/** Emitido quando a API responde 401. A UI decide o que fazer. */
+export const SESSION_EXPIRED_EVENT = "chef-xp:session-expired";
+
 function apiBase(): string {
   if (import.meta.env.PROD) return "/api";
   return import.meta.env.VITE_API_URL || "/api";
 }
 
 function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+  const escaped = name.replace(/[.*+?^${}()|[\]\\-]/g, "\\$&");
+  const match = document.cookie.match(new RegExp(`(?:^|; )${escaped}=([^;]*)`));
   return match ? decodeURIComponent(match[1]) : null;
 }
 
-async function ensureCsrf(): Promise<string | null> {
-  const existing = getCookie("csrf");
-  if (existing) return existing;
-
-  const res = await fetch(`${apiBase()}/auth/csrf`, {
-    credentials: "include",
-  });
-  if (!res.ok) return null;
-  const data = (await res.json()) as { csrfToken?: string };
-  return data.csrfToken ?? getCookie("csrf");
+function readCsrfCookie(): string | null {
+  for (const name of CSRF_COOKIE_NAMES) {
+    const value = getCookie(name);
+    if (value) return value;
+  }
+  return null;
 }
 
-export type ApiError = Error & { status?: number };
+async function ensureCsrf(): Promise<string | null> {
+  const existing = readCsrfCookie();
+  if (existing) return existing;
+
+  const res = await fetch(`${apiBase()}/auth/csrf`, { credentials: "include" });
+  if (!res.ok) return null;
+  const data = (await res.json()) as { csrfToken?: string };
+  return data.csrfToken ?? readCsrfCookie();
+}
+
+export type ApiError = Error & { status?: number; details?: unknown };
 
 type ApiFetchOptions = RequestInit & {
-  skipAuthRedirect?: boolean;
+  /** Não emitir o evento de sessão expirada (usado pelo próprio /auth/me). */
+  silentOn401?: boolean;
 };
 
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
-  const { skipAuthRedirect, ...init } = options;
+  const { silentOn401, ...init } = options;
   const method = (init.method || "GET").toUpperCase();
   const headers = new Headers(init.headers);
 
@@ -49,25 +66,31 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
   });
 
   if (res.status === 401) {
-    localStorage.removeItem(PROFILE_KEY);
-    if (!skipAuthRedirect && !window.location.pathname.startsWith("/auth")) {
-      window.location.assign("/auth");
+    clearProfile();
+    if (!silentOn401) {
+      // Antes daqui saía um window.location.assign("/auth"), que recarregava a
+      // página inteira e deitava fora a cache do React Query. Agora é a UI que
+      // reage, mantendo o estado e a rota de origem.
+      window.dispatchEvent(new CustomEvent(SESSION_EXPIRED_EVENT));
     }
-    const err = new Error("Unauthorized") as ApiError;
+    const err = new Error("Sessão expirada") as ApiError;
     err.status = 401;
     throw err;
   }
 
   if (!res.ok) {
-    let message = "Request failed";
+    let message = "O pedido falhou";
+    let details: unknown;
     try {
-      const data = (await res.json()) as { error?: string };
+      const data = (await res.json()) as { error?: string; details?: unknown };
       if (data.error) message = data.error;
+      details = data.details;
     } catch {
-      /* ignore */
+      /* resposta sem corpo JSON */
     }
     const err = new Error(message) as ApiError;
     err.status = res.status;
+    err.details = details;
     throw err;
   }
 
@@ -76,7 +99,11 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
 }
 
 export function saveProfile(user: unknown) {
-  localStorage.setItem(PROFILE_KEY, JSON.stringify(user));
+  try {
+    localStorage.setItem(PROFILE_KEY, JSON.stringify(user));
+  } catch {
+    /* modo privado ou armazenamento cheio */
+  }
 }
 
 export function readProfile<T>(): T | null {
@@ -89,5 +116,9 @@ export function readProfile<T>(): T | null {
 }
 
 export function clearProfile() {
-  localStorage.removeItem(PROFILE_KEY);
+  try {
+    localStorage.removeItem(PROFILE_KEY);
+  } catch {
+    /* ignore */
+  }
 }

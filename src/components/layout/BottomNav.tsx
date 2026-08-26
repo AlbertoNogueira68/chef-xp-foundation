@@ -2,12 +2,15 @@ import { NavLink } from "react-router-dom";
 import { Home, Plus, Search, Trophy, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// `accent` está em todos os items de propósito: com `as const` e a
+// propriedade só num deles, o TypeScript infere uma união em que `accent`
+// não existe nos restantes.
 const items = [
-  { to: "/feed", icon: Home, label: "Feed" },
-  { to: "/search", icon: Search, label: "Explorar" },
+  { to: "/feed", icon: Home, label: "Feed", accent: false },
+  { to: "/search", icon: Search, label: "Explorar", accent: false },
   { to: "/publish", icon: Plus, label: "Publicar", accent: true },
-  { to: "/challenges", icon: Trophy, label: "Desafios" },
-  { to: "/profile", icon: User, label: "Perfil" },
+  { to: "/challenges", icon: Trophy, label: "Desafios", accent: false },
+  { to: "/profile", icon: User, label: "Perfil", accent: false },
 ] as const;
 
 export function BottomNav() {

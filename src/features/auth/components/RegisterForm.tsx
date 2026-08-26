@@ -36,14 +36,23 @@ export function RegisterForm({ onSuccess }: { onSuccess?: () => void }) {
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="register-username">Nome de utilizador</Label>
-        <Input id="register-username" autoComplete="username" className="rounded-xl" {...register("username")} />
-        {errors.username && (
-          <p className="text-xs text-destructive">{errors.username.message}</p>
-        )}
+        <Input
+          id="register-username"
+          autoComplete="username"
+          className="rounded-xl"
+          {...register("username")}
+        />
+        {errors.username && <p className="text-xs text-destructive">{errors.username.message}</p>}
       </div>
       <div className="space-y-2">
         <Label htmlFor="register-email">Email</Label>
-        <Input id="register-email" type="email" autoComplete="email" className="rounded-xl" {...register("email")} />
+        <Input
+          id="register-email"
+          type="email"
+          autoComplete="email"
+          className="rounded-xl"
+          {...register("email")}
+        />
         {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
       </div>
       <div className="space-y-2">
@@ -55,9 +64,7 @@ export function RegisterForm({ onSuccess }: { onSuccess?: () => void }) {
           className="rounded-xl"
           {...register("password")}
         />
-        {errors.password && (
-          <p className="text-xs text-destructive">{errors.password.message}</p>
-        )}
+        {errors.password && <p className="text-xs text-destructive">{errors.password.message}</p>}
       </div>
       <Button
         type="submit"
