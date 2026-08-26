@@ -27,6 +27,8 @@ services:
         condition: service_healthy
     ports:
       - "${PORT:-3010}:3010"
+    volumes:
+      - chef_xp_uploads:/app/uploads
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3010/api/health"]
       interval: 30s
@@ -36,3 +38,4 @@ services:
 
 volumes:
   chef_xp_pgdata_prod:
+  chef_xp_uploads:

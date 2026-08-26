@@ -28,6 +28,11 @@ COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/server ./server
 COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/shared ./shared
+
+# Imagens carregadas (montar como volume em producao)
+RUN mkdir -p /app/uploads && chown -R node:node /app/uploads
+VOLUME ["/app/uploads"]
 
 USER node
 EXPOSE 3010
