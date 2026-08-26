@@ -10,3 +10,4 @@ supabase
 prompt.md
 *.log
 .DS_Store
+uploads
