@@ -1,19 +1,31 @@
 import jwt from "jsonwebtoken";
+import { baseCookieOptions, tokenCookieName } from "../lib/cookies.js";
+
+const TOKEN_TTL_SECONDS = 7 * 24 * 60 * 60;
 
 function getJwtSecret() {
-  return process.env.JWT_SECRET || "dev-only-insecure-jwt-secret-min-32";
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    // validateEnv() já corre no arranque; isto é a segunda linha de defesa.
+    throw new Error("JWT_SECRET não está definida");
+  }
+  return secret;
 }
 
 export function signToken(payload) {
-  return jwt.sign(payload, getJwtSecret(), { expiresIn: "7d" });
+  return jwt.sign(payload, getJwtSecret(), { expiresIn: TOKEN_TTL_SECONDS });
 }
 
 export function verifyToken(token) {
   return jwt.verify(token, getJwtSecret());
 }
 
+export function readToken(req) {
+  return req.cookies?.[tokenCookieName()] ?? null;
+}
+
 export function requireAuth(req, res, next) {
-  const token = req.cookies?.token;
+  const token = readToken(req);
   if (!token) {
     return res.status(401).json({ error: "Unauthorized" });
   }
@@ -28,21 +40,16 @@ export function requireAuth(req, res, next) {
 }
 
 export function setAuthCookie(res, token) {
-  const isProd = process.env.NODE_ENV === "production";
-  res.cookie("token", token, {
+  res.cookie(tokenCookieName(), token, {
+    ...baseCookieOptions(),
     httpOnly: true,
-    secure: isProd,
-    sameSite: "lax",
-    path: "/api",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
+    maxAge: TOKEN_TTL_SECONDS * 1000,
   });
 }
 
 export function clearAuthCookie(res) {
-  res.clearCookie("token", {
+  res.clearCookie(tokenCookieName(), {
+    ...baseCookieOptions(),
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/api",
   });
 }

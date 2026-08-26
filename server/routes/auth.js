@@ -8,142 +8,116 @@ import {
   setAuthCookie,
   signToken,
 } from "../middleware/auth.js";
-import { issueCsrfToken } from "../middleware/csrf.js";
+import { clearCsrfToken, issueCsrfToken } from "../middleware/csrf.js";
+import { validate } from "../middleware/validate.js";
+import { asyncHandler } from "../middleware/errorHandler.js";
+import { loginSchema, registerSchema } from "../schemas/index.js";
+import { toPublicUser } from "../lib/mappers.js";
 
 const router = Router();
+
+const BCRYPT_ROUNDS = 12;
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: "Too many login attempts" },
+  message: { error: "Demasiadas tentativas de login. Tenta daqui a uns minutos." },
 });
 
-function toPublicUser(row) {
-  return {
-    id: row.id,
-    username: row.username,
-    email: row.email,
-    photoUrl: row.photo_url,
-    level: row.level,
-    xp: row.xp,
-    createdAt: row.created_at,
-    updatedAt: row.updated_at,
-  };
-}
+const registerLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Demasiados registos a partir deste dispositivo." },
+});
+
+const USER_COLUMNS = `id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, created_at, updated_at`;
 
 router.get("/csrf", (_req, res) => {
-  const token = issueCsrfToken(res);
-  res.json({ csrfToken: token });
+  res.json({ csrfToken: issueCsrfToken(res) });
 });
 
-router.post("/register", async (req, res) => {
-  try {
-    const { email, password, username } = req.body ?? {};
-    if (
-      typeof email !== "string" ||
-      typeof password !== "string" ||
-      typeof username !== "string"
-    ) {
-      return res.status(400).json({ error: "Invalid payload" });
+router.post(
+  "/register",
+  registerLimiter,
+  validate({ body: registerSchema }),
+  asyncHandler(async (req, res) => {
+    const { email, password, username } = req.valid.body;
+    const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+
+    try {
+      const { rows } = await query(
+        `INSERT INTO users (username, email, password_hash)
+         VALUES ($1, $2, $3)
+         RETURNING ${USER_COLUMNS}`,
+        [username, email, passwordHash],
+      );
+
+      const user = rows[0];
+      setAuthCookie(res, signToken({ sub: user.id, email: user.email }));
+      issueCsrfToken(res);
+
+      // O token nunca vai no corpo da resposta, nem em dev: se estivesse
+      // acessível ao JavaScript, o cookie HttpOnly não servia de nada.
+      res.status(201).json({
+        user: toPublicUser(user, { includeEmail: true }),
+        needsEmailConfirmation: false,
+      });
+    } catch (error) {
+      if (error?.code === "23505") {
+        return res.status(409).json({ error: "Email ou nome de utilizador já em uso" });
+      }
+      throw error;
     }
+  }),
+);
 
-    const normalizedEmail = email.trim().toLowerCase();
-    const normalizedUsername = username.trim().toLowerCase();
-
-    if (!normalizedEmail || password.length < 6 || normalizedUsername.length < 3) {
-      return res.status(400).json({ error: "Invalid email, password, or username" });
-    }
-
-    const passwordHash = await bcrypt.hash(password, 10);
-    const { rows } = await query(
-      `INSERT INTO users (username, email, password_hash)
-       VALUES ($1, $2, $3)
-       RETURNING id, username, email, photo_url, level, xp, created_at, updated_at`,
-      [normalizedUsername, normalizedEmail, passwordHash],
-    );
-
-    const user = rows[0];
-    const token = signToken({ sub: user.id, email: user.email });
-    setAuthCookie(res, token);
-    issueCsrfToken(res);
-
-    const body = {
-      user: toPublicUser(user),
-      needsEmailConfirmation: false,
-    };
-    if (process.env.NODE_ENV !== "production") {
-      body.token = token;
-    }
-    return res.status(201).json(body);
-  } catch (error) {
-    if (error?.code === "23505") {
-      return res.status(409).json({ error: "Email or username already in use" });
-    }
-    console.error("[auth/register]", error);
-    return res.status(500).json({ error: "Registration failed" });
-  }
-});
-
-router.post("/login", loginLimiter, async (req, res) => {
-  try {
-    const { email, password } = req.body ?? {};
-    if (typeof email !== "string" || typeof password !== "string") {
-      return res.status(400).json({ error: "Invalid payload" });
-    }
+router.post(
+  "/login",
+  loginLimiter,
+  validate({ body: loginSchema }),
+  asyncHandler(async (req, res) => {
+    const { email, password } = req.valid.body;
 
     const { rows } = await query(
-      `SELECT id, username, email, password_hash, photo_url, level, xp, created_at, updated_at
-       FROM users WHERE email = $1`,
-      [email.trim().toLowerCase()],
+      `SELECT ${USER_COLUMNS}, password_hash FROM users WHERE email = $1`,
+      [email],
     );
     const user = rows[0];
-    if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
-    }
 
-    const ok = await bcrypt.compare(password, user.password_hash);
+    // Mesma mensagem para email inexistente e password errada: não revela
+    // quais os emails registados.
+    const ok = user ? await bcrypt.compare(password, user.password_hash) : false;
     if (!ok) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Credenciais inválidas" });
     }
 
-    const token = signToken({ sub: user.id, email: user.email });
-    setAuthCookie(res, token);
+    setAuthCookie(res, signToken({ sub: user.id, email: user.email }));
     issueCsrfToken(res);
 
-    const body = { user: toPublicUser(user) };
-    if (process.env.NODE_ENV !== "production") {
-      body.token = token;
-    }
-    return res.json(body);
-  } catch (error) {
-    console.error("[auth/login]", error);
-    return res.status(500).json({ error: "Login failed" });
-  }
-});
+    res.json({ user: toPublicUser(user, { includeEmail: true }) });
+  }),
+);
 
 router.post("/logout", (_req, res) => {
   clearAuthCookie(res);
-  res.clearCookie("csrf", { path: "/" });
-  return res.json({ ok: true });
+  clearCsrfToken(res);
+  res.json({ ok: true });
 });
 
-router.get("/me", requireAuth, async (req, res) => {
-  try {
-    const { rows } = await query(
-      `SELECT id, username, email, photo_url, level, xp, created_at, updated_at
-       FROM users WHERE id = $1`,
-      [req.user.id],
-    );
-    if (!rows[0]) {
-      return res.status(401).json({ error: "Unauthorized" });
-    }
-    return res.json({ user: toPublicUser(rows[0]) });
-  } catch (error) {
-    console.error("[auth/me]", error);
-    return res.status(500).json({ error: "Failed to load session" });
-  }
-});
+router.get(
+  "/me",
+  requireAuth,
+  asyncHandler(async (req, res) => {
+    const { rows } = await query(`SELECT ${USER_COLUMNS} FROM users WHERE id = $1`, [
+      req.user.id,
+    ]);
+    if (!rows[0]) return res.status(401).json({ error: "Unauthorized" });
+    res.json({ user: toPublicUser(rows[0], { includeEmail: true }) });
+  }),
+);
 
 export default router;
