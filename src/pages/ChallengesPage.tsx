@@ -16,25 +16,31 @@ export function ChallengesPage() {
 
   return (
     <section className="relative space-y-4">
-      <div>
-        <h1 className="text-xl font-bold">Desafios & Aprender</h1>
-        <p className="text-xs text-muted-foreground">
-          Missões da comunidade e plano diário de receitas
+      <header>
+        <h1 className="text-2xl font-bold tracking-tight">Aprender a cozinhar</h1>
+        <p className="mt-0.5 text-sm text-muted-foreground">
+          Um percurso de competências que acaba sempre na cozinha.
         </p>
-      </div>
+      </header>
 
       <Tabs defaultValue="learn" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 rounded-full bg-muted/80 p-1">
-          <TabsTrigger value="challenges" className="gap-1.5 rounded-full text-xs">
-            <Trophy className="size-3.5" />
-            Desafios
-          </TabsTrigger>
+        {/* Controlo segmentado: o separador ativo é um cartão branco por cima
+            do fundo cinzento. Antes só o "Aprender" tinha estado ativo
+            desenhado, e o outro parecia desligado. */}
+        <TabsList className="grid h-auto w-full grid-cols-2 rounded-xl bg-muted p-1">
           <TabsTrigger
             value="learn"
-            className="gap-1.5 rounded-full text-xs data-[state=active]:bg-emerald-500 data-[state=active]:text-white"
+            className="gap-1.5 rounded-lg py-2 text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-emerald-700 data-[state=active]:shadow-sm"
           >
-            <GraduationCap className="size-3.5" />
-            Aprender
+            <GraduationCap className="size-4" />
+            Percurso
+          </TabsTrigger>
+          <TabsTrigger
+            value="challenges"
+            className="gap-1.5 rounded-lg py-2 text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-orange-600 data-[state=active]:shadow-sm"
+          >
+            <Trophy className="size-4" />
+            Desafios
           </TabsTrigger>
         </TabsList>
 
