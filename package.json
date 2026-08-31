@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "dev:server": "node --watch server/index.js",
-    "dev:all": "concurrently \"npm run dev:server\" \"npm run dev\"",
+    "dev:all": "concurrently --kill-others-on-fail --names server,vite --prefix-colors cyan,magenta \"npm run dev:server\" \"npm run dev\"",
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test": "node --test \"server/**/*.test.js\"",

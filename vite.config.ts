@@ -18,6 +18,12 @@ export default defineConfig(({ mode }) => ({
         target: "http://localhost:3010",
         changeOrigin: true,
       },
+      // As imagens carregadas são servidas pelo Express em /uploads. Sem isto
+      // o Vite responde com o index.html e todas as fotos aparecem partidas.
+      "/uploads": {
+        target: "http://localhost:3010",
+        changeOrigin: true,
+      },
     },
   },
   build: {
