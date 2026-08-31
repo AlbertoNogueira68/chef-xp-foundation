@@ -1,526 +1,1128 @@
-[
-  {
-    "id": "week-1",
-    "title": "Semana 1",
-    "subtitle": "7 dias · 7 pratos para o dia a dia",
-    "color": "emerald",
-    "lessons": [
-      {
-        "id": "day-1",
-        "dayNumber": 1,
-        "title": "Dia 1",
-        "dishName": "Massa à bolonhesa",
-        "description": "O clássico italiano perfeito para a primeira aula — molho rico e massa al dente.",
-        "type": "lesson",
-        "xpReward": 25,
-        "icon": "pasta",
-        "imageUrl": "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=800&h=600&fit=crop",
-        "cookTimeMin": 45,
-        "difficulty": "medio",
-        "ingredients": [
-          "300 g massa (spaghetti ou tagliatelle)",
-          "400 g carne de vaca picada",
-          "1 cebola média",
-          "2 dentes de alho",
-          "400 g polpa de tomate",
-          "Azeite, sal, pimenta, orégãos",
-          "Queijo parmesão (opcional)"
-        ],
-        "preparationSteps": [
-          {
-            "title": "Mise en place",
-            "description": "Pica a cebola e o alho em cubos pequenos. Tem todos os ingredientes à mão antes de ligar o fogão."
-          },
-          {
-            "title": "Refogar a base",
-            "description": "Aquece azeite em lume médio. Junta cebola e alho e deixa amolecer 3–4 min até ficarem translúcidos."
-          },
-          {
-            "title": "Cozinhar a carne",
-            "description": "Aumenta o lume, junta a carne e vai desfazendo com uma colher de pau até dourar e não ficar rosa."
-          },
-          {
-            "title": "O molho",
-            "description": "Adiciona a polpa, tempera com sal, pimenta e orégãos. Reduz o lume e deixa cozinhar 20–25 min, mexendo de vez em quando."
-          },
-          {
-            "title": "A massa",
-            "description": "Cozinha a massa em água bem salgada conforme a embalagem. Escorre e reserva um copo da água da massa."
-          },
-          {
-            "title": "Empratar",
-            "description": "Mistura a massa com o molho (usa um pouco da água reservada se precisares de cremosidade). Sirve com parmesão."
-          }
-        ],
-        "questions": [
-          {
-            "id": "d1-q1",
-            "type": "multiple_choice",
-            "prompt": "Quando deves salgar a água da massa?",
-            "options": [
-              "Antes de ferver",
-              "Quando ferve",
-              "Depois de escorrer",
-              "Nunca"
-            ],
-            "correctAnswer": "Quando ferve",
-            "explanation": "Água a ferver com sal tempera a massa por dentro — essencial na bolonhesa."
-          },
-          {
-            "id": "d1-q2",
-            "type": "true_false",
-            "prompt": "Deves deixar o molho cozinhar em lume brando pelo menos 20 minutos.",
-            "correctAnswer": "true",
-            "explanation": "Tempo lento desenvolve sabor e espessa o molho naturalmente."
-          },
-          {
-            "id": "d1-q3",
-            "type": "multiple_choice",
-            "prompt": "Para que serve a água da massa reservada?",
-            "options": [
-              "Ligar o molho à massa",
-              "Beber durante o jantar",
-              "Lavar a louça",
-              "Arrefecer o molho"
-            ],
-            "correctAnswer": "Ligar o molho à massa",
-            "explanation": "O amido da água da massa torna o prato cremoso e uniforme."
-          }
-        ]
-      },
-      {
-        "id": "day-2",
-        "dayNumber": 2,
-        "title": "Dia 2",
-        "dishName": "Omelete de queijo",
-        "description": "Refeição rápida e versátil — domina a técnica da omelete perfeita.",
-        "type": "lesson",
-        "xpReward": 20,
-        "icon": "egg",
-        "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=600&fit=crop",
-        "cookTimeMin": 15,
-        "difficulty": "facil",
-        "ingredients": [
-          "3 ovos",
-          "30 g queijo ralado (flamengo ou cheddar)",
-          "Sal e pimenta",
-          "1 colher de sopa de manteiga",
-          "Azeite (opcional)"
-        ],
-        "preparationSteps": [
-          {
-            "title": "Bater os ovos",
-            "description": "Numa tigela, bate os ovos com sal e pimenta até ficarem homogéneos — não precisas de espuma, só misturar bem."
-          },
-          {
-            "title": "Aquecer a frigideira",
-            "description": "Frigideira antiaderente em lume médio-baixo com manteiga (e um fio de azeite se quiseres). A manteiga deve derreter sem dourar."
-          },
-          {
-            "title": "Verter e cozinhar",
-            "description": "Deita os ovos e deixa assentar 20 segundos. Empurra as bordas para o centro com uma espátula, inclinando a frigideira para o ovo cru preencher."
-          },
-          {
-            "title": "Adicionar queijo",
-            "description": "Quando o topo ainda estiver ligeiramente húmido, espalha o queijo numa metade da omelete."
-          },
-          {
-            "title": "Dobrar e servir",
-            "description": "Dobra ao meio, deixa 30 segundos para o queijo derreter e desenforma para o prato. Sirve logo."
-          }
-        ],
-        "questions": [
-          {
-            "id": "d2-q1",
-            "type": "multiple_choice",
-            "prompt": "Lume ideal para uma omelete?",
-            "options": [
-              "Médio-baixo",
-              "Máximo",
-              "Desligado",
-              "Só grill"
-            ],
-            "correctAnswer": "Médio-baixo",
-            "explanation": "Fogo alto queima o exterior antes do interior cozinhar."
-          },
-          {
-            "id": "d2-q2",
-            "type": "true_false",
-            "prompt": "Deves dobrar a omelete quando o topo ainda está um pouco cremoso.",
-            "correctAnswer": "true",
-            "explanation": "Assim a omelete fica suculenta — cozinha um pouco mais ao dobrar."
-          }
-        ]
-      },
-      {
-        "id": "day-3",
-        "dayNumber": 3,
-        "title": "Dia 3",
-        "dishName": "Sopa de legumes",
-        "description": "Confort food saudável — aprende a construir sabor num caldo caseiro.",
-        "type": "lesson",
-        "xpReward": 20,
-        "icon": "soup",
-        "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
-        "cookTimeMin": 40,
-        "difficulty": "facil",
-        "ingredients": [
-          "2 cenouras",
-          "2 batatas médias",
-          "1 cebola",
-          "2 dentes de alho",
-          "1,2 L caldo de legumes ou água",
-          "Azeite, sal, pimenta",
-          "Salsa fresca"
-        ],
-        "preparationSteps": [
-          {
-            "title": "Preparar legumes",
-            "description": "Descasca e corta cenoura, batata e cebola em cubos médios (tamanho uniforme)."
-          },
-          {
-            "title": "Refogado inicial",
-            "description": "Em panela, refoga cebola e alho em azeite 3 min. Junta cenoura e batata, mexe 2 min."
-          },
-          {
-            "title": "Cozedura",
-            "description": "Cobre com caldo ou água. Leva a ferver, baixa o lume e cozinha 25–30 min até os legumes estarem tenros."
-          },
-          {
-            "title": "Triturar (opcional)",
-            "description": "Podes servir com pedaços ou triturar parte/tudo com varinha mágica para textura cremosa."
-          },
-          {
-            "title": "Finalizar",
-            "description": "Ajusta sal e pimenta. Sirve com salsa picada e um fio de azeite por cima."
-          }
-        ],
-        "questions": [
-          {
-            "id": "d3-q1",
-            "type": "multiple_choice",
-            "prompt": "Porque cortar os legumes em cubos do mesmo tamanho?",
-            "options": [
-              "Cozinham ao mesmo ritmo",
-              "Ficam mais bonitos na foto",
-              "Não é necessário",
-              "Para congelar depois"
-            ],
-            "correctAnswer": "Cozinham ao mesmo ritmo",
-            "explanation": "Tamanho uniforme = cozedura uniforme, sem pedaços crus ou em papas."
-          },
-          {
-            "id": "d3-q2",
-            "type": "true_false",
-            "prompt": "Refogar a cebola no início dá mais profundidade ao sabor da sopa.",
-            "correctAnswer": "true",
-            "explanation": "O refogado carameliza ligeiramente e constrói a base de sabor."
-          }
-        ]
-      },
-      {
-        "id": "day-bonus",
-        "dayNumber": 3,
-        "title": "Baú",
-        "dishName": "Dica do chef",
-        "description": "Segredo extra: como temperar em camadas.",
-        "type": "chest",
-        "xpReward": 15,
-        "icon": "gift",
-        "imageUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop",
-        "cookTimeMin": 5,
-        "difficulty": "facil",
-        "ingredients": [
-          "Sal",
-          "Pimenta",
-          "Ervas frescas"
-        ],
-        "preparationSteps": [
-          {
-            "title": "Temperar em camadas",
-            "description": "Tempéra ligeiramente em cada etapa: no refogado, no molho, no final. Prova sempre antes de servir."
-          }
-        ],
-        "questions": [
-          {
-            "id": "bonus-q1",
-            "type": "true_false",
-            "prompt": "É mais fácil corrigir prato pouco salgado do que demasiado salgado.",
-            "correctAnswer": "true",
-            "explanation": "Por isso vais sempre adicionando sal aos poucos."
-          }
-        ]
-      },
-      {
-        "id": "day-4",
-        "dayNumber": 4,
-        "title": "Dia 4",
-        "dishName": "Arroz de frango",
-        "description": "Prato único português — arroz cremoso com frango suculento.",
-        "type": "lesson",
-        "xpReward": 25,
-        "icon": "rice",
-        "imageUrl": "https://images.unsplash.com/photo-1603133872877-684f208fb84b?w=800&h=600&fit=crop",
-        "cookTimeMin": 50,
-        "difficulty": "medio",
-        "ingredients": [
-          "400 g peito de frango em cubos",
-          "300 g arroz carolino",
-          "1 cebola",
-          "2 dentes de alho",
-          "1,2 L caldo de galinha quente",
-          "Azeite, sal, pimenta, colorau (opcional)",
-          "Salsa e limão"
-        ],
-        "preparationSteps": [
-          {
-            "title": "Temperar o frango",
-            "description": "Tempera os cubos de frango com sal, pimenta e um pouco de colorau se tiveres."
-          },
-          {
-            "title": "Dourar o frango",
-            "description": "Em panela larga, doura o frango em azeite quente. Retira e reserva — não precisa de cozinhar por completo."
-          },
-          {
-            "title": "Refogado e arroz",
-            "description": "Na mesma panela, refoga cebola e alho. Junta o arroz e envolve 1–2 min até ficar translúcido."
-          },
-          {
-            "title": "Cozedura",
-            "description": "Devolve o frango, deita o caldo quente (o dobro do volume do arroz). Mexe, leva a ferver e cozinha em lume brando tapado 18–20 min."
-          },
-          {
-            "title": "Repouso",
-            "description": "Desliga o lume, deixa repousar tapado 5 min. Abre, solta com garfo, decora com salsa e limão."
-          }
-        ],
-        "questions": [
-          {
-            "id": "d4-q1",
-            "type": "multiple_choice",
-            "prompt": "O caldo deve estar…",
-            "options": [
-              "Quente",
-              "Frio",
-              "Gelado",
-              "Não importa"
-            ],
-            "correctAnswer": "Quente",
-            "explanation": "Caldo quente mantém a cozedura — caldo frio interrompe o processo."
-          },
-          {
-            "id": "d4-q2",
-            "type": "true_false",
-            "prompt": "Deves deixar o arroz repousar tapado antes de servir.",
-            "correctAnswer": "true",
-            "explanation": "O repouso distribui a humidade e o arroz fica solto e cremoso."
-          }
-        ]
-      },
-      {
-        "id": "day-5",
-        "dayNumber": 5,
-        "title": "Dia 5",
-        "dishName": "Salada mediterrânica",
-        "description": "Fresca, colorida e nutritiva — montagem e molho vinaigrette.",
-        "type": "lesson",
-        "xpReward": 20,
-        "icon": "salad",
-        "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=600&fit=crop",
-        "cookTimeMin": 20,
-        "difficulty": "facil",
-        "ingredients": [
-          "Alface ou rúcula",
-          "Tomate cherry",
-          "Pepino",
-          "1 lata de grão-de-bico",
-          "Queijo feta",
-          "Azeitonas",
-          "Azeite, limão, sal, orégãos"
-        ],
-        "preparationSteps": [
-          {
-            "title": "Lavar e secar",
-            "description": "Lava bem as folhas e seca-as (salada molhada não segura o molho)."
-          },
-          {
-            "title": "Cortar ingredientes",
-            "description": "Corta tomate ao meio, pepino em rodelas, esmaga levemente o feta em pedaços."
-          },
-          {
-            "title": "Montar a base",
-            "description": "Numa saladeira, dispõe folhas, tomate, pepino, grão escorrido e azeitonas."
-          },
-          {
-            "title": "Molho vinaigrette",
-            "description": "Numa tigela pequena, mistura 3 partes azeite, 1 parte limão, sal e orégãos. Bate com garfo."
-          },
-          {
-            "title": "Servir",
-            "description": "Junta o feta, rega com molho só na hora de comer para manter a crocância."
-          }
-        ],
-        "questions": [
-          {
-            "id": "d5-q1",
-            "type": "multiple_choice",
-            "prompt": "Quando deves adicionar o molho à salada?",
-            "options": [
-              "Na hora de servir",
-              "1 hora antes",
-              "Na véspera",
-              "Durante o corte"
-            ],
-            "correctAnswer": "Na hora de servir",
-            "explanation": "Molho antecipado deixa as folhas murchas e perdem textura."
-          },
-          {
-            "id": "d5-q2",
-            "type": "true_false",
-            "prompt": "Secar as folhas depois de lavar é importante.",
-            "correctAnswer": "true",
-            "explanation": "Folhas secas absorvem melhor o molho e ficam crocantes."
-          }
-        ]
-      },
-      {
-        "id": "day-6",
-        "dayNumber": 6,
-        "title": "Dia 6",
-        "dishName": "Panquecas americanas",
-        "description": "Pequeno-almoço ou sobremesa — massa fofa e douradita.",
-        "type": "lesson",
-        "xpReward": 20,
-        "icon": "pancake",
-        "imageUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop",
-        "cookTimeMin": 25,
-        "difficulty": "facil",
-        "ingredients": [
-          "200 g farinha",
-          "2 ovos",
-          "250 ml leite",
-          "2 colheres de sopa de açúcar",
-          "1 colher de chá de fermento",
-          "Sal, manteiga para a frigideira",
-          "Mel ou fruta para servir"
-        ],
-        "preparationSteps": [
-          {
-            "title": "Massa",
-            "description": "Numa tigela, mistura farinha, açúcar, fermento e sal. Faz um buraco no centro, junta ovos e leite, bate até ficar liso."
-          },
-          {
-            "title": "Descansar",
-            "description": "Deixa a massa repousar 5–10 min — o fermento começa a atuar."
-          },
-          {
-            "title": "Aquecer frigideira",
-            "description": "Frigideira em lume médio com um pouco de manteiga. Deve estar quente mas não fumegante."
-          },
-          {
-            "title": "Cozinhar",
-            "description": "Deita porções de massa. Quando aparecerem bolhas na superfície e as bordas firmarem, vira e doura o outro lado (1–2 min cada lado)."
-          },
-          {
-            "title": "Servir",
-            "description": "Empilha e serve com mel, fruta fresca ou maple syrup."
-          }
-        ],
-        "questions": [
-          {
-            "id": "d6-q1",
-            "type": "multiple_choice",
-            "prompt": "Sinal de que está na hora de virar a panqueca?",
-            "options": [
-              "Bolhas na superfície",
-              "Ficar preta",
-              "Levantar sozinha",
-              "Depois de 10 min"
-            ],
-            "correctAnswer": "Bolhas na superfície",
-            "explanation": "As bolhas indicam que o interior está a cozinhar e a base está dourada."
-          },
-          {
-            "id": "d6-q2",
-            "type": "true_false",
-            "prompt": "O fermento ajuda as panquecas a ficarem fofas.",
-            "correctAnswer": "true",
-            "explanation": "O fermento liberta gás que cria a textura aerada."
-          }
-        ]
-      },
-      {
-        "id": "day-7",
-        "dayNumber": 7,
-        "title": "Dia 7",
-        "dishName": "Jantar completo",
-        "description": "Revisão da semana — combina sopa, salada e um prato principal.",
-        "type": "boss",
-        "xpReward": 50,
-        "icon": "crown",
-        "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop",
-        "cookTimeMin": 60,
-        "difficulty": "medio",
-        "ingredients": [
-          "Sopa de legumes (receita dia 3)",
-          "Salada mediterrânica (receita dia 5)",
-          "Massa à bolonhesa ou arroz de frango",
-          "Mise en place organizada"
-        ],
-        "preparationSteps": [
-          {
-            "title": "Planear o menu",
-            "description": "Escolhe sopa + prato principal + salada. Lista ingredientes e tempos — começa pelo que demora mais."
-          },
-          {
-            "title": "Mise en place",
-            "description": "Prepara tudo antes: legumes cortados, molho feito, salada lavada. Cozinhar fica mais calmo."
-          },
-          {
-            "title": "Ordem de execução",
-            "description": "1) Sopa (pode ficar em lume brando). 2) Prato principal. 3) Salada e molho na última hora."
-          },
-          {
-            "title": "Empratar",
-            "description": "Sopa em bowl, prato principal no centro, salada à parte. Tempera cada elemento antes de servir."
-          }
-        ],
-        "questions": [
-          {
-            "id": "d7-q1",
-            "type": "multiple_choice",
-            "prompt": "O que é mise en place?",
-            "options": [
-              "Ter tudo preparado antes de cozinhar",
-              "Um tipo de faca",
-              "Temperar só no fim",
-              "Servir em camadas"
-            ],
-            "correctAnswer": "Ter tudo preparado antes de cozinhar",
-            "explanation": "Organização prévia é o segredo de um jantar sem stress."
-          },
-          {
-            "id": "d7-q2",
-            "type": "multiple_choice",
-            "prompt": "Que prato da semana 1 cozes massa em água salgada?",
-            "options": [
-              "Massa à bolonhesa",
-              "Arroz de frango",
-              "Sopa",
-              "Salada"
-            ],
-            "correctAnswer": "Massa à bolonhesa",
-            "explanation": "Dia 1 — lembraste da água com sabor a mar?"
-          },
-          {
-            "id": "d7-q3",
-            "type": "true_false",
-            "prompt": "Na omelete (dia 2), o lume deve ser médio-baixo.",
-            "correctAnswer": "true",
-            "explanation": "Revisão da técnica que aprendeste no dia 2."
-          }
-        ]
-      }
-    ]
-  }
-]
+{
+  "version": 2,
+  "skills": [
+    {
+      "id": "seguranca.bancada",
+      "name": "Bancada estável",
+      "category": "seguranca",
+      "description": "Montar um posto de trabalho que não escorrega nem estorva.",
+      "requires": []
+    },
+    {
+      "id": "seguranca.higiene",
+      "name": "Não cruzar crus",
+      "category": "seguranca",
+      "description": "Separar carne e peixe crus do que se come sem cozinhar.",
+      "requires": []
+    },
+    {
+      "id": "seguranca.faca-romba",
+      "name": "A faca romba é a perigosa",
+      "category": "seguranca",
+      "description": "Perceber porque é que uma lâmina sem fio escorrega e fere.",
+      "requires": []
+    },
+    {
+      "id": "seguranca.fogo",
+      "name": "Gordura em chamas",
+      "category": "seguranca",
+      "description": "Abafar em vez de apagar com água, e desligar a fonte de calor.",
+      "requires": []
+    },
+    {
+      "id": "faca.pega",
+      "name": "Pega em pinça",
+      "category": "faca",
+      "description": "Segurar a faca pela lâmina com polegar e indicador, não pelo cabo.",
+      "requires": [
+        "seguranca.faca-romba"
+      ]
+    },
+    {
+      "id": "faca.garra",
+      "name": "Mão em garra",
+      "category": "faca",
+      "description": "Recolher as pontas dos dedos e guiar a lâmina pelos nós.",
+      "requires": [
+        "faca.pega"
+      ]
+    },
+    {
+      "id": "faca.cubos",
+      "name": "Cubos regulares",
+      "category": "faca",
+      "description": "Cortar do mesmo tamanho para tudo cozinhar ao mesmo tempo.",
+      "requires": [
+        "faca.garra"
+      ]
+    },
+    {
+      "id": "org.mise-en-place",
+      "name": "Mise en place",
+      "category": "organizacao",
+      "description": "Ter tudo cortado e à mão antes de ligar o fogão.",
+      "requires": [
+        "seguranca.bancada"
+      ]
+    },
+    {
+      "id": "calor.pre-aquecer",
+      "name": "Pré-aquecer",
+      "category": "calor",
+      "description": "Esperar que a frigideira esteja quente antes de pôr o que quer que seja.",
+      "requires": []
+    },
+    {
+      "id": "calor.niveis",
+      "name": "Ler o lume",
+      "category": "calor",
+      "description": "Distinguir brando, médio e forte pelo som e pelo cheiro.",
+      "requires": [
+        "calor.pre-aquecer"
+      ]
+    },
+    {
+      "id": "calor.gordura",
+      "name": "Escolher a gordura",
+      "category": "calor",
+      "description": "Azeite, manteiga ou óleo conforme a temperatura que aguentam.",
+      "requires": [
+        "calor.pre-aquecer"
+      ]
+    },
+    {
+      "id": "ponto.douramento",
+      "name": "Dourar",
+      "category": "ponto",
+      "description": "Reconhecer a crosta dourada e o que a impede.",
+      "requires": [
+        "calor.niveis"
+      ]
+    },
+    {
+      "id": "calor.lume-brando",
+      "name": "Lume brando",
+      "category": "calor",
+      "description": "Cozinhar devagar sem queimar as bordas.",
+      "requires": [
+        "calor.niveis"
+      ]
+    },
+    {
+      "id": "ponto.ovo",
+      "name": "Ponto do ovo",
+      "category": "ponto",
+      "description": "Saber quando a clara está feita e a gema ainda mole.",
+      "requires": [
+        "calor.lume-brando"
+      ]
+    },
+    {
+      "id": "tempero.sal-momento",
+      "name": "Quando salgar",
+      "category": "tempero",
+      "description": "O momento do sal muda a textura, não só o sabor.",
+      "requires": []
+    },
+    {
+      "id": "tempero.agua-salgada",
+      "name": "Água salgada",
+      "category": "tempero",
+      "description": "Temperar por dentro, na água de cozedura.",
+      "requires": [
+        "tempero.sal-momento"
+      ]
+    },
+    {
+      "id": "ponto.al-dente",
+      "name": "Al dente",
+      "category": "ponto",
+      "description": "Provar em vez de confiar no relógio.",
+      "requires": [
+        "calor.niveis"
+      ]
+    },
+    {
+      "id": "calor.racio-agua",
+      "name": "Rácio de água",
+      "category": "calor",
+      "description": "A proporção que faz arroz solto e não papa.",
+      "requires": [
+        "calor.lume-brando"
+      ]
+    },
+    {
+      "id": "org.sequenciar",
+      "name": "Sequenciar",
+      "category": "organizacao",
+      "description": "Começar pelo que demora mais para tudo chegar quente à mesa.",
+      "requires": [
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "tempero.camadas",
+      "name": "Temperar em camadas",
+      "category": "tempero",
+      "description": "Sal em cada etapa em vez de tudo no fim.",
+      "requires": [
+        "tempero.sal-momento"
+      ]
+    },
+    {
+      "id": "org.empratar",
+      "name": "Empratar",
+      "category": "organizacao",
+      "description": "Prato quente, altura e uma cor que contraste.",
+      "requires": [
+        "org.sequenciar"
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.ovo-estrelado",
+      "unitId": "unit-1",
+      "title": "O teu primeiro ovo",
+      "dishName": "Ovo estrelado",
+      "cookTimeMin": 10,
+      "summary": "Dez minutos, com o que já tens em casa. Falha de formas visíveis e recuperáveis.",
+      "practices": [
+        "seguranca.bancada",
+        "seguranca.higiene",
+        "seguranca.fogo",
+        "seguranca.faca-romba",
+        "faca.pega",
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "mission.cebola-dourada",
+      "unitId": "unit-2",
+      "title": "Cebola dourada",
+      "dishName": "Cebola caramelizada",
+      "cookTimeMin": 25,
+      "summary": "Uma cebola, uma frigideira e paciência: a base de metade do que vais cozinhar.",
+      "practices": [
+        "faca.garra",
+        "faca.cubos",
+        "calor.pre-aquecer",
+        "calor.niveis",
+        "calor.gordura",
+        "ponto.douramento"
+      ]
+    },
+    {
+      "id": "mission.omelete",
+      "unitId": "unit-3",
+      "title": "Omelete que não queima",
+      "dishName": "Omelete simples",
+      "cookTimeMin": 15,
+      "summary": "O teste do lume brando: se a base ficou castanha, o lume estava alto.",
+      "practices": [
+        "ponto.ovo",
+        "calor.lume-brando",
+        "tempero.sal-momento"
+      ]
+    },
+    {
+      "id": "mission.arroz-solto",
+      "unitId": "unit-4",
+      "title": "Arroz solto",
+      "dishName": "Arroz branco",
+      "cookTimeMin": 20,
+      "summary": "Medir em vez de adivinhar. É o rácio que decide, não o talento.",
+      "practices": [
+        "tempero.agua-salgada",
+        "ponto.al-dente",
+        "calor.racio-agua"
+      ]
+    },
+    {
+      "id": "mission.prato-inteiro",
+      "unitId": "unit-5",
+      "title": "Um prato inteiro",
+      "dishName": "Frango com arroz e salada",
+      "cookTimeMin": 45,
+      "summary": "Três coisas ao mesmo tempo, tudo quente à mesa. É aqui que se vê a diferença.",
+      "practices": [
+        "org.sequenciar",
+        "tempero.camadas",
+        "org.empratar"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-1",
+      "title": "Unidade 1",
+      "subtitle": "Não te cortes nem queimes",
+      "color": "emerald",
+      "missionId": "mission.ovo-estrelado",
+      "lessons": [
+        {
+          "id": "u1-l1",
+          "dayNumber": 1,
+          "title": "A bancada não te trai",
+          "dishName": "Bancada pronta",
+          "description": "Antes de qualquer corte: onde pousas a tábua decide se te cortas ou não.",
+          "type": "lesson",
+          "xpReward": 25,
+          "icon": "chef-hat",
+          "imageUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop",
+          "cookTimeMin": 5,
+          "difficulty": "facil",
+          "teaches": [
+            "seguranca.bancada",
+            "seguranca.higiene"
+          ],
+          "requires": [],
+          "ingredients": [
+            "Uma tábua de cortar",
+            "Um pano da loiça",
+            "Uma faca de chef",
+            "Uma cebola"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Limpar e secar",
+              "description": "Bancada vazia e seca. Uma bancada molhada faz a tábua deslizar."
+            },
+            {
+              "title": "Travar a tábua",
+              "description": "Pano húmido dobrado por baixo da tábua. Empurra-a: não pode mexer."
+            },
+            {
+              "title": "Abrir espaço",
+              "description": "Tira tudo o que não precisas do raio de um braço."
+            },
+            {
+              "title": "Tábua para crus",
+              "description": "Se vais mexer em carne ou peixe crus, separa já a segunda tábua."
+            }
+          ],
+          "questions": [
+            {
+              "id": "u1-l1-q1",
+              "type": "choice",
+              "skills": [
+                "seguranca.bancada"
+              ],
+              "prompt": "A tábua desliza na bancada de cada vez que cortas. O que fazes?",
+              "options": [
+                "Ponho um pano húmido dobrado por baixo",
+                "Seguro a tábua com a mão livre",
+                "Corto mais devagar",
+                "Encosto a tábua à parede"
+              ],
+              "correctAnswer": "Ponho um pano húmido dobrado por baixo",
+              "explanation": "Um pano húmido agarra pelos dois lados e custa nada. É o primeiro gesto de qualquer cozinha profissional.",
+              "explainWrong": "Segurar a tábua com a mão livre põe essa mão exatamente onde a faca vai. É a troca errada: resolves o deslize criando um alvo."
+            },
+            {
+              "id": "u1-l1-q2",
+              "type": "choice",
+              "skills": [
+                "seguranca.higiene"
+              ],
+              "prompt": "Acabaste de cortar frango cru. A seguir precisas de cortar a alface. O que fazes à tábua?",
+              "options": [
+                "Lavo com água quente e detergente, ou uso outra tábua",
+                "Passo por água fria",
+                "Limpo com papel de cozinha",
+                "Viro a tábua ao contrário"
+              ],
+              "correctAnswer": "Lavo com água quente e detergente, ou uso outra tábua",
+              "explanation": "A alface não volta ao lume. Tudo o que lá ficar do frango vai direto para o prato.",
+              "explainWrong": "Virar a tábua ou limpar com papel espalha em vez de remover — e a salada é precisamente o que não vai ser cozinhado a seguir."
+            },
+            {
+              "id": "u1-l1-q3",
+              "type": "order",
+              "skills": [
+                "seguranca.bancada",
+                "org.mise-en-place"
+              ],
+              "prompt": "Ordena o que fazes antes da primeira facada.",
+              "correctOrder": [
+                "Lavar as mãos",
+                "Limpar e secar a bancada",
+                "Pôr o pano húmido debaixo da tábua",
+                "Pôr a faca e os ingredientes ao alcance"
+              ],
+              "explanation": "A ordem não é arbitrária: cada passo só faz sentido depois do anterior estar feito.",
+              "explainWrong": "Pôr a tábua antes de secar a bancada obriga a levantar tudo outra vez. E a faca é sempre o último objeto a entrar na bancada — antes disso não tens onde a pousar em segurança."
+            },
+            {
+              "id": "u1-l1-q4",
+              "type": "judge",
+              "skills": [
+                "seguranca.bancada"
+              ],
+              "prompt": "Esta bancada está pronta para começar a cortar?",
+              "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=500&fit=crop",
+              "options": [
+                "Sim, dá para trabalhar",
+                "Não, falta espaço livre à volta da tábua"
+              ],
+              "correctAnswer": "Não, falta espaço livre à volta da tábua",
+              "explanation": "Precisas de espaço para o que já cortaste. Sem isso, os cortes acumulam-se em cima da tábua e o corte seguinte fica apertado.",
+              "explainWrong": "Uma bancada cheia parece produtiva mas obriga a cortar num quadrado pequeno. É onde a faca encontra um frasco em vez da tábua."
+            },
+            {
+              "id": "u1-l1-q5",
+              "type": "estimate",
+              "skills": [
+                "seguranca.bancada"
+              ],
+              "prompt": "Quanto espaço livre deves ter de cada lado da tábua?",
+              "correctAnswer": 20,
+              "tolerance": 10,
+              "unit": "cm",
+              "explanation": "Cerca de 20 cm de cada lado chegam para uma taça do que já cortaste e para pousar a faca.",
+              "explainWrong": "Menos de 10 cm não dá para pousar nada, e acabas a empilhar em cima da tábua. Muito mais do que isso e estás só a andar mais para chegar às coisas."
+            },
+            {
+              "id": "u1-l1-q6",
+              "type": "choice",
+              "skills": [
+                "seguranca.bancada",
+                "seguranca.faca-romba"
+              ],
+              "prompt": "Vais buscar um ingrediente ao frigorífico. Onde pousas a faca?",
+              "options": [
+                "Na bancada, gume para dentro e cabo longe da beira",
+                "Dentro do lava-loiça",
+                "Em cima da tábua, com o cabo de fora",
+                "Na taça dos ingredientes cortados"
+              ],
+              "correctAnswer": "Na bancada, gume para dentro e cabo longe da beira",
+              "explanation": "A faca tem de estar visível e longe da beira. É a única posição em que ninguém lhe toca por acidente.",
+              "explainWrong": "No lava-loiça a faca desaparece debaixo da espuma e corta quem for lavar. O cabo de fora da tábua é o que a faz cair — e uma faca a cair nunca se apanha."
+            }
+          ]
+        },
+        {
+          "id": "u1-l2",
+          "dayNumber": 2,
+          "title": "A faca romba é a que corta",
+          "dishName": "Faca com fio",
+          "description": "A lâmina que não corta o tomate é a que te corta a ti. Percebe porquê.",
+          "type": "lesson",
+          "xpReward": 25,
+          "icon": "knife",
+          "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
+          "cookTimeMin": 5,
+          "difficulty": "facil",
+          "teaches": [
+            "seguranca.faca-romba"
+          ],
+          "requires": [
+            "seguranca.bancada"
+          ],
+          "ingredients": [
+            "A tua faca de chef",
+            "Um tomate maduro",
+            "Uma fieira ou afiador"
+          ],
+          "preparationSteps": [
+            {
+              "title": "O teste do tomate",
+              "description": "Pousa a lâmina sobre a pele do tomate e puxa sem fazer força."
+            },
+            {
+              "title": "Ler o resultado",
+              "description": "Se a pele cede, tens fio. Se a lâmina desliza, não tens."
+            },
+            {
+              "title": "Passar pela fieira",
+              "description": "Ângulo baixo e constante, alternando os dois lados."
+            },
+            {
+              "title": "Repetir o teste",
+              "description": "Volta ao tomate. Tem de morder à primeira."
+            }
+          ],
+          "questions": [
+            {
+              "id": "u1-l2-q1",
+              "type": "choice",
+              "skills": [
+                "seguranca.faca-romba"
+              ],
+              "prompt": "Porque é que uma faca romba é mais perigosa do que uma afiada?",
+              "options": [
+                "Escorrega em vez de morder, e a mão vai atrás",
+                "Aquece mais depressa",
+                "Obriga a cortar mais devagar",
+                "Enferruja com mais facilidade"
+              ],
+              "correctAnswer": "Escorrega em vez de morder, e a mão vai atrás",
+              "explanation": "Uma lâmina com fio entra onde a pousas. Uma romba desliza pela superfície e vai parar onde não estavas à espera — normalmente à mão que segura.",
+              "explainWrong": "O perigo não é a faca cortar bem. É ela não cortar e tu compensares com força: mais força numa lâmina que escorrega é exatamente a receita do acidente."
+            },
+            {
+              "id": "u1-l2-q2",
+              "type": "judge",
+              "skills": [
+                "seguranca.faca-romba"
+              ],
+              "prompt": "A lâmina deslizou pela pele do tomate sem a marcar. Esta faca está pronta a usar?",
+              "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=500&fit=crop",
+              "options": [
+                "Sim, é só fazer mais força",
+                "Não, precisa de fio antes de cortar"
+              ],
+              "correctAnswer": "Não, precisa de fio antes de cortar",
+              "explanation": "O teste do tomate é binário: ou a pele cede ao peso da lâmina, ou não tens fio.",
+              "explainWrong": "\"Fazer mais força\" é a resposta que manda gente para as urgências. Se a lâmina não morde ao peso dela, o que muda com força é a velocidade a que escorrega."
+            },
+            {
+              "id": "u1-l2-q3",
+              "type": "order",
+              "skills": [
+                "seguranca.faca-romba"
+              ],
+              "prompt": "Ordena o teste do tomate.",
+              "correctOrder": [
+                "Pousar a lâmina sobre a pele, sem carregar",
+                "Puxar a faca para trás numa passagem",
+                "Ver se a pele abriu ou se a lâmina deslizou",
+                "Passar pela fieira se deslizou"
+              ],
+              "explanation": "Testar antes de afiar poupa-te a afiar o que já estava bom — e avisa-te do que não estava.",
+              "explainWrong": "Afiar primeiro e testar depois tira-te a informação que interessa: nunca ficas a saber em que estado a faca estava, nem se o que fizeste resolveu."
+            },
+            {
+              "id": "u1-l2-q4",
+              "type": "estimate",
+              "skills": [
+                "seguranca.faca-romba"
+              ],
+              "prompt": "Que ângulo fazes entre a lâmina e a fieira?",
+              "correctAnswer": 20,
+              "tolerance": 5,
+              "unit": "graus",
+              "explanation": "Cerca de 20°. É o ângulo da maioria das facas de cozinha ocidentais.",
+              "explainWrong": "Muito mais do que 20° arredonda o fio em vez de o alinhar — ficas com uma faca pior do que aquela com que começaste. Muito menos e não tocas no gume."
+            },
+            {
+              "id": "u1-l2-q5",
+              "type": "choice",
+              "skills": [
+                "seguranca.faca-romba",
+                "seguranca.bancada"
+              ],
+              "prompt": "A faca escorrega da bancada e vai a cair. O que fazes?",
+              "options": [
+                "Afasto os pés e deixo cair",
+                "Apanho-a pelo cabo",
+                "Tento empurrá-la para a bancada",
+                "Ponho o pé por baixo"
+              ],
+              "correctAnswer": "Afasto os pés e deixo cair",
+              "explanation": "Uma faca a cair roda. Não há forma de saber que parte te chega à mão primeiro.",
+              "explainWrong": "Apanhar pelo cabo funciona nos filmes porque o cabo está sempre virado para cima. Na cozinha real a faca gira, e a tua mão vai ao encontro do gume a meio da rotação."
+            },
+            {
+              "id": "u1-l2-q6",
+              "type": "choice",
+              "skills": [
+                "seguranca.faca-romba",
+                "seguranca.higiene"
+              ],
+              "prompt": "Como lavas a faca depois de usar?",
+              "options": [
+                "À mão, logo a seguir, e seco-a",
+                "Ponho na máquina com o resto",
+                "Deixo de molho até ao fim do jantar",
+                "Passo por água e guardo molhada"
+              ],
+              "correctAnswer": "À mão, logo a seguir, e seco-a",
+              "explanation": "A máquina bate a lâmina contra tudo o resto e come o fio. Água parada come o aço.",
+              "explainWrong": "Deixar de molho junta os dois problemas: a faca desaparece dentro da água onde alguém vai meter a mão, e o fio passa uma hora a oxidar."
+            }
+          ]
+        },
+        {
+          "id": "u1-l3",
+          "dayNumber": 3,
+          "title": "Pegar na faca",
+          "dishName": "Pega em pinça",
+          "description": "Ninguém te ensinou a pegar numa faca. É por isso que te cansas ao fim de duas cebolas.",
+          "type": "lesson",
+          "xpReward": 25,
+          "icon": "hand",
+          "imageUrl": "https://images.unsplash.com/photo-1603133872877-684f208fb84b?w=800&h=600&fit=crop",
+          "cookTimeMin": 5,
+          "difficulty": "facil",
+          "teaches": [
+            "faca.pega"
+          ],
+          "requires": [
+            "seguranca.faca-romba"
+          ],
+          "ingredients": [
+            "A tua faca de chef",
+            "Duas cenouras"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Subir a mão",
+              "description": "Polegar e indicador agarram a lâmina, logo à frente do cabo."
+            },
+            {
+              "title": "Fechar os outros",
+              "description": "Os três dedos restantes fecham à volta do cabo."
+            },
+            {
+              "title": "Testar o equilíbrio",
+              "description": "A faca deve equilibrar-se sozinha entre os dedos."
+            },
+            {
+              "title": "Cortar sem pulso",
+              "description": "O movimento vem do ombro e do cotovelo, não do pulso."
+            }
+          ],
+          "questions": [
+            {
+              "id": "u1-l3-q1",
+              "type": "choice",
+              "skills": [
+                "faca.pega"
+              ],
+              "prompt": "Onde ficam o polegar e o indicador na pega em pinça?",
+              "options": [
+                "A agarrar a lâmina, à frente do cabo",
+                "Esticados por cima do cabo",
+                "Os dois enrolados no cabo",
+                "O polegar em cima do gume"
+              ],
+              "correctAnswer": "A agarrar a lâmina, à frente do cabo",
+              "explanation": "Pegar na lâmina põe a mão no centro de gravidade da faca. Passas a guiar em vez de segurar.",
+              "explainWrong": "Com os dedos todos no cabo, a faca torna-se uma alavanca e o pulso faz todo o trabalho — é a razão pela qual te cansas e o corte fica torto ao fim de meia cebola."
+            },
+            {
+              "id": "u1-l3-q2",
+              "type": "choice",
+              "skills": [
+                "faca.pega"
+              ],
+              "prompt": "Sentes o pulso a doer ao fim de duas cenouras. O que está errado?",
+              "options": [
+                "Estou a cortar com o pulso em vez do braço",
+                "A faca é demasiado leve",
+                "A tábua é demasiado alta",
+                "Estou a cortar devagar de mais"
+              ],
+              "correctAnswer": "Estou a cortar com o pulso em vez do braço",
+              "explanation": "O corte vem do ombro, com o pulso fixo. O pulso só guia.",
+              "explainWrong": "Se a dor é no pulso, a articulação que está a fazer força é a mais fraca da cadeia. Trocar de faca não resolve um problema que é de movimento."
+            },
+            {
+              "id": "u1-l3-q3",
+              "type": "order",
+              "skills": [
+                "faca.pega"
+              ],
+              "prompt": "Ordena os passos para pegar na faca.",
+              "correctOrder": [
+                "Pousar a faca na tábua com o gume para baixo",
+                "Agarrar a lâmina com o polegar e o indicador",
+                "Fechar os outros três dedos no cabo",
+                "Levantar e verificar se equilibra sozinha"
+              ],
+              "explanation": "Pegar sempre a partir da tábua evita ajustes com a faca no ar.",
+              "explainWrong": "Ajustar a pega com a faca já levantada é o momento em que a lâmina se vira para dentro. Tudo o que é ajuste faz-se com a faca pousada."
+            },
+            {
+              "id": "u1-l3-q4",
+              "type": "judge",
+              "skills": [
+                "faca.pega"
+              ],
+              "prompt": "A mão nesta imagem segura o cabo inteiro, com o indicador esticado por cima das costas da lâmina. Está correta?",
+              "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop",
+              "options": [
+                "Sim, é a pega correta",
+                "Não, o indicador esticado tira-te controlo"
+              ],
+              "correctAnswer": "Não, o indicador esticado tira-te controlo",
+              "explanation": "O indicador esticado por cima parece dar direção, mas tira força e desalinha a lâmina em cortes longos.",
+              "explainWrong": "É a pega mais comum em quem aprendeu sozinho, e é também a que faz a lâmina fugir para o lado ao terceiro corte — o dedo esticado não trava a rotação da faca."
+            },
+            {
+              "id": "u1-l3-q5",
+              "type": "estimate",
+              "skills": [
+                "faca.pega"
+              ],
+              "prompt": "A que altura, acima da tábua, deve estar a ponta da faca no início de cada corte?",
+              "correctAnswer": 3,
+              "tolerance": 2,
+              "unit": "cm",
+              "explanation": "Uns 3 cm. A ponta quase não sai da tábua: o corte é um movimento para a frente e para baixo, não um golpe.",
+              "explainWrong": "Levantar a faca 10 ou 15 cm transforma cada corte num golpe vertical. Perdes precisão e o dedo que está do outro lado deixa de ter aviso."
+            },
+            {
+              "id": "u1-l3-q6",
+              "type": "choice",
+              "skills": [
+                "faca.pega",
+                "seguranca.bancada"
+              ],
+              "prompt": "Precisas de passar a faca a outra pessoa. Como?",
+              "options": [
+                "Pouso-a na bancada e deixo que a peguem",
+                "Entrego pelo cabo com o gume para baixo",
+                "Entrego pela lâmina",
+                "Atiro para a bancada ao lado"
+              ],
+              "correctAnswer": "Pouso-a na bancada e deixo que a peguem",
+              "explanation": "Nunca há duas mãos na mesma faca ao mesmo tempo. A bancada é o intermediário.",
+              "explainWrong": "Entregar pelo cabo parece educado, mas obriga as duas pessoas a segurar a faca em simultâneo — e quem entrega larga sempre antes de quem recebe ter agarrado bem."
+            }
+          ]
+        },
+        {
+          "id": "u1-l4",
+          "dayNumber": 4,
+          "title": "A mão em garra",
+          "dishName": "Mão que não sangra",
+          "description": "A mão que não segura a faca é a que se corta. Há uma forma de a pôr fora de alcance.",
+          "type": "lesson",
+          "xpReward": 25,
+          "icon": "shield",
+          "imageUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop",
+          "cookTimeMin": 6,
+          "difficulty": "facil",
+          "teaches": [
+            "faca.garra"
+          ],
+          "requires": [
+            "faca.pega"
+          ],
+          "ingredients": [
+            "A tua faca de chef",
+            "Uma cenoura",
+            "Um curgete"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Recolher as pontas",
+              "description": "Dobra os dedos como se agarrasses uma bola pequena."
+            },
+            {
+              "title": "Encostar a lâmina",
+              "description": "O lado da lâmina encosta aos nós dos dedos."
+            },
+            {
+              "title": "Guiar pelos nós",
+              "description": "Os nós são o batente. A lâmina nunca passa deles."
+            },
+            {
+              "title": "Recuar a mão",
+              "description": "A cada corte, a mão recua o equivalente à fatia seguinte."
+            }
+          ],
+          "questions": [
+            {
+              "id": "u1-l4-q1",
+              "type": "choice",
+              "skills": [
+                "faca.garra"
+              ],
+              "prompt": "O que faz de batente à lâmina na mão em garra?",
+              "options": [
+                "Os nós dos dedos",
+                "As unhas",
+                "O polegar",
+                "A palma da mão"
+              ],
+              "correctAnswer": "Os nós dos dedos",
+              "explanation": "Os nós são a parte mais saliente da mão dobrada. A lâmina encosta a eles e nunca chega às pontas.",
+              "explainWrong": "As unhas e as pontas dos dedos são precisamente o que a garra esconde. Se a lâmina lhes toca, a mão não está dobrada o suficiente."
+            },
+            {
+              "id": "u1-l4-q2",
+              "type": "order",
+              "skills": [
+                "faca.garra",
+                "faca.pega"
+              ],
+              "prompt": "Ordena o ciclo de um corte com a mão em garra.",
+              "correctOrder": [
+                "Dobrar os dedos e segurar o ingrediente",
+                "Encostar o lado da lâmina aos nós",
+                "Cortar deixando a lâmina deslizar pelos nós",
+                "Recuar a mão a espessura da fatia seguinte"
+              ],
+              "explanation": "Cada corte fecha o ciclo no mesmo sítio: é isso que o torna repetível e seguro.",
+              "explainWrong": "Recuar a mão antes de cortar tira o batente à lâmina no momento exato em que ela desce. A mão só recua depois de a faca ter passado."
+            },
+            {
+              "id": "u1-l4-q3",
+              "type": "judge",
+              "skills": [
+                "faca.garra"
+              ],
+              "prompt": "Nesta imagem os dedos estão esticados a segurar a cenoura. Podes cortar assim?",
+              "imageUrl": "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=800&h=500&fit=crop",
+              "options": [
+                "Sim, se cortar devagar",
+                "Não, as pontas dos dedos estão no caminho"
+              ],
+              "correctAnswer": "Não, as pontas dos dedos estão no caminho",
+              "explanation": "Com os dedos esticados não há batente. A única coisa entre a lâmina e a unha é a tua atenção.",
+              "explainWrong": "\"Devagar\" não é uma proteção — é o que se faz enquanto se está concentrado, e ninguém está concentrado durante uma cebola inteira. A garra protege mesmo quando te distrais."
+            },
+            {
+              "id": "u1-l4-q4",
+              "type": "estimate",
+              "skills": [
+                "faca.garra"
+              ],
+              "prompt": "De quanto recua a mão entre cortes, para fatias finas de cenoura?",
+              "correctAnswer": 5,
+              "tolerance": 3,
+              "unit": "mm",
+              "explanation": "Uns 5 mm. O recuo da mão é literalmente a espessura da fatia seguinte.",
+              "explainWrong": "Se recuas 2 cm de cada vez ficas com rodelas grossas e desiguais; se não recuas nada, a faca corta no mesmo sítio e não sai fatia nenhuma."
+            },
+            {
+              "id": "u1-l4-q5",
+              "type": "choice",
+              "skills": [
+                "faca.garra",
+                "faca.cubos"
+              ],
+              "prompt": "Estás a cortar uma curgete redonda que rola na tábua. O que fazes primeiro?",
+              "options": [
+                "Corto uma fatia fina ao comprido para criar uma base plana",
+                "Seguro com mais força",
+                "Corto ao meio a direito com a curgete a rolar",
+                "Uso uma faca maior"
+              ],
+              "correctAnswer": "Corto uma fatia fina ao comprido para criar uma base plana",
+              "explanation": "Nada de redondo se corta em segurança. A primeira coisa é dar-lhe uma face plana para assentar.",
+              "explainWrong": "Segurar com mais força um objeto que roda só transfere o problema para os dedos. O que rola tem de deixar de rolar antes de a faca entrar."
+            },
+            {
+              "id": "u1-l4-q6",
+              "type": "choice",
+              "skills": [
+                "faca.garra"
+              ],
+              "prompt": "Ao fim de meia cebola dás por ti com os dedos esticados outra vez. Porquê?",
+              "options": [
+                "A garra cansa até virar hábito — é normal e corrige-se parando",
+                "A faca está mal afiada",
+                "A tábua é pequena de mais",
+                "Estou a cortar rápido de mais"
+              ],
+              "correctAnswer": "A garra cansa até virar hábito — é normal e corrige-se parando",
+              "explanation": "Nas primeiras semanas a mão desfaz a garra sozinha. Reparar e voltar a dobrar é o treino.",
+              "explainWrong": "Procurar a causa na faca ou na tábua adia o que interessa: a garra é um gesto novo e os gestos novos desfazem-se sob fadiga. A correção é parar dois segundos, não mudar de equipamento."
+            }
+          ]
+        },
+        {
+          "id": "u1-l5",
+          "dayNumber": 5,
+          "title": "Cebola em cubos",
+          "dishName": "Cebola picada",
+          "description": "O corte que aparece em metade das receitas que vais fazer.",
+          "type": "lesson",
+          "xpReward": 25,
+          "icon": "onion",
+          "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
+          "cookTimeMin": 8,
+          "difficulty": "facil",
+          "teaches": [
+            "faca.cubos"
+          ],
+          "requires": [
+            "faca.garra"
+          ],
+          "ingredients": [
+            "Duas cebolas",
+            "A tua faca de chef",
+            "A tábua"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Cortar ao meio",
+              "description": "Do topo à raiz. A raiz fica inteira nas duas metades."
+            },
+            {
+              "title": "Descascar",
+              "description": "Retira a casca deixando a raiz. É ela que segura tudo."
+            },
+            {
+              "title": "Cortes horizontais",
+              "description": "Dois ou três cortes paralelos à tábua, sem chegar à raiz."
+            },
+            {
+              "title": "Cortes verticais",
+              "description": "Cortes de cima a baixo, também sem cortar a raiz."
+            },
+            {
+              "title": "Fatiar",
+              "description": "Agora corta ao contrário: saem cubos sozinhos."
+            }
+          ],
+          "questions": [
+            {
+              "id": "u1-l5-q1",
+              "type": "choice",
+              "skills": [
+                "faca.cubos"
+              ],
+              "prompt": "Porque é que se deixa a raiz da cebola inteira?",
+              "options": [
+                "É ela que segura as camadas todas juntas",
+                "Tem mais sabor",
+                "É a parte que se come",
+                "Evita as lágrimas"
+              ],
+              "correctAnswer": "É ela que segura as camadas todas juntas",
+              "explanation": "Sem raiz, a cebola desfaz-se em camadas soltas à primeira facada e deixa de haver o que cortar.",
+              "explainWrong": "A raiz não é sobre sabor nem sobre lágrimas — é estrutural. Cortá-la primeiro transforma a cebola num monte de camadas que fogem debaixo da faca."
+            },
+            {
+              "id": "u1-l5-q2",
+              "type": "order",
+              "skills": [
+                "faca.cubos",
+                "faca.garra"
+              ],
+              "prompt": "Ordena o corte da cebola em cubos.",
+              "correctOrder": [
+                "Cortar ao meio, do topo à raiz",
+                "Descascar deixando a raiz",
+                "Fazer os cortes horizontais, sem chegar à raiz",
+                "Fazer os cortes verticais, sem chegar à raiz",
+                "Fatiar ao contrário para soltar os cubos"
+              ],
+              "explanation": "Os três conjuntos de cortes formam uma grelha. O último corte é o único que solta alguma coisa.",
+              "explainWrong": "Fatiar antes de fazer a grelha dá meias-luas, não cubos. E descascar antes de cortar ao meio deixa-te a girar uma esfera escorregadia na tábua."
+            },
+            {
+              "id": "u1-l5-q3",
+              "type": "estimate",
+              "skills": [
+                "faca.cubos"
+              ],
+              "prompt": "Que lado deve ter cada cubo, para uma cebola que vai refogar?",
+              "correctAnswer": 5,
+              "tolerance": 3,
+              "unit": "mm",
+              "explanation": "Cerca de 5 mm. É o tamanho que amolece em 4 minutos sem desaparecer no molho.",
+              "explainWrong": "Cubos de 15 mm ainda estão crus quando o resto já está pronto; picada quase a pó desfaz-se e queima antes de a cebola adoçar."
+            },
+            {
+              "id": "u1-l5-q4",
+              "type": "judge",
+              "skills": [
+                "faca.cubos"
+              ],
+              "prompt": "Nesta cebola picada há pedaços do tamanho de uma ervilha e outros do tamanho de uma unha. Serve para refogar?",
+              "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
+              "options": [
+                "Sim, depois desfaz-se tudo",
+                "Não, os pequenos queimam antes de os grandes cozerem"
+              ],
+              "correctAnswer": "Não, os pequenos queimam antes de os grandes cozerem",
+              "explanation": "Tamanho igual não é estética: é o que faz tudo ficar pronto ao mesmo tempo.",
+              "explainWrong": "Não se desfaz tudo por igual. Os pedaços pequenos chegam a amargo enquanto os grandes ainda estão crus, e esse amargo vai para o molho inteiro."
+            },
+            {
+              "id": "u1-l5-q5",
+              "type": "choice",
+              "skills": [
+                "faca.cubos",
+                "faca.garra"
+              ],
+              "prompt": "Quando fazes os cortes horizontais, onde está a mão que não segura a faca?",
+              "options": [
+                "Espalmada por cima da cebola, a achatá-la contra a tábua",
+                "Em garra ao lado da cebola",
+                "A segurar a raiz",
+                "Fora da tábua"
+              ],
+              "correctAnswer": "Espalmada por cima da cebola, a achatá-la contra a tábua",
+              "explanation": "É a única exceção à garra: no corte horizontal a lâmina viaja paralela à tábua, por baixo da palma.",
+              "explainWrong": "Manter a garra no corte horizontal põe os nós exatamente na trajetória da lâmina, que aqui anda de lado. A regra muda porque a direção da faca mudou."
+            },
+            {
+              "id": "u1-l5-q6",
+              "type": "choice",
+              "skills": [
+                "faca.cubos"
+              ],
+              "prompt": "As lágrimas estão a impedir-te de ver o que cortas. O que ajuda mesmo?",
+              "options": [
+                "Cebola fria e faca afiada",
+                "Prender a respiração",
+                "Cortar debaixo de água corrente",
+                "Pôr uma colher na boca"
+              ],
+              "correctAnswer": "Cebola fria e faca afiada",
+              "explanation": "O que faz chorar é o gás libertado pelas células rompidas. Frio abranda a reação e um corte limpo rompe menos células.",
+              "explainWrong": "Os truques da colher e da respiração não mexem na causa. Se a lâmina esmaga em vez de cortar, rompe mais células e liberta mais gás — a faca romba faz-te chorar literalmente."
+            }
+          ]
+        },
+        {
+          "id": "u1-l6",
+          "dayNumber": 6,
+          "title": "Tudo pronto antes do lume",
+          "dishName": "Mise en place",
+          "description": "A regra que separa cozinhar de andar atrás do fogão: nada aquece antes de tudo estar cortado.",
+          "type": "boss",
+          "xpReward": 40,
+          "icon": "flame",
+          "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop",
+          "cookTimeMin": 10,
+          "difficulty": "facil",
+          "teaches": [
+            "org.mise-en-place",
+            "seguranca.fogo"
+          ],
+          "requires": [
+            "faca.cubos"
+          ],
+          "ingredients": [
+            "Tudo o que a receita pedir",
+            "Taças pequenas",
+            "Um pano seco",
+            "Uma tampa que sirva na frigideira"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Ler a receita até ao fim",
+              "description": "Antes de cortar seja o que for. Metade dos enganos nasce aqui."
+            },
+            {
+              "title": "Cortar tudo",
+              "description": "Cada ingrediente na sua taça, pela ordem em que entra."
+            },
+            {
+              "title": "Alinhar por ordem",
+              "description": "As taças ficam à esquerda do fogão, na ordem de entrada."
+            },
+            {
+              "title": "Tampa e pano à mão",
+              "description": "A tampa é o teu extintor. O pano seco é para pegas quentes."
+            },
+            {
+              "title": "Só agora acender",
+              "description": "Com tudo alinhado, ligar o lume é o último gesto."
+            }
+          ],
+          "questions": [
+            {
+              "id": "u1-l6-q1",
+              "type": "choice",
+              "skills": [
+                "org.mise-en-place"
+              ],
+              "prompt": "Porque é que se corta tudo antes de ligar o fogão?",
+              "options": [
+                "Porque a partir do lume o tempo passa a ser da comida, não teu",
+                "Porque assim suja menos loiça",
+                "Porque a comida sabe melhor",
+                "Porque é mais rápido no total"
+              ],
+              "correctAnswer": "Porque a partir do lume o tempo passa a ser da comida, não teu",
+              "explanation": "Com a frigideira quente já não decides o ritmo. Se ainda tens de picar alho, o alho chega tarde e o que está na frigideira queima.",
+              "explainWrong": "No total até pode demorar o mesmo. O que muda é onde está a pressão: cortar com calma antes, ou cortar com a cebola a escurecer atrás de ti."
+            },
+            {
+              "id": "u1-l6-q2",
+              "type": "choice",
+              "skills": [
+                "seguranca.fogo"
+              ],
+              "prompt": "O óleo na frigideira pegou fogo. O que fazes?",
+              "options": [
+                "Desligo o lume e tapo com uma tampa",
+                "Deito água",
+                "Levo a frigideira ao lava-loiça",
+                "Sopro as chamas"
+              ],
+              "correctAnswer": "Desligo o lume e tapo com uma tampa",
+              "explanation": "Fogo precisa de oxigénio. Tapar corta-o. Água em óleo a arder vaporiza-se e projeta o óleo em chamas.",
+              "explainWrong": "Água numa gordura a arder é a pior coisa que podes fazer: transforma-se em vapor instantaneamente e atira óleo incendiado para cima de ti e para o resto da cozinha."
+            },
+            {
+              "id": "u1-l6-q3",
+              "type": "order",
+              "skills": [
+                "org.mise-en-place",
+                "seguranca.fogo"
+              ],
+              "prompt": "Ordena a preparação antes de acender o lume.",
+              "correctOrder": [
+                "Ler a receita do princípio ao fim",
+                "Cortar tudo e separar por taças",
+                "Alinhar as taças pela ordem de entrada",
+                "Pôr a tampa e o pano seco ao alcance",
+                "Acender o lume"
+              ],
+              "explanation": "Ler primeiro é o que evita descobrir a meio que faltava um ingrediente. Acender é sempre o último passo.",
+              "explainWrong": "Cortar antes de ler a receita inteira é como o improviso começa: descobres ao quarto passo que a cebola era para ser em meias-luas e já a picaste."
+            },
+            {
+              "id": "u1-l6-q4",
+              "type": "estimate",
+              "skills": [
+                "org.mise-en-place"
+              ],
+              "prompt": "Quanto tempo demora a mise en place de um refogado simples, com prática?",
+              "correctAnswer": 10,
+              "tolerance": 5,
+              "unit": "minutos",
+              "explanation": "Cerca de 10 minutos. Parece muito antes de começar, e é o que evita 20 minutos de correria depois.",
+              "explainWrong": "Se contas 1 ou 2 minutos, ainda não contaste com o descascar, o lavar e o arrumar. Se contas 40, estás a preparar uma refeição de domingo e não um refogado."
+            },
+            {
+              "id": "u1-l6-q5",
+              "type": "judge",
+              "skills": [
+                "org.mise-en-place"
+              ],
+              "prompt": "As taças estão cheias e alinhadas, mas do lado direito do fogão — e tu és destro, com a colher na direita. Está bem assim?",
+              "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop",
+              "options": [
+                "Sim, desde que estejam por ordem",
+                "Não, as taças ficam do lado da mão livre"
+              ],
+              "correctAnswer": "Não, as taças ficam do lado da mão livre",
+              "explanation": "A mão que mexe não larga a colher. Os ingredientes entram com a outra.",
+              "explainWrong": "A ordem certa do lado errado obriga-te a atravessar o braço por cima da frigideira quente a cada ingrediente. É o gesto que derruba taças e queima antebraços."
+            },
+            {
+              "id": "u1-l6-q6",
+              "type": "choice",
+              "skills": [
+                "org.mise-en-place",
+                "seguranca.bancada"
+              ],
+              "prompt": "A receita pede que a cebola entre primeiro e o alho dois minutos depois. Como preparas?",
+              "options": [
+                "Taças separadas: se forem juntas, o alho queima",
+                "Na mesma taça, entram quase ao mesmo tempo",
+                "Corto o alho durante os dois minutos",
+                "Ponho os dois no início e baixo o lume"
+              ],
+              "correctAnswer": "Taças separadas: se forem juntas, o alho queima",
+              "explanation": "O alho leva um terço do tempo da cebola. Juntos na mesma taça acabam sempre juntos na frigideira.",
+              "explainWrong": "Cortar o alho durante os dois minutos é exatamente o que a mise en place existe para evitar — dois minutos de olho no relógio é tempo a menos para picar e tempo a mais de costas para a frigideira."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
