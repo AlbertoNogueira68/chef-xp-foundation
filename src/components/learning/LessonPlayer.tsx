@@ -5,12 +5,14 @@ import {
   Clock,
   HeartCrack,
   ListChecks,
+  Undo2,
   RotateCcw,
   X,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { Lesson, LessonPlayerPhase, Question } from "@/types/learning";
+import { useEffect, useState } from "react";
+import type { AnswerValue, Lesson, LessonPlayerPhase, Question } from "@/types/learning";
 import { LessonComplete } from "./LessonComplete";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +36,7 @@ export function LessonPlayer({
   showFeedback,
   isCorrect,
   correctAnswer,
+  explainWrong,
   explanation,
   isChecking,
   xpEarned,
@@ -55,14 +58,15 @@ export function LessonPlayer({
   hearts: number;
   maxHearts: number;
   progress: number;
-  selectedAnswer: string | null;
+  selectedAnswer: AnswerValue | null;
   showFeedback: boolean;
   isCorrect: boolean;
   /**
    * A resposta certa e a explicação só existem depois de o servidor corrigir.
    * Não vêm dentro da lição — se viessem, estariam no bundle do browser.
    */
-  correctAnswer: string | null;
+  correctAnswer: AnswerValue | null;
+  explainWrong: string | null;
   explanation: string | null;
   isChecking: boolean;
   xpEarned: number;
@@ -70,7 +74,7 @@ export function LessonPlayer({
   onStartPreparation: () => void;
   onNextPrepStep: () => void;
   onPrevPrepStep: () => void;
-  onSubmit: (answer: string) => void;
+  onSubmit: (answer: AnswerValue) => void;
   onNextQuestion: () => void;
   onRetry: () => void;
   onContinue: () => void;
@@ -139,6 +143,7 @@ export function LessonPlayer({
           showFeedback={showFeedback}
           isCorrect={isCorrect}
           correctAnswer={correctAnswer}
+          explainWrong={explainWrong}
           explanation={explanation}
           isChecking={isChecking}
           hearts={hearts}
@@ -323,6 +328,212 @@ function LessonPrep({
   );
 }
 
+function optionVariant(
+  selected: boolean,
+  isAnswer: boolean,
+  showFeedback: boolean,
+  isCorrect: boolean,
+) {
+  if (showFeedback && selected && isCorrect) return "border-emerald-500 bg-emerald-50";
+  if (showFeedback && selected && !isCorrect) return "border-rose-500 bg-rose-50";
+  if (showFeedback && !selected && isAnswer) return "border-emerald-400 bg-emerald-50/50";
+  return "border-border bg-card hover:border-emerald-300";
+}
+
+/** `choice` e `judge`: a diferença é só a imagem por cima das opções. */
+function ChoiceExercise({
+  question,
+  selectedAnswer,
+  showFeedback,
+  isCorrect,
+  correctAnswer,
+  isChecking,
+  onSubmit,
+}: {
+  question: Question;
+  selectedAnswer: AnswerValue | null;
+  showFeedback: boolean;
+  isCorrect: boolean;
+  correctAnswer: AnswerValue | null;
+  isChecking: boolean;
+  onSubmit: (answer: AnswerValue) => void;
+}) {
+  return (
+    <>
+      {question.type === "judge" && question.imageUrl && (
+        <img src={question.imageUrl} alt="" className="mb-4 h-44 w-full rounded-2xl object-cover" />
+      )}
+
+      {question.options?.map((option) => (
+        <button
+          key={option}
+          type="button"
+          disabled={showFeedback || isChecking}
+          onClick={() => onSubmit(option)}
+          className={cn(
+            "rounded-2xl border-2 px-4 py-4 text-left text-sm font-medium transition-colors",
+            optionVariant(
+              selectedAnswer === option,
+              option === correctAnswer,
+              showFeedback,
+              isCorrect,
+            ),
+          )}
+        >
+          {option}
+        </button>
+      ))}
+    </>
+  );
+}
+
+/**
+ * `order`: toca-se nos passos pela ordem certa. Nada de arrastar — num
+ * telemóvel, com uma mão, arrastar falha mais do que acerta.
+ */
+function OrderExercise({
+  question,
+  showFeedback,
+  isChecking,
+  onSubmit,
+}: {
+  question: Question;
+  showFeedback: boolean;
+  isChecking: boolean;
+  onSubmit: (answer: AnswerValue) => void;
+}) {
+  const [picked, setPicked] = useState<string[]>([]);
+  const items = question.items ?? [];
+
+  // Mudar de pergunta limpa a escolha; sem isto a ordem do exercício
+  // anterior aparecia já preenchida no seguinte.
+  useEffect(() => setPicked([]), [question.id]);
+
+  const remaining = items.filter((item) => !picked.includes(item));
+  const complete = picked.length === items.length && items.length > 0;
+
+  return (
+    <>
+      <div className="rounded-2xl border-2 border-dashed border-border p-3">
+        {picked.length === 0 ? (
+          <p className="py-3 text-center text-xs text-muted-foreground">
+            Toca nos passos pela ordem certa
+          </p>
+        ) : (
+          <ol className="flex flex-col gap-2">
+            {picked.map((item, index) => (
+              <li
+                key={item}
+                className="flex items-center gap-3 rounded-xl bg-emerald-50 px-3 py-2 text-sm font-medium text-emerald-900"
+              >
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-xs font-bold text-white">
+                  {index + 1}
+                </span>
+                {item}
+              </li>
+            ))}
+          </ol>
+        )}
+      </div>
+
+      <div className="flex flex-col gap-2">
+        {remaining.map((item) => (
+          <button
+            key={item}
+            type="button"
+            disabled={showFeedback || isChecking}
+            onClick={() => setPicked((current) => [...current, item])}
+            className="rounded-2xl border-2 border-border bg-card px-4 py-3 text-left text-sm font-medium transition-colors hover:border-emerald-300"
+          >
+            {item}
+          </button>
+        ))}
+      </div>
+
+      {picked.length > 0 && !showFeedback && (
+        <div className="flex gap-2">
+          <Button
+            variant="outline"
+            className="rounded-full"
+            onClick={() => setPicked([])}
+            disabled={isChecking}
+          >
+            <Undo2 className="size-4" />
+            Recomeçar
+          </Button>
+          <Button
+            className="flex-1 rounded-full bg-emerald-500 hover:bg-emerald-600"
+            disabled={!complete || isChecking}
+            onClick={() => onSubmit(picked)}
+          >
+            Confirmar ordem
+          </Button>
+        </div>
+      )}
+    </>
+  );
+}
+
+/** `estimate`: um número dentro de uma margem. Não se pede exatidão. */
+function EstimateExercise({
+  question,
+  showFeedback,
+  isChecking,
+  onSubmit,
+}: {
+  question: Question;
+  showFeedback: boolean;
+  isChecking: boolean;
+  onSubmit: (answer: AnswerValue) => void;
+}) {
+  const [value, setValue] = useState("");
+
+  useEffect(() => setValue(""), [question.id]);
+
+  const parsed = Number(value);
+  const valid = value.trim() !== "" && Number.isFinite(parsed);
+
+  return (
+    <>
+      <div className="flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3">
+        <input
+          type="number"
+          inputMode="decimal"
+          value={value}
+          disabled={showFeedback || isChecking}
+          onChange={(event) => setValue(event.target.value)}
+          placeholder="0"
+          className="w-full bg-transparent text-2xl font-bold outline-none"
+        />
+        <span className="shrink-0 text-sm font-medium text-muted-foreground">{question.unit}</span>
+      </div>
+
+      {question.tolerance !== undefined && (
+        <p className="text-xs text-muted-foreground">
+          Aceita-se uma margem de ±{question.tolerance} {question.unit}. Estima, não decores.
+        </p>
+      )}
+
+      {!showFeedback && (
+        <Button
+          className="rounded-full bg-emerald-500 hover:bg-emerald-600"
+          disabled={!valid || isChecking}
+          onClick={() => onSubmit(parsed)}
+        >
+          Confirmar
+        </Button>
+      )}
+    </>
+  );
+}
+
+function formatAnswer(answer: AnswerValue | null, unit?: string) {
+  if (answer === null) return "";
+  if (Array.isArray(answer)) return answer.map((step, i) => `${i + 1}. ${step}`).join("  ·  ");
+  if (typeof answer === "number") return unit ? `${answer} ${unit}` : String(answer);
+  return answer;
+}
+
 function LessonQuiz({
   dishName,
   question,
@@ -332,6 +543,7 @@ function LessonQuiz({
   showFeedback,
   isCorrect,
   correctAnswer,
+  explainWrong,
   explanation,
   isChecking,
   hearts,
@@ -342,23 +554,21 @@ function LessonQuiz({
   question: Question;
   questionIndex: number;
   totalQuestions: number;
-  selectedAnswer: string | null;
+  selectedAnswer: AnswerValue | null;
   showFeedback: boolean;
   isCorrect: boolean;
-  correctAnswer: string | null;
+  correctAnswer: AnswerValue | null;
+  explainWrong: string | null;
   explanation: string | null;
   isChecking: boolean;
   hearts: number;
-  onSubmit: (answer: string) => void;
+  onSubmit: (answer: AnswerValue) => void;
   onNext: () => void;
 }) {
-  const tfOptions =
-    question.type === "true_false"
-      ? [
-          { label: "Verdadeiro", value: "true" },
-          { label: "Falso", value: "false" },
-        ]
-      : [];
+  // Nos tipos em que a resposta não é uma das opções visíveis, mostrar qual
+  // era a certa só faz sentido no painel de feedback.
+  const showCorrectInFeedback =
+    showFeedback && !isCorrect && (question.type === "order" || question.type === "estimate");
 
   return (
     <div className="flex flex-1 flex-col px-4 pb-6 pt-4">
@@ -370,60 +580,60 @@ function LessonQuiz({
       </p>
       <h2 className="mt-3 text-xl font-bold leading-snug">{question.prompt}</h2>
 
-      <div className="mt-8 flex flex-1 flex-col gap-3">
-        {question.type === "multiple_choice" &&
-          question.options?.map((option) => {
-            const selected = selectedAnswer === option;
-            const isAnswer = option === correctAnswer;
-            let variant = "border-border bg-card hover:border-emerald-300";
-            if (showFeedback && selected && isCorrect) variant = "border-emerald-500 bg-emerald-50";
-            if (showFeedback && selected && !isCorrect) variant = "border-rose-500 bg-rose-50";
-            if (showFeedback && !selected && isAnswer)
-              variant = "border-emerald-400 bg-emerald-50/50";
+      <div className="mt-6 flex flex-1 flex-col gap-3">
+        {(question.type === "choice" || question.type === "judge") && (
+          <ChoiceExercise
+            question={question}
+            selectedAnswer={selectedAnswer}
+            showFeedback={showFeedback}
+            isCorrect={isCorrect}
+            correctAnswer={correctAnswer}
+            isChecking={isChecking}
+            onSubmit={onSubmit}
+          />
+        )}
 
-            return (
-              <button
-                key={option}
-                type="button"
-                disabled={showFeedback || isChecking}
-                onClick={() => onSubmit(option)}
-                className={`rounded-2xl border-2 px-4 py-4 text-left text-sm font-medium transition-colors ${variant}`}
-              >
-                {option}
-              </button>
-            );
-          })}
+        {question.type === "order" && (
+          <OrderExercise
+            question={question}
+            showFeedback={showFeedback}
+            isChecking={isChecking}
+            onSubmit={onSubmit}
+          />
+        )}
 
-        {question.type === "true_false" &&
-          tfOptions.map(({ label, value }) => {
-            const selected = selectedAnswer === value;
-            const isAnswer = value === correctAnswer;
-            let variant = "border-border bg-card hover:border-emerald-300";
-            if (showFeedback && selected && isCorrect) variant = "border-emerald-500 bg-emerald-50";
-            if (showFeedback && selected && !isCorrect) variant = "border-rose-500 bg-rose-50";
-            if (showFeedback && !selected && isAnswer)
-              variant = "border-emerald-400 bg-emerald-50/50";
-
-            return (
-              <button
-                key={value}
-                type="button"
-                disabled={showFeedback || isChecking}
-                onClick={() => onSubmit(value)}
-                className={`rounded-2xl border-2 px-4 py-4 text-center text-sm font-semibold transition-colors ${variant}`}
-              >
-                {label}
-              </button>
-            );
-          })}
+        {question.type === "estimate" && (
+          <EstimateExercise
+            question={question}
+            showFeedback={showFeedback}
+            isChecking={isChecking}
+            onSubmit={onSubmit}
+          />
+        )}
       </div>
 
       {showFeedback && (
         <div
-          className={`mt-4 rounded-2xl p-4 ${isCorrect ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-900"}`}
+          className={cn(
+            "mt-4 rounded-2xl p-4",
+            isCorrect ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-900",
+          )}
         >
           <p className="font-semibold">{isCorrect ? "Correto!" : "Ups…"}</p>
-          <p className="mt-1 text-sm opacity-90">{explanation}</p>
+
+          {/* Quando se erra, o que aparece primeiro é o porquê do erro — não a
+              resposta certa. É a diferença entre ensinar e avaliar. */}
+          {!isCorrect && explainWrong && <p className="mt-1 text-sm font-medium">{explainWrong}</p>}
+
+          {showCorrectInFeedback && (
+            <p className="mt-2 rounded-xl bg-white/60 px-3 py-2 text-sm">
+              <span className="font-semibold">Resposta certa: </span>
+              {formatAnswer(correctAnswer, question.unit)}
+            </p>
+          )}
+
+          <p className="mt-2 text-sm opacity-90">{explanation}</p>
+
           <Button
             className="mt-3 w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
             onClick={onNext}

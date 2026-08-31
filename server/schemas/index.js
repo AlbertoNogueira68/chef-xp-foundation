@@ -53,12 +53,28 @@ export const commentCreateSchema = z.object({
   body: z.string().trim().min(1, "Escreve alguma coisa").max(500, "Máximo 500 caracteres"),
 });
 
+/**
+ * Uma resposta já não é só texto: `order` manda a sequência de passos e
+ * `estimate` manda um número. O servidor é que decide o que é válido para
+ * cada tipo — aqui só se limita o tamanho.
+ */
+export const answerValueSchema = z.union([
+  z.string().max(500),
+  z.number().finite(),
+  z.array(z.string().max(200)).max(12),
+]);
+
+export const answerSubmitSchema = z.object({
+  questionId: z.string().min(1).max(80),
+  answer: answerValueSchema,
+});
+
 export const lessonCompleteSchema = z.object({
   answers: z
     .array(
       z.object({
         questionId: z.string().min(1),
-        answer: z.string().max(500),
+        answer: answerValueSchema,
       }),
     )
     .max(50)

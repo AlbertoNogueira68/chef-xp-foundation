@@ -73,6 +73,7 @@ export function ChallengesPage() {
             showFeedback={player.showFeedback}
             isCorrect={player.isCorrect}
             correctAnswer={player.correctAnswer}
+            explainWrong={player.explainWrong}
             explanation={player.explanation}
             isChecking={player.isChecking}
             xpEarned={player.xpEarned}

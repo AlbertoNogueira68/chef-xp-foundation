@@ -1,6 +1,12 @@
 export type LessonStatus = "locked" | "available" | "current" | "completed";
 export type LessonNodeType = "lesson" | "chest" | "boss";
-export type QuestionType = "multiple_choice" | "true_false";
+export type QuestionType = "choice" | "order" | "judge" | "estimate";
+
+/**
+ * O que o utilizador entrega como resposta. `choice` e `judge` mandam texto,
+ * `order` manda a sequência de passos, `estimate` manda um número.
+ */
+export type AnswerValue = string | number | string[];
 export type LessonPlayerPhase = "intro" | "prep" | "quiz" | "failed" | "complete";
 
 /**
@@ -14,9 +20,22 @@ export interface Question {
   id: string;
   type: QuestionType;
   prompt: string;
+  /** Competências que este exercício exercita. */
+  skills?: string[];
+
+  /** `choice` e `judge`. */
   options?: string[];
-  correctAnswer?: string;
+  /** `judge`: a imagem que se está a avaliar. */
+  imageUrl?: string;
+  /** `order`: os passos, já baralhados pelo servidor. */
+  items?: string[];
+  /** `estimate`: a unidade que se pede e a margem aceite. */
+  unit?: string;
+  tolerance?: number;
+
+  correctAnswer?: AnswerValue;
   explanation?: string;
+  explainWrong?: string;
 }
 
 export interface PreparationStep {
@@ -39,10 +58,34 @@ export interface Lesson {
   ingredients: string[];
   preparationSteps: PreparationStep[];
   questions: Question[];
+  /** Competências que a lição ensina e que exige (ids). */
+  teaches?: string[];
+  requires?: string[];
 }
 
 export interface LessonWithStatus extends Lesson {
   status: LessonStatus;
+}
+
+export type SkillCategory = "faca" | "calor" | "tempero" | "ponto" | "seguranca" | "organizacao";
+
+/** Uma competência do currículo, já com nome legível. */
+export interface Skill {
+  id: string;
+  name: string;
+  category: SkillCategory;
+  description: string;
+}
+
+/** A missão que fecha uma unidade: é onde se cozinha a sério. */
+export interface Mission {
+  id: string;
+  unitId: string;
+  title: string;
+  dishName: string;
+  cookTimeMin: number;
+  summary: string;
+  practices: string[];
 }
 
 export interface LearningUnit {
@@ -58,11 +101,14 @@ export interface LearningUnitWithStatus {
   title: string;
   subtitle: string;
   color: string;
+  mission: Mission | null;
   lessons: LessonWithStatus[];
 }
 
 export interface LearningProgress {
   completedLessonIds: string[];
+  /** Competências ensinadas pelas lições já concluídas. */
+  learnedSkills: string[];
   dailyXp: number;
   dailyXpGoal: number;
   streak: number;
@@ -71,6 +117,7 @@ export interface LearningProgress {
 
 export interface LearningPath {
   units: LearningUnitWithStatus[];
+  skills: Skill[];
   progress: LearningProgress;
 }
 
@@ -78,8 +125,11 @@ export interface LearningPath {
 export interface AnswerResult {
   questionId: string;
   correct: boolean;
-  correctAnswer: string;
+  correctAnswer: AnswerValue;
   explanation: string;
+  /** Porque é que a resposta dada está errada. `null` quando se acertou. */
+  explainWrong: string | null;
+  skills?: string[];
 }
 
 /** Resultado de concluir uma lição. */

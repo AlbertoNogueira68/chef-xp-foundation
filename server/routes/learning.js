@@ -3,10 +3,17 @@ import { getPool } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
-import { lessonCompleteSchema, lessonParamSchema } from "../schemas/index.js";
+import {
+  answerSubmitSchema,
+  lessonCompleteSchema,
+  lessonParamSchema,
+} from "../schemas/index.js";
 import {
   LEARNING_CURRICULUM,
+  MISSIONS,
+  SKILLS,
   gradeAnswers,
+  isAnswerCorrect,
   getLesson,
   getLessonIndex,
   getLessonOrder,
@@ -65,16 +72,38 @@ async function buildPath(client, userId) {
     title: unit.title,
     subtitle: unit.subtitle,
     color: unit.color,
+    // A missão é o que fecha a unidade. Sem ela no percurso, o utilizador vê
+    // seis lições e nenhuma razão para as fazer.
+    mission: MISSIONS.find((mission) => mission.id === unit.missionId) ?? null,
     lessons: unit.lessons.map((lesson) => ({
       ...toClientLesson(lesson),
       status: statuses.get(lesson.id) ?? "locked",
     })),
   }));
 
+  // As competências que as lições já concluídas ensinaram. É a diferença
+  // entre "fizeste 3 lições" e "sabes segurar uma faca".
+  const learnedSkills = [
+    ...new Set(
+      LEARNING_CURRICULUM.flatMap((unit) => unit.lessons)
+        .filter((lesson) => completed.has(lesson.id))
+        .flatMap((lesson) => lesson.teaches ?? []),
+    ),
+  ];
+
   return {
     units,
+    // Catálogo de competências: o cliente tem os ids nas lições, mas não os
+    // nomes legíveis.
+    skills: SKILLS.map(({ id, name, category, description }) => ({
+      id,
+      name,
+      category,
+      description,
+    })),
     progress: {
       completedLessonIds: [...completed],
+      learnedSkills,
       dailyXp: daily.dailyXp,
       dailyXpGoal,
       streak: daily.streak,
@@ -122,21 +151,27 @@ router.get(
  */
 router.post(
   "/lessons/:id/answer",
-  validate({ params: lessonParamSchema }),
+  validate({ params: lessonParamSchema, body: answerSubmitSchema }),
   asyncHandler(async (req, res) => {
     const lesson = getLesson(req.valid.params.id);
     if (!lesson) return res.status(404).json({ error: "Lição não encontrada" });
 
-    const questionId = String(req.body?.questionId ?? "");
+    const { questionId, answer } = req.valid.body;
     const question = lesson.questions.find((q) => q.id === questionId);
     if (!question) return res.status(400).json({ error: "Pergunta inválida" });
 
-    const answer = req.body?.answer;
+    const correct = isAnswerCorrect(question, answer);
+
     res.json({
       questionId,
-      correct: answer === question.correctAnswer,
-      correctAnswer: question.correctAnswer,
+      correct,
+      // `order` não tem uma resposta única em texto: o que se devolve é a
+      // sequência certa, para o cliente a poder mostrar lado a lado.
+      correctAnswer: question.type === "order" ? question.correctOrder : question.correctAnswer,
       explanation: question.explanation,
+      // Só aparece quando se erra. É a diferença entre corrigir e ensinar.
+      explainWrong: correct ? null : question.explainWrong,
+      skills: question.skills ?? [],
     });
   }),
 );

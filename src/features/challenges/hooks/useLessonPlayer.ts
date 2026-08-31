@@ -1,14 +1,14 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import type { Lesson, LessonPlayerPhase, Question } from "@/types/learning";
+import type { AnswerValue, Lesson, LessonPlayerPhase, Question } from "@/types/learning";
 import { learningService } from "../services/learningService";
 import { useInvalidateLearningPath, useSetLearningPath } from "./useLearningPath";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
 
 const MAX_HEARTS = 3;
 
-type GivenAnswer = { questionId: string; answer: string };
+type GivenAnswer = { questionId: string; answer: AnswerValue };
 
 /**
  * O leitor de lições mantém o ritmo do Duolingo (feedback imediato a cada
@@ -26,11 +26,12 @@ export function useLessonPlayer() {
   const [prepStepIndex, setPrepStepIndex] = useState(0);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [hearts, setHearts] = useState(MAX_HEARTS);
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [selectedAnswer, setSelectedAnswer] = useState<AnswerValue | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [explanation, setExplanation] = useState<string | null>(null);
-  const [correctAnswer, setCorrectAnswer] = useState<string | null>(null);
+  const [correctAnswer, setCorrectAnswer] = useState<AnswerValue | null>(null);
+  const [explainWrong, setExplainWrong] = useState<string | null>(null);
   const [xpEarned, setXpEarned] = useState(0);
   const [isChecking, setIsChecking] = useState(false);
   const [isFinishing, setIsFinishing] = useState(false);
@@ -70,6 +71,7 @@ export function useLessonPlayer() {
     setIsCorrect(false);
     setExplanation(null);
     setCorrectAnswer(null);
+    setExplainWrong(null);
     setXpEarned(0);
   }, []);
 
@@ -114,7 +116,7 @@ export function useLessonPlayer() {
   }, [prepStepIndex]);
 
   const submitAnswer = useCallback(
-    async (answer: string) => {
+    async (answer: AnswerValue) => {
       if (!lesson || !currentQuestion || showFeedback || phase !== "quiz" || isChecking) return;
 
       setSelectedAnswer(answer);
@@ -131,6 +133,7 @@ export function useLessonPlayer() {
         setIsCorrect(result.correct);
         setExplanation(result.explanation);
         setCorrectAnswer(result.correctAnswer);
+        setExplainWrong(result.explainWrong);
         setShowFeedback(true);
 
         if (!result.correct) {
@@ -161,6 +164,7 @@ export function useLessonPlayer() {
       setShowFeedback(false);
       setExplanation(null);
       setCorrectAnswer(null);
+      setExplainWrong(null);
       return;
     }
 
@@ -215,6 +219,7 @@ export function useLessonPlayer() {
     isCorrect,
     explanation,
     correctAnswer,
+    explainWrong,
     progress,
     xpEarned,
     isChecking,

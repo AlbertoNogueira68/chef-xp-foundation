@@ -1,6 +1,7 @@
 import { apiFetch } from "@/services/api";
 import type {
   AnswerResult,
+  AnswerValue,
   LearningPath,
   Lesson,
   LessonCompletion,
@@ -29,7 +30,7 @@ export const learningService = {
   },
 
   /** Corrige uma resposta. Quem decide é o servidor. */
-  checkAnswer(lessonId: string, questionId: string, answer: string): Promise<AnswerResult> {
+  checkAnswer(lessonId: string, questionId: string, answer: AnswerValue): Promise<AnswerResult> {
     return apiFetch<AnswerResult>(`/learning/lessons/${lessonId}/answer`, {
       method: "POST",
       body: JSON.stringify({ questionId, answer }),
@@ -39,7 +40,7 @@ export const learningService = {
   /** Fecha a lição. O servidor volta a corrigir tudo antes de pagar XP. */
   completeLesson(
     lessonId: string,
-    answers: Array<{ questionId: string; answer: string }>,
+    answers: Array<{ questionId: string; answer: AnswerValue }>,
   ): Promise<LessonCompletion> {
     return apiFetch<LessonCompletion>(`/learning/lessons/${lessonId}/complete`, {
       method: "POST",
