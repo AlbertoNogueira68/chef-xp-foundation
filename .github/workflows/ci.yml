@@ -82,6 +82,9 @@ jobs:
       - name: Popular dados de demonstração
         run: npm run db:seed
 
+      - name: Sincronização do currículo é idempotente
+        run: npm run db:check-sync
+
       - name: Arrancar a API e verificar o health check
         run: |
           npm start &
