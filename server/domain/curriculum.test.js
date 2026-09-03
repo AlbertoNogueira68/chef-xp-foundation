@@ -73,7 +73,25 @@ function fixture(overrides = {}) {
       { id: "a", name: "A", category: "faca", description: "d", requires: [] },
       { id: "b", name: "B", category: "calor", description: "d", requires: ["a"] },
     ],
-    missions: [{ id: "m1", title: "M", practices: ["a", "b"] }],
+    missions: [
+      {
+        id: "m1",
+        title: "M",
+        practices: ["a", "b"],
+        ingredients: ["x"],
+        steps: [
+          { id: "p1", title: "T", description: "D", rescues: [{ kind: "pronto", answer: "R" }] },
+          { id: "p2", title: "T", description: "D", rescues: [{ kind: "cola", answer: "R" }] },
+          {
+            id: "p3",
+            title: "T",
+            description: "D",
+            checkpoint: true,
+            rescues: [{ kind: "falta", answer: "R" }],
+          },
+        ],
+      },
+    ],
     units: [
       {
         id: "u1",
@@ -321,4 +339,32 @@ test("a ordem das lições é estável e conhecida", () => {
   assert.equal(getLessonIndex(order[0]), 0);
   assert.equal(getLessonIndex("nao-existe"), -1);
   assert.equal(getLesson("nao-existe"), null);
+});
+
+test("apanha uma missão sem passo de verificação", () => {
+  const errors = errorsOf((c) => {
+    for (const step of c.missions[0].steps) delete step.checkpoint;
+  });
+  assert.match(errors, /nenhum passo pede foto/);
+});
+
+test("apanha um passo de missão sem socorros", () => {
+  const errors = errorsOf((c) => {
+    c.missions[0].steps[0].rescues = [];
+  });
+  assert.match(errors, /sem respostas de socorro/);
+});
+
+test("apanha um socorro de tipo inventado", () => {
+  const errors = errorsOf((c) => {
+    c.missions[0].steps[0].rescues = [{ kind: "explodiu", answer: "R" }];
+  });
+  assert.match(errors, /tipo de socorro inválido/);
+});
+
+test("apanha uma missão sem ingredientes", () => {
+  const errors = errorsOf((c) => {
+    c.missions[0].ingredients = [];
+  });
+  assert.match(errors, /sem ingredientes/);
 });

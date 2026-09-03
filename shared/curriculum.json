@@ -194,6 +194,112 @@
         "seguranca.faca-romba",
         "faca.pega",
         "org.mise-en-place"
+      ],
+      "ingredients": [
+        "1 ovo",
+        "Azeite ou manteiga",
+        "Sal",
+        "Uma frigideira pequena",
+        "Uma tampa"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Mise en place",
+          "description": "Ovo, sal e azeite à mão, do lado da mão livre. Tampa ao alcance. Só depois é que se acende o lume.",
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Sem azeite? Manteiga serve e até doura melhor a clara — mas queima mais depressa, por isso baixa um ponto o lume."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Estás pronto quando não tens de te virar de costas para a frigideira para ir buscar nada."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Aquecer a frigideira",
+          "description": "Lume médio, frigideira vazia, 1 a 2 minutos. Uma gota de água tem de chiar e evaporar em segundos.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "A gota de água chia e desaparece: está pronta. Se fica a ferver devagar, ainda está fria."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Se a frigideira começa a fumegar antes de pores o azeite, está quente de mais. Tira-a do lume 30 segundos e volta a pôr."
+            }
+          ],
+          "durationSec": 90
+        },
+        {
+          "id": "s3",
+          "title": "O azeite",
+          "description": "Um fio de azeite a cobrir o fundo. Roda a frigideira. O azeite deve escorrer fino, não empoçar.",
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Azeite a fumegar já perdeu o sabor e vai amargar o ovo. Deita fora, limpa com papel e recomeça — leva 30 segundos e salva o prato."
+            },
+            {
+              "kind": "falta",
+              "answer": "Pouco azeite cola. Se o fundo não ficou todo brilhante, acrescenta um fio."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "title": "Partir o ovo",
+          "description": "Parte o ovo numa taça primeiro e só depois deita na frigideira. Aproxima a taça do fundo: quanto mais alto, mais a gema se parte.",
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Partiu-se a gema? Não é um erro fatal — passa a ovo estrelado de gema partida e cozinha igual. A próxima parte-se mais perto do fundo."
+            },
+            {
+              "kind": "cola",
+              "answer": "Se a clara agarrou logo ao fundo, a frigideira estava quente de mais. Baixa o lume e não tentes descolar já."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "title": "Cozinhar tapado",
+          "description": "Baixa para lume brando e tapa. A tampa cozinha a superfície da clara sem ter de virar o ovo. 2 a 3 minutos.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "A clara está branca e opaca até junto à gema, e a gema ainda treme quando abanas a frigideira. É esse o ponto."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Bordas castanhas e rendilhadas: lume alto de mais. Da próxima, baixa assim que o ovo entra."
+            },
+            {
+              "kind": "cola",
+              "answer": "Não force a espátula. Tapa mais 30 segundos: a clara acaba de coagular e solta-se sozinha."
+            }
+          ],
+          "durationSec": 150
+        },
+        {
+          "id": "s6",
+          "title": "Empratar",
+          "description": "Espátula por baixo, num movimento só, prato já à espera. Sal por cima e agora — não antes, ou a clara larga água.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Se a gema escorre ao furar, acertaste."
+            },
+            {
+              "kind": "falta",
+              "answer": "Sem espátula, inclina a frigideira sobre o prato e deixa o ovo escorregar."
+            }
+          ],
+          "checkpoint": true
+        }
       ]
     },
     {
@@ -210,6 +316,78 @@
         "calor.niveis",
         "calor.gordura",
         "ponto.douramento"
+      ],
+      "ingredients": [
+        "2 cebolas",
+        "Azeite",
+        "Sal",
+        "Uma frigideira larga"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Cortar",
+          "description": "Cebola ao meio, raiz inteira, grelha de cortes e depois fatiar. Cubos de 5 mm, todos iguais.",
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Cubos desiguais dão pedaços queimados e pedaços crus na mesma frigideira. Vale a pena repetir os que ficaram grandes."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Se consegues empilhar dois cubos e parecem do mesmo tamanho, chega."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Aquecer com gordura",
+          "description": "Lume médio, azeite a cobrir o fundo, e só depois a cebola. A cebola tem de chiar ao entrar.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Chia ao entrar: está no ponto. Se fica silenciosa, tira a cebola e aquece mais."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Azeite a fumegar antes da cebola entrar: recomeça, já está queimado."
+            }
+          ],
+          "durationSec": 120
+        },
+        {
+          "id": "s3",
+          "title": "Suar",
+          "description": "Mexe de vez em quando. A cebola fica translúcida antes de ganhar cor. 8 a 10 minutos.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Fundo a agarrar é sinal de lume alto. Baixa e junta uma colher de água — o vapor solta o que agarrou e vai para o sabor."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Pontas pretas queimam amargo e não se recuperam. Baixa o lume e mexe mais vezes."
+            }
+          ],
+          "durationSec": 540
+        },
+        {
+          "id": "s4",
+          "title": "Dourar",
+          "description": "Agora sim, cor. Mexe menos e deixa ganhar castanho dourado, não castanho escuro.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Cor de mel, cheiro doce e a cebola encolheu para metade. É isso."
+            },
+            {
+              "kind": "cola",
+              "answer": "Raspa o fundo com a colher de pau: aquilo é sabor, não sujidade."
+            }
+          ],
+          "durationSec": 300,
+          "checkpoint": true
+        }
       ]
     },
     {
@@ -223,6 +401,77 @@
         "ponto.ovo",
         "calor.lume-brando",
         "tempero.sal-momento"
+      ],
+      "ingredients": [
+        "3 ovos",
+        "Sal",
+        "Manteiga",
+        "Uma frigideira antiaderente"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Bater",
+          "description": "Ovos batidos até a clara e a gema serem uma cor só. Sal agora.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Cor uniforme, sem fios de clara à vista."
+            },
+            {
+              "kind": "falta",
+              "answer": "Sem batedor, um garfo e vinte segundos chegam."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Lume brando",
+          "description": "Manteiga a derreter sem espumar muito. Lume baixo — é aqui que quase toda a gente falha.",
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Manteiga castanha: o lume está alto. Limpa e recomeça, a omelete ia saber a queimado."
+            },
+            {
+              "kind": "pronto",
+              "answer": "A manteiga espalha-se e faz espuma fina, sem escurecer."
+            }
+          ],
+          "durationSec": 60
+        },
+        {
+          "id": "s3",
+          "title": "Cozinhar devagar",
+          "description": "Ovos dentro, e vai puxando as bordas para o centro com uma espátula, inclinando a frigideira.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Numa antiaderente a colar significa lume alto de mais. Tira do lume 20 segundos."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Base firme, superfície ainda ligeiramente húmida. É agora que se dobra."
+            }
+          ],
+          "durationSec": 180
+        },
+        {
+          "id": "s4",
+          "title": "Dobrar e servir",
+          "description": "Dobra ao meio, deixa 20 segundos e desliza para o prato. A base não pode ter cor.",
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Base castanha é o erro clássico: lume alto. A omelete francesa é pálida de propósito."
+            },
+            {
+              "kind": "falta",
+              "answer": "Se se partiu ao dobrar, faltou tempo. Deixa mais 20 segundos antes de mexer."
+            }
+          ],
+          "checkpoint": true
+        }
       ]
     },
     {
@@ -236,6 +485,78 @@
         "tempero.agua-salgada",
         "ponto.al-dente",
         "calor.racio-agua"
+      ],
+      "ingredients": [
+        "1 chávena de arroz",
+        "2 chávenas de água",
+        "Sal",
+        "Azeite",
+        "Uma panela com tampa"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Medir",
+          "description": "Uma medida de arroz para duas de água. Mede — não é para adivinhar.",
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Sem chávena de medida, usa qualquer copo: o que conta é a proporção, não o tamanho."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Duas para uma. É este número que decide se fica solto ou papa."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Refogar o arroz",
+          "description": "Azeite, arroz seco, mexer 1 minuto até os grãos ficarem brilhantes.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Mexe sem parar: o arroz seco agarra depressa."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Grãos brilhantes e translúcidos nas pontas."
+            }
+          ],
+          "durationSec": 60
+        },
+        {
+          "id": "s3",
+          "title": "Água e sal",
+          "description": "Junta a água a ferver e o sal. Deixa levantar fervura, tapa e baixa ao mínimo.",
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Água fria atrasa tudo e o arroz absorve mal. Ferve primeiro."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Assim que ferve, tapa e baixa. A partir daqui não se levanta a tampa."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "title": "Não mexer",
+          "description": "12 minutos tapado, sem levantar a tampa. Mexer parte os grãos e liberta amido: é isso que faz papa.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Ao fim de 12 minutos desliga e deixa 5 minutos tapado antes de abrir."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Cheiro a queimado é lume alto: desliga, não raspes o fundo e serve só o de cima."
+            }
+          ],
+          "durationSec": 720,
+          "checkpoint": true
+        }
       ]
     },
     {
@@ -249,6 +570,80 @@
         "org.sequenciar",
         "tempero.camadas",
         "org.empratar"
+      ],
+      "ingredients": [
+        "2 coxas de frango",
+        "1 chávena de arroz",
+        "Alface e tomate",
+        "Azeite, sal, limão"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Sequenciar",
+          "description": "O arroz demora 20 minutos, o frango 25, a salada 5. Começa pelo frango.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Escreve a ordem antes de acender: frango, arroz, salada."
+            },
+            {
+              "kind": "falta",
+              "answer": "Se algo já está pronto e o resto não, tapa e reserva — melhor morno que cru."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Frango",
+          "description": "Tempera e leva ao lume médio-alto, pele para baixo, sem mexer durante 6 minutos.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Está a colar porque ainda não formou crosta. Quando estiver dourado solta-se sozinho."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Dourado escuro na pele e sem cor rosada junto ao osso."
+            }
+          ],
+          "durationSec": 900
+        },
+        {
+          "id": "s3",
+          "title": "Arroz em paralelo",
+          "description": "Com o frango a cozinhar, faz o arroz. Dois para um, tapado, 12 minutos.",
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Dois lumes ao mesmo tempo exigem baixar ambos. Prefere lento a queimado."
+            }
+          ],
+          "durationSec": 720
+        },
+        {
+          "id": "s4",
+          "title": "Temperar em camadas",
+          "description": "Sal no frango antes, sal na água do arroz, sal e limão na salada no fim.",
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Se souber a pouco, foi tudo temperado no fim. Sal em cada etapa sabe diferente de sal por cima."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "title": "Empratar",
+          "description": "Prato quente, arroz de base, frango por cima, salada ao lado. Uma cor que contraste.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Se as três coisas chegaram quentes à mesa ao mesmo tempo, sequenciaste bem."
+            }
+          ],
+          "checkpoint": true
+        }
       ]
     }
   ],

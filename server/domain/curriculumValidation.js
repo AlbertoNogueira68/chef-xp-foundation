@@ -21,6 +21,9 @@ export const SKILL_CATEGORIES = [
 ];
 export const QUESTION_TYPES = ["choice", "order", "judge", "estimate"];
 
+/** Os quatro botões do painel de socorro, na ordem em que aparecem. */
+export const RESCUE_KINDS = ["queimei", "cola", "falta", "pronto"];
+
 function isNonEmptyString(value) {
   return typeof value === "string" && value.trim().length > 0;
 }
@@ -167,6 +170,52 @@ function validateQuestion(lesson, question, knownSkills, errors) {
 }
 
 /**
+ * Uma missão sem passos é uma promessa por cumprir: aparece no percurso e não
+ * tem nada para correr. E um passo sem socorros deixa o principiante sozinho
+ * exatamente no momento em que desiste.
+ */
+function validateMissionSteps(mission, errors) {
+  const where = `missão ${mission.id}`;
+  const steps = mission.steps ?? [];
+
+  if ((mission.ingredients ?? []).length === 0) errors.push(`${where}: sem ingredientes`);
+  if (steps.length < 3) errors.push(`${where}: precisa de pelo menos 3 passos`);
+
+  for (const id of duplicates(steps.map((s) => s.id))) {
+    errors.push(`${where}: passo duplicado (${id})`);
+  }
+
+  // Sem checkpoint não há verificação nenhuma do que foi cozinhado — a missão
+  // passava a ser um temporizador com texto.
+  if (!steps.some((s) => s.checkpoint)) {
+    errors.push(`${where}: nenhum passo pede foto de verificação`);
+  }
+
+  for (const step of steps) {
+    const at = `${where}/${step.id}`;
+    if (!isNonEmptyString(step.title)) errors.push(`${at}: sem título`);
+    if (!isNonEmptyString(step.description)) errors.push(`${at}: sem descrição`);
+    if (step.durationSec !== undefined && !(step.durationSec > 0)) {
+      errors.push(`${at}: duração inválida`);
+    }
+
+    const rescues = step.rescues ?? [];
+    if (rescues.length === 0) errors.push(`${at}: sem respostas de socorro`);
+    for (const id of duplicates(rescues.map((r) => r.kind))) {
+      errors.push(`${at}: socorro repetido (${id})`);
+    }
+    for (const rescue of rescues) {
+      if (!RESCUE_KINDS.includes(rescue.kind)) {
+        errors.push(`${at}: tipo de socorro inválido (${rescue.kind})`);
+      }
+      if (!isNonEmptyString(rescue.answer)) {
+        errors.push(`${at}/${rescue.kind}: socorro sem resposta`);
+      }
+    }
+  }
+}
+
+/**
  * Corre todas as regras. Devolve `{ ok, errors }` em vez de atirar, para que
  * o chamador decida — o teste quer a lista toda, o arranque quer só falhar.
  */
@@ -243,6 +292,7 @@ export function validateCurriculum(curriculum) {
         errors.push(`missão ${mission.id}: pratica competência inexistente (${skillId})`);
       }
     }
+    validateMissionSteps(mission, errors);
   }
   for (const skillId of taughtAt.keys()) {
     if (!practised.has(skillId)) {
