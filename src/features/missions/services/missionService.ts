@@ -1,7 +1,14 @@
 import { apiFetch } from "@/services/api";
-import type { MissionCompletion, MissionRunState, RescueKind } from "@/types/learning";
+import type { MissionCompletion, MissionPost, MissionRunState, RescueKind } from "@/types/learning";
 
 export const missionService = {
+  /** Os cozinhados de alguém. Sem `userId`, os de quem está autenticado. */
+  async posts(userId?: string): Promise<MissionPost[]> {
+    const query = userId ? `?userId=${encodeURIComponent(userId)}` : "";
+    const data = await apiFetch<{ posts: MissionPost[] }>(`/missions/posts${query}`);
+    return data.posts;
+  },
+
   /** Arranca ou retoma. O servidor decide qual — quem fechou a app a meio
    *  de cozinhar quer continuar, não recomeçar. */
   start(missionId: string): Promise<MissionRunState> {

@@ -208,3 +208,18 @@ export interface LessonCompletion {
   path?: LearningPath;
 }
 
+/** Um cozinhado publicado. Só existe preso a uma missão concluída. */
+export interface MissionPost {
+  id: number;
+  missionId: string;
+  missionTitle: string;
+  dishName: string;
+  imageUrl: string;
+  caption: string | null;
+  levelAt: number;
+  /** Se está no feed. Falso = cozinhado guardado só para ti. */
+  shared: boolean;
+  createdAt: string;
+  minutes: number;
+  author: { id: string; username: string; photoUrl: string | null };
+}

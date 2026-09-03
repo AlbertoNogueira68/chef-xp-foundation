@@ -127,6 +127,73 @@ router.get(
   }),
 );
 
+/**
+ * Os cozinhados de alguém.
+ *
+ * A lista sai de `mission_runs`, não de `posts`: no teu próprio perfil vês
+ * tudo o que cozinhaste, porque toda a run concluída tem foto obrigatória.
+ * Publicar decide se aparece aos outros, não se conta para ti — senão o
+ * contador de cozinhados e a lista nunca batiam certo.
+ *
+ * No perfil de outra pessoa só aparece o que ela partilhou.
+ *
+ * O título e o prato vêm do currículo, não da base: a run guarda o
+ * `mission_id` e mais nada, para o texto poder ser corrigido sem migrations.
+ */
+router.get(
+  "/posts",
+  asyncHandler(async (req, res) => {
+    const userId = typeof req.query.userId === "string" ? req.query.userId : req.user.id;
+    const limit = Math.min(Number(req.query.limit) || 24, 50);
+    const isMe = userId === req.user.id;
+
+    const { rows } = await getPool().query(
+      `SELECT r.id AS run_id, r.mission_id, r.result_image, r.started_at, r.completed_at,
+              p.id AS post_id, p.caption, p.level_at,
+              u.id AS author_id, u.username, u.photo_url, u.level AS current_level
+         FROM mission_runs r
+         JOIN users u ON u.id = r.user_id
+         LEFT JOIN posts p ON p.run_id = r.id
+        WHERE r.user_id = $1
+          AND r.status = 'completed'
+          AND r.result_image IS NOT NULL
+          AND ($3 OR p.id IS NOT NULL)
+        ORDER BY r.completed_at DESC
+        LIMIT $2`,
+      [userId, limit, isMe],
+    );
+
+    res.json({
+      posts: rows.map((row) => {
+        const mission = getMission(row.mission_id);
+        return {
+          id: Number(row.run_id),
+          missionId: row.mission_id,
+          missionTitle: mission?.title ?? row.mission_id,
+          dishName: mission?.dishName ?? "",
+          imageUrl: row.result_image,
+          caption: row.caption,
+          // Runs não publicadas não registaram o nível da altura; mostra-se o
+          // atual, que é o mais próximo da verdade sem inventar histórico.
+          levelAt: row.level_at ?? row.current_level,
+          shared: row.post_id !== null,
+          createdAt: row.completed_at,
+          author: {
+            id: row.author_id,
+            username: row.username,
+            photoUrl: row.photo_url,
+          },
+          // Quanto tempo esteve mesmo na cozinha, em minutos.
+          minutes: Math.max(
+            1,
+            Math.round((new Date(row.completed_at) - new Date(row.started_at)) / 60000),
+          ),
+        };
+      }),
+    });
+  }),
+);
+
 /* ------------------------------------------------------------------ */
 /* Arrancar e retomar                                                 */
 /* ------------------------------------------------------------------ */

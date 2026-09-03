@@ -132,6 +132,8 @@ router.get(
          (SELECT COUNT(*) FROM follows f        WHERE f.followee_id = u.id) AS followers,
          (SELECT COUNT(*) FROM follows f        WHERE f.follower_id = u.id) AS following,
          (SELECT COUNT(*) FROM lesson_progress l WHERE l.user_id = u.id)    AS lessons,
+         (SELECT COUNT(*) FROM mission_runs mr
+           WHERE mr.user_id = u.id AND mr.status = 'completed')             AS cooked,
          (SELECT COUNT(*) FROM recipe_likes rl
             JOIN recipes r2 ON r2.id = rl.recipe_id
            WHERE r2.author_id = u.id)                                       AS likes_received,
@@ -152,6 +154,7 @@ router.get(
       followers: Number(row.followers),
       following: Number(row.following),
       lessonsCompleted: Number(row.lessons),
+      cooked: Number(row.cooked),
       likesReceived: Number(row.likes_received),
       streak: daily.streak,
       isFollowing: Boolean(row.is_following),

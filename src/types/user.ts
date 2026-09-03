@@ -40,6 +40,8 @@ export interface UserStats {
   followers: number;
   following: number;
   lessonsCompleted: number;
+  /** Missões concluídas — vezes que esteve mesmo na cozinha. */
+  cooked: number;
   likesReceived: number;
   streak: number;
   isFollowing: boolean;

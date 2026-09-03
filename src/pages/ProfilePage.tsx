@@ -1,16 +1,18 @@
 import { useState } from "react";
-import { Grid3X3, LogOut, Settings, Share2 } from "lucide-react";
+import { ChefHat, Grid3X3, LogOut, Settings, Share2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CookedCard } from "@/components/missions/CookedCard";
 import { RecipeMasonryCard } from "@/components/RecipeMasonryCard";
 import { XpProgress } from "@/components/XpProgress";
 import { useSignOut } from "@/features/auth/hooks/useSignOut";
 import { useRecipes } from "@/features/feed/hooks/useRecipes";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { useUserStats } from "@/features/profile/hooks/useUserStats";
+import { useMissionPosts } from "@/features/missions/hooks/useMissionPosts";
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
@@ -25,8 +27,9 @@ export function ProfilePage() {
   const { data: user, isLoading } = useCurrentUser();
   const { data: stats, isLoading: statsLoading } = useUserStats(user?.id);
   const { recipes: myRecipes } = useRecipes({ authorId: user?.id, limit: 24 });
+  const { data: cooked = [], isLoading: cookedLoading } = useMissionPosts(user?.id);
   const signOut = useSignOut();
-  const [tab, setTab] = useState("recipes");
+  const [tab, setTab] = useState("cooked");
 
   return (
     <section className="space-y-5">
@@ -79,9 +82,9 @@ export function ProfilePage() {
           </>
         ) : (
           <>
+            <Stat label="Cozinhados" value={stats.cooked} />
             <Stat label="Receitas" value={stats.recipes} />
             <Stat label="Seguidores" value={stats.followers} />
-            <Stat label="A seguir" value={stats.following} />
             <Stat label="Streak" value={`${stats.streak}d`} />
           </>
         )}
@@ -117,14 +120,43 @@ export function ProfilePage() {
       )}
 
       <Tabs value={tab} onValueChange={setTab}>
-        <TabsList className="grid w-full grid-cols-2 rounded-full">
-          <TabsTrigger value="recipes" className="rounded-full">
+        <TabsList className="grid w-full grid-cols-3 rounded-full">
+          <TabsTrigger value="cooked" className="rounded-full text-xs">
+            <ChefHat className="mr-1.5 size-3.5" /> Cozinhados
+          </TabsTrigger>
+          <TabsTrigger value="recipes" className="rounded-full text-xs">
             <Grid3X3 className="mr-1.5 size-3.5" /> Receitas
           </TabsTrigger>
-          <TabsTrigger value="stats" className="rounded-full">
+          <TabsTrigger value="stats" className="rounded-full text-xs">
             Atividade
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="cooked" className="mt-4">
+          {cookedLoading ? (
+            <div className="columns-2 gap-3">
+              {[1, 2].map((i) => (
+                <Skeleton key={i} className="mb-3 h-40 rounded-xl" />
+              ))}
+            </div>
+          ) : cooked.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-border px-4 py-8 text-center">
+              <ChefHat className="mx-auto size-6 text-muted-foreground/50" />
+              <p className="mt-2 text-sm text-muted-foreground">
+                Ainda não cozinhaste nenhuma missão.
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground/80">
+                As fotos das missões que concluíres aparecem aqui.
+              </p>
+            </div>
+          ) : (
+            <div className="columns-2 gap-3">
+              {cooked.map((post) => (
+                <CookedCard key={post.id} post={post} />
+              ))}
+            </div>
+          )}
+        </TabsContent>
 
         <TabsContent value="recipes" className="mt-4">
           {myRecipes.length === 0 ? (

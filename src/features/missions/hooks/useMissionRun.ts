@@ -131,6 +131,7 @@ export function useMissionRun() {
         queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
         queryClient.invalidateQueries({ queryKey: ["learningPath"] });
         queryClient.invalidateQueries({ queryKey: ["userStats"] });
+        queryClient.invalidateQueries({ queryKey: ["missionPosts"] });
       } catch (error) {
         fail(error, "Não foi possível concluir a missão");
       } finally {
