@@ -83,3 +83,29 @@ export const lessonCompleteSchema = z.object({
 
 export const idParamSchema = z.object({ id: uuid });
 export const lessonParamSchema = z.object({ id: z.string().min(1).max(80) });
+
+/* ---------------------------------------------------------------- */
+/* Missões                                                          */
+/* ---------------------------------------------------------------- */
+
+export const missionParamSchema = z.object({ id: z.string().min(1).max(80) });
+export const runParamSchema = z.object({ runId: z.coerce.number().int().positive() });
+
+export const stepMoveSchema = z.object({
+  stepIndex: z.coerce.number().int().min(0).max(50),
+});
+
+export const checkpointSchema = z.object({
+  stepIndex: z.coerce.number().int().min(0).max(50),
+  imageDataUrl: z.string().min(1).max(6_000_000),
+});
+
+export const rescueSchema = z.object({
+  stepIndex: z.coerce.number().int().min(0).max(50),
+  kind: z.enum(["queimei", "cola", "falta", "pronto"]),
+});
+
+export const missionCompleteSchema = z.object({
+  share: z.boolean().default(false),
+  caption: z.string().trim().max(280).nullish(),
+});

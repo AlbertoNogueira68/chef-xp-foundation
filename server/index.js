@@ -21,6 +21,7 @@ import userRoutes from "./routes/users.js";
 import recipeRoutes from "./routes/recipes.js";
 import challengeRoutes from "./routes/challenges.js";
 import learningRoutes from "./routes/learning.js";
+import missionRoutes from "./routes/missions.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -81,6 +82,7 @@ app.use(
  * o trabalho.
  */
 app.use("/api/recipes", express.json({ limit: "6mb" }));
+app.use("/api/missions", express.json({ limit: "6mb" }));
 app.use(express.json({ limit: "1mb" }));
 
 app.use("/api", csrfProtection);
@@ -92,6 +94,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/recipes", recipeRoutes);
 app.use("/api/challenges", challengeRoutes);
 app.use("/api/learning", learningRoutes);
+app.use("/api/missions", missionRoutes);
 
 // Imagens carregadas pelos utilizadores. Nomes são UUID gerados no servidor,
 // por isso o conteúdo é imutável e pode ser cacheado agressivamente.
