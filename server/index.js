@@ -12,6 +12,7 @@ import { validateEnv } from "./lib/validateEnv.js";
 import { cspDirectives } from "./lib/cspConfig.js";
 import { getPool, closePool } from "./db/index.js";
 import { runMigrations } from "./db/runMigrations.js";
+import { syncCurriculum } from "./scripts/sync-curriculum.js";
 import { csrfProtection } from "./middleware/csrf.js";
 import { errorHandler, notFound, requestId } from "./middleware/errorHandler.js";
 import { ensureUploadDir, UPLOAD_DIR, UPLOAD_ROUTE } from "./lib/imageStore.js";
@@ -119,6 +120,25 @@ app.use(errorHandler);
 async function boot() {
   getPool();
   await runMigrations();
+
+  /**
+   * O sync do currículo corre no arranque, logo a seguir às migrations.
+   *
+   * Antes só corria no `db:seed`, e isso deixava um estado inteiro por
+   * cobrir: base migrada mas não semeada tinha as tabelas de competências
+   * vazias, e a primeira missão concluída rebentava com violação de chave
+   * estrangeira em `skill_practice`. O currículo é código versionado — a
+   * base tem de ficar coerente com ele sem depender de alguém se lembrar
+   * de correr um comando.
+   *
+   * É idempotente e valida antes de escrever, por isso arrancar mil vezes
+   * dá o mesmo resultado que arrancar uma.
+   */
+  const sync = await syncCurriculum(getPool());
+  console.log(
+    `[db] currículo sincronizado: ${sync.skills} competências, ${sync.lessonSkills} ligações`,
+  );
+
   await ensureUploadDir();
 
   const server = app.listen(port, "0.0.0.0", () => {
