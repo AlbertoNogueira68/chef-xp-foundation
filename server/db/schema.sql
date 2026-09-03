@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   username TEXT NOT NULL UNIQUE,
   email TEXT NOT NULL UNIQUE,
-  password_hash TEXT NOT NULL,
+  password_hash TEXT,                       -- nulo em contas só de SSO
   photo_url TEXT,
   level INTEGER NOT NULL DEFAULT 1,
   xp INTEGER NOT NULL DEFAULT 0,
@@ -263,3 +263,23 @@ CREATE TABLE IF NOT EXISTS posts (
 CREATE INDEX IF NOT EXISTS idx_posts_created ON posts (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_posts_user    ON posts (user_id, created_at DESC);
 
+-- ------------------------------------------------------------------ --
+-- Identidades externas (ver migrations/006_oauth_identities.sql)
+-- ------------------------------------------------------------------ --
+CREATE TABLE IF NOT EXISTS auth_identities (
+  provider     TEXT NOT NULL CHECK (provider IN ('google')),
+  -- O `sub` do fornecedor. Nunca o email: o email de uma conta Google pode
+  -- mudar, o sub não. Ligar pelo email seria ligar por algo mutável.
+  subject      TEXT NOT NULL,
+  user_id      UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  email        TEXT NOT NULL,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  last_login_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (provider, subject)
+);
+
+CREATE INDEX IF NOT EXISTS idx_auth_identities_user ON auth_identities (user_id);
+
+-- Um utilizador não pode ter duas identidades do mesmo fornecedor.
+CREATE UNIQUE INDEX IF NOT EXISTS idx_auth_identities_user_provider
+  ON auth_identities (user_id, provider);

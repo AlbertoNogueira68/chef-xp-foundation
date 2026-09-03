@@ -118,3 +118,17 @@ test("um script disfarçado de imagem é rejeitado", () => {
   assert.equal(detectImageType(Buffer.from("GIF89a", "ascii")), null);
   assert.equal(detectImageType(Buffer.alloc(0)), null);
 });
+
+test("GOOGLE_CLIENT_ID sem GOOGLE_CLIENT_SECRET não arranca", () => {
+  // Meio configurado é o pior dos mundos: o botão aparece e o fluxo falha
+  // depois de o utilizador já ter saído da app para a Google.
+  assert.throws(() => validateEnv({ ...baseEnv, GOOGLE_CLIENT_ID: "x.apps.googleusercontent.com" }), /GOOGLE_CLIENT/);
+  assert.throws(() => validateEnv({ ...baseEnv, GOOGLE_CLIENT_SECRET: "segredo" }), /GOOGLE_CLIENT/);
+  assert.doesNotThrow(() =>
+    validateEnv({
+      ...baseEnv,
+      GOOGLE_CLIENT_ID: "x.apps.googleusercontent.com",
+      GOOGLE_CLIENT_SECRET: "segredo",
+    }),
+  );
+});

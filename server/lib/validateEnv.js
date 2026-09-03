@@ -33,6 +33,16 @@ export function validateEnv(env = process.env) {
     errors.push("JWT_SECRET é um valor de exemplo conhecido — gera um segredo novo");
   }
 
+  // Meio configurado é pior do que não configurado: o botão aparecia e o
+  // fluxo rebentava a meio, já depois de sair da app.
+  const hasGoogleId = Boolean(env.GOOGLE_CLIENT_ID);
+  const hasGoogleSecret = Boolean(env.GOOGLE_CLIENT_SECRET);
+  if (hasGoogleId !== hasGoogleSecret) {
+    errors.push(
+      "GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET têm de ser definidas as duas, ou nenhuma",
+    );
+  }
+
   if (isProd) {
     if (!env.FRONTEND_URL && !env.CORS_ORIGIN) {
       errors.push("Em produção define FRONTEND_URL (ou CORS_ORIGIN) para fechar o CORS");
