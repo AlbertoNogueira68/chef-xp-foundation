@@ -62,7 +62,7 @@ export function UnitBanner({
           <p className="text-[10px] font-semibold uppercase tracking-widest text-muted-foreground">
             {title}
           </p>
-          <h3 className="truncate text-base font-bold leading-tight">{subtitle}</h3>
+          <h3 className="text-base font-bold leading-tight">{subtitle}</h3>
         </div>
 
         {done && (

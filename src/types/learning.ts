@@ -77,6 +77,30 @@ export interface Skill {
   description: string;
 }
 
+export type RescueKind = "queimei" | "cola" | "falta" | "pronto";
+
+export const RESCUE_LABELS: Record<RescueKind, string> = {
+  queimei: "Queimei",
+  cola: "Está a colar",
+  falta: "Não tenho isto",
+  pronto: "Não sei se está pronto",
+};
+
+/**
+ * Um passo da missão. As respostas de socorro não vêm aqui — só os tipos,
+ * para o painel saber que botões desenhar. O texto vem do servidor quando se
+ * carrega no botão, e é isso que faz o pedido ficar registado.
+ */
+export interface MissionStep {
+  id: string;
+  index: number;
+  title: string;
+  description: string;
+  durationSec?: number;
+  checkpoint?: boolean;
+  rescues: Array<{ kind: RescueKind }>;
+}
+
 /** A missão que fecha uma unidade: é onde se cozinha a sério. */
 export interface Mission {
   id: string;
@@ -86,6 +110,45 @@ export interface Mission {
   cookTimeMin: number;
   summary: string;
   practices: string[];
+  xpReward?: number;
+  ingredients?: string[];
+  steps?: MissionStep[];
+}
+
+export interface MissionRun {
+  id: number;
+  missionId: string;
+  status: "in_progress" | "completed" | "abandoned";
+  currentStep: number;
+  startedAt: string;
+  completedAt: string | null;
+  resultImage: string | null;
+  shared: boolean;
+}
+
+export interface MissionCheckpoint {
+  stepIndex: number;
+  imageUrl: string;
+  feedback: string | null;
+}
+
+export interface MissionRunState {
+  run: MissionRun;
+  mission: Mission & { steps: MissionStep[]; ingredients: string[]; xpReward: number };
+  checkpoints: MissionCheckpoint[];
+  resumed?: boolean;
+}
+
+export interface MissionCompletion {
+  completed: boolean;
+  resultImage: string;
+  xpEarned: number;
+  streakBonus: number;
+  streak: number;
+  totalXp: number;
+  level: number;
+  practisedSkills: Array<{ skillId: string; times: number }>;
+  post: { id: number; imageUrl: string } | null;
 }
 
 export interface LearningUnit {
@@ -144,3 +207,4 @@ export interface LessonCompletion {
   level?: number;
   path?: LearningPath;
 }
+

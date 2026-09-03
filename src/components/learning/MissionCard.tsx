@@ -1,4 +1,5 @@
-import { ChefHat, Clock, Lock } from "lucide-react";
+import { ChefHat, Clock, Lock, Play } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { Mission, Skill } from "@/types/learning";
 import { SkillChips } from "./SkillChip";
 import { cn } from "@/lib/utils";
@@ -13,11 +14,13 @@ export function MissionCard({
   skills,
   unlocked,
   lessonsLeft,
+  onStart,
 }: {
   mission: Mission;
   skills: Map<string, Skill>;
   unlocked: boolean;
   lessonsLeft: number;
+  onStart?: (missionId: string) => void;
 }) {
   return (
     <div
@@ -75,17 +78,19 @@ export function MissionCard({
         <SkillChips ids={mission.practices} skills={skills} muted={!unlocked} max={4} />
       </div>
 
-      {/* Ainda não há modo cozinha: prometer um botão que não faz nada era
-          pior do que dizer o que falta. */}
-      <p className="mt-3 text-[11px] font-medium">
-        {unlocked ? (
-          <span className="text-amber-800">Disponível quando o modo cozinha chegar.</span>
-        ) : (
-          <span className="text-muted-foreground">
-            Faltam {lessonsLeft} {lessonsLeft === 1 ? "lição" : "lições"} para desbloquear.
-          </span>
-        )}
-      </p>
+      {unlocked ? (
+        <Button
+          className="mt-3 w-full rounded-full bg-amber-500 text-white hover:bg-amber-600"
+          onClick={() => onStart?.(mission.id)}
+        >
+          <Play className="size-4 fill-current" />
+          Vamos cozinhar
+        </Button>
+      ) : (
+        <p className="mt-3 text-[11px] font-medium text-muted-foreground">
+          Faltam {lessonsLeft} {lessonsLeft === 1 ? "lição" : "lições"} para desbloquear.
+        </p>
+      )}
     </div>
   );
 }

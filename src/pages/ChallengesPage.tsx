@@ -1,11 +1,15 @@
+import { useMemo } from "react";
 import { GraduationCap, Trophy } from "lucide-react";
 import { ChallengesTab } from "@/components/learning/ChallengesTab";
 import { LearningPathView } from "@/components/learning/LearningPath";
 import { LessonPlayer } from "@/components/learning/LessonPlayer";
+import { MissionRunScreen } from "@/components/missions/MissionRunScreen";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useChallenges } from "@/features/challenges/hooks/useChallenges";
 import { useLearningPath } from "@/features/challenges/hooks/useLearningPath";
 import { useLessonPlayer } from "@/features/challenges/hooks/useLessonPlayer";
+import { useMissionRun } from "@/features/missions/hooks/useMissionRun";
+import type { Skill } from "@/types/learning";
 import { cn } from "@/lib/utils";
 
 export function ChallengesPage() {
@@ -13,6 +17,12 @@ export function ChallengesPage() {
   useChallenges();
 
   const player = useLessonPlayer();
+  const mission = useMissionRun();
+
+  const skillsById = useMemo(
+    () => new Map<string, Skill>((path?.skills ?? []).map((skill) => [skill.id, skill])),
+    [path?.skills],
+  );
 
   return (
     <section className="relative space-y-4">
@@ -53,9 +63,22 @@ export function ChallengesPage() {
             path={path}
             isLoading={pathLoading}
             onLessonClick={(id) => player.openLesson(id)}
+            onStartMission={(id) => mission.open(id)}
           />
         </TabsContent>
       </Tabs>
+
+      {mission.isOpen && (
+        <div
+          className={cn(
+            "fixed inset-0 z-[110] flex flex-col bg-background",
+            "animate-in slide-in-from-bottom duration-300",
+          )}
+          style={{ maxWidth: "32rem", margin: "0 auto", left: 0, right: 0 }}
+        >
+          <MissionRunScreen run={mission} skills={skillsById} />
+        </div>
+      )}
 
       {player.isOpen && (
         <div

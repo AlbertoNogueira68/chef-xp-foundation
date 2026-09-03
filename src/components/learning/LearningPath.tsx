@@ -9,10 +9,12 @@ export function LearningPathView({
   path,
   isLoading,
   onLessonClick,
+  onStartMission,
 }: {
   path?: LearningPath;
   isLoading: boolean;
   onLessonClick: (lessonId: string) => void;
+  onStartMission?: (missionId: string) => void;
 }) {
   if (isLoading) {
     return (
@@ -80,6 +82,7 @@ export function LearningPathView({
                 skills={skills}
                 unlocked={lessonsLeft === 0}
                 lessonsLeft={lessonsLeft}
+                onStart={onStartMission}
               />
             )}
           </section>
