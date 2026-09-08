@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { FeedPost } from "@/components/FeedPost";
+import { FeedCard } from "@/components/feed/FeedCard";
 import { ChefsToFollowRow } from "@/components/ChefsToFollowRow";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useRecipes, useToggleLike } from "@/features/feed/hooks/useRecipes";
-import type { FeedScope } from "@/types/recipe";
+import { useFeed, useToggleFeedLike } from "@/features/feed/hooks/useFeed";
+import type { FeedScope } from "@/types/feed";
 
 function FeedSkeleton() {
   return (
@@ -29,9 +29,10 @@ function FeedSkeleton() {
 export function FeedPage() {
   const [scope, setScope] = useState<FeedScope>("all");
 
-  const { recipes, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useRecipes({ scope });
-  const toggleLike = useToggleLike();
+  const { items, isLoading, isError, hasNextPage, fetchNextPage, isFetchingNextPage } = useFeed({
+    scope,
+  });
+  const toggleLike = useToggleFeedLike();
 
   return (
     <section className="space-y-4">
@@ -59,21 +60,21 @@ export function FeedPage() {
         </p>
       )}
 
-      {!isLoading && !isError && recipes.length === 0 && (
+      {!isLoading && !isError && items.length === 0 && (
         <p className="py-10 text-center text-sm text-muted-foreground">
           {scope === "following"
-            ? "Ainda não segues ninguém que tenha publicado. Segue alguns chefs aqui em cima."
-            : "Ainda não há receitas. Sê o primeiro a publicar."}
+            ? "Ainda não segues ninguém que tenha cozinhado. Segue alguns chefs aqui em cima."
+            : "Ainda não há nada por aqui. Cozinha uma missão — é assim que se entra no feed."}
         </p>
       )}
 
       <div className="space-y-5">
-        {recipes.map((recipe) => (
-          <FeedPost
-            key={recipe.id}
-            recipe={recipe}
+        {items.map((item) => (
+          <FeedCard
+            key={item.key}
+            item={item}
             pending={toggleLike.isPending}
-            onToggleLike={(target) => toggleLike.mutate({ id: target.id, liked: target.likedByMe })}
+            onToggleLike={(target) => toggleLike.mutate({ item: target })}
           />
         ))}
       </div>

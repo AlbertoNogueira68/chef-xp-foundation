@@ -22,6 +22,7 @@ import recipeRoutes from "./routes/recipes.js";
 import challengeRoutes from "./routes/challenges.js";
 import learningRoutes from "./routes/learning.js";
 import missionRoutes from "./routes/missions.js";
+import feedRoutes from "./routes/feed.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, "..");
@@ -95,6 +96,7 @@ app.use("/api/recipes", recipeRoutes);
 app.use("/api/challenges", challengeRoutes);
 app.use("/api/learning", learningRoutes);
 app.use("/api/missions", missionRoutes);
+app.use("/api/feed", feedRoutes);
 
 // Imagens carregadas pelos utilizadores. Nomes são UUID gerados no servidor,
 // por isso o conteúdo é imutável e pode ser cacheado agressivamente.

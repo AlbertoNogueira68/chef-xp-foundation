@@ -5,6 +5,7 @@ import type { MissionCompletion, MissionRunState, RescueKind } from "@/types/lea
 import { fileToResizedDataUrl } from "@/lib/image";
 import { missionService } from "../services/missionService";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
+import { FEED_ROOT_KEY } from "@/features/feed/hooks/useFeed";
 
 /**
  * Estado do modo cozinha.
@@ -132,6 +133,8 @@ export function useMissionRun() {
         queryClient.invalidateQueries({ queryKey: ["learningPath"] });
         queryClient.invalidateQueries({ queryKey: ["userStats"] });
         queryClient.invalidateQueries({ queryKey: ["missionPosts"] });
+        // Partilhar põe o cozinhado no feed de toda a gente — inclusive no dele.
+        if (share) queryClient.invalidateQueries({ queryKey: [FEED_ROOT_KEY] });
       } catch (error) {
         fail(error, "Não foi possível concluir a missão");
       } finally {

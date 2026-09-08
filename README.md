@@ -10,8 +10,9 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
 - **Percurso de aprendizagem** ao estilo Duolingo: unidades, lições diárias com
   preparação e quiz, corações, XP, streak e meta diária. Toda a progressão vive
   no servidor — o browser não guarda nem decide nada.
-- **Feed social**: publicação de receitas com fotografia, gostos, comentários,
-  seguidores, e três vistas (Recentes, A seguir, Em alta).
+- **Feed social**: cozinhados (missões terminadas e partilhadas) e receitas na
+  mesma lista, com gostos, comentários, seguidores e três vistas (Recentes,
+  A seguir, Em alta).
 - **Perfil** com XP, nível, streak, conquistas e estatísticas, todas derivadas de
   dados reais.
 - **Desafios** da comunidade.
@@ -105,6 +106,13 @@ e nunca reimplementa a fórmula.
 `POST /api/learning/lessons/:id/answer`, e no fim o servidor volta a corrigir
 tudo antes de atribuir XP.
 
+**O caminho para o feed é cozinhar.** `GET /api/feed` é a união de duas coisas
+com o mesmo peso: um post — uma missão terminada e partilhada — e uma receita
+publicada. Partilham a moldura inteira do cartão porque valem o mesmo; um
+cozinhado não é um aviso de progresso ao lado das publicações a sério. Só as
+runs partilhadas entram: o que se cozinhou sem publicar continua a contar no
+perfil de quem o fez e não aparece a mais ninguém.
+
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.
 
@@ -119,7 +127,13 @@ Migrations em `server/db/migrations/`, aplicadas no arranque e por
 `npm run db:migrate`. São idempotentes — o CI corre-as duas vezes de propósito.
 
 Tabelas principais: `users`, `recipes`, `challenges`, `recipe_likes`, `follows`,
-`comments`, `lesson_progress`, `daily_activity`, `xp_events`.
+`comments`, `lesson_progress`, `daily_activity`, `xp_events`, `mission_runs`,
+`posts`, `post_likes`, `post_comments`.
+
+Os cozinhados têm tabelas de gostos e comentários próprias, e não uma coluna
+polimórfica nas das receitas: `posts.id` é BIGINT e `recipes.id` é UUID, e uma
+coluna que servisse os dois obrigava a largar a chave estrangeira — que é
+exactamente o que garante que um gosto não sobrevive ao que gostou.
 
 ## Produção
 

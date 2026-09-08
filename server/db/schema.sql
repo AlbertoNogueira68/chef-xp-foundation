@@ -263,6 +263,30 @@ CREATE TABLE IF NOT EXISTS posts (
 CREATE INDEX IF NOT EXISTS idx_posts_created ON posts (created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_posts_user    ON posts (user_id, created_at DESC);
 
+-- Lado social dos cozinhados (ver migrations/007_post_social.sql). Tabelas
+-- próprias e não uma coluna nova em `recipe_likes`/`comments`: os posts têm id
+-- BIGINT e as receitas UUID, e uma coluna polimórfica obrigava a largar a
+-- chave estrangeira.
+CREATE TABLE IF NOT EXISTS post_likes (
+  user_id    UUID   NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  post_id    BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (user_id, post_id)
+);
+
+CREATE INDEX IF NOT EXISTS post_likes_post_idx ON post_likes (post_id);
+
+CREATE TABLE IF NOT EXISTS post_comments (
+  id         UUID   PRIMARY KEY DEFAULT gen_random_uuid(),
+  post_id    BIGINT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+  author_id  UUID   NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  body       TEXT   NOT NULL CHECK (char_length(body) BETWEEN 1 AND 500),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS post_comments_post_idx ON post_comments (post_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS posts_feed_idx ON posts (created_at DESC, id DESC);
+
 -- ------------------------------------------------------------------ --
 -- Identidades externas (ver migrations/006_oauth_identities.sql)
 -- ------------------------------------------------------------------ --

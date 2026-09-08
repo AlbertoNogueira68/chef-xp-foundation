@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { recipeService } from "../services/recipeService";
 import type { Recipe, RecipeCreateInput, RecipeListParams, RecipePage } from "@/types/recipe";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
+import { FEED_ROOT_KEY } from "./useFeed";
 
 export const RECIPES_ROOT_KEY = "recipes";
 
@@ -51,6 +52,8 @@ export function useCreateRecipe() {
     mutationFn: (input: RecipeCreateInput) => recipeService.create(input),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [RECIPES_ROOT_KEY] });
+      // A receita nova também entra no feed, que já não lê daqui.
+      queryClient.invalidateQueries({ queryKey: [FEED_ROOT_KEY] });
       queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
       queryClient.invalidateQueries({ queryKey: ["userStats"] });
     },

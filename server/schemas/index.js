@@ -53,6 +53,25 @@ export const commentCreateSchema = z.object({
   body: z.string().trim().min(1, "Escreve alguma coisa").max(500, "Máximo 500 caracteres"),
 });
 
+/* ---------------------------------------------------------------- */
+/* Feed                                                             */
+/* ---------------------------------------------------------------- */
+
+export const feedListSchema = z.object({
+  scope: z.enum(["all", "following", "popular"]).default("all"),
+  limit: z.coerce.number().int().min(1).max(50).default(12),
+  cursor: z.string().max(200).optional(),
+});
+
+/** Os posts têm id BIGINT — nunca UUID como as receitas. */
+export const postParamSchema = z.object({
+  postId: z.coerce.number().int().positive(),
+});
+
+export const postCommentParamSchema = postParamSchema.extend({
+  commentId: uuid,
+});
+
 /**
  * Uma resposta já não é só texto: `order` manda a sequência de passos e
  * `estimate` manda um número. O servidor é que decide o que é válido para
