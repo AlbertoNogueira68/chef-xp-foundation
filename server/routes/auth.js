@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { Router } from "express";
 import bcrypt from "bcryptjs";
-import rateLimit from "express-rate-limit";
+import rateLimit, { MemoryStore } from "express-rate-limit";
 import { getPool, query } from "../db/index.js";
 import {
   clearAuthCookie,
@@ -32,11 +32,24 @@ const router = Router();
 
 const BCRYPT_ROUNDS = 12;
 
+/**
+ * Os contadores ficam em variáveis próprias para os testes os poderem esvaziar
+ * entre casos. Uma suite que regista uma dezena de contas esbarrava no limite e
+ * falhava por uma razão que não tem nada a ver com o que está a testar.
+ *
+ * É a única concessão, e não afrouxa nada: os limites e as janelas são os
+ * mesmos em teste e em produção, e o limitador continua a correr em ambos —
+ * há um teste que o prova esgotando-o de propósito.
+ */
+export const loginStore = new MemoryStore();
+export const registerStore = new MemoryStore();
+
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,
   standardHeaders: true,
   legacyHeaders: false,
+  store: loginStore,
   message: { error: "Demasiadas tentativas de login. Tenta daqui a uns minutos." },
 });
 
@@ -45,6 +58,7 @@ const registerLimiter = rateLimit({
   max: 10,
   standardHeaders: true,
   legacyHeaders: false,
+  store: registerStore,
   message: { error: "Demasiados registos a partir deste dispositivo." },
 });
 

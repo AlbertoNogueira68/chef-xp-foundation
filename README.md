@@ -71,7 +71,8 @@ seguidor e 3 desafios.
 | --- | --- |
 | `npm run dev:all` | Vite + Express em paralelo |
 | `npm run verify` | lint + tipos + testes + build (o mesmo que o CI corre) |
-| `npm test` | Testes do domínio (`node --test`) |
+| `npm test` | Testes do domínio (`node --test`, sem base de dados) |
+| `npm run test:api` | Testes de rota contra Postgres a sério |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run build` | Build do frontend |
 | `npm start` | Serve a API (+ `dist` em produção) |
@@ -151,6 +152,21 @@ assenta.
 É um script e não um painel na app: os números vão para um documento escrito, e
 um painel com agregados de toda a gente obrigava a inventar um conceito de
 administrador que este projeto não tem.
+
+**Os testes estão em duas camadas, e a divisão é deliberada.** `npm test` cobre
+o domínio puro — curvas de XP, streaks, semanas, análise — sem I/O nenhum, e
+corre em qualquer máquina em menos de um segundo. `npm run test:api` levanta a
+app numa porta efémera e fala com um Postgres a sério.
+
+A segunda camada existe porque o que ela cobre não é simulável: transações, o
+`UNIQUE` que torna o XP idempotente, cursores compostos, `ON CONFLICT`,
+varreduras por data. Um duplo em memória não reproduz nada disso — um teste que
+finge a base não testa aquilo que aqui pode partir.
+
+Sem `DATABASE_URL` os testes de rota saltam com um aviso em vez de falharem,
+para quem clona o projeto não precisar de um Postgres à mão. No CI a variável
+`REQUIRE_TEST_DATABASE=1` transforma essa ausência em erro: correr zero testes
+e ficar verde é pior do que não ter testes, porque parece que estão a correr.
 
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.
