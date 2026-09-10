@@ -254,6 +254,10 @@ CREATE TABLE IF NOT EXISTS cooking_sessions (
   run_id     BIGINT REFERENCES mission_runs(id) ON DELETE SET NULL,
   status     TEXT NOT NULL DEFAULT 'planned'
              CHECK (status IN ('planned', 'done', 'missed', 'moved')),
+  -- Se este dia foi prometido pelo plano. Fixado quando a linha nasce e nunca
+  -- recalculado: sem isto, um cozinhado espontâneo entrava na taxa de
+  -- promessas cumpridas e a adesão subia por se cozinhar fora do plano.
+  promised   BOOLEAN NOT NULL DEFAULT false,
   UNIQUE (user_id, planned_on)
 );
 

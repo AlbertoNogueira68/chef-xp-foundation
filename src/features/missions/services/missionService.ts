@@ -26,6 +26,17 @@ export const missionService = {
     });
   },
 
+  /**
+   * Telemetria. Fire-and-forget de propósito: quem está a cozinhar nunca pode
+   * ver um erro porque uma métrica não foi gravada.
+   */
+  logEvent(runId: number, kind: "timer" | "voice", stepIndex: number, detail?: string) {
+    return apiFetch<void>(`/missions/runs/${runId}/events`, {
+      method: "POST",
+      body: JSON.stringify({ kind, stepIndex, detail: detail ?? null }),
+    }).catch(() => undefined);
+  },
+
   rescue(runId: number, stepIndex: number, kind: RescueKind) {
     return apiFetch<{ kind: RescueKind; stepIndex: number; answer: string }>(
       `/missions/runs/${runId}/rescue`,

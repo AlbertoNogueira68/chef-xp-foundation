@@ -6,6 +6,7 @@ import { asyncHandler } from "../middleware/errorHandler.js";
 import {
   checkpointSchema,
   missionCompleteSchema,
+  missionEventSchema,
   missionParamSchema,
   rescueSchema,
   runParamSchema,
@@ -300,6 +301,28 @@ router.post(
 
     await logEvent(pool, run.id, stepIndex, "rescue", kind);
     res.json({ kind, stepIndex, answer });
+  }),
+);
+
+/**
+ * Telemetria do lado do cliente.
+ *
+ * Responde 204 e nunca falha o que a pessoa está a fazer: quem está a cozinhar
+ * não pode ver um erro porque uma métrica não foi gravada. Um `runId` que não
+ * é seu não escreve nada — e continua a responder 204, porque a resposta a uma
+ * métrica não é sítio para dizer a ninguém que runs existem.
+ */
+router.post(
+  "/runs/:runId/events",
+  validate({ params: runParamSchema, body: missionEventSchema }),
+  asyncHandler(async (req, res) => {
+    const pool = getPool();
+    const run = await loadRun(pool, req.user.id, req.valid.params.runId);
+    if (run && run.status === "in_progress") {
+      const { kind, stepIndex, detail } = req.valid.body;
+      await logEvent(pool, run.id, stepIndex, kind, detail ?? null);
+    }
+    res.status(204).end();
   }),
 );
 

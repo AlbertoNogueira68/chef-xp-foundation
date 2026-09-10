@@ -137,6 +137,20 @@ export const rescueSchema = z.object({
   kind: z.enum(["queimei", "cola", "falta", "pronto"]),
 });
 
+/**
+ * O cliente só pode registar o que só ele sabe: que um temporizador arrancou e
+ * que um comando de voz foi entendido.
+ *
+ * `rescue`, `back` e `abandon` continuam a ser escritos pelo servidor a partir
+ * das ações verdadeiras. Deixar o cliente declará-los era deixar forjar
+ * exatamente os dados em que a análise assenta.
+ */
+export const missionEventSchema = z.object({
+  kind: z.enum(["timer", "voice"]),
+  stepIndex: z.coerce.number().int().min(0).max(50),
+  detail: z.string().trim().max(60).nullish(),
+});
+
 export const missionCompleteSchema = z.object({
   share: z.boolean().default(false),
   caption: z.string().trim().max(280).nullish(),

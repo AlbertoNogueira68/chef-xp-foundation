@@ -77,8 +77,8 @@ export async function syncWeek(client, userId, plan, today) {
 
   if (upcoming.length > 0) {
     await client.query(
-      `INSERT INTO cooking_sessions (user_id, planned_on, status)
-       SELECT $1, d::date, 'planned' FROM unnest($2::date[]) AS d
+      `INSERT INTO cooking_sessions (user_id, planned_on, status, promised)
+       SELECT $1, d::date, 'planned', true FROM unnest($2::date[]) AS d
        ON CONFLICT (user_id, planned_on) DO NOTHING`,
       [userId, upcoming],
     );
@@ -124,9 +124,12 @@ export async function markCookedToday(client, userId, { missionId, runId, timeZo
 
   // Cozinhar duas vezes no mesmo dia não conta duas vezes: o compromisso é
   // sobre dias, não sobre quantidade. O primeiro é que fica.
+  // `promised` só é escrito no INSERT: se já havia linha, ela nasceu da geração
+  // do plano e o dia era prometido. Recalcular aqui era deixar um cozinhado
+  // espontâneo promover-se a promessa cumprida.
   const { rows } = await client.query(
-    `INSERT INTO cooking_sessions (user_id, planned_on, mission_id, run_id, status)
-     VALUES ($1, $2::date, $3, $4, 'done')
+    `INSERT INTO cooking_sessions (user_id, planned_on, mission_id, run_id, status, promised)
+     VALUES ($1, $2::date, $3, $4, 'done', false)
      ON CONFLICT (user_id, planned_on) DO UPDATE
        SET status = 'done',
            mission_id = COALESCE(cooking_sessions.mission_id, EXCLUDED.mission_id),

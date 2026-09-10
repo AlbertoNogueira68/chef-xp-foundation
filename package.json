@@ -19,7 +19,8 @@
     "format": "prettier --write .",
     "db:sync-curriculum": "node scripts/sync-curriculum.mjs",
     "db:check-sync": "node scripts/check-curriculum-sync.mjs",
-    "db:check-boot": "node scripts/check-boot-sync.mjs"
+    "db:check-boot": "node scripts/check-boot-sync.mjs",
+    "insights": "node scripts/insights.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

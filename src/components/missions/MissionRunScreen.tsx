@@ -42,6 +42,9 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
 
   const voice = useVoiceControl((command) => {
     if (!run.state) return;
+    // Saber se alguém fala mesmo com a app, e para dizer o quê, é a única
+    // forma de defender que o controlo por voz merece existir.
+    run.logEvent("voice", run.stepIndex, command);
     if (command === "next" && !run.isLastStep) run.goToStep(run.stepIndex + 1);
     if (command === "prev" && run.stepIndex > 0) run.goToStep(run.stepIndex - 1);
     if (command === "repeat") speak(run.step?.description ?? "");
@@ -121,7 +124,10 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
               seconds={step.durationSec}
               remainingMs={remaining}
               paused={timers.isPaused(run.stepIndex)}
-              onStart={() => timers.start(run.stepIndex, step.durationSec!)}
+              onStart={() => {
+                timers.start(run.stepIndex, step.durationSec!);
+                run.logEvent("timer", run.stepIndex, String(step.durationSec));
+              }}
               onToggle={() => timers.toggle(run.stepIndex)}
               onReset={() => timers.clear(run.stepIndex)}
             />

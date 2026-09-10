@@ -77,6 +77,7 @@ seguidor e 3 desafios.
 | `npm start` | Serve a API (+ `dist` em produção) |
 | `npm run db:migrate` | Aplica as migrations SQL |
 | `npm run db:seed` | Popula dados de demonstração |
+| `npm run insights` | Relatório da telemetria (só leituras) |
 | `npm run test:hardening` | Build + bloqueia CDNs proibidas |
 | `npm run lint` | ESLint |
 
@@ -129,6 +130,27 @@ que ficou em branco continua falhado: as duas coisas são verdade, e a faixa
 mostra as duas. Falhar é consequência do tempo passar, não de uma ação, por
 isso a varredura acontece à leitura — não há agendador neste projeto, e
 inventar um para isto seria infraestrutura a mais.
+
+**A telemetria é recolhida por inteiro e lida.** `mission_events` regista onde
+se pede socorro, onde se volta atrás, onde se desiste, e agora também quando um
+temporizador arranca e quando um comando de voz é entendido — dois tipos que o
+CHECK previa e que nenhum código escrevia. `npm run insights` transforma isso
+no relatório que responde às perguntas do projeto: em que passo se desiste, que
+socorro se pede, quanto tempo se está mesmo na cozinha, quantas promessas se
+cumprem.
+
+Três regras sustentam a análise. Nenhuma percentagem sai sem o denominador de
+onde veio — 100% sobre duas runs não é uma taxa, é uma coincidência, e amostras
+abaixo de cinco vêm marcadas. Desistir e desaparecer são contados à parte,
+porque quem fecha a app a meio de cozinhar não carrega em «abandonar» e essa é
+a desistência comum. E o cliente só pode registar o que só ele sabe:
+`rescue`, `back` e `abandon` continuam a ser escritos pelo servidor a partir
+das ações verdadeiras, para não se poder forjar os dados em que a análise
+assenta.
+
+É um script e não um painel na app: os números vão para um documento escrito, e
+um painel com agregados de toda a gente obrigava a inventar um conceito de
+administrador que este projeto não tem.
 
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.

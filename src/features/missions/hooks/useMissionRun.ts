@@ -162,6 +162,19 @@ export function useMissionRun() {
 
   const checkpointDone = state?.checkpoints.some((c) => c.stepIndex === stepIndex) ?? false;
 
+  /**
+   * Regista um temporizador ou um comando de voz. Sem run a decorrer não há
+   * nada para registar, e um erro aqui nunca chega ao ecrã.
+   */
+  const logEvent = useCallback(
+    (kind: "timer" | "voice", stepIndex: number, detail?: string) => {
+      const runId = state?.run.id;
+      if (!runId) return;
+      void missionService.logEvent(runId, kind, stepIndex, detail);
+    },
+    [state?.run.id],
+  );
+
   return {
     state,
     step,
@@ -178,6 +191,7 @@ export function useMissionRun() {
     goToStep,
     askRescue,
     dismissRescue: () => setRescue(null),
+    logEvent,
     uploadCheckpoint,
     uploadDataUrl,
     finish,
