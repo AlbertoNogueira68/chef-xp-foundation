@@ -13,6 +13,9 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
 - **Feed social**: cozinhados (missões terminadas e partilhadas) e receitas na
   mesma lista, com gostos, comentários, seguidores e três vistas (Recentes,
   A seguir, Em alta).
+- **Compromisso semanal**: dias certos («às terças e quintas») ou um número
+  («três vezes, quando calhar»). A semana mostra o que foi cozinhado e o que
+  ficou por cozinhar.
 - **Perfil** com XP, nível, streak, conquistas e estatísticas, todas derivadas de
   dados reais.
 - **Desafios** da comunidade.
@@ -113,6 +116,20 @@ cozinhado não é um aviso de progresso ao lado das publicações a sério. Só 
 runs partilhadas entram: o que se cozinhou sem publicar continua a contar no
 perfil de quem o fez e não aparece a mais ninguém.
 
+**O compromisso é a única parte da app que fala do futuro.** Lições, missões e
+feed registam o que já aconteceu; nada disso traz a pessoa de volta na
+quinta-feira. `cooking_plans` guarda a promessa e `cooking_sessions` o que
+sucedeu a cada dia. Duas regras sustentam-no: falhar antes de prometer não é
+falhar — nada anterior ao dia em que o compromisso passou a existir conta como
+falha; e a linha gravada manda sobre a derivação, para que mudar de plano não
+apague as falhas do plano anterior, que são o dado que este projeto quer medir.
+
+Cozinhar num dia que não estava prometido conta na semana, e o dia prometido
+que ficou em branco continua falhado: as duas coisas são verdade, e a faixa
+mostra as duas. Falhar é consequência do tempo passar, não de uma ação, por
+isso a varredura acontece à leitura — não há agendador neste projeto, e
+inventar um para isto seria infraestrutura a mais.
+
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.
 
@@ -128,7 +145,7 @@ Migrations em `server/db/migrations/`, aplicadas no arranque e por
 
 Tabelas principais: `users`, `recipes`, `challenges`, `recipe_likes`, `follows`,
 `comments`, `lesson_progress`, `daily_activity`, `xp_events`, `mission_runs`,
-`posts`, `post_likes`, `post_comments`.
+`posts`, `post_likes`, `post_comments`, `cooking_plans`, `cooking_sessions`.
 
 Os cozinhados têm tabelas de gostos e comentários próprias, e não uma coluna
 polimórfica nas das receitas: `posts.id` é BIGINT e `recipes.id` é UUID, e uma

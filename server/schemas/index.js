@@ -63,6 +63,19 @@ export const feedListSchema = z.object({
   cursor: z.string().max(200).optional(),
 });
 
+/* ---------------------------------------------------------------- */
+/* O compromisso                                                    */
+/* ---------------------------------------------------------------- */
+
+/**
+ * Dias em ISO — 1 = segunda … 7 = domingo. Lista vazia é o modo "n vezes,
+ * quando calhar", e aí é `targetWeek` que manda.
+ */
+export const planUpsertSchema = z.object({
+  weekdays: z.array(z.coerce.number().int().min(1).max(7)).max(7).default([]),
+  targetWeek: z.coerce.number().int().min(1).max(7).default(2),
+});
+
 /** Os posts têm id BIGINT — nunca UUID como as receitas. */
 export const postParamSchema = z.object({
   postId: z.coerce.number().int().positive(),

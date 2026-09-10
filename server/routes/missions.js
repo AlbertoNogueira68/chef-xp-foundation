@@ -22,6 +22,7 @@ import {
 } from "../domain/missions.js";
 import { saveDataUrlImage } from "../lib/imageStore.js";
 import { awardStreakBonus, awardXp, loadDailyState } from "../lib/xpLedger.js";
+import { markCookedToday } from "../lib/cookingPlan.js";
 
 const router = Router();
 router.use(requireAuth);
@@ -433,6 +434,15 @@ router.post(
         );
       }
 
+      // O compromisso, na mesma transação: cozinhar é o que fecha o dia
+      // prometido. Se a missão contasse e a sessão não, a faixa dizia à pessoa
+      // que ainda não tinha cozinhado logo a seguir a ela ter cozinhado.
+      const cookedOn = await markCookedToday(client, req.user.id, {
+        missionId: run.mission_id,
+        runId: run.id,
+        timeZone,
+      });
+
       const daily = await loadDailyState(client, req.user.id, { timeZone });
       const streakBonus = await awardStreakBonus(client, req.user.id, {
         streak: daily.streak,
@@ -476,6 +486,7 @@ router.post(
         level: streakBonus.level ?? award.level,
         practisedSkills: practised.map((row) => ({ skillId: row.skill_id, times: row.times })),
         post,
+        cookedOn,
       });
     } catch (error) {
       await client.query("ROLLBACK");

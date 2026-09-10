@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { GraduationCap, Trophy } from "lucide-react";
 import { ChallengesTab } from "@/components/learning/ChallengesTab";
+import { CommitmentBanner } from "@/components/plan/CommitmentBanner";
 import { LearningPathView } from "@/components/learning/LearningPath";
 import { LessonPlayer } from "@/components/learning/LessonPlayer";
 import { MissionRunScreen } from "@/components/missions/MissionRunScreen";
@@ -58,7 +59,9 @@ export function ChallengesPage() {
           <ChallengesTab />
         </TabsContent>
 
-        <TabsContent value="learn" className="mt-4">
+        <TabsContent value="learn" className="mt-4 space-y-4">
+          <CommitmentBanner />
+
           <LearningPathView
             path={path}
             isLoading={pathLoading}

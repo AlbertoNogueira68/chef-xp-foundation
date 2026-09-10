@@ -228,13 +228,22 @@ CREATE TABLE IF NOT EXISTS skill_practice (
 CREATE INDEX IF NOT EXISTS idx_skill_practice_skill ON skill_practice (skill_id);
 
 -- O compromisso: que dias e quantas vezes por semana.
+-- O fuso não se repete aqui: é o de `users.time_zone`, o mesmo que decide o
+-- streak. Duas respostas a "que dia é hoje para esta pessoa" era uma a mais.
+-- `reminder_at` saiu na 007->008 por prometer um canal que não existe.
 CREATE TABLE IF NOT EXISTS cooking_plans (
   user_id     UUID PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
-  weekdays    SMALLINT[] NOT NULL DEFAULT '{}',  -- vazio = "n vezes, quando calhar"
+  -- ISO: 1 = segunda … 7 = domingo. Vazio = "n vezes, quando calhar".
+  weekdays    SMALLINT[] NOT NULL DEFAULT '{}',
   target_week INT NOT NULL DEFAULT 2,
-  reminder_at TIME,
-  tz          TEXT NOT NULL DEFAULT 'Europe/Lisbon',
-  updated_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+  -- `updated_at` é o dia em que o compromisso actual passou a existir: nada
+  -- anterior a ele conta como falhado.
+  updated_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT cooking_plans_weekdays_iso CHECK (
+    array_length(weekdays, 1) IS NULL
+    OR (weekdays <@ ARRAY[1,2,3,4,5,6,7]::smallint[] AND array_length(weekdays, 1) <= 7)
+  ),
+  CONSTRAINT cooking_plans_target_range CHECK (target_week BETWEEN 1 AND 7)
 );
 
 CREATE TABLE IF NOT EXISTS cooking_sessions (

@@ -6,6 +6,7 @@ import { fileToResizedDataUrl } from "@/lib/image";
 import { missionService } from "../services/missionService";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
 import { FEED_ROOT_KEY } from "@/features/feed/hooks/useFeed";
+import { PLAN_QUERY_KEY } from "@/features/plan/hooks/useCookingPlan";
 
 /**
  * Estado do modo cozinha.
@@ -135,6 +136,8 @@ export function useMissionRun() {
         queryClient.invalidateQueries({ queryKey: ["missionPosts"] });
         // Partilhar põe o cozinhado no feed de toda a gente — inclusive no dele.
         if (share) queryClient.invalidateQueries({ queryKey: [FEED_ROOT_KEY] });
+        // Cozinhar fecha o dia prometido: a faixa tem de o dizer já.
+        queryClient.invalidateQueries({ queryKey: PLAN_QUERY_KEY });
       } catch (error) {
         fail(error, "Não foi possível concluir a missão");
       } finally {
