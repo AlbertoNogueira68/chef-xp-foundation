@@ -81,6 +81,7 @@ seguidor e 3 desafios.
 | `npm run db:migrate` | Aplica as migrations SQL |
 | `npm run db:seed` | Popula dados de demonstração |
 | `npm run insights` | Relatório da telemetria (só leituras) |
+| `npm run mail:check` | Diagnostica o SMTP (`-- tu@exemplo.pt` envia um teste) |
 | `npm run test:hardening` | Build + bloqueia CDNs proibidas |
 | `npm run lint` | ESLint |
 

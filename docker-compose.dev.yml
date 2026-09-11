@@ -32,6 +32,13 @@ services:
       CORS_ORIGIN: http://localhost:5173
       VITE_API_URL: /api
       VITE_APP_ENV: development
+      # Sem estas, o código de confirmação aparece na consola do contentor e a
+      # app funciona à mesma. Com elas, sai por email a sério.
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
     ports:
       - "5173:5173"
       - "3010:3010"

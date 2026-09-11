@@ -57,6 +57,18 @@ export function resetTransport() {
 }
 
 /**
+ * Liga-se ao servidor e autentica, sem enviar nada.
+ *
+ * Serve para separar "as credenciais estão erradas" de "o email não chegou",
+ * que são problemas diferentes e costumam ser confundidos.
+ */
+export async function verifyTransport() {
+  if (!smtpConfigured()) throw new Error("SMTP não configurado");
+  await getTransport().verify();
+  return true;
+}
+
+/**
  * O que se escreve na consola quando não há SMTP.
  *
  * Separado do envio para os testes poderem ler o código sem espiar registos.
