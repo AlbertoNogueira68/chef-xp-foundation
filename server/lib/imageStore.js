@@ -90,6 +90,87 @@ export async function saveDataUrlImage(dataUrl) {
   return `${UPLOAD_ROUTE}/${filename}`;
 }
 
+/**
+ * Traz uma imagem de fora e guarda-a cá dentro.
+ *
+ * Usada para a fotografia de quem entra com a Google. A alternativa era
+ * guardar o URL `lh3.googleusercontent.com` que a Google devolve — e esse
+ * nunca chegaria a aparecer: a CSP desta app é `imgSrc: 'self'` e o browser
+ * bloqueava-o em silêncio. Abrir a CSP a mais um domínio para mostrar uma
+ * fotografia de perfil era desfazer de propósito o que foi fechado de
+ * propósito, exactamente como no botão do Google, que por isso vai em SVG
+ * inline.
+ *
+ * Guardar cá dentro tem outra vantagem: o URL da Google muda quando a pessoa
+ * troca de foto e deixa de servir, e o avatar aparecia partido sem ninguém
+ * perceber porquê.
+ *
+ * Três limites, porque o endereço não é nosso: só https, só de anfitriões
+ * conhecidos, e nunca mais do que `MAX_IMAGE_BYTES` — um pedido do servidor a
+ * um endereço externo é uma porta que se abre, e uma porta com limites é uma
+ * porta estreita.
+ */
+const REMOTE_IMAGE_HOSTS = [/(^|\.)googleusercontent\.com$/i];
+const REMOTE_IMAGE_TIMEOUT_MS = 5000;
+
+/**
+ * A política, separada do transporte.
+ *
+ * Só https, e só de anfitriões conhecidos. A verificação do anfitrião é do
+ * fim do nome — `googleusercontent.com.mau.pt` não é a Google, e um "contém"
+ * deixaria passar.
+ */
+export function isAllowedRemoteImage(
+  rawUrl,
+  { hosts = REMOTE_IMAGE_HOSTS, protocols = ["https:"] } = {},
+) {
+  let url;
+  try {
+    url = new URL(String(rawUrl));
+  } catch {
+    return null;
+  }
+
+  if (!protocols.includes(url.protocol)) return null;
+  if (!hosts.some((pattern) => pattern.test(url.hostname))) return null;
+  return url;
+}
+
+export async function saveRemoteImage(rawUrl, options = {}) {
+  const url = isAllowedRemoteImage(rawUrl, options);
+  if (!url) return null;
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), REMOTE_IMAGE_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(url, { signal: controller.signal, redirect: "follow" });
+    if (!response.ok) return null;
+
+    // O `content-length` é uma declaração de quem serve; o tamanho a sério é
+    // o do que chegou, e é esse que decide.
+    const declared = Number(response.headers.get("content-length") ?? 0);
+    if (declared > MAX_IMAGE_BYTES) return null;
+
+    const buffer = Buffer.from(await response.arrayBuffer());
+    if (buffer.length === 0 || buffer.length > MAX_IMAGE_BYTES) return null;
+
+    const ext = detectImageType(buffer);
+    if (!ext) return null;
+
+    await ensureUploadDir();
+    const filename = `${crypto.randomUUID()}.${ext}`;
+    await fs.writeFile(path.join(UPLOAD_DIR, filename), buffer);
+    return `${UPLOAD_ROUTE}/${filename}`;
+  } catch {
+    // Falhar a trazer a fotografia não pode impedir alguém de entrar. Sem
+    // foto, o avatar mostra as iniciais, que é o que já fazia.
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /** Aceita um caminho já guardado ou um URL http(s) externo (usado pelo seed). */
 export async function resolveImageInput(input) {
   if (input == null || input === "") return null;

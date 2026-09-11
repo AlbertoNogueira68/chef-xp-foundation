@@ -23,6 +23,7 @@ import {
 import { GENERIC_FAILURE } from "../domain/accountCodes.js";
 import { consumeCode, issueCode } from "../lib/emailCodes.js";
 import { toPublicUser } from "../lib/mappers.js";
+import { saveRemoteImage } from "../lib/imageStore.js";
 import { baseCookieOptions } from "../lib/cookies.js";
 import {
   buildGoogleAuthUrl,
@@ -330,11 +331,17 @@ router.get(
           // `email_verified` já foi exigido acima: a Google confirmou este
           // endereço, e pedir um código seria pedir a confirmação de uma
           // confirmação.
+          // A fotografia é trazida para dentro em vez de se guardar o URL da
+          // Google: a CSP é `imgSrc: 'self'` e o browser bloquearia o link
+          // externo em silêncio — o avatar aparecia partido só em produção,
+          // que é onde a CSP está ligada.
+          const photoUrl = claims.picture ? await saveRemoteImage(claims.picture) : null;
+
           const { rows: created } = await client.query(
             `INSERT INTO users (username, email, password_hash, photo_url, email_verified_at)
              VALUES ($1, $2, NULL, $3, now())
              RETURNING id`,
-            [username, email, typeof claims.picture === "string" ? claims.picture : null],
+            [username, email, photoUrl],
           );
           userId = created[0].id;
         }
