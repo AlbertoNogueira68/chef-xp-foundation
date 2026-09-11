@@ -142,17 +142,46 @@ test("GOOGLE_CLIENT_ID sem GOOGLE_CLIENT_SECRET não arranca", () => {
 /* SMTP                                                               */
 /* ------------------------------------------------------------------ */
 
-test("SMTP meio configurado não arranca", () => {
-  // O registo prometia um código e o envio rebentava já depois de a pessoa se
-  // ter registado — o mesmo erro que o SSO da Google já evitava.
+test("utilizador sem password, ou password sem utilizador, não arranca", () => {
+  // Andam aos pares: um sem o outro é sempre engano, e o envio só rebentava
+  // já depois de alguém se ter registado.
+  for (const metade of [{ SMTP_USER: "conta" }, { SMTP_PASSWORD: "segredo" }]) {
+    assert.throws(
+      () =>
+        validateEnv({
+          DATABASE_URL: "postgres://x",
+          JWT_SECRET: "a".repeat(32),
+          SMTP_HOST: "smtp.exemplo.pt",
+          ...metade,
+        }),
+      /SMTP meio configurado/,
+    );
+  }
+});
+
+test("um servidor sem autenticação é uma configuração válida", () => {
+  // É o caso do Mailpit e dos relés internos. Exigir credenciais para se poder
+  // enviar proibia o caso mais útil em desenvolvimento.
+  assert.doesNotThrow(() =>
+    validateEnv({
+      DATABASE_URL: "postgres://x",
+      JWT_SECRET: "a".repeat(32),
+      SMTP_HOST: "mailpit",
+      SMTP_PORT: "1025",
+    }),
+  );
+});
+
+test("credenciais sem servidor não são um servidor", () => {
   assert.throws(
     () =>
       validateEnv({
         DATABASE_URL: "postgres://x",
         JWT_SECRET: "a".repeat(32),
-        SMTP_HOST: "smtp.exemplo.pt",
+        SMTP_USER: "conta",
+        SMTP_PASSWORD: "segredo",
       }),
-    /SMTP meio configurado/,
+    /sem SMTP_HOST/,
   );
 });
 
@@ -173,6 +202,18 @@ test("em produção sem SMTP não arranca", () => {
         FRONTEND_URL: "https://exemplo.pt",
       }),
     /SMTP é obrigatório/,
+  );
+});
+
+test("em produção basta o servidor, as credenciais são opcionais", () => {
+  assert.doesNotThrow(() =>
+    validateEnv({
+      NODE_ENV: "production",
+      DATABASE_URL: "postgres://x",
+      JWT_SECRET: "b".repeat(40),
+      FRONTEND_URL: "https://exemplo.pt",
+      SMTP_HOST: "rele.interno",
+    }),
   );
 });
 

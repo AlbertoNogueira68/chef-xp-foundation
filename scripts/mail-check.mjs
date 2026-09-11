@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 import "dotenv/config";
-import { mailFrom, sendMail, smtpConfigError, smtpConfigured, verifyTransport } from "../server/lib/mailer.js";
+import {
+  mailFrom,
+  sendMail,
+  smtpAuthConfigured,
+  smtpConfigError,
+  smtpConfigured,
+  verifyTransport,
+} from "../server/lib/mailer.js";
 
 /**
  * Diagnóstico do SMTP.
@@ -19,7 +26,11 @@ console.log("\nConfiguração\n" + "─".repeat(52));
 console.log(`  SMTP_HOST      ${process.env.SMTP_HOST || "(por definir)"}`);
 console.log(`  SMTP_PORT      ${process.env.SMTP_PORT || "587 (por omissão)"}`);
 console.log(`  SMTP_USER      ${process.env.SMTP_USER || "(por definir)"}`);
-console.log(`  SMTP_PASSWORD  ${mask(process.env.SMTP_PASSWORD)}`);
+console.log(
+  `  SMTP_PASSWORD  ${
+    smtpAuthConfigured() ? mask(process.env.SMTP_PASSWORD) : "(sem autenticação)"
+  }`,
+);
 console.log(`  SMTP_FROM      ${mailFrom()}`);
 
 /* Os dois enganos que dão sempre "autenticação falhou" e não dizem porquê. */
@@ -69,7 +80,11 @@ console.log(
 
 try {
   await verifyTransport();
-  console.log("\n✔ Ligação e autenticação OK.");
+  console.log(
+    smtpAuthConfigured()
+      ? "\n✔ Ligação e autenticação OK."
+      : "\n✔ Ligação OK (servidor sem autenticação).",
+  );
 } catch (error) {
   console.error(`\n✖ Não foi possível autenticar: ${error.message}`);
   console.error(

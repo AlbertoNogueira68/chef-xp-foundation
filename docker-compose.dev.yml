@@ -23,6 +23,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      mailpit:
+        condition: service_started
     environment:
       DATABASE_URL: postgresql://${POSTGRES_USER:-chef}:${POSTGRES_PASSWORD:-chefdev}@postgres:5432/${POSTGRES_DB:-chef_xp}
       PORT: 3010
@@ -32,13 +34,17 @@ services:
       CORS_ORIGIN: http://localhost:5173
       VITE_API_URL: /api
       VITE_APP_ENV: development
-      # Sem estas, o código de confirmação aparece na consola do contentor e a
-      # app funciona à mesma. Com elas, sai por email a sério.
-      SMTP_HOST: ${SMTP_HOST:-}
-      SMTP_PORT: ${SMTP_PORT:-587}
+      # Por omissão os emails vão para o Mailpit e abrem-se em
+      # http://localhost:8025 — sem conta nenhuma, sem nada que saia da máquina
+      # e sem o risco de um teste ir parar à caixa de correio de alguém.
+      #
+      # Para provar contra um servidor a sério, define estas no `.env`: o
+      # `${VAR:-omissão}` faz o que estiver definido ganhar ao Mailpit.
+      SMTP_HOST: ${SMTP_HOST:-mailpit}
+      SMTP_PORT: ${SMTP_PORT:-1025}
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASSWORD: ${SMTP_PASSWORD:-}
-      SMTP_FROM: ${SMTP_FROM:-}
+      SMTP_FROM: ${SMTP_FROM:-ChefXP <nao-responder@chefxp.local>}
     ports:
       - "5173:5173"
       - "3010:3010"
@@ -46,6 +52,25 @@ services:
       - .:/app
       - chef_xp_node_modules:/app/node_modules
     command: sh -c "npm install && npm run dev:all"
+
+  # Caixa de correio de desenvolvimento.
+  #
+  # Apanha tudo o que a app enviar e mostra-o em http://localhost:8025. Nada
+  # sai da máquina: dá para ver o email de confirmação como ele chega mesmo —
+  # assunto, remetente, o código — sem uma conta de email e sem o risco de um
+  # teste aterrar na caixa de correio de uma pessoa a sério.
+  #
+  # Mailpit e não MailHog: o MailHog está arquivado desde 2023. Faz o mesmo,
+  # com a mesma porta de SMTP (1025) e a mesma interface (8025).
+  mailpit:
+    image: axllent/mailpit:v1.21
+    ports:
+      - "8025:8025"   # interface web
+      - "1025:1025"   # SMTP, para quem correr a app fora do Docker
+    environment:
+      MP_MAX_MESSAGES: 500
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
 
 volumes:
   chef_xp_pgdata:

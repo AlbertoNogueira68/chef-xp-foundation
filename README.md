@@ -196,6 +196,20 @@ mudada precisamente para o expulsar. `users.session_epoch` entra no token e é
 comparado a cada pedido. Custa uma leitura por pedido — é o preço de um token
 que se pode revogar.
 
+**Há uma caixa de correio de desenvolvimento.** `docker compose -f
+docker-compose.dev.yml up mailpit` levanta o Mailpit, que apanha tudo o que a
+app enviar e mostra em `http://localhost:8025` — o email de confirmação como ele
+chega mesmo, com o código lá dentro. Nada sai da máquina e nenhum teste aterra
+na caixa de correio de uma pessoa a sério. A correr dentro do Docker já é o
+destino por omissão; fora dele basta `SMTP_HOST=localhost` e `SMTP_PORT=1025`.
+
+Mailpit e não MailHog: o MailHog está arquivado desde 2023 e faz exactamente o
+mesmo, com a mesma porta de SMTP e a mesma interface.
+
+`SMTP_USER` e `SMTP_PASSWORD` são opcionais — há servidores que não pedem
+autenticação e o Mailpit é um deles — mas andam aos pares: uma sem a outra não
+arranca.
+
 **Sem SMTP, o código vai para a consola em desenvolvimento e o arranque falha em
 produção.** É a mesma regra do SSO da Google: meio configurado é pior do que não
 configurado. Uma conta que se cria e nunca se consegue confirmar, sem a pessoa

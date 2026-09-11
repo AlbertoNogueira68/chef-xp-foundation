@@ -16,19 +16,44 @@ import nodemailer from "nodemailer";
  * É a mesma regra do SSO da Google, pela mesma razão.
  */
 
-const REQUIRED = ["SMTP_HOST", "SMTP_USER", "SMTP_PASSWORD"];
-
+/**
+ * É o `SMTP_HOST` que decide se há servidor de email. A autenticação é
+ * separada e opcional.
+ *
+ * Nem todo o servidor de SMTP pede credenciais: uma caixa de correio de
+ * desenvolvimento como o Mailpit aceita tudo sem autenticação nenhuma, e o
+ * mesmo vale para relés internos. Exigir utilizador e password para se poder
+ * enviar era proibir o caso mais útil de todos — ver os emails a sair sem
+ * precisar de uma conta a sério.
+ */
 export function smtpConfigured(env = process.env) {
-  return REQUIRED.every((name) => Boolean(env[name]));
+  return Boolean(env.SMTP_HOST);
 }
 
-/** Meio configurado é o pior dos mundos: diz-se já, e diz-se o que falta. */
-export function smtpConfigError(env = process.env) {
-  const present = REQUIRED.filter((name) => Boolean(env[name]));
-  if (present.length === 0 || present.length === REQUIRED.length) return null;
+export function smtpAuthConfigured(env = process.env) {
+  return Boolean(env.SMTP_USER && env.SMTP_PASSWORD);
+}
 
-  const missing = REQUIRED.filter((name) => !env[name]);
-  return `SMTP meio configurado: falta ${missing.join(", ")}. Define todas ou nenhuma.`;
+/**
+ * Meio configurado é o pior dos mundos: diz-se já, e diz-se o que falta.
+ *
+ * Utilizador e password andam aos pares — um sem o outro é sempre engano. E
+ * credenciais sem servidor não são um servidor.
+ */
+export function smtpConfigError(env = process.env) {
+  const hasUser = Boolean(env.SMTP_USER);
+  const hasPassword = Boolean(env.SMTP_PASSWORD);
+
+  if (hasUser !== hasPassword) {
+    const missing = hasUser ? "SMTP_PASSWORD" : "SMTP_USER";
+    return `SMTP meio configurado: falta ${missing}. Define as duas, ou nenhuma.`;
+  }
+
+  if (!env.SMTP_HOST && hasUser) {
+    return "SMTP_USER e SMTP_PASSWORD definidas sem SMTP_HOST: falta dizer para onde enviar.";
+  }
+
+  return null;
 }
 
 export function mailFrom(env = process.env) {
@@ -54,14 +79,22 @@ function getTransport() {
     // 465 é TLS implícito; 587 começa em claro e sobe com STARTTLS. Acertar
     // isto sozinho evita o erro de configuração mais comum com SMTP.
     secure: Number(process.env.SMTP_PORT || 587) === 465,
-    auth: {
-      user: process.env.SMTP_USER?.trim(),
-      // A Google mostra as palavras-passe de app em grupos de quatro, e quem
-      // copia leva os espaços com ela. O `.trim()` só apara as pontas; os
-      // espaços do meio ficam, e o `npm run mail:check` avisa — apagá-los em
-      // silêncio era adivinhar qual é a password verdadeira de alguém.
-      pass: process.env.SMTP_PASSWORD?.trim(),
-    },
+    // Sem credenciais não se manda `auth` nenhum: o nodemailer tentaria
+    // autenticar-se com valores vazios e o servidor recusava. Um servidor que
+    // não pede autenticação tem de ser usado sem ela.
+    //
+    // A Google mostra as palavras-passe de app em grupos de quatro, e quem
+    // copia leva os espaços com ela. O `.trim()` só apara as pontas; os
+    // espaços do meio ficam, e o `npm run mail:check` avisa — apagá-los em
+    // silêncio era adivinhar qual é a password verdadeira de alguém.
+    ...(smtpAuthConfigured()
+      ? {
+          auth: {
+            user: process.env.SMTP_USER.trim(),
+            pass: process.env.SMTP_PASSWORD.trim(),
+          },
+        }
+      : {}),
   });
   return transport;
 }

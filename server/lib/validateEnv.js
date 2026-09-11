@@ -55,7 +55,7 @@ export function validateEnv(env = process.env) {
     // não se consegue confirmar, e sem explicação, é pior do que não arrancar.
     if (!smtpConfigured(env)) {
       errors.push(
-        "Em produção o SMTP é obrigatório (SMTP_HOST, SMTP_USER, SMTP_PASSWORD): " +
+        "Em produção o SMTP é obrigatório (pelo menos SMTP_HOST): " +
           "sem ele ninguém consegue confirmar a conta nem recuperar a password",
       );
     }
