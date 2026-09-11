@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChefHat, Clock, Flame, Heart, MessageCircle, MoreHorizontal, Send } from "lucide-react";
+import { ChefHat, Clock, Flame, Heart, MessageCircle } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -81,7 +81,13 @@ function RecipeBody({ item }: { item: RecipeFeedItem }) {
 }
 
 /**
- * Um cartão do feed. As duas naturezas partilham a moldura inteira — cabeçalho,
+ * Um cartão do feed.
+ *
+ * Já teve um "mais opções" e um "partilhar" sem nada por trás. O primeiro
+ * abriria um menu vazio — não há apagar, nem denunciar, nem deixar de seguir a
+ * partir daqui. O segundo não tinha para onde apontar: não existe rota para um
+ * cozinhado ou uma receita isolados, por isso o link seria sempre o da app.
+ * Voltam quando houver o que lá pôr. As duas naturezas partilham a moldura inteira — cabeçalho,
  * gostos, comentários — e diferem só no meio.
  *
  * Partilham-na porque valem o mesmo: um cozinhado não é um aviso de progresso
@@ -102,7 +108,7 @@ export function FeedCard({
 
   return (
     <article className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm">
-      <div className="flex items-center justify-between px-3 py-2.5">
+      <div className="flex items-center px-3 py-2.5">
         <div className="flex items-center gap-2.5">
           <Avatar className="size-9 ring-2 ring-amber-500/20">
             <AvatarImage src={item.author.photoUrl ?? undefined} />
@@ -117,14 +123,6 @@ export function FeedCard({
             </p>
           </div>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-8 rounded-full"
-          aria-label="Mais opções"
-        >
-          <MoreHorizontal className="size-4" />
-        </Button>
       </div>
 
       <div className="relative aspect-square w-full overflow-hidden bg-muted">
@@ -170,14 +168,6 @@ export function FeedCard({
             onClick={() => setShowComments((open) => !open)}
           >
             <MessageCircle className="size-5" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-9 rounded-full"
-            aria-label="Partilhar"
-          >
-            <Send className="size-5" />
           </Button>
         </div>
 

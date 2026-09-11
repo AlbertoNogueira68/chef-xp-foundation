@@ -10,6 +10,7 @@ import { CookedCard } from "@/components/missions/CookedCard";
 import { RecipeMasonryCard } from "@/components/RecipeMasonryCard";
 import { XpProgress } from "@/components/XpProgress";
 import { useSignOut } from "@/features/auth/hooks/useSignOut";
+import { useShare } from "@/hooks/useShare";
 import { useRecipes } from "@/features/feed/hooks/useRecipes";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { useUserStats } from "@/features/profile/hooks/useUserStats";
@@ -32,6 +33,7 @@ export function ProfilePage() {
   const signOut = useSignOut();
   const [tab, setTab] = useState("cooked");
   const [definicoes, setDefinicoes] = useState(false);
+  const share = useShare();
 
   return (
     <section className="space-y-5">
@@ -46,6 +48,15 @@ export function ProfilePage() {
             size="icon"
             className="size-9 rounded-full"
             aria-label="Partilhar perfil"
+            onClick={() =>
+              share({
+                title: "ChefXP",
+                text: user?.username
+                  ? `Sou o ${user.username} no ChefXP. Vem aprender a cozinhar.`
+                  : "Vem aprender a cozinhar no ChefXP.",
+                url: window.location.origin,
+              })
+            }
           >
             <Share2 className="size-4" />
           </Button>
