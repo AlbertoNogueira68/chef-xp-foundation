@@ -22,6 +22,31 @@ console.log(`  SMTP_USER      ${process.env.SMTP_USER || "(por definir)"}`);
 console.log(`  SMTP_PASSWORD  ${mask(process.env.SMTP_PASSWORD)}`);
 console.log(`  SMTP_FROM      ${mailFrom()}`);
 
+/* Os dois enganos que dão sempre "autenticação falhou" e não dizem porquê. */
+const avisos = [];
+
+const pass = process.env.SMTP_PASSWORD ?? "";
+if (pass.trim().includes(" ")) {
+  avisos.push(
+    "A palavra-passe tem espaços. A Google mostra-a em grupos de quatro mas o\n" +
+      "    valor a usar é sem espaços — 16 caracteres seguidos.",
+  );
+}
+
+const user = (process.env.SMTP_USER ?? "").trim();
+const host = (process.env.SMTP_HOST ?? "").trim();
+if (host === "smtp.gmail.com" && user && !/@gmail\.com$/i.test(user)) {
+  avisos.push(
+    `SMTP_USER é "${user}" mas o servidor é o do Gmail. A conta tem de ser o\n` +
+      "    endereço completo @gmail.com (ou o domínio do Google Workspace).",
+  );
+}
+
+if (avisos.length > 0) {
+  console.log("\nAtenção\n" + "─".repeat(52));
+  for (const aviso of avisos) console.log(`  ⚠ ${aviso}`);
+}
+
 const erro = smtpConfigError();
 if (erro) {
   console.error(`\n✖ ${erro}\n`);

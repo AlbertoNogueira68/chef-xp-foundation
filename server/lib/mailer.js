@@ -43,10 +43,25 @@ function getTransport() {
   transport = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT || 587),
+    // Sem limites explícitos, um SMTP inacessível não dá erro — fica pendurado.
+    // E como o código é enviado dentro do pedido de registo, quem se estivesse
+    // a registar ficava a olhar para um botão a girar até desistir. Falhar ao
+    // fim de dez segundos é muito melhor do que não falhar: o registo já
+    // aconteceu e há um botão para reenviar o código.
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 20_000,
     // 465 é TLS implícito; 587 começa em claro e sobe com STARTTLS. Acertar
     // isto sozinho evita o erro de configuração mais comum com SMTP.
     secure: Number(process.env.SMTP_PORT || 587) === 465,
-    auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASSWORD },
+    auth: {
+      user: process.env.SMTP_USER?.trim(),
+      // A Google mostra as palavras-passe de app em grupos de quatro, e quem
+      // copia leva os espaços com ela. O `.trim()` só apara as pontas; os
+      // espaços do meio ficam, e o `npm run mail:check` avisa — apagá-los em
+      // silêncio era adivinhar qual é a password verdadeira de alguém.
+      pass: process.env.SMTP_PASSWORD?.trim(),
+    },
   });
   return transport;
 }
