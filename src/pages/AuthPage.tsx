@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { ChefXPLogo } from "@/components/ChefXPLogo";
@@ -6,6 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GoogleButton } from "@/features/auth/components/GoogleButton";
 import { LoginForm } from "@/features/auth/components/LoginForm";
 import { RegisterForm } from "@/features/auth/components/RegisterForm";
+import { ForgotPasswordForm } from "@/features/auth/components/ForgotPasswordForm";
 import { useAuthProviders } from "@/features/auth/hooks/useAuthProviders";
 
 export function AuthPage() {
@@ -13,6 +14,7 @@ export function AuthPage() {
   const goToApp = () => navigate("/feed", { replace: true });
   const { data: providers } = useAuthProviders();
   const [params, setParams] = useSearchParams();
+  const [recuperar, setRecuperar] = useState(false);
 
   // O callback do Google só pode responder com um redirecionamento, por isso
   // um erro no meio do caminho volta como parâmetro no URL.
@@ -42,24 +44,35 @@ export function AuthPage() {
         </div>
 
         <div className="rounded-2xl border border-border/60 bg-card/80 p-5 shadow-xl backdrop-blur-xl">
-          <Tabs defaultValue="login">
-            <TabsList className="grid w-full grid-cols-2 rounded-full bg-muted/80 p-1">
-              <TabsTrigger value="login" className="rounded-full">
-                Entrar
-              </TabsTrigger>
-              <TabsTrigger value="register" className="rounded-full">
-                Registar
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="login" className="mt-5">
-              <LoginForm onSuccess={goToApp} />
-            </TabsContent>
-            <TabsContent value="register" className="mt-5">
-              <RegisterForm onSuccess={goToApp} />
-            </TabsContent>
-          </Tabs>
+          {recuperar ? (
+            <ForgotPasswordForm onBack={() => setRecuperar(false)} />
+          ) : (
+            <Tabs defaultValue="login">
+              <TabsList className="grid w-full grid-cols-2 rounded-full bg-muted/80 p-1">
+                <TabsTrigger value="login" className="rounded-full">
+                  Entrar
+                </TabsTrigger>
+                <TabsTrigger value="register" className="rounded-full">
+                  Registar
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="login" className="mt-5 space-y-3">
+                <LoginForm onSuccess={goToApp} />
+                <button
+                  type="button"
+                  className="w-full text-center text-xs text-muted-foreground hover:text-foreground"
+                  onClick={() => setRecuperar(true)}
+                >
+                  Esqueci-me da password
+                </button>
+              </TabsContent>
+              <TabsContent value="register" className="mt-5">
+                <RegisterForm onSuccess={goToApp} />
+              </TabsContent>
+            </Tabs>
+          )}
 
-          {providers?.google && (
+          {!recuperar && providers?.google && (
             <>
               <div className="my-4 flex items-center gap-3">
                 <span className="h-px flex-1 bg-border" />

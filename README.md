@@ -6,7 +6,9 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
 
 ## O que a aplicação faz
 
-- **Autenticação** por email/password, com sessão em cookie HttpOnly e proteção CSRF.
+- **Autenticação** por email/password, com sessão em cookie HttpOnly e proteção
+  CSRF. A conta confirma-se por um código de seis dígitos enviado para o email,
+  e a password recupera-se pela mesma via.
 - **Percurso de aprendizagem** ao estilo Duolingo: unidades, lições diárias com
   preparação e quiz, corações, XP, streak e meta diária. Toda a progressão vive
   no servidor — o browser não guarda nem decide nada.
@@ -168,6 +170,36 @@ para quem clona o projeto não precisar de um Postgres à mão. No CI a variáve
 `REQUIRE_TEST_DATABASE=1` transforma essa ausência em erro: correr zero testes
 e ficar verde é pior do que não ter testes, porque parece que estão a correr.
 
+**Os códigos por email são guardados em hash, nunca em claro.** Um código por
+usar vale tanto como a password — quem leia a tabela `email_codes` não pode
+entrar em contas alheias nem confirmar endereços que não são seus. Seis dígitos
+são cem mil hipóteses, por isso o que faz deles um segredo é a moldura: quinze
+minutos de validade, cinco tentativas, um código vivo de cada vez, e um
+intervalo de um minuto entre pedidos.
+
+Nenhuma recusa diz porquê. Errado, expirado, já usado e inexistente respondem a
+mesma frase — distingui-los diria a quem adivinha se vale a pena insistir. Pela
+mesma razão, pedir um código de recuperação responde o mesmo exista ou não a
+conta: caso contrário a rota passava a ser um verificador de endereços
+registados.
+
+**Confirmar o email não tranca a app.** A conta funciona por confirmar e há uma
+faixa que pede o código. Trancar a entrada faria desistir quem ainda não sabe se
+vale a pena ficar, e o que o código prova — que o endereço existe — só é mesmo
+preciso no dia em que for necessário recuperar a conta.
+
+**Mudar a password termina as outras sessões.** Os cookies são JWT de sete dias
+e nada no servidor os podia cancelar, o que tornava a recuperação um gesto vazio:
+quem tivesse entrado na conta ficava lá mais uma semana depois de a password ser
+mudada precisamente para o expulsar. `users.session_epoch` entra no token e é
+comparado a cada pedido. Custa uma leitura por pedido — é o preço de um token
+que se pode revogar.
+
+**Sem SMTP, o código vai para a consola em desenvolvimento e o arranque falha em
+produção.** É a mesma regra do SSO da Google: meio configurado é pior do que não
+configurado. Uma conta que se cria e nunca se consegue confirmar, sem a pessoa
+perceber porquê, é pior do que um servidor que não sobe.
+
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.
 
@@ -183,7 +215,8 @@ Migrations em `server/db/migrations/`, aplicadas no arranque e por
 
 Tabelas principais: `users`, `recipes`, `challenges`, `recipe_likes`, `follows`,
 `comments`, `lesson_progress`, `daily_activity`, `xp_events`, `mission_runs`,
-`posts`, `post_likes`, `post_comments`, `cooking_plans`, `cooking_sessions`.
+`posts`, `post_likes`, `post_comments`, `cooking_plans`, `cooking_sessions`,
+`auth_identities`, `email_codes`.
 
 Os cozinhados têm tabelas de gostos e comentários próprias, e não uma coluna
 polimórfica nas das receitas: `posts.id` é BIGINT e `recipes.id` é UUID, e uma

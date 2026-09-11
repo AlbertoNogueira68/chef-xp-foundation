@@ -22,7 +22,14 @@ export function toPublicUser(row, { includeEmail = false } = {}) {
     percentToNextLevel: progress.percentToNextLevel,
     isMaxLevel: progress.isMaxLevel,
     ...(includeEmail
-      ? { timeZone: row.time_zone ?? "Europe/Lisbon", dailyXpGoal: row.daily_xp_goal ?? 50 }
+      ? {
+          timeZone: row.time_zone ?? "Europe/Lisbon",
+          dailyXpGoal: row.daily_xp_goal ?? 50,
+          // Só para o próprio: se outra pessoa confirmou o email não lhe diz
+          // respeito, e é informação sobre uma conta alheia.
+          emailVerified: row.email_verified_at != null,
+          hasPassword: row.password_hash !== null && row.password_hash !== undefined,
+        }
       : {}),
     createdAt: row.created_at,
     updatedAt: row.updated_at,

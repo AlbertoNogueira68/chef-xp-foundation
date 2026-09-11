@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { AccountSettings } from "@/components/account/AccountSettings";
 import { CookedCard } from "@/components/missions/CookedCard";
 import { RecipeMasonryCard } from "@/components/RecipeMasonryCard";
 import { XpProgress } from "@/components/XpProgress";
@@ -30,6 +31,7 @@ export function ProfilePage() {
   const { data: cooked = [], isLoading: cookedLoading } = useMissionPosts(user?.id);
   const signOut = useSignOut();
   const [tab, setTab] = useState("cooked");
+  const [definicoes, setDefinicoes] = useState(false);
 
   return (
     <section className="space-y-5">
@@ -52,6 +54,7 @@ export function ProfilePage() {
             size="icon"
             className="size-9 rounded-full"
             aria-label="Definições"
+            onClick={() => setDefinicoes(true)}
           >
             <Settings className="size-4" />
           </Button>
@@ -191,6 +194,8 @@ export function ProfilePage() {
           </div>
         </TabsContent>
       </Tabs>
+
+      <AccountSettings open={definicoes} onOpenChange={setDefinicoes} />
     </section>
   );
 }

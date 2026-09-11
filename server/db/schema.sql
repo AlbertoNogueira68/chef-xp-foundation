@@ -17,6 +17,13 @@ CREATE TABLE IF NOT EXISTS users (
   xp INTEGER NOT NULL DEFAULT 0,
   time_zone TEXT NOT NULL DEFAULT 'Europe/Lisbon',
   daily_xp_goal INTEGER NOT NULL DEFAULT 50,
+  -- Nulo = por confirmar. Uma data e não um booleano: saber quando foi
+  -- confirmada responde a perguntas que um sim/não não responde.
+  email_verified_at TIMESTAMPTZ,
+  -- Entra no token e é comparado a cada pedido: mudar a password incrementa-o
+  -- e todos os tokens emitidos antes deixam de valer. Sem isto, recuperar a
+  -- password não expulsava quem já lá estava dentro.
+  session_epoch INTEGER NOT NULL DEFAULT 0,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -320,3 +327,25 @@ CREATE INDEX IF NOT EXISTS idx_auth_identities_user ON auth_identities (user_id)
 -- Um utilizador não pode ter duas identidades do mesmo fornecedor.
 CREATE UNIQUE INDEX IF NOT EXISTS idx_auth_identities_user_provider
   ON auth_identities (user_id, provider);
+
+-- ------------------------------------------------------------------ --
+-- Códigos por email (ver migrations/010_email_codes.sql)
+--
+-- Guarda-se o hash e nunca o código: quem leia esta tabela não pode entrar em
+-- contas alheias nem confirmar emails que não são seus.
+-- ------------------------------------------------------------------ --
+CREATE TABLE IF NOT EXISTS email_codes (
+  id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id     UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  purpose     TEXT NOT NULL CHECK (purpose IN ('verify', 'reset')),
+  code_hash   TEXT NOT NULL,
+  -- Seis dígitos são cem mil hipóteses: sem limite de tentativas, adivinha-se.
+  attempts    SMALLINT NOT NULL DEFAULT 0,
+  expires_at  TIMESTAMPTZ NOT NULL,
+  consumed_at TIMESTAMPTZ,
+  created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS email_codes_lookup_idx
+  ON email_codes (user_id, purpose, created_at DESC);
+CREATE INDEX IF NOT EXISTS email_codes_expiry_idx ON email_codes (expires_at);

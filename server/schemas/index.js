@@ -19,6 +19,45 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password obrigatória").max(200),
 });
 
+/* ---------------------------------------------------------------- */
+/* Confirmação de conta e recuperação de password                   */
+/* ---------------------------------------------------------------- */
+
+const codeField = z
+  .string()
+  .trim()
+  .regex(/^[0-9]{6}$/, "O código tem seis dígitos");
+
+/** Reaproveita as regras da password do registo — é a mesma password. */
+const newPasswordField = registerSchema.shape.password;
+
+export const emailOnlySchema = z.object({
+  email: z.string().trim().toLowerCase().email("Email inválido"),
+});
+
+export const verifyCodeSchema = z.object({
+  code: codeField,
+});
+
+export const passwordResetSchema = z.object({
+  email: z.string().trim().toLowerCase().email("Email inválido"),
+  code: codeField,
+  password: newPasswordField,
+});
+
+/**
+ * Mudar a password estando autenticado.
+ *
+ * `currentPassword` é opcional porque uma conta criada por SSO não tem
+ * nenhuma: quem entra com a Google define a primeira sem ter de provar uma que
+ * nunca existiu. Para quem já tem password, a rota exige-a — e isso é
+ * verificado no servidor, não aqui.
+ */
+export const passwordChangeSchema = z.object({
+  currentPassword: z.string().min(1).max(200).nullish(),
+  password: newPasswordField,
+});
+
 export const userPatchSchema = z
   .object({
     username: registerSchema.shape.username.optional(),

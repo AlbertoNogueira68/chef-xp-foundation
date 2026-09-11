@@ -24,6 +24,10 @@ export interface User {
   isMaxLevel: boolean;
   timeZone?: string;
   dailyXpGoal?: number;
+  /** Só vem no perfil do próprio: se outra pessoa confirmou o email não lhe diz respeito. */
+  emailVerified?: boolean;
+  /** Falso numa conta criada pela Google — o ecrã oferece "definir" e não "mudar". */
+  hasPassword?: boolean;
   createdAt: string;
   updatedAt: string;
 }

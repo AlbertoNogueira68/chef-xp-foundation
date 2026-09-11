@@ -56,13 +56,18 @@ test("o segredo de exemplo do .env é recusado em produção", () => {
 });
 
 test("em produção é preciso declarar a origem do frontend", () => {
-  assert.throws(
-    () => validateEnv({ ...baseEnv, NODE_ENV: "production" }),
-    /FRONTEND_URL/,
-  );
-  assert.doesNotThrow(() =>
-    validateEnv({ ...baseEnv, NODE_ENV: "production", FRONTEND_URL: "https://chefxp.pt" }),
-  );
+  // O SMTP vai completo para este caso isolar a regra do CORS: produção passou
+  // a exigir os dois, e sem isto o teste passava pela razão errada.
+  const prod = {
+    ...baseEnv,
+    NODE_ENV: "production",
+    SMTP_HOST: "smtp.exemplo.pt",
+    SMTP_USER: "conta",
+    SMTP_PASSWORD: "segredo",
+  };
+
+  assert.throws(() => validateEnv(prod), /FRONTEND_URL/);
+  assert.doesNotThrow(() => validateEnv({ ...prod, FRONTEND_URL: "https://chefxp.pt" }));
 });
 
 /* ------------------------------------------------------------------ *
@@ -129,6 +134,58 @@ test("GOOGLE_CLIENT_ID sem GOOGLE_CLIENT_SECRET não arranca", () => {
       ...baseEnv,
       GOOGLE_CLIENT_ID: "x.apps.googleusercontent.com",
       GOOGLE_CLIENT_SECRET: "segredo",
+    }),
+  );
+});
+
+/* ------------------------------------------------------------------ */
+/* SMTP                                                               */
+/* ------------------------------------------------------------------ */
+
+test("SMTP meio configurado não arranca", () => {
+  // O registo prometia um código e o envio rebentava já depois de a pessoa se
+  // ter registado — o mesmo erro que o SSO da Google já evitava.
+  assert.throws(
+    () =>
+      validateEnv({
+        DATABASE_URL: "postgres://x",
+        JWT_SECRET: "a".repeat(32),
+        SMTP_HOST: "smtp.exemplo.pt",
+      }),
+    /SMTP meio configurado/,
+  );
+});
+
+test("sem SMTP nenhum, fora de produção, arranca na mesma", () => {
+  // Quem está a desenvolver vê o código na consola e não precisa de servidor.
+  assert.doesNotThrow(() =>
+    validateEnv({ DATABASE_URL: "postgres://x", JWT_SECRET: "a".repeat(32) }),
+  );
+});
+
+test("em produção sem SMTP não arranca", () => {
+  assert.throws(
+    () =>
+      validateEnv({
+        NODE_ENV: "production",
+        DATABASE_URL: "postgres://x",
+        JWT_SECRET: "b".repeat(40),
+        FRONTEND_URL: "https://exemplo.pt",
+      }),
+    /SMTP é obrigatório/,
+  );
+});
+
+test("em produção com SMTP completo arranca", () => {
+  assert.doesNotThrow(() =>
+    validateEnv({
+      NODE_ENV: "production",
+      DATABASE_URL: "postgres://x",
+      JWT_SECRET: "b".repeat(40),
+      FRONTEND_URL: "https://exemplo.pt",
+      SMTP_HOST: "smtp.exemplo.pt",
+      SMTP_USER: "conta",
+      SMTP_PASSWORD: "segredo",
     }),
   );
 });

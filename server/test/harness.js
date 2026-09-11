@@ -2,7 +2,8 @@ import { after, before } from "node:test";
 import { createApp } from "../app.js";
 import { closePool, getPool, query } from "../db/index.js";
 import { runMigrations } from "../db/runMigrations.js";
-import { loginStore, registerStore } from "../routes/auth.js";
+import { codeStore, loginStore, registerStore } from "../routes/auth.js";
+import { outbox } from "../lib/mailer.js";
 import { getMission, getUnitOfMission } from "../domain/missions.js";
 import { syncCurriculum } from "../scripts/sync-curriculum.js";
 
@@ -55,6 +56,7 @@ export const skipWithoutDatabase = hasDatabase
 
 /** Tabelas por onde os testes escrevem, pela ordem em que podem ser esvaziadas. */
 const TABLES = [
+  "email_codes",
   "mission_events",
   "mission_checkpoints",
   "post_comments",
@@ -84,7 +86,8 @@ const TABLES = [
  */
 export async function resetDatabase() {
   await query(`TRUNCATE ${TABLES.join(", ")} RESTART IDENTITY CASCADE`);
-  await Promise.all([loginStore.resetAll?.(), registerStore.resetAll?.()]);
+  await Promise.all([loginStore.resetAll?.(), registerStore.resetAll?.(), codeStore.resetAll?.()]);
+  outbox.length = 0;
 }
 
 let server = null;
@@ -238,3 +241,22 @@ export async function cookOnce(client, userId, missionId, { share = false } = {}
   }
   return done.data;
 }
+
+/**
+ * O último código que o servidor enviou.
+ *
+ * Sem SMTP configurado o mailer guarda as mensagens em memória, e os testes
+ * correm a app no mesmo processo — por isso lê-se o código daqui em vez de se
+ * espiar a base de dados, que só guarda o hash.
+ */
+export function lastCodeFor(email) {
+  for (let i = outbox.length - 1; i >= 0; i -= 1) {
+    if (outbox[i].to === email) {
+      const match = outbox[i].text.match(/\b(\d{6})\b/);
+      if (match) return match[1];
+    }
+  }
+  return null;
+}
+
+export { outbox };

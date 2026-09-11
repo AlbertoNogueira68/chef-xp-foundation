@@ -1,3 +1,5 @@
+import { smtpConfigError, smtpConfigured } from "./mailer.js";
+
 const WEAK_SECRETS = new Set([
   "changeme",
   "secret",
@@ -43,7 +45,20 @@ export function validateEnv(env = process.env) {
     );
   }
 
+  // Meio configurado é pior do que não configurado, tal como no SSO: o registo
+  // prometia um código e o envio rebentava já depois de a pessoa se registar.
+  const smtpError = smtpConfigError(env);
+  if (smtpError) errors.push(smtpError);
+
   if (isProd) {
+    // Em produção não há consola onde alguém vá buscar o código. Uma conta que
+    // não se consegue confirmar, e sem explicação, é pior do que não arrancar.
+    if (!smtpConfigured(env)) {
+      errors.push(
+        "Em produção o SMTP é obrigatório (SMTP_HOST, SMTP_USER, SMTP_PASSWORD): " +
+          "sem ele ninguém consegue confirmar a conta nem recuperar a password",
+      );
+    }
     if (!env.FRONTEND_URL && !env.CORS_ORIGIN) {
       errors.push("Em produção define FRONTEND_URL (ou CORS_ORIGIN) para fechar o CORS");
     }

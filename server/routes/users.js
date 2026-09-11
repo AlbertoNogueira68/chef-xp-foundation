@@ -13,8 +13,13 @@ const router = Router();
 
 router.use(requireAuth);
 
+// `password_hash` entra na lista porque o DTO do próprio precisa de saber se
+// existe — uma conta criada pela Google não tem nenhuma e o ecrã de definições
+// tem de oferecer "definir" em vez de "mudar". O valor em si nunca sai daqui:
+// `toPublicUser` devolve um booleano.
 const SELECT_USER = `
-  SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, created_at, updated_at
+  SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal,
+         email_verified_at, password_hash, created_at, updated_at
   FROM users
 `;
 
@@ -59,7 +64,8 @@ router.patch(
     try {
       const { rows } = await query(
         `UPDATE users SET ${fields.join(", ")} WHERE id = $${values.length}
-         RETURNING id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, created_at, updated_at`,
+         RETURNING id, username, email, photo_url, level, xp, time_zone, daily_xp_goal,
+                   email_verified_at, password_hash, created_at, updated_at`,
         values,
       );
       if (!rows[0]) return res.status(404).json({ error: "Utilizador não encontrado" });
