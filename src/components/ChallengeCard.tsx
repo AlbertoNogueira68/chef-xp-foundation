@@ -1,4 +1,5 @@
-import { CalendarDays, Zap } from "lucide-react";
+import { CalendarDays, Check, Users, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import type { Challenge } from "@/types/challenge";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +17,13 @@ function daysLeft(value: string) {
  * não dava para comparar nenhum com nenhum. Passou a 16:9 com o texto fora da
  * imagem — cabem três, e o texto deixa de depender do que a foto tem por trás.
  */
-export function ChallengeCard({ challenge }: { challenge: Challenge }) {
+export function ChallengeCard({
+  challenge,
+  onOpen,
+}: {
+  challenge: Challenge;
+  onOpen: (id: string) => void;
+}) {
   const remaining = daysLeft(challenge.endsAt);
   const urgent = challenge.active && remaining <= 3;
 
@@ -50,17 +57,40 @@ export function ChallengeCard({ challenge }: { challenge: Challenge }) {
           {challenge.description}
         </p>
 
-        <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
-          <CalendarDays className="size-3.5" />
-          {challenge.active ? (
-            <span>
-              Termina {formatDate(challenge.endsAt)}
-              {!urgent && ` · ${remaining} ${remaining === 1 ? "dia" : "dias"}`}
-            </span>
-          ) : (
-            <span>Terminou {formatDate(challenge.endsAt)}</span>
-          )}
+        <div className="mt-2.5 flex items-center gap-3 text-[11px] text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <CalendarDays className="size-3.5" />
+            {challenge.active ? (
+              <>
+                Termina {formatDate(challenge.endsAt)}
+                {!urgent && ` · ${remaining} ${remaining === 1 ? "dia" : "dias"}`}
+              </>
+            ) : (
+              <>Terminou {formatDate(challenge.endsAt)}</>
+            )}
+          </span>
+          <span className="inline-flex items-center gap-1">
+            <Users className="size-3.5" />
+            {challenge.entriesCount}
+          </span>
         </div>
+
+        <Button
+          variant={challenge.myEntry ? "outline" : "default"}
+          size="sm"
+          className="mt-3 w-full rounded-full text-xs"
+          onClick={() => onOpen(challenge.id)}
+        >
+          {challenge.myEntry ? (
+            <>
+              <Check className="mr-1.5 size-3.5" /> A participar · ver
+            </>
+          ) : challenge.active ? (
+            "Participar"
+          ) : (
+            "Ver participações"
+          )}
+        </Button>
       </div>
     </article>
   );

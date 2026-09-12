@@ -14,7 +14,8 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
   seguidores, e três vistas (Recentes, A seguir, Em alta).
 - **Perfil** com XP, nível, streak, conquistas e estatísticas, todas derivadas de
   dados reais.
-- **Desafios** da comunidade.
+- **Desafios** da comunidade: participa-se com uma receita própria, vê-se quem
+  participou, e o XP do desafio é pago uma vez por desafio.
 
 ## Stack
 
@@ -105,6 +106,12 @@ e nunca reimplementa a fórmula.
 `POST /api/learning/lessons/:id/answer`, e no fim o servidor volta a corrigir
 tudo antes de atribuir XP.
 
+**Participar num desafio paga uma vez, não por submissão.** A entrada é um
+evento de XP com `source_ref = challengeId`, portanto retirar a participação e
+voltar a entrar não volta a pagar. O evento fica no livro-razão mesmo depois de
+a participação ser retirada: o livro-razão regista o que aconteceu, não o que é
+verdade agora.
+
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.
 
@@ -119,7 +126,8 @@ Migrations em `server/db/migrations/`, aplicadas no arranque e por
 `npm run db:migrate`. São idempotentes — o CI corre-as duas vezes de propósito.
 
 Tabelas principais: `users`, `recipes`, `challenges`, `recipe_likes`, `follows`,
-`comments`, `lesson_progress`, `daily_activity`, `xp_events`.
+`comments`, `lesson_progress`, `daily_activity`, `xp_events`,
+`challenge_entries`.
 
 ## Produção
 

@@ -283,3 +283,23 @@ CREATE INDEX IF NOT EXISTS idx_auth_identities_user ON auth_identities (user_id)
 -- Um utilizador não pode ter duas identidades do mesmo fornecedor.
 CREATE UNIQUE INDEX IF NOT EXISTS idx_auth_identities_user_provider
   ON auth_identities (user_id, provider);
+
+-- ------------------------------------------------------------------ --
+-- Participações nos desafios (ver migrations/007_challenge_entries.sql)
+-- ------------------------------------------------------------------ --
+CREATE TABLE IF NOT EXISTS challenge_entries (
+  id           BIGSERIAL PRIMARY KEY,
+  challenge_id UUID NOT NULL REFERENCES challenges(id) ON DELETE CASCADE,
+  user_id      UUID NOT NULL REFERENCES users(id)      ON DELETE CASCADE,
+  recipe_id    UUID NOT NULL REFERENCES recipes(id)    ON DELETE CASCADE,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  -- Uma participação por pessoa; a mesma receita não entra duas vezes.
+  UNIQUE (challenge_id, user_id),
+  UNIQUE (challenge_id, recipe_id)
+);
+
+CREATE INDEX IF NOT EXISTS challenge_entries_challenge_idx
+  ON challenge_entries (challenge_id, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS challenge_entries_user_idx
+  ON challenge_entries (user_id, created_at DESC);

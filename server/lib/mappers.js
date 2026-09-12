@@ -76,6 +76,21 @@ export function toChallenge(row) {
     endsAt: row.ends_at,
     createdAt: row.created_at,
     active: new Date(row.ends_at) > new Date(),
+    entriesCount: Number(row.entries_count ?? 0),
+    // A participação de quem está a pedir, quando a query a trouxe. Poupa um
+    // segundo pedido só para saber se o botão diz "Participar" ou "Retirar".
+    myEntry: row.my_entry_recipe_id
+      ? { recipeId: row.my_entry_recipe_id, createdAt: row.my_entry_created_at }
+      : null,
+  };
+}
+
+/** Uma participação: a receita submetida mais quem a submeteu. */
+export function toChallengeEntry(row) {
+  return {
+    id: String(row.entry_id),
+    createdAt: row.entered_at,
+    recipe: toRecipe(row),
   };
 }
 

@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { Flame } from "lucide-react";
 import { ChallengeCard } from "@/components/ChallengeCard";
+import { ChallengeDetailDialog } from "@/components/challenges/ChallengeDetailDialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useChallenges } from "@/features/challenges/hooks/useChallenges";
 
 export function ChallengesTab() {
   const { data: challenges, isLoading, isError } = useChallenges();
+  const [openId, setOpenId] = useState<string | null>(null);
   const active = challenges?.filter((c) => c.active).length ?? 0;
 
   return (
@@ -41,9 +44,11 @@ export function ChallengesTab() {
 
       <div className="space-y-3">
         {challenges?.map((challenge) => (
-          <ChallengeCard key={challenge.id} challenge={challenge} />
+          <ChallengeCard key={challenge.id} challenge={challenge} onOpen={setOpenId} />
         ))}
       </div>
+
+      <ChallengeDetailDialog challengeId={openId} onClose={() => setOpenId(null)} />
     </div>
   );
 }

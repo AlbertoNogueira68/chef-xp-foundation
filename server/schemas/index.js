@@ -109,3 +109,11 @@ export const missionCompleteSchema = z.object({
   share: z.boolean().default(false),
   caption: z.string().trim().max(280).nullish(),
 });
+
+/* ---------------------------------------------------------------- */
+/* Desafios                                                         */
+/* ---------------------------------------------------------------- */
+
+export const challengeEntrySchema = z.object({
+  recipeId: uuid,
+});
