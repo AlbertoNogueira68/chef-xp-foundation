@@ -6,8 +6,15 @@ import {
   type InfiniteData,
 } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { toast } from "sonner";
 import { recipeService } from "../services/recipeService";
-import type { Recipe, RecipeCreateInput, RecipeListParams, RecipePage } from "@/types/recipe";
+import type {
+  Recipe,
+  RecipeCreateInput,
+  RecipeListParams,
+  RecipePage,
+  RecipeUpdateInput,
+} from "@/types/recipe";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
 
 export const RECIPES_ROOT_KEY = "recipes";
@@ -143,5 +150,39 @@ export function useRecipe(id: string | undefined) {
     queryKey: recipeQueryKey(id ?? ""),
     queryFn: () => recipeService.getById(id as string),
     enabled: Boolean(id),
+  });
+}
+
+export function useUpdateRecipe(id: string) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (patch: RecipeUpdateInput) => recipeService.update(id, patch),
+    onSuccess: (recipe) => {
+      queryClient.setQueryData(recipeQueryKey(recipe.id), recipe);
+      queryClient.invalidateQueries({ queryKey: [RECIPES_ROOT_KEY] });
+      toast.success("Receita atualizada");
+    },
+    onError: (error: Error) => toast.error(error.message || "Não foi possível guardar"),
+  });
+}
+
+/**
+ * Apagar leva o XP atrás, portanto o perfil e o cabeçalho têm de recarregar.
+ */
+export function useDeleteRecipe() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => recipeService.remove(id),
+    onSuccess: ({ revoked }, id) => {
+      queryClient.removeQueries({ queryKey: recipeQueryKey(id) });
+      queryClient.invalidateQueries({ queryKey: [RECIPES_ROOT_KEY] });
+      queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
+      queryClient.invalidateQueries({ queryKey: ["userStats"] });
+      queryClient.invalidateQueries({ queryKey: ["challenges"] });
+      toast.success(revoked > 0 ? `Receita apagada · −${revoked} XP` : "Receita apagada");
+    },
+    onError: (error: Error) => toast.error(error.message || "Não foi possível apagar"),
   });
 }

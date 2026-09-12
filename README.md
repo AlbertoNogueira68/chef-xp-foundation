@@ -115,6 +115,13 @@ voltar a entrar não volta a pagar. O evento fica no livro-razão mesmo depois d
 a participação ser retirada: o livro-razão regista o que aconteceu, não o que é
 verdade agora.
 
+**Apagar uma receita leva o XP atrás.** Gostos, comentários e participações em
+desafios caem por `ON DELETE CASCADE`, mas `xp_events.source_ref` é texto e não
+uma chave estrangeira: sem o `revokeXp` explícito, publicar e apagar em ciclo
+somava XP por receitas que já não existem. A revogação desconta também o dia em
+que o ponto foi ganho, para `daily_activity` continuar a bater certo com o
+livro-razão.
+
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.
 

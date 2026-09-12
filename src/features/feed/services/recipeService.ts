@@ -5,6 +5,7 @@ import type {
   RecipeCreateInput,
   RecipeListParams,
   RecipePage,
+  RecipeUpdateInput,
 } from "@/types/recipe";
 
 function buildQuery(params: RecipeListParams): string {
@@ -40,6 +41,22 @@ export const recipeService = {
       body: JSON.stringify(input),
     });
     return { recipe: data.recipe, xpEarned: data.xp?.earned ?? 0 };
+  },
+
+  async update(id: string, patch: RecipeUpdateInput): Promise<Recipe> {
+    const data = await apiFetch<{ recipe: Recipe }>(`/recipes/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(patch),
+    });
+    return data.recipe;
+  },
+
+  /** Apagar devolve o XP que é retirado — a receita levava-o consigo. */
+  async remove(id: string): Promise<{ revoked: number }> {
+    const data = await apiFetch<{ xp: { revoked: number } }>(`/recipes/${id}`, {
+      method: "DELETE",
+    });
+    return { revoked: data.xp?.revoked ?? 0 };
   },
 
   async like(id: string): Promise<Recipe> {

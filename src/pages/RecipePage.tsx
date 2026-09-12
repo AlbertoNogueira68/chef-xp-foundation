@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { RecipeActionsMenu } from "@/components/recipes/RecipeActionsMenu";
 import { useAddComment, useComments, useDeleteComment } from "@/features/feed/hooks/useComments";
 import { useRecipe, useToggleLike } from "@/features/feed/hooks/useRecipes";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
@@ -109,7 +110,10 @@ export function RecipePage() {
       </div>
 
       <div className="space-y-2">
-        <h1 className="text-xl font-bold leading-tight">{recipe.title}</h1>
+        <div className="flex items-start justify-between gap-2">
+          <h1 className="text-xl font-bold leading-tight">{recipe.title}</h1>
+          <RecipeActionsMenu recipe={recipe} onDeleted={() => navigate("/feed")} />
+        </div>
 
         <Link
           to={`/chef/${recipe.author.id}`}

@@ -8,10 +8,11 @@ import {
   idParamSchema,
   recipeCreateSchema,
   recipeListSchema,
+  recipeUpdateSchema,
 } from "../schemas/index.js";
 import { decodeCursor, encodeCursor, toComment, toRecipe } from "../lib/mappers.js";
 import { resolveImageInput } from "../lib/imageStore.js";
-import { awardXp } from "../lib/xpLedger.js";
+import { awardXp, revokeXp } from "../lib/xpLedger.js";
 import { XP_RULES } from "../domain/xp.js";
 
 const router = Router();
@@ -214,6 +215,112 @@ router.post(
         recipe: toRecipe(rows[0]),
         xp: { earned: award.amount, total: award.xp, level: award.level },
       });
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
+  }),
+);
+
+/* ---------------------------------------------------------------- *
+ * Editar e apagar — só o autor
+ * ---------------------------------------------------------------- */
+
+/**
+ * Confirma que a receita existe e é de quem pede.
+ * Responde e devolve `null` quando não é, para a rota poder sair já.
+ */
+async function requireOwnRecipe(req, res, client = null) {
+  const run = client ? (text, params) => client.query(text, params) : query;
+  const { rows } = await run(`SELECT author_id FROM recipes WHERE id = $1`, [req.valid.params.id]);
+
+  if (!rows[0]) {
+    res.status(404).json({ error: "Receita não encontrada" });
+    return null;
+  }
+  if (rows[0].author_id !== req.user.id) {
+    res.status(403).json({ error: "Esta receita não é tua" });
+    return null;
+  }
+  return rows[0];
+}
+
+router.patch(
+  "/:id",
+  validate({ params: idParamSchema, body: recipeUpdateSchema }),
+  asyncHandler(async (req, res) => {
+    if (!(await requireOwnRecipe(req, res))) return;
+
+    const { title, description, ingredients, cookTimeMin, difficulty, imageDataUrl } =
+      req.valid.body;
+
+    const fields = [];
+    const values = [];
+    const set = (column, value) => {
+      values.push(value);
+      fields.push(`${column} = $${values.length}`);
+    };
+
+    if (title !== undefined) set("title", title);
+    if (description !== undefined) set("description", description);
+    if (ingredients !== undefined) set("ingredients", ingredients);
+    if (cookTimeMin !== undefined) set("cook_time_min", cookTimeMin);
+    if (difficulty !== undefined) set("difficulty", difficulty);
+    if (imageDataUrl !== undefined) {
+      // Como na publicação: a imagem é gravada fora de qualquer transação, e
+      // `null` retira a fotografia em vez de a manter.
+      set("image_url", imageDataUrl === null ? null : await resolveImageInput(imageDataUrl));
+    }
+
+    values.push(req.valid.params.id);
+    await query(`UPDATE recipes SET ${fields.join(", ")} WHERE id = $${values.length}`, values);
+
+    return respondWithRecipe(res, req.user.id, req.valid.params.id);
+  }),
+);
+
+/**
+ * Apagar leva o XP atrás.
+ *
+ * Gostos, comentários e participações em desafios caem por `ON DELETE
+ * CASCADE`; o XP não, porque `xp_events.source_ref` é texto e não uma chave
+ * estrangeira. Sem o revogar à mão, publicar e apagar em ciclo era uma forma
+ * de somar XP por receitas que já não existem.
+ */
+router.delete(
+  "/:id",
+  validate({ params: idParamSchema }),
+  asyncHandler(async (req, res) => {
+    const pool = getPool();
+    const client = await pool.connect();
+
+    try {
+      await client.query("BEGIN");
+
+      if (!(await requireOwnRecipe(req, res, client))) {
+        await client.query("ROLLBACK");
+        return;
+      }
+
+      const { rows: userRows } = await client.query(
+        `SELECT time_zone FROM users WHERE id = $1 FOR UPDATE`,
+        [req.user.id],
+      );
+
+      await client.query(`DELETE FROM recipes WHERE id = $1`, [req.valid.params.id]);
+
+      const revoked = await revokeXp(client, {
+        userId: req.user.id,
+        source: "recipe",
+        sourceRef: req.valid.params.id,
+        timeZone: userRows[0]?.time_zone ?? "UTC",
+      });
+
+      await client.query("COMMIT");
+
+      res.json({ xp: { revoked: revoked.amount, total: revoked.xp, level: revoked.level } });
     } catch (error) {
       await client.query("ROLLBACK");
       throw error;

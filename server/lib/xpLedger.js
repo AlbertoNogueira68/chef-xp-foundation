@@ -68,6 +68,50 @@ export async function awardXp(
   return { awarded, amount: awarded ? value : 0, ...totals };
 }
 
+/**
+ * Anula um ganho de XP.
+ *
+ * Usa-se quando o que deu o ponto deixa de existir — apagar uma receita, por
+ * exemplo. Sem isto, publicar e apagar em ciclo somava XP por receitas que já
+ * não existem: o `UNIQUE` só impede pagar duas vezes pelo MESMO `source_ref`,
+ * e cada receita nova traz um id novo.
+ *
+ * Desconta também o dia em que o ponto foi ganho, não o dia de hoje — senão o
+ * histórico de `daily_activity` deixava de bater certo com o livro-razão.
+ */
+export async function revokeXp(client, { userId, source, sourceRef, timeZone = "UTC" }) {
+  const { rows } = await client.query(
+    `DELETE FROM xp_events
+      WHERE user_id = $1 AND source = $2 AND source_ref = $3
+      RETURNING amount, created_at`,
+    [userId, source, sourceRef],
+  );
+
+  const event = rows[0];
+  if (!event) return { revoked: false, amount: 0, ...(await recomputeUserXp(client, userId)) };
+
+  const value = Number(event.amount);
+  if (value > 0) {
+    const day = dayInTimeZone(event.created_at, timeZone);
+    await client.query(
+      `UPDATE daily_activity
+          SET xp = GREATEST(0, xp - $3)
+        WHERE user_id = $1 AND day = $2`,
+      [userId, day, value],
+    );
+    await client.query(
+      `UPDATE daily_activity da
+          SET goal_met = da.xp >= u.daily_xp_goal
+         FROM users u
+        WHERE u.id = da.user_id AND da.user_id = $1 AND da.day = $2`,
+      [userId, day],
+    );
+  }
+
+  const totals = await recomputeUserXp(client, userId);
+  return { revoked: true, amount: value, ...totals };
+}
+
 /** Estado diário derivado de daily_activity: streak, XP de hoje e meta. */
 export async function loadDailyState(client, userId, { timeZone = "UTC", now = new Date() } = {}) {
   const today = dayInTimeZone(now, timeZone);

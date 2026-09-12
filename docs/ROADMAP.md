@@ -40,12 +40,13 @@ participar com uma receita, ver quem participou e receber o XP do desafio.
 - [x] Partilhar o perfil (folha de partilha do sistema, ou copiar o link)
 - [x] Ligações a partir do feed, da pesquisa e dos comentários
 
-### 3. Gerir a própria receita — *a seguir*
+### 3. Gerir a própria receita
 
-- [ ] `PATCH /api/recipes/:id` e `DELETE /api/recipes/:id`, só para o autor
-- [ ] Ações de editar e apagar no cartão e no detalhe
+- [x] `PATCH /api/recipes/:id` e `DELETE /api/recipes/:id`, só para o autor
+- [x] Apagar revoga o XP da publicação (`revokeXp` no livro-razão)
+- [x] Menu de editar e apagar no feed e no detalhe, só para o autor
 
-### 4. Testes de integração
+### 4. Testes de integração — *a seguir*
 
 Hoje só há testes de domínio puro. Falta cobrir o que o júri vai perguntar:
 

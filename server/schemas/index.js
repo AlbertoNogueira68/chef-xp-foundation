@@ -39,6 +39,14 @@ export const recipeCreateSchema = z.object({
   imageDataUrl: z.string().max(6_000_000).nullish(),
 });
 
+/**
+ * Editar é o mesmo conjunto de campos, todos opcionais. `imageDataUrl` ausente
+ * mantém a fotografia atual; `null` retira-a.
+ */
+export const recipeUpdateSchema = recipeCreateSchema
+  .partial()
+  .refine((value) => Object.keys(value).length > 0, { message: "Nada para atualizar" });
+
 export const recipeListSchema = z.object({
   q: z.string().trim().max(80).optional(),
   scope: z.enum(["all", "following", "popular"]).default("all"),

@@ -34,6 +34,9 @@ export interface RecipeCreateInput {
   imageDataUrl?: string | null;
 }
 
+/** Editar aceita os mesmos campos, todos opcionais. */
+export type RecipeUpdateInput = Partial<RecipeCreateInput>;
+
 export type FeedScope = "all" | "following" | "popular";
 
 export interface RecipeListParams {

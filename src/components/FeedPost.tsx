@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Clock, Flame, Heart, MessageCircle, MoreHorizontal, Send } from "lucide-react";
+import { Clock, Flame, Heart, MessageCircle, Send } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { RecipeActionsMenu } from "@/components/recipes/RecipeActionsMenu";
 import { useAddComment, useComments } from "@/features/feed/hooks/useComments";
 import type { Recipe } from "@/types/recipe";
 import { cn } from "@/lib/utils";
@@ -53,14 +54,8 @@ export function FeedPost({
             <p className="text-[11px] text-muted-foreground">Nível {recipe.author.level}</p>
           </div>
         </Link>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="size-8 rounded-full"
-          aria-label="Mais opções"
-        >
-          <MoreHorizontal className="size-4" />
-        </Button>
+        {/* Só aparece nas minhas receitas; nas outras não há nada a oferecer. */}
+        <RecipeActionsMenu recipe={recipe} onDeleted={() => {}} />
       </div>
 
       <Link
