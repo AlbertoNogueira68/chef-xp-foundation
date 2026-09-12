@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Clock, Flame, Heart, MessageCircle, MoreHorizontal, Send } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -39,7 +40,10 @@ export function FeedPost({
   return (
     <article className="overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm">
       <div className="flex items-center justify-between px-3 py-2.5">
-        <div className="flex items-center gap-2.5">
+        <Link
+          to={`/chef/${recipe.author.id}`}
+          className="flex items-center gap-2.5 transition-opacity hover:opacity-80"
+        >
           <Avatar className="size-9 ring-2 ring-amber-500/20">
             <AvatarImage src={recipe.author.photoUrl ?? undefined} />
             <AvatarFallback>{recipe.author.username.slice(0, 2).toUpperCase()}</AvatarFallback>
@@ -48,7 +52,7 @@ export function FeedPost({
             <p className="text-sm font-semibold leading-none">{recipe.author.username}</p>
             <p className="text-[11px] text-muted-foreground">Nível {recipe.author.level}</p>
           </div>
-        </div>
+        </Link>
         <Button
           variant="ghost"
           size="icon"
@@ -59,7 +63,10 @@ export function FeedPost({
         </Button>
       </div>
 
-      <div className="relative aspect-square w-full overflow-hidden bg-muted">
+      <Link
+        to={`/recipe/${recipe.id}`}
+        className="relative block aspect-square w-full overflow-hidden bg-muted"
+      >
         {recipe.imageUrl ? (
           <img
             src={recipe.imageUrl}
@@ -75,7 +82,7 @@ export function FeedPost({
         <Badge className="absolute bottom-3 left-3 border-0 bg-black/50 text-white backdrop-blur-sm">
           +{recipe.xpReward} XP
         </Badge>
-      </div>
+      </Link>
 
       <div className="space-y-2 px-3 py-2.5">
         <div className="flex items-center justify-between">
@@ -117,7 +124,9 @@ export function FeedPost({
         </p>
 
         <p className="text-sm leading-snug">
-          <span className="font-semibold">{recipe.author.username}</span>{" "}
+          <Link to={`/chef/${recipe.author.id}`} className="font-semibold hover:underline">
+            {recipe.author.username}
+          </Link>{" "}
           <span className="text-foreground/90">{recipe.description}</span>
         </p>
 
@@ -154,7 +163,9 @@ export function FeedPost({
                   </AvatarFallback>
                 </Avatar>
                 <p className="text-xs leading-snug">
-                  <span className="font-semibold">{comment.author.username}</span>{" "}
+                  <Link to={`/chef/${comment.author.id}`} className="font-semibold hover:underline">
+                    {comment.author.username}
+                  </Link>{" "}
                   <span className="text-foreground/90">{comment.body}</span>
                 </p>
               </div>

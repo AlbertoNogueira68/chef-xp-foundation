@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { UserPlus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -37,15 +38,21 @@ export function ChefsToFollowRow() {
         <div className="flex gap-3 pb-1">
           {chefs.map((chef) => (
             <div key={chef.id} className="flex w-20 shrink-0 flex-col items-center gap-1.5">
-              <div className="rounded-full bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 p-[2px]">
-                <Avatar className="size-14 border-2 border-background">
-                  <AvatarImage src={chef.photoUrl ?? undefined} alt="" />
-                  <AvatarFallback>{chef.username.slice(0, 2).toUpperCase()}</AvatarFallback>
-                </Avatar>
-              </div>
-              <span className="max-w-20 truncate text-[10px] text-muted-foreground">
-                {chef.username}
-              </span>
+              <Link
+                to={`/chef/${chef.id}`}
+                className="flex flex-col items-center gap-1.5"
+                aria-label={`Ver o perfil de ${chef.username}`}
+              >
+                <div className="rounded-full bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 p-[2px]">
+                  <Avatar className="size-14 border-2 border-background">
+                    <AvatarImage src={chef.photoUrl ?? undefined} alt="" />
+                    <AvatarFallback>{chef.username.slice(0, 2).toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                </div>
+                <span className="max-w-20 truncate text-[10px] text-muted-foreground">
+                  {chef.username}
+                </span>
+              </Link>
               <Button
                 size="sm"
                 variant="outline"

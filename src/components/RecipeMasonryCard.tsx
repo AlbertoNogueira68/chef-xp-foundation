@@ -1,10 +1,14 @@
+import { Link } from "react-router-dom";
 import { Clock, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import type { Recipe } from "@/types/recipe";
 
 export function RecipeMasonryCard({ recipe }: { recipe: Recipe }) {
   return (
-    <article className="group mb-3 break-inside-avoid overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm transition-shadow hover:shadow-md">
+    <Link
+      to={`/recipe/${recipe.id}`}
+      className="group mb-3 block break-inside-avoid overflow-hidden rounded-2xl border border-border/60 bg-card shadow-sm transition-shadow hover:shadow-md"
+    >
       <div className="relative overflow-hidden">
         {recipe.imageUrl && (
           <img
@@ -34,6 +38,6 @@ export function RecipeMasonryCard({ recipe }: { recipe: Recipe }) {
           </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }

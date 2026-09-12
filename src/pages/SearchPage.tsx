@@ -1,4 +1,5 @@
 import { useDeferredValue, useState } from "react";
+import { Link } from "react-router-dom";
 import { Search, UserPlus, UserCheck } from "lucide-react";
 import { RecipeMasonryCard } from "@/components/RecipeMasonryCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -97,7 +98,7 @@ export function SearchPage() {
               key={chef.id}
               className="flex items-center justify-between rounded-xl border border-border/60 bg-card p-3"
             >
-              <div className="flex items-center gap-3">
+              <Link to={`/chef/${chef.id}`} className="flex items-center gap-3">
                 <Avatar className="size-11 ring-2 ring-amber-500/20">
                   <AvatarImage src={chef.photoUrl ?? undefined} />
                   <AvatarFallback>{chef.username.slice(0, 2).toUpperCase()}</AvatarFallback>
@@ -109,7 +110,7 @@ export function SearchPage() {
                     · {chef.followers} {chef.followers === 1 ? "seguidor" : "seguidores"}
                   </p>
                 </div>
-              </div>
+              </Link>
               <Button
                 size="sm"
                 variant="outline"

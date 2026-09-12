@@ -62,7 +62,7 @@ VALUES
     '33333333-3333-3333-3333-333333333333',
     'Bacalhau à Brás express',
     'Clássico português em versão rápida para noite de semana. Crocante, cremoso e confort food total.',
-    '400g bacalhau desfiado\n2 cebolas\n3 ovos\nbatata palha\nazeite\nsalsinha',
+    E'400g bacalhau desfiado\n2 cebolas\n3 ovos\nbatata palha\nazeite\nsalsinha',
     35, 'medio', 40,
     'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=800&fit=crop',
     now() - interval '2 hours'
@@ -72,7 +72,7 @@ VALUES
     '22222222-2222-2222-2222-222222222222',
     'Bowl de quinoa e legumes assados',
     'Almoço saudável com crocância e molho de iogurte e limão.',
-    '1 chávena quinoa\nabóbora\nbrócolos\ngrão-de-bico\niogurte grego\nlimão',
+    E'1 chávena quinoa\nabóbora\nbrócolos\ngrão-de-bico\niogurte grego\nlimão',
     40, 'facil', 30,
     'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=800&fit=crop',
     now() - interval '5 hours'
@@ -82,7 +82,7 @@ VALUES
     '44444444-4444-4444-4444-444444444444',
     'Pão de banana sem açúcar',
     'Perfeito para o pequeno-almoço. Doce natural da banana e canela.',
-    '3 bananas\n2 ovos\nfarinha de aveia\ncanela\nfermento\nnozes',
+    E'3 bananas\n2 ovos\nfarinha de aveia\ncanela\nfermento\nnozes',
     55, 'facil', 25,
     'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=800&fit=crop',
     now() - interval '1 day'
@@ -92,7 +92,7 @@ VALUES
     '11111111-1111-1111-1111-111111111111',
     'Risotto de cogumelos',
     'Cremoso, aromático e ideal para impressionar sem stress.',
-    'arroz arborio\ncogumelos mistos\ncaldo de legumes\nvinho branco\nparmesão\nmanteiga',
+    E'arroz arborio\ncogumelos mistos\ncaldo de legumes\nvinho branco\nparmesão\nmanteiga',
     45, 'dificil', 60,
     'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop',
     now() - interval '30 minutes'
@@ -102,7 +102,7 @@ VALUES
     '33333333-3333-3333-3333-333333333333',
     'Salada de grão com atum',
     'Refeição fresca em 15 minutos. Ideal para meal prep.',
-    '1 lata grão\n1 lata atum\ntomate cherry\npepino\nazeite\noreganos',
+    E'1 lata grão\n1 lata atum\ntomate cherry\npepino\nazeite\noreganos',
     15, 'facil', 20,
     'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=800&fit=crop',
     now() - interval '3 days'
@@ -112,7 +112,7 @@ VALUES
     '22222222-2222-2222-2222-222222222222',
     'Tacos de frango crocante',
     'Textura irresistível com molho de iogurte picante e lima.',
-    'peito de frango\ntortillas\nrepolho roxo\niogurte\nlima\npáprica',
+    E'peito de frango\ntortillas\nrepolho roxo\niogurte\nlima\npáprica',
     25, 'medio', 35,
     'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=800&fit=crop',
     now() - interval '8 hours'

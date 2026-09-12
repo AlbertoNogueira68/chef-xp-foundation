@@ -18,7 +18,7 @@ ser feito. Atualizar este ficheiro faz parte de fechar cada ponto.
 
 ## Por fazer, por ordem
 
-### 1. Desafios de ponta a ponta — *em curso*
+### 1. Desafios de ponta a ponta
 
 Hoje existe só `GET /api/challenges`: um mural que não se pode usar. Falta
 participar com uma receita, ver quem participou e receber o XP do desafio.
@@ -33,11 +33,14 @@ participar com uma receita, ver quem participou e receber o XP do desafio.
 
 ### 2. Ecrãs em falta para endpoints que já existem
 
-- [ ] Detalhe de receita (`/recipe/:id`) — `GET /api/recipes/:id` já existe
-- [ ] Perfil público de outro chef — `GET /api/users/:id` e `/stats` já existem
-- [ ] Editar perfil e definições — `PATCH /api/users/me` já aceita username, foto, fuso e meta diária; os botões em `ProfilePage` não têm ação
+- [x] Detalhe de receita (`/recipe/:id`) com ingredientes, gostos e comentários
+- [x] Perfil público de outro chef (`/chef/:id`), com seguir e reencaminhamento
+      para `/profile` quando é o próprio
+- [x] Editar perfil e definições: nome, fotografia, fuso e meta diária
+- [x] Partilhar o perfil (folha de partilha do sistema, ou copiar o link)
+- [x] Ligações a partir do feed, da pesquisa e dos comentários
 
-### 3. Gerir a própria receita
+### 3. Gerir a própria receita — *a seguir*
 
 - [ ] `PATCH /api/recipes/:id` e `DELETE /api/recipes/:id`, só para o autor
 - [ ] Ações de editar e apagar no cartão e no detalhe

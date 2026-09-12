@@ -13,7 +13,10 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
 - **Feed social**: publicação de receitas com fotografia, gostos, comentários,
   seguidores, e três vistas (Recentes, A seguir, Em alta).
 - **Perfil** com XP, nível, streak, conquistas e estatísticas, todas derivadas de
-  dados reais.
+  dados reais — próprio (com definições: nome, fotografia, fuso e meta diária) e
+  público, o de qualquer outro chef.
+- **Detalhe de receita** com ingredientes, gostos e comentários, num link que se
+  pode partilhar.
 - **Desafios** da comunidade: participa-se com uma receita própria, vê-se quem
   participou, e o XP do desafio é pago uma vez por desafio.
 

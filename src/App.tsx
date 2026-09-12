@@ -11,6 +11,8 @@ import { SearchPage } from "@/pages/SearchPage";
 import { PublishPage } from "@/pages/PublishPage";
 import { ChallengesPage } from "@/pages/ChallengesPage";
 import { ProfilePage } from "@/pages/ProfilePage";
+import { ChefPage } from "@/pages/ChefPage";
+import { RecipePage } from "@/pages/RecipePage";
 import { SESSION_EXPIRED_EVENT } from "@/services/api";
 
 /**
@@ -59,6 +61,8 @@ export default function App() {
           <Route path="/publish" element={<PublishPage />} />
           <Route path="/challenges" element={<ChallengesPage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/chef/:id" element={<ChefPage />} />
+          <Route path="/recipe/:id" element={<RecipePage />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

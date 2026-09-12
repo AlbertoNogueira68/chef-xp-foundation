@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 import { ChefHat, Grid3X3, LogOut, Settings, Share2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -6,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CookedCard } from "@/components/missions/CookedCard";
+import { SettingsDialog } from "@/components/profile/SettingsDialog";
 import { RecipeMasonryCard } from "@/components/RecipeMasonryCard";
 import { XpProgress } from "@/components/XpProgress";
 import { useSignOut } from "@/features/auth/hooks/useSignOut";
@@ -30,6 +32,30 @@ export function ProfilePage() {
   const { data: cooked = [], isLoading: cookedLoading } = useMissionPosts(user?.id);
   const signOut = useSignOut();
   const [tab, setTab] = useState("cooked");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  /**
+   * Partilhar o perfil é partilhar o link público — o mesmo que qualquer
+   * outra pessoa vê. No telemóvel abre a folha de partilha do sistema; onde
+   * essa API não existe, o link fica na área de transferência.
+   */
+  const shareProfile = async () => {
+    if (!user) return;
+    const url = `${window.location.origin}/chef/${user.id}`;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: `${user.username} no ChefXP`, url });
+        return;
+      }
+      await navigator.clipboard.writeText(url);
+      toast.success("Link do perfil copiado");
+    } catch (error) {
+      // Cancelar a partilha não é um erro que valha a pena mostrar.
+      if (error instanceof DOMException && error.name === "AbortError") return;
+      toast.error("Não foi possível partilhar o perfil");
+    }
+  };
 
   return (
     <section className="space-y-5">
@@ -44,6 +70,7 @@ export function ProfilePage() {
             size="icon"
             className="size-9 rounded-full"
             aria-label="Partilhar perfil"
+            onClick={shareProfile}
           >
             <Share2 className="size-4" />
           </Button>
@@ -52,6 +79,7 @@ export function ProfilePage() {
             size="icon"
             className="size-9 rounded-full"
             aria-label="Definições"
+            onClick={() => setSettingsOpen(true)}
           >
             <Settings className="size-4" />
           </Button>
@@ -191,6 +219,8 @@ export function ProfilePage() {
           </div>
         </TabsContent>
       </Tabs>
+
+      {user && <SettingsDialog user={user} open={settingsOpen} onOpenChange={setSettingsOpen} />}
     </section>
   );
 }

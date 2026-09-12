@@ -1,6 +1,7 @@
 import {
   useInfiniteQuery,
   useMutation,
+  useQuery,
   useQueryClient,
   type InfiniteData,
 } from "@tanstack/react-query";
@@ -22,6 +23,15 @@ export function recipesQueryKey(params: RecipeListParams = {}) {
       authorId: params.authorId ?? null,
     },
   ] as const;
+}
+
+/**
+ * A receita sozinha vive debaixo da mesma raiz que as listas, de propósito:
+ * um `invalidateQueries([RECIPES_ROOT_KEY])` depois de um comentário refaz as
+ * duas sem ninguém se lembrar da segunda.
+ */
+export function recipeQueryKey(id: string) {
+  return [RECIPES_ROOT_KEY, "detail", id] as const;
 }
 
 /**
@@ -65,8 +75,13 @@ function patchRecipeEverywhere(
   recipeId: string,
   patch: (recipe: Recipe) => Recipe,
 ) {
+  // A página de detalhe guarda a receita sozinha, fora das páginas do feed.
+  queryClient.setQueryData<Recipe>(recipeQueryKey(recipeId), (old) => (old ? patch(old) : old));
+
   queryClient.setQueriesData<RecipeCache>({ queryKey: [RECIPES_ROOT_KEY] }, (old) => {
-    if (!old) return old;
+    // A query de detalhe cai neste prefixo mas não tem páginas; já foi tratada
+    // acima e aqui tem de passar ao lado.
+    if (!old?.pages) return old;
     return {
       ...old,
       pages: old.pages.map((page) => ({
@@ -113,5 +128,20 @@ export function useToggleLike() {
       // A contagem definitiva é a do servidor.
       patchRecipeEverywhere(queryClient, recipe.id, () => recipe);
     },
+  });
+}
+
+/**
+ * Uma receita sozinha, para a página de detalhe.
+ *
+ * A cache do feed é por página e por filtro; abrir uma receita a partir de um
+ * link direto não tem nenhuma dessas páginas carregada, portanto a query é
+ * própria. O `like` continua a atualizar as duas — ver `useToggleLike`.
+ */
+export function useRecipe(id: string | undefined) {
+  return useQuery({
+    queryKey: recipeQueryKey(id ?? ""),
+    queryFn: () => recipeService.getById(id as string),
+    enabled: Boolean(id),
   });
 }
