@@ -101,3 +101,8 @@ jobs:
       - name: Sincronização do currículo é idempotente
         run: npm run db:check-sync
 
+      # No fim de propósito: o harness limpa as tabelas entre testes, e assim
+      # não interfere com as verificações de arranque e de seed acima.
+      - name: Testes de integração (API contra Postgres)
+        run: npm run test:integration
+

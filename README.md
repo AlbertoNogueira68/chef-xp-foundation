@@ -28,7 +28,8 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
 - Express 5 (ESM) + PostgreSQL 15 (`pg`, SQL-first, sem ORM)
 - JWT em cookie HttpOnly + CSRF double-submit + bcrypt
 - Docker Compose (dev/prod)
-- Testes com o runner nativo do Node (`node --test`), CI no GitHub Actions
+- Testes com o runner nativo do Node (`node --test`): domínio puro e
+  integração contra a API e o Postgres reais. CI no GitHub Actions
 
 ## Pré-requisitos
 
@@ -71,7 +72,9 @@ seguidor e 3 desafios.
 | --- | --- |
 | `npm run dev:all` | Vite + Express em paralelo |
 | `npm run verify` | lint + tipos + testes + build (o mesmo que o CI corre) |
-| `npm test` | Testes do domínio (`node --test`) |
+| `npm test` | Todos os testes (`node --test`) |
+| `npm run test:unit` | Só o domínio puro, sem base de dados |
+| `npm run test:integration` | API contra um Postgres real |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run build` | Build do frontend |
 | `npm start` | Serve a API (+ `dist` em produção) |
@@ -129,6 +132,27 @@ só quebra depois de um dia civil inteiro sem atividade.
 redimensiona a fotografia num `<canvas>` antes de a enviar (o que dispensa
 `sharp` no servidor), e o servidor confirma a assinatura do ficheiro antes de o
 gravar com um nome UUID que só ele escolhe.
+
+## Testes
+
+Duas camadas, ambas com o runner do Node:
+
+- **Domínio** (`server/domain/*.test.js`): as regras puras — curva de XP,
+  streaks, validação do currículo, quem pode entrar num desafio. Sem I/O,
+  correm em milissegundos.
+- **Integração** (`server/test/*.integration.test.js`): a API inteira numa
+  porta efémera, contra um Postgres real. É aqui que se prova o CSRF, o cookie
+  de sessão, os códigos de estado, as transações e a idempotência do
+  livro-razão — coisas que um teste de função pura não alcança.
+
+Os testes de integração precisam de `DATABASE_URL`. Sem ela saltam com a razão
+à vista, para `npm test` funcionar em qualquer clone; no CI a base existe
+sempre, portanto correm lá a sério.
+
+```bash
+docker compose -f docker-compose.dev.yml up -d postgres
+npm test
+```
 
 ## Base de dados
 

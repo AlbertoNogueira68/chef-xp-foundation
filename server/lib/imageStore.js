@@ -90,13 +90,21 @@ export async function saveDataUrlImage(dataUrl) {
   return `${UPLOAD_ROUTE}/${filename}`;
 }
 
-/** Aceita um caminho já guardado ou um URL http(s) externo (usado pelo seed). */
+/**
+ * Aceita um data URL (que grava) ou um caminho já nosso (que devolve tal e
+ * qual).
+ *
+ * URLs externos eram aceites aqui com a justificação de servirem o seed, mas o
+ * seed é SQL puro e nunca passa por esta função: só as rotas passam. Ou seja,
+ * a única coisa que isso permitia era um cliente apontar a fotografia de uma
+ * receita para um servidor de terceiros — que carrega no browser de toda a
+ * gente que vê o feed, e que em produção a CSP bloqueia na mesma.
+ */
 export async function resolveImageInput(input) {
   if (input == null || input === "") return null;
   if (typeof input !== "string") throw new InvalidImageError("Imagem inválida");
 
   if (input.startsWith("data:")) return saveDataUrlImage(input);
-  if (/^https?:\/\//i.test(input)) return input;
   if (input.startsWith(`${UPLOAD_ROUTE}/`)) return input;
 
   throw new InvalidImageError("Imagem inválida");

@@ -46,16 +46,21 @@ participar com uma receita, ver quem participou e receber o XP do desafio.
 - [x] Apagar revoga o XP da publicação (`revokeXp` no livro-razão)
 - [x] Menu de editar e apagar no feed e no detalhe, só para o autor
 
-### 4. Testes de integração — *a seguir*
+### 4. Testes de integração
 
-Hoje só há testes de domínio puro. Falta cobrir o que o júri vai perguntar:
+55 testes contra a API e um Postgres reais, em `server/test/`.
 
-- [ ] Auth: registo, login, CSRF, cookie, 401
-- [ ] Idempotência do XP por rota, não só no módulo
-- [ ] Upload de imagens: assinatura de ficheiro inválida é recusada
-- [ ] Desafios: participação duplicada, desafio terminado, receita de outro autor
+- [x] Harness: app numa porta efémera, base limpa por teste, cliente com
+      cookies e CSRF (`server/test/helpers.js`)
+- [x] Auth: registo, login, cookie HttpOnly, double-submit, 401, logout
+- [x] Receitas: propriedade, edição parcial, apagar com revogação de XP
+- [x] Idempotência do XP por rota (gostos, lições, desafios, ciclo publicar/apagar)
+- [x] Imagens: assinatura de ficheiro, nome escolhido pelo servidor, URL externo recusado
+- [x] Desafios: duplicados, desafio fechado, receita de outro autor, sair e voltar
+- [x] Aprendizagem: o gabarito não sai do servidor, lições trancadas, correção no servidor
+- [x] CI corre-os contra Postgres; sem `DATABASE_URL` saltam com a razão à vista
 
-### 5. Notificações
+### 5. Notificações — *a seguir*
 
 - [ ] Tabela `notifications` alimentada por gostos, comentários e novos seguidores
 - [ ] `GET /api/notifications` e marcação de lidas
