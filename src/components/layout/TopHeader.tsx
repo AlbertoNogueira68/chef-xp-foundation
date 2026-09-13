@@ -1,24 +1,15 @@
-import { MessageCircle } from "lucide-react";
 import { ChefXPLogo } from "@/components/ChefXPLogo";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
-import { Button } from "@/components/ui/button";
 
 export function TopHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-lg items-center justify-between px-4">
         <ChefXPLogo />
-        <div className="flex items-center gap-1">
-          <NotificationBell />
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-9 rounded-full"
-            aria-label="Mensagens"
-          >
-            <MessageCircle className="size-5" />
-          </Button>
-        </div>
+        {/* Havia aqui um botão de mensagens que nunca teve mensagens por
+            baixo. Um botão que não faz nada é pior do que botão nenhum: ensina
+            quem usa a app que carregar nas coisas não vale a pena. */}
+        <NotificationBell />
       </div>
     </header>
   );

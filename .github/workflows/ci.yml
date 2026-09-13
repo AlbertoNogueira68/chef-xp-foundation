@@ -32,6 +32,9 @@ jobs:
       - name: Testes de domínio
         run: npm test
 
+      - name: Testes de interface
+        run: npm run test:ui
+
       - name: Build do frontend
         run: npm run build
 

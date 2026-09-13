@@ -29,6 +29,29 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
     sourcemap: mode !== "production",
+    rollupOptions: {
+      output: {
+        /**
+         * As bibliotecas mudam muito menos do que o código da aplicação. Em
+         * ficheiros próprios, ficam na cache do browser entre deploys em vez
+         * de serem descarregadas outra vez a cada correção de texto.
+         */
+        manualChunks: {
+          // `react-dom/client` e `react/jsx-runtime` são entradas próprias: sem
+          // as nomear, o react-dom inteiro ficava no pedaço principal e a
+          // separação não servia de nada.
+          react: [
+            "react",
+            "react/jsx-runtime",
+            "react-dom",
+            "react-dom/client",
+            "react-router-dom",
+          ],
+          query: ["@tanstack/react-query"],
+          forms: ["react-hook-form", "@hookform/resolvers", "zod"],
+        },
+      },
+    },
     esbuild: {
       drop: mode === "production" ? ["console", "debugger"] : [],
     },

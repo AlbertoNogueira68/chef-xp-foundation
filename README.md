@@ -79,9 +79,10 @@ seguidor e 3 desafios.
 | --- | --- |
 | `npm run dev:all` | Vite + Express em paralelo |
 | `npm run verify` | lint + tipos + testes + build (o mesmo que o CI corre) |
-| `npm test` | Todos os testes (`node --test`) |
+| `npm test` | Testes do servidor (`node --test`) |
 | `npm run test:unit` | Só o domínio puro, sem base de dados |
 | `npm run test:integration` | API contra um Postgres real |
+| `npm run test:ui` | Interface (Vitest + Testing Library) |
 | `npm run typecheck` | `tsc --noEmit` |
 | `npm run build` | Build do frontend |
 | `npm start` | Serve a API (+ `dist` em produção) |
@@ -173,7 +174,7 @@ larguras. O CI corre-a contra a build de produção.
 
 ## Testes
 
-Duas camadas, ambas com o runner do Node:
+Três camadas:
 
 - **Domínio** (`server/domain/*.test.js`): as regras puras — curva de XP,
   streaks, validação do currículo, quem pode entrar num desafio. Sem I/O,
@@ -182,6 +183,10 @@ Duas camadas, ambas com o runner do Node:
   porta efémera, contra um Postgres real. É aqui que se prova o CSRF, o cookie
   de sessão, os códigos de estado, as transações e a idempotência do
   livro-razão — coisas que um teste de função pura não alcança.
+- **Interface** (`src/**/*.test.tsx`, com Vitest): o que o browser faz com a
+  cache, com os formulários e com os erros da API. Não usa o runner do Node
+  porque ele não transforma TSX; o Vitest reutiliza a configuração do Vite que
+  a aplicação já tem.
 
 Os testes de integração precisam de `DATABASE_URL`. Sem ela saltam com a razão
 à vista, para `npm test` funcionar em qualquer clone; no CI a base existe
@@ -191,6 +196,20 @@ sempre, portanto correm lá a sério.
 docker compose -f docker-compose.dev.yml up -d postgres
 npm test
 ```
+
+## Tamanho do que chega ao telemóvel
+
+As rotas são carregadas à medida que se visitam, e as bibliotecas ficam em
+ficheiros próprios para sobreviverem na cache entre deploys. Medido na build de
+produção, a 390 px:
+
+| | Antes | Agora |
+| --- | --- | --- |
+| Landing | 820 kB | 515 kB |
+| Percurso completo até aos desafios | 820 kB | 704 kB |
+
+O percurso de aprendizagem é a rota mais pesada (67 kB) porque arrasta o leitor
+de lições e o ecrã de missões — e agora só quem lá vai é que a paga.
 
 ## Base de dados
 

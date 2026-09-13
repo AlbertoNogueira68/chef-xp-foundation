@@ -121,6 +121,16 @@ destrancava.
 - [x] Os 112 alvos de toque pequenos da primeira medição, resolvidos em cinco
       alterações — todas em componentes base, nenhuma ecrã a ecrã
 
+## Depois da análise geral
+
+- [x] Testes de interface: 40 testes em 7 ficheiros, a cobrir a cache do feed,
+      o PATCH parcial das definições, o sino, o ranking, o menu da receita e o
+      cliente HTTP (CSRF, 401 e 403)
+- [x] Bundle dividido por rota e por biblioteca: a landing passou de 820 kB
+      para 515 kB
+- [x] Os dois botões que não faziam nada: partilhar passou a partilhar, e o de
+      mensagens saiu
+
 ## O que falta
 
 Só o envio de email (recuperação de password e verificação de conta). Tudo o

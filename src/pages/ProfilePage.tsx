@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { toast } from "sonner";
 import { ChefHat, Grid3X3, LogOut, Settings, Share2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +16,7 @@ import { useRecipes } from "@/features/feed/hooks/useRecipes";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { useUserStats } from "@/features/profile/hooks/useUserStats";
 import { useMissionPosts } from "@/features/missions/hooks/useMissionPosts";
+import { shareLink } from "@/lib/share";
 
 function Stat({
   label,
@@ -59,28 +59,13 @@ export function ProfilePage() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [followList, setFollowList] = useState<FollowListKind | null>(null);
 
-  /**
-   * Partilhar o perfil é partilhar o link público — o mesmo que qualquer
-   * outra pessoa vê. No telemóvel abre a folha de partilha do sistema; onde
-   * essa API não existe, o link fica na área de transferência.
-   */
-  const shareProfile = async () => {
-    if (!user) return;
-    const url = `${window.location.origin}/chef/${user.id}`;
-
-    try {
-      if (navigator.share) {
-        await navigator.share({ title: `${user.username} no ChefXP`, url });
-        return;
-      }
-      await navigator.clipboard.writeText(url);
-      toast.success("Link do perfil copiado");
-    } catch (error) {
-      // Cancelar a partilha não é um erro que valha a pena mostrar.
-      if (error instanceof DOMException && error.name === "AbortError") return;
-      toast.error("Não foi possível partilhar o perfil");
-    }
-  };
+  const shareProfile = () =>
+    user &&
+    shareLink({
+      path: `/chef/${user.id}`,
+      title: `${user.username} no ChefXP`,
+      copiedMessage: "Link do perfil copiado",
+    });
 
   return (
     <section className="space-y-5">

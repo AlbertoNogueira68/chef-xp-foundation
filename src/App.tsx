@@ -1,18 +1,56 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
 import { AppShell } from "@/components/layout/AppShell";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { LandingPage } from "@/pages/LandingPage";
-import { AuthPage } from "@/pages/AuthPage";
-import { FeedPage } from "@/pages/FeedPage";
-import { SearchPage } from "@/pages/SearchPage";
-import { PublishPage } from "@/pages/PublishPage";
-import { ChallengesPage } from "@/pages/ChallengesPage";
-import { ProfilePage } from "@/pages/ProfilePage";
-import { ChefPage } from "@/pages/ChefPage";
-import { RecipePage } from "@/pages/RecipePage";
+
+/**
+ * As rotas são carregadas à medida que se visitam.
+ *
+ * Só a landing fica no arranque: é a porta de entrada de quem chega pela
+ * primeira vez e adiar o que se vê primeiro seria trocar o problema de sítio.
+ * O ecrã de entrada sai com ela porque arrasta o `react-hook-form` e o `zod`
+ * inteiros — 22 kB comprimidos que ninguém deve pagar para ler a landing.
+ *
+ * O percurso de aprendizagem é o caso mais claro: arrasta o leitor de lições e
+ * o ecrã de missões, e é a rota mais pesada da aplicação.
+ */
+const AuthPage = lazy(() => import("@/pages/AuthPage").then((m) => ({ default: m.AuthPage })));
+const FeedPage = lazy(() => import("@/pages/FeedPage").then((m) => ({ default: m.FeedPage })));
+const SearchPage = lazy(() =>
+  import("@/pages/SearchPage").then((m) => ({ default: m.SearchPage })),
+);
+const PublishPage = lazy(() =>
+  import("@/pages/PublishPage").then((m) => ({ default: m.PublishPage })),
+);
+const ChallengesPage = lazy(() =>
+  import("@/pages/ChallengesPage").then((m) => ({ default: m.ChallengesPage })),
+);
+const ProfilePage = lazy(() =>
+  import("@/pages/ProfilePage").then((m) => ({ default: m.ProfilePage })),
+);
+const ChefPage = lazy(() => import("@/pages/ChefPage").then((m) => ({ default: m.ChefPage })));
+const RecipePage = lazy(() =>
+  import("@/pages/RecipePage").then((m) => ({ default: m.RecipePage })),
+);
+
+/**
+ * O que se vê enquanto o pedaço da rota chega.
+ *
+ * Deliberadamente discreto: um spinner grande a piscar por 100 ms numa ligação
+ * boa é pior do que um espaço em branco. O cabeçalho e a navegação já estão
+ * desenhados à volta disto.
+ */
+function ARotaACarregar() {
+  return (
+    <div className="flex min-h-[50vh] items-center justify-center">
+      <span className="size-6 animate-spin rounded-full border-2 border-muted border-t-amber-500" />
+      <span className="sr-only">A carregar…</span>
+    </div>
+  );
+}
 import { SESSION_EXPIRED_EVENT } from "@/services/api";
 
 /**
@@ -48,11 +86,20 @@ export default function App() {
       <SessionWatcher />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/auth" element={<AuthPage />} />
+        <Route
+          path="/auth"
+          element={
+            <Suspense fallback={<ARotaACarregar />}>
+              <AuthPage />
+            </Suspense>
+          }
+        />
         <Route
           element={
             <ProtectedRoute>
-              <AppShell />
+              <Suspense fallback={<ARotaACarregar />}>
+                <AppShell />
+              </Suspense>
             </ProtectedRoute>
           }
         >

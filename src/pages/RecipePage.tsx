@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Clock, Flame, Heart, MessageCircle, Trash2 } from "lucide-react";
+import { ArrowLeft, Clock, Flame, Heart, MessageCircle, Send, Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ import { useAddComment, useComments, useDeleteComment } from "@/features/feed/ho
 import { useRecipe, useToggleLike } from "@/features/feed/hooks/useRecipes";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import type { Recipe } from "@/types/recipe";
+import { shareLink } from "@/lib/share";
 import { cn } from "@/lib/utils";
 
 const difficultyLabel: Record<Recipe["difficulty"], string> = {
@@ -161,6 +162,15 @@ export function RecipePage() {
           <MessageCircle className="size-4" />
           {recipe.commentsCount}
         </span>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="ml-auto rounded-full"
+          aria-label="Partilhar receita"
+          onClick={() => shareLink({ path: `/recipe/${recipe.id}`, title: recipe.title })}
+        >
+          <Send className="size-4" />
+        </Button>
       </div>
 
       <p className="whitespace-pre-line text-sm leading-relaxed">{recipe.description}</p>

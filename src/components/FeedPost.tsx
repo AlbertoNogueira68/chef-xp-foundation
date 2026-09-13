@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { RecipeActionsMenu } from "@/components/recipes/RecipeActionsMenu";
 import { useAddComment, useComments } from "@/features/feed/hooks/useComments";
 import type { Recipe } from "@/types/recipe";
+import { shareLink } from "@/lib/share";
 import { cn } from "@/lib/utils";
 
 const difficultyLabel: Record<Recipe["difficulty"], string> = {
@@ -108,6 +109,7 @@ export function FeedPost({
               size="icon"
               className="size-9 rounded-full"
               aria-label="Partilhar"
+              onClick={() => shareLink({ path: `/recipe/${recipe.id}`, title: recipe.title })}
             >
               <Send className="size-5" />
             </Button>
