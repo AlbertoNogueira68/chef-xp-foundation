@@ -142,3 +142,12 @@ export const notificationListSchema = z.object({
 export const notificationIdParamSchema = z.object({
   id: z.coerce.number().int().positive(),
 });
+
+/* ---------------------------------------------------------------- */
+/* Rankings                                                         */
+/* ---------------------------------------------------------------- */
+
+export const leaderboardSchema = z.object({
+  scope: z.enum(["global", "weekly"]).default("global"),
+  limit: z.coerce.number().int().min(1).max(50).default(20),
+});

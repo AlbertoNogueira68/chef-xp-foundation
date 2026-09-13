@@ -70,12 +70,17 @@ participar com uma receita, ver quem participou e receber o XP do desafio.
 - [x] Sino do cabeçalho com contagem, caixa e marcação ao abrir
 - [x] 13 testes de integração
 
-### 6. Rankings — *a seguir*
+### 6. Rankings
 
-- [ ] Leaderboard semanal e global a partir de `xp_events`, sem contadores novos
-- [ ] Ranking por desafio
+- [x] `GET /api/leaderboard?scope=weekly|global`, sem contadores novos: sai do
+      livro-razão e de `daily_activity`
+- [x] `RANK()` com empates — dois primeiros são os dois primeiros
+- [x] A minha posição vem à parte, para quem fica fora do top
+- [x] Participações de um desafio ordenadas por gostos
+- [x] Separador Ranking com medalhas e a minha linha destacada
+- [x] 7 testes de integração
 
-### 7. Conteúdo do currículo
+### 7. Conteúdo do currículo — *a seguir*
 
 Só existe a Unidade 1 (segurança, faca, mise en place): 6 lições, 5 missões,
 21 competências.

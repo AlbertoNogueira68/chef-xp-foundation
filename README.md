@@ -21,6 +21,7 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
   participou, e o XP do desafio é pago uma vez por desafio.
 - **Notificações** de gostos, comentários e seguidores novos, no sino do
   cabeçalho.
+- **Rankings** semanal e global, e cada desafio ordenado por gostos.
 
 ## Stack
 
@@ -132,6 +133,12 @@ frase é montada na interface. Quem mudar de nome não fica com notificações a
 dizer o nome antigo. Gostar e seguir dão uma notificação por pessoa, não uma
 por clique — índices parciais únicos, não um `if` na rota — e o `CHECK
 (user_id <> actor_id)` garante que ninguém é notificado de si próprio.
+
+**O ranking não tem tabela própria.** O global é a soma que já está em
+`users.xp` — ou seja, o livro-razão — e o semanal agrega `daily_activity`, que
+existe desde o streak. Usa `RANK()` e não `ROW_NUMBER()`: quem empata fica na
+mesma posição. Um ranking com contadores próprios seria mais uma verdade para
+manter sincronizada com a primeira.
 
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.

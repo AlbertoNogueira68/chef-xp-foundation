@@ -162,9 +162,14 @@ export function ChallengeDetailDialog({
 
             {/* --- Quem participou --- */}
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Participações
-              </p>
+              <div className="mb-2 flex items-baseline justify-between">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  Participações
+                </p>
+                {entries.length > 1 && (
+                  <p className="text-[11px] text-muted-foreground">Por gostos</p>
+                )}
+              </div>
               {entries.length === 0 ? (
                 <p className="py-6 text-center text-sm text-muted-foreground">
                   Ainda ninguém participou. Podes ser o primeiro.

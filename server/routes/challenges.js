@@ -28,7 +28,13 @@ const SELECT_CHALLENGE = `
          ON mine.challenge_id = c.id AND mine.user_id = $1
 `;
 
-/** As participações de um desafio, já com a receita e o autor. */
+/**
+ * As participações de um desafio, já com a receita e o autor.
+ *
+ * Ordenadas por gostos, não por data: um desafio com um vencedor precisa de
+ * uma ordem que signifique alguma coisa. O desempate é a submissão mais
+ * antiga — quem chegou primeiro ao mesmo resultado fica à frente.
+ */
 const SELECT_ENTRIES = `
   SELECT
     e.id AS entry_id, e.created_at AS entered_at,
@@ -46,7 +52,7 @@ const SELECT_ENTRIES = `
   JOIN recipes r ON r.id = e.recipe_id
   JOIN users   u ON u.id = r.author_id
   WHERE e.challenge_id = $2
-  ORDER BY e.created_at DESC
+  ORDER BY likes_count DESC, e.created_at ASC
   LIMIT 100
 `;
 

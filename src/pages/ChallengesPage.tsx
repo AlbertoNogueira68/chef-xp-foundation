@@ -1,6 +1,7 @@
 import { useMemo } from "react";
-import { GraduationCap, Trophy } from "lucide-react";
+import { BarChart3, GraduationCap, Trophy } from "lucide-react";
 import { ChallengesTab } from "@/components/learning/ChallengesTab";
+import { LeaderboardTab } from "@/components/learning/LeaderboardTab";
 import { LearningPathView } from "@/components/learning/LearningPath";
 import { LessonPlayer } from "@/components/learning/LessonPlayer";
 import { MissionRunScreen } from "@/components/missions/MissionRunScreen";
@@ -37,7 +38,7 @@ export function ChallengesPage() {
         {/* Controlo segmentado: o separador ativo é um cartão branco por cima
             do fundo cinzento. Antes só o "Aprender" tinha estado ativo
             desenhado, e o outro parecia desligado. */}
-        <TabsList className="grid h-auto w-full grid-cols-2 rounded-xl bg-muted p-1">
+        <TabsList className="grid h-auto w-full grid-cols-3 rounded-xl bg-muted p-1">
           <TabsTrigger
             value="learn"
             className="gap-1.5 rounded-lg py-2 text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-emerald-700 data-[state=active]:shadow-sm"
@@ -52,7 +53,18 @@ export function ChallengesPage() {
             <Trophy className="size-4" />
             Desafios
           </TabsTrigger>
+          <TabsTrigger
+            value="ranking"
+            className="gap-1.5 rounded-lg py-2 text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-amber-600 data-[state=active]:shadow-sm"
+          >
+            <BarChart3 className="size-4" />
+            Ranking
+          </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="ranking" className="mt-4">
+          <LeaderboardTab />
+        </TabsContent>
 
         <TabsContent value="challenges" className="mt-4">
           <ChallengesTab />
