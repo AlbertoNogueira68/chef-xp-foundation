@@ -72,7 +72,7 @@ export function SearchPage() {
                   type="button"
                   aria-pressed={active}
                   onClick={() => setActiveFilter(active ? null : item.id)}
-                  className="shrink-0"
+                  className="flex h-9 shrink-0 items-center"
                 >
                   <Badge
                     variant={active ? "default" : "secondary"}

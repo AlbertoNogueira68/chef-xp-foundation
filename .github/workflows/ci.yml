@@ -106,3 +106,65 @@ jobs:
       - name: Testes de integração (API contra Postgres)
         run: npm run test:integration
 
+  responsivo:
+    name: Responsividade em telemóvel
+    runs-on: ubuntu-latest
+    needs: quality
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: chef
+          POSTGRES_PASSWORD: chefci
+          POSTGRES_DB: chef_xp
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U chef -d chef_xp"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://chef:chefci@localhost:5432/chef_xp
+      JWT_SECRET: ci-only-secret-with-at-least-32-characters
+      NODE_ENV: production
+      PORT: 3010
+      COOKIE_SECURE: "false"
+      BASE_URL: http://localhost:3010
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # A regra mede a aplicação servida como em produção — é assim que ela
+      # chega ao telemóvel de quem a usa.
+      - name: Build e dados de demonstração
+        run: |
+          npm run build
+          npm run db:migrate
+          npm run db:seed
+
+      - name: Instalar o Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Arrancar a aplicação
+        run: |
+          npm start &
+          for i in $(seq 1 30); do
+            curl -fsS http://127.0.0.1:3010/api/health > /dev/null && exit 0
+            sleep 1
+          done
+          echo "A aplicação não respondeu a tempo"
+          exit 1
+
+      - name: Verificar a regra de responsividade
+        run: npm run check:responsive
+

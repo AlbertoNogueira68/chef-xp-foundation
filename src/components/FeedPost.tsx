@@ -135,7 +135,8 @@ export function FeedPost({
           {recipe.commentsCount > 0 && (
             <button
               type="button"
-              className="hover:text-foreground"
+              // `py-2 -my-2` dá altura de toque sem afastar o texto do resto.
+              className="-my-2 py-2 hover:text-foreground"
               onClick={() => setShowComments((open) => !open)}
             >
               Ver {recipe.commentsCount} {recipe.commentsCount === 1 ? "comentário" : "comentários"}

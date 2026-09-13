@@ -56,7 +56,7 @@ export function ChefsToFollowRow() {
               <Button
                 size="sm"
                 variant="outline"
-                className="h-6 rounded-full px-2 text-[10px]"
+                className="h-8 rounded-full px-2.5 text-[10px]"
                 disabled={toggleFollow.isPending}
                 onClick={() => toggleFollow.mutate({ id: chef.id, following: false })}
               >

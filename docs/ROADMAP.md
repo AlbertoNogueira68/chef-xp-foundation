@@ -113,6 +113,14 @@ destrancava.
 - [x] Cada linha mostra se sou eu que sigo aquela pessoa — nunca o estado de
       quem estou a visitar
 
+## Responsividade
+
+- [x] Regra escrita em `docs/RESPONSIVIDADE.md`
+- [x] `npm run check:responsive`: mede 11 ecrãs em 4 larguras, num browser
+- [x] Corre no CI contra a build de produção
+- [x] Os 112 alvos de toque pequenos da primeira medição, resolvidos em cinco
+      alterações — todas em componentes base, nenhuma ecrã a ecrã
+
 ## O que falta
 
 Só o envio de email (recuperação de password e verificação de conta). Tudo o

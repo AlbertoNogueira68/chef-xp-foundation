@@ -88,6 +88,7 @@ seguidor e 3 desafios.
 | `npm run db:migrate` | Aplica as migrations SQL |
 | `npm run db:seed` | Popula dados de demonstração |
 | `npm run test:hardening` | Build + bloqueia CDNs proibidas |
+| `npm run check:responsive` | Mede a app em 320–414px (ver `docs/RESPONSIVIDADE.md`) |
 | `npm run lint` | ESLint |
 
 ## Arquitetura
@@ -158,6 +159,17 @@ só quebra depois de um dia civil inteiro sem atividade.
 redimensiona a fotografia num `<canvas>` antes de a enviar (o que dispensa
 `sharp` no servidor), e o servidor confirma a assinatura do ficheiro antes de o
 gravar com um nome UUID que só ele escolhe.
+
+## Responsividade
+
+A aplicação é de telemóvel e tem uma regra escrita para isso, em
+[`docs/RESPONSIVIDADE.md`](docs/RESPONSIVIDADE.md): entre 320 e 414 px, nenhum
+ecrã tem scroll horizontal, nada é cortado na margem, e tudo o que se carrega
+tem pelo menos 32 px de altura.
+
+A regra é verificada e não prometida — `npm run check:responsive` abre a
+aplicação num browser e mede as sete rotas e os quatro diálogos em quatro
+larguras. O CI corre-a contra a build de produção.
 
 ## Testes
 
