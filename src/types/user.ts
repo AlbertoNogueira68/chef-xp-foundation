@@ -49,6 +49,17 @@ export interface UserStats {
   badges: string[];
 }
 
+/** Uma linha das listas de seguidores e de seguidos. */
+export interface FollowListUser {
+  id: string;
+  username: string;
+  photoUrl: string | null;
+  level: number;
+  /** Se eu — quem pede — sigo esta pessoa. Nunca o estado de outra pessoa. */
+  isFollowing: boolean;
+  isMe: boolean;
+}
+
 export interface UserUpdate {
   username?: string;
   photoUrl?: string | null;

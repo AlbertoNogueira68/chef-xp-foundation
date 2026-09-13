@@ -3,12 +3,7 @@ import { Router } from "express";
 import bcrypt from "bcryptjs";
 import rateLimit from "express-rate-limit";
 import { getPool, query } from "../db/index.js";
-import {
-  clearAuthCookie,
-  requireAuth,
-  setAuthCookie,
-  signToken,
-} from "../middleware/auth.js";
+import { clearAuthCookie, requireAuth, setAuthCookie, signToken } from "../middleware/auth.js";
 import { clearCsrfToken, issueCsrfToken } from "../middleware/csrf.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
@@ -34,7 +29,10 @@ const BCRYPT_ROUNDS = 12;
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 20,
+  // Função e não valor: estes limitadores são criados quando o módulo é
+  // importado, e nessa altura o ambiente do processo de teste ainda não está
+  // montado. Lido a cada pedido, o limite é sempre o atual.
+  max: () => Number(process.env.RATE_LIMIT_AUTH_MAX || 20),
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: "Demasiadas tentativas de login. Tenta daqui a uns minutos." },
@@ -42,7 +40,9 @@ const loginLimiter = rateLimit({
 
 const registerLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
-  max: 10,
+  // Como o limite global: uma bateria de testes cria mais contas numa
+  // execução do que um dispositivo real cria num ano.
+  max: () => Number(process.env.RATE_LIMIT_AUTH_MAX || 10),
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: "Demasiados registos a partir deste dispositivo." },
@@ -136,9 +136,7 @@ router.get(
   "/me",
   requireAuth,
   asyncHandler(async (req, res) => {
-    const { rows } = await query(`SELECT ${USER_COLUMNS} FROM users WHERE id = $1`, [
-      req.user.id,
-    ]);
+    const { rows } = await query(`SELECT ${USER_COLUMNS} FROM users WHERE id = $1`, [req.user.id]);
     if (!rows[0]) return res.status(401).json({ error: "Unauthorized" });
     res.json({ user: toPublicUser(rows[0], { includeEmail: true }) });
   }),
@@ -254,10 +252,9 @@ router.get(
         //    Só é seguro porque `email_verified` já foi exigido acima: sem
         //    isso, criar uma conta Google com o email de outra pessoa dava
         //    acesso à conta dela aqui.
-        const { rows: existing } = await client.query(
-          `SELECT id FROM users WHERE email = $1`,
-          [email],
-        );
+        const { rows: existing } = await client.query(`SELECT id FROM users WHERE email = $1`, [
+          email,
+        ]);
 
         if (existing[0]) {
           userId = existing[0].id;

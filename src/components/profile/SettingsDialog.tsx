@@ -19,6 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DangerZone } from "@/components/profile/DangerZone";
 import { useUpdateProfile } from "@/features/profile/hooks/useUpdateProfile";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { User, UserUpdate } from "@/types/user";
@@ -206,6 +207,8 @@ export function SettingsDialog({
             {update.isPending ? "A guardar…" : "Guardar"}
           </Button>
         </form>
+
+        <DangerZone user={user} />
       </DialogContent>
     </Dialog>
   );

@@ -24,6 +24,8 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
 - **Notificações** de gostos, comentários e seguidores novos, no sino do
   cabeçalho.
 - **Rankings** semanal e global, e cada desafio ordenado por gostos.
+- **A tua conta é tua**: exportar todos os dados num ficheiro e apagar a conta
+  de vez, sem cópias nossas.
 
 ## Stack
 
@@ -141,6 +143,13 @@ por clique — índices parciais únicos, não um `if` na rota — e o `CHECK
 existe desde o streak. Usa `RANK()` e não `ROW_NUMBER()`: quem empata fica na
 mesma posição. Um ranking com contadores próprios seria mais uma verdade para
 manter sincronizada com a primeira.
+
+**Apagar a conta apaga mesmo.** Não há coluna `deleted_at`: a linha de `users`
+desaparece e as chaves estrangeiras em cascata levam receitas, comentários,
+gostos, missões, progresso e livro-razão consigo — incluindo as notificações
+que essa pessoa causou a outras. Antes disso, a exportação devolve o conteúdo
+das tabelas e não um resumo, porque é isso que o direito de portabilidade
+significa.
 
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.

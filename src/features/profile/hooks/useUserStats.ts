@@ -59,6 +59,8 @@ export function useToggleFollow() {
       queryClient.invalidateQueries({ queryKey: suggestedChefsQueryKey });
       queryClient.invalidateQueries({ queryKey: ["userStats"] });
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
+      // As listas de seguidores mostram o botão de seguir de cada linha.
+      queryClient.invalidateQueries({ queryKey: ["followList"] });
     },
   });
 }

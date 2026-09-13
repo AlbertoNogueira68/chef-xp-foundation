@@ -54,6 +54,7 @@ export async function startTestServer() {
   process.env.NODE_ENV = "test";
   // Uma bateria de testes faz mais pedidos do que o limite normal permite.
   process.env.RATE_LIMIT_MAX ||= "100000";
+  process.env.RATE_LIMIT_AUTH_MAX ||= "100000";
 
   if (!migrated) {
     await runMigrations();
@@ -141,7 +142,10 @@ export function createClient(baseUrl) {
     get: (path, options) => request("GET", path, undefined, options),
     post: (path, body, options) => request("POST", path, body, options),
     patch: (path, body, options) => request("PATCH", path, body, options),
-    delete: (path, options) => request("DELETE", path, undefined, options),
+    // DELETE com corpo não é comum, mas `DELETE /users/me` precisa dele: a
+    // confirmação do nome e a password viajam no corpo, não no URL, para não
+    // ficarem em registos de servidor nem no histórico do browser.
+    delete: (path, body, options) => request("DELETE", path, body, options),
     cookies,
     /** Esquece a sessão sem falar com o servidor — simula outro browser. */
     forget: () => cookies.clear(),

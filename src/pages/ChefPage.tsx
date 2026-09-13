@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, ChefHat, Grid3X3, UserCheck, UserPlus } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,13 +14,35 @@ import { useMissionPosts } from "@/features/missions/hooks/useMissionPosts";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { useUserProfile } from "@/features/profile/hooks/useUserProfile";
 import { useUserStats, useToggleFollow } from "@/features/profile/hooks/useUserStats";
+import { FollowListDialog } from "@/components/profile/FollowListDialog";
+import type { FollowListKind } from "@/features/profile/hooks/useFollowList";
 
-function Stat({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div className="rounded-xl bg-muted/50 py-2">
+function Stat({
+  label,
+  value,
+  onClick,
+}: {
+  label: string;
+  value: string | number;
+  onClick?: () => void;
+}) {
+  const content = (
+    <>
       <p className="text-base font-bold tabular-nums">{value}</p>
       <p className="text-[10px] text-muted-foreground">{label}</p>
-    </div>
+    </>
+  );
+
+  if (!onClick) return <div className="rounded-xl bg-muted/50 py-2">{content}</div>;
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-xl bg-muted/50 py-2 transition-colors hover:bg-muted"
+    >
+      {content}
+    </button>
   );
 }
 
@@ -39,6 +62,7 @@ export function ChefPage() {
   const { recipes } = useRecipes({ authorId: id, limit: 24 });
   const { data: cooked = [] } = useMissionPosts(id);
   const toggleFollow = useToggleFollow();
+  const [followList, setFollowList] = useState<FollowListKind | null>(null);
 
   if (id && me?.id === id) return <Navigate to="/profile" replace />;
 
@@ -112,7 +136,11 @@ export function ChefPage() {
           <>
             <Stat label="Cozinhados" value={stats.cooked} />
             <Stat label="Receitas" value={stats.recipes} />
-            <Stat label="Seguidores" value={stats.followers} />
+            <Stat
+              label="Seguidores"
+              value={stats.followers}
+              onClick={() => setFollowList("followers")}
+            />
             <Stat label="Streak" value={`${stats.streak}d`} />
           </>
         )}
@@ -174,6 +202,8 @@ export function ChefPage() {
           )}
         </TabsContent>
       </Tabs>
+
+      <FollowListDialog userId={id} kind={followList} onClose={() => setFollowList(null)} />
     </section>
   );
 }

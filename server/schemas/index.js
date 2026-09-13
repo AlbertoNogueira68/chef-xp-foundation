@@ -151,3 +151,23 @@ export const leaderboardSchema = z.object({
   scope: z.enum(["global", "weekly"]).default("global"),
   limit: z.coerce.number().int().min(1).max(50).default(20),
 });
+
+/* ---------------------------------------------------------------- */
+/* Conta                                                            */
+/* ---------------------------------------------------------------- */
+
+/**
+ * Apagar a conta.
+ *
+ * `confirmUsername` é sempre exigido: escrever o próprio nome é o travão que
+ * impede um clique distraído de apagar tudo. A password é exigida por cima
+ * disso quando a conta tem uma — uma conta só de SSO não tem nenhuma para dar.
+ */
+export const accountDeleteSchema = z.object({
+  confirmUsername: z.string().trim().toLowerCase().min(1, "Escreve o teu nome de utilizador"),
+  password: z.string().max(200).optional(),
+});
+
+export const followListSchema = z.object({
+  limit: z.coerce.number().int().min(1).max(100).default(50),
+});

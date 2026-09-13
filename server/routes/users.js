@@ -3,12 +3,20 @@ import { getPool, query } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
-import { idParamSchema, userPatchSchema } from "../schemas/index.js";
+import {
+  accountDeleteSchema,
+  followListSchema,
+  idParamSchema,
+  userPatchSchema,
+} from "../schemas/index.js";
 import { toPublicUser } from "../lib/mappers.js";
 import { loadDailyState } from "../lib/xpLedger.js";
+import bcrypt from "bcryptjs";
 import { badgesFor } from "../domain/xp.js";
 import { resolveImageInput } from "../lib/imageStore.js";
 import { notifyQuietly } from "../lib/notifications.js";
+import { clearAuthCookie } from "../middleware/auth.js";
+import { clearCsrfToken } from "../middleware/csrf.js";
 
 const router = Router();
 
@@ -175,6 +183,175 @@ router.get(
       },
     });
   }),
+);
+
+
+/* ---------------------------------------------------------------- *
+ * A minha conta: levar os dados e ir embora
+ * ---------------------------------------------------------------- */
+
+/**
+ * Tudo o que a aplicação sabe sobre mim, num ficheiro.
+ *
+ * Não é um resumo bonito: é o conteúdo das tabelas, incluindo o livro-razão
+ * do XP. Quem exporta os dados quer os dados, não uma vista deles — e é isso
+ * que o direito de portabilidade significa.
+ */
+router.get(
+  "/me/export",
+  asyncHandler(async (req, res) => {
+    const id = req.user.id;
+
+    const um = async (text) => (await query(text, [id])).rows;
+
+    const [perfil, receitas, comentarios, gostos, seguidores, seguindo, licoes, missoes, xp, desafios, notificacoes, identidades, atividade] =
+      await Promise.all([
+        um(`SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, created_at
+              FROM users WHERE id = $1`),
+        um(`SELECT id, title, description, ingredients, cook_time_min, difficulty, image_url, created_at
+              FROM recipes WHERE author_id = $1 ORDER BY created_at`),
+        um(`SELECT id, recipe_id, body, created_at FROM comments WHERE author_id = $1 ORDER BY created_at`),
+        um(`SELECT recipe_id FROM recipe_likes WHERE user_id = $1`),
+        um(`SELECT u.username, f.created_at FROM follows f JOIN users u ON u.id = f.follower_id
+             WHERE f.followee_id = $1`),
+        um(`SELECT u.username, f.created_at FROM follows f JOIN users u ON u.id = f.followee_id
+             WHERE f.follower_id = $1`),
+        um(`SELECT lesson_id, xp_earned, hearts_left, completed_at FROM lesson_progress
+             WHERE user_id = $1 ORDER BY completed_at`),
+        um(`SELECT id, mission_id, status, current_step, started_at, completed_at, shared
+              FROM mission_runs WHERE user_id = $1 ORDER BY started_at`),
+        um(`SELECT source, source_ref, amount, created_at FROM xp_events WHERE user_id = $1
+             ORDER BY created_at`),
+        um(`SELECT challenge_id, recipe_id, created_at FROM challenge_entries WHERE user_id = $1`),
+        um(`SELECT kind, recipe_id, read_at, created_at FROM notifications WHERE user_id = $1
+             ORDER BY created_at`),
+        um(`SELECT provider, email, created_at, last_login_at FROM auth_identities WHERE user_id = $1`),
+        um(`SELECT to_char(day, 'YYYY-MM-DD') AS day, xp, goal_met FROM daily_activity
+             WHERE user_id = $1 ORDER BY day`),
+      ]);
+
+    // Um nome com data, para quem exportar duas vezes não ficar com dois
+    // ficheiros iguais na pasta das transferências.
+    const dia = new Date().toISOString().slice(0, 10);
+    res.setHeader("Content-Disposition", `attachment; filename="chefxp-${perfil[0]?.username ?? "dados"}-${dia}.json"`);
+
+    res.json({
+      exportadoEm: new Date().toISOString(),
+      perfil: perfil[0] ?? null,
+      identidadesExternas: identidades,
+      receitas,
+      comentarios,
+      gostosQueDei: gostos.map((row) => row.recipe_id),
+      seguidores,
+      seguindo,
+      progressoLicoes: licoes,
+      missoes,
+      participacoesEmDesafios: desafios,
+      livroRazaoXp: xp,
+      atividadeDiaria: atividade,
+      notificacoes,
+    });
+  }),
+);
+
+/**
+ * Apagar a conta, a sério.
+ *
+ * Não há coluna `deleted_at` nenhuma: a linha desaparece e as chaves
+ * estrangeiras em cascata levam receitas, comentários, gostos, missões,
+ * progresso e livro-razão consigo. Uma conta "apagada" que continua na base
+ * de dados não é uma conta apagada.
+ *
+ * O que fica de propósito: nada. As notificações que eu causei a outras
+ * pessoas também caem, porque `actor_id` é uma chave estrangeira minha.
+ */
+router.delete(
+  "/me",
+  validate({ body: accountDeleteSchema }),
+  asyncHandler(async (req, res) => {
+    const { confirmUsername, password } = req.valid.body;
+
+    const { rows } = await query(`SELECT username, password_hash FROM users WHERE id = $1`, [
+      req.user.id,
+    ]);
+    const user = rows[0];
+    if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
+
+    if (confirmUsername !== user.username) {
+      return res.status(400).json({ error: "O nome de utilizador não coincide" });
+    }
+
+    // Contas com password confirmam com ela; as de SSO não têm nenhuma para
+    // dar, e o nome escrito à mão é o que resta como travão.
+    if (user.password_hash !== null) {
+      const ok = password ? await bcrypt.compare(password, user.password_hash) : false;
+      // 403 e não 401: a sessão é válida, o que falta é a confirmação. Com 401
+      // o cliente tratava isto como sessão expirada e expulsava para o ecrã de
+      // entrada quem só se enganou a escrever a password.
+      if (!ok) return res.status(403).json({ error: "Password incorreta" });
+    }
+
+    await query(`DELETE FROM users WHERE id = $1`, [req.user.id]);
+
+    clearAuthCookie(res);
+    clearCsrfToken(res);
+    res.status(204).end();
+  }),
+);
+
+/* ---------------------------------------------------------------- *
+ * Quem me segue, quem eu sigo
+ * ---------------------------------------------------------------- */
+
+const SELECT_FOLLOW_LIST = `
+  SELECT u.id, u.username, u.photo_url, u.level, u.xp,
+         EXISTS (
+           SELECT 1 FROM follows f2 WHERE f2.follower_id = $2 AND f2.followee_id = u.id
+         ) AS is_following
+    FROM follows f
+    JOIN users u ON u.id = %ID%
+   WHERE f.%FILTER% = $1
+   ORDER BY f.created_at DESC
+   LIMIT $3
+`;
+
+function followListQuery(kind) {
+  return kind === "followers"
+    ? SELECT_FOLLOW_LIST.replace("%ID%", "f.follower_id").replace("%FILTER%", "followee_id")
+    : SELECT_FOLLOW_LIST.replace("%ID%", "f.followee_id").replace("%FILTER%", "follower_id");
+}
+
+async function respondWithFollowList(req, res, kind) {
+  const { rows } = await query(followListQuery(kind), [
+    req.valid.params.id,
+    req.user.id,
+    req.valid.query.limit,
+  ]);
+
+  res.json({
+    users: rows.map((row) => ({
+      id: row.id,
+      username: row.username,
+      photoUrl: row.photo_url ?? null,
+      level: Number(row.level ?? 1),
+      // Falso para mim próprio: seguir-me a mim não existe, e mostrar o botão
+      // seria oferecer o que o servidor recusa.
+      isFollowing: row.id === req.user.id ? false : Boolean(row.is_following),
+      isMe: row.id === req.user.id,
+    })),
+  });
+}
+
+router.get(
+  "/:id/followers",
+  validate({ params: idParamSchema, query: followListSchema }),
+  asyncHandler((req, res) => respondWithFollowList(req, res, "followers")),
+);
+
+router.get(
+  "/:id/following",
+  validate({ params: idParamSchema, query: followListSchema }),
+  asyncHandler((req, res) => respondWithFollowList(req, res, "following")),
 );
 
 /* ---------------------------------------------------------------- *

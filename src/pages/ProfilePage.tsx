@@ -8,6 +8,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CookedCard } from "@/components/missions/CookedCard";
 import { SettingsDialog } from "@/components/profile/SettingsDialog";
+import { FollowListDialog } from "@/components/profile/FollowListDialog";
+import type { FollowListKind } from "@/features/profile/hooks/useFollowList";
 import { RecipeMasonryCard } from "@/components/RecipeMasonryCard";
 import { XpProgress } from "@/components/XpProgress";
 import { useSignOut } from "@/features/auth/hooks/useSignOut";
@@ -16,12 +18,34 @@ import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { useUserStats } from "@/features/profile/hooks/useUserStats";
 import { useMissionPosts } from "@/features/missions/hooks/useMissionPosts";
 
-function Stat({ label, value }: { label: string; value: string | number }) {
-  return (
-    <div className="rounded-xl bg-muted/50 py-2">
+function Stat({
+  label,
+  value,
+  onClick,
+}: {
+  label: string;
+  value: string | number;
+  onClick?: () => void;
+}) {
+  const content = (
+    <>
       <p className="text-base font-bold tabular-nums">{value}</p>
       <p className="text-[10px] text-muted-foreground">{label}</p>
-    </div>
+    </>
+  );
+
+  // Só os contadores que abrem alguma coisa é que são botões. Um número que
+  // não leva a lado nenhum não deve parecer clicável.
+  if (!onClick) return <div className="rounded-xl bg-muted/50 py-2">{content}</div>;
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-xl bg-muted/50 py-2 transition-colors hover:bg-muted"
+    >
+      {content}
+    </button>
   );
 }
 
@@ -33,6 +57,7 @@ export function ProfilePage() {
   const signOut = useSignOut();
   const [tab, setTab] = useState("cooked");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [followList, setFollowList] = useState<FollowListKind | null>(null);
 
   /**
    * Partilhar o perfil é partilhar o link público — o mesmo que qualquer
@@ -112,7 +137,11 @@ export function ProfilePage() {
           <>
             <Stat label="Cozinhados" value={stats.cooked} />
             <Stat label="Receitas" value={stats.recipes} />
-            <Stat label="Seguidores" value={stats.followers} />
+            <Stat
+              label="Seguidores"
+              value={stats.followers}
+              onClick={() => setFollowList("followers")}
+            />
             <Stat label="Streak" value={`${stats.streak}d`} />
           </>
         )}
@@ -221,6 +250,8 @@ export function ProfilePage() {
       </Tabs>
 
       {user && <SettingsDialog user={user} open={settingsOpen} onOpenChange={setSettingsOpen} />}
+
+      <FollowListDialog userId={user?.id} kind={followList} onClose={() => setFollowList(null)} />
     </section>
   );
 }

@@ -94,12 +94,26 @@ destrancava.
 - [x] Teste que joga as 19 lições de ponta a ponta com as respostas do
       currículo — protege o conteúdo, não o código
 
-### 8. Conta — *a seguir*
+### 8. Conta
 
-- [ ] Recuperação de password
-- [ ] Verificação de email
-- [ ] Apagar conta e exportar dados (RGPD)
+- [x] Exportar os dados: `GET /api/users/me/export` devolve o conteúdo das
+      tabelas, livro-razão incluído, num ficheiro
+- [x] Apagar a conta: `DELETE /api/users/me`, com o nome escrito à mão e a
+      password quando a conta tem uma. A linha desaparece e as cascatas levam
+      tudo — não há `deleted_at` nenhum
+- [ ] Recuperação de password — **bloqueado**: precisa de envio de email, e não
+      existe SMTP nem cliente de email no projeto (procurado em `package.json`,
+      `.env.example`, `docker-compose` e no código)
+- [ ] Verificação de email — bloqueado pelo mesmo motivo
 
 ## Listas de seguidores
 
-- [ ] Ecrã de seguidores e de seguidos a partir dos contadores que já existem
+- [x] `GET /api/users/:id/followers` e `/following`
+- [x] Diálogo com as duas listas, aberto pelo contador do perfil
+- [x] Cada linha mostra se sou eu que sigo aquela pessoa — nunca o estado de
+      quem estou a visitar
+
+## O que falta
+
+Só o envio de email (recuperação de password e verificação de conta). Tudo o
+resto deste plano está feito.
