@@ -80,16 +80,21 @@ participar com uma receita, ver quem participou e receber o XP do desafio.
 - [x] Separador Ranking com medalhas e a minha linha destacada
 - [x] 7 testes de integração
 
-### 7. Conteúdo do currículo — *a seguir*
+### 7. Conteúdo do currículo
 
-Só existe a Unidade 1 (segurança, faca, mise en place): 6 lições, 5 missões,
-21 competências.
+As cinco missões apontavam para `unit-2` a `unit-5`, que nunca tinham sido
+escritas: 13 das 21 competências eram praticadas em missões que nenhuma lição
+destrancava.
 
-- [ ] Unidade 2 — calor: pré-aquecer, selar, refogar
-- [ ] Unidade 3 — tempero e provar
-- [ ] Missões novas para cada unidade
+- [x] Unidade 2 — o lume: pré-aquecer, níveis, gordura, douramento (4 lições)
+- [x] Unidade 3 — ovos e lume brando, e o momento do sal (3 lições)
+- [x] Unidade 4 — água salgada, rácio do arroz, al dente (3 lições)
+- [x] Unidade 5 — sequenciar, temperar em camadas, empratar (3 lições)
+- [x] As cinco missões que já existiam ficam ligadas às suas unidades
+- [x] Teste que joga as 19 lições de ponta a ponta com as respostas do
+      currículo — protege o conteúdo, não o código
 
-### 8. Conta
+### 8. Conta — *a seguir*
 
 - [ ] Recuperação de password
 - [ ] Verificação de email

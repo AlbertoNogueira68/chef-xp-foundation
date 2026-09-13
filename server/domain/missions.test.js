@@ -23,12 +23,17 @@ test("as cinco missões carregam e têm passos", () => {
   }
 });
 
-test("a missão de uma unidade escrita resolve-se; a das que faltam não", () => {
-  // Só a unidade 1 está escrita. As missões 2 a 5 existem no currículo mas
-  // ainda não têm unidade — e é isso que as mantém trancadas, sem precisar
-  // de nenhuma regra extra na rota.
-  assert.ok(getUnitOfMission("mission.ovo-estrelado"));
-  assert.equal(getUnitOfMission("mission.omelete"), null);
+test("cada missão pertence a uma unidade que existe", () => {
+  // Durante algum tempo só a unidade 1 estava escrita, e as missões 2 a 5
+  // ficavam trancadas por não terem unidade nenhuma. Agora as cinco unidades
+  // existem, e o que as tranca é a regra a sério: as lições da unidade por
+  // fazer. Uma missão sem unidade continua a não abrir — é o que protege
+  // contra uma missão nova escrita antes das lições dela.
+  for (const mission of MISSIONS) {
+    const unit = getUnitOfMission(mission.id);
+    assert.ok(unit, `${mission.id} não pertence a nenhuma unidade`);
+    assert.ok(unit.lessons.length > 0, `${unit.id} não tem lições que a destranquem`);
+  }
   assert.equal(getUnitOfMission("nao-existe"), null);
 });
 

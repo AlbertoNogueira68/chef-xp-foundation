@@ -14,6 +14,13 @@ const COLOR_MAP: Record<string, { bar: string; tint: string; text: string; ring:
     text: "text-violet-700",
     ring: "ring-violet-200",
   },
+  amber: {
+    bar: "bg-amber-500",
+    tint: "bg-amber-50",
+    text: "text-amber-700",
+    ring: "ring-amber-200",
+  },
+  rose: { bar: "bg-rose-500", tint: "bg-rose-50", text: "text-rose-700", ring: "ring-rose-200" },
 };
 
 /**

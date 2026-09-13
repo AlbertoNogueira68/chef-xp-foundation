@@ -1,8 +1,15 @@
 import test, { after, before, describe } from "node:test";
 import assert from "node:assert/strict";
 import curriculum from "../../shared/curriculum.json" with { type: "json" };
+import { MAX_HEARTS } from "../domain/xp.js";
 import { query } from "../db/index.js";
-import { closeDatabase, registerUser, skipWithoutDatabase, startTestServer } from "./helpers.js";
+import {
+  closeDatabase,
+  createClient,
+  registerUser,
+  skipWithoutDatabase,
+  startTestServer,
+} from "./helpers.js";
 
 const LESSONS = curriculum.units.flatMap((unit) => unit.lessons);
 const PRIMEIRA = LESSONS[0];
@@ -144,6 +151,39 @@ describe("aprendizagem", skipWithoutDatabase, () => {
     const lessons = resposta.body.units.flatMap((unit) => unit.lessons);
     assert.equal(lessons.find((lesson) => lesson.id === PRIMEIRA.id).status, "completed");
     assert.equal(lessons.find((lesson) => lesson.id === SEGUNDA.id).status, "current");
+  });
+
+  test("as 19 lições resolvem-se de ponta a ponta com as respostas do currículo", async () => {
+    // O teste que protege o conteúdo, e não o código: percorre o percurso
+    // inteiro na ordem, com as respostas que o currículo declara certas. Se
+    // alguma pergunta nova tiver uma resposta que o corretor não aceita — um
+    // `correctAnswer` que não está nas opções, um `order` com um passo
+    // trocado, um `estimate` fora da tolerância — falha aqui, e não no
+    // telemóvel de quem está a aprender.
+    const outro = createClient(server.baseUrl);
+    await registerUser(outro);
+
+    for (const lesson of LESSONS) {
+      const resposta = await outro.post(`/api/learning/lessons/${lesson.id}/complete`, {
+        answers: respostasCertas(lesson),
+      });
+
+      assert.equal(resposta.status, 200, `${lesson.id}: ${JSON.stringify(resposta.body)}`);
+      assert.equal(resposta.body.passed, true, `${lesson.id} não passou com as respostas certas`);
+      assert.equal(
+        resposta.body.heartsLeft,
+        MAX_HEARTS,
+        `${lesson.id}: o corretor recusou alguma resposta que o currículo dá como certa`,
+      );
+    }
+
+    // E no fim o percurso está mesmo todo feito.
+    const path = (await outro.get("/api/learning/path")).body;
+    const estados = path.units.flatMap((unit) => unit.lessons.map((l) => l.status));
+    assert.ok(
+      estados.every((estado) => estado === "completed"),
+      "ficaram lições por concluir",
+    );
   });
 
   test("uma lição que não existe dá 404", async () => {

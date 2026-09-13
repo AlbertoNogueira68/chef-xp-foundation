@@ -32,6 +32,9 @@ const ICONS: Record<string, ComponentType<{ className?: string }>> = {
   hand: Hand,
   shield: Shield,
   flame: Flame,
+  // A unidade 1 já usava `onion` sem que existisse aqui: caía no ícone de
+  // reserva sem ninguém dar por isso.
+  onion: Soup,
 };
 
 /**

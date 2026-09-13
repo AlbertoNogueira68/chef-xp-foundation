@@ -7,9 +7,11 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
 ## O que a aplicação faz
 
 - **Autenticação** por email/password, com sessão em cookie HttpOnly e proteção CSRF.
-- **Percurso de aprendizagem** ao estilo Duolingo: unidades, lições diárias com
-  preparação e quiz, corações, XP, streak e meta diária. Toda a progressão vive
-  no servidor — o browser não guarda nem decide nada.
+- **Percurso de aprendizagem** ao estilo Duolingo: cinco unidades, 19 lições
+  com preparação e quiz, corações, XP, streak e meta diária. Toda a progressão
+  vive no servidor — o browser não guarda nem decide nada.
+- **Missões de cozinha**: cada unidade acaba num prato a sério, com passos
+  cronometrados, socorros e foto de verificação.
 - **Feed social**: publicação de receitas com fotografia, gostos, comentários,
   seguidores, e três vistas (Recentes, A seguir, Em alta).
 - **Perfil** com XP, nível, streak, conquistas e estatísticas, todas derivadas de
