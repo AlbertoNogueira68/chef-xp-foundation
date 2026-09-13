@@ -125,3 +125,20 @@ export const missionCompleteSchema = z.object({
 export const challengeEntrySchema = z.object({
   recipeId: uuid,
 });
+
+/* ---------------------------------------------------------------- */
+/* Notificações                                                     */
+/* ---------------------------------------------------------------- */
+
+export const notificationListSchema = z.object({
+  limit: z.coerce.number().int().min(1).max(50).default(20),
+  unreadOnly: z
+    .enum(["true", "false"])
+    .default("false")
+    .transform((value) => value === "true"),
+});
+
+/** O id é BIGSERIAL, não UUID como no resto da API. */
+export const notificationIdParamSchema = z.object({
+  id: z.coerce.number().int().positive(),
+});

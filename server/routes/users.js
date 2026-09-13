@@ -8,6 +8,7 @@ import { toPublicUser } from "../lib/mappers.js";
 import { loadDailyState } from "../lib/xpLedger.js";
 import { badgesFor } from "../domain/xp.js";
 import { resolveImageInput } from "../lib/imageStore.js";
+import { notifyQuietly } from "../lib/notifications.js";
 
 const router = Router();
 
@@ -197,6 +198,13 @@ router.post(
       `INSERT INTO follows (follower_id, followee_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`,
       [req.user.id, req.valid.params.id],
     );
+
+    await notifyQuietly(getPool(), {
+      userId: req.valid.params.id,
+      actorId: req.user.id,
+      kind: "follow",
+    });
+
     res.json({ following: true });
   }),
 );

@@ -25,6 +25,7 @@ export const skipWithoutDatabase = hasDatabase
 
 /** Tabelas que cada teste limpa. A ordem não importa: é um TRUNCATE em cascata. */
 const TABLES = [
+  "notifications",
   "challenge_entries",
   "comments",
   "recipe_likes",

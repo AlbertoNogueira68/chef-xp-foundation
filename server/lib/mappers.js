@@ -106,3 +106,26 @@ export function decodeCursor(value) {
     return null;
   }
 }
+
+/**
+ * Uma notificação para a interface. Sem texto pronto: a frase é montada lá,
+ * a partir do tipo e de quem fez — e assim muda com o nome de quem a fez.
+ */
+export function toNotification(row) {
+  return {
+    id: String(row.id),
+    kind: row.kind,
+    read: row.read_at !== null,
+    createdAt: row.created_at,
+    actor: {
+      id: row.actor_id,
+      username: row.actor_username,
+      photoUrl: row.actor_photo ?? null,
+      level: Number(row.actor_level ?? 1),
+    },
+    recipe: row.recipe_id
+      ? { id: row.recipe_id, title: row.recipe_title, imageUrl: row.recipe_image ?? null }
+      : null,
+    commentBody: row.comment_body ?? null,
+  };
+}

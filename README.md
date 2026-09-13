@@ -19,6 +19,8 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
   pode partilhar.
 - **Desafios** da comunidade: participa-se com uma receita própria, vê-se quem
   participou, e o XP do desafio é pago uma vez por desafio.
+- **Notificações** de gostos, comentários e seguidores novos, no sino do
+  cabeçalho.
 
 ## Stack
 
@@ -125,6 +127,12 @@ somava XP por receitas que já não existem. A revogação desconta também o di
 que o ponto foi ganho, para `daily_activity` continuar a bater certo com o
 livro-razão.
 
+**Uma notificação não guarda texto.** Guarda quem fez, o quê e sobre o quê; a
+frase é montada na interface. Quem mudar de nome não fica com notificações a
+dizer o nome antigo. Gostar e seguir dão uma notificação por pessoa, não uma
+por clique — índices parciais únicos, não um `if` na rota — e o `CHECK
+(user_id <> actor_id)` garante que ninguém é notificado de si próprio.
+
 **O streak é calculado no fuso do utilizador**, a partir de `daily_activity`, e
 só quebra depois de um dia civil inteiro sem atividade.
 
@@ -161,7 +169,7 @@ Migrations em `server/db/migrations/`, aplicadas no arranque e por
 
 Tabelas principais: `users`, `recipes`, `challenges`, `recipe_likes`, `follows`,
 `comments`, `lesson_progress`, `daily_activity`, `xp_events`,
-`challenge_entries`.
+`challenge_entries`, `notifications`.
 
 ## Produção
 

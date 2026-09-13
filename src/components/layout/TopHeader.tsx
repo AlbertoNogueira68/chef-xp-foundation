@@ -1,5 +1,6 @@
-import { Bell, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { ChefXPLogo } from "@/components/ChefXPLogo";
+import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { Button } from "@/components/ui/button";
 
 export function TopHeader() {
@@ -8,14 +9,7 @@ export function TopHeader() {
       <div className="mx-auto flex h-14 max-w-lg items-center justify-between px-4">
         <ChefXPLogo />
         <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-9 rounded-full"
-            aria-label="Notificações"
-          >
-            <Bell className="size-5" />
-          </Button>
+          <NotificationBell />
           <Button
             variant="ghost"
             size="icon"

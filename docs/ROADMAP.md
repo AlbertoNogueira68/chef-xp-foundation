@@ -60,13 +60,17 @@ participar com uma receita, ver quem participou e receber o XP do desafio.
 - [x] Aprendizagem: o gabarito não sai do servidor, lições trancadas, correção no servidor
 - [x] CI corre-os contra Postgres; sem `DATABASE_URL` saltam com a razão à vista
 
-### 5. Notificações — *a seguir*
+### 5. Notificações
 
-- [ ] Tabela `notifications` alimentada por gostos, comentários e novos seguidores
-- [ ] `GET /api/notifications` e marcação de lidas
-- [ ] Indicador na navegação
+- [x] `notifications` alimentada por gostos, comentários e novos seguidores
+- [x] Gostar e seguir dão uma notificação por pessoa, não uma por clique
+      (índices parciais únicos)
+- [x] Ninguém é notificado de si próprio — regra do esquema, não de um `if`
+- [x] `GET /api/notifications`, `/unread-count`, `POST /read` e `/:id/read`
+- [x] Sino do cabeçalho com contagem, caixa e marcação ao abrir
+- [x] 13 testes de integração
 
-### 6. Rankings
+### 6. Rankings — *a seguir*
 
 - [ ] Leaderboard semanal e global a partir de `xp_events`, sem contadores novos
 - [ ] Ranking por desafio

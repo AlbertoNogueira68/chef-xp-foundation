@@ -303,3 +303,33 @@ CREATE INDEX IF NOT EXISTS challenge_entries_challenge_idx
 
 CREATE INDEX IF NOT EXISTS challenge_entries_user_idx
   ON challenge_entries (user_id, created_at DESC);
+
+-- ------------------------------------------------------------------ --
+-- Notificações (ver migrations/008_notifications.sql)
+-- ------------------------------------------------------------------ --
+CREATE TABLE IF NOT EXISTS notifications (
+  id         BIGSERIAL PRIMARY KEY,
+  user_id    UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  actor_id   UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  kind       TEXT NOT NULL CHECK (kind IN ('like', 'comment', 'follow')),
+  recipe_id  UUID REFERENCES recipes(id)  ON DELETE CASCADE,
+  comment_id UUID REFERENCES comments(id) ON DELETE CASCADE,
+  read_at    TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT notifications_nao_e_de_mim CHECK (user_id <> actor_id)
+);
+
+CREATE INDEX IF NOT EXISTS notifications_user_idx
+  ON notifications (user_id, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS notifications_unread_idx
+  ON notifications (user_id) WHERE read_at IS NULL;
+
+-- Gostar e seguir dão uma notificação por pessoa, não uma por clique.
+CREATE UNIQUE INDEX IF NOT EXISTS notifications_uma_por_gosto
+  ON notifications (user_id, actor_id, kind, recipe_id)
+  WHERE kind = 'like';
+
+CREATE UNIQUE INDEX IF NOT EXISTS notifications_uma_por_seguidor
+  ON notifications (user_id, actor_id, kind)
+  WHERE kind = 'follow';

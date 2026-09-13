@@ -13,6 +13,7 @@ import {
 import { decodeCursor, encodeCursor, toComment, toRecipe } from "../lib/mappers.js";
 import { resolveImageInput } from "../lib/imageStore.js";
 import { awardXp, revokeXp } from "../lib/xpLedger.js";
+import { notifyQuietly } from "../lib/notifications.js";
 import { XP_RULES } from "../domain/xp.js";
 
 const router = Router();
@@ -344,14 +345,25 @@ router.post(
   "/:id/like",
   validate({ params: idParamSchema }),
   asyncHandler(async (req, res) => {
-    const exists = await query(`SELECT 1 FROM recipes WHERE id = $1`, [req.valid.params.id]);
-    if (exists.rowCount === 0) return res.status(404).json({ error: "Receita não encontrada" });
+    const { rows } = await query(`SELECT author_id FROM recipes WHERE id = $1`, [
+      req.valid.params.id,
+    ]);
+    if (!rows[0]) return res.status(404).json({ error: "Receita não encontrada" });
 
     await query(
       `INSERT INTO recipe_likes (user_id, recipe_id) VALUES ($1, $2)
        ON CONFLICT DO NOTHING`,
       [req.user.id, req.valid.params.id],
     );
+
+    // Depois do gosto estar registado: se a notificação falhar, o gosto fica.
+    await notifyQuietly(getPool(), {
+      userId: rows[0].author_id,
+      actorId: req.user.id,
+      kind: "like",
+      recipeId: req.valid.params.id,
+    });
+
     return respondWithRecipe(res, req.user.id, req.valid.params.id);
   }),
 );
@@ -397,13 +409,25 @@ router.post(
   "/:id/comments",
   validate({ params: idParamSchema, body: commentCreateSchema }),
   asyncHandler(async (req, res) => {
-    const exists = await query(`SELECT 1 FROM recipes WHERE id = $1`, [req.valid.params.id]);
-    if (exists.rowCount === 0) return res.status(404).json({ error: "Receita não encontrada" });
+    const { rows: recipeRows } = await query(`SELECT author_id FROM recipes WHERE id = $1`, [
+      req.valid.params.id,
+    ]);
+    if (!recipeRows[0]) return res.status(404).json({ error: "Receita não encontrada" });
 
     const { rows: inserted } = await query(
       `INSERT INTO comments (recipe_id, author_id, body) VALUES ($1, $2, $3) RETURNING id`,
       [req.valid.params.id, req.user.id, req.valid.body.body],
     );
+
+    // Cada comentário é um acontecimento novo, por isso leva o seu id: dois
+    // comentários da mesma pessoa são duas notificações.
+    await notifyQuietly(getPool(), {
+      userId: recipeRows[0].author_id,
+      actorId: req.user.id,
+      kind: "comment",
+      recipeId: req.valid.params.id,
+      commentId: inserted[0].id,
+    });
 
     const { rows } = await query(`${SELECT_COMMENT} WHERE c.id = $1`, [inserted[0].id]);
     res.status(201).json({ comment: toComment(rows[0]) });
