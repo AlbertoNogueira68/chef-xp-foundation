@@ -18,7 +18,10 @@ services:
       retries: 10
 
   app:
-    image: node:20-alpine
+    # Node 22 e não 20: as ferramentas de teste da interface (Vitest, jsdom)
+    # exigem ^22.14, e em Node 20 o `npm install` do arranque falha a meio —
+    # o contentor subia sem `concurrently` e morria sem servir nada.
+    image: node:22-alpine
     working_dir: /app
     depends_on:
       postgres:

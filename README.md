@@ -40,7 +40,7 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
 
 ## Pré-requisitos
 
-- Node.js 20+ (o CI corre em 22)
+- Node.js 22.14+ — exigido pelo Vitest e pelo jsdom, e declarado em `engines`
 - Docker / Docker Compose (recomendado para o Postgres)
 
 ## Setup local
