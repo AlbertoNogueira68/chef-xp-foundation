@@ -192,9 +192,15 @@ Os testes de integração precisam de `DATABASE_URL`. Sem ela saltam com a razã
 à vista, para `npm test` funcionar em qualquer clone; no CI a base existe
 sempre, portanto correm lá a sério.
 
+**Apontam para uma base de teste, não para a de desenvolvimento.** Cada teste
+começa com um `TRUNCATE` a todas as tabelas — apontá-los para a base onde estão
+os dados de demonstração apaga-os. O harness recusa-se a arrancar se o nome da
+base não contiver `test`.
+
 ```bash
 docker compose -f docker-compose.dev.yml up -d postgres
-npm test
+createdb chef_xp_test   # ou: psql -c 'CREATE DATABASE chef_xp_test'
+DATABASE_URL=postgresql://chef:chefdev@localhost:5432/chef_xp_test npm test
 ```
 
 ## Tamanho do que chega ao telemóvel

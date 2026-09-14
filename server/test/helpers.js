@@ -46,10 +46,40 @@ const TABLES = [
 let migrated = false;
 
 /**
+ * Recusa-se a correr contra uma base que não seja de teste.
+ *
+ * Isto existe porque aconteceu: correr a bateria com `DATABASE_URL` a apontar
+ * para a base de desenvolvimento apagou os dados de demonstração — o
+ * `resetDatabase` faz TRUNCATE em tudo, e faz o que promete. Um teste
+ * destrutivo não deve depender de quem o corre se lembrar de trocar a variável.
+ *
+ * A regra é o nome da base: tem de conter "test". Em CI a base chama-se
+ * `chef_xp` mas `CI=true` está sempre definido, e aí é seguro — o Postgres do
+ * workflow é descartável.
+ */
+function exigirBaseDeTeste() {
+  const url = process.env.DATABASE_URL ?? "";
+  if (process.env.CI === "true" || process.env.ALLOW_DESTRUCTIVE_TESTS === "true") return;
+
+  // O nome da base é o último segmento do caminho, sem query string.
+  const nome = decodeURIComponent(url.split("?")[0].split("/").pop() ?? "");
+
+  if (!/test/i.test(nome)) {
+    throw new Error(
+      `Os testes de integração apagam as tabelas todas e a base "${nome}" não parece ser de teste.\n` +
+        `Aponta DATABASE_URL para uma base cujo nome contenha "test" (por exemplo chef_xp_test),\n` +
+        `ou define ALLOW_DESTRUCTIVE_TESTS=true se é mesmo isso que queres.`,
+    );
+  }
+}
+
+/**
  * Levanta a API numa porta efémera e devolve um cliente já ligado a ela.
  * Cada chamada começa com a base vazia.
  */
 export async function startTestServer() {
+  exigirBaseDeTeste();
+
   process.env.JWT_SECRET ||= "segredo-de-teste-com-mais-de-32-caracteres";
   process.env.NODE_ENV = "test";
   // Uma bateria de testes faz mais pedidos do que o limite normal permite.
