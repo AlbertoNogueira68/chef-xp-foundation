@@ -8,17 +8,25 @@ export const unreadCountQueryKey = [NOTIFICATIONS_ROOT_KEY, "unread-count"] as c
 /**
  * A contagem do sino.
  *
- * Sem websockets: pergunta-se de minuto a minuto e ao voltar à janela. Para
- * uma app de cozinha é mais do que suficiente, e não abre uma ligação
- * permanente por cada pessoa que tem a app aberta.
+ * Sem websockets: pergunta-se de quinze em quinze segundos e ao voltar à
+ * janela. Não abre uma ligação permanente por cada pessoa com a app aberta, e
+ * o pedido é um `count` com índice parcial — barato de propósito.
+ *
+ * Quinze segundos e não sessenta, que foi o primeiro palpite: com um minuto,
+ * quem está a experimentar a app com outra pessoa faz a ação, olha para o sino,
+ * não vê nada e conclui — com razão — que aquilo não funciona. O tempo até
+ * aparecer é a funcionalidade; não é um detalhe de afinação.
+ *
+ * `refetchIntervalInBackground` fica como vem (falso): com o separador
+ * escondido não se pergunta nada, e ao voltar o foco pergunta-se logo.
  */
 export function useUnreadCount() {
   return useQuery({
     queryKey: unreadCountQueryKey,
     queryFn: () => notificationService.unreadCount(),
-    refetchInterval: 60_000,
+    refetchInterval: 15_000,
     refetchOnWindowFocus: true,
-    staleTime: 30_000,
+    staleTime: 5_000,
     retry: false,
   });
 }
