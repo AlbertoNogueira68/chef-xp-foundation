@@ -24,6 +24,10 @@ export interface User {
   isMaxLevel: boolean;
   timeZone?: string;
   dailyXpGoal?: number;
+  /** Só vem para o próprio, com o email. Ninguém vê o estado da conta alheia. */
+  emailVerified?: boolean;
+  /** Como o email: é do próprio. Quem modera não anda de crachá. */
+  role?: UserRole;
   createdAt: string;
   updatedAt: string;
 }
@@ -35,6 +39,9 @@ export interface SuggestedUser extends User {
 }
 
 /** Estatísticas de perfil — todas derivadas de tabelas, nenhuma inventada. */
+/** Os três papéis. Só o próprio conhece o seu — ver `toPublicUser`. */
+export type UserRole = "user" | "moderator" | "admin";
+
 export interface UserStats {
   recipes: number;
   followers: number;
@@ -45,6 +52,8 @@ export interface UserStats {
   likesReceived: number;
   streak: number;
   isFollowing: boolean;
+  /** Se fui eu que bloqueei esta pessoa. Nunca o contrário: ver `users.js`. */
+  isBlocked: boolean;
   isMe: boolean;
   badges: string[];
 }

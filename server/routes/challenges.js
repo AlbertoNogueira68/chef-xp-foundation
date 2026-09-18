@@ -3,6 +3,7 @@ import { getPool, query } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
+import { notBlockedSql } from "../lib/blocks.js";
 import { challengeEntrySchema, idParamSchema } from "../schemas/index.js";
 import { toChallenge, toChallengeEntry } from "../lib/mappers.js";
 import { canEnterChallenge, canLeaveChallenge } from "../domain/challenges.js";
@@ -52,6 +53,7 @@ const SELECT_ENTRIES = `
   JOIN recipes r ON r.id = e.recipe_id
   JOIN users   u ON u.id = r.author_id
   WHERE e.challenge_id = $2
+    AND ${notBlockedSql("$1", "r.author_id")}
   ORDER BY likes_count DESC, e.created_at ASC
   LIMIT 100
 `;

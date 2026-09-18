@@ -43,6 +43,51 @@ export function validateEnv(env = process.env) {
     );
   }
 
+  // Mesma regra para o SMTP, pela mesma razão: com só metade das credenciais,
+  // a app oferecia a recuperação de password e o email nunca saía — e quem
+  // ficasse à espera dele não tinha como saber porquê.
+  //
+  // `SMTP_AUTH=none` é a saída para um servidor que não pede credenciais — o
+  // Mailpit do compose de desenvolvimento. Aí a regra das duas não se aplica,
+  // mas passam a fazer falta duas outras coisas: um host para onde enviar, e
+  // um `MAIL_FROM`, porque sem utilizador de SMTP não há nada de onde tirar o
+  // remetente.
+  if (env.SMTP_AUTH && env.SMTP_AUTH !== "none" && env.SMTP_AUTH !== "login") {
+    errors.push('SMTP_AUTH só aceita "login" (por omissão) ou "none"');
+  }
+
+  // Quem define credenciais quer usá-las. O compose de desenvolvimento põe
+  // SMTP_AUTH=none por omissão para apontar ao Mailpit, e sem esta regra um
+  // `.env` com o Gmail lá dentro passava a ser ignorado em silêncio — ou, se
+  // isto fosse um erro, deixava de arrancar por causa de um valor que a
+  // pessoa nunca escreveu.
+  const temCredenciais = Boolean(env.SMTP_USER || env.SMTP_PASSWORD);
+  if (env.SMTP_AUTH === "none" && temCredenciais) {
+    console.warn(
+      "[env] SMTP_AUTH=none ignorado: há SMTP_USER/SMTP_PASSWORD definidas e são elas que valem.",
+    );
+  }
+
+  if (env.SMTP_AUTH === "none" && !temCredenciais) {
+    // Um servidor que aceita correio sem credenciais — o Mailpit do compose,
+    // ou um relay na própria máquina. Faltam-lhe duas coisas que as
+    // credenciais traziam: para onde enviar, e de quem vem o email.
+    if (!env.SMTP_HOST) {
+      errors.push("Com SMTP_AUTH=none é preciso SMTP_HOST (para onde enviar o correio)");
+    }
+    if (!env.MAIL_FROM) {
+      errors.push("Com SMTP_AUTH=none é preciso MAIL_FROM: não há SMTP_USER de onde o tirar");
+    }
+    if (isProd) {
+      console.warn(
+        "[env] SMTP_AUTH=none em produção: o correio sai sem credenciais e sem TLS. " +
+          "Só faz sentido para um relay na própria máquina.",
+      );
+    }
+  } else if (Boolean(env.SMTP_USER) !== Boolean(env.SMTP_PASSWORD)) {
+    errors.push("SMTP_USER e SMTP_PASSWORD têm de ser definidas as duas, ou nenhuma");
+  }
+
   if (isProd) {
     if (!env.FRONTEND_URL && !env.CORS_ORIGIN) {
       errors.push("Em produção define FRONTEND_URL (ou CORS_ORIGIN) para fechar o CORS");

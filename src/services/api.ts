@@ -32,10 +32,21 @@ async function ensureCsrf(): Promise<string | null> {
   const existing = readCsrfCookie();
   if (existing) return existing;
 
-  const res = await fetch(`${apiBase()}/auth/csrf`, { credentials: "include" });
-  if (!res.ok) return null;
-  const data = (await res.json()) as { csrfToken?: string };
-  return data.csrfToken ?? readCsrfCookie();
+  /**
+   * Este pedido é o primeiro de qualquer escrita — e era ele que rebentava
+   * com "Failed to fetch" quando o servidor estava em baixo, antes de o
+   * pedido a sério chegar a ser feito. Falhar aqui em silêncio é o correto:
+   * sem token, o pedido seguinte vai na mesma e é ele que dá a mensagem, uma
+   * só e explicada.
+   */
+  try {
+    const res = await fetch(`${apiBase()}/auth/csrf`, { credentials: "include" });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { csrfToken?: string };
+    return data.csrfToken ?? readCsrfCookie();
+  } catch {
+    return null;
+  }
 }
 
 export type ApiError = Error & { status?: number; details?: unknown };
@@ -45,10 +56,66 @@ type ApiFetchOptions = RequestInit & {
   silentOn401?: boolean;
 };
 
+/**
+ * As duas maneiras de não haver ligação, com as palavras certas para cada uma.
+ *
+ * Não são a mesma coisa para quem está do outro lado: sem rede, a pessoa sabe
+ * o que fazer (sair do túnel, ligar o wifi); com rede mas sem servidor, não há
+ * nada que ela possa fazer e o pior seria mandá-la verificar a Internet que
+ * está a funcionar.
+ */
+export const OFFLINE_MESSAGE = "Sem ligação. Isto fica por gravar até voltares a ter rede.";
+export const SERVER_MESSAGE = "O servidor não respondeu. Nada ficou gravado — tenta outra vez.";
+
+/**
+ * Emitido quando um pedido falha na rede, e outra vez quando volta a haver
+ * resposta. `detail.alcancavel` diz qual dos dois.
+ *
+ * Existe porque `navigator.onLine` responde "tenho ligação a alguma coisa" e
+ * não "chego ao servidor". Com o servidor em baixo e o wifi de pé, o browser
+ * diz que está online e a app mostrava o erro cru do `fetch` — "Failed to
+ * fetch" — a quem não faz ideia do que isso é. Quem sabe mesmo é o pedido que
+ * falhou, e é ele que avisa.
+ */
+export const CONNECTION_EVENT = "chef-xp:connection";
+
+function anunciarLigacao(alcancavel: boolean) {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new CustomEvent(CONNECTION_EVENT, { detail: { alcancavel } }));
+}
+
+/** Um erro de rede, já com uma frase que se percebe. */
+function erroDeLigacao(): ApiError {
+  const offline = typeof navigator !== "undefined" && !navigator.onLine;
+  const err = new Error(offline ? OFFLINE_MESSAGE : SERVER_MESSAGE) as ApiError;
+  err.status = 0;
+  return err;
+}
+
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
   const { silentOn401, ...init } = options;
   const method = (init.method || "GET").toUpperCase();
   const headers = new Headers(init.headers);
+
+  /**
+   * Escrever offline falha aqui, antes de sair da app.
+   *
+   * Podia ir à rede e falhar na mesma — mas falharia com "Failed to fetch",
+   * que não diz nada a ninguém. E podia guardar numa fila para enviar mais
+   * tarde: não guarda de propósito. O XP é um livro-razão com ordem, e
+   * reenviar meia missão fora de ordem daria um estado que a pessoa nunca
+   * pediu. Melhor dizer já que não ficou gravado.
+   */
+  if (
+    method !== "GET" &&
+    method !== "HEAD" &&
+    typeof navigator !== "undefined" &&
+    !navigator.onLine
+  ) {
+    const err = new Error(OFFLINE_MESSAGE) as ApiError;
+    err.status = 0;
+    throw err;
+  }
 
   if (!headers.has("Content-Type") && init.body) {
     headers.set("Content-Type", "application/json");
@@ -59,11 +126,31 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
     if (csrf) headers.set("X-CSRF-Token", csrf);
   }
 
-  const res = await fetch(`${apiBase()}${path}`, {
-    ...init,
-    headers,
-    credentials: "include",
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${apiBase()}${path}`, {
+      ...init,
+      headers,
+      credentials: "include",
+    });
+  } catch {
+    // Aqui só chegam falhas de rede: o `fetch` só rejeita quando não houve
+    // resposta nenhuma. Um 500 do servidor segue o caminho normal, abaixo.
+    anunciarLigacao(false);
+    throw erroDeLigacao();
+  }
+
+  /**
+   * O service worker responde 503 com este cabeçalho quando não há rede nem
+   * cópia guardada. Para quem chamou, é uma falha de rede como as outras — e
+   * não um erro que o servidor tenha decidido devolver.
+   */
+  if (res.status === 503 && res.headers.get("X-ChefXP-Cache") === "vazia") {
+    anunciarLigacao(false);
+    throw erroDeLigacao();
+  }
+
+  anunciarLigacao(true);
 
   if (res.status === 401) {
     clearProfile();

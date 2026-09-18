@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Check,
   Clock,
+  CloudUpload,
   HeartCrack,
   ListChecks,
   Undo2,
@@ -40,6 +41,8 @@ export function LessonPlayer({
   explanation,
   isChecking,
   xpEarned,
+  semCorrecao,
+  porEnviar,
   onClose,
   onStartPreparation,
   onNextPrepStep,
@@ -70,6 +73,10 @@ export function LessonPlayer({
   explanation: string | null;
   isChecking: boolean;
   xpEarned: number;
+  /** A resposta atual ficou por corrigir — não havia rede. */
+  semCorrecao: boolean;
+  /** A lição terminou sem rede e está na caixa de saída. */
+  porEnviar: boolean;
   onClose: () => void;
   onStartPreparation: () => void;
   onNextPrepStep: () => void;
@@ -84,7 +91,12 @@ export function LessonPlayer({
   if (phase === "complete") {
     return (
       <div className="flex flex-1 flex-col">
-        <LessonComplete xpEarned={xpEarned} lessonTitle={lesson.dishName} onContinue={onContinue} />
+        <LessonComplete
+          xpEarned={xpEarned}
+          lessonTitle={lesson.dishName}
+          porEnviar={porEnviar}
+          onContinue={onContinue}
+        />
       </div>
     );
   }
@@ -142,6 +154,7 @@ export function LessonPlayer({
           selectedAnswer={selectedAnswer}
           showFeedback={showFeedback}
           isCorrect={isCorrect}
+          semCorrecao={semCorrecao}
           correctAnswer={correctAnswer}
           explainWrong={explainWrong}
           explanation={explanation}
@@ -542,6 +555,7 @@ function LessonQuiz({
   selectedAnswer,
   showFeedback,
   isCorrect,
+  semCorrecao,
   correctAnswer,
   explainWrong,
   explanation,
@@ -557,6 +571,7 @@ function LessonQuiz({
   selectedAnswer: AnswerValue | null;
   showFeedback: boolean;
   isCorrect: boolean;
+  semCorrecao: boolean;
   correctAnswer: AnswerValue | null;
   explainWrong: string | null;
   explanation: string | null;
@@ -612,7 +627,28 @@ function LessonQuiz({
         )}
       </div>
 
-      {showFeedback && (
+      {showFeedback && semCorrecao && (
+        <div className="mt-4 rounded-2xl bg-stone-100 p-4 text-stone-800">
+          <p className="flex items-center gap-2 font-semibold">
+            <CloudUpload className="size-4" />
+            Resposta guardada
+          </p>
+          {/* Nem "certo" nem "errado": quem corrige é o servidor, e ele não
+              está ao alcance. Inventar um dos dois seria pior do que esperar. */}
+          <p className="mt-1 text-sm">
+            Sem rede, a correção fica para quando voltares a ter ligação. Podes continuar a lição —
+            não perdes corações por isto.
+          </p>
+          <Button
+            className="mt-3 w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
+            onClick={onNext}
+          >
+            Continuar
+          </Button>
+        </div>
+      )}
+
+      {showFeedback && !semCorrecao && (
         <div
           className={cn(
             "mt-4 rounded-2xl p-4",

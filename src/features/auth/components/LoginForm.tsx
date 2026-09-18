@@ -1,14 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuthProviders } from "../hooks/useAuthProviders";
 import { useSignIn } from "../hooks/useSignIn";
 import { loginSchema, type LoginInput } from "../schemas";
 
 export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
   const signIn = useSignIn();
+  const { data: providers } = useAuthProviders();
   const {
     register,
     handleSubmit,
@@ -39,7 +42,21 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
         {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
       </div>
       <div className="space-y-2">
-        <Label htmlFor="login-password">Palavra-passe</Label>
+        <div className="flex items-baseline justify-between gap-2">
+          <Label htmlFor="login-password">Palavra-passe</Label>
+          {/*
+            Só aparece se o servidor tiver SMTP: sem ele, o link levava a um
+            formulário que nunca enviava email nenhum.
+          */}
+          {providers?.passwordRecovery && (
+            <Link
+              to="/forgot-password"
+              className="inline-flex min-h-8 items-center px-1 text-xs text-muted-foreground underline-offset-4 hover:underline"
+            >
+              Esqueceste-te?
+            </Link>
+          )}
+        </div>
         <Input
           id="login-password"
           type="password"

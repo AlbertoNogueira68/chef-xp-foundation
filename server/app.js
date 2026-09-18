@@ -19,6 +19,9 @@ import challengeRoutes from "./routes/challenges.js";
 import learningRoutes from "./routes/learning.js";
 import missionRoutes from "./routes/missions.js";
 import notificationRoutes from "./routes/notifications.js";
+import reportRoutes from "./routes/reports.js";
+import moderationRoutes from "./routes/moderation.js";
+import adminRoutes from "./routes/admin.js";
 import leaderboardRoutes from "./routes/leaderboard.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -108,6 +111,9 @@ export function createApp() {
   app.use("/api/missions", missionRoutes);
   app.use("/api/notifications", notificationRoutes);
   app.use("/api/leaderboard", leaderboardRoutes);
+  app.use("/api/reports", reportRoutes);
+  app.use("/api/moderation", moderationRoutes);
+  app.use("/api/admin", adminRoutes);
 
   // Imagens carregadas pelos utilizadores. Nomes são UUID gerados no servidor,
   // por isso o conteúdo é imutável e pode ser cacheado agressivamente.
@@ -123,9 +129,38 @@ export function createApp() {
 
   app.use("/api", notFound);
 
-  if (isProd) {
+  /**
+   * Servir a build.
+   *
+   * Em produção é sempre. `SERVE_DIST=true` liga o mesmo sem exigir
+   * `NODE_ENV=production`, e existe por uma razão concreta: o service worker
+   * só é registado numa build de produção, portanto experimentar a app
+   * instalável obrigava a arrancar o servidor em modo de produção — com
+   * cookies `Secure` e `__Host-`, que o browser recusa em http://localhost, e
+   * com um `JWT_SECRET` que o `validateEnv` exige que não seja o de exemplo.
+   * Resultado: quem quisesse ver o modo offline não conseguia sequer entrar.
+   * É o que o `npm run preview` usa.
+   */
+  if (isProd || process.env.SERVE_DIST === "true") {
     const distDir = path.join(rootDir, "dist");
-    app.use(express.static(distDir));
+    app.use(
+      express.static(distDir, {
+        setHeaders(res, filePath) {
+          /**
+           * O service worker nunca pode ser servido da cache do browser.
+           *
+           * É ele que decide o que fica guardado; se ele próprio ficasse
+           * preso numa versão antiga, um deploy novo não chegava a ninguém
+           * que já tivesse aberto a app — e não haveria maneira de corrigir
+           * à distância. Os ficheiros de `/assets/` levam o hash no nome e
+           * não têm este problema.
+           */
+          if (path.basename(filePath) === "sw.js") {
+            res.setHeader("Cache-Control", "no-cache");
+          }
+        },
+      }),
+    );
     app.get(/^\/(?!api).*/, (_req, res) => {
       res.sendFile(path.join(distDir, "index.html"));
     });

@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ChefHat, Grid3X3, LogOut, Settings, Share2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { ChefHat, Grid3X3, LogOut, Settings, Share2, Shield } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -57,6 +58,7 @@ export function ProfilePage() {
   const signOut = useSignOut();
   const [tab, setTab] = useState("cooked");
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const navigate = useNavigate();
   const [followList, setFollowList] = useState<FollowListKind | null>(null);
 
   const shareProfile = () =>
@@ -84,6 +86,19 @@ export function ProfilePage() {
           >
             <Share2 className="size-4" />
           </Button>
+          {/* Só aparece a quem tem papel. O servidor recusa a rota aos outros;
+              isto evita oferecer uma porta fechada. */}
+          {(user?.role === "admin" || user?.role === "moderator") && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-9 rounded-full"
+              aria-label={user.role === "admin" ? "Administração" : "Moderação"}
+              onClick={() => navigate("/admin")}
+            >
+              <Shield className="size-4" />
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="icon"

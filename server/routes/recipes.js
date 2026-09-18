@@ -5,12 +5,16 @@ import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 import {
   commentCreateSchema,
+  commentParamsSchema,
   idParamSchema,
   recipeCreateSchema,
   recipeListSchema,
   recipeUpdateSchema,
 } from "../schemas/index.js";
 import { decodeCursor, encodeCursor, toComment, toRecipe } from "../lib/mappers.js";
+import { notBlockedSql } from "../lib/blocks.js";
+import { roleOf } from "../lib/moderation.js";
+import { commentDeleterRole } from "../domain/moderation.js";
 import { resolveImageInput } from "../lib/imageStore.js";
 import { awardXp, revokeXp } from "../lib/xpLedger.js";
 import { notifyQuietly } from "../lib/notifications.js";
@@ -60,7 +64,13 @@ router.get(
     const { q, scope, difficulty, maxTime, authorId, limit, cursor } = req.valid.query;
 
     const params = [req.user.id];
-    const where = [];
+
+    /**
+     * O bloqueio não é um filtro entre outros: é a primeira condição e não
+     * depende de nenhum parâmetro do pedido. Quem eu bloqueei, e quem me
+     * bloqueou, não aparece — no feed, na pesquisa, nem na página do autor.
+     */
+    const where = [notBlockedSql("$1", "r.author_id")];
 
     if (scope === "following") {
       where.push(`(
@@ -146,10 +156,12 @@ router.get(
   "/:id",
   validate({ params: idParamSchema }),
   asyncHandler(async (req, res) => {
-    const { rows } = await query(`${SELECT_RECIPE} WHERE r.id = $2`, [
-      req.user.id,
-      req.valid.params.id,
-    ]);
+    const { rows } = await query(
+      // 404 e não 403 com bloqueio pelo meio: dizer "não podes ver esta" é
+      // dizer que ela existe, e quem bloqueia não quer dar essa informação.
+      `${SELECT_RECIPE} WHERE r.id = $2 AND ${notBlockedSql("$1", "r.author_id")}`,
+      [req.user.id, req.valid.params.id],
+    );
     if (!rows[0]) return res.status(404).json({ error: "Receita não encontrada" });
     res.json({ recipe: toRecipe(rows[0]) });
   }),
@@ -336,7 +348,10 @@ router.delete(
  * ---------------------------------------------------------------- */
 
 async function respondWithRecipe(res, userId, recipeId) {
-  const { rows } = await query(`${SELECT_RECIPE} WHERE r.id = $2`, [userId, recipeId]);
+  const { rows } = await query(
+    `${SELECT_RECIPE} WHERE r.id = $2 AND ${notBlockedSql("$1", "r.author_id")}`,
+    [userId, recipeId],
+  );
   if (!rows[0]) return res.status(404).json({ error: "Receita não encontrada" });
   return res.json({ recipe: toRecipe(rows[0]) });
 }
@@ -345,9 +360,11 @@ router.post(
   "/:id/like",
   validate({ params: idParamSchema }),
   asyncHandler(async (req, res) => {
-    const { rows } = await query(`SELECT author_id FROM recipes WHERE id = $1`, [
-      req.valid.params.id,
-    ]);
+    const { rows } = await query(
+      `SELECT r.author_id FROM recipes r
+        WHERE r.id = $2 AND ${notBlockedSql("$1", "r.author_id")}`,
+      [req.user.id, req.valid.params.id],
+    );
     if (!rows[0]) return res.status(404).json({ error: "Receita não encontrada" });
 
     await query(
@@ -398,8 +415,10 @@ router.get(
   validate({ params: idParamSchema }),
   asyncHandler(async (req, res) => {
     const { rows } = await query(
-      `${SELECT_COMMENT} WHERE c.recipe_id = $1 ORDER BY c.created_at ASC LIMIT 200`,
-      [req.valid.params.id],
+      `${SELECT_COMMENT}
+        WHERE c.recipe_id = $2 AND ${notBlockedSql("$1", "c.author_id")}
+        ORDER BY c.created_at ASC LIMIT 200`,
+      [req.user.id, req.valid.params.id],
     );
     res.json({ comments: rows.map(toComment) });
   }),
@@ -409,9 +428,11 @@ router.post(
   "/:id/comments",
   validate({ params: idParamSchema, body: commentCreateSchema }),
   asyncHandler(async (req, res) => {
-    const { rows: recipeRows } = await query(`SELECT author_id FROM recipes WHERE id = $1`, [
-      req.valid.params.id,
-    ]);
+    const { rows: recipeRows } = await query(
+      `SELECT r.author_id FROM recipes r
+        WHERE r.id = $2 AND ${notBlockedSql("$1", "r.author_id")}`,
+      [req.user.id, req.valid.params.id],
+    );
     if (!recipeRows[0]) return res.status(404).json({ error: "Receita não encontrada" });
 
     const { rows: inserted } = await query(
@@ -434,16 +455,46 @@ router.post(
   }),
 );
 
+/**
+ * Apagar um comentário — três direitos diferentes, não um.
+ *
+ * O autor apaga o que escreveu. O dono da receita limpa a própria página: era
+ * isto que não existia, e sem isso quem publicava não tinha maneira nenhuma de
+ * tirar um insulto de baixo da sua fotografia — só lhe restava apagar a
+ * receita inteira e perder o XP com ela. O moderador apaga o que lhe chega por
+ * denúncia.
+ *
+ * A distinção entre 404 e 403 é deliberada: não existe é 404, existe mas não é
+ * teu é 403. O 404 para tudo, que era o que estava, escondia o erro de quem
+ * tentava apagar o comentário certo sem ter direito a ele.
+ */
 router.delete(
   "/:id/comments/:commentId",
+  validate({ params: commentParamsSchema }),
   asyncHandler(async (req, res) => {
-    const { rowCount } = await query(
-      `DELETE FROM comments WHERE id = $1 AND author_id = $2 AND recipe_id = $3`,
-      [req.params.commentId, req.user.id, req.params.id],
+    const { rows } = await query(
+      `SELECT c.author_id, r.author_id AS recipe_author_id
+         FROM comments c
+         JOIN recipes r ON r.id = c.recipe_id
+        WHERE c.id = $1 AND c.recipe_id = $2`,
+      [req.valid.params.commentId, req.valid.params.id],
     );
-    if (rowCount === 0) {
-      return res.status(404).json({ error: "Comentário não encontrado" });
+
+    const comment = rows[0];
+    if (!comment) return res.status(404).json({ error: "Comentário não encontrado" });
+
+    const deleter = commentDeleterRole({
+      userId: req.user.id,
+      role: await roleOf(req.user.id),
+      commentAuthorId: comment.author_id,
+      recipeAuthorId: comment.recipe_author_id,
+    });
+
+    if (!deleter) {
+      return res.status(403).json({ error: "Este comentário não é teu" });
     }
+
+    await query(`DELETE FROM comments WHERE id = $1`, [req.valid.params.commentId]);
     res.status(204).end();
   }),
 );

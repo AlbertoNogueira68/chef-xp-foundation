@@ -13,6 +13,11 @@
  * `tabular-nums`, um título longo sem `truncate`, um diálogo com padding a
  * mais. Nenhuma regra sobre nomes de classes apanha isso; medir apanha.
  *
+ * A medição faz muitos pedidos em pouco tempo: contra um servidor com o
+ * limite normal (300 em 15 minutos) apanha 429 a meio e falha por um motivo
+ * que nada tem a ver com layout. O CI levanta `RATE_LIMIT_MAX` para esta
+ * tarefa, como já fazia para os testes de integração.
+ *
  * Uso:
  *   node scripts/check-responsive.mjs                 (usa BASE_URL ou :5173)
  *   BASE_URL=http://localhost:3010 node scripts/...   (contra a build servida)
@@ -26,7 +31,24 @@ const PASSWORD = process.env.CHECK_PASSWORD ?? "chef123";
 /** As larguras que interessam: do iPhone SE ao Pro Max. */
 const LARGURAS = [320, 360, 390, 414];
 
-const ROTAS = ["/", "/auth", "/feed", "/search", "/publish", "/challenges", "/profile"];
+const ROTAS = [
+  "/",
+  "/auth",
+  "/forgot-password",
+  // Estas duas pedem um token no endereço. O valor não precisa de ser válido:
+  // o que se mede aqui é o ecrã do formulário, e sem token nenhum o que
+  // apareceria era o aviso de "link incompleto", que não é o ecrã que
+  // interessa medir.
+  "/reset-password?token=" + "0".repeat(64),
+  "/feed",
+  "/search",
+  "/publish",
+  "/challenges",
+  "/profile",
+  // A conta de seed é administrador (ver `server/db/seed.sql`), por isso este
+  // ecrã desenha-se mesmo em vez de reencaminhar para o feed.
+  "/admin",
+];
 
 /**
  * Altura mínima de um alvo de toque.
@@ -185,6 +207,24 @@ try {
     await medir(page, "diálogo: seguidores", largura);
     await page.keyboard.press("Escape");
 
+    // O diálogo de denúncia: cinco opções e uma caixa de texto, que é o
+    // conteúdo mais alto de qualquer diálogo da aplicação.
+    await page.goto(`${BASE}/feed`, { waitUntil: "domcontentloaded" });
+    await page.waitForTimeout(1500);
+    const opcoes = page.getByRole("button", { name: "Opções da receita" }).first();
+    if (await opcoes.count()) {
+      await opcoes.click();
+      await page.waitForTimeout(500);
+      const denunciar = page.getByRole("menuitem", { name: /denunciar/i }).first();
+      if (await denunciar.count()) {
+        await denunciar.click();
+        await page.waitForTimeout(800);
+        await medir(page, "diálogo: denunciar", largura);
+      }
+      await page.keyboard.press("Escape");
+      await page.waitForTimeout(400);
+    }
+
     await page.goto(`${BASE}/challenges`, { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(1200);
     await page.getByRole("tab", { name: /desafios/i }).click();
@@ -209,7 +249,7 @@ try {
 
 if (problemas.length === 0) {
   console.log(
-    `[responsivo] ok — ${ROTAS.length + 4} ecrãs em ${LARGURAS.join(", ")}px: ` +
+    `[responsivo] ok — ${ROTAS.length + 5} ecrãs em ${LARGURAS.join(", ")}px: ` +
       "sem scroll horizontal, sem cortes e sem alvos pequenos",
   );
   process.exit(0);

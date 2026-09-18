@@ -53,9 +53,75 @@ export class ApiAuthRepository implements AuthRepository {
     }
   }
 
+  async startSignup(email: string): Promise<void> {
+    await apiFetch("/auth/signup", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      silentOn401: true,
+    });
+  }
+
+  async checkSignupToken(token: string): Promise<{ email: string }> {
+    // `silentOn401` como na confirmação de email: este ecrã abre-se a partir
+    // da caixa de correio, muitas vezes num dispositivo sem sessão nenhuma.
+    return apiFetch<{ email: string }>(`/auth/signup?token=${encodeURIComponent(token)}`, {
+      silentOn401: true,
+    });
+  }
+
+  async completeSignup(input: {
+    token: string;
+    username: string;
+    password: string;
+  }): Promise<{ userId: string }> {
+    try {
+      const data = await apiFetch<{ user: User }>("/auth/signup/complete", {
+        method: "POST",
+        body: JSON.stringify(input),
+        silentOn401: true,
+      });
+      saveProfile(data.user);
+      notify("SIGNED_IN", toSession(data.user));
+      return { userId: data.user.id };
+    } catch (error) {
+      throw new AuthError(error instanceof Error ? error.message : "Falha ao criar a conta", error);
+    }
+  }
+
   async signInWithGoogle(_redirectUri: string): Promise<void> {
     void _redirectUri;
     throw new AuthError("O login com Google não está disponível nesta versão");
+  }
+
+  async requestPasswordReset(email: string): Promise<void> {
+    await apiFetch("/auth/forgot-password", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      silentOn401: true,
+    });
+  }
+
+  async resetPassword(token: string, password: string): Promise<void> {
+    await apiFetch("/auth/reset-password", {
+      method: "POST",
+      body: JSON.stringify({ token, password }),
+      silentOn401: true,
+    });
+  }
+
+  async sendEmailVerification(): Promise<void> {
+    await apiFetch("/auth/verify-email/send", { method: "POST" });
+  }
+
+  async verifyEmail(token: string): Promise<{ alreadyVerified: boolean }> {
+    // `silentOn401`: este ecrã abre-se a partir do email, muitas vezes num
+    // dispositivo sem sessão. Um 401 aqui não é uma sessão que expirou, e não
+    // deve atirar a pessoa para o ecrã de entrada a meio da confirmação.
+    return apiFetch<{ ok: boolean; alreadyVerified: boolean }>("/auth/verify-email", {
+      method: "POST",
+      body: JSON.stringify({ token }),
+      silentOn401: true,
+    });
   }
 
   async signOut(): Promise<void> {

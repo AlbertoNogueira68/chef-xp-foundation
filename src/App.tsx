@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
 import { AppShell } from "@/components/layout/AppShell";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { LandingPage } from "@/pages/LandingPage";
 
 /**
@@ -18,6 +19,18 @@ import { LandingPage } from "@/pages/LandingPage";
  * o ecrã de missões, e é a rota mais pesada da aplicação.
  */
 const AuthPage = lazy(() => import("@/pages/AuthPage").then((m) => ({ default: m.AuthPage })));
+const ForgotPasswordPage = lazy(() =>
+  import("@/pages/ForgotPasswordPage").then((m) => ({ default: m.ForgotPasswordPage })),
+);
+const CreateAccountPage = lazy(() =>
+  import("@/pages/CreateAccountPage").then((m) => ({ default: m.CreateAccountPage })),
+);
+const ResetPasswordPage = lazy(() =>
+  import("@/pages/ResetPasswordPage").then((m) => ({ default: m.ResetPasswordPage })),
+);
+const VerifyEmailPage = lazy(() =>
+  import("@/pages/VerifyEmailPage").then((m) => ({ default: m.VerifyEmailPage })),
+);
 const FeedPage = lazy(() => import("@/pages/FeedPage").then((m) => ({ default: m.FeedPage })));
 const SearchPage = lazy(() =>
   import("@/pages/SearchPage").then((m) => ({ default: m.SearchPage })),
@@ -35,6 +48,9 @@ const ChefPage = lazy(() => import("@/pages/ChefPage").then((m) => ({ default: m
 const RecipePage = lazy(() =>
   import("@/pages/RecipePage").then((m) => ({ default: m.RecipePage })),
 );
+// A área de administração é vista por meia dúzia de pessoas: não pertence ao
+// pedaço que toda a gente descarrega.
+const AdminPage = lazy(() => import("@/pages/AdminPage").then((m) => ({ default: m.AdminPage })));
 
 /**
  * O que se vê enquanto o pedaço da rota chega.
@@ -83,6 +99,7 @@ function SessionWatcher() {
 export default function App() {
   return (
     <>
+      <ConnectionStatus />
       <SessionWatcher />
       <Routes>
         <Route path="/" element={<LandingPage />} />
@@ -91,6 +108,45 @@ export default function App() {
           element={
             <Suspense fallback={<ARotaACarregar />}>
               <AuthPage />
+            </Suspense>
+          }
+        />
+        {/*
+          Os ecrãs de conta ficam fora do `ProtectedRoute` de propósito: quem
+          recupera a password não tem sessão, quem está a criar conta ainda não
+          tem conta nenhuma, e os links do email abrem-se quase sempre noutro
+          dispositivo. Exigir login aqui era trancar a porta com a chave lá
+          dentro.
+        */}
+        <Route
+          path="/criar-conta"
+          element={
+            <Suspense fallback={<ARotaACarregar />}>
+              <CreateAccountPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <Suspense fallback={<ARotaACarregar />}>
+              <ForgotPasswordPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <Suspense fallback={<ARotaACarregar />}>
+              <ResetPasswordPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/verify-email"
+          element={
+            <Suspense fallback={<ARotaACarregar />}>
+              <VerifyEmailPage />
             </Suspense>
           }
         />
@@ -110,6 +166,16 @@ export default function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/chef/:id" element={<ChefPage />} />
           <Route path="/recipe/:id" element={<RecipePage />} />
+          {/* Fila de denúncias e administração. A página reencaminha quem não
+              tem papel; o servidor recusa-o de qualquer maneira. */}
+          <Route
+            path="/admin"
+            element={
+              <Suspense fallback={<ARotaACarregar />}>
+                <AdminPage />
+              </Suspense>
+            }
+          />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -3,6 +3,7 @@ import { getPool } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
+import { notBlockedSql } from "../lib/blocks.js";
 import {
   checkpointSchema,
   missionCompleteSchema,
@@ -158,9 +159,12 @@ router.get(
           AND r.status = 'completed'
           AND r.result_image IS NOT NULL
           AND ($3 OR p.id IS NOT NULL)
+          -- Um bloqueio esconde tudo o que a pessoa publicou, e os cozinhados
+          -- partilhados são publicações como as outras.
+          AND ($3 OR ${notBlockedSql("$4", "r.user_id")})
         ORDER BY r.completed_at DESC
         LIMIT $2`,
-      [userId, limit, isMe],
+      [userId, limit, isMe, req.user.id],
     );
 
     res.json({

@@ -65,7 +65,7 @@ npm run build && npm start
 BASE_URL=http://localhost:3010 npm run check:responsive
 ```
 
-O que a verificação cobre: as sete rotas da aplicação e os quatro diálogos
+O que a verificação cobre: as nove rotas da aplicação e os quatro diálogos
 (definições, seguidores, desafio, ranking), em quatro larguras. São 44
 medições por execução.
 

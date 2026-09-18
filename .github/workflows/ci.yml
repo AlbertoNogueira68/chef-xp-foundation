@@ -41,6 +41,9 @@ jobs:
       - name: Verificação de hardening (sem CDNs proibidas)
         run: node scripts/hardening-check.mjs
 
+      - name: Verificação de PWA (instalável e com ecrã de offline)
+        run: node scripts/check-pwa.mjs
+
   database:
     name: Migrations e seed contra Postgres
     runs-on: ubuntu-latest
@@ -104,6 +107,18 @@ jobs:
       - name: Sincronização do currículo é idempotente
         run: npm run db:check-sync
 
+      # Precisa da base de dados (o servidor corre as migrations ao arrancar) e
+      # de um Chrome — que a imagem do runner já traz. Sem ele, o script
+      # salta-se a si próprio em vez de falhar.
+      - name: A app abre sem rede (Chrome com a rede cortada)
+        run: npm run check:offline
+
+      # A seguir ao `check:offline`, que é quem constrói o `dist`; e depois do
+      # seed, porque entra com a conta de demonstração e precisa de uma lição
+      # por fazer.
+      - name: Uma lição respondida offline chega ao servidor quando a rede volta
+        run: node scripts/check-offline-lesson.mjs
+
       # No fim de propósito: o harness limpa as tabelas entre testes, e assim
       # não interfere com as verificações de arranque e de seed acima.
       - name: Testes de integração (API contra Postgres)
@@ -136,6 +151,11 @@ jobs:
       PORT: 3010
       COOKIE_SECURE: "false"
       BASE_URL: http://localhost:3010
+      # Medir dez ecrãs e cinco diálogos em quatro larguras faz, em dois
+      # minutos, mais pedidos do que uma pessoa faz em quinze — e apanhar um
+      # 429 a meio da medição não diz nada sobre o layout. É o mesmo motivo
+      # pelo qual os testes de integração o levantam.
+      RATE_LIMIT_MAX: "5000"
 
     steps:
       - uses: actions/checkout@v4

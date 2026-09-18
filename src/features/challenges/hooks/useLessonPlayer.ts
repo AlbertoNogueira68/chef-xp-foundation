@@ -2,6 +2,8 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { AnswerValue, Lesson, LessonPlayerPhase, Question } from "@/types/learning";
+import { enqueue } from "@/lib/offline/outbox";
+import type { ApiError } from "@/services/api";
 import { learningService } from "../services/learningService";
 import { useInvalidateLearningPath, useSetLearningPath } from "./useLearningPath";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
@@ -15,6 +17,16 @@ type GivenAnswer = { questionId: string; answer: AnswerValue };
  * resposta) mas nenhuma correção acontece no browser: cada resposta é
  * validada pelo servidor, e o XP só é atribuído quando o servidor volta a
  * corrigir tudo no fim.
+ *
+ * **Sem rede, a lição continua.** As respostas ficam guardadas e a lição vai
+ * até ao fim; o que não há é correção pergunta a pergunta, porque o gabarito
+ * vive no servidor e é para lá que fica. Ao chegar ao fim, a lição inteira
+ * entra na caixa de saída e é enviada quando a rede voltar — é aí que o
+ * servidor corrige tudo e paga o XP. Repetir o envio é seguro: o XP da lição
+ * está preso ao `sourceRef` e nunca é pago duas vezes.
+ *
+ * Os corações também ficam intactos offline. Descontá-los exigiria saber se a
+ * resposta estava certa, que é exatamente o que não se sabe.
  */
 export function useLessonPlayer() {
   const queryClient = useQueryClient();
@@ -35,6 +47,10 @@ export function useLessonPlayer() {
   const [xpEarned, setXpEarned] = useState(0);
   const [isChecking, setIsChecking] = useState(false);
   const [isFinishing, setIsFinishing] = useState(false);
+  /** Esta resposta ficou por corrigir — não havia rede. */
+  const [semCorrecao, setSemCorrecao] = useState(false);
+  /** A lição terminou, mas está na caixa de saída em vez de enviada. */
+  const [porEnviar, setPorEnviar] = useState(false);
 
   const answers = useRef<GivenAnswer[]>([]);
 
@@ -73,6 +89,8 @@ export function useLessonPlayer() {
     setCorrectAnswer(null);
     setExplainWrong(null);
     setXpEarned(0);
+    setSemCorrecao(false);
+    setPorEnviar(false);
   }, []);
 
   const openLesson = useCallback(
@@ -121,14 +139,19 @@ export function useLessonPlayer() {
 
       setSelectedAnswer(answer);
       setIsChecking(true);
+      setSemCorrecao(false);
 
-      try {
-        const result = await learningService.checkAnswer(lesson.id, currentQuestion.id, answer);
-
+      const guardar = () => {
         answers.current = [
           ...answers.current.filter((a) => a.questionId !== currentQuestion.id),
           { questionId: currentQuestion.id, answer },
         ];
+      };
+
+      try {
+        const result = await learningService.checkAnswer(lesson.id, currentQuestion.id, answer);
+
+        guardar();
 
         setIsCorrect(result.correct);
         setExplanation(result.explanation);
@@ -144,6 +167,20 @@ export function useLessonPlayer() {
           }
         }
       } catch (error) {
+        // `status: 0` é falha de rede. A resposta fica guardada e a lição
+        // segue: o que não dá é dizer se está certa, e dizer que sim ou que
+        // não sem saber era pior do que não dizer nada.
+        if ((error as ApiError).status === 0) {
+          guardar();
+          setSemCorrecao(true);
+          setShowFeedback(true);
+          setIsCorrect(false);
+          setExplanation(null);
+          setCorrectAnswer(null);
+          setExplainWrong(null);
+          return;
+        }
+
         setSelectedAnswer(null);
         toast.error(error instanceof Error ? error.message : "Não foi possível validar a resposta");
       } finally {
@@ -162,6 +199,7 @@ export function useLessonPlayer() {
       setQuestionIndex((i) => i + 1);
       setSelectedAnswer(null);
       setShowFeedback(false);
+      setSemCorrecao(false);
       setExplanation(null);
       setCorrectAnswer(null);
       setExplainWrong(null);
@@ -193,6 +231,27 @@ export function useLessonPlayer() {
 
       setPhase("complete");
     } catch (error) {
+      if ((error as ApiError).status === 0) {
+        // A lição inteira para a caixa de saída, com as respostas todas. O
+        // `ref` é a lição: se a mesma lição for feita outra vez offline, fica
+        // a última tentativa em vez de duas.
+        const guardado = await enqueue({
+          descricao: `Lição: ${lesson.dishName}`,
+          path: `/learning/lessons/${lesson.id}/complete`,
+          method: "POST",
+          body: { answers: answers.current },
+          tipo: "licao",
+          ref: lesson.id,
+        });
+
+        if (guardado) {
+          setPorEnviar(true);
+          setXpEarned(0);
+          setPhase("complete");
+          return;
+        }
+      }
+
       toast.error(error instanceof Error ? error.message : "Não foi possível concluir a lição");
     } finally {
       setIsFinishing(false);
@@ -224,6 +283,8 @@ export function useLessonPlayer() {
     xpEarned,
     isChecking,
     isFinishing,
+    semCorrecao,
+    porEnviar,
     openLesson,
     closeLesson,
     startPreparation,

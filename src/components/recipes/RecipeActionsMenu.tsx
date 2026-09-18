@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { Flag, MoreHorizontal, Pencil, Trash2, UserX } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -19,15 +19,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { EditRecipeDialog } from "@/components/recipes/EditRecipeDialog";
+import { ReportDialog } from "@/components/moderation/ReportDialog";
 import { useDeleteRecipe } from "@/features/feed/hooks/useRecipes";
+import { useToggleBlock } from "@/features/moderation/hooks/useModeration";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import type { Recipe } from "@/types/recipe";
 
 /**
- * Editar e apagar a própria receita.
+ * O menu de uma receita — e o que ele tem depende de quem a vê.
  *
- * Não aparece a ninguém que não seja o autor: o servidor recusa de qualquer
- * maneira, e um menu que só tem ações proibidas é pior do que menu nenhum.
+ * Para o autor: editar e apagar. Para toda a gente: denunciar e bloquear quem
+ * a publicou. Antes deste segundo caso o menu não aparecia sequer a quem não
+ * fosse o autor, o que queria dizer que ver uma receita perigosa ou um insulto
+ * no feed não dava nada para fazer — nem sair dali.
  *
  * `onDeleted` existe porque o sítio certo para ir a seguir depende de onde o
  * menu está: na página de detalhe a receita deixou de existir e é preciso sair,
@@ -42,11 +46,17 @@ export function RecipeActionsMenu({
 }) {
   const { data: me } = useCurrentUser();
   const remove = useDeleteRecipe();
+  const toggleBlock = useToggleBlock();
   const navigate = useNavigate();
   const [editing, setEditing] = useState(false);
   const [confirming, setConfirming] = useState(false);
+  const [reporting, setReporting] = useState(false);
+  const [blocking, setBlocking] = useState(false);
 
-  if (me?.id !== recipe.author.id) return null;
+  // Sem sessão carregada ainda não se sabe qual dos dois menus é o certo.
+  if (!me) return null;
+
+  const isMine = me.id === recipe.author.id;
 
   const confirmDelete = () => {
     remove.mutate(recipe.id, {
@@ -72,19 +82,44 @@ export function RecipeActionsMenu({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onSelect={() => setEditing(true)}>
-            <Pencil className="mr-2 size-3.5" /> Editar
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            className="text-destructive focus:text-destructive"
-            onSelect={() => setConfirming(true)}
-          >
-            <Trash2 className="mr-2 size-3.5" /> Apagar
-          </DropdownMenuItem>
+          {isMine ? (
+            <>
+              <DropdownMenuItem onSelect={() => setEditing(true)}>
+                <Pencil className="mr-2 size-3.5" /> Editar
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-destructive focus:text-destructive"
+                onSelect={() => setConfirming(true)}
+              >
+                <Trash2 className="mr-2 size-3.5" /> Apagar
+              </DropdownMenuItem>
+            </>
+          ) : (
+            <>
+              <DropdownMenuItem onSelect={() => setReporting(true)}>
+                <Flag className="mr-2 size-3.5" /> Denunciar receita
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="text-destructive focus:text-destructive"
+                onSelect={() => setBlocking(true)}
+              >
+                <UserX className="mr-2 size-3.5" /> Bloquear {recipe.author.username}
+              </DropdownMenuItem>
+            </>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <EditRecipeDialog recipe={recipe} open={editing} onOpenChange={setEditing} />
+      {isMine && <EditRecipeDialog recipe={recipe} open={editing} onOpenChange={setEditing} />}
+
+      {!isMine && (
+        <ReportDialog
+          subjectType="recipe"
+          subjectId={recipe.id}
+          open={reporting}
+          onOpenChange={setReporting}
+        />
+      )}
 
       <AlertDialog open={confirming} onOpenChange={setConfirming}>
         <AlertDialogContent>
@@ -110,6 +145,34 @@ export function RecipeActionsMenu({
               }}
             >
               {remove.isPending ? "A apagar…" : "Apagar"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      <AlertDialog open={blocking} onOpenChange={setBlocking}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Bloquear {recipe.author.username}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Deixas de ver o que esta pessoa publica e ela deixa de te ver a ti. Se se seguiam,
+              deixam de se seguir. Podes desfazer nas definições.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              className={buttonVariants({ variant: "destructive" })}
+              disabled={toggleBlock.isPending}
+              onClick={(event) => {
+                event.preventDefault();
+                toggleBlock.mutate(
+                  { id: recipe.author.id, blocked: false },
+                  { onSuccess: () => setBlocking(false) },
+                );
+              }}
+            >
+              {toggleBlock.isPending ? "A bloquear…" : "Bloquear"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

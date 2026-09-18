@@ -32,8 +32,7 @@ const SIGNATURES = [
   },
   {
     ext: "png",
-    test: (b) =>
-      b.length >= 8 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47,
+    test: (b) => b.length >= 8 && b[0] === 0x89 && b[1] === 0x50 && b[2] === 0x4e && b[3] === 0x47,
   },
   {
     ext: "webp",
@@ -108,4 +107,66 @@ export async function resolveImageInput(input) {
   if (input.startsWith(`${UPLOAD_ROUTE}/`)) return input;
 
   throw new InvalidImageError("Imagem inválida");
+}
+
+/**
+ * Descarrega uma imagem de um endereço e grava-a como as outras.
+ *
+ * Existe para a fotografia de perfil da Google. A alternativa era guardar o
+ * endereço dela e deixar o browser de quem vê o feed ir buscá-lo — o que
+ * obrigava a abrir a CSP ao domínio da Google, dava-lhe a lista de quem vê o
+ * quê, e deixava a fotografia à mercê de um URL que um dia deixa de existir.
+ *
+ * `hosts` não tem valor por omissão de propósito: quem chama tem de dizer de
+ * onde aceita descarregar. Uma função que vai à rede buscar um endereço vindo
+ * de fora, sem lista de anfitriões, é um pedido forjado à espera de acontecer.
+ */
+export async function saveRemoteImage(url, { hosts, timeoutMs = 5000 } = {}) {
+  if (!Array.isArray(hosts) || hosts.length === 0) {
+    throw new Error("saveRemoteImage exige a lista de anfitriões permitidos");
+  }
+
+  let alvo;
+  try {
+    alvo = new URL(String(url));
+  } catch {
+    throw new InvalidImageError("Endereço de imagem inválido");
+  }
+
+  if (alvo.protocol !== "https:") {
+    throw new InvalidImageError("Só se descarregam imagens por https");
+  }
+  if (!hosts.some((host) => alvo.hostname === host || alvo.hostname.endsWith(`.${host}`))) {
+    throw new InvalidImageError(`Anfitrião não permitido: ${alvo.hostname}`);
+  }
+
+  // Um pedido sem prazo é um pedido que pode ficar pendurado a segurar o
+  // início de sessão de alguém.
+  const cancelar = AbortSignal.timeout(timeoutMs);
+  const resposta = await fetch(alvo, { signal: cancelar, redirect: "follow" });
+
+  if (!resposta.ok) {
+    throw new InvalidImageError(`A imagem respondeu ${resposta.status}`);
+  }
+
+  // O cabeçalho é uma dica e pode mentir ou faltar; serve para desistir cedo
+  // do que é claramente grande de mais. O tamanho a sério é medido a seguir.
+  const anunciado = Number(resposta.headers.get("content-length") ?? 0);
+  if (anunciado > MAX_IMAGE_BYTES) {
+    throw new InvalidImageError("Imagem demasiado grande");
+  }
+
+  const buffer = Buffer.from(await resposta.arrayBuffer());
+  if (buffer.length === 0) throw new InvalidImageError("Imagem vazia");
+  if (buffer.length > MAX_IMAGE_BYTES) throw new InvalidImageError("Imagem demasiado grande");
+
+  // A mesma regra de sempre: o tipo sai dos bytes, não do que o servidor diz.
+  const ext = detectImageType(buffer);
+  if (!ext) throw new InvalidImageError("O conteúdo não é uma imagem PNG, JPEG ou WebP");
+
+  await ensureUploadDir();
+  const filename = `${crypto.randomUUID()}.${ext}`;
+  await fs.writeFile(path.join(UPLOAD_DIR, filename), buffer);
+
+  return `${UPLOAD_ROUTE}/${filename}`;
 }

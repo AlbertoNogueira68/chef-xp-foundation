@@ -1,0 +1,28 @@
+{
+  "name": "ChefXP — cozinha e ganha XP",
+  "short_name": "ChefXP",
+  "description": "Missões de cozinha, receitas e XP. Funciona ao pé do fogão, com ou sem rede.",
+  "lang": "pt",
+  "dir": "ltr",
+  "start_url": "/feed",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#faf7f2",
+  "theme_color": "#d97706",
+  "categories": ["food", "education", "lifestyle"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    { "name": "Publicar receita", "url": "/publish", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Desafios", "url": "/challenges", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

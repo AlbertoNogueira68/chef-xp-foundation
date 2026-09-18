@@ -14,6 +14,7 @@ import { useMissionPosts } from "@/features/missions/hooks/useMissionPosts";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { useUserProfile } from "@/features/profile/hooks/useUserProfile";
 import { useUserStats, useToggleFollow } from "@/features/profile/hooks/useUserStats";
+import { ChefActionsMenu } from "@/components/moderation/ChefActionsMenu";
 import { FollowListDialog } from "@/components/profile/FollowListDialog";
 import type { FollowListKind } from "@/features/profile/hooks/useFollowList";
 
@@ -88,6 +89,7 @@ export function ChefPage() {
   }
 
   const following = stats?.isFollowing ?? false;
+  const blocked = stats?.isBlocked ?? false;
 
   return (
     <section className="space-y-5">
@@ -105,29 +107,45 @@ export function ChefPage() {
           <AvatarImage src={chef.photoUrl ?? undefined} />
           <AvatarFallback>{chef.username.slice(0, 2).toUpperCase()}</AvatarFallback>
         </Avatar>
-        <Button
-          size="sm"
-          variant={following ? "outline" : "default"}
-          className="rounded-full"
-          disabled={toggleFollow.isPending || !stats}
-          onClick={() => toggleFollow.mutate({ id: chef.id, following })}
-        >
-          {following ? (
-            <>
-              <UserCheck className="mr-1.5 size-3.5" /> A seguir
-            </>
-          ) : (
-            <>
-              <UserPlus className="mr-1.5 size-3.5" /> Seguir
-            </>
+        <div className="flex items-center gap-1">
+          {/* Seguir não se oferece a quem está bloqueado: o servidor recusa, e
+              desbloquear é que é o caminho. */}
+          {!blocked && (
+            <Button
+              size="sm"
+              variant={following ? "outline" : "default"}
+              className="rounded-full"
+              disabled={toggleFollow.isPending || !stats}
+              onClick={() => toggleFollow.mutate({ id: chef.id, following })}
+            >
+              {following ? (
+                <>
+                  <UserCheck className="mr-1.5 size-3.5" /> A seguir
+                </>
+              ) : (
+                <>
+                  <UserPlus className="mr-1.5 size-3.5" /> Seguir
+                </>
+              )}
+            </Button>
           )}
-        </Button>
+          <ChefActionsMenu userId={chef.id} username={chef.username} isBlocked={blocked} />
+        </div>
       </div>
 
       <div>
         <h1 className="text-xl font-bold">{chef.username}</h1>
         <p className="text-sm text-muted-foreground">Nível {chef.level}</p>
       </div>
+
+      {/* Sem isto, um perfil bloqueado parecia um perfil vazio: as listas vêm
+          filtradas do servidor e não havia nada a dizer porquê. */}
+      {blocked && (
+        <p className="rounded-xl border border-border/60 bg-muted/50 p-3 text-xs text-muted-foreground">
+          Bloqueaste esta pessoa. O que ela publica não te aparece, e ela não vê o que publicas.
+          Desbloqueia no menu aqui em cima ou nas definições.
+        </p>
+      )}
 
       <div className="grid grid-cols-4 gap-2 text-center">
         {!stats ? (

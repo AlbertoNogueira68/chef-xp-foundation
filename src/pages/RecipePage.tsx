@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Clock, Flame, Heart, MessageCircle, Send, Trash2 } from "lucide-react";
+import { ArrowLeft, Clock, Flame, Heart, MessageCircle, Send } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CommentActions } from "@/components/recipes/CommentActions";
 import { RecipeActionsMenu } from "@/components/recipes/RecipeActionsMenu";
 import { useAddComment, useComments, useDeleteComment } from "@/features/feed/hooks/useComments";
 import { useRecipe, useToggleLike } from "@/features/feed/hooks/useRecipes";
@@ -234,20 +235,13 @@ export function RecipePage() {
                   {comment.body}
                 </p>
               </div>
-              {/* Apagar só o que é meu. O servidor recusa o resto de qualquer
-                  maneira; esconder o botão evita oferecer o que vai falhar. */}
-              {comment.author.id === me?.id && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="size-8 shrink-0 rounded-full text-muted-foreground"
-                  aria-label="Apagar comentário"
-                  disabled={deleteComment.isPending}
-                  onClick={() => deleteComment.mutate(comment.id)}
-                >
-                  <Trash2 className="size-3.5" />
-                </Button>
-              )}
+              <CommentActions
+                comment={comment}
+                meId={me?.id}
+                recipeAuthorId={recipe.author.id}
+                isDeleting={deleteComment.isPending}
+                onDelete={() => deleteComment.mutate(comment.id)}
+              />
             </li>
           ))}
         </ul>

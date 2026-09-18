@@ -21,8 +21,17 @@ export function toPublicUser(row, { includeEmail = false } = {}) {
     xpForNextLevel: progress.xpForNextLevel,
     percentToNextLevel: progress.percentToNextLevel,
     isMaxLevel: progress.isMaxLevel,
+    // `emailVerified` acompanha o email: só faz sentido para o próprio, e
+    // ninguém precisa de saber quem confirmou a conta e quem não confirmou.
     ...(includeEmail
-      ? { timeZone: row.time_zone ?? "Europe/Lisbon", dailyXpGoal: row.daily_xp_goal ?? 50 }
+      ? {
+          timeZone: row.time_zone ?? "Europe/Lisbon",
+          dailyXpGoal: row.daily_xp_goal ?? 50,
+          emailVerified: Boolean(row.email_verified_at),
+          // O papel acompanha o email pela mesma razão: é do próprio. Quem
+          // modera não anda com um crachá à frente dos outros utilizadores.
+          role: row.role ?? "user",
+        }
       : {}),
     createdAt: row.created_at,
     updatedAt: row.updated_at,

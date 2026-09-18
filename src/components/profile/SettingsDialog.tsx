@@ -12,6 +12,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { BlockedAccounts } from "@/components/moderation/BlockedAccounts";
 import {
   Select,
   SelectContent,
@@ -20,6 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DangerZone } from "@/components/profile/DangerZone";
+import { EmailVerification } from "@/components/profile/EmailVerification";
 import { useUpdateProfile } from "@/features/profile/hooks/useUpdateProfile";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { User, UserUpdate } from "@/types/user";
@@ -207,6 +209,10 @@ export function SettingsDialog({
             {update.isPending ? "A guardar…" : "Guardar"}
           </Button>
         </form>
+
+        <EmailVerification user={user} />
+
+        <BlockedAccounts />
 
         <DangerZone user={user} />
       </DialogContent>

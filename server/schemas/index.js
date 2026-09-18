@@ -1,10 +1,19 @@
 import { z } from "zod";
+import { firstFailedRule } from "../domain/passwordPolicy.js";
+import { REPORT_REASONS, REPORT_SUBJECTS, ROLES } from "../domain/moderation.js";
 
 export const uuid = z.string().uuid("Identificador inválido");
 
 export const registerSchema = z.object({
   email: z.string().trim().toLowerCase().email("Email inválido"),
-  password: z.string().min(8, "A password tem de ter pelo menos 8 caracteres").max(200),
+  password: z
+    .string()
+    .max(200)
+    .superRefine((value, ctx) => {
+      const falta = firstFailedRule(value);
+      if (!falta) return;
+      ctx.addIssue({ code: z.ZodIssueCode.custom, message: falta.message });
+    }),
   username: z
     .string()
     .trim()
@@ -12,6 +21,29 @@ export const registerSchema = z.object({
     .min(3, "O nome de utilizador tem de ter pelo menos 3 caracteres")
     .max(30, "Máximo 30 caracteres")
     .regex(/^[a-z0-9_.]+$/, "Só letras minúsculas, números, ponto e underscore"),
+});
+
+/**
+ * Primeiro passo de criar conta: só o endereço. O nome e a password só são
+ * pedidos do outro lado do link, com o email já confirmado.
+ */
+export const signupStartSchema = z.object({
+  email: registerSchema.shape.email,
+});
+
+/**
+ * Segundo passo: o token do email, o nome escolhido e a password (duas vezes,
+ * conferidas no cliente — aqui chega uma só, porque o que o servidor guarda é
+ * uma).
+ */
+export const signupCompleteSchema = z.object({
+  token: z.string().trim().min(16, "Token inválido").max(200),
+  username: registerSchema.shape.username,
+  password: registerSchema.shape.password,
+});
+
+export const tokenQuerySchema = z.object({
+  token: z.string().trim().min(16, "Token inválido").max(200),
 });
 
 export const loginSchema = z.object({
@@ -170,4 +202,88 @@ export const accountDeleteSchema = z.object({
 
 export const followListSchema = z.object({
   limit: z.coerce.number().int().min(1).max(100).default(50),
+});
+
+/* ---------------------------------------------------------------- */
+/* Recuperação de password e verificação de email                   */
+/* ---------------------------------------------------------------- */
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().trim().toLowerCase().email("Email inválido"),
+});
+
+/**
+ * A password nova segue a mesma regra do registo, por reutilizar o mesmo
+ * campo. Ter duas regras diferentes para a mesma coluna era deixar a porta
+ * das traseiras mais fraca do que a da frente.
+ */
+export const resetPasswordSchema = z.object({
+  token: z.string().trim().min(16, "Token inválido").max(200),
+  password: registerSchema.shape.password,
+});
+
+export const emailTokenSchema = z.object({
+  token: z.string().trim().min(16, "Token inválido").max(200),
+});
+
+/* ---------------------------------------------------------------- */
+/* Moderação                                                        */
+/* ---------------------------------------------------------------- */
+
+/**
+ * Uma denúncia. Os motivos são os mesmos que o CHECK da migration 012 aceita —
+ * a lista vem de `domain/moderation.js` para não haver duas versões dela.
+ */
+export const reportCreateSchema = z.object({
+  subjectType: z.enum(REPORT_SUBJECTS),
+  subjectId: uuid,
+  reason: z.enum(REPORT_REASONS),
+  details: z.string().trim().max(500, "Máximo 500 caracteres").nullish(),
+});
+
+export const reportListSchema = z.object({
+  status: z.enum(["open", "resolved", "dismissed", "all"]).default("open"),
+  limit: z.coerce.number().int().min(1).max(100).default(50),
+});
+
+/** Fechar uma denúncia: apagar o conteúdo, ou arquivar sem lhe tocar. */
+export const reportResolveSchema = z.object({
+  action: z.enum(["remover", "arquivar"]),
+});
+
+/** Como as notificações, o id de uma denúncia é BIGSERIAL. */
+export const reportIdParamSchema = z.object({
+  id: z.coerce.number().int().positive(),
+});
+
+/**
+ * Apagar um comentário. Os dois identificadores vinham crus de `req.params`,
+ * o que dava um erro de Postgres em vez de um 400 a quem escrevesse um id
+ * malformado no URL.
+ */
+export const commentParamsSchema = z.object({
+  id: uuid,
+  commentId: uuid,
+});
+
+/* ---------------------------------------------------------------- */
+/* Administração                                                    */
+/* ---------------------------------------------------------------- */
+
+/**
+ * A lista de contas do painel. `role` filtra por papel — é assim que se
+ * responde a "quem é que modera isto?" sem procurar nome a nome.
+ */
+export const adminUserListSchema = z.object({
+  q: z.string().trim().max(80).optional(),
+  role: z.enum(["user", "moderator", "admin", "staff", "all"]).default("all"),
+  limit: z.coerce.number().int().min(1).max(100).default(30),
+});
+
+/**
+ * Mudar o papel de alguém. `admin` não está aqui de propósito: quem o valida
+ * é `roleChangeRefusal`, que dá a razão em vez de um "dados inválidos" seco.
+ */
+export const roleChangeSchema = z.object({
+  role: z.enum(ROLES),
 });

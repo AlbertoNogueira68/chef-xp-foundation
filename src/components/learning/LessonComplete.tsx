@@ -1,13 +1,16 @@
-import { Sparkles, Trophy, Zap } from "lucide-react";
+import { CloudUpload, Sparkles, Trophy, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function LessonComplete({
   xpEarned,
   lessonTitle,
+  porEnviar = false,
   onContinue,
 }: {
   xpEarned: number;
   lessonTitle: string;
+  /** A lição acabou sem rede: está guardada, à espera de ser enviada. */
+  porEnviar?: boolean;
   onContinue: () => void;
 }) {
   return (
@@ -23,10 +26,26 @@ export function LessonComplete({
       <h2 className="text-2xl font-bold">Lição concluída!</h2>
       <p className="mt-1 text-sm text-muted-foreground">{lessonTitle}</p>
 
-      <div className="mt-6 flex items-center gap-2 rounded-full bg-amber-100 px-5 py-2.5 text-amber-800">
-        <Zap className="size-5" />
-        <span className="text-lg font-bold">+{xpEarned} XP</span>
-      </div>
+      {/* Sem rede não se anuncia XP nenhum: quem corrige é o servidor, e ele
+          ainda não viu as respostas. Prometer um número aqui era arriscar
+          desmenti-lo dali a cinco minutos. */}
+      {porEnviar ? (
+        <div className="mt-6 max-w-xs space-y-2 rounded-2xl bg-stone-100 px-5 py-3 text-stone-700">
+          <p className="flex items-center justify-center gap-2 font-semibold">
+            <CloudUpload className="size-5" />
+            Guardado neste dispositivo
+          </p>
+          <p className="text-sm">
+            As tuas respostas vão para o servidor assim que houver rede. É aí que a correção e o XP
+            aparecem — mesmo que feches a app.
+          </p>
+        </div>
+      ) : (
+        <div className="mt-6 flex items-center gap-2 rounded-full bg-amber-100 px-5 py-2.5 text-amber-800">
+          <Zap className="size-5" />
+          <span className="text-lg font-bold">+{xpEarned} XP</span>
+        </div>
+      )}
 
       <Button
         className="mt-10 w-full max-w-xs rounded-full bg-emerald-500 font-semibold hover:bg-emerald-600"

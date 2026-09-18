@@ -11,6 +11,11 @@ export const cspDirectives = {
   styleSrc: ["'self'", "'unsafe-inline'"],
   imgSrc: ["'self'", "data:", "blob:", "https://images.unsplash.com"],
   connectSrc: ["'self'"],
+  // O service worker e o manifesto herdariam o `defaultSrc`, mas dizê-lo por
+  // extenso poupa a próxima pessoa de ir confirmar a tabela de heranças do CSP
+  // quando a app instalada não arrancar.
+  workerSrc: ["'self'"],
+  manifestSrc: ["'self'"],
   fontSrc: ["'self'", "data:"],
   objectSrc: ["'none'"],
   baseUri: ["'self'"],

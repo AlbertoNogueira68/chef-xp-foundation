@@ -17,19 +17,44 @@ vi.mock("@/features/feed/hooks/useRecipes", () => ({
   useUpdateRecipe: () => ({ mutate: vi.fn(), isPending: false }),
 }));
 
+const block = vi.hoisted(() => vi.fn());
+vi.mock("@/features/moderation/hooks/useModeration", () => ({
+  useToggleBlock: () => ({ mutate: block, isPending: false }),
+  useReport: () => ({ mutate: vi.fn(), isPending: false }),
+}));
+
 vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
 /**
  * O servidor já recusa quem não é autor. Este menu não existe por segurança —
- * existe para não oferecer a alguém uma ação que vai falhar.
+ * existe para não oferecer a alguém uma ação que vai falhar, e para oferecer a
+ * quem não é autor as duas que lhe pertencem: denunciar e bloquear.
  */
 describe("menu de opções da receita", () => {
-  test("não aparece nas receitas de outra pessoa", () => {
+  test("nas receitas de outra pessoa dá denunciar e bloquear, e não editar", async () => {
     mocks.user = makeUser({ id: "outro-qualquer" });
+    const utilizador = userEvent.setup();
 
     renderWithProviders(<RecipeActionsMenu recipe={makeRecipe()} />);
+    await utilizador.click(screen.getByRole("button", { name: "Opções da receita" }));
 
-    expect(screen.queryByRole("button", { name: "Opções da receita" })).not.toBeInTheDocument();
+    expect(await screen.findByRole("menuitem", { name: /denunciar receita/i })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: /bloquear/i })).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: /editar/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: /^apagar/i })).not.toBeInTheDocument();
+  });
+
+  test("bloquear pergunta antes, e diz o que acontece a quem se seguia", async () => {
+    mocks.user = makeUser({ id: "outro-qualquer" });
+    const utilizador = userEvent.setup();
+
+    renderWithProviders(<RecipeActionsMenu recipe={makeRecipe()} />);
+    await utilizador.click(screen.getByRole("button", { name: "Opções da receita" }));
+    await utilizador.click(await screen.findByRole("menuitem", { name: /bloquear/i }));
+
+    const aviso = await screen.findByRole("alertdialog");
+    expect(aviso).toHaveTextContent(/deixam de se seguir/i);
+    expect(block).not.toHaveBeenCalled();
   });
 
   test("não aparece antes de se saber quem está autenticado", () => {

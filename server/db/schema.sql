@@ -333,3 +333,112 @@ CREATE UNIQUE INDEX IF NOT EXISTS notifications_uma_por_gosto
 CREATE UNIQUE INDEX IF NOT EXISTS notifications_uma_por_seguidor
   ON notifications (user_id, actor_id, kind)
   WHERE kind = 'follow';
+
+-- Tokens de email (ver migrations/009_auth_tokens.sql)
+--
+-- Recuperação de password e verificação de conta: a mesma mecânica, separada
+-- por `kind`. Guarda-se o SHA-256 do token, nunca o token.
+
+CREATE TABLE IF NOT EXISTS auth_tokens (
+  token_hash TEXT PRIMARY KEY,
+  kind       TEXT NOT NULL CHECK (kind IN ('password_reset', 'email_verification')),
+  user_id    UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  email      TEXT NOT NULL,
+  expires_at TIMESTAMPTZ NOT NULL,
+  used_at    TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS auth_tokens_user_idx
+  ON auth_tokens (user_id, kind);
+
+CREATE INDEX IF NOT EXISTS auth_tokens_expiry_idx
+  ON auth_tokens (expires_at);
+
+ALTER TABLE users ADD COLUMN IF NOT EXISTS email_verified_at TIMESTAMPTZ;
+
+-- As fotografias da Google passaram a ser descarregadas para /uploads em vez
+-- de guardadas como endereço (ver migrations/010_google_photo_local.sql).
+-- Numa base nova não há nada para corrigir; a migration trata das existentes.
+
+-- Contas em espera (ver migrations/011_pending_signups.sql)
+--
+-- Criar conta é em dois tempos: escreve-se o email, confirma-se o link, e a
+-- conta só nasce do outro lado. Enquanto isso, o que existe é isto — e mais
+-- nada: nenhum nome de utilizador ou endereço fica tomado por quem não
+-- confirmou.
+
+CREATE TABLE IF NOT EXISTS pending_signups (
+  token_hash TEXT PRIMARY KEY,
+  email      TEXT NOT NULL UNIQUE,
+  expires_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS pending_signups_expiry_idx
+  ON pending_signups (expires_at);
+
+-- ------------------------------------------------------------------ --
+-- Moderação (ver migrations/012_moderation.sql)
+-- ------------------------------------------------------------------ --
+--
+-- Bloquear, denunciar, e alguém a quem a denúncia chega. O papel vive na base
+-- e não no token: dentro do JWT ficava congelado até o cookie expirar.
+
+ALTER TABLE users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'user'
+  CHECK (role IN ('user', 'moderator'));
+
+CREATE TABLE IF NOT EXISTS user_blocks (
+  blocker_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  blocked_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (blocker_id, blocked_id),
+  CONSTRAINT user_blocks_nao_e_a_mim CHECK (blocker_id <> blocked_id)
+);
+
+CREATE INDEX IF NOT EXISTS user_blocks_blocked_idx ON user_blocks (blocked_id);
+
+-- `subject_id` sem chave estrangeira: o alvo é polimórfico e apagar o
+-- conteúdo denunciado não deve apagar a denúncia.
+CREATE TABLE IF NOT EXISTS reports (
+  id           BIGSERIAL PRIMARY KEY,
+  reporter_id  UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  subject_type TEXT NOT NULL CHECK (subject_type IN ('recipe', 'comment', 'user')),
+  subject_id   UUID NOT NULL,
+  reason       TEXT NOT NULL
+               CHECK (reason IN ('spam', 'ofensivo', 'perigoso', 'copia', 'outro')),
+  details      TEXT CHECK (details IS NULL OR char_length(details) <= 500),
+  status       TEXT NOT NULL DEFAULT 'open'
+               CHECK (status IN ('open', 'resolved', 'dismissed')),
+  resolved_by  UUID REFERENCES users(id) ON DELETE SET NULL,
+  resolved_at  TIMESTAMPTZ,
+  resolution   TEXT CHECK (resolution IS NULL OR resolution IN ('removido', 'arquivado')),
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  UNIQUE (reporter_id, subject_type, subject_id)
+);
+
+CREATE INDEX IF NOT EXISTS reports_open_idx
+  ON reports (created_at DESC) WHERE status = 'open';
+
+CREATE INDEX IF NOT EXISTS reports_subject_idx ON reports (subject_type, subject_id);
+
+-- Papel de administrador (ver migrations/013_admin_role.sql)
+
+ALTER TABLE users DROP CONSTRAINT IF EXISTS users_role_check;
+ALTER TABLE users ADD CONSTRAINT users_role_check
+  CHECK (role IN ('user', 'moderator', 'admin'));
+
+-- Quem deu poderes a quem. `actor_id` a nulo = mudança pela linha de comandos.
+CREATE TABLE IF NOT EXISTS role_changes (
+  id         BIGSERIAL PRIMARY KEY,
+  target_id  UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  actor_id   UUID REFERENCES users(id) ON DELETE SET NULL,
+  from_role  TEXT NOT NULL,
+  to_role    TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE INDEX IF NOT EXISTS role_changes_target_idx
+  ON role_changes (target_id, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS users_staff_idx ON users (role) WHERE role <> 'user';

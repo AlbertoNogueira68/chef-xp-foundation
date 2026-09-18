@@ -49,6 +49,16 @@ ON CONFLICT (email) DO UPDATE SET
   photo_url = EXCLUDED.photo_url,
   password_hash = EXCLUDED.password_hash;
 
+-- O chefdemo é administrador, e só no seed de desenvolvimento.
+--
+-- Sem isto, a área de administração existia sem nenhuma maneira de lá entrar
+-- num clone acabado de arrancar: seria preciso adivinhar que há um guião de
+-- papéis antes de a conseguir ver. Em produção o seed não corre — e está dito
+-- no README que não deve correr, por causa desta conta e da password que está
+-- lá escrita.
+UPDATE users SET role = 'admin' WHERE email = 'demo@chef-xp.local';
+UPDATE users SET role = 'moderator' WHERE email = 'sous@chef-xp.local';
+
 -- O XP de seed precisa de existir no livro-razão, senão a primeira
 -- recomputação (xp = SUM(xp_events)) apagava-o.
 INSERT INTO xp_events (user_id, source, source_ref, amount)

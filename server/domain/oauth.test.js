@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 import {
   decodeJwtPayload,
+  googlePictureUrl,
   pickAvailableUsername,
   usernameFromEmail,
   validateIdTokenClaims,
@@ -118,4 +119,59 @@ test("nomes ocupados ganham sufixo sem passar dos 30 caracteres", () => {
   const escolhido = pickAvailableUsername(longo, [longo]);
   assert.equal(escolhido.length, 30);
   assert.notEqual(escolhido, longo);
+});
+
+/* -------------------------------------------------------------------- */
+/* Fotografia de perfil                                                 */
+/* -------------------------------------------------------------------- */
+
+test("um endereço da Google é aceite e pede um tamanho maior", () => {
+  assert.equal(
+    googlePictureUrl("https://lh3.googleusercontent.com/a/ACg8ocK=s96-c"),
+    "https://lh3.googleusercontent.com/a/ACg8ocK=s256-c",
+  );
+});
+
+test("um endereço sem tamanho fica com um", () => {
+  assert.match(googlePictureUrl("https://lh3.googleusercontent.com/a/ACg8ocK"), /=s256-c$/);
+});
+
+test("o tamanho é escolhido por quem chama", () => {
+  assert.match(
+    googlePictureUrl("https://lh3.googleusercontent.com/a/ACg8ocK=s96-c", 512),
+    /=s512-c$/,
+  );
+});
+
+/**
+ * O `picture` vem de fora e o servidor vai buscá-lo à rede. Sem esta porta
+ * fechada, era o nosso servidor a pedir o que lhe mandassem — incluindo
+ * endereços internos que só ele alcança.
+ */
+test("outro domínio qualquer é recusado", () => {
+  assert.equal(googlePictureUrl("https://exemplo.pt/foto.png"), null);
+});
+
+test("um domínio que só acaba parecido é recusado", () => {
+  assert.equal(googlePictureUrl("https://googleusercontent.com.exemplo.pt/foto.png"), null);
+});
+
+test("http simples é recusado", () => {
+  assert.equal(googlePictureUrl("http://lh3.googleusercontent.com/a/ACg8ocK"), null);
+});
+
+test("endereços internos e esquemas estranhos são recusados", () => {
+  for (const entrada of [
+    "http://169.254.169.254/latest/meta-data/",
+    "http://localhost:3010/api/health",
+    "file:///etc/passwd",
+    "javascript:alert(1)",
+    "isto não é um URL",
+    "",
+    null,
+    undefined,
+    42,
+  ]) {
+    assert.equal(googlePictureUrl(entrada), null, `devia recusar: ${String(entrada)}`);
+  }
 });

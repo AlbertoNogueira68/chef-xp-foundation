@@ -3,6 +3,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { MissionCompletion, MissionRunState, RescueKind } from "@/types/learning";
 import { fileToResizedDataUrl } from "@/lib/image";
+import { enqueue } from "@/lib/offline/outbox";
+import type { ApiError } from "@/services/api";
 import { missionService } from "../services/missionService";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
 
@@ -101,6 +103,42 @@ export function useMissionRun() {
         );
         toast.success("Foto guardada.");
       } catch (error) {
+        // Sem rede, a fotografia vai para a caixa de saída em vez de se
+        // perder. Quem está a cozinhar tira a foto no momento em que o prato
+        // está bonito — não é o momento de ir procurar wifi.
+        if ((error as ApiError).status === 0) {
+          const guardada = await enqueue({
+            descricao: `Foto do passo ${stepIndex + 1}`,
+            path: `/missions/runs/${runId}/checkpoint`,
+            method: "POST",
+            body: { stepIndex, imageDataUrl: dataUrl },
+            tipo: "foto",
+            // Uma foto por passo: repetir substitui, como na app com rede.
+            ref: `${runId}-${stepIndex}`,
+          });
+
+          if (guardada) {
+            // A foto aparece já no ecrã, servida do próprio dispositivo. O
+            // endereço definitivo chega quando o servidor a receber.
+            setState((current) =>
+              current
+                ? {
+                    ...current,
+                    checkpoints: [
+                      ...current.checkpoints.filter((c) => c.stepIndex !== stepIndex),
+                      { stepIndex, imageUrl: dataUrl, feedback: null },
+                    ],
+                  }
+                : current,
+            );
+            toast.success("Foto guardada no telemóvel. Enviamos quando houver rede.");
+            return;
+          }
+
+          fail(new Error("A fotografia é grande demais para ficar à espera de rede."), "");
+          return;
+        }
+
         fail(error, "Não foi possível guardar a foto");
       } finally {
         setIsUploading(false);

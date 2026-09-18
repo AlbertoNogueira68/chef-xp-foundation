@@ -1,9 +1,11 @@
+import { blockExistsBetween } from "./blocks.js";
+
 /**
  * Criar notificações.
  *
- * Fica aqui, e não em cada rota, porque as três regras que interessam são as
- * mesmas em todo o lado: não notificar quem fez a ação, não rebentar o pedido
- * se a notificação falhar, e não duplicar.
+ * Fica aqui, e não em cada rota, porque as regras que interessam são as mesmas
+ * em todo o lado: não notificar quem fez a ação, não notificar através de um
+ * bloqueio, não rebentar o pedido se a notificação falhar, e não duplicar.
  *
  * O `ON CONFLICT DO NOTHING` apoia-se nos índices parciais da migration 008:
  * gostar, desgostar e voltar a gostar dá uma notificação, não três.
@@ -11,6 +13,11 @@
 export async function notify(client, { userId, actorId, kind, recipeId = null, commentId = null }) {
   // Uma ação sobre a própria receita não é notícia para ninguém.
   if (!userId || !actorId || userId === actorId) return { created: false };
+
+  // Um bloqueio cala o sino nos dois sentidos. Fica aqui, e não em cada rota,
+  // pela mesma razão que as outras duas regras: é a única maneira de não
+  // haver um caminho esquecido que ainda notifica.
+  if (await blockExistsBetween(userId, actorId, client)) return { created: false };
 
   const { rowCount } = await client.query(
     `INSERT INTO notifications (user_id, actor_id, kind, recipe_id, comment_id)

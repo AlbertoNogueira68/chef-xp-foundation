@@ -10,6 +10,7 @@ import {
   userPatchSchema,
 } from "../schemas/index.js";
 import { toPublicUser } from "../lib/mappers.js";
+import { blockExistsBetween, notBlockedSql } from "../lib/blocks.js";
 import { loadDailyState } from "../lib/xpLedger.js";
 import bcrypt from "bcryptjs";
 import { badgesFor } from "../domain/xp.js";
@@ -23,7 +24,7 @@ const router = Router();
 router.use(requireAuth);
 
 const SELECT_USER = `
-  SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, created_at, updated_at
+  SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, email_verified_at, role, created_at, updated_at
   FROM users
 `;
 
@@ -68,7 +69,7 @@ router.patch(
     try {
       const { rows } = await query(
         `UPDATE users SET ${fields.join(", ")} WHERE id = $${values.length}
-         RETURNING id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, created_at, updated_at`,
+         RETURNING id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, email_verified_at, role, created_at, updated_at`,
         values,
       );
       if (!rows[0]) return res.status(404).json({ error: "Utilizador não encontrado" });
@@ -98,6 +99,7 @@ router.get(
           AND NOT EXISTS (
             SELECT 1 FROM follows f WHERE f.follower_id = $1 AND f.followee_id = u.id
           )
+          AND ${notBlockedSql("$1", "u.id")}
         ORDER BY followers DESC, u.xp DESC
         LIMIT 8`,
       [req.user.id],
@@ -148,7 +150,12 @@ router.get(
            WHERE r2.author_id = u.id)                                       AS likes_received,
          EXISTS (
            SELECT 1 FROM follows f WHERE f.follower_id = $2 AND f.followee_id = u.id
-         ) AS is_following
+         ) AS is_following,
+         -- Só o meu lado do bloqueio. Que a outra pessoa me tenha bloqueado
+         -- não se diz a ninguém: era transformar o bloqueio num aviso.
+         EXISTS (
+           SELECT 1 FROM user_blocks b WHERE b.blocker_id = $2 AND b.blocked_id = u.id
+         ) AS is_blocked
        FROM users u WHERE u.id = $1`,
       [userId, req.user.id],
     );
@@ -167,6 +174,7 @@ router.get(
       likesReceived: Number(row.likes_received),
       streak: daily.streak,
       isFollowing: Boolean(row.is_following),
+      isBlocked: Boolean(row.is_blocked),
       isMe: userId === req.user.id,
     };
 
@@ -204,9 +212,9 @@ router.get(
 
     const um = async (text) => (await query(text, [id])).rows;
 
-    const [perfil, receitas, comentarios, gostos, seguidores, seguindo, licoes, missoes, xp, desafios, notificacoes, identidades, atividade] =
+    const [perfil, receitas, comentarios, gostos, seguidores, seguindo, licoes, missoes, xp, desafios, notificacoes, identidades, atividade, bloqueados, denuncias] =
       await Promise.all([
-        um(`SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, created_at
+        um(`SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, role, created_at
               FROM users WHERE id = $1`),
         um(`SELECT id, title, description, ingredients, cook_time_min, difficulty, image_url, created_at
               FROM recipes WHERE author_id = $1 ORDER BY created_at`),
@@ -228,6 +236,12 @@ router.get(
         um(`SELECT provider, email, created_at, last_login_at FROM auth_identities WHERE user_id = $1`),
         um(`SELECT to_char(day, 'YYYY-MM-DD') AS day, xp, goal_met FROM daily_activity
              WHERE user_id = $1 ORDER BY day`),
+        um(`SELECT u.username, b.created_at FROM user_blocks b JOIN users u ON u.id = b.blocked_id
+             WHERE b.blocker_id = $1 ORDER BY b.created_at`),
+        // As denúncias que eu fiz. As que outros fizeram sobre mim não saem
+        // aqui: dá-las era entregar-me quem me denunciou.
+        um(`SELECT subject_type, reason, details, status, created_at FROM reports
+             WHERE reporter_id = $1 ORDER BY created_at`),
       ]);
 
     // Um nome com data, para quem exportar duas vezes não ficar com dois
@@ -250,6 +264,8 @@ router.get(
       livroRazaoXp: xp,
       atividadeDiaria: atividade,
       notificacoes,
+      bloqueados,
+      denunciasQueFiz: denuncias,
     });
   }),
 );
@@ -311,6 +327,7 @@ const SELECT_FOLLOW_LIST = `
     FROM follows f
     JOIN users u ON u.id = %ID%
    WHERE f.%FILTER% = $1
+     AND ${notBlockedSql("$2", "u.id")}
    ORDER BY f.created_at DESC
    LIMIT $3
 `;
@@ -371,6 +388,12 @@ router.post(
       return res.status(404).json({ error: "Utilizador não encontrado" });
     }
 
+    // Seguir por cima de um bloqueio desfazia o bloqueio pela porta do lado:
+    // voltava a pôr a pessoa no meu feed "a seguir".
+    if (await blockExistsBetween(req.user.id, req.valid.params.id)) {
+      return res.status(403).json({ error: "Não dá para seguir esta pessoa" });
+    }
+
     await query(
       `INSERT INTO follows (follower_id, followee_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`,
       [req.user.id, req.valid.params.id],
@@ -395,6 +418,122 @@ router.delete(
       req.valid.params.id,
     ]);
     res.json({ following: false });
+  }),
+);
+
+/* ---------------------------------------------------------------- *
+ * Bloquear
+ * ---------------------------------------------------------------- */
+
+/**
+ * Bloquear alguém.
+ *
+ * O bloqueio não é só um filtro para o futuro: desfaz o que já existia entre
+ * as duas pessoas. Os dois sentidos do "seguir" caem, e as notificações que
+ * uma causou à outra são apagadas — deixá-las era manter o nome e a fotografia
+ * de quem se acabou de bloquear no sino, que é precisamente o sítio onde não
+ * se quer voltar a vê-los.
+ *
+ * O que fica: os gostos e os comentários já escritos. Apagá-los era mudar os
+ * contadores das receitas de terceiros por causa de uma decisão privada entre
+ * dois. Eles deixam de me aparecer, que é o que o bloqueio promete.
+ *
+ * Idempotente: bloquear duas vezes é o mesmo que bloquear uma.
+ */
+router.post(
+  "/:id/block",
+  validate({ params: idParamSchema }),
+  asyncHandler(async (req, res) => {
+    if (req.valid.params.id === req.user.id) {
+      return res.status(400).json({ error: "Não te podes bloquear a ti próprio" });
+    }
+
+    const target = await query(`SELECT 1 FROM users WHERE id = $1`, [req.valid.params.id]);
+    if (target.rowCount === 0) {
+      return res.status(404).json({ error: "Utilizador não encontrado" });
+    }
+
+    const pool = getPool();
+    const client = await pool.connect();
+    try {
+      await client.query("BEGIN");
+
+      await client.query(
+        `INSERT INTO user_blocks (blocker_id, blocked_id) VALUES ($1, $2)
+         ON CONFLICT DO NOTHING`,
+        [req.user.id, req.valid.params.id],
+      );
+
+      await client.query(
+        `DELETE FROM follows
+          WHERE (follower_id = $1 AND followee_id = $2)
+             OR (follower_id = $2 AND followee_id = $1)`,
+        [req.user.id, req.valid.params.id],
+      );
+
+      await client.query(
+        `DELETE FROM notifications
+          WHERE (user_id = $1 AND actor_id = $2)
+             OR (user_id = $2 AND actor_id = $1)`,
+        [req.user.id, req.valid.params.id],
+      );
+
+      await client.query("COMMIT");
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
+
+    res.json({ blocked: true });
+  }),
+);
+
+/**
+ * Desbloquear repõe a visibilidade e mais nada: quem se seguia antes não
+ * volta a seguir-se sozinho.
+ */
+router.delete(
+  "/:id/block",
+  validate({ params: idParamSchema }),
+  asyncHandler(async (req, res) => {
+    await query(`DELETE FROM user_blocks WHERE blocker_id = $1 AND blocked_id = $2`, [
+      req.user.id,
+      req.valid.params.id,
+    ]);
+    res.json({ blocked: false });
+  }),
+);
+
+/**
+ * A minha lista de bloqueados — só o meu lado.
+ *
+ * Sem ela, bloquear era uma porta sem maçaneta do lado de dentro: a pessoa
+ * desaparecia do ecrã e não havia sítio nenhum onde a voltar a encontrar para
+ * desfazer o bloqueio.
+ */
+router.get(
+  "/me/blocks",
+  asyncHandler(async (req, res) => {
+    const { rows } = await query(
+      `SELECT u.id, u.username, u.photo_url, u.level, b.created_at
+         FROM user_blocks b
+         JOIN users u ON u.id = b.blocked_id
+        WHERE b.blocker_id = $1
+        ORDER BY b.created_at DESC`,
+      [req.user.id],
+    );
+
+    res.json({
+      users: rows.map((row) => ({
+        id: row.id,
+        username: row.username,
+        photoUrl: row.photo_url ?? null,
+        level: Number(row.level ?? 1),
+        blockedAt: row.created_at,
+      })),
+    });
   }),
 );
 

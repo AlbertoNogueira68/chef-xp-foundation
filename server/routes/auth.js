@@ -7,7 +7,16 @@ import { clearAuthCookie, requireAuth, setAuthCookie, signToken } from "../middl
 import { clearCsrfToken, issueCsrfToken } from "../middleware/csrf.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
-import { loginSchema, registerSchema } from "../schemas/index.js";
+import {
+  emailTokenSchema,
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+  signupCompleteSchema,
+  signupStartSchema,
+  tokenQuerySchema,
+} from "../schemas/index.js";
 import { toPublicUser } from "../lib/mappers.js";
 import { baseCookieOptions } from "../lib/cookies.js";
 import {
@@ -18,10 +27,29 @@ import {
 } from "../lib/googleOauth.js";
 import {
   decodeJwtPayload,
+  googlePictureUrl,
   pickAvailableUsername,
   usernameFromEmail,
   validateIdTokenClaims,
 } from "../domain/oauth.js";
+import { saveRemoteImage } from "../lib/imageStore.js";
+import { isMailConfigured, sendMail } from "../lib/mailer.js";
+import {
+  emailVerificationEmail,
+  passwordResetEmail,
+  signupEmail,
+  signupExistingAccountEmail,
+} from "../domain/authEmails.js";
+import {
+  EMAIL_VERIFICATION,
+  PASSWORD_RESET,
+  SIGNUP,
+  buildLink,
+  checkToken,
+  expiryFor,
+  generateToken,
+  hashToken,
+} from "../domain/authTokens.js";
 
 const router = Router();
 
@@ -48,17 +76,31 @@ const registerLimiter = rateLimit({
   message: { error: "Demasiados registos a partir deste dispositivo." },
 });
 
-const USER_COLUMNS = `id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, created_at, updated_at`;
+const USER_COLUMNS = `id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, email_verified_at, role, created_at, updated_at`;
 
 router.get("/csrf", (_req, res) => {
   res.json({ csrfToken: issueCsrfToken(res) });
 });
 
+/**
+ * Registo de uma vez só — nome, email e password no mesmo formulário.
+ *
+ * Só existe quando não há email configurado. Havendo, criar conta passa pelo
+ * endereço confirmado (`/signup`), e deixar esta porta aberta ao lado era
+ * manter uma maneira de criar contas sem confirmar nada — bastava falar com a
+ * API em vez de usar o formulário.
+ */
 router.post(
   "/register",
   registerLimiter,
   validate({ body: registerSchema }),
   asyncHandler(async (req, res) => {
+    if (isMailConfigured()) {
+      return res.status(404).json({
+        error: "Criar conta é por email confirmado. Pede o link em /signup.",
+      });
+    }
+
     const { email, password, username } = req.valid.body;
     const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
 
@@ -176,7 +218,17 @@ function frontendUrl(path = "/") {
 
 /** O cliente pergunta o que existe antes de desenhar o botão. */
 router.get("/providers", (_req, res) => {
-  res.json({ google: isGoogleConfigured() });
+  // `passwordRecovery` sai daqui e não de uma constante do frontend: sem SMTP
+  // configurado, o ecrã de entrada não deve oferecer um link que só levava a
+  // um formulário que nunca enviava nada.
+  // `signupFlow` diz qual dos dois registos está de pé: com email a funcionar,
+  // o endereço é confirmado antes de a conta existir; sem ele, não havendo
+  // como confirmar seja o que for, fica o formulário de uma vez só.
+  res.json({
+    google: isGoogleConfigured(),
+    passwordRecovery: isMailConfigured(),
+    signupFlow: isMailConfigured() ? "verified" : "direct",
+  });
 });
 
 router.get("/google", (req, res) => {
@@ -190,6 +242,42 @@ router.get("/google", (req, res) => {
   res.cookie(OAUTH_STATE_COOKIE, state, oauthStateCookieOptions());
   res.redirect(buildGoogleAuthUrl({ state }));
 });
+
+/**
+ * Traz a fotografia de perfil da Google para dentro de casa.
+ *
+ * Descarrega uma vez e grava em `/uploads`, como qualquer outra imagem desta
+ * app. Guardar o endereço da Google era mais fácil e estava errado de três
+ * maneiras: a CSP de produção bloqueia-o (`imgSrc` é `'self'`), punha o
+ * browser de quem vê o feed a pedir imagens à Google, e esses endereços
+ * mudam — a fotografia acabava por desaparecer sozinha.
+ *
+ * Só preenche quem não tem fotografia nenhuma. Quem escolheu a sua não a vê
+ * ser substituída por aquela que tem na Google a cada início de sessão.
+ *
+ * Falhar aqui não impede ninguém de entrar: uma conta sem fotografia é uma
+ * conta, um início de sessão que rebenta porque a Google demorou não é nada.
+ */
+async function adotarFotografiaDaGoogle(user, picture) {
+  if (user.photo_url) return;
+
+  const origem = googlePictureUrl(picture);
+  if (!origem) return;
+
+  try {
+    const caminho = await saveRemoteImage(origem, {
+      hosts: ["googleusercontent.com"],
+      timeoutMs: 4000,
+    });
+    await query(`UPDATE users SET photo_url = $1, updated_at = now() WHERE id = $2`, [
+      caminho,
+      user.id,
+    ]);
+    user.photo_url = caminho;
+  } catch (error) {
+    console.warn("[oauth] fotografia da Google não ficou guardada:", error.message);
+  }
+}
 
 /**
  * Regresso da Google.
@@ -270,11 +358,14 @@ router.get(
             taken.map((row) => row.username),
           );
 
+          // Sem fotografia nesta altura: ela é descarregada e gravada depois
+          // da transação, para não haver um pedido à rede a segurar uma
+          // ligação à base de dados.
           const { rows: created } = await client.query(
-            `INSERT INTO users (username, email, password_hash, photo_url)
-             VALUES ($1, $2, NULL, $3)
+            `INSERT INTO users (username, email, password_hash)
+             VALUES ($1, $2, NULL)
              RETURNING id`,
-            [username, email, typeof claims.picture === "string" ? claims.picture : null],
+            [username, email],
           );
           userId = created[0].id;
         }
@@ -295,12 +386,469 @@ router.get(
       await client.query("COMMIT");
 
       const user = userRows[0];
+      await adotarFotografiaDaGoogle(user, claims.picture);
+
       setAuthCookie(res, signToken({ sub: user.id, email: user.email }));
       issueCsrfToken(res);
       res.redirect(frontendUrl("/feed"));
     } catch (error) {
       await client.query("ROLLBACK");
       if (error?.code === "23505") return fail("Já existe uma conta com estes dados");
+      throw error;
+    } finally {
+      client.release();
+    }
+  }),
+);
+
+/* ------------------------------------------------------------------ */
+/* Recuperação de password e verificação de email                     */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Mais apertado do que o do login, e pelo motivo oposto.
+ *
+ * No login o custo de abusar é do atacante. Aqui o custo é de terceiros: cada
+ * pedido manda um email a alguém que não o pediu, e uma caixa de correio
+ * inundada a partir do nosso domínio é o caminho mais curto para o servidor
+ * de email ser marcado como spam.
+ */
+const mailLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: () => Number(process.env.RATE_LIMIT_MAIL_MAX || process.env.RATE_LIMIT_AUTH_MAX || 5),
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Demasiados pedidos de email. Tenta daqui a uma hora." },
+});
+
+/** Emite um token novo e deita fora os anteriores do mesmo tipo. */
+async function issueToken({ kind, userId, email }) {
+  const { token, tokenHash } = generateToken();
+
+  // Pedir um link novo invalida o antigo. Se assim não fosse, cada pedido
+  // deixava mais uma chave válida a circular numa caixa de correio.
+  await query(`DELETE FROM auth_tokens WHERE user_id = $1 AND kind = $2`, [userId, kind]);
+  await query(
+    `INSERT INTO auth_tokens (token_hash, kind, user_id, email, expires_at)
+     VALUES ($1, $2, $3, $4, $5)`,
+    [tokenHash, kind, userId, email, expiryFor(kind)],
+  );
+
+  return token;
+}
+
+/* ------------------------------------------------------------------ */
+/* Criar conta: o email é confirmado antes de a conta existir         */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Primeiro passo: escreve-se o endereço e sai um link.
+ *
+ * Nada é criado aqui. Enquanto o link não for aberto só existe uma linha em
+ * `pending_signups` — sem nome de utilizador tomado, sem conta a ocupar o
+ * email de ninguém.
+ *
+ * Responde sempre o mesmo, esteja o endereço livre ou já registado. É a regra
+ * que o `/forgot-password` já seguia, e agora vale mesmo a pena: o registo
+ * antigo respondia 409 a um email em uso, portanto quem quisesse saber quem
+ * tem conta aqui bastava-lhe perguntar. Quem for dono da caixa recebe um email
+ * a explicar; quem estiver a sondar fica sem saber nada.
+ */
+router.post(
+  "/signup",
+  registerLimiter,
+  mailLimiter,
+  validate({ body: signupStartSchema }),
+  asyncHandler(async (req, res) => {
+    if (!isMailConfigured()) {
+      return res.status(404).json({ error: "Criar conta por email não está configurado" });
+    }
+
+    const { email } = req.valid.body;
+
+    const { rows } = await query(`SELECT id, username FROM users WHERE email = $1`, [email]);
+    const existente = rows[0];
+
+    try {
+      if (existente) {
+        await sendMail({
+          to: email,
+          ...signupExistingAccountEmail({
+            username: existente.username,
+            link: frontendUrl("/forgot-password"),
+          }),
+        });
+      } else {
+        const { token, tokenHash } = generateToken();
+
+        // Pedir o link outra vez substitui o anterior, como em `issueToken`:
+        // senão cada tentativa deixava mais uma chave válida na caixa.
+        await query(
+          `INSERT INTO pending_signups (token_hash, email, expires_at)
+           VALUES ($1, $2, $3)
+           ON CONFLICT (email) DO UPDATE
+              SET token_hash = EXCLUDED.token_hash,
+                  expires_at = EXCLUDED.expires_at,
+                  created_at = now()`,
+          [tokenHash, email, expiryFor(SIGNUP)],
+        );
+
+        await sendMail({
+          to: email,
+          ...signupEmail({ link: buildLink(process.env.FRONTEND_URL, "/criar-conta", token) }),
+        });
+      }
+    } catch (error) {
+      // Como na recuperação: um SMTP em baixo não pode dar uma resposta
+      // diferente da de um email já registado, senão a resposta volta a
+      // dizer quem tem conta.
+      console.error("[mail] link de criação de conta não saiu:", error.message);
+    }
+
+    res.json({ ok: true });
+  }),
+);
+
+/**
+ * O que o formulário do segundo passo precisa de saber antes de se desenhar:
+ * este link ainda vale, e para que endereço é.
+ *
+ * Devolver o email não conta nada a quem trouxe o token — ele veio da caixa
+ * de correio desse mesmo endereço — e evita que alguém escolha nome e
+ * password para depois ouvir que o link já tinha expirado.
+ */
+router.get(
+  "/signup",
+  validate({ query: tokenQuerySchema }),
+  asyncHandler(async (req, res) => {
+    const { rows } = await query(
+      `SELECT token_hash, email, expires_at FROM pending_signups WHERE token_hash = $1`,
+      [hashToken(req.valid.query.token)],
+    );
+
+    const check = checkToken(rows[0]);
+    if (!check.ok) {
+      return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+    }
+
+    res.json({ email: check.email });
+  }),
+);
+
+/**
+ * Segundo passo: com o link aberto, escolhe-se o nome e a password.
+ *
+ * É aqui que a conta nasce, e nasce com o email já confirmado — quem chegou
+ * aqui leu aquela caixa de correio.
+ *
+ * Um nome de utilizador já tomado devolve 409 e deixa o link intacto: a
+ * transação faz ROLLBACK e a pessoa tenta outro nome sem ter de pedir email
+ * nenhum. Só um registo completo é que gasta o token.
+ */
+router.post(
+  "/signup/complete",
+  registerLimiter,
+  validate({ body: signupCompleteSchema }),
+  asyncHandler(async (req, res) => {
+    const { token, username, password } = req.valid.body;
+    const tokenHash = hashToken(token);
+    const client = await getPool().connect();
+
+    try {
+      await client.query("BEGIN");
+
+      // FOR UPDATE: dois pedidos com o mesmo token esperam um pelo outro, e o
+      // segundo encontra a linha já apagada.
+      const { rows } = await client.query(
+        `SELECT token_hash, email, expires_at FROM pending_signups
+          WHERE token_hash = $1 FOR UPDATE`,
+        [tokenHash],
+      );
+
+      const check = checkToken(rows[0]);
+      if (!check.ok) {
+        await client.query("ROLLBACK");
+        return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+      }
+
+      const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+
+      let user;
+      try {
+        const criado = await client.query(
+          `INSERT INTO users (username, email, password_hash, email_verified_at)
+           VALUES ($1, $2, $3, now())
+           RETURNING ${USER_COLUMNS}`,
+          [username, check.email, passwordHash],
+        );
+        user = criado.rows[0];
+      } catch (error) {
+        await client.query("ROLLBACK");
+        if (error?.code === "23505") {
+          // Pode ser o nome (tenta outro) ou o email (a conta apareceu entre
+          // o pedido do link e este momento). A mensagem cobre os dois sem
+          // dizer qual, que é o que a resposta do `/signup` também faz.
+          return res.status(409).json({ error: "Esse nome de utilizador já está em uso" });
+        }
+        throw error;
+      }
+
+      await client.query(`DELETE FROM pending_signups WHERE token_hash = $1`, [tokenHash]);
+      await client.query("COMMIT");
+
+      setAuthCookie(res, signToken({ sub: user.id, email: user.email }));
+      issueCsrfToken(res);
+
+      res.status(201).json({
+        user: toPublicUser(user, { includeEmail: true }),
+        needsEmailConfirmation: false,
+      });
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
+  }),
+);
+
+/**
+ * Pedir um link de recuperação.
+ *
+ * Responde sempre o mesmo, exista ou não a conta. Não porque isso esconda
+ * grande coisa — o registo já responde 409 para um email em uso, portanto
+ * quem quiser saber se um endereço está registado descobre-o por lá — mas
+ * porque a alternativa era dizer "não existe conta com esse email" a quem
+ * escreveu o endereço errado, e essa pessoa passaria a tarde a tentar.
+ */
+router.post(
+  "/forgot-password",
+  mailLimiter,
+  validate({ body: forgotPasswordSchema }),
+  asyncHandler(async (req, res) => {
+    if (!isMailConfigured()) {
+      return res.status(404).json({ error: "Recuperação de password não está configurada" });
+    }
+
+    const { email } = req.valid.body;
+    const { rows } = await query(
+      `SELECT id, username, email, password_hash FROM users WHERE email = $1`,
+      [email],
+    );
+    const user = rows[0];
+
+    // Uma conta de SSO não tem password para redefinir. Não recebe email
+    // nenhum: dar-lhe um link que a deixasse criar uma password era abrir
+    // uma segunda porta para uma conta que só tinha a da Google.
+    if (user && user.password_hash !== null) {
+      const token = await issueToken({
+        kind: PASSWORD_RESET,
+        userId: user.id,
+        email: user.email,
+      });
+
+      try {
+        await sendMail({
+          to: user.email,
+          ...passwordResetEmail({
+            username: user.username,
+            link: buildLink(process.env.FRONTEND_URL, "/reset-password", token),
+          }),
+        });
+      } catch (error) {
+        // O erro fica no registo do servidor e não na resposta: se um SMTP em
+        // baixo desse 500 e um email inexistente desse 200, a resposta passava
+        // a dizer quem tem conta.
+        console.error("[mail] recuperação de password não saiu:", error.message);
+      }
+    }
+
+    res.json({ ok: true });
+  }),
+);
+
+/**
+ * Redefinir com o token que veio no email.
+ *
+ * Não inicia sessão no fim. Quem redefine a password acabou de provar que lê
+ * aquela caixa de correio, não que é a pessoa — e o passo seguinte, entrar com
+ * a password nova, custa cinco segundos e fecha essa diferença.
+ */
+router.post(
+  "/reset-password",
+  mailLimiter,
+  validate({ body: resetPasswordSchema }),
+  asyncHandler(async (req, res) => {
+    const tokenHash = hashToken(req.valid.body.token);
+    const client = await getPool().connect();
+
+    try {
+      await client.query("BEGIN");
+
+      // FOR UPDATE: dois pedidos com o mesmo token esperam um pelo outro, e o
+      // segundo encontra-o já gasto. Sem o bloqueio, os dois liam-no válido.
+      const { rows } = await client.query(
+        `SELECT token_hash, kind, user_id, email, expires_at, used_at
+           FROM auth_tokens WHERE token_hash = $1 FOR UPDATE`,
+        [tokenHash],
+      );
+
+      const check = checkToken(rows[0], { kind: PASSWORD_RESET });
+      if (!check.ok) {
+        await client.query("ROLLBACK");
+        // A mesma resposta para inexistente, expirado e já usado: distingui-los
+        // era deixar tentar até acertar num que existisse.
+        return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+      }
+
+      const passwordHash = await bcrypt.hash(req.valid.body.password, BCRYPT_ROUNDS);
+
+      // Quem chegou aqui leu o email: o endereço fica confirmado de caminho.
+      // `COALESCE` para não apagar a data de uma confirmação anterior.
+      await client.query(
+        `UPDATE users
+            SET password_hash = $1,
+                email_verified_at = COALESCE(email_verified_at, now()),
+                updated_at = now()
+          WHERE id = $2`,
+        [passwordHash, check.userId],
+      );
+
+      await client.query(`DELETE FROM auth_tokens WHERE user_id = $1 AND kind = $2`, [
+        check.userId,
+        PASSWORD_RESET,
+      ]);
+
+      await client.query("COMMIT");
+
+      // Nota: as sessões abertas noutros dispositivos continuam válidas até o
+      // JWT expirar. Fechá-las exigiria uma lista de tokens revogados ou um
+      // contador de versão por utilizador — vale a pena, mas é outra decisão,
+      // e não fica escondida aqui dentro.
+      res.json({ ok: true });
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
+  }),
+);
+
+/** Pedir (ou repetir) o email de confirmação da própria conta. */
+router.post(
+  "/verify-email/send",
+  requireAuth,
+  mailLimiter,
+  asyncHandler(async (req, res) => {
+    if (!isMailConfigured()) {
+      return res.status(404).json({ error: "Verificação de email não está configurada" });
+    }
+
+    const { rows } = await query(
+      `SELECT id, username, email, email_verified_at FROM users WHERE id = $1`,
+      [req.user.id],
+    );
+    const user = rows[0];
+    if (!user) return res.status(401).json({ error: "Unauthorized" });
+    if (user.email_verified_at) {
+      return res.status(409).json({ error: "Este email já está confirmado" });
+    }
+
+    const token = await issueToken({
+      kind: EMAIL_VERIFICATION,
+      userId: user.id,
+      email: user.email,
+    });
+
+    try {
+      await sendMail({
+        to: user.email,
+        ...emailVerificationEmail({
+          username: user.username,
+          link: buildLink(process.env.FRONTEND_URL, "/verify-email", token),
+        }),
+      });
+    } catch (error) {
+      // Aqui, ao contrário da recuperação, quem pediu está autenticado e sabe
+      // que o pediu: esconder a falha só o deixava à espera de um email que
+      // nunca chegaria.
+      console.error("[mail] verificação de email não saiu:", error.message);
+      return res.status(502).json({ error: "Não foi possível enviar o email. Tenta mais tarde." });
+    }
+
+    res.json({ ok: true });
+  }),
+);
+
+/**
+ * Confirmar com o token do email.
+ *
+ * Sem sessão: o token é a prova, e exigir login por cima dele obrigava quem
+ * abrisse o email noutro dispositivo a entrar primeiro.
+ */
+router.post(
+  "/verify-email",
+  validate({ body: emailTokenSchema }),
+  asyncHandler(async (req, res) => {
+    const tokenHash = hashToken(req.valid.body.token);
+    const client = await getPool().connect();
+
+    try {
+      await client.query("BEGIN");
+
+      const { rows } = await client.query(
+        `SELECT token_hash, kind, user_id, email, expires_at, used_at
+           FROM auth_tokens WHERE token_hash = $1 FOR UPDATE`,
+        [tokenHash],
+      );
+      const row = rows[0];
+
+      const check = checkToken(row, { kind: EMAIL_VERIFICATION });
+
+      if (!check.ok) {
+        // Abrir o mesmo link duas vezes é normal: o React monta o ecrã duas
+        // vezes em desenvolvimento, e há clientes de email que seguem os links
+        // por si. Se o token já foi usado e o email está mesmo confirmado, a
+        // resposta é "está confirmado" e não um erro que a pessoa não percebe.
+        if (row && check.reason === "já usado") {
+          const { rows: done } = await client.query(
+            `SELECT 1 FROM users WHERE id = $1 AND email = $2 AND email_verified_at IS NOT NULL`,
+            [row.user_id, row.email],
+          );
+          if (done[0]) {
+            await client.query("COMMIT");
+            return res.json({ ok: true, alreadyVerified: true });
+          }
+        }
+
+        await client.query("ROLLBACK");
+        return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+      }
+
+      // O email tem de ser ainda o da conta. Quem mudou de endereço depois de
+      // pedir o link não confirma o novo com o token do antigo.
+      const { rows: updated } = await client.query(
+        `UPDATE users
+            SET email_verified_at = COALESCE(email_verified_at, now()), updated_at = now()
+          WHERE id = $1 AND email = $2
+        RETURNING id`,
+        [check.userId, check.email],
+      );
+
+      if (!updated[0]) {
+        await client.query("ROLLBACK");
+        return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+      }
+
+      await client.query(`UPDATE auth_tokens SET used_at = now() WHERE token_hash = $1`, [
+        tokenHash,
+      ]);
+
+      await client.query("COMMIT");
+      res.json({ ok: true, alreadyVerified: false });
+    } catch (error) {
+      await client.query("ROLLBACK");
       throw error;
     } finally {
       client.release();

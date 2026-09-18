@@ -3,6 +3,7 @@ import { createApp } from "../app.js";
 import { closePool, getPool, query } from "../db/index.js";
 import { runMigrations } from "../db/runMigrations.js";
 import { syncCurriculum } from "../scripts/sync-curriculum.js";
+import { setMailTransport } from "../lib/mailer.js";
 
 /**
  * Testes de integração: a API de verdade, contra uma base de dados de verdade.
@@ -23,8 +24,36 @@ export const skipWithoutDatabase = hasDatabase
   ? {}
   : { skip: "sem DATABASE_URL — levanta um Postgres para correr os testes de integração" };
 
+/**
+ * Caixa de saída dos testes.
+ *
+ * O transporte de email é substituído por este: os fluxos de recuperação e de
+ * verificação correm inteiros — token, email, link — sem abrir uma ligação
+ * SMTP nem mandar correio a ninguém. Ler o link daqui é o que permite testar
+ * o resgate de ponta a ponta, em vez de ir buscar o token à base de dados
+ * (que provaria que o teste sabe SQL, não que o email leva o link certo).
+ */
+export const outbox = [];
+
+/** O último email enviado, e o primeiro link que ele contém. */
+export function lastEmail() {
+  const mail = outbox[outbox.length - 1];
+  if (!mail) return null;
+  const match = String(mail.text).match(/https?:\/\/\S+/);
+  return {
+    ...mail,
+    link: match ? match[0] : null,
+    token: match ? new URL(match[0]).searchParams.get("token") : null,
+  };
+}
+
 /** Tabelas que cada teste limpa. A ordem não importa: é um TRUNCATE em cascata. */
 const TABLES = [
+  "role_changes",
+  "reports",
+  "user_blocks",
+  "auth_tokens",
+  "pending_signups",
   "notifications",
   "challenge_entries",
   "comments",
@@ -85,6 +114,21 @@ export async function startTestServer() {
   // Uma bateria de testes faz mais pedidos do que o limite normal permite.
   process.env.RATE_LIMIT_MAX ||= "100000";
   process.env.RATE_LIMIT_AUTH_MAX ||= "100000";
+  process.env.RATE_LIMIT_MAIL_MAX ||= "100000";
+
+  // Credenciais de fachada: `isMailConfigured()` tem de dizer que sim para as
+  // rotas existirem, mas nada nestes valores chega a ser usado — o transporte
+  // abaixo substitui o nodemailer inteiro.
+  process.env.SMTP_USER ||= "testes@chef-xp.test";
+  process.env.SMTP_PASSWORD ||= "password-de-teste";
+  process.env.FRONTEND_URL ||= "http://localhost:5173";
+
+  setMailTransport({
+    async sendMail(message) {
+      outbox.push(message);
+      return { messageId: `teste-${outbox.length}` };
+    },
+  });
 
   if (!migrated) {
     await runMigrations();
@@ -108,6 +152,7 @@ export async function startTestServer() {
 }
 
 export async function resetDatabase() {
+  outbox.length = 0;
   await query(`TRUNCATE ${TABLES.join(", ")} RESTART IDENTITY CASCADE`);
 }
 
@@ -182,17 +227,50 @@ export function createClient(baseUrl) {
   };
 }
 
-/** Regista e deixa a sessão aberta. Devolve o utilizador criado. */
+/**
+ * Os dois passos de criar conta, com a resposta crua do segundo — para os
+ * testes que querem inspecionar códigos de estado em vez de uma conta pronta.
+ */
+export async function signupThroughEmail(client, { email, username, password }) {
+  const pedido = await client.post("/api/auth/signup", { email });
+  if (pedido.status !== 200) return pedido;
+
+  const { token } = lastEmail() ?? {};
+  if (!token) throw new Error("o email com o link de criação de conta não saiu");
+
+  return client.post("/api/auth/signup/complete", { token, username, password });
+}
+
+/**
+ * Cria conta pelo fluxo a sério — pedir o link, ir buscá-lo à caixa de saída
+ * falsa, e só então escolher nome e password — e deixa a sessão aberta.
+ *
+ * Passar pelo mesmo caminho que um utilizador faz com que qualquer coisa que
+ * parta o registo parta também os 100 testes que precisam de uma conta, em
+ * vez de ficar escondida atrás de um atalho só dos testes.
+ */
 export async function registerUser(client, overrides = {}) {
   const suffix = Math.random().toString(36).slice(2, 8);
   const payload = {
     email: `${suffix}@chef-xp.test`,
-    password: "chef12345",
+    password: "Chef12345!",
     username: `chef${suffix}`,
     ...overrides,
   };
 
-  const response = await client.post("/api/auth/register", payload);
+  const pedido = await client.post("/api/auth/signup", { email: payload.email });
+  if (pedido.status !== 200) {
+    throw new Error(`pedido de registo falhou: ${pedido.status} ${JSON.stringify(pedido.body)}`);
+  }
+
+  const { token } = lastEmail() ?? {};
+  if (!token) throw new Error("o email com o link de criação de conta não saiu");
+
+  const response = await client.post("/api/auth/signup/complete", {
+    token,
+    username: payload.username,
+    password: payload.password,
+  });
   if (response.status !== 201 && response.status !== 200) {
     throw new Error(`registo falhou: ${response.status} ${JSON.stringify(response.body)}`);
   }

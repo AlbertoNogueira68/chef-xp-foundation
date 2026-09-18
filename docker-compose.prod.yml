@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:15-alpine
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -20,13 +21,17 @@ services:
       args:
         VITE_API_URL: /api
         VITE_APP_ENV: production
+    restart: unless-stopped
     env_file:
       - .env.prod
     depends_on:
       postgres:
         condition: service_healthy
-    ports:
-      - "${PORT:-3010}:3010"
+    # Sem `ports`: quem fala com o exterior é o Caddy. O Express só é
+    # alcançável pela rede interna do compose, e é essa a diferença entre um
+    # servidor atrás de TLS e um servidor exposto na internet.
+    expose:
+      - "3010"
     volumes:
       - chef_xp_uploads:/app/uploads
     healthcheck:
@@ -36,6 +41,29 @@ services:
       retries: 3
       start_period: 20s
 
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      SITE_DOMAIN: ${SITE_DOMAIN}
+      ACME_EMAIL: ${ACME_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # `caddy_data` guarda os certificados. Perdê-lo não parte nada, mas
+      # obriga a pedir tudo de novo — e o Let's Encrypt tem limites por
+      # semana que se alcançam depressa a repetir deploys.
+      - caddy_data:/data
+      - caddy_config:/config
+      - caddy_logs:/var/log/caddy
+
 volumes:
   chef_xp_pgdata_prod:
   chef_xp_uploads:
+  caddy_data:
+  caddy_config:
+  caddy_logs:

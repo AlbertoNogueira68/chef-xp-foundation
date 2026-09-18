@@ -113,6 +113,8 @@ export function ChallengesPage() {
             selectedAnswer={player.selectedAnswer}
             showFeedback={player.showFeedback}
             isCorrect={player.isCorrect}
+            semCorrecao={player.semCorrecao}
+            porEnviar={player.porEnviar}
             correctAnswer={player.correctAnswer}
             explainWrong={player.explainWrong}
             explanation={player.explanation}

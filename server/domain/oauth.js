@@ -102,3 +102,35 @@ export function pickAvailableUsername(base, taken) {
   // Praticamente inalcançável, mas melhor um nome feio do que um erro 500.
   return `chef${Date.now()}`.slice(0, USERNAME_MAX);
 }
+
+/**
+ * O endereço da fotografia de perfil que a Google manda no `id_token`.
+ *
+ * Devolve `null` a tudo o que não seja uma imagem servida pela Google. O
+ * `picture` é um campo que vem de fora, e o servidor vai buscá-lo à rede — sem
+ * esta porta fechada, quem conseguisse pôr lá um endereço fazia o nosso
+ * servidor pedir o que quisesse a quem quisesse, incluindo endereços internos
+ * que só ele alcança.
+ *
+ * Aproveita-se para pedir um tamanho decente: a Google devolve por omissão um
+ * `=s96-c` que fica desfocado num avatar de retina.
+ */
+export function googlePictureUrl(picture, size = 256) {
+  if (typeof picture !== "string" || picture === "") return null;
+
+  let url;
+  try {
+    url = new URL(picture);
+  } catch {
+    return null;
+  }
+
+  if (url.protocol !== "https:") return null;
+  if (!/(^|\.)googleusercontent\.com$/.test(url.hostname)) return null;
+
+  // O tamanho vem no fim do caminho, como `=s96-c`, e não como query string.
+  url.pathname = url.pathname.replace(/=s\d+(-c)?$/, `=s${size}$1`);
+  if (!/=s\d+/.test(url.pathname)) url.pathname += `=s${size}-c`;
+
+  return url.toString();
+}

@@ -14,7 +14,10 @@ ser feito. Atualizar este ficheiro faz parte de fechar cada ponto.
 | Feed social | Publicar receita com foto validada por bytes, gostos, comentários, seguir, três vistas |
 | Perfil | XP, nível, streak, badges, separadores Cozinhados / Receitas / Atividade |
 | Pesquisa | Query e filtros (dificuldade, tempo) aplicados pela API |
+| Email | Recuperação de password e confirmação de endereço por SMTP, desligáveis |
 | Infra | Migrations idempotentes, Docker dev/prod, CSP e hardening, CI com lint, tipos, testes e build |
+| PWA | App instalável, abre sem rede, cache por tipo de recurso, atualização com consentimento, `check:pwa` no CI |
+| Offline | Lições e fotografias de missões feitas sem rede ficam em fila (IndexedDB) no dispositivo e são enviadas por ordem quando a ligação volta, com aviso do resultado; verificado num Chrome a sério no CI |
 
 ## Por fazer, por ordem
 
@@ -101,10 +104,9 @@ destrancava.
 - [x] Apagar a conta: `DELETE /api/users/me`, com o nome escrito à mão e a
       password quando a conta tem uma. A linha desaparece e as cascatas levam
       tudo — não há `deleted_at` nenhum
-- [ ] Recuperação de password — **bloqueado**: precisa de envio de email, e não
-      existe SMTP nem cliente de email no projeto (procurado em `package.json`,
-      `.env.example`, `docker-compose` e no código)
-- [ ] Verificação de email — bloqueado pelo mesmo motivo
+- [x] Recuperação de password — desbloqueado: `nodemailer` por SMTP, com as
+      credenciais em `SMTP_USER` / `SMTP_PASSWORD`
+- [x] Verificação de email — a mesma mecânica, distinguida por `kind`
 
 ## Listas de seguidores
 
@@ -116,7 +118,7 @@ destrancava.
 ## Responsividade
 
 - [x] Regra escrita em `docs/RESPONSIVIDADE.md`
-- [x] `npm run check:responsive`: mede 11 ecrãs em 4 larguras, num browser
+- [x] `npm run check:responsive`: mede 13 ecrãs em 4 larguras, num browser
 - [x] Corre no CI contra a build de produção
 - [x] Os 112 alvos de toque pequenos da primeira medição, resolvidos em cinco
       alterações — todas em componentes base, nenhuma ecrã a ecrã
@@ -131,7 +133,82 @@ destrancava.
 - [x] Os dois botões que não faziam nada: partilhar passou a partilhar, e o de
       mensagens saiu
 
+## Email
+
+Última coisa que faltava do plano. `auth_tokens` guarda o SHA-256 do token e
+nunca o token; o de recuperação vale uma hora e serve uma vez, o de confirmação
+vale um dia.
+
+- [x] `nodemailer` por SMTP, com o transporte substituível (é o que permite
+      testar os fluxos inteiros sem mandar correio a ninguém)
+- [x] `POST /api/auth/forgot-password` — resposta igual exista ou não a conta,
+      contas de SSO não recebem link, erro de envio fica no registo
+- [x] `POST /api/auth/reset-password` — `FOR UPDATE` para o token não valer
+      duas vezes em pedidos simultâneos; confirma o email de caminho
+- [x] `POST /api/auth/verify-email/send` e `/verify-email`, este último sem
+      exigir sessão e idempotente para o duplo clique
+- [x] `GET /api/auth/providers` diz se a recuperação existe; sem SMTP o link
+      não aparece no ecrã de entrada
+- [x] Três ecrãs públicos: pedir, redefinir, confirmar
+- [x] Aviso de "email por confirmar" nas definições, que informa e não tranca
+- [x] 18 testes de integração, 20 de domínio e 7 de interface
+
+## Fotografia de perfil da Google
+
+- [x] Descarregada uma vez para `/uploads`, com os bytes validados, em vez de
+      guardada como endereço — que a CSP de produção bloqueava
+- [x] Também para quem já tinha conta local com o mesmo email, e não só para
+      contas novas
+- [x] Nunca substitui uma fotografia escolhida pelo utilizador
+- [x] Lista de anfitriões obrigatória antes de qualquer pedido à rede, com
+      testes para os endereços internos e para os domínios que só acabam
+      parecidos
+- [x] Migration 010 põe a nulo as que ficaram guardadas como endereço; são
+      readotadas no início de sessão seguinte
+
+## Moderação
+
+Fora do plano original, e a primeira coisa que faltava a uma aplicação que
+aloja conteúdo de terceiros: não havia denúncia, não havia bloqueio, e o dono
+de uma receita não podia apagar um comentário na própria receita.
+
+- [x] `reports` — receitas, comentários e contas na mesma rota; cinco motivos
+      fechados; uma denúncia por pessoa e por alvo (índice único)
+- [x] A denúncia sobrevive ao conteúdo: `subject_id` sem chave estrangeira, de
+      propósito, como no livro-razão do XP
+- [x] Apagar um comentário são três direitos — autor, dono da receita,
+      moderador — numa função pura, e 403 deixou de ser 404
+- [x] `user_blocks` bidirecional: feed, pesquisa, página de autor, comentários,
+      sugestões, listas de seguidores, participações em desafios, cozinhados e
+      sino, todos filtrados a partir de um só fragmento em `lib/blocks.js`
+- [x] Bloquear desfaz os dois sentidos do seguir e limpa as notificações entre
+      as duas pessoas; a lista nas definições é o caminho de volta
+- [x] `users.role` e a fila em `/api/moderation/reports` — o papel lê-se da
+      base a cada pedido, não do token; remover uma receita retira-lhe o XP
+
+## Administração
+
+- [x] Terceiro papel, numa escada (`user` → `moderator` → `admin`) escrita em
+      duas funções puras, e não numa matriz de permissões por ação
+- [x] Promover e despromover moderadores pela aplicação, com quatro recusas:
+      o meu próprio papel, criar admins, despromover admins, papéis que não
+      existem
+- [x] `role_changes` — quem promoveu quem, e a partir de quê. A coluna `role`
+      sozinha só diz o estado de agora
+- [x] Números da plataforma somados na hora sobre as tabelas que já existem,
+      sem contadores novos para manter sincronizados
+- [x] Área `/admin` dentro da aplicação: a fila com o conteúdo ao lado, as
+      contas com o que decide uma promoção, e os números. O moderador vê só a
+      fila — a fila deixou de ser uma API que na prática ninguém trataria
+- [x] `npm run role:set -- <email> <papel>`; o primeiro admin nasce na linha de
+      comandos e nunca dentro da aplicação
+- [x] Seed de desenvolvimento com um administrador e um moderador, para a área
+      existir num clone acabado de arrancar
+- [x] 24 testes de domínio, 37 de integração e 13 de interface
+
+Fica de fora, dito e não escondido: suspender contas.
+
 ## O que falta
 
-Só o envio de email (recuperação de password e verificação de conta). Tudo o
-resto deste plano está feito.
+Nada deste plano. As duas linhas que estavam bloqueadas por não haver email
+estão fechadas.

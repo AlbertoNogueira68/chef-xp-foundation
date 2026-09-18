@@ -1,0 +1,35 @@
+# Caddy à frente do Express: termina o TLS e encaminha o resto.
+#
+# O certificado é pedido ao Let's Encrypt e renovado sozinho. Não há nada a
+# configurar para isso — daí este ficheiro ser tão curto.
+#
+# SITE_DOMAIN e ACME_EMAIL vêm do .env.prod. O email não é decorativo: é para
+# lá que o Let's Encrypt avisa se uma renovação falhar.
+
+{
+	email {$ACME_EMAIL}
+}
+
+{$SITE_DOMAIN} {
+	# O Express corre na rede interna do compose e já não expõe porta nenhuma
+	# ao exterior. Tudo o que entra, entra por aqui.
+	reverse_proxy app:3010
+
+	encode zstd gzip
+
+	header {
+		# HSTS: a partir da primeira visita, o browser recusa-se a falar http
+		# com este domínio. Um ano, como manda a prática.
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		# O resto dos cabeçalhos de segurança é posto pelo helmet, no Express,
+		# e é lá que devem continuar — num sítio só.
+		-Server
+	}
+
+	log {
+		output file /var/log/caddy/access.log {
+			roll_size 10MiB
+			roll_keep 5
+		}
+	}
+}

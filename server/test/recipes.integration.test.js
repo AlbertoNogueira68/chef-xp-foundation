@@ -132,14 +132,23 @@ describe("receitas", skipWithoutDatabase, () => {
     assert.equal(fim, inicio, "o XP tinha de voltar ao que era");
   });
 
-  test("apagar um comentário de outra pessoa não o apaga", async () => {
+  /**
+   * O dono da receita passou a poder apagar comentários na sua receita (ver
+   * `moderation.integration.test.js`). O que continua a não poder é apagar um
+   * comentário numa receita de outra pessoa — que é o que este teste prova,
+   * com um terceiro pelo meio.
+   */
+  test("apagar um comentário numa receita que não é minha dá 403", async () => {
+    const terceiro = createClient(server.baseUrl);
+    await registerUser(terceiro);
+
     const { recipe } = await publishRecipe(client, { title: "Tripas" });
     const comentario = await outro.post(`/api/recipes/${recipe.id}/comments`, { body: "meu" });
 
-    const resposta = await client.delete(
+    const resposta = await terceiro.delete(
       `/api/recipes/${recipe.id}/comments/${comentario.body.comment.id}`,
     );
-    assert.equal(resposta.status, 404);
+    assert.equal(resposta.status, 403);
 
     const comentarios = await client.get(`/api/recipes/${recipe.id}/comments`);
     assert.equal(comentarios.body.comments.length, 1);

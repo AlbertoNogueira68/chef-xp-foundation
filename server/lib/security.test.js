@@ -132,3 +132,45 @@ test("GOOGLE_CLIENT_ID sem GOOGLE_CLIENT_SECRET não arranca", () => {
     }),
   );
 });
+
+/* ------------------------------------------------------------------ *
+ * SMTP: metade configurado é pior do que nada                        *
+ * ------------------------------------------------------------------ */
+
+test("SMTP_USER sem SMTP_PASSWORD não arranca", () => {
+  assert.throws(() => validateEnv({ ...baseEnv, SMTP_USER: "chef@exemplo.pt" }), /SMTP_USER/);
+  assert.throws(() => validateEnv({ ...baseEnv, SMTP_PASSWORD: "abc" }), /SMTP_USER/);
+});
+
+test("SMTP_AUTH=none dispensa credenciais mas exige host e remetente", () => {
+  const semAutenticacao = { ...baseEnv, SMTP_AUTH: "none" };
+
+  assert.throws(() => validateEnv({ ...semAutenticacao, MAIL_FROM: "x@y" }), /SMTP_HOST/);
+  assert.throws(() => validateEnv({ ...semAutenticacao, SMTP_HOST: "mailpit" }), /MAIL_FROM/);
+  assert.doesNotThrow(() =>
+    validateEnv({
+      ...semAutenticacao,
+      SMTP_HOST: "mailpit",
+      MAIL_FROM: "Chef XP <chef-xp@localhost>",
+    }),
+  );
+});
+
+test("SMTP_AUTH só aceita login ou none", () => {
+  assert.throws(() => validateEnv({ ...baseEnv, SMTP_AUTH: "oauth2" }), /SMTP_AUTH/);
+});
+
+test("credenciais ganham ao SMTP_AUTH=none do compose, em vez de serem ignoradas", () => {
+  // O caso de quem tem o Gmail no `.env` e nunca ouviu falar do Mailpit: o
+  // arranque avisa, mas não se recusa a arrancar por um valor que a pessoa
+  // não escreveu.
+  assert.doesNotThrow(() =>
+    validateEnv({
+      ...baseEnv,
+      SMTP_AUTH: "none",
+      SMTP_HOST: "smtp.gmail.com",
+      SMTP_USER: "chef@exemplo.pt",
+      SMTP_PASSWORD: "password-de-aplicacao",
+    }),
+  );
+});
