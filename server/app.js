@@ -79,11 +79,18 @@ export function createApp() {
    * O limite é configurável porque uma bateria de testes de integração faz
    * mais pedidos em segundos do que uma pessoa faz em quinze minutos, e
    * apanhar 429 a meio de um teste não diz nada sobre o código.
+   *
+   * Só na API. Aplicado a tudo, contava cada ficheiro de `/assets`, ícone e
+   * manifesto: metade dos 300 de antes ia só em carregar a app. E o limite é
+   * por IP, que é partilhado por uma casa inteira ou, nas redes móveis, por
+   * muita gente atrás do mesmo CGNAT — dois amigos no mesmo Wi-Fi bastaram
+   * para o esgotar. Login, registo e emails têm limites próprios e apertados.
    */
   app.use(
+    "/api",
     rateLimit({
       windowMs: 15 * 60 * 1000,
-      max: Number(process.env.RATE_LIMIT_MAX || 300),
+      max: Number(process.env.RATE_LIMIT_MAX || 1000),
       standardHeaders: true,
       legacyHeaders: false,
     }),
