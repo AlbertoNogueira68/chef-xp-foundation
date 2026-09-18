@@ -340,9 +340,21 @@ router.get(
         //    Só é seguro porque `email_verified` já foi exigido acima: sem
         //    isso, criar uma conta Google com o email de outra pessoa dava
         //    acesso à conta dela aqui.
-        const { rows: existing } = await client.query(`SELECT id FROM users WHERE email = $1`, [
-          email,
-        ]);
+        //    E só se a conta local também tiver o email confirmado. Sem SMTP,
+        //    o `/register` cria contas sem confirmar nada: qualquer pessoa
+        //    podia registar o email de outra, esperar que ela entrasse com a
+        //    Google e ficar com uma password para a conta dela.
+        const { rows: existing } = await client.query(
+          `SELECT id, email_verified_at FROM users WHERE email = $1`,
+          [email],
+        );
+
+        if (existing[0] && !existing[0].email_verified_at) {
+          await client.query("ROLLBACK");
+          return fail(
+            "Já existe uma conta com este email, ainda por confirmar. Entra com a password.",
+          );
+        }
 
         if (existing[0]) {
           userId = existing[0].id;

@@ -1,7 +1,17 @@
 import type { AuthChangeEvent, AuthRepository, AuthSession } from "@/data/contracts/AuthRepository";
 import { AuthError } from "@/data/contracts/errors";
 import { apiFetch, clearProfile, saveProfile } from "@/services/api";
+import { clearOutbox } from "@/lib/offline/outbox";
 import type { User } from "@/types/user";
+
+/** As respostas da API que o service worker guardou para usar sem rede. */
+async function clearApiCaches() {
+  if (typeof caches === "undefined") return;
+  const nomes = await caches.keys();
+  await Promise.all(
+    nomes.filter((nome) => nome.startsWith("chefxp-api-")).map((nome) => caches.delete(nome)),
+  );
+}
 
 type AuthListeners = Set<(event: AuthChangeEvent, session: AuthSession | null) => void>;
 
@@ -129,6 +139,10 @@ export class ApiAuthRepository implements AuthRepository {
       await apiFetch("/auth/logout", { method: "POST" });
     } finally {
       clearProfile();
+      // O que ficou guardado para offline é desta conta. Deixá-lo cá fazia
+      // a próxima pessoa no mesmo dispositivo ver os dados da anterior sem
+      // rede — ou pior, enviar como sua a fila de envios pendentes da outra.
+      await Promise.allSettled([clearOutbox(), clearApiCaches()]);
       notify("SIGNED_OUT", null);
     }
   }
