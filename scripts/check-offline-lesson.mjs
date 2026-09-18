@@ -106,7 +106,10 @@ try {
   const umPasso = () =>
     js(
       noLeitor(`
-      const navegacao = /anterior|seguinte|continuar|começar|testar|recomeçar|voltar|ingredientes|falta a foto/i;
+      // Ancorada ao início: sem isso, um passo de ordenar como "Pôr a faca e os
+      // ingredientes ao alcance" passava por botão de navegação e nunca era
+      // escolhido — e o "Confirmar ordem" ficava desligado para sempre.
+      const navegacao = /^(anterior|seguinte|continuar|começar|testar|recomeçar|voltar|ingredientes$|falta a foto)/i;
       if (/Resposta guardada|Correto!|Ups…|Guardado neste dispositivo/.test(leitor.innerText)) {
         return "respondida";
       }
@@ -231,9 +234,17 @@ try {
   console.log(`[lição] a app disse: ${aviso}`);
 
   await clicar("Continuar");
-  await ate("o XP do dia subir", async () => (await xpDeHoje()) > xpAntes, { tentativas: 30 });
 
-  console.log(`[lição] enviada: XP de hoje passou de ${xpAntes} para ${await xpDeHoje()}`);
+  // O robô responde sem saber as respostas — offline não há correção que o
+  // guie — por isso a lição tanto pode passar como chumbar. Os dois provam o
+  // que aqui importa: o veredicto só existe porque o servidor recebeu a fila
+  // e corrigiu. O XP só se exige quando há XP a pagar.
+  if (aviso.includes("não passaste")) {
+    console.log("[lição] enviada e corrigida pelo servidor (chumbou, portanto sem XP)");
+  } else {
+    await ate("o XP do dia subir", async () => (await xpDeHoje()) > xpAntes, { tentativas: 30 });
+    console.log(`[lição] enviada: XP de hoje passou de ${xpAntes} para ${await xpDeHoje()}`);
+  }
   console.log("[lição] ok");
 } catch (erro) {
   console.error(`[lição] falhou: ${erro.message}`);
