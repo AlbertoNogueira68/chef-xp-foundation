@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import {
   Camera,
   Images,
-  RefreshCw,
   Check,
   ChefHat,
   ChevronLeft,
@@ -23,6 +22,7 @@ import { useCamera } from "@/features/missions/hooks/useCamera";
 import { useWakeLock } from "@/features/missions/hooks/useWakeLock";
 import type { useMissionRun } from "@/features/missions/hooks/useMissionRun";
 import type { Skill } from "@/types/learning";
+import { CameraCapture } from "@/components/CameraCapture";
 import { ChefMascot } from "@/components/ChefMascot";
 import { cn } from "@/lib/utils";
 
@@ -218,40 +218,15 @@ function CheckpointCapture({ run }: { run: Run }) {
   const camera = useCamera();
   const shot = run.state?.checkpoints.find((c) => c.stepIndex === run.stepIndex);
 
-  const take = async () => {
-    const dataUrl = camera.capture();
-    if (!dataUrl) return;
-    camera.stop();
-    await run.uploadDataUrl(dataUrl);
-  };
-
   if (camera.active) {
     return (
-      <div className="overflow-hidden rounded-xl border-2 border-emerald-300 bg-black">
-        <video
-          ref={camera.videoRef}
-          autoPlay
-          playsInline
-          muted
-          className="aspect-[4/3] w-full object-cover"
-        />
-        <div className="flex items-center gap-2 bg-card p-2">
-          <Button variant="ghost" className="rounded-full" onClick={camera.stop}>
-            Cancelar
-          </Button>
-          <Button
-            className="flex-1 rounded-full bg-emerald-500 hover:bg-emerald-600"
-            onClick={take}
-            disabled={run.isUploading}
-          >
-            <Camera className="size-4" />
-            {run.isUploading ? "A guardar…" : "Tirar"}
-          </Button>
-          <Button size="icon" variant="ghost" onClick={camera.flip} aria-label="Trocar de câmara">
-            <RefreshCw className="size-4" />
-          </Button>
-        </div>
-      </div>
+      <CameraCapture
+        camera={camera}
+        onCapture={run.uploadDataUrl}
+        busy={run.isUploading}
+        className="border-emerald-300"
+        buttonClassName="bg-emerald-500 hover:bg-emerald-600"
+      />
     );
   }
 

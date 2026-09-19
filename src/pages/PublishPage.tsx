@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import { ImagePlus, Sparkles, X } from "lucide-react";
+import { Camera, ImagePlus, Images, Sparkles, X } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
@@ -10,7 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { CameraCapture } from "@/components/CameraCapture";
 import { useCreateRecipe } from "@/features/feed/hooks/useRecipes";
+import { useCamera } from "@/features/missions/hooks/useCamera";
 import { fileToResizedDataUrl } from "@/lib/image";
 
 const schema = z.object({
@@ -27,6 +29,13 @@ export function PublishPage() {
   const navigate = useNavigate();
   const create = useCreateRecipe();
   const fileInput = useRef<HTMLInputElement>(null);
+  /**
+   * Um segundo input, com `capture`, para quando a câmara da app não está
+   * disponível — num telemóvel em http (a app só a tem em HTTPS ou localhost)
+   * este continua a abrir a câmara do sistema em vez da galeria.
+   */
+  const cameraInput = useRef<HTMLInputElement>(null);
+  const camera = useCamera();
 
   const [image, setImage] = useState<string | null>(null);
   const [processingImage, setProcessingImage] = useState(false);
@@ -95,8 +104,24 @@ export function PublishPage() {
         className="sr-only"
         onChange={pickImage}
       />
+      <input
+        ref={cameraInput}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        className="sr-only"
+        onChange={pickImage}
+      />
 
-      {image ? (
+      {camera.active ? (
+        <CameraCapture
+          camera={camera}
+          onCapture={setImage}
+          captureLabel="Tirar foto"
+          className="border-amber-300"
+          buttonClassName="bg-amber-500 hover:bg-amber-600"
+        />
+      ) : image ? (
         <div className="relative overflow-hidden rounded-2xl border border-border/60">
           <img
             src={image}
@@ -115,18 +140,44 @@ export function PublishPage() {
           </Button>
         </div>
       ) : (
-        <button
-          type="button"
-          onClick={() => fileInput.current?.click()}
-          disabled={processingImage}
-          className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-amber-300/60 bg-gradient-to-br from-amber-50 to-orange-50 text-muted-foreground transition-colors hover:border-amber-400"
-        >
+        <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-amber-300/60 bg-gradient-to-br from-amber-50 to-orange-50 px-4 text-muted-foreground">
           <ImagePlus className="size-8 text-amber-500" />
           <span className="text-sm font-medium">
             {processingImage ? "A preparar imagem…" : "Adicionar fotografia"}
           </span>
-          <span className="text-xs">JPEG, PNG ou WebP</span>
-        </button>
+
+          {/* Tirar a foto vem primeiro: a receita acabou de sair do fogão, e
+              quem a publica tem o prato à frente e não na galeria. */}
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <Button
+              type="button"
+              className="rounded-full bg-amber-500 hover:bg-amber-600"
+              disabled={processingImage}
+              onClick={() =>
+                camera.supported ? void camera.start() : cameraInput.current?.click()
+              }
+            >
+              <Camera className="size-4" />
+              Tirar foto
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="rounded-full border-amber-300 bg-transparent"
+              disabled={processingImage}
+              onClick={() => fileInput.current?.click()}
+            >
+              <Images className="size-4" />
+              Da galeria
+            </Button>
+          </div>
+
+          {camera.error ? (
+            <p className="text-center text-xs text-rose-600">{camera.error}</p>
+          ) : (
+            <span className="text-xs">JPEG, PNG ou WebP</span>
+          )}
+        </div>
       )}
 
       <form onSubmit={onSubmit} className="space-y-4">
