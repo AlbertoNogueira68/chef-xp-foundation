@@ -58,12 +58,12 @@ export async function ensureUploadDir() {
  */
 export async function saveDataUrlImage(dataUrl) {
   if (typeof dataUrl !== "string") {
-    throw new InvalidImageError("Imagem inválida");
+    throw new InvalidImageError("Invalid image");
   }
 
   const match = /^data:image\/(png|jpeg|jpg|webp);base64,([A-Za-z0-9+/=]+)$/.exec(dataUrl.trim());
   if (!match) {
-    throw new InvalidImageError("Só são aceites imagens PNG, JPEG ou WebP em base64");
+    throw new InvalidImageError("Only base64 PNG, JPEG or WebP images are accepted");
   }
 
   const buffer = Buffer.from(match[2], "base64");
@@ -73,13 +73,13 @@ export async function saveDataUrlImage(dataUrl) {
   }
   if (buffer.length > MAX_IMAGE_BYTES) {
     throw new InvalidImageError(
-      `Imagem demasiado grande (máximo ${Math.round(MAX_IMAGE_BYTES / 1024 / 1024)} MB)`,
+      `Image too large (max ${Math.round(MAX_IMAGE_BYTES / 1024 / 1024)} MB)`,
     );
   }
 
   const ext = detectImageType(buffer);
   if (!ext) {
-    throw new InvalidImageError("O conteúdo não é uma imagem PNG, JPEG ou WebP");
+    throw new InvalidImageError("The content isn't a PNG, JPEG or WebP image");
   }
 
   await ensureUploadDir();
@@ -101,12 +101,12 @@ export async function saveDataUrlImage(dataUrl) {
  */
 export async function resolveImageInput(input) {
   if (input == null || input === "") return null;
-  if (typeof input !== "string") throw new InvalidImageError("Imagem inválida");
+  if (typeof input !== "string") throw new InvalidImageError("Invalid image");
 
   if (input.startsWith("data:")) return saveDataUrlImage(input);
   if (input.startsWith(`${UPLOAD_ROUTE}/`)) return input;
 
-  throw new InvalidImageError("Imagem inválida");
+  throw new InvalidImageError("Invalid image");
 }
 
 /**
@@ -123,21 +123,21 @@ export async function resolveImageInput(input) {
  */
 export async function saveRemoteImage(url, { hosts, timeoutMs = 5000 } = {}) {
   if (!Array.isArray(hosts) || hosts.length === 0) {
-    throw new Error("saveRemoteImage exige a lista de anfitriões permitidos");
+    throw new Error("saveRemoteImage requires the allowed hosts list");
   }
 
   let alvo;
   try {
     alvo = new URL(String(url));
   } catch {
-    throw new InvalidImageError("Endereço de imagem inválido");
+    throw new InvalidImageError("Invalid image address");
   }
 
   if (alvo.protocol !== "https:") {
-    throw new InvalidImageError("Só se descarregam imagens por https");
+    throw new InvalidImageError("Images are only downloaded over https");
   }
   if (!hosts.some((host) => alvo.hostname === host || alvo.hostname.endsWith(`.${host}`))) {
-    throw new InvalidImageError(`Anfitrião não permitido: ${alvo.hostname}`);
+    throw new InvalidImageError(`Host not allowed: ${alvo.hostname}`);
   }
 
   // Um pedido sem prazo é um pedido que pode ficar pendurado a segurar o
@@ -162,7 +162,7 @@ export async function saveRemoteImage(url, { hosts, timeoutMs = 5000 } = {}) {
 
   // A mesma regra de sempre: o tipo sai dos bytes, não do que o servidor diz.
   const ext = detectImageType(buffer);
-  if (!ext) throw new InvalidImageError("O conteúdo não é uma imagem PNG, JPEG ou WebP");
+  if (!ext) throw new InvalidImageError("The content isn't a PNG, JPEG or WebP image");
 
   await ensureUploadDir();
   const filename = `${crypto.randomUUID()}.${ext}`;

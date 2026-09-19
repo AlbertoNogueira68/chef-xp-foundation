@@ -9,12 +9,12 @@ export function useReport() {
   return useMutation({
     mutationFn: (input: ReportInput) => moderationService.report(input),
     onSuccess: () => {
-      toast.success("Denúncia enviada", {
-        description: "Alguém da moderação vai ver isto. Obrigado por avisares.",
+      toast.success("Report sent", {
+        description: "A moderator will look at this. Thanks for flagging it.",
       });
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Não foi possível enviar a denúncia");
+      toast.error(error instanceof Error ? error.message : "Couldn't send the report");
     },
   });
 }
@@ -32,15 +32,15 @@ export function useToggleBlock() {
       blocked ? moderationService.unblock(id) : moderationService.block(id),
 
     onSuccess: (_data, { blocked }) => {
-      toast.success(blocked ? "Conta desbloqueada" : "Conta bloqueada", {
+      toast.success(blocked ? "Account unblocked" : "Account blocked", {
         description: blocked
           ? "Volta a aparecer-te no feed e na pesquisa."
-          : "Deixas de ver o que publica, e ela deixa de te ver a ti.",
+          : "You stop seeing what they post, and they stop seeing you.",
       });
     },
 
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Não foi possível bloquear");
+      toast.error(error instanceof Error ? error.message : "Couldn't block");
     },
 
     onSettled: () => {

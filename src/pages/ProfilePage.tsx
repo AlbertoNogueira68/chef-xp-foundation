@@ -66,7 +66,7 @@ export function ProfilePage() {
     shareLink({
       path: `/chef/${user.id}`,
       title: `${user.username} no ChefXP`,
-      copiedMessage: "Link do perfil copiado",
+      copiedMessage: "Profile link copied",
     });
 
   return (
@@ -81,7 +81,7 @@ export function ProfilePage() {
             variant="ghost"
             size="icon"
             className="size-9 rounded-full"
-            aria-label="Partilhar perfil"
+            aria-label="Share profile"
             onClick={shareProfile}
           >
             <Share2 className="size-4" />
@@ -93,7 +93,7 @@ export function ProfilePage() {
               variant="ghost"
               size="icon"
               className="size-9 rounded-full"
-              aria-label={user.role === "admin" ? "Administração" : "Moderação"}
+              aria-label={user.role === "admin" ? "Admin" : "Moderation"}
               onClick={() => navigate("/admin")}
             >
               <Shield className="size-4" />
@@ -103,7 +103,7 @@ export function ProfilePage() {
             variant="ghost"
             size="icon"
             className="size-9 rounded-full"
-            aria-label="Definições"
+            aria-label="Settings"
             onClick={() => setSettingsOpen(true)}
           >
             <Settings className="size-4" />
@@ -112,7 +112,7 @@ export function ProfilePage() {
             variant="ghost"
             size="icon"
             className="size-9 rounded-full"
-            aria-label="Terminar sessão"
+            aria-label="Sign out"
             onClick={() => signOut.mutate()}
           >
             <LogOut className="size-4" />
@@ -136,7 +136,7 @@ export function ProfilePage() {
         ) : (
           <>
             <Stat label="Cozinhados" value={stats.cooked} />
-            <Stat label="Receitas" value={stats.recipes} />
+            <Stat label="Recipes" value={stats.recipes} />
             <Stat
               label="Seguidores"
               value={stats.followers}
@@ -170,7 +170,7 @@ export function ProfilePage() {
       {stats && stats.lessonsCompleted > 0 && (
         <p className="text-xs text-muted-foreground">
           {stats.lessonsCompleted}{" "}
-          {stats.lessonsCompleted === 1 ? "lição concluída" : "lições concluídas"}
+          {stats.lessonsCompleted === 1 ? "lesson completed" : "lessons completed"}
           {" · "}
           {stats.likesReceived} {stats.likesReceived === 1 ? "gosto recebido" : "gostos recebidos"}
         </p>
@@ -182,7 +182,7 @@ export function ProfilePage() {
             <ChefHat className="mr-1.5 size-3.5" /> Cozinhados
           </TabsTrigger>
           <TabsTrigger value="recipes" className="rounded-full text-xs">
-            <Grid3X3 className="mr-1.5 size-3.5" /> Receitas
+            <Grid3X3 className="mr-1.5 size-3.5" /> Recipes
           </TabsTrigger>
           <TabsTrigger value="stats" className="rounded-full text-xs">
             Atividade
@@ -200,10 +200,10 @@ export function ProfilePage() {
             <div className="rounded-xl border border-dashed border-border px-4 py-8 text-center">
               <ChefHat className="mx-auto size-6 text-muted-foreground/50" />
               <p className="mt-2 text-sm text-muted-foreground">
-                Ainda não cozinhaste nenhuma missão.
+                You haven't cooked a mission yet.
               </p>
               <p className="mt-1 text-xs text-muted-foreground/80">
-                As fotos das missões que concluíres aparecem aqui.
+                Photos from the missions you finish show up here.
               </p>
             </div>
           ) : (
@@ -218,7 +218,7 @@ export function ProfilePage() {
         <TabsContent value="recipes" className="mt-4">
           {myRecipes.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              Ainda não publicaste nenhuma receita.
+              You haven't published a recipe yet.
             </p>
           ) : (
             <div className="columns-2 gap-3">
@@ -235,7 +235,7 @@ export function ProfilePage() {
             <span className="font-semibold tabular-nums">{user?.xp ?? 0}</span>
           </div>
           <div className="flex justify-between rounded-xl bg-muted/50 px-3 py-2">
-            <span className="text-muted-foreground">Lições concluídas</span>
+            <span className="text-muted-foreground">Lessons completed</span>
             <span className="font-semibold tabular-nums">{stats?.lessonsCompleted ?? 0}</span>
           </div>
           <div className="flex justify-between rounded-xl bg-muted/50 px-3 py-2">

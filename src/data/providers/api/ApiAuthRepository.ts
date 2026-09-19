@@ -94,13 +94,16 @@ export class ApiAuthRepository implements AuthRepository {
       notify("SIGNED_IN", toSession(data.user));
       return { userId: data.user.id };
     } catch (error) {
-      throw new AuthError(error instanceof Error ? error.message : "Falha ao criar a conta", error);
+      throw new AuthError(
+        error instanceof Error ? error.message : "Couldn't create the account",
+        error,
+      );
     }
   }
 
   async signInWithGoogle(_redirectUri: string): Promise<void> {
     void _redirectUri;
-    throw new AuthError("O login com Google não está disponível nesta versão");
+    throw new AuthError("Google sign-in isn't available in this version");
   }
 
   async requestPasswordReset(email: string): Promise<void> {

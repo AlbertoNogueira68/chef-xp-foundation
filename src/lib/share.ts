@@ -27,6 +27,6 @@ export async function shareLink({
     toast.success(copiedMessage);
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError") return;
-    toast.error("Não foi possível partilhar");
+    toast.error("Couldn't share");
   }
 }

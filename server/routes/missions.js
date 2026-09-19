@@ -207,11 +207,11 @@ router.post(
   validate({ params: missionParamSchema }),
   asyncHandler(async (req, res) => {
     const mission = getMission(req.valid.params.id);
-    if (!mission) return res.status(404).json({ error: "Missão não encontrada" });
+    if (!mission) return res.status(404).json({ error: "Mission not found" });
 
     const pool = getPool();
     if (!(await isUnlocked(pool, req.user.id, mission.id))) {
-      return res.status(403).json({ error: "Termina as lições da unidade primeiro" });
+      return res.status(403).json({ error: "Finish the unit's lessons first" });
     }
 
     // O índice parcial único garante uma run ativa por missão. Em vez de
@@ -239,7 +239,7 @@ router.get(
   validate({ params: missionParamSchema }),
   asyncHandler(async (req, res) => {
     const mission = getMission(req.valid.params.id);
-    if (!mission) return res.status(404).json({ error: "Missão não encontrada" });
+    if (!mission) return res.status(404).json({ error: "Mission not found" });
 
     const pool = getPool();
     const { rows } = await pool.query(
@@ -247,7 +247,7 @@ router.get(
         WHERE user_id = $1 AND mission_id = $2 AND status = 'in_progress'`,
       [req.user.id, mission.id],
     );
-    if (rows.length === 0) return res.status(404).json({ error: "Sem missão a decorrer" });
+    if (rows.length === 0) return res.status(404).json({ error: "No mission running" });
 
     res.json(await runPayload(pool, rows[0]));
   }),
@@ -263,9 +263,9 @@ router.patch(
   asyncHandler(async (req, res) => {
     const pool = getPool();
     const run = await loadRun(pool, req.user.id, req.valid.params.runId);
-    if (!run) return res.status(404).json({ error: "Missão não encontrada" });
+    if (!run) return res.status(404).json({ error: "Mission not found" });
     if (run.status !== "in_progress") {
-      return res.status(409).json({ error: "Esta missão já terminou" });
+      return res.status(409).json({ error: "This mission is already finished" });
     }
 
     const mission = getMission(run.mission_id);
@@ -294,12 +294,12 @@ router.post(
   asyncHandler(async (req, res) => {
     const pool = getPool();
     const run = await loadRun(pool, req.user.id, req.valid.params.runId);
-    if (!run) return res.status(404).json({ error: "Missão não encontrada" });
+    if (!run) return res.status(404).json({ error: "Mission not found" });
 
     const mission = getMission(run.mission_id);
     const { stepIndex, kind } = req.valid.body;
     const answer = findRescueAnswer(mission, stepIndex, kind);
-    if (!answer) return res.status(404).json({ error: "Sem resposta para este passo" });
+    if (!answer) return res.status(404).json({ error: "No answer for this step" });
 
     await logEvent(pool, run.id, stepIndex, "rescue", kind);
     res.json({ kind, stepIndex, answer });
@@ -312,15 +312,15 @@ router.post(
   asyncHandler(async (req, res) => {
     const pool = getPool();
     const run = await loadRun(pool, req.user.id, req.valid.params.runId);
-    if (!run) return res.status(404).json({ error: "Missão não encontrada" });
+    if (!run) return res.status(404).json({ error: "Mission not found" });
     if (run.status !== "in_progress") {
-      return res.status(409).json({ error: "Esta missão já terminou" });
+      return res.status(409).json({ error: "This mission is already finished" });
     }
 
     const { stepIndex, imageDataUrl } = req.valid.body;
     const mission = getMission(run.mission_id);
     if (!mission.steps[stepIndex]?.checkpoint) {
-      return res.status(400).json({ error: "Este passo não pede foto" });
+      return res.status(400).json({ error: "This step doesn't ask for a photo" });
     }
 
     const imageUrl = await saveDataUrlImage(imageDataUrl);
@@ -345,9 +345,9 @@ router.post(
   asyncHandler(async (req, res) => {
     const pool = getPool();
     const run = await loadRun(pool, req.user.id, req.valid.params.runId);
-    if (!run) return res.status(404).json({ error: "Missão não encontrada" });
+    if (!run) return res.status(404).json({ error: "Mission not found" });
     if (run.status !== "in_progress") {
-      return res.status(409).json({ error: "Esta missão já terminou" });
+      return res.status(409).json({ error: "This mission is already finished" });
     }
 
     await logEvent(pool, run.id, run.current_step, "abandon");
@@ -382,11 +382,11 @@ router.post(
       const run = runRows[0];
       if (!run) {
         await client.query("ROLLBACK");
-        return res.status(404).json({ error: "Missão não encontrada" });
+        return res.status(404).json({ error: "Mission not found" });
       }
       if (run.status !== "in_progress") {
         await client.query("ROLLBACK");
-        return res.status(409).json({ error: "Esta missão já terminou" });
+        return res.status(409).json({ error: "This mission is already finished" });
       }
 
       const mission = getMission(run.mission_id);
@@ -406,7 +406,7 @@ router.post(
       const resultImage = shots[0]?.image_url ?? null;
       if (!resultImage) {
         await client.query("ROLLBACK");
-        return res.status(400).json({ error: "Falta a foto do passo de verificação" });
+        return res.status(400).json({ error: "The proof photo is missing" });
       }
 
       await client.query(

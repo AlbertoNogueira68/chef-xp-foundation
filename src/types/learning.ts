@@ -87,10 +87,10 @@ export interface Skill {
 export type RescueKind = "queimei" | "cola" | "falta" | "pronto";
 
 export const RESCUE_LABELS: Record<RescueKind, string> = {
-  queimei: "Queimei",
-  cola: "Está a colar",
-  falta: "Não tenho isto",
-  pronto: "Não sei se está pronto",
+  queimei: "Burnt it",
+  cola: "It's sticking",
+  falta: "I don't have this",
+  pronto: "Not sure it's done",
 };
 
 /**

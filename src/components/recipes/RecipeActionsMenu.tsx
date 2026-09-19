@@ -76,7 +76,7 @@ export function RecipeActionsMenu({
             variant="ghost"
             size="icon"
             className="size-8 rounded-full"
-            aria-label="Opções da receita"
+            aria-label="Recipe options"
           >
             <MoreHorizontal className="size-4" />
           </Button>
@@ -85,19 +85,19 @@ export function RecipeActionsMenu({
           {isMine ? (
             <>
               <DropdownMenuItem onSelect={() => setEditing(true)}>
-                <Pencil className="mr-2 size-3.5" /> Editar
+                <Pencil className="mr-2 size-3.5" /> Edit
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
                 onSelect={() => setConfirming(true)}
               >
-                <Trash2 className="mr-2 size-3.5" /> Apagar
+                <Trash2 className="mr-2 size-3.5" /> Delete
               </DropdownMenuItem>
             </>
           ) : (
             <>
               <DropdownMenuItem onSelect={() => setReporting(true)}>
-                <Flag className="mr-2 size-3.5" /> Denunciar receita
+                <Flag className="mr-2 size-3.5" /> Report recipe
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
@@ -126,8 +126,8 @@ export function RecipeActionsMenu({
           <AlertDialogHeader>
             <AlertDialogTitle>Apagar “{recipe.title}”?</AlertDialogTitle>
             <AlertDialogDescription>
-              Os gostos e os comentários vão com ela, e os {recipe.xpReward} XP que a publicação
-              pagou são retirados. Não dá para voltar atrás.
+              The likes and comments go with it, and the {recipe.xpReward} XP the post paid are
+              taken back. There's no undo.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -144,7 +144,7 @@ export function RecipeActionsMenu({
                 confirmDelete();
               }}
             >
-              {remove.isPending ? "A apagar…" : "Apagar"}
+              {remove.isPending ? "A apagar…" : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -155,12 +155,12 @@ export function RecipeActionsMenu({
           <AlertDialogHeader>
             <AlertDialogTitle>Bloquear {recipe.author.username}?</AlertDialogTitle>
             <AlertDialogDescription>
-              Deixas de ver o que esta pessoa publica e ela deixa de te ver a ti. Se se seguiam,
-              deixam de se seguir. Podes desfazer nas definições.
+              You stop seeing what they post and they stop seeing you. If you followed each other,
+              that ends. You can undo it in settings.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               className={buttonVariants({ variant: "destructive" })}
               disabled={toggleBlock.isPending}

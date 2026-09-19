@@ -37,14 +37,14 @@ describe("publicar receita: a fotografia", () => {
   test("dá as duas opções: tirar agora ou ir à galeria", () => {
     renderWithProviders(<PublishPage />);
 
-    expect(screen.getByRole("button", { name: /tirar foto/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /da galeria/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /take photo/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /from gallery/i })).toBeInTheDocument();
   });
 
   test("tirar foto abre a câmara da app", async () => {
     renderWithProviders(<PublishPage />);
 
-    await userEvent.click(screen.getByRole("button", { name: /tirar foto/i }));
+    await userEvent.click(screen.getByRole("button", { name: /take photo/i }));
 
     expect(camera.start).toHaveBeenCalled();
   });
@@ -55,7 +55,7 @@ describe("publicar receita: a fotografia", () => {
     camera.supported = false;
     const { container } = renderWithProviders(<PublishPage />);
 
-    await userEvent.click(screen.getByRole("button", { name: /tirar foto/i }));
+    await userEvent.click(screen.getByRole("button", { name: /take photo/i }));
 
     expect(camera.start).not.toHaveBeenCalled();
     expect(container.querySelector('input[capture="environment"]')).toBeInTheDocument();
@@ -65,13 +65,13 @@ describe("publicar receita: a fotografia", () => {
     camera.active = true;
     renderWithProviders(<PublishPage />);
 
-    await userEvent.click(screen.getByRole("button", { name: /tirar foto/i }));
+    await userEvent.click(screen.getByRole("button", { name: /take photo/i }));
 
     expect(camera.capture).toHaveBeenCalled();
     // A câmara fecha-se sozinha: deixá-la a correr por trás da pré-visualização
     // seria ter a luz do telemóvel acesa sem ninguém a olhar.
     expect(camera.stop).toHaveBeenCalled();
-    expect(await screen.findByAltText("Pré-visualização da receita")).toHaveAttribute(
+    expect(await screen.findByAltText("Recipe preview")).toHaveAttribute(
       "src",
       "data:image/jpeg;base64,foto",
     );

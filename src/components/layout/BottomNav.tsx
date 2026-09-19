@@ -7,17 +7,17 @@ import { cn } from "@/lib/utils";
 // não existe nos restantes.
 const items = [
   { to: "/feed", icon: Home, label: "Feed", accent: false },
-  { to: "/search", icon: Search, label: "Explorar", accent: false },
-  { to: "/publish", icon: Plus, label: "Publicar", accent: true },
-  { to: "/challenges", icon: Trophy, label: "Desafios", accent: false },
-  { to: "/profile", icon: User, label: "Perfil", accent: false },
+  { to: "/search", icon: Search, label: "Explore", accent: false },
+  { to: "/publish", icon: Plus, label: "Publish", accent: true },
+  { to: "/challenges", icon: Trophy, label: "Challenges", accent: false },
+  { to: "/profile", icon: User, label: "Profile", accent: false },
 ] as const;
 
 export function BottomNav() {
   return (
     <nav
       className="fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-background/90 backdrop-blur-xl"
-      aria-label="Navegação principal"
+      aria-label="Main navigation"
     >
       <ul className="mx-auto flex max-w-lg items-center justify-around px-2 py-1.5">
         {items.map(({ to, icon: Icon, label, accent }) => (

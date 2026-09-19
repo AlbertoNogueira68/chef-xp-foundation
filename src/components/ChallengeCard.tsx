@@ -45,7 +45,7 @@ export function ChallengeCard({
           </span>
           {urgent && (
             <span className="rounded-full bg-amber-400 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-950">
-              Termina em {remaining} {remaining === 1 ? "dia" : "dias"}
+              Ends in {remaining} {remaining === 1 ? "day" : "days"}
             </span>
           )}
         </div>
@@ -63,7 +63,7 @@ export function ChallengeCard({
             {challenge.active ? (
               <>
                 Termina {formatDate(challenge.endsAt)}
-                {!urgent && ` · ${remaining} ${remaining === 1 ? "dia" : "dias"}`}
+                {!urgent && `  · ${remaining}d left`}
               </>
             ) : (
               <>Terminou {formatDate(challenge.endsAt)}</>
@@ -88,7 +88,7 @@ export function ChallengeCard({
           ) : challenge.active ? (
             "Participar"
           ) : (
-            "Ver participações"
+            "See entries"
           )}
         </Button>
       </div>

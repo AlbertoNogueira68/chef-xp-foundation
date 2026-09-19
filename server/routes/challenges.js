@@ -79,7 +79,7 @@ router.get(
       req.user.id,
       req.valid.params.id,
     ]);
-    if (!rows[0]) return res.status(404).json({ error: "Desafio não encontrado" });
+    if (!rows[0]) return res.status(404).json({ error: "Challenge not found" });
 
     const { rows: entries } = await query(SELECT_ENTRIES, [req.user.id, req.valid.params.id]);
 
@@ -122,7 +122,7 @@ router.post(
       );
       if (!challengeRows[0]) {
         await client.query("ROLLBACK");
-        return res.status(404).json({ error: "Desafio não encontrado" });
+        return res.status(404).json({ error: "Challenge not found" });
       }
 
       const { rows: facts } = await client.query(
@@ -199,7 +199,7 @@ router.delete(
     const { rows: challengeRows } = await query(`SELECT ends_at FROM challenges WHERE id = $1`, [
       challengeId,
     ]);
-    if (!challengeRows[0]) return res.status(404).json({ error: "Desafio não encontrado" });
+    if (!challengeRows[0]) return res.status(404).json({ error: "Challenge not found" });
 
     const verdict = canLeaveChallenge({ endsAt: challengeRows[0].ends_at });
     if (!verdict.ok) return res.status(409).json({ error: verdict.message });
@@ -209,7 +209,7 @@ router.delete(
       [challengeId, req.user.id],
     );
     if (removed.rowCount === 0) {
-      return res.status(404).json({ error: "Não estás a participar neste desafio" });
+      return res.status(404).json({ error: "You're not entered in this challenge" });
     }
 
     const { rows } = await query(`${SELECT_CHALLENGE} WHERE c.id = $2`, [req.user.id, challengeId]);

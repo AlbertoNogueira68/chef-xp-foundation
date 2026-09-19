@@ -69,7 +69,7 @@ export function createApp() {
       origin(origin, callback) {
         // Sem Origin = pedido same-origin ou de uma ferramenta local.
         if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-        return callback(new Error("Origem não permitida por CORS"));
+        return callback(new Error("Origin not allowed by CORS"));
       },
       credentials: true,
     }),

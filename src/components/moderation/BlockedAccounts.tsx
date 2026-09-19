@@ -22,7 +22,7 @@ export function BlockedAccounts() {
 
       {blocked.data?.length === 0 && (
         <p className="text-[11px] text-muted-foreground">
-          Não bloqueaste ninguém. Bloquear esconde o que a pessoa publica, nos dois sentidos.
+          You haven't blocked anyone. Blocking hides what they post, both ways.
         </p>
       )}
 

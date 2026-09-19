@@ -15,7 +15,7 @@ const envio = (
   item: {
     id: "1",
     criadoEm: 1,
-    descricao: "Lição: Massa fresca",
+    descricao: "Lesson: Massa fresca",
     path: "/learning/lessons/massa/complete",
     method: "POST",
     tipo: "licao",
@@ -30,7 +30,7 @@ describe("o que se diz depois de sincronizar", () => {
     );
 
     expect(aviso.tom).toBe("sucesso");
-    expect(aviso.texto).toBe('"Massa fresca": passaste! +50 XP.');
+    expect(aviso.texto).toBe('"Massa fresca": you passed! +50 XP.');
   });
 
   test("chumbou: diz que chumbou, quantas falhou, e que pode repetir", () => {
@@ -44,9 +44,9 @@ describe("o que se diz depois de sincronizar", () => {
     );
 
     expect(aviso.tom).toBe("erro");
-    expect(aviso.texto).toMatch(/não passaste/i);
-    expect(aviso.texto).toMatch(/2 respostas erradas/);
-    expect(aviso.texto).toMatch(/repetires/i);
+    expect(aviso.texto).toMatch(/didn't pass/i);
+    expect(aviso.texto).toMatch(/2 wrong answers/);
+    expect(aviso.texto).toMatch(/stays open/i);
     // Um chumbo precisa de tempo para ser lido.
     expect(aviso.demorado).toBe(true);
   });
@@ -55,7 +55,7 @@ describe("o que se diz depois de sincronizar", () => {
     const aviso = avisoDoEnvio(
       envio({ resposta: { passed: false, results: [{ correct: false }] } }),
     );
-    expect(aviso.texto).toMatch(/uma resposta errada/);
+    expect(aviso.texto).toMatch(/one wrong answer/);
   });
 
   test("uma fotografia de missão diz apenas que seguiu", () => {
@@ -64,7 +64,7 @@ describe("o que se diz depois de sincronizar", () => {
         item: {
           id: "2",
           criadoEm: 2,
-          descricao: "Foto do passo 3",
+          descricao: "Photo for step 3",
           path: "/missions/runs/7/checkpoint",
           method: "POST",
           tipo: "foto",
@@ -73,16 +73,16 @@ describe("o que se diz depois de sincronizar", () => {
     );
 
     expect(aviso.tom).toBe("sucesso");
-    expect(aviso.texto).toBe("Foto do passo 3 enviada.");
+    expect(aviso.texto).toBe("Photo for step 3 sent.");
   });
 
   test("uma recusa do servidor diz o motivo que o servidor deu", () => {
     const aviso = avisoDoEnvio(
-      envio({ estado: "recusado", erro: "Termina as lições anteriores primeiro" }),
+      envio({ estado: "recusado", erro: "Finish the earlier lessons first" }),
     );
 
     expect(aviso.tom).toBe("erro");
-    expect(aviso.texto).toMatch(/lições anteriores/i);
+    expect(aviso.texto).toMatch(/earlier lessons/i);
   });
 
   test("muitos de uma vez: um resumo com quantas passaram", () => {
@@ -92,7 +92,7 @@ describe("o que se diz depois de sincronizar", () => {
       envio({ resposta: { passed: true, xpEarned: 30 } }),
     ]);
 
-    expect(aviso.texto).toMatch(/2 de 3 lições passaram/);
+    expect(aviso.texto).toMatch(/2 of 3 lessons passed/);
     expect(aviso.texto).toMatch(/\+70 XP/);
   });
 });

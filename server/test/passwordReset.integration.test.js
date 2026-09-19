@@ -159,7 +159,7 @@ describe("recuperação de password", skipWithoutDatabase, () => {
       password: "Password-nova-5!",
     });
     assert.equal(resposta.status, 400);
-    assert.match(resposta.body.error, /inválido ou expirado/);
+    assert.match(resposta.body.error, /[Ii]nvalid or expired/);
   });
 
   test("um token inventado é recusado sem dizer porquê", async () => {
@@ -168,7 +168,7 @@ describe("recuperação de password", skipWithoutDatabase, () => {
       password: "Password-nova-6!",
     });
     assert.equal(resposta.status, 400);
-    assert.match(resposta.body.error, /inválido ou expirado/);
+    assert.match(resposta.body.error, /[Ii]nvalid or expired/);
   });
 
   test("uma password curta é recusada e o token continua a valer", async () => {

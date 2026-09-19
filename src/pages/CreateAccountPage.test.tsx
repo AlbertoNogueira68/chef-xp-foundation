@@ -38,14 +38,14 @@ describe("escolher nome e password pelo link do email", () => {
     verificarLink.mockRejectedValue(new Error("Link inválido ou expirado. Pede outro."));
     await abrir();
 
-    expect(await screen.findByText(/link inválido ou expirado/i)).toBeInTheDocument();
-    expect(screen.queryByLabelText("Nome de utilizador")).not.toBeInTheDocument();
+    expect(await screen.findByText(/invalid or expired link/i)).toBeInTheDocument();
+    expect(screen.queryByLabelText("Username")).not.toBeInTheDocument();
   });
 
   test("sem token, nem se pergunta ao servidor", async () => {
     renderWithProviders(<CreateAccountPage />, { route: "/criar-conta" });
 
-    expect(await screen.findByText(/link inválido ou expirado/i)).toBeInTheDocument();
+    expect(await screen.findByText(/invalid or expired link/i)).toBeInTheDocument();
     expect(verificarLink).not.toHaveBeenCalled();
   });
 
@@ -53,12 +53,12 @@ describe("escolher nome e password pelo link do email", () => {
     const utilizador = userEvent.setup();
     await abrir();
 
-    await utilizador.type(await screen.findByLabelText("Nome de utilizador"), "chefnovo");
+    await utilizador.type(await screen.findByLabelText("Username"), "chefnovo");
     await utilizador.type(screen.getByLabelText("Password"), "Chef12345!");
-    await utilizador.type(screen.getByLabelText("Repetir a password"), "Chef12345?");
-    await utilizador.click(screen.getByRole("button", { name: /criar conta/i }));
+    await utilizador.type(screen.getByLabelText("Repeat the password"), "Chef12345?");
+    await utilizador.click(screen.getByRole("button", { name: /create account/i }));
 
-    expect(await screen.findByText(/não coincidem/i)).toBeInTheDocument();
+    expect(await screen.findByText(/don't match/i)).toBeInTheDocument();
     expect(criar).not.toHaveBeenCalled();
   });
 
@@ -66,11 +66,11 @@ describe("escolher nome e password pelo link do email", () => {
     const utilizador = userEvent.setup();
     await abrir();
 
-    await screen.findByLabelText("Nome de utilizador");
+    await screen.findByLabelText("Username");
     const password = screen.getByLabelText("Password");
-    const repetir = screen.getByLabelText("Repetir a password");
+    const repetir = screen.getByLabelText("Repeat the password");
 
-    await utilizador.click(screen.getAllByRole("button", { name: "Mostrar a password" })[0]);
+    await utilizador.click(screen.getAllByRole("button", { name: "Show password" })[0]);
     expect(password).toHaveAttribute("type", "text");
     expect(repetir).toHaveAttribute("type", "password");
   });
@@ -79,10 +79,10 @@ describe("escolher nome e password pelo link do email", () => {
     const utilizador = userEvent.setup();
     const token = await abrir();
 
-    await utilizador.type(await screen.findByLabelText("Nome de utilizador"), "chefnovo");
+    await utilizador.type(await screen.findByLabelText("Username"), "chefnovo");
     await utilizador.type(screen.getByLabelText("Password"), "Chef12345!");
-    await utilizador.type(screen.getByLabelText("Repetir a password"), "Chef12345!");
-    await utilizador.click(screen.getByRole("button", { name: /criar conta/i }));
+    await utilizador.type(screen.getByLabelText("Repeat the password"), "Chef12345!");
+    await utilizador.click(screen.getByRole("button", { name: /create account/i }));
 
     expect(criar).toHaveBeenCalledWith(
       expect.objectContaining({ token, username: "chefnovo", password: "Chef12345!" }),

@@ -20,10 +20,10 @@ import { useAdminUsers, useDeleteUser, useSetRole } from "@/features/admin/hooks
 import type { AdminUser } from "@/types/admin";
 
 const FILTROS = [
-  { id: "staff", label: "Com papel" },
-  { id: "all", label: "Todas" },
-  { id: "moderator", label: "Moderadores" },
-  { id: "admin", label: "Administradores" },
+  { id: "staff", label: "With a role" },
+  { id: "all", label: "All" },
+  { id: "moderator", label: "Moderators" },
+  { id: "admin", label: "Admins" },
 ];
 
 /**
@@ -59,7 +59,7 @@ export function StaffList({ meId }: { meId?: string }) {
   };
 
   const papel = (user: AdminUser) =>
-    user.role === "admin" ? "Administrador" : user.role === "moderator" ? "Moderador" : null;
+    user.role === "admin" ? "Admin" : user.role === "moderator" ? "Moderator" : null;
 
   return (
     <div className="space-y-3">
@@ -70,7 +70,7 @@ export function StaffList({ meId }: { meId?: string }) {
           onChange={(event) => setQ(event.target.value)}
           placeholder="Nome ou email"
           className="rounded-full pl-10"
-          aria-label="Procurar contas"
+          aria-label="Search accounts"
         />
       </div>
 
@@ -96,9 +96,7 @@ export function StaffList({ meId }: { meId?: string }) {
       {contas.isLoading && <Skeleton className="h-20 w-full rounded-xl" />}
 
       {contas.data?.length === 0 && (
-        <p className="py-8 text-center text-sm text-muted-foreground">
-          Nenhuma conta com esses critérios.
-        </p>
+        <p className="py-8 text-center text-sm text-muted-foreground">No account matches that.</p>
       )}
 
       <ul className="space-y-2">
@@ -121,9 +119,9 @@ export function StaffList({ meId }: { meId?: string }) {
                   )}
                 </p>
                 <p className="truncate text-[11px] text-muted-foreground">
-                  Nv. {user.level} · {user.recipes} {user.recipes === 1 ? "receita" : "receitas"}
-                  {user.reportsReceived > 0 && ` · ${user.reportsReceived} denúncias`}
-                  {!user.emailVerified && " · email por confirmar"}
+                  Lv. {user.level} · {user.recipes} {user.recipes === 1 ? "recipe" : "recipes"}
+                  {user.reportsReceived > 0 && `  · ${user.reportsReceived} reports`}
+                  {!user.emailVerified && " · email unconfirmed"}
                 </p>
               </div>
             </div>
@@ -146,11 +144,11 @@ export function StaffList({ meId }: { meId?: string }) {
                 >
                   {user.role === "moderator" ? (
                     <>
-                      <ShieldOff className="mr-1.5 size-3.5" /> Retirar moderação
+                      <ShieldOff className="mr-1.5 size-3.5" /> Remove moderator
                     </>
                   ) : (
                     <>
-                      <ShieldCheck className="mr-1.5 size-3.5" /> Tornar moderador
+                      <ShieldCheck className="mr-1.5 size-3.5" /> Make moderator
                     </>
                   )}
                 </Button>
@@ -163,7 +161,7 @@ export function StaffList({ meId }: { meId?: string }) {
                     setAApagar(user);
                   }}
                 >
-                  <Trash2 className="mr-1.5 size-3.5" /> Apagar conta
+                  <Trash2 className="mr-1.5 size-3.5" /> Delete account
                 </Button>
               </div>
             )}
@@ -176,15 +174,15 @@ export function StaffList({ meId }: { meId?: string }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Apagar a conta de @{aApagar?.username}?</AlertDialogTitle>
             <AlertDialogDescription>
-              Desaparece tudo o que é desta pessoa: receitas, comentários, gostos, missões,
-              progresso e XP. Não há forma de voltar atrás. Fica registado que foste tu.
+              Everything of theirs goes: recipes, comments, likes, missions, progress and XP.
+              There's no undo. It's logged that you did it.
             </AlertDialogDescription>
           </AlertDialogHeader>
 
           <div className="space-y-1.5">
             <Label htmlFor="admin-confirm-name">
-              Escreve <span className="font-mono font-semibold">{aApagar?.username}</span> para
-              confirmar
+              Escreve <span className="font-mono font-semibold">{aApagar?.username}</span> to
+              confirm
             </Label>
             <Input
               id="admin-confirm-name"
@@ -195,14 +193,14 @@ export function StaffList({ meId }: { meId?: string }) {
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <button
               type="button"
               className={buttonVariants({ variant: "destructive" })}
               disabled={!nomeCoincide || deleteUser.isPending}
               onClick={confirmarApagar}
             >
-              {deleteUser.isPending ? "A apagar…" : "Apagar para sempre"}
+              {deleteUser.isPending ? "A apagar…" : "Delete for good"}
             </button>
           </AlertDialogFooter>
         </AlertDialogContent>

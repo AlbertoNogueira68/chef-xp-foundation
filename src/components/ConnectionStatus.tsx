@@ -80,9 +80,9 @@ export function ConnectionStatus() {
   // um toque.
   useEffect(() => {
     const avisar = () => {
-      toast("Há uma versão nova do ChefXP.", {
+      toast("There's a new version of ChefXP.", {
         duration: Infinity,
-        action: { label: "Atualizar", onClick: () => applyUpdate() },
+        action: { label: "Update", onClick: () => applyUpdate() },
       });
     };
 
@@ -113,8 +113,8 @@ export function ConnectionStatus() {
   // passa.
   const base =
     ligacao === "sem-rede"
-      ? "Sem ligação. Podes continuar — o que fizeres fica guardado aqui."
-      : "O servidor não está a responder. Podes continuar — fica guardado aqui.";
+      ? "You're offline. Carry on — whatever you do is saved here."
+      : "The server isn't responding. Carry on — it's saved here.";
 
   const mensagem =
     porEnviar > 0 ? `${base} ${porEnviar} ${porEnviar === 1 ? "por enviar" : "por enviar"}.` : base;

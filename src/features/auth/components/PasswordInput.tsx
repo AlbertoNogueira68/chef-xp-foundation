@@ -33,14 +33,14 @@ export const PasswordInput = forwardRef<HTMLInputElement, React.ComponentProps<t
           // usa leitor de ecrã fica a saber em que estado está, e não só o
           // que o botão faz a seguir.
           aria-pressed={visivel}
-          aria-label={visivel ? "Esconder a password" : "Mostrar a password"}
+          aria-label={visivel ? "Hide password" : "Show password"}
           aria-describedby={descricaoId}
           className="absolute inset-y-0 right-0 flex w-11 items-center justify-center rounded-r-xl text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           {visivel ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
         </button>
         <span id={descricaoId} className="sr-only">
-          A password fica visível no ecrã enquanto este botão estiver ativo.
+          Your password stays visible on screen while this button is on.
         </span>
       </div>
     );

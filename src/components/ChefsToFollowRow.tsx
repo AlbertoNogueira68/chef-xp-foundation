@@ -41,7 +41,7 @@ export function ChefsToFollowRow() {
               <Link
                 to={`/chef/${chef.id}`}
                 className="flex flex-col items-center gap-1.5"
-                aria-label={`Ver o perfil de ${chef.username}`}
+                aria-label={`See ${chef.username}'s profile`}
               >
                 <div className="rounded-full bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 p-[2px]">
                   <Avatar className="size-14 border-2 border-background">
@@ -60,7 +60,7 @@ export function ChefsToFollowRow() {
                 disabled={toggleFollow.isPending}
                 onClick={() => toggleFollow.mutate({ id: chef.id, following: false })}
               >
-                <UserPlus className="mr-1 size-3" /> Seguir
+                <UserPlus className="mr-1 size-3" /> Follow
               </Button>
             </div>
           ))}

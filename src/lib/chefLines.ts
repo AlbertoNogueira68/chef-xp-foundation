@@ -10,47 +10,59 @@
  * que faz o chef parecer avariado em vez de vivo.
  */
 
+// Nem todas as lições são pratos: há "Bancada pronta" e "Faca com fio". As
+// frases têm de servir a um título, e não só a um nome de comida.
 const GREETINGS = [
-  "Aventais vestidos? Hoje fazemos {prato}.",
-  "Boa escolha. {prato} é daqueles pratos que impressionam sem dar trabalho.",
-  "{prato}, então? Anda daí — eu vou contigo do início ao fim.",
-  "Vamos ao {prato}. Lê primeiro os ingredientes todos, é meio caminho andado.",
+  "Aprons on. Today: {prato}.",
+  "Good pick — {prato}. One of those that pays off straight away.",
+  "{prato}, then? Come on — I'm with you from start to finish.",
+  "Today: {prato}. Read all the ingredients first — that's half the job.",
 ];
 
 const PREP = [
-  "Sem pressa. Este passo é para fazer bem, não é para fazer depressa.",
-  "Vai lendo e vai fazendo — a cozinha aprende-se com as mãos.",
-  "Repara bem neste: é aqui que a maioria se atrapalha.",
-  "Este é dos que parecem pequenos e mudam o prato todo.",
+  "No rush. This step is about doing it well, not fast.",
+  "Read and do as you go — cooking is learnt with your hands.",
+  "Pay attention to this one: it's where most people slip up.",
+  "This is one of those small steps that changes the whole dish.",
 ];
 
 const QUIZ = [
-  "Agora diz-me tu:",
-  "Vamos lá ver se ficaste atento:",
-  "Uma para pensar:",
-  "Esta é importante na cozinha a sério:",
+  "Now you tell me:",
+  "Let's see if you were paying attention:",
+  "One to think about:",
+  "This one matters in a real kitchen:",
 ];
 
-const CORRECT = ["Isso mesmo!", "Certinho!", "É por aí!", "Já cozinhas melhor do que ontem."];
+const CORRECT = [
+  "That's it!",
+  "Spot on!",
+  "That's the way!",
+  "You already cook better than yesterday.",
+];
 
-const WRONG = ["Não foi desta.", "Quase.", "Enganaste-te — e não faz mal.", "Falhou por pouco."];
+const WRONG = [
+  "Not this time.",
+  "Close.",
+  "You got it wrong — and that's fine.",
+  "Missed it by a little.",
+];
 
 const FAILED = [
-  "Ficámos sem corações. Acontece a toda a gente — repete comigo do início.",
-  "Esta fugiu-nos. Vamos outra vez, agora já sabes onde é o truque.",
+  "We're out of lives. It happens to everyone — go again with me from the top.",
+  "That one got away. Let's go again — now you know where the trick is.",
 ];
 
 const COMPLETE = [
-  "Muito bem! Mais um prato que já sabes fazer.",
-  "Está feito. Agora só falta levares isto ao fogão.",
-  "Excelente lição. Faz o prato hoje, que é assim que fica na cabeça.",
+  "Well done! One more dish you know how to make.",
+  "That's done. Now all that's left is taking it to the stove.",
+  "Great lesson. Cook the dish today — that's how it sticks.",
 ];
 
 const PATH = [
-  "Pronto para a lição de hoje?",
-  "Cozinhar todos os dias é o que faz um chef.",
-  "Escolhe uma lição — eu explico o resto.",
-  "Um prato de cada vez, e daqui a um mês nem te reconheces.",
+  "Ready for today's lesson?",
+  "Cooking every day is what makes a chef.",
+  "Pick a lesson — I'll explain the rest.",
+  "One dish at a time, and in a month you won't recognise yourself.",
 ];
 
 /** Hash simples e estável: só precisa de espalhar, não de ser criptográfico. */

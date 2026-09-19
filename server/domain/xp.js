@@ -143,11 +143,11 @@ export function badgesFor({ recipes = 0, lessons = 0, streak = 0, level = 1, lik
   const badges = [];
   if (recipes >= 1) badges.push("Primeira receita");
   if (recipes >= 10) badges.push("10 receitas");
-  if (lessons >= 1) badges.push("Primeira lição");
-  if (lessons >= 7) badges.push("Semana de lições");
+  if (lessons >= 1) badges.push("First lesson");
+  if (lessons >= 7) badges.push("A week of lessons");
   if (streak >= 7) badges.push("Semana ativa");
-  if (streak >= 30) badges.push("Mês ativo");
-  if (level >= 3) badges.push(`Chef nível ${level}`);
+  if (streak >= 30) badges.push("Active month");
+  if (level >= 3) badges.push(`Level ${level} chef`);
   if (likes >= 100) badges.push("100 gostos");
   return badges;
 }

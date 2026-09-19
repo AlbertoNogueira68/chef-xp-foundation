@@ -14,19 +14,19 @@ test("o email de recuperação leva o link no texto e no HTML", () => {
 
 test("diz quanto tempo o link vale e que só serve uma vez", () => {
   const mail = passwordResetEmail({ username: "ana", link: LINK });
-  assert.match(mail.text, /1 hora/);
-  assert.match(mail.text, /uma vez/);
+  assert.match(mail.text, /1 hour/);
+  assert.match(mail.text, /works once/);
 });
 
 test("diz a quem não pediu que não tem de fazer nada", () => {
   const mail = passwordResetEmail({ username: "ana", link: LINK });
-  assert.match(mail.text, /Se não foste tu/);
+  assert.match(mail.text, /wasn't you/);
 });
 
 test("o email de verificação vale 24 horas", () => {
   const mail = emailVerificationEmail({ username: "ana", link: LINK });
   assert.match(mail.subject, /email/i);
-  assert.match(mail.text, /24 horas/);
+  assert.match(mail.text, /24 hours/);
   assert.ok(mail.html.includes(LINK));
 });
 

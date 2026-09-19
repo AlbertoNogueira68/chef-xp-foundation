@@ -22,11 +22,11 @@ export function useUpdateProfile(userId: string | undefined) {
       // O nome e a fotografia aparecem em cada receita e comentário.
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
       queryClient.invalidateQueries({ queryKey: ["comments"] });
-      toast.success("Perfil atualizado");
+      toast.success("Profile updated");
     },
 
     onError: (error: Error) => {
-      toast.error(error.message || "Não foi possível guardar");
+      toast.error(error.message || "Couldn't save");
     },
   });
 }

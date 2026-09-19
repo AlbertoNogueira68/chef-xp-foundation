@@ -43,7 +43,7 @@ describe("sino das notificações", () => {
   test("sem nada por ler, não há ponto vermelho", () => {
     renderWithProviders(<NotificationBell />);
 
-    expect(screen.getByRole("button", { name: "Notificações" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Notifications" })).toBeInTheDocument();
     expect(screen.queryByText("3")).not.toBeInTheDocument();
   });
 
@@ -51,7 +51,7 @@ describe("sino das notificações", () => {
     estado.unread = 3;
     renderWithProviders(<NotificationBell />);
 
-    expect(screen.getByRole("button", { name: "Notificações (3 por ler)" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Notifications (3 unread)" })).toBeInTheDocument();
     expect(screen.getByText("3")).toBeInTheDocument();
   });
 
@@ -67,7 +67,7 @@ describe("sino das notificações", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<NotificationBell />);
 
-    await utilizador.click(screen.getByRole("button", { name: /Notificações/ }));
+    await utilizador.click(screen.getByRole("button", { name: /Notifications/ }));
 
     expect(estado.marcar).toHaveBeenCalledTimes(1);
   });
@@ -77,7 +77,7 @@ describe("sino das notificações", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<NotificationBell />);
 
-    await utilizador.click(screen.getByRole("button", { name: "Notificações" }));
+    await utilizador.click(screen.getByRole("button", { name: "Notifications" }));
 
     expect(estado.marcar).not.toHaveBeenCalled();
   });
@@ -92,11 +92,11 @@ describe("sino das notificações", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<NotificationBell />);
 
-    await utilizador.click(screen.getByRole("button", { name: /Notificações/ }));
+    await utilizador.click(screen.getByRole("button", { name: /Notifications/ }));
 
-    expect(await screen.findByText("mariacozinha gostou de Risotto")).toBeInTheDocument();
-    expect(screen.getByText("mariacozinha comentou em Risotto")).toBeInTheDocument();
-    expect(screen.getByText("mariacozinha começou a seguir-te")).toBeInTheDocument();
+    expect(await screen.findByText("mariacozinha liked Risotto")).toBeInTheDocument();
+    expect(screen.getByText("mariacozinha commented on Risotto")).toBeInTheDocument();
+    expect(screen.getByText("mariacozinha started following you")).toBeInTheDocument();
     expect(screen.getByText(/que bom/)).toBeInTheDocument();
   });
 
@@ -109,8 +109,8 @@ describe("sino das notificações", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<NotificationBell />);
 
-    await utilizador.click(screen.getByRole("button", { name: /Notificações/ }));
-    await screen.findByText(/gostou de/);
+    await utilizador.click(screen.getByRole("button", { name: /Notifications/ }));
+    await screen.findByText(/liked/);
 
     const ligacoes = screen.getAllByRole("link");
     expect(ligacoes[0]).toHaveAttribute("href", "/recipe/r1");
@@ -121,8 +121,8 @@ describe("sino das notificações", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<NotificationBell />);
 
-    await utilizador.click(screen.getByRole("button", { name: "Notificações" }));
+    await utilizador.click(screen.getByRole("button", { name: "Notifications" }));
 
-    expect(await screen.findByText(/Ainda não há nada por aqui/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Nothing here yet/i)).toBeInTheDocument();
   });
 });

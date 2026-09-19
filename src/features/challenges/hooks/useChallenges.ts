@@ -44,13 +44,11 @@ export function useEnterChallenge() {
       queryClient.invalidateQueries({ queryKey: ["userStats"] });
 
       // `earned: 0` não é um erro: já tinhas ganho o XP deste desafio antes.
-      toast.success(
-        xp.earned > 0 ? `Participação registada · +${xp.earned} XP` : "Participação registada",
-      );
+      toast.success(xp.earned > 0 ? `You're in · +${xp.earned} XP` : "You're in");
     },
 
     onError: (error: ApiError) => {
-      toast.error(error.message || "Não foi possível participar");
+      toast.error(error.message || "Couldn't enter");
     },
   });
 }
@@ -62,10 +60,10 @@ export function useLeaveChallenge() {
     mutationFn: (id: string) => challengeService.leave(id),
     onSuccess: (challenge) => {
       patchChallenge(queryClient, challenge);
-      toast.success("Participação retirada");
+      toast.success("Entry withdrawn");
     },
     onError: (error: ApiError) => {
-      toast.error(error.message || "Não foi possível retirar a participação");
+      toast.error(error.message || "Couldn't withdraw the entry");
     },
   });
 }

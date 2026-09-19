@@ -48,28 +48,28 @@ export function ChefActionsMenu({
             variant="ghost"
             size="icon"
             className="size-9 rounded-full"
-            aria-label={`Opções de ${username}`}
+            aria-label={`${username}'s options`}
           >
             <MoreHorizontal className="size-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onSelect={() => setReporting(true)}>
-            <Flag className="mr-2 size-3.5" /> Denunciar conta
+            <Flag className="mr-2 size-3.5" /> Report account
           </DropdownMenuItem>
           {isBlocked ? (
             <DropdownMenuItem
               disabled={toggleBlock.isPending}
               onSelect={() => toggleBlock.mutate({ id: userId, blocked: true })}
             >
-              <UserCheck className="mr-2 size-3.5" /> Desbloquear
+              <UserCheck className="mr-2 size-3.5" /> Unblock
             </DropdownMenuItem>
           ) : (
             <DropdownMenuItem
               className="text-destructive focus:text-destructive"
               onSelect={() => setConfirming(true)}
             >
-              <UserX className="mr-2 size-3.5" /> Bloquear
+              <UserX className="mr-2 size-3.5" /> Block
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
@@ -87,12 +87,12 @@ export function ChefActionsMenu({
           <AlertDialogHeader>
             <AlertDialogTitle>Bloquear {username}?</AlertDialogTitle>
             <AlertDialogDescription>
-              Deixas de ver o que esta pessoa publica e ela deixa de te ver a ti. Se se seguiam,
-              deixam de se seguir. Podes desfazer nas definições.
+              You stop seeing what they post and they stop seeing you. If you followed each other,
+              that ends. You can undo it in settings.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               className={buttonVariants({ variant: "destructive" })}
               disabled={toggleBlock.isPending}
@@ -104,7 +104,7 @@ export function ChefActionsMenu({
                 );
               }}
             >
-              {toggleBlock.isPending ? "A bloquear…" : "Bloquear"}
+              {toggleBlock.isPending ? "A bloquear…" : "Block"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

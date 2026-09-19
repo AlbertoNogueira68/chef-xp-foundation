@@ -32,11 +32,11 @@ export function ForgotPasswordPage() {
   if (pedir.isSuccess) {
     return (
       <AuthCard
-        titulo="Vê o teu email"
+        titulo="Check your email"
         descricao={
           <>
-            Se houver uma conta com <strong>{getValues("email")}</strong>, o link de recuperação
-            está a caminho. Vale uma hora e só pode ser usado uma vez.
+            If there's an account for <strong>{getValues("email")}</strong>, the recovery link is on
+            its way. It lasts an hour and works once.
           </>
         }
         rodape={
@@ -44,19 +44,19 @@ export function ForgotPasswordPage() {
             to="/auth"
             className="inline-flex min-h-8 items-center px-2 text-muted-foreground underline-offset-4 hover:underline"
           >
-            Voltar a entrar
+            Back to sign in
           </Link>
         }
       >
         <p className="text-sm text-muted-foreground">
-          Não chegou nada? Confirma o endereço que escreveste e vê na pasta de spam.
+          Nothing arrived? Check the address you typed, and your spam folder.
         </p>
         <Button
           variant="outline"
           className="mt-4 w-full rounded-full"
           onClick={() => pedir.reset()}
         >
-          Tentar com outro email
+          Try another email
         </Button>
       </AuthCard>
     );
@@ -64,14 +64,14 @@ export function ForgotPasswordPage() {
 
   return (
     <AuthCard
-      titulo="Recuperar a password"
-      descricao="Escreve o email da tua conta. Mandamos-te um link para escolheres uma password nova."
+      titulo="Recover your password"
+      descricao="Type your account's email. We'll send you a link to choose a new password."
       rodape={
         <Link
           to="/auth"
           className="inline-flex min-h-8 items-center px-2 text-muted-foreground underline-offset-4 hover:underline"
         >
-          Afinal já me lembro — voltar a entrar
+          Actually, I remember — back to sign in
         </Link>
       }
     >
@@ -100,7 +100,7 @@ export function ForgotPasswordPage() {
           className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
           disabled={pedir.isPending}
         >
-          {pedir.isPending ? "A enviar…" : "Enviar o link"}
+          {pedir.isPending ? "A enviar…" : "Send the link"}
         </Button>
       </form>
     </AuthCard>

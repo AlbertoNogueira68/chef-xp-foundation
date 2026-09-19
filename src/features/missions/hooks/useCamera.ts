@@ -48,8 +48,8 @@ export function useCamera() {
         // que aconteceu e o input de ficheiro continua disponível.
         setError(
           cause instanceof DOMException && cause.name === "NotAllowedError"
-            ? "Sem acesso à câmara. Podes escolher uma foto do dispositivo."
-            : "Não foi possível abrir a câmara.",
+            ? "No camera access. You can pick a photo from your device instead."
+            : "Couldn't open the camera.",
         );
         setActive(false);
       }

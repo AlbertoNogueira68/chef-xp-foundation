@@ -38,7 +38,7 @@ export function PasswordChecklist({ value }: { value: string }) {
             {rule.ok ? <Check className="size-3" /> : iniciou ? <X className="size-3" /> : null}
           </span>
           <span>{rule.label}</span>
-          <span className="sr-only">{rule.ok ? " — cumprido" : " — em falta"}</span>
+          <span className="sr-only">{rule.ok ? " — done" : " — missing"}</span>
         </li>
       ))}
     </ul>

@@ -162,7 +162,7 @@ router.get(
       `${SELECT_RECIPE} WHERE r.id = $2 AND ${notBlockedSql("$1", "r.author_id")}`,
       [req.user.id, req.valid.params.id],
     );
-    if (!rows[0]) return res.status(404).json({ error: "Receita não encontrada" });
+    if (!rows[0]) return res.status(404).json({ error: "Recipe not found" });
     res.json({ recipe: toRecipe(rows[0]) });
   }),
 );
@@ -250,11 +250,11 @@ async function requireOwnRecipe(req, res, client = null) {
   const { rows } = await run(`SELECT author_id FROM recipes WHERE id = $1`, [req.valid.params.id]);
 
   if (!rows[0]) {
-    res.status(404).json({ error: "Receita não encontrada" });
+    res.status(404).json({ error: "Recipe not found" });
     return null;
   }
   if (rows[0].author_id !== req.user.id) {
-    res.status(403).json({ error: "Esta receita não é tua" });
+    res.status(403).json({ error: "This recipe isn't yours" });
     return null;
   }
   return rows[0];
@@ -352,7 +352,7 @@ async function respondWithRecipe(res, userId, recipeId) {
     `${SELECT_RECIPE} WHERE r.id = $2 AND ${notBlockedSql("$1", "r.author_id")}`,
     [userId, recipeId],
   );
-  if (!rows[0]) return res.status(404).json({ error: "Receita não encontrada" });
+  if (!rows[0]) return res.status(404).json({ error: "Recipe not found" });
   return res.json({ recipe: toRecipe(rows[0]) });
 }
 
@@ -365,7 +365,7 @@ router.post(
         WHERE r.id = $2 AND ${notBlockedSql("$1", "r.author_id")}`,
       [req.user.id, req.valid.params.id],
     );
-    if (!rows[0]) return res.status(404).json({ error: "Receita não encontrada" });
+    if (!rows[0]) return res.status(404).json({ error: "Recipe not found" });
 
     await query(
       `INSERT INTO recipe_likes (user_id, recipe_id) VALUES ($1, $2)
@@ -433,7 +433,7 @@ router.post(
         WHERE r.id = $2 AND ${notBlockedSql("$1", "r.author_id")}`,
       [req.user.id, req.valid.params.id],
     );
-    if (!recipeRows[0]) return res.status(404).json({ error: "Receita não encontrada" });
+    if (!recipeRows[0]) return res.status(404).json({ error: "Recipe not found" });
 
     const { rows: inserted } = await query(
       `INSERT INTO comments (recipe_id, author_id, body) VALUES ($1, $2, $3) RETURNING id`,
@@ -481,7 +481,7 @@ router.delete(
     );
 
     const comment = rows[0];
-    if (!comment) return res.status(404).json({ error: "Comentário não encontrado" });
+    if (!comment) return res.status(404).json({ error: "Comment not found" });
 
     const deleter = commentDeleterRole({
       userId: req.user.id,
@@ -491,7 +491,7 @@ router.delete(
     });
 
     if (!deleter) {
-      return res.status(403).json({ error: "Este comentário não é teu" });
+      return res.status(403).json({ error: "This comment isn't yours" });
     }
 
     await query(`DELETE FROM comments WHERE id = $1`, [req.valid.params.commentId]);

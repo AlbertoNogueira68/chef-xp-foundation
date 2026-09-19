@@ -16,9 +16,9 @@ import { useCamera } from "@/features/missions/hooks/useCamera";
 import { fileToResizedDataUrl } from "@/lib/image";
 
 const schema = z.object({
-  title: z.string().min(3, "Mínimo 3 caracteres"),
-  description: z.string().min(10, "Conta um pouco mais sobre a receita"),
-  ingredients: z.string().min(5, "Lista pelo menos alguns ingredientes"),
+  title: z.string().min(3, "At least 3 characters"),
+  description: z.string().min(10, "Tell us a bit more about the recipe"),
+  ingredients: z.string().min(5, "List at least a few ingredients"),
   cookTimeMin: z.coerce.number().min(5).max(300),
   difficulty: z.enum(["facil", "medio", "dificil"]),
 });
@@ -66,7 +66,7 @@ export function PublishPage() {
       // dos 8 MP originais da câmara.
       setImage(await fileToResizedDataUrl(file));
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Não foi possível usar essa imagem");
+      toast.error(error instanceof Error ? error.message : "Couldn't use that image");
     } finally {
       setProcessingImage(false);
     }
@@ -77,7 +77,7 @@ export function PublishPage() {
       { ...values, imageDataUrl: image },
       {
         onSuccess: ({ xpEarned }) => {
-          toast.success(`Receita publicada! +${xpEarned} XP`);
+          toast.success(`Recipe published! +${xpEarned} XP`);
           navigate("/feed");
         },
         onError: (error) => toast.error(error.message),
@@ -89,8 +89,8 @@ export function PublishPage() {
     <section className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold">Nova receita</h1>
-          <p className="text-xs text-muted-foreground">Partilha com a comunidade</p>
+          <h1 className="text-xl font-bold">New recipe</h1>
+          <p className="text-xs text-muted-foreground">Share it with the community</p>
         </div>
         <Badge className="rounded-full border-0 bg-amber-500/15 text-amber-700">
           <Sparkles className="mr-1 size-3" /> +25 XP
@@ -117,23 +117,19 @@ export function PublishPage() {
         <CameraCapture
           camera={camera}
           onCapture={setImage}
-          captureLabel="Tirar foto"
+          captureLabel="Take photo"
           className="border-amber-300"
           buttonClassName="bg-amber-500 hover:bg-amber-600"
         />
       ) : image ? (
         <div className="relative overflow-hidden rounded-2xl border border-border/60">
-          <img
-            src={image}
-            alt="Pré-visualização da receita"
-            className="aspect-[4/3] w-full object-cover"
-          />
+          <img src={image} alt="Recipe preview" className="aspect-[4/3] w-full object-cover" />
           <Button
             type="button"
             size="icon"
             variant="secondary"
             className="absolute right-2 top-2 size-8 rounded-full"
-            aria-label="Remover imagem"
+            aria-label="Remove image"
             onClick={() => setImage(null)}
           >
             <X className="size-4" />
@@ -143,7 +139,7 @@ export function PublishPage() {
         <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-amber-300/60 bg-gradient-to-br from-amber-50 to-orange-50 px-4 text-muted-foreground">
           <ImagePlus className="size-8 text-amber-500" />
           <span className="text-sm font-medium">
-            {processingImage ? "A preparar imagem…" : "Adicionar fotografia"}
+            {processingImage ? "Preparing image…" : "Add a photo"}
           </span>
 
           {/* Tirar a foto vem primeiro: a receita acabou de sair do fogão, e
@@ -158,7 +154,7 @@ export function PublishPage() {
               }
             >
               <Camera className="size-4" />
-              Tirar foto
+              Take photo
             </Button>
             <Button
               type="button"
@@ -168,7 +164,7 @@ export function PublishPage() {
               onClick={() => fileInput.current?.click()}
             >
               <Images className="size-4" />
-              Da galeria
+              From gallery
             </Button>
           </div>
 
@@ -182,22 +178,22 @@ export function PublishPage() {
 
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="title">Título</Label>
+          <Label htmlFor="title">Title</Label>
           <Input
             id="title"
             {...register("title")}
-            placeholder="Ex: Tacos de frango crocante"
+            placeholder="e.g. Crispy chicken tacos"
             className="rounded-xl"
           />
           {errors.title && <p className="text-xs text-destructive">{errors.title.message}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="description">Descrição</Label>
+          <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
             rows={2}
-            placeholder="Conta a história desta receita…"
+            placeholder="Tell the story behind this recipe…"
             className="resize-none rounded-xl"
             {...register("description")}
           />
@@ -207,11 +203,11 @@ export function PublishPage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="ingredients">Ingredientes</Label>
+          <Label htmlFor="ingredients">Ingredients</Label>
           <Textarea
             id="ingredients"
             rows={3}
-            placeholder={"200g frango\n1 cebola\n…"}
+            placeholder={"200g chicken\n1 onion\n…"}
             className="resize-none rounded-xl"
             {...register("ingredients")}
           />
@@ -222,7 +218,7 @@ export function PublishPage() {
 
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <Label htmlFor="cookTimeMin">Tempo (min)</Label>
+            <Label htmlFor="cookTimeMin">Time (min)</Label>
             <Input
               id="cookTimeMin"
               type="number"
@@ -231,15 +227,15 @@ export function PublishPage() {
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="difficulty">Dificuldade</Label>
+            <Label htmlFor="difficulty">Difficulty</Label>
             <select
               id="difficulty"
               className="flex h-9 w-full rounded-xl border border-input bg-transparent px-3 text-sm"
               {...register("difficulty")}
             >
-              <option value="facil">Fácil</option>
-              <option value="medio">Médio</option>
-              <option value="dificil">Difícil</option>
+              <option value="facil">Easy</option>
+              <option value="medio">Medium</option>
+              <option value="dificil">Hard</option>
             </select>
           </div>
         </div>
@@ -249,7 +245,7 @@ export function PublishPage() {
           className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold shadow-lg shadow-orange-500/20"
           disabled={create.isPending || processingImage}
         >
-          {create.isPending ? "A publicar…" : "Publicar receita"}
+          {create.isPending ? "Publishing…" : "Publish recipe"}
         </Button>
       </form>
     </section>

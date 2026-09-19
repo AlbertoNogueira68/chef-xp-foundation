@@ -5,7 +5,7 @@ function timeAgo(value: string) {
   const days = Math.floor((Date.now() - new Date(value).getTime()) / 86_400_000);
   if (days === 0) return "hoje";
   if (days === 1) return "ontem";
-  if (days < 30) return `há ${days} dias`;
+  if (days < 30) return `${days}d ago`;
   return new Date(value).toLocaleDateString("pt-PT", { day: "2-digit", month: "short" });
 }
 
@@ -23,7 +23,7 @@ export function CookedCard({ post }: { post: MissionPost }) {
         <img src={post.imageUrl} alt="" className="w-full object-cover" loading="lazy" />
         <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-black/60 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur-sm">
           <ChefHat className="size-3" />
-          Nível {post.levelAt}
+          Level {post.levelAt}
         </span>
       </div>
 
@@ -50,7 +50,7 @@ export function CookedCard({ post }: { post: MissionPost }) {
           {!post.shared && (
             <span className="inline-flex items-center gap-0.5 rounded-full bg-muted px-1.5 py-px font-medium">
               <Lock className="size-2.5" />
-              só para ti
+              private
             </span>
           )}
         </div>

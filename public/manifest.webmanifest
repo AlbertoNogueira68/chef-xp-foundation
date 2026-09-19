@@ -1,8 +1,8 @@
 {
-  "name": "ChefXP — cozinha e ganha XP",
+  "name": "ChefXP — cook and earn XP",
   "short_name": "ChefXP",
-  "description": "Missões de cozinha, receitas e XP. Funciona ao pé do fogão, com ou sem rede.",
-  "lang": "pt",
+  "description": "Cooking missions, recipes and XP. Works next to the hob, online or off.",
+  "lang": "en",
   "dir": "ltr",
   "start_url": "/feed",
   "scope": "/",
@@ -22,7 +22,15 @@
     }
   ],
   "shortcuts": [
-    { "name": "Publicar receita", "url": "/publish", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "Desafios", "url": "/challenges", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+    {
+      "name": "Publish recipe",
+      "url": "/publish",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Challenges",
+      "url": "/challenges",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
   ]
 }

@@ -51,7 +51,7 @@ export function hashToken(token) {
 
 export function expiryFor(kind, now = new Date()) {
   const minutes = TTL_MINUTES[kind];
-  if (!minutes) throw new Error(`Tipo de token desconhecido: ${kind}`);
+  if (!minutes) throw new Error(`Unknown token type: ${kind}`);
   return new Date(now.getTime() + minutes * 60_000);
 }
 
@@ -68,7 +68,7 @@ export function expiryFor(kind, now = new Date()) {
 export function checkToken(row, { kind, now = new Date() } = {}) {
   if (!row) return { ok: false, reason: "inexistente" };
   if (kind && row.kind !== kind) return { ok: false, reason: "tipo errado" };
-  if (row.used_at) return { ok: false, reason: "já usado" };
+  if (row.used_at) return { ok: false, reason: "already used" };
   if (new Date(row.expires_at).getTime() <= now.getTime()) return { ok: false, reason: "expirado" };
   return { ok: true, userId: row.user_id, email: row.email };
 }

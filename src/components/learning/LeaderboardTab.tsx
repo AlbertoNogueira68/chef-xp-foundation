@@ -8,8 +8,8 @@ import type { LeaderboardEntry, LeaderboardScope } from "@/types/leaderboard";
 import { cn } from "@/lib/utils";
 
 const SCOPES: Array<{ id: LeaderboardScope; label: string; hint: string }> = [
-  { id: "weekly", label: "Esta semana", hint: "XP dos últimos sete dias" },
-  { id: "global", label: "Sempre", hint: "XP desde o primeiro dia" },
+  { id: "weekly", label: "Esta semana", hint: "XP over the last seven days" },
+  { id: "global", label: "Sempre", hint: "XP since day one" },
 ];
 
 /** Ouro, prata e bronze; do quarto em diante é só o número. */
@@ -49,9 +49,9 @@ function Row({ entry, fixed = false }: { entry: LeaderboardEntry; fixed?: boolea
         <span className="min-w-0">
           <span className="block truncate text-sm font-semibold">
             {entry.user.username}
-            {entry.isMe && <span className="ml-1.5 text-xs text-amber-600">tu</span>}
+            {entry.isMe && <span className="ml-1.5 text-xs text-amber-600">you</span>}
           </span>
-          <span className="text-[11px] text-muted-foreground">Nível {entry.user.level}</span>
+          <span className="text-[11px] text-muted-foreground">Level {entry.user.level}</span>
         </span>
       </Link>
 
@@ -112,8 +112,8 @@ export function LeaderboardTab() {
       {!isLoading && data?.entries.length === 0 && (
         <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted-foreground">
           {scope === "weekly"
-            ? "Ninguém ganhou XP esta semana. Começa tu."
-            : "Ainda não há ninguém no ranking."}
+            ? "Nobody earned XP this week. Go first."
+            : "Nobody on the leaderboard yet."}
         </p>
       )}
 
@@ -137,8 +137,8 @@ export function LeaderboardTab() {
       {data && !data.me && data.entries.length > 0 && (
         <p className="rounded-xl border border-dashed border-border px-4 py-3 text-center text-xs text-muted-foreground">
           {scope === "weekly"
-            ? "Ainda não ganhaste XP esta semana — uma lição chega para entrares."
-            : "Ainda não tens XP para entrar no ranking."}
+            ? "No XP yet this week — one lesson is enough to get in."
+            : "You don't have XP to make the leaderboard yet."}
         </p>
       )}
     </div>

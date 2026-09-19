@@ -41,15 +41,15 @@ export function AdminPage() {
         className="-ml-2 rounded-full text-muted-foreground"
         onClick={() => navigate(-1)}
       >
-        <ArrowLeft className="mr-1.5 size-4" /> Voltar
+        <ArrowLeft className="mr-1.5 size-4" /> Back
       </Button>
 
       <div>
-        <h1 className="text-xl font-bold">{isAdmin ? "Administração" : "Moderação"}</h1>
+        <h1 className="text-xl font-bold">{isAdmin ? "Admin" : "Moderation"}</h1>
         <p className="text-sm text-muted-foreground">
           {isAdmin
-            ? "A fila, quem modera, e os números da aplicação."
-            : "As denúncias que chegaram, e o que fazer com elas."}
+            ? "The queue, who moderates, and the app's numbers."
+            : "The reports that came in, and what to do with them."}
         </p>
       </div>
 
@@ -57,13 +57,13 @@ export function AdminPage() {
         <Tabs defaultValue="fila">
           <TabsList className="grid w-full grid-cols-3 rounded-full">
             <TabsTrigger value="fila" className="rounded-full text-xs">
-              Fila
+              Queue
             </TabsTrigger>
             <TabsTrigger value="contas" className="rounded-full text-xs">
               Contas
             </TabsTrigger>
             <TabsTrigger value="numeros" className="rounded-full text-xs">
-              Números
+              Numbers
             </TabsTrigger>
           </TabsList>
 

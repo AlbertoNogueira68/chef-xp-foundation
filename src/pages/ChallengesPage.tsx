@@ -30,7 +30,7 @@ export function ChallengesPage() {
       <header>
         <h1 className="text-2xl font-bold tracking-tight">Aprender a cozinhar</h1>
         <p className="mt-0.5 text-sm text-muted-foreground">
-          Um percurso de competências que acaba sempre na cozinha.
+          A path of skills that always ends in the kitchen.
         </p>
       </header>
 
@@ -51,14 +51,14 @@ export function ChallengesPage() {
             className="gap-1.5 rounded-lg py-2 text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-orange-600 data-[state=active]:shadow-sm"
           >
             <Trophy className="size-4" />
-            Desafios
+            Challenges
           </TabsTrigger>
           <TabsTrigger
             value="ranking"
             className="gap-1.5 rounded-lg py-2 text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-amber-600 data-[state=active]:shadow-sm"
           >
             <BarChart3 className="size-4" />
-            Ranking
+            Leaderboard
           </TabsTrigger>
         </TabsList>
 

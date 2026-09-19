@@ -156,7 +156,7 @@ test("badges são derivados do que o utilizador fez", () => {
   assert.deepEqual(badgesFor({}), []);
   assert.ok(badgesFor({ recipes: 1 }).includes("Primeira receita"));
   assert.ok(badgesFor({ streak: 7 }).includes("Semana ativa"));
-  assert.ok(badgesFor({ level: 4 }).includes("Chef nível 4"));
+  assert.ok(badgesFor({ level: 4 }).includes("Level 4 chef"));
   assert.ok(!badgesFor({ recipes: 9 }).includes("10 receitas"));
   assert.ok(badgesFor({ recipes: 10 }).includes("10 receitas"));
 });

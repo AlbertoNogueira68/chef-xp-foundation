@@ -24,19 +24,19 @@ function escapeHtml(value) {
 function horas(minutos) {
   if (minutos % (60 * 24) === 0) {
     const dias = minutos / (60 * 24);
-    return dias === 1 ? "24 horas" : `${dias} dias`;
+    return dias === 1 ? "24 hours" : `${dias} days`;
   }
   if (minutos % 60 === 0) {
     const h = minutos / 60;
-    return h === 1 ? "1 hora" : `${h} horas`;
+    return h === 1 ? "1 hour" : `${h} hours`;
   }
-  return `${minutos} minutos`;
+  return `${minutos} minutes`;
 }
 
 /** Moldura comum: o mesmo cabeçalho, botão e rodapé para os dois emails. */
 function layout({ titulo, corpo, link, textoBotao, rodape }) {
   return `<!doctype html>
-<html lang="pt">
+<html lang="en">
   <body style="margin:0;background:#faf7f2;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#1c1917">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px">
       <tr><td align="center">
@@ -47,7 +47,7 @@ function layout({ titulo, corpo, link, textoBotao, rodape }) {
             <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#44403c">${corpo}</p>
             <a href="${escapeHtml(link)}" style="display:inline-block;background:#d97706;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:999px">${escapeHtml(textoBotao)}</a>
             <p style="margin:24px 0 0;font-size:13px;line-height:1.6;color:#78716c">${rodape}</p>
-            <p style="margin:16px 0 0;font-size:12px;line-height:1.6;color:#a8a29e;word-break:break-all">Se o botão não funcionar, copia este endereço para o browser:<br>${escapeHtml(link)}</p>
+            <p style="margin:16px 0 0;font-size:12px;line-height:1.6;color:#a8a29e;word-break:break-all">If the button doesn't work, copy this address into your browser:<br>${escapeHtml(link)}</p>
           </td></tr>
         </table>
       </td></tr>
@@ -60,23 +60,23 @@ export function passwordResetEmail({ username, link }) {
   const validade = horas(TTL_MINUTES[PASSWORD_RESET]);
 
   return {
-    subject: "Redefinir a tua password — Chef XP",
+    subject: "Reset your password — ChefXP",
     text: [
-      `Olá ${username},`,
+      `Hi ${username},`,
       "",
-      "Pediste para redefinir a password da tua conta Chef XP. Abre este endereço:",
+      "You asked to reset the password for your ChefXP account. Open this address:",
       link,
       "",
-      `O link vale ${validade} e só pode ser usado uma vez.`,
+      `The link lasts ${validade} and works once.`,
       "",
-      "Se não foste tu, ignora este email — a tua password fica como está.",
+      "If this wasn't you, ignore this email — your password stays as it is.",
     ].join("\n"),
     html: layout({
-      titulo: "Redefinir a password",
-      corpo: `Olá <strong>${escapeHtml(username)}</strong>, pediste para redefinir a password da tua conta.`,
+      titulo: "Reset the password",
+      corpo: `Hi <strong>${escapeHtml(username)}</strong>, you asked to reset your account's password.`,
       link,
-      textoBotao: "Escolher password nova",
-      rodape: `O link vale ${validade} e só pode ser usado uma vez. Se não foste tu, ignora este email — a tua password fica como está.`,
+      textoBotao: "Choose a new password",
+      rodape: `The link lasts ${validade} and works once. If this wasn't you, ignore this email — your password stays as it is.`,
     }),
   };
 }
@@ -85,23 +85,23 @@ export function emailVerificationEmail({ username, link }) {
   const validade = horas(TTL_MINUTES[EMAIL_VERIFICATION]);
 
   return {
-    subject: "Confirma o teu email — Chef XP",
+    subject: "Confirm your email — ChefXP",
     text: [
-      `Olá ${username},`,
+      `Hi ${username},`,
       "",
-      "Confirma que este endereço é teu para podermos ajudar-te a recuperar a conta se perderes a password:",
+      "Confirm this address is yours so we can help you recover the account if you lose your password:",
       link,
       "",
-      `O link vale ${validade}.`,
+      `The link lasts ${validade}.`,
       "",
-      "Se não criaste conta no Chef XP, ignora este email.",
+      "If you didn't create a ChefXP account, ignore this email.",
     ].join("\n"),
     html: layout({
-      titulo: "Confirma o teu email",
-      corpo: `Olá <strong>${escapeHtml(username)}</strong>, confirma que este endereço é teu — é por aqui que recuperas a conta se perderes a password.`,
+      titulo: "Confirm your email",
+      corpo: `Hi <strong>${escapeHtml(username)}</strong>, confirm this address is yours — it's how you recover the account if you lose your password.`,
       link,
-      textoBotao: "Confirmar o email",
-      rodape: `O link vale ${validade}. Se não criaste conta no Chef XP, ignora este email.`,
+      textoBotao: "Confirm email",
+      rodape: `The link lasts ${validade}. If you didn't create a ChefXP account, ignore this email.`,
     }),
   };
 }
@@ -117,24 +117,24 @@ export function signupEmail({ link }) {
   const validade = horas(TTL_MINUTES[SIGNUP]);
 
   return {
-    subject: "Criar a tua conta — Chef XP",
+    subject: "Create your account — ChefXP",
     text: [
-      "Bem-vindo ao Chef XP!",
+      "Welcome to ChefXP!",
       "",
-      "Abre este endereço para escolheres o teu nome de utilizador e a tua password:",
+      "Open this address to choose your username and password:",
       link,
       "",
-      `O link vale ${validade} e só pode ser usado uma vez.`,
+      `The link lasts ${validade} and works once.`,
       "",
-      "Se não foste tu a pedir, ignora este email — não fica conta nenhuma criada.",
+      "If you didn't ask for this, ignore this email — no account is created.",
     ].join("\n"),
     html: layout({
-      titulo: "Criar a tua conta",
+      titulo: "Create your account",
       corpo:
-        "Confirmámos que este endereço é teu. Falta escolheres o nome de utilizador e a password.",
+        "We've confirmed this address is yours. Now choose your username and password.",
       link,
-      textoBotao: "Escolher nome e password",
-      rodape: `O link vale ${validade} e só pode ser usado uma vez. Se não foste tu a pedir, ignora este email — não fica conta nenhuma criada.`,
+      textoBotao: "Choose username and password",
+      rodape: `The link lasts ${validade} and works once. If you didn't ask for this, ignore this email — no account is created.`,
     }),
   };
 }
@@ -149,23 +149,23 @@ export function signupEmail({ link }) {
  */
 export function signupExistingAccountEmail({ username, link }) {
   return {
-    subject: "Já tens conta no Chef XP",
+    subject: "You already have a ChefXP account",
     text: [
-      `Olá ${username},`,
+      `Hi ${username},`,
       "",
-      "Alguém (talvez tu) pediu para criar uma conta com este endereço — mas ele já tem uma.",
+      "Someone (maybe you) asked to create an account with this address — but it already has one.",
       "",
-      "Se foste tu e não te lembras da password, redefine-a aqui:",
+      "If it was you and you don't remember the password, reset it here:",
       link,
       "",
-      "Se não foste tu, podes ignorar este email: não mudou nada na tua conta.",
+      "If it wasn't you, you can ignore this email: nothing changed in your account.",
     ].join("\n"),
     html: layout({
-      titulo: "Já tens conta no Chef XP",
-      corpo: `Olá <strong>${escapeHtml(username)}</strong>, alguém pediu para criar uma conta com este endereço — mas ele já tem uma. Se foste tu e não te lembras da password, podes redefini-la.`,
+      titulo: "You already have a ChefXP account",
+      corpo: `Hi <strong>${escapeHtml(username)}</strong>, someone asked to create an account with this address — but it already has one. If it was you and you don't remember the password, you can reset it.`,
       link,
-      textoBotao: "Redefinir a password",
-      rodape: "Se não foste tu, ignora este email: não mudou nada na tua conta.",
+      textoBotao: "Reset the password",
+      rodape: "If it wasn't you, ignore this email: nothing changed in your account.",
     }),
   };
 }

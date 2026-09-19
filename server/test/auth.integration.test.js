@@ -85,7 +85,7 @@ describe("autenticação e CSRF", skipWithoutDatabase, () => {
 
     // O que muda é o email que sai: um aviso, sem link de criação de conta.
     const email = lastEmail();
-    assert.match(email.subject, /já tens conta/i);
+    assert.match(email.subject, /already have/i);
     assert.match(email.link, /\/forgot-password$/);
   });
 

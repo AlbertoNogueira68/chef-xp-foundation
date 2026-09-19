@@ -21,11 +21,11 @@ const FILTERS: Array<{
   difficulty?: RecipeDifficulty;
   maxTime?: number;
 }> = [
-  { id: "rapido", label: "Até 20 min", maxTime: 20 },
-  { id: "meia-hora", label: "Até 30 min", maxTime: 30 },
-  { id: "facil", label: "Fácil", difficulty: "facil" },
-  { id: "medio", label: "Médio", difficulty: "medio" },
-  { id: "dificil", label: "Difícil", difficulty: "dificil" },
+  { id: "rapido", label: "Under 20 min", maxTime: 20 },
+  { id: "meia-hora", label: "Under 30 min", maxTime: 30 },
+  { id: "facil", label: "Easy", difficulty: "facil" },
+  { id: "medio", label: "Medium", difficulty: "medio" },
+  { id: "dificil", label: "Hard", difficulty: "dificil" },
 ];
 
 export function SearchPage() {
@@ -51,7 +51,7 @@ export function SearchPage() {
         <Input
           value={q}
           onChange={(event) => setQ(event.target.value)}
-          placeholder="Receitas, chefs, ingredientes…"
+          placeholder="Recipes, chefs, ingredients…"
           className="rounded-full border-border/60 bg-muted/50 pl-10"
           autoComplete="off"
           aria-label="Pesquisar"
@@ -106,8 +106,8 @@ export function SearchPage() {
                 <div>
                   <p className="text-sm font-semibold">{chef.username}</p>
                   <p className="text-xs text-muted-foreground">
-                    Nv. {chef.level} · {chef.recipes} {chef.recipes === 1 ? "receita" : "receitas"}{" "}
-                    · {chef.followers} {chef.followers === 1 ? "seguidor" : "seguidores"}
+                    Lv. {chef.level} · {chef.recipes} {chef.recipes === 1 ? "recipe" : "recipes"} ·{" "}
+                    {chef.followers} {chef.followers === 1 ? "seguidor" : "seguidores"}
                   </p>
                 </div>
               </Link>
@@ -118,7 +118,7 @@ export function SearchPage() {
                 disabled={toggleFollow.isPending}
                 onClick={() => toggleFollow.mutate({ id: chef.id, following: false })}
               >
-                <UserPlus className="mr-1 size-3" /> Seguir
+                <UserPlus className="mr-1 size-3" /> Follow
               </Button>
             </div>
           ))}
@@ -126,7 +126,7 @@ export function SearchPage() {
           {chefs.data?.length === 0 && (
             <p className="rounded-xl border border-dashed border-border/60 p-4 text-center text-xs text-muted-foreground">
               <UserCheck className="mx-auto mb-1 size-4" />
-              Já segues toda a gente por aqui.
+              You already follow everyone here.
             </p>
           )}
         </div>
@@ -142,9 +142,7 @@ export function SearchPage() {
 
         {!isFetching && recipes.length === 0 && (
           <p className="py-8 text-center text-sm text-muted-foreground">
-            {deferredQ
-              ? `Nenhum resultado para “${deferredQ}”.`
-              : "Sem receitas para estes filtros."}
+            {deferredQ ? `No results for “${deferredQ}”.` : "No recipes for these filters."}
           </p>
         )}
 

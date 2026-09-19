@@ -16,8 +16,8 @@ export function CameraCapture({
   camera,
   onCapture,
   busy = false,
-  captureLabel = "Tirar",
-  busyLabel = "A guardar…",
+  captureLabel = "Take",
+  busyLabel = "Saving…",
   className,
   buttonClassName,
 }: {
@@ -48,7 +48,7 @@ export function CameraCapture({
       />
       <div className="flex items-center gap-2 bg-card p-2">
         <Button variant="ghost" className="rounded-full" onClick={camera.stop}>
-          Cancelar
+          Cancel
         </Button>
         <Button
           className={cn("flex-1 rounded-full", buttonClassName)}
@@ -58,7 +58,7 @@ export function CameraCapture({
           <Camera className="size-4" />
           {busy ? busyLabel : captureLabel}
         </Button>
-        <Button size="icon" variant="ghost" onClick={camera.flip} aria-label="Trocar de câmara">
+        <Button size="icon" variant="ghost" onClick={camera.flip} aria-label="Switch camera">
           <RefreshCw className="size-4" />
         </Button>
       </div>

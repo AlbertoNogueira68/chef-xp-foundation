@@ -94,7 +94,7 @@ try {
       }));`);
   const xpDeHoje = async () => {
     const texto = await js(`return document.body.innerText;`);
-    return Number(texto.match(/(\d+)\/\d+\s*XP HOJE/i)?.[1] ?? -1);
+    return Number(texto.match(/(\d+)\/\d+\s*XP TODAY/i)?.[1] ?? -1);
   };
 
   /**
@@ -109,8 +109,8 @@ try {
       // Ancorada ao início: sem isso, um passo de ordenar como "Pôr a faca e os
       // ingredientes ao alcance" passava por botão de navegação e nunca era
       // escolhido — e o "Confirmar ordem" ficava desligado para sempre.
-      const navegacao = /^(anterior|seguinte|continuar|começar|testar|recomeçar|voltar|ingredientes$|falta a foto)/i;
-      if (/Resposta guardada|Correto!|Ups…|Guardado neste dispositivo/.test(leitor.innerText)) {
+      const navegacao = /^(previous|next|continue|start|test|start over|back|ingredients$|photo missing)/i;
+      if (/Answer saved|Correct answer:|Saved on this device/.test(leitor.innerText)) {
         return "respondida";
       }
 
@@ -145,7 +145,9 @@ try {
 
   /* 1. Entrar e abrir a lição seguinte. */
   await abrir(`${URL_BASE}/auth`);
-  await ate("o ecrã de entrada", () => js(`return Boolean(document.querySelector("#login-email"));`));
+  await ate("o ecrã de entrada", () =>
+    js(`return Boolean(document.querySelector("#login-email"));`),
+  );
   const login = await js(`
     const r = await fetch("/api/auth/login", {
       method: "POST", credentials: "include",
@@ -156,21 +158,26 @@ try {
   if (login !== 200) throw new Error(`o login de demonstração devolveu ${login}`);
 
   await abrir(`${URL_BASE}/challenges`);
-  await ate("o percurso carregar", async () => !(await js(`return document.body.innerText;`)).includes("A carregar"));
+  await ate(
+    "o percurso carregar",
+    async () => !(await js(`return document.body.innerText;`)).includes("A carregar"),
+  );
   const xpAntes = await xpDeHoje();
 
-  if (!(await js(`
-    const alvo = [...document.querySelectorAll("button")].find((b) => b.innerText.includes("Começar"));
+  if (
+    !(await js(`
+    const alvo = [...document.querySelectorAll("button")].find((b) => b.innerText.includes("Start"));
     if (!alvo) return false;
     alvo.click();
-    return true;`))) {
+    return true;`))
+  ) {
     throw new Error("não havia nenhuma lição por fazer para a conta de demonstração");
   }
 
-  await ate("a lição abrir", async () => (await textoDoLeitor())?.includes("Começar preparação"));
-  await clicar("Começar preparação");
-  for (let i = 0; i < 10 && (await clicar("Seguinte")); i++) await esperar(300);
-  await clicar("Testar conhecimentos");
+  await ate("a lição abrir", async () => (await textoDoLeitor())?.includes("Start prep"));
+  await clicar("Start prep");
+  for (let i = 0; i < 10 && (await clicar("Next")); i++) await esperar(300);
+  await clicar("Test what you know");
   await ate("o quiz", async () => /Pergunta \d+ de \d+/.test((await textoDoLeitor()) ?? ""));
   console.log("[lição] no quiz, com rede");
 
@@ -184,7 +191,7 @@ try {
     await esperar(500);
 
     const ecra = (await textoDoLeitor()) ?? "";
-    if (ecra.includes("Guardado neste dispositivo")) break;
+    if (ecra.includes("Saved on this device")) break;
     if (!/Resposta guardada/.test(ecra)) {
       throw new Error(`sem rede, a pergunta não ficou guardada: ${ecra.slice(0, 120)}`);
     }
@@ -194,20 +201,21 @@ try {
     // uma resposta que ninguém corrigiu seria castigar por adivinhação.
     if (!/♥ ♥ ♥/.test(ecra)) throw new Error("perderam-se corações sem correção nenhuma");
 
-    await clicar("Continuar");
+    await clicar("Continue");
     await esperar(500);
-    if (((await textoDoLeitor()) ?? "").includes("Guardado neste dispositivo")) break;
+    if (((await textoDoLeitor()) ?? "").includes("Saved on this device")) break;
   }
   console.log(`[lição] ${respostas} respostas dadas e guardadas sem rede`);
 
   /* 3. A lição terminou e está em espera, não perdida. */
   const fim = (await textoDoLeitor()) ?? "";
-  if (!fim.includes("Guardado neste dispositivo")) {
+  if (!fim.includes("Saved on this device")) {
     throw new Error(`a lição não acabou no estado de espera: ${fim.slice(0, 160)}`);
   }
 
   const emEspera = await fila();
-  if (emEspera.length !== 1) throw new Error(`esperava 1 item na fila, encontrei ${emEspera.length}`);
+  if (emEspera.length !== 1)
+    throw new Error(`esperava 1 item na fila, encontrei ${emEspera.length}`);
   if (!emEspera[0].path.endsWith("/complete")) throw new Error("o item na fila não é a lição");
   console.log(
     `[lição] na caixa de saída (IndexedDB): ${emEspera[0].descricao}` +
@@ -233,13 +241,13 @@ try {
   );
   console.log(`[lição] a app disse: ${aviso}`);
 
-  await clicar("Continuar");
+  await clicar("Continue");
 
   // O robô responde sem saber as respostas — offline não há correção que o
   // guie — por isso a lição tanto pode passar como chumbar. Os dois provam o
   // que aqui importa: o veredicto só existe porque o servidor recebeu a fila
   // e corrigiu. O XP só se exige quando há XP a pagar.
-  if (aviso.includes("não passaste")) {
+  if (aviso.includes("didn't pass")) {
     console.log("[lição] enviada e corrigida pelo servidor (chumbou, portanto sem XP)");
   } else {
     await ate("o XP do dia subir", async () => (await xpDeHoje()) > xpAntes, { tentativas: 30 });

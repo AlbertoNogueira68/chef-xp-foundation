@@ -21,17 +21,17 @@ import type { ReportReason, ReportSubjectType } from "@/types/moderation";
  * insulto, e quem modera precisa de os distinguir à primeira vista.
  */
 const REASONS: Array<{ value: ReportReason; label: string; hint: string }> = [
-  { value: "ofensivo", label: "Ofensivo", hint: "Insultos, ódio, assédio" },
-  { value: "perigoso", label: "Perigoso", hint: "Põe em risco quem seguir isto" },
-  { value: "spam", label: "Spam", hint: "Publicidade ou repetição" },
-  { value: "copia", label: "Cópia", hint: "É de outra pessoa, sem crédito" },
+  { value: "ofensivo", label: "Ofensivo", hint: "Insults, hate, harassment" },
+  { value: "perigoso", label: "Perigoso", hint: "Unsafe for anyone who follows it" },
+  { value: "spam", label: "Spam", hint: "Spam or repetition" },
+  { value: "copia", label: "Copy", hint: "Someone else's work, uncredited" },
   { value: "outro", label: "Outro", hint: "Explica abaixo" },
 ];
 
 const TITLES: Record<ReportSubjectType, string> = {
-  recipe: "Denunciar esta receita",
-  comment: "Denunciar este comentário",
-  user: "Denunciar esta conta",
+  recipe: "Report this recipe",
+  comment: "Report this comment",
+  user: "Report this account",
 };
 
 export function ReportDialog({
@@ -71,8 +71,8 @@ export function ReportDialog({
         <DialogHeader className="text-left">
           <DialogTitle>{TITLES[subjectType]}</DialogTitle>
           <DialogDescription>
-            Fica registado com o teu nome, e só a moderação lhe chega. Quem for denunciado não sabe
-            que foste tu.
+            It's logged under your name and only moderators see it. The person reported won't know
+            it was you.
           </DialogDescription>
         </DialogHeader>
 
@@ -96,14 +96,14 @@ export function ReportDialog({
           </RadioGroup>
 
           <div className="space-y-1.5">
-            <Label htmlFor="report-details">O que se passa (opcional)</Label>
+            <Label htmlFor="report-details">What's going on (optional)</Label>
             <Textarea
               id="report-details"
               value={details}
               onChange={(event) => setDetails(event.target.value)}
               maxLength={500}
               rows={3}
-              placeholder="Duas linhas chegam. Quanto mais concreto, mais depressa se resolve."
+              placeholder="Two lines will do. The more specific, the faster it gets sorted."
             />
           </div>
 
@@ -114,10 +114,10 @@ export function ReportDialog({
               className="rounded-full"
               onClick={() => onOpenChange(false)}
             >
-              Cancelar
+              Cancel
             </Button>
             <Button type="submit" className="rounded-full" disabled={report.isPending}>
-              {report.isPending ? "A enviar…" : "Denunciar"}
+              {report.isPending ? "Sending…" : "Report"}
             </Button>
           </DialogFooter>
         </form>

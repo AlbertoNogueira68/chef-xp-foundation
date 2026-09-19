@@ -47,7 +47,7 @@ export function MissionCard({
               unlocked ? "text-amber-700" : "text-muted-foreground",
             )}
           >
-            Missão · cozinhar a sério
+            Mission · cook for real
           </p>
           <h4
             className={cn("truncate font-bold leading-tight", !unlocked && "text-muted-foreground")}
@@ -88,7 +88,7 @@ export function MissionCard({
         </Button>
       ) : (
         <p className="mt-3 text-[11px] font-medium text-muted-foreground">
-          Faltam {lessonsLeft} {lessonsLeft === 1 ? "lição" : "lições"} para desbloquear.
+          {lessonsLeft} more {lessonsLeft === 1 ? "lesson" : "lessons"} to unlock it.
         </p>
       )}
     </div>

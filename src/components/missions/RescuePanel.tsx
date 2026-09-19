@@ -42,7 +42,7 @@ export function RescuePanel({
             variant="ghost"
             className="size-7 shrink-0 text-amber-800"
             onClick={onDismiss}
-            aria-label="Fechar ajuda"
+            aria-label="Close help"
           >
             <X className="size-4" />
           </Button>
@@ -54,7 +54,7 @@ export function RescuePanel({
   return (
     <div>
       <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-        Correu mal?
+        Something off?
       </p>
       <div className="grid grid-cols-2 gap-2">
         {kinds.map((kind) => (

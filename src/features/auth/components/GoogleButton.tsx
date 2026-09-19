@@ -32,7 +32,7 @@ function GoogleMark({ className }: { className?: string }) {
  * Uma navegação de página inteira, não um `fetch`: o servidor responde com um
  * redirecionamento para a Google, e é o browser que tem de o seguir.
  */
-export function GoogleButton({ label = "Continuar com Google" }: { label?: string }) {
+export function GoogleButton({ label = "Continue with Google" }: { label?: string }) {
   return (
     <Button
       type="button"

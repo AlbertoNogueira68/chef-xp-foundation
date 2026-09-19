@@ -39,10 +39,10 @@ function guard(permitido, recusa) {
 }
 
 /** A fila de denúncias: moderadores e administradores. */
-export const requireModerator = guard(canModerate, "Isto é da moderação");
+export const requireModerator = guard(canModerate, "This is for moderators");
 
 /** Papéis e números da plataforma: só administradores. */
-export const requireAdmin = guard(canAdminister, "Isto é da administração");
+export const requireAdmin = guard(canAdminister, "This is for admins");
 
 /**
  * De quem é o conteúdo denunciado — e existe sequer?

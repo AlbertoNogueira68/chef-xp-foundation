@@ -32,7 +32,7 @@ router.get(
   "/me",
   asyncHandler(async (req, res) => {
     const { rows } = await query(`${SELECT_USER} WHERE id = $1`, [req.user.id]);
-    if (!rows[0]) return res.status(404).json({ error: "Utilizador não encontrado" });
+    if (!rows[0]) return res.status(404).json({ error: "User not found" });
     res.json({ user: toPublicUser(rows[0], { includeEmail: true }) });
   }),
 );
@@ -72,11 +72,11 @@ router.patch(
          RETURNING id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, email_verified_at, role, created_at, updated_at`,
         values,
       );
-      if (!rows[0]) return res.status(404).json({ error: "Utilizador não encontrado" });
+      if (!rows[0]) return res.status(404).json({ error: "User not found" });
       res.json({ user: toPublicUser(rows[0], { includeEmail: true }) });
     } catch (error) {
       if (error?.code === "23505") {
-        return res.status(409).json({ error: "Esse nome de utilizador já está em uso" });
+        return res.status(409).json({ error: "That username is already taken" });
       }
       throw error;
     }
@@ -121,7 +121,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const isMe = req.valid.params.id === req.user.id;
     const { rows } = await query(`${SELECT_USER} WHERE id = $1`, [req.valid.params.id]);
-    if (!rows[0]) return res.status(404).json({ error: "Utilizador não encontrado" });
+    if (!rows[0]) return res.status(404).json({ error: "User not found" });
     res.json({ user: toPublicUser(rows[0], { includeEmail: isMe }) });
   }),
 );
@@ -161,7 +161,7 @@ router.get(
     );
 
     const row = rows[0];
-    if (!row) return res.status(404).json({ error: "Utilizador não encontrado" });
+    if (!row) return res.status(404).json({ error: "User not found" });
 
     const daily = await loadDailyState(getPool(), userId, { timeZone: row.time_zone });
 
@@ -291,10 +291,10 @@ router.delete(
       req.user.id,
     ]);
     const user = rows[0];
-    if (!user) return res.status(404).json({ error: "Utilizador não encontrado" });
+    if (!user) return res.status(404).json({ error: "User not found" });
 
     if (confirmUsername !== user.username) {
-      return res.status(400).json({ error: "O nome de utilizador não coincide" });
+      return res.status(400).json({ error: "The username doesn't match" });
     }
 
     // Contas com password confirmam com ela; as de SSO não têm nenhuma para
@@ -304,7 +304,7 @@ router.delete(
       // 403 e não 401: a sessão é válida, o que falta é a confirmação. Com 401
       // o cliente tratava isto como sessão expirada e expulsava para o ecrã de
       // entrada quem só se enganou a escrever a password.
-      if (!ok) return res.status(403).json({ error: "Password incorreta" });
+      if (!ok) return res.status(403).json({ error: "Wrong password" });
     }
 
     await query(`DELETE FROM users WHERE id = $1`, [req.user.id]);
@@ -380,18 +380,18 @@ router.post(
   validate({ params: idParamSchema }),
   asyncHandler(async (req, res) => {
     if (req.valid.params.id === req.user.id) {
-      return res.status(400).json({ error: "Não te podes seguir a ti próprio" });
+      return res.status(400).json({ error: "You can't follow yourself" });
     }
 
     const target = await query(`SELECT 1 FROM users WHERE id = $1`, [req.valid.params.id]);
     if (target.rowCount === 0) {
-      return res.status(404).json({ error: "Utilizador não encontrado" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     // Seguir por cima de um bloqueio desfazia o bloqueio pela porta do lado:
     // voltava a pôr a pessoa no meu feed "a seguir".
     if (await blockExistsBetween(req.user.id, req.valid.params.id)) {
-      return res.status(403).json({ error: "Não dá para seguir esta pessoa" });
+      return res.status(403).json({ error: "You can't follow this person" });
     }
 
     await query(
@@ -445,12 +445,12 @@ router.post(
   validate({ params: idParamSchema }),
   asyncHandler(async (req, res) => {
     if (req.valid.params.id === req.user.id) {
-      return res.status(400).json({ error: "Não te podes bloquear a ti próprio" });
+      return res.status(400).json({ error: "You can't block yourself" });
     }
 
     const target = await query(`SELECT 1 FROM users WHERE id = $1`, [req.valid.params.id]);
     if (target.rowCount === 0) {
-      return res.status(404).json({ error: "Utilizador não encontrado" });
+      return res.status(404).json({ error: "User not found" });
     }
 
     const pool = getPool();

@@ -60,10 +60,10 @@ export async function exchangeCodeForIdToken(code) {
 
   if (!response.ok) {
     // O corpo do erro da Google traz o client_id; não vai para os logs.
-    throw new Error(`A troca de código com a Google falhou (${response.status})`);
+    throw new Error(`The code exchange with Google failed (${response.status})`);
   }
 
   const data = await response.json();
-  if (!data.id_token) throw new Error("A Google não devolveu id_token");
+  if (!data.id_token) throw new Error("Google returned no id_token");
   return data.id_token;
 }

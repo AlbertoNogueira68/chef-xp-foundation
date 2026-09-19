@@ -33,7 +33,7 @@ describe("definições do perfil", () => {
     const utilizador = userEvent.setup();
     abrir();
 
-    await utilizador.click(screen.getByRole("button", { name: /^guardar$/i }));
+    await utilizador.click(screen.getByRole("button", { name: /^save$/i }));
 
     expect(update).not.toHaveBeenCalled();
   });
@@ -42,10 +42,10 @@ describe("definições do perfil", () => {
     const utilizador = userEvent.setup();
     abrir(makeUser({ username: "chefdemo", dailyXpGoal: 50 }));
 
-    const campo = screen.getByLabelText(/nome de utilizador/i);
+    const campo = screen.getByLabelText(/username/i);
     await utilizador.clear(campo);
     await utilizador.type(campo, "outronome");
-    await utilizador.click(screen.getByRole("button", { name: /^guardar$/i }));
+    await utilizador.click(screen.getByRole("button", { name: /^save$/i }));
 
     expect(update).toHaveBeenCalledTimes(1);
     expect(update.mock.calls[0][0]).toEqual({ username: "outronome" });
@@ -55,7 +55,7 @@ describe("definições do perfil", () => {
     const utilizador = userEvent.setup();
     abrir();
 
-    const campo = screen.getByLabelText(/nome de utilizador/i);
+    const campo = screen.getByLabelText(/username/i);
     await utilizador.clear(campo);
     await utilizador.type(campo, "ChefDemo2");
 
@@ -65,12 +65,12 @@ describe("definições do perfil", () => {
   test("mostra o fuso e a meta guardados, não valores por omissão", () => {
     abrir(makeUser({ timeZone: "Atlantic/Azores", dailyXpGoal: 100 }));
 
-    expect(screen.getByLabelText(/fuso horário/i)).toHaveTextContent("Atlantic/Azores");
-    expect(screen.getByLabelText(/meta diária/i)).toHaveTextContent("100 XP");
+    expect(screen.getByLabelText(/time zone/i)).toHaveTextContent("Atlantic/Azores");
+    expect(screen.getByLabelText(/daily goal/i)).toHaveTextContent("100 XP");
   });
 
   test("avisa que o fuso decide o streak", () => {
     abrir();
-    expect(screen.getByText(/é o dia que decide o streak/i)).toBeInTheDocument();
+    expect(screen.getByText(/the day is what decides your streak/i)).toBeInTheDocument();
   });
 });

@@ -124,7 +124,7 @@ describe("administração", skipWithoutDatabase, () => {
   test("nenhum admin nasce dentro da aplicação", async () => {
     const resposta = await admin.patch(`/api/admin/users/${pessoaId}/role`, { role: "admin" });
     assert.equal(resposta.status, 403);
-    assert.match(resposta.body.error, /linha de comandos/);
+    assert.match(resposta.body.error, /command line/);
 
     const { rows } = await query(`SELECT role FROM users WHERE id = $1`, [pessoaId]);
     assert.equal(rows[0].role, "user");
@@ -133,7 +133,7 @@ describe("administração", skipWithoutDatabase, () => {
   test("um admin não muda o seu próprio papel nem despromove outro admin", async () => {
     const eu = await admin.patch(`/api/admin/users/${adminId}/role`, { role: "user" });
     assert.equal(eu.status, 403);
-    assert.match(eu.body.error, /próprio papel/);
+    assert.match(eu.body.error, /own role/);
 
     const outroAdmin = createClient(server.baseUrl);
     const outroId = (await registerUser(outroAdmin)).id;
@@ -141,7 +141,7 @@ describe("administração", skipWithoutDatabase, () => {
 
     const dele = await admin.patch(`/api/admin/users/${outroId}/role`, { role: "user" });
     assert.equal(dele.status, 403);
-    assert.match(dele.body.error, /não se despromove/);
+    assert.match(dele.body.error, /isn't demoted/);
   });
 
   test("um papel que não existe é recusado com 400", async () => {
@@ -298,13 +298,13 @@ describe("administração", skipWithoutDatabase, () => {
       confirmUsername: await nomeDe(outroId),
     });
     assert.equal(dele.status, 403);
-    assert.match(dele.body.error, /não se apaga/);
+    assert.match(dele.body.error, /aren't deleted|isn't deleted/);
 
     const eu = await admin.delete(`/api/admin/users/${adminId}`, {
       confirmUsername: await nomeDe(adminId),
     });
     assert.equal(eu.status, 403);
-    assert.match(eu.body.error, /perfil/);
+    assert.match(eu.body.error, /profile/);
 
     const { rows } = await query(`SELECT count(*)::int AS n FROM users WHERE id = ANY($1)`, [
       [outroId, adminId],

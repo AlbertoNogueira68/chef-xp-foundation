@@ -43,7 +43,7 @@ export function FeedPage() {
             Recentes
           </TabsTrigger>
           <TabsTrigger value="following" className="rounded-full text-xs">
-            A seguir
+            Following
           </TabsTrigger>
           <TabsTrigger value="popular" className="rounded-full text-xs">
             Em alta
@@ -55,15 +55,15 @@ export function FeedPage() {
 
       {isError && (
         <p className="rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
-          Não foi possível carregar o feed.
+          Couldn't load the feed.
         </p>
       )}
 
       {!isLoading && !isError && recipes.length === 0 && (
         <p className="py-10 text-center text-sm text-muted-foreground">
           {scope === "following"
-            ? "Ainda não segues ninguém que tenha publicado. Segue alguns chefs aqui em cima."
-            : "Ainda não há receitas. Sê o primeiro a publicar."}
+            ? "Nobody you follow has published yet. Follow a few chefs up there."
+            : "No recipes yet. Be the first to publish."}
         </p>
       )}
 
@@ -85,7 +85,7 @@ export function FeedPage() {
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
         >
-          {isFetchingNextPage ? "A carregar…" : "Carregar mais"}
+          {isFetchingNextPage ? "A carregar…" : "Load more"}
         </Button>
       )}
     </section>

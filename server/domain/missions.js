@@ -65,10 +65,10 @@ export function checkpointIndexes(mission) {
  */
 export function validateStepMove(mission, current, next) {
   if (!Number.isInteger(next) || next < 0 || next >= mission.steps.length) {
-    return { ok: false, reason: "Passo fora da missão" };
+    return { ok: false, reason: "Step outside the mission" };
   }
   if (next > current + 1) {
-    return { ok: false, reason: "Não se saltam passos" };
+    return { ok: false, reason: "No skipping steps" };
   }
   return { ok: true };
 }

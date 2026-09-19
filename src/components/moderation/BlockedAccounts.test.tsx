@@ -31,7 +31,7 @@ describe("contas bloqueadas", () => {
 
     renderWithProviders(<BlockedAccounts />);
 
-    expect(screen.getByText(/não bloqueaste ninguém/i)).toBeInTheDocument();
+    expect(screen.getByText(/haven't blocked anyone/i)).toBeInTheDocument();
   });
 
   test("cada linha tem o nome e o caminho de volta", async () => {

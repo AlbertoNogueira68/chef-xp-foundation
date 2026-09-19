@@ -9,10 +9,10 @@
 
 /** Motivos de recusa, com a mensagem que o utilizador acaba por ler. */
 export const ENTRY_ERRORS = {
-  ended: "Este desafio já terminou",
-  alreadyEntered: "Já participaste neste desafio",
-  notOwner: "Só podes submeter uma receita tua",
-  recipeTaken: "Essa receita já está noutro desafio",
+  ended: "This challenge is over",
+  alreadyEntered: "You've already entered this challenge",
+  notOwner: "You can only submit a recipe of your own",
+  recipeTaken: "That recipe is already in another challenge",
 };
 
 /**

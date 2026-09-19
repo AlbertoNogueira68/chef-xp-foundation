@@ -18,25 +18,25 @@ const hosts = ["googleusercontent.com"];
 test("sem lista de anfitriões, nem sequer tenta", async () => {
   await assert.rejects(
     () => saveRemoteImage("https://lh3.googleusercontent.com/a/x"),
-    /lista de anfitriões/,
+    /allowed hosts/,
   );
   await assert.rejects(
     () => saveRemoteImage("https://lh3.googleusercontent.com/a/x", { hosts: [] }),
-    /lista de anfitriões/,
+    /allowed hosts/,
   );
 });
 
 test("um anfitrião fora da lista é recusado", async () => {
   await assert.rejects(
     () => saveRemoteImage("https://exemplo.pt/foto.png", { hosts }),
-    /Anfitrião não permitido/,
+    /Host not allowed/,
   );
 });
 
 test("um domínio que só acaba parecido não engana a lista", async () => {
   await assert.rejects(
     () => saveRemoteImage("https://googleusercontent.com.exemplo.pt/foto.png", { hosts }),
-    /Anfitrião não permitido/,
+    /Host not allowed/,
   );
 });
 
@@ -45,7 +45,7 @@ test("um subdomínio do anfitrião permitido passa a porta", async () => {
   // porta a recusá-lo, que é o que este teste quer distinguir.
   await assert.rejects(
     () => saveRemoteImage("https://lh3.googleusercontent.com/nao-existe-de-certeza", { hosts }),
-    (erro) => !/Anfitrião não permitido/.test(erro.message),
+    (erro) => !/Host not allowed/.test(erro.message),
   );
 });
 
@@ -60,5 +60,5 @@ test("só https", async () => {
 });
 
 test("o que não é endereço nenhum é recusado", async () => {
-  await assert.rejects(() => saveRemoteImage("isto não é um URL", { hosts }), /inválido/);
+  await assert.rejects(() => saveRemoteImage("isto não é um URL", { hosts }), /[Ii]nvalid/);
 });

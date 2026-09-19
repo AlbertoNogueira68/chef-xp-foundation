@@ -40,9 +40,9 @@ export function useMissionRun() {
       setState(next);
       setCompletion(null);
       setRescue(null);
-      if (next.resumed) toast.info("Retomámos onde ficaste.");
+      if (next.resumed) toast.info("We picked up where you left off.");
     } catch (error) {
-      fail(error, "Não foi possível arrancar a missão");
+      fail(error, "Couldn't start the mission");
     } finally {
       setIsBusy(false);
     }
@@ -62,7 +62,7 @@ export function useMissionRun() {
       try {
         setState(await missionService.moveToStep(runId, next));
       } catch (error) {
-        fail(error, "Não foi possível mudar de passo");
+        fail(error, "Couldn't change step");
       } finally {
         setIsBusy(false);
       }
@@ -77,7 +77,7 @@ export function useMissionRun() {
         const result = await missionService.rescue(runId, stepIndex, kind);
         setRescue({ kind, answer: result.answer });
       } catch (error) {
-        fail(error, "Não foi possível pedir ajuda");
+        fail(error, "Couldn't ask for help");
       }
     },
     [runId, stepIndex],
@@ -108,7 +108,7 @@ export function useMissionRun() {
         // está bonito — não é o momento de ir procurar wifi.
         if ((error as ApiError).status === 0) {
           const guardada = await enqueue({
-            descricao: `Foto do passo ${stepIndex + 1}`,
+            descricao: `Photo for step ${stepIndex + 1}`,
             path: `/missions/runs/${runId}/checkpoint`,
             method: "POST",
             body: { stepIndex, imageDataUrl: dataUrl },
@@ -131,15 +131,15 @@ export function useMissionRun() {
                   }
                 : current,
             );
-            toast.success("Foto guardada no telemóvel. Enviamos quando houver rede.");
+            toast.success("Photo saved on your phone. We'll send it when you're online.");
             return;
           }
 
-          fail(new Error("A fotografia é grande demais para ficar à espera de rede."), "");
+          fail(new Error("The photo is too large to sit waiting for a connection."), "");
           return;
         }
 
-        fail(error, "Não foi possível guardar a foto");
+        fail(error, "Couldn't save the photo");
       } finally {
         setIsUploading(false);
       }
@@ -152,7 +152,7 @@ export function useMissionRun() {
       try {
         await uploadDataUrl(await fileToResizedDataUrl(file));
       } catch (error) {
-        fail(error, "Não foi possível ler a imagem");
+        fail(error, "Couldn't read the image");
       }
     },
     [uploadDataUrl],
@@ -171,7 +171,7 @@ export function useMissionRun() {
         queryClient.invalidateQueries({ queryKey: ["userStats"] });
         queryClient.invalidateQueries({ queryKey: ["missionPosts"] });
       } catch (error) {
-        fail(error, "Não foi possível concluir a missão");
+        fail(error, "Couldn't finish the mission");
       } finally {
         setIsBusy(false);
       }

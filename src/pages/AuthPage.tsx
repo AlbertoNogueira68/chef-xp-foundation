@@ -37,7 +37,7 @@ export function AuthPage() {
         <div className="text-center">
           <ChefXPLogo className="text-3xl" />
           <p className="mt-2 text-sm text-muted-foreground">
-            Entra na comunidade e começa a ganhar XP.
+            Join the community and start earning XP.
           </p>
         </div>
 
@@ -45,10 +45,10 @@ export function AuthPage() {
           <Tabs defaultValue="login">
             <TabsList className="grid w-full grid-cols-2 rounded-full bg-muted/80 p-1">
               <TabsTrigger value="login" className="rounded-full">
-                Entrar
+                Sign in
               </TabsTrigger>
               <TabsTrigger value="register" className="rounded-full">
-                Registar
+                Sign up
               </TabsTrigger>
             </TabsList>
             <TabsContent value="login" className="mt-5">

@@ -61,7 +61,7 @@ describe("confirmar o email pelo link", () => {
     const token = proximoToken();
     abrir(`/verify-email?token=${token}`);
 
-    expect(await screen.findByText(/email confirmado/i)).toBeInTheDocument();
+    expect(await screen.findByText(/email confirmed/i)).toBeInTheDocument();
   });
 
   test("a rota é chamada uma vez, e não duas por causa do StrictMode", async () => {
@@ -70,7 +70,7 @@ describe("confirmar o email pelo link", () => {
     const token = proximoToken();
     abrir(`/verify-email?token=${token}`);
 
-    await screen.findByText(/email confirmado/i);
+    await screen.findByText(/email confirmed/i);
     expect(confirmar).toHaveBeenCalledTimes(1);
     expect(confirmar).toHaveBeenCalledWith(token);
   });
@@ -81,7 +81,7 @@ describe("confirmar o email pelo link", () => {
     const token = proximoToken();
     abrir(`/verify-email?token=${token}`);
 
-    expect(await screen.findByText(/já estava confirmado/i)).toBeInTheDocument();
+    expect(await screen.findByRole("heading", { name: /already confirmed/i })).toBeInTheDocument();
   });
 
   test("um token recusado mostra o erro do servidor", async () => {
@@ -91,19 +91,19 @@ describe("confirmar o email pelo link", () => {
     // tratada. Assim, a rejeição só nasce quando o ecrã chama a rota.
     confirmar.mockReset();
     confirmar.mockImplementation(() =>
-      Promise.reject(new Error("Link inválido ou expirado. Pede outro.")),
+      Promise.reject(new Error("Invalid or expired link. Ask for another.")),
     );
     abrirSemStrictMode(`/verify-email?token=${proximoToken()}`);
 
-    expect(await screen.findByText(/não deu para confirmar/i)).toBeInTheDocument();
-    expect(screen.getByText(/inválido ou expirado/i)).toBeInTheDocument();
+    expect(await screen.findByText(/couldn't confirm/i)).toBeInTheDocument();
+    expect(screen.getByText(/invalid or expired link/i)).toBeInTheDocument();
   });
 
   test("sem token no endereço, nem se chega a chamar a rota", () => {
     confirmar.mockReset();
     abrir("/verify-email");
 
-    expect(screen.getByText(/link incompleto/i)).toBeInTheDocument();
+    expect(screen.getByText(/incomplete link/i)).toBeInTheDocument();
     expect(confirmar).not.toHaveBeenCalled();
   });
 });

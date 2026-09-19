@@ -25,22 +25,22 @@ export type PasswordRule = {
 export const passwordRules: PasswordRule[] = [
   {
     id: "tamanho",
-    label: `Pelo menos ${PASSWORD_MIN} caracteres`,
+    label: `At least ${PASSWORD_MIN} characters`,
     test: (value) => value.length >= PASSWORD_MIN,
   },
   {
     id: "maiuscula",
-    label: "Uma letra maiúscula",
+    label: "One uppercase letter",
     test: (value) => /[A-Z]/.test(value),
   },
   {
     id: "numero",
-    label: "Um número",
+    label: "One number",
     test: (value) => /[0-9]/.test(value),
   },
   {
     id: "especial",
-    label: "Um caractere especial (! ? @ # …)",
+    label: "One special character (! ? @ # …)",
     test: (value) => ESPECIAL.test(value),
   },
 ];
@@ -64,7 +64,7 @@ export function passwordIsStrong(value: string) {
  */
 export const passwordSchema = z
   .string()
-  .max(200, "Máximo 200 caracteres")
+  .max(200, "At most 200 characters")
   .superRefine((value, ctx) => {
     const falta = passwordRules.find((rule) => !rule.test(value));
     if (!falta) return;

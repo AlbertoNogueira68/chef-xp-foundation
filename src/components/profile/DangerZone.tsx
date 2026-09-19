@@ -35,7 +35,7 @@ export function DangerZone({ user }: { user: User }) {
 
   const submit = () => {
     if (!nameMatches) {
-      toast.error("O nome de utilizador não coincide");
+      toast.error("The username doesn't match");
       return;
     }
     deleteAccount.mutate({
@@ -47,7 +47,7 @@ export function DangerZone({ user }: { user: User }) {
   return (
     <div className="space-y-3 border-t border-border pt-4">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        A tua conta
+        Your account
       </p>
 
       <Button
@@ -65,7 +65,7 @@ export function DangerZone({ user }: { user: User }) {
         Descarregar os meus dados
       </Button>
       <p className="text-[11px] text-muted-foreground">
-        Um ficheiro com tudo: receitas, comentários, progresso e cada ponto de XP que ganhaste.
+        One file with everything: recipes, comments, progress and every XP point you earned.
       </p>
 
       <Button
@@ -79,7 +79,7 @@ export function DangerZone({ user }: { user: User }) {
         }}
       >
         <Trash2 className="mr-1.5 size-4" />
-        Apagar a conta
+        Delete your account
       </Button>
 
       <AlertDialog open={confirming} onOpenChange={setConfirming}>
@@ -87,17 +87,15 @@ export function DangerZone({ user }: { user: User }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Apagar a conta de @{user.username}?</AlertDialogTitle>
             <AlertDialogDescription>
-              Desaparece tudo: receitas, comentários, gostos, missões, progresso e XP. Não fica
-              nenhuma cópia connosco e não há forma de voltar atrás. Se quiseres guardar o que
-              fizeste, descarrega primeiro os teus dados.
+              Everything goes: recipes, comments, likes, missions, progress and XP. We keep no copy
+              and there's no undo. If you want to keep what you made, download your data first.
             </AlertDialogDescription>
           </AlertDialogHeader>
 
           <div className="space-y-3">
             <div className="space-y-1.5">
               <Label htmlFor="confirm-name">
-                Escreve <span className="font-mono font-semibold">{user.username}</span> para
-                confirmar
+                Escreve <span className="font-mono font-semibold">{user.username}</span> to confirm
               </Label>
               <Input
                 id="confirm-name"
@@ -110,7 +108,7 @@ export function DangerZone({ user }: { user: User }) {
             {/* Contas de Google não têm password para dar; nesses casos o nome
                 escrito à mão é o travão. */}
             <div className="space-y-1.5">
-              <Label htmlFor="confirm-password">Password (se a tua conta tiver uma)</Label>
+              <Label htmlFor="confirm-password">Password (if your account has one)</Label>
               <Input
                 id="confirm-password"
                 type="password"
@@ -129,7 +127,7 @@ export function DangerZone({ user }: { user: User }) {
               disabled={!nameMatches || deleteAccount.isPending}
               onClick={submit}
             >
-              {deleteAccount.isPending ? "A apagar…" : "Apagar para sempre"}
+              {deleteAccount.isPending ? "A apagar…" : "Delete for good"}
             </button>
           </AlertDialogFooter>
         </AlertDialogContent>

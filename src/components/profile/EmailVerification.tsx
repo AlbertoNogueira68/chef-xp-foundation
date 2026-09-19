@@ -27,7 +27,7 @@ export function EmailVerification({ user }: { user: User }) {
       <p className="flex items-center gap-2 text-xs text-muted-foreground">
         <MailCheck className="size-4 shrink-0 text-emerald-600" />
         <span>
-          Email confirmado: <span className="font-medium text-foreground">{user.email}</span>
+          Email confirmed: <span className="font-medium text-foreground">{user.email}</span>
         </span>
       </p>
     );
@@ -37,11 +37,11 @@ export function EmailVerification({ user }: { user: User }) {
     <div className="rounded-xl border border-amber-500/40 bg-amber-500/5 p-4">
       <p className="flex items-center gap-2 text-sm font-medium">
         <MailWarning className="size-4 shrink-0 text-amber-600" />
-        Email por confirmar
+        Email unconfirmed
       </p>
       <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-        Confirma <span className="font-medium text-foreground">{user.email}</span> para poderes
-        recuperar a conta se perderes a password.
+        Confirma <span className="font-medium text-foreground">{user.email}</span> so you can
+        recover the account if you lose your password.
       </p>
       <Button
         variant="outline"
@@ -50,12 +50,12 @@ export function EmailVerification({ user }: { user: User }) {
         disabled={enviar.isPending || enviar.isSuccess}
         onClick={() =>
           enviar.mutate(undefined, {
-            onSuccess: () => toast.success("Email enviado. Vê a tua caixa de correio."),
+            onSuccess: () => toast.success("Email sent. Check your inbox."),
             onError: (error) => toast.error(error.message),
           })
         }
       >
-        {enviar.isPending ? "A enviar…" : enviar.isSuccess ? "Enviado" : "Enviar confirmação"}
+        {enviar.isPending ? "A enviar…" : enviar.isSuccess ? "Enviado" : "Send confirmation"}
       </Button>
     </div>
   );

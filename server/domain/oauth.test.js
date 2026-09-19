@@ -38,13 +38,13 @@ test("um email não verificado é recusado", () => {
   // conta Google criada com o email dela.
   assert.equal(ok({ email_verified: false }).ok, false);
   assert.equal(ok({ email_verified: undefined }).ok, false);
-  assert.match(ok({ email_verified: false }).reason, /não verificado/);
+  assert.match(ok({ email_verified: false }).reason, /isn't verified/);
 });
 
 test("um token emitido para outra aplicação é recusado", () => {
   const result = ok({ aud: "outra-app.apps.googleusercontent.com" });
   assert.equal(result.ok, false);
-  assert.match(result.reason, /outra aplicação/);
+  assert.match(result.reason, /another application/);
 });
 
 test("sem client id configurado nada é aceite", () => {

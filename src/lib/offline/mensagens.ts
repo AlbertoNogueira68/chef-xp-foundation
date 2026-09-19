@@ -36,11 +36,11 @@ export function avisoDoEnvio(envio: ResultadoDeEnvio): Aviso {
   }
 
   if (envio.item.tipo === "foto") {
-    return { tom: "sucesso", texto: `${envio.item.descricao} enviada.` };
+    return { tom: "sucesso", texto: `${envio.item.descricao} sent.` };
   }
 
   if (envio.item.tipo !== "licao") {
-    return { tom: "sucesso", texto: `${envio.item.descricao}: enviado.` };
+    return { tom: "sucesso", texto: `${envio.item.descricao}: sent.` };
   }
 
   const corpo = (envio.resposta ?? {}) as CorpoDeLicao;
@@ -50,17 +50,17 @@ export function avisoDoEnvio(envio: ResultadoDeEnvio): Aviso {
     const erradas = corpo.results?.filter((resultado) => !resultado.correct).length ?? 0;
     const quantas =
       erradas === 1
-        ? "uma resposta errada"
+        ? "one wrong answer"
         : erradas > 1
-          ? `${erradas} respostas erradas`
-          : "erros a mais";
+          ? `${erradas} wrong answers`
+          : "too many mistakes";
 
     // Sem rede não houve correção nem corações a descontar: é aqui que a
     // pessoa descobre o resultado, e tem de perceber que pode repetir.
     return {
       tom: "erro",
       demorado: true,
-      texto: `"${licao}": não passaste — ${quantas}. A lição continua aberta para repetires.`,
+      texto: `"${licao}": you didn't pass — ${quantas}. The lesson stays open for another go.`,
     };
   }
 
@@ -68,7 +68,7 @@ export function avisoDoEnvio(envio: ResultadoDeEnvio): Aviso {
   return {
     tom: "sucesso",
     demorado: true,
-    texto: xp > 0 ? `"${licao}": passaste! +${xp} XP.` : `"${licao}": passaste!`,
+    texto: xp > 0 ? `"${licao}": you passed! +${xp} XP.` : `"${licao}": you passed!`,
   };
 }
 
@@ -81,8 +81,8 @@ export function avisoDoResumo(enviados: ResultadoDeEnvio[]): Aviso {
     return total + (corpo?.xpEarned ?? 0) + (corpo?.streakBonus ?? 0);
   }, 0);
 
-  const partes = [`Enviámos ${enviados.length} coisas que estavam em espera`];
-  if (licoes.length > 0) partes.push(`${passadas.length} de ${licoes.length} lições passaram`);
+  const partes = [`Sent ${enviados.length} items that were waiting`];
+  if (licoes.length > 0) partes.push(`${passadas.length} of ${licoes.length} lessons passed`);
   if (xp > 0) partes.push(`+${xp} XP`);
 
   return {

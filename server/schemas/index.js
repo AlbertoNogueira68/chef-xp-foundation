@@ -2,10 +2,10 @@ import { z } from "zod";
 import { firstFailedRule } from "../domain/passwordPolicy.js";
 import { REPORT_REASONS, REPORT_SUBJECTS, ROLES } from "../domain/moderation.js";
 
-export const uuid = z.string().uuid("Identificador inválido");
+export const uuid = z.string().uuid("Invalid identifier");
 
 export const registerSchema = z.object({
-  email: z.string().trim().toLowerCase().email("Email inválido"),
+  email: z.string().trim().toLowerCase().email("Invalid email"),
   password: z
     .string()
     .max(200)
@@ -18,9 +18,9 @@ export const registerSchema = z.object({
     .string()
     .trim()
     .toLowerCase()
-    .min(3, "O nome de utilizador tem de ter pelo menos 3 caracteres")
-    .max(30, "Máximo 30 caracteres")
-    .regex(/^[a-z0-9_.]+$/, "Só letras minúsculas, números, ponto e underscore"),
+    .min(3, "The username must be at least 3 characters")
+    .max(30, "At most 30 characters")
+    .regex(/^[a-z0-9_.]+$/, "Lowercase letters, numbers, dot and underscore only"),
 });
 
 /**
@@ -37,18 +37,18 @@ export const signupStartSchema = z.object({
  * uma).
  */
 export const signupCompleteSchema = z.object({
-  token: z.string().trim().min(16, "Token inválido").max(200),
+  token: z.string().trim().min(16, "Invalid token").max(200),
   username: registerSchema.shape.username,
   password: registerSchema.shape.password,
 });
 
 export const tokenQuerySchema = z.object({
-  token: z.string().trim().min(16, "Token inválido").max(200),
+  token: z.string().trim().min(16, "Invalid token").max(200),
 });
 
 export const loginSchema = z.object({
-  email: z.string().trim().toLowerCase().email("Email inválido"),
-  password: z.string().min(1, "Password obrigatória").max(200),
+  email: z.string().trim().toLowerCase().email("Invalid email"),
+  password: z.string().min(1, "Password required").max(200),
 });
 
 export const userPatchSchema = z
@@ -59,13 +59,13 @@ export const userPatchSchema = z
     dailyXpGoal: z.coerce.number().int().min(10).max(500).optional(),
   })
   .refine((value) => Object.keys(value).length > 0, {
-    message: "Nada para atualizar",
+    message: "Nothing to update",
   });
 
 export const recipeCreateSchema = z.object({
-  title: z.string().trim().min(3, "Mínimo 3 caracteres").max(120),
-  description: z.string().trim().min(10, "Conta um pouco mais sobre a receita").max(2000),
-  ingredients: z.string().trim().min(5, "Lista pelo menos alguns ingredientes").max(4000),
+  title: z.string().trim().min(3, "At least 3 characters").max(120),
+  description: z.string().trim().min(10, "Tell us a bit more about the recipe").max(2000),
+  ingredients: z.string().trim().min(5, "List at least a few ingredients").max(4000),
   cookTimeMin: z.coerce.number().int().min(5).max(600).default(30),
   difficulty: z.enum(["facil", "medio", "dificil"]).default("medio"),
   imageDataUrl: z.string().max(6_000_000).nullish(),
@@ -77,7 +77,7 @@ export const recipeCreateSchema = z.object({
  */
 export const recipeUpdateSchema = recipeCreateSchema
   .partial()
-  .refine((value) => Object.keys(value).length > 0, { message: "Nada para atualizar" });
+  .refine((value) => Object.keys(value).length > 0, { message: "Nothing to update" });
 
 export const recipeListSchema = z.object({
   q: z.string().trim().max(80).optional(),
@@ -90,7 +90,7 @@ export const recipeListSchema = z.object({
 });
 
 export const commentCreateSchema = z.object({
-  body: z.string().trim().min(1, "Escreve alguma coisa").max(500, "Máximo 500 caracteres"),
+  body: z.string().trim().min(1, "Escreve alguma coisa").max(500, "At most 500 characters"),
 });
 
 /**
@@ -196,7 +196,7 @@ export const leaderboardSchema = z.object({
  * disso quando a conta tem uma — uma conta só de SSO não tem nenhuma para dar.
  */
 export const accountDeleteSchema = z.object({
-  confirmUsername: z.string().trim().toLowerCase().min(1, "Escreve o teu nome de utilizador"),
+  confirmUsername: z.string().trim().toLowerCase().min(1, "Type your username"),
   password: z.string().max(200).optional(),
 });
 
@@ -209,7 +209,7 @@ export const followListSchema = z.object({
 /* ---------------------------------------------------------------- */
 
 export const forgotPasswordSchema = z.object({
-  email: z.string().trim().toLowerCase().email("Email inválido"),
+  email: z.string().trim().toLowerCase().email("Invalid email"),
 });
 
 /**
@@ -218,12 +218,12 @@ export const forgotPasswordSchema = z.object({
  * das traseiras mais fraca do que a da frente.
  */
 export const resetPasswordSchema = z.object({
-  token: z.string().trim().min(16, "Token inválido").max(200),
+  token: z.string().trim().min(16, "Invalid token").max(200),
   password: registerSchema.shape.password,
 });
 
 export const emailTokenSchema = z.object({
-  token: z.string().trim().min(16, "Token inválido").max(200),
+  token: z.string().trim().min(16, "Invalid token").max(200),
 });
 
 /* ---------------------------------------------------------------- */
@@ -238,7 +238,7 @@ export const reportCreateSchema = z.object({
   subjectType: z.enum(REPORT_SUBJECTS),
   subjectId: uuid,
   reason: z.enum(REPORT_REASONS),
-  details: z.string().trim().max(500, "Máximo 500 caracteres").nullish(),
+  details: z.string().trim().max(500, "At most 500 characters").nullish(),
 });
 
 export const reportListSchema = z.object({
@@ -293,5 +293,5 @@ export const roleChangeSchema = z.object({
  * enganado na linha de cima não pode levar a conta de outra pessoa.
  */
 export const adminAccountDeleteSchema = z.object({
-  confirmUsername: z.string().trim().toLowerCase().min(1, "Escreve o nome da conta"),
+  confirmUsername: z.string().trim().toLowerCase().min(1, "Type the account's name"),
 });

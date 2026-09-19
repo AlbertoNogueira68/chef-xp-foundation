@@ -18,7 +18,7 @@ export function useExportData() {
       URL.revokeObjectURL(url);
       toast.success("Os teus dados foram descarregados");
     },
-    onError: (error: ApiError) => toast.error(error.message || "Não foi possível exportar"),
+    onError: (error: ApiError) => toast.error(error.message || "Couldn't export"),
   });
 }
 
@@ -35,9 +35,9 @@ export function useDeleteAccount() {
       // está cá.
       queryClient.clear();
       navigate("/", { replace: true });
-      toast.success("A tua conta foi apagada");
+      toast.success("Your account was deleted");
     },
 
-    onError: (error: ApiError) => toast.error(error.message || "Não foi possível apagar a conta"),
+    onError: (error: ApiError) => toast.error(error.message || "Couldn't delete the account"),
   });
 }

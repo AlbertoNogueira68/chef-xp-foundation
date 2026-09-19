@@ -30,7 +30,7 @@ export function useSetRole() {
       toast.success(user.role === "user" ? "Papel retirado" : `${user.username} passou a ${nome}`);
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Não foi possível mudar o papel");
+      toast.error(error instanceof Error ? error.message : "Couldn't change the role");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["admin"] });
@@ -44,10 +44,10 @@ export function useDeleteUser() {
     mutationFn: ({ id, confirmUsername }: { id: string; confirmUsername: string }) =>
       adminService.deleteUser(id, confirmUsername),
     onSuccess: (user) => {
-      toast.success(`A conta de @${user.username} foi apagada`);
+      toast.success(`@${user.username}'s account was deleted`);
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Não foi possível apagar a conta");
+      toast.error(error instanceof Error ? error.message : "Couldn't delete the account");
     },
     onSettled: () => {
       // As métricas e a fila também mudam: a conta levou receitas, comentários
@@ -77,14 +77,14 @@ export function useResolveReport() {
     mutationFn: ({ id, action }: { id: string; action: "remover" | "arquivar" }) =>
       adminService.resolve(id, action),
     onSuccess: ({ resolved }, { action }) => {
-      const verbo = action === "remover" ? "Conteúdo removido" : "Denúncia arquivada";
+      const verbo = action === "remover" ? "Content removed" : "Report archived";
       toast.success(verbo, {
         description:
-          resolved > 1 ? `${resolved} denúncias sobre o mesmo alvo foram fechadas.` : undefined,
+          resolved > 1 ? `${resolved} reports about the same target were closed.` : undefined,
       });
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Não foi possível fechar a denúncia");
+      toast.error(error instanceof Error ? error.message : "Couldn't close the report");
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["moderation"] });

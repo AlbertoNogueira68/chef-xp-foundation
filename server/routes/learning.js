@@ -132,12 +132,12 @@ router.get(
   validate({ params: lessonParamSchema }),
   asyncHandler(async (req, res) => {
     const lesson = getLesson(req.valid.params.id);
-    if (!lesson) return res.status(404).json({ error: "Lição não encontrada" });
+    if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
     const completed = await loadCompletedIds(getPool(), req.user.id);
     const status = buildStatuses(completed).get(lesson.id);
     if (status === "locked") {
-      return res.status(403).json({ error: "Termina as lições anteriores primeiro" });
+      return res.status(403).json({ error: "Finish the earlier lessons first" });
     }
 
     // Sem `correctAnswer` nem `explanation`: o cliente não recebe o gabarito.
@@ -154,11 +154,11 @@ router.post(
   validate({ params: lessonParamSchema, body: answerSubmitSchema }),
   asyncHandler(async (req, res) => {
     const lesson = getLesson(req.valid.params.id);
-    if (!lesson) return res.status(404).json({ error: "Lição não encontrada" });
+    if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
     const { questionId, answer } = req.valid.body;
     const question = lesson.questions.find((q) => q.id === questionId);
-    if (!question) return res.status(400).json({ error: "Pergunta inválida" });
+    if (!question) return res.status(400).json({ error: "Invalid question" });
 
     const correct = isAnswerCorrect(question, answer);
 
@@ -186,7 +186,7 @@ router.post(
   validate({ params: lessonParamSchema, body: lessonCompleteSchema }),
   asyncHandler(async (req, res) => {
     const lesson = getLesson(req.valid.params.id);
-    if (!lesson) return res.status(404).json({ error: "Lição não encontrada" });
+    if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
     const pool = getPool();
     const client = await pool.connect();
@@ -208,7 +208,7 @@ router.post(
       const missing = previous.filter((id) => !completed.has(id));
       if (missing.length > 0) {
         await client.query("ROLLBACK");
-        return res.status(403).json({ error: "Termina as lições anteriores primeiro" });
+        return res.status(403).json({ error: "Finish the earlier lessons first" });
       }
 
       // O servidor volta a corrigir: o `heartsLeft` que o cliente mostrou não

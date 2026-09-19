@@ -11,10 +11,10 @@ const PREVIEW_IMAGES = [
 ];
 
 const features = [
-  { icon: Flame, label: "Ganha XP ao cozinhar" },
-  { icon: Users, label: "Comunidade ativa" },
-  { icon: ChefHat, label: "Receitas de chefs" },
-  { icon: Sparkles, label: "Desafios semanais" },
+  { icon: Flame, label: "Earn XP by cooking" },
+  { icon: Users, label: "Active community" },
+  { icon: ChefHat, label: "Recipes from chefs" },
+  { icon: Sparkles, label: "Weekly challenges" },
 ];
 
 export function LandingPage() {
@@ -29,18 +29,18 @@ export function LandingPage() {
 
         <div className="mt-10 flex-1">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">
-            Projeto Final de Licenciatura
+            Final Degree Project
           </p>
           <h1 className="mt-3 text-4xl font-bold leading-[1.1] tracking-tight">
-            Cozinha.
+            Cook.
             <br />
             <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
-              Partilha. Evolui.
+              Share. Level up.
             </span>
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            A rede social gamificada para quem ama cozinhar — inspirada no melhor do Instagram,
-            TikTok e Pinterest.
+            The gamified social network for people who love to cook — inspired by the best of
+            Instagram, TikTok and Pinterest.
           </p>
 
           <div className="mt-6 grid grid-cols-2 gap-2">
@@ -74,10 +74,10 @@ export function LandingPage() {
             size="lg"
             className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 text-base font-semibold shadow-lg shadow-orange-500/25"
           >
-            <Link to="/auth">Começar agora</Link>
+            <Link to="/auth">Start now</Link>
           </Button>
           <p className="mt-2 text-center text-xs text-muted-foreground">
-            Grátis · Sem cartão · Demo com dados mock
+            Free · No card · Demo with mock data
           </p>
         </div>
       </div>

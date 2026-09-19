@@ -47,7 +47,7 @@ export function CommentActions({
             variant="ghost"
             size="icon"
             className="size-8 shrink-0 rounded-full text-muted-foreground"
-            aria-label={`Opções do comentário de ${comment.author.username}`}
+            aria-label={`Options for ${comment.author.username}'s comment`}
           >
             <MoreHorizontal className="size-3.5" />
           </Button>
@@ -60,12 +60,12 @@ export function CommentActions({
               onSelect={onDelete}
             >
               <Trash2 className="mr-2 size-3.5" />
-              {isMine ? "Apagar" : "Apagar da minha receita"}
+              {isMine ? "Delete" : "Delete from my recipe"}
             </DropdownMenuItem>
           )}
           {!isMine && (
             <DropdownMenuItem onSelect={() => setReporting(true)}>
-              <Flag className="mr-2 size-3.5" /> Denunciar
+              <Flag className="mr-2 size-3.5" /> Report
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>

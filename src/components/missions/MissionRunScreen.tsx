@@ -63,7 +63,7 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
     <div className="flex h-full flex-col bg-background">
       {/* Barra de topo */}
       <div className="flex items-center gap-3 border-b border-border px-3 py-2.5">
-        <Button size="icon" variant="ghost" onClick={run.abandon} aria-label="Sair da missão">
+        <Button size="icon" variant="ghost" onClick={run.abandon} aria-label="Leave the mission">
           <X className="size-5" />
         </Button>
 
@@ -95,7 +95,7 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
             size="icon"
             variant="ghost"
             onClick={voice.toggle}
-            aria-label={voice.listening ? "Desligar comandos de voz" : "Ligar comandos de voz"}
+            aria-label={voice.listening ? "Turn voice commands off" : "Turn voice commands on"}
             className={cn(voice.listening && "text-emerald-600")}
           >
             {voice.listening ? <Mic className="size-5" /> : <MicOff className="size-5" />}
@@ -119,7 +119,7 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
 
         {voice.listening && (
           <p className="mt-2 text-xs text-emerald-700">
-            A ouvir: diz «próximo», «anterior» ou «repetir».
+            Listening: say «next», «back» or «repeat».
           </p>
         )}
 
@@ -150,7 +150,7 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
               onClick={() => setShowIngredients((v) => !v)}
               className="flex w-full items-center justify-between px-3 py-2.5 text-xs font-semibold"
             >
-              Ingredientes
+              Ingredients
               <ChevronRight
                 className={cn("size-4 transition-transform", showIngredients && "rotate-90")}
               />
@@ -177,7 +177,7 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
           onClick={() => run.goToStep(run.stepIndex - 1)}
         >
           <ChevronLeft className="size-4" />
-          Anterior
+          Previous
         </Button>
 
         {run.isLastStep ? (
@@ -187,7 +187,7 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
             onClick={() => setFinishing(true)}
           >
             <Check className="size-4" />
-            {run.checkpointDone ? "Terminei" : "Falta a foto"}
+            {run.checkpointDone ? "I'm done" : "Photo missing"}
           </Button>
         ) : (
           <Button
@@ -195,7 +195,7 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
             disabled={run.isBusy}
             onClick={() => run.goToStep(run.stepIndex + 1)}
           >
-            Seguinte
+            Next
             <ChevronRight className="size-4" />
           </Button>
         )}
@@ -232,20 +232,18 @@ function CheckpointCapture({ run }: { run: Run }) {
 
   return (
     <div className="rounded-xl border-2 border-dashed border-emerald-300 bg-emerald-50/50 p-3">
-      <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">
-        Foto de verificação
-      </p>
+      <p className="text-xs font-semibold uppercase tracking-wide text-emerald-700">Proof photo</p>
 
       {shot ? (
         <div className="mt-2 flex items-center gap-3">
           <img src={shot.imageUrl} alt="" className="size-16 rounded-lg object-cover" />
           <p className="text-xs text-muted-foreground">
-            Guardada. Podes tirar outra se esta não ficou boa.
+            Saved. Take another if this one didn't come out well.
           </p>
         </div>
       ) : (
         <p className="mt-1 text-xs text-muted-foreground">
-          Sem foto não se conclui a missão — é o que distingue cozinhar de carregar em seguinte.
+          No photo, no finished mission — it's what separates cooking from tapping next.
         </p>
       )}
 
@@ -272,7 +270,7 @@ function CheckpointCapture({ run }: { run: Run }) {
             onClick={() => camera.start()}
           >
             <Camera className="size-4" />
-            {shot ? "Tirar outra" : "Tirar foto"}
+            {shot ? "Take another" : "Take photo"}
           </Button>
         )}
         <Button
@@ -282,7 +280,7 @@ function CheckpointCapture({ run }: { run: Run }) {
           onClick={() => input.current?.click()}
         >
           <Images className="size-4" />
-          {camera.supported ? "Do dispositivo" : run.isUploading ? "A guardar…" : "Tirar foto"}
+          {camera.supported ? "From device" : run.isUploading ? "A guardar…" : "Take photo"}
         </Button>
       </div>
     </div>
@@ -307,9 +305,10 @@ function MissionComplete({ run, skills }: { run: Run; skills: Map<string, Skill>
       </div>
 
       <div>
-        <h2 className="text-2xl font-bold">Cozinhaste.</h2>
+        <h2 className="text-2xl font-bold">You cooked it.</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Há {mission.cookTimeMin} minutos ainda não sabias fazer {mission.dishName.toLowerCase()}.
+          {mission.cookTimeMin} minutes ago you didn't know how to make{" "}
+          {mission.dishName.toLowerCase()}.
         </p>
       </div>
 
@@ -324,11 +323,11 @@ function MissionComplete({ run, skills }: { run: Run; skills: Map<string, Skill>
         </div>
         <div className="flex-1 rounded-xl bg-amber-50 py-3">
           <p className="text-xl font-bold text-amber-700">{result.level}</p>
-          <p className="text-[10px] uppercase tracking-wide text-amber-700/70">nível</p>
+          <p className="text-[10px] uppercase tracking-wide text-amber-700/70">level</p>
         </div>
         <div className="flex-1 rounded-xl bg-sky-50 py-3">
           <p className="text-xl font-bold text-sky-700">{practised.length}</p>
-          <p className="text-[10px] uppercase tracking-wide text-sky-700/70">praticadas</p>
+          <p className="text-[10px] uppercase tracking-wide text-sky-700/70">practised</p>
         </div>
       </div>
 
@@ -336,7 +335,7 @@ function MissionComplete({ run, skills }: { run: Run; skills: Map<string, Skill>
         <div className="w-full rounded-xl border border-border p-3 text-left">
           <p className="flex items-center gap-1.5 text-xs font-semibold">
             <Sparkles className="size-3.5 text-emerald-500" />
-            Deixaram de ser teoria
+            No longer theory
           </p>
           <p className="mt-1 text-xs text-muted-foreground">{practised.join(" · ")}</p>
         </div>
@@ -345,7 +344,7 @@ function MissionComplete({ run, skills }: { run: Run; skills: Map<string, Skill>
       {result.post && (
         <p className="flex items-center gap-1.5 text-sm font-medium text-emerald-700">
           <Trophy className="size-4" />
-          Publicado no feed.
+          Published to the feed.
         </p>
       )}
 
@@ -353,7 +352,7 @@ function MissionComplete({ run, skills }: { run: Run; skills: Map<string, Skill>
         className="w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
         onClick={run.close}
       >
-        Voltar ao percurso
+        Back to the path
       </Button>
     </div>
   );
@@ -373,9 +372,9 @@ function SharePrompt({ run, onBack }: { run: Run; onBack: () => void }) {
   return (
     <div className="flex h-full flex-col justify-center gap-4 px-6">
       <div className="text-center">
-        <h2 className="text-xl font-bold">Queres mostrar como ficou?</h2>
+        <h2 className="text-xl font-bold">Want to show how it came out?</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          No feed só aparece quem cozinhou. Podes guardar só para ti.
+          Only people who cooked show up in the feed. You can keep it private.
         </p>
       </div>
 
@@ -384,7 +383,7 @@ function SharePrompt({ run, onBack }: { run: Run; onBack: () => void }) {
       <input
         value={caption}
         onChange={(event) => setCaption(event.target.value)}
-        placeholder="Diz alguma coisa sobre o resultado…"
+        placeholder="Say something about how it turned out…"
         maxLength={280}
         className="w-full rounded-xl border border-border bg-card px-3 py-2.5 text-sm outline-none focus:border-emerald-300"
       />
@@ -395,7 +394,7 @@ function SharePrompt({ run, onBack }: { run: Run; onBack: () => void }) {
           disabled={run.isBusy}
           onClick={() => run.finish(true, caption)}
         >
-          Publicar e terminar
+          Publish and finish
         </Button>
         <Button
           variant="outline"
@@ -403,10 +402,10 @@ function SharePrompt({ run, onBack }: { run: Run; onBack: () => void }) {
           disabled={run.isBusy}
           onClick={() => run.finish(false)}
         >
-          Terminar sem publicar
+          Finish without publishing
         </Button>
         <Button variant="ghost" className="w-full rounded-full" onClick={onBack}>
-          Voltar ao último passo
+          Back to the last step
         </Button>
       </div>
     </div>

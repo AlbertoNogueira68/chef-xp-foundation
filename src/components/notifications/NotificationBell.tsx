@@ -27,12 +27,12 @@ const COLORS: Record<NotificationKind, string> = {
 
 function timeAgo(value: string) {
   const minutes = Math.floor((Date.now() - new Date(value).getTime()) / 60_000);
-  if (minutes < 1) return "agora";
-  if (minutes < 60) return `há ${minutes} min`;
+  if (minutes < 1) return "just now";
+  if (minutes < 60) return `${minutes}m ago`;
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `há ${hours} h`;
+  if (hours < 24) return `${hours}h ago`;
   const days = Math.floor(hours / 24);
-  if (days < 7) return `há ${days} ${days === 1 ? "dia" : "dias"}`;
+  if (days < 7) return `${days}d ago`;
   return new Date(value).toLocaleDateString("pt-PT", { day: "2-digit", month: "short" });
 }
 
@@ -45,11 +45,11 @@ function describe(notification: AppNotification) {
   const quem = notification.actor.username;
   switch (notification.kind) {
     case "like":
-      return `${quem} gostou de ${notification.recipe?.title ?? "uma receita tua"}`;
+      return `${quem} liked ${notification.recipe?.title ?? "one of your recipes"}`;
     case "comment":
-      return `${quem} comentou em ${notification.recipe?.title ?? "uma receita tua"}`;
+      return `${quem} commented on ${notification.recipe?.title ?? "one of your recipes"}`;
     case "follow":
-      return `${quem} começou a seguir-te`;
+      return `${quem} started following you`;
   }
 }
 
@@ -77,7 +77,7 @@ export function NotificationBell() {
           variant="ghost"
           size="icon"
           className="relative size-9 rounded-full"
-          aria-label={unread > 0 ? `Notificações (${unread} por ler)` : "Notificações"}
+          aria-label={unread > 0 ? `Notifications (${unread} unread)` : "Notifications"}
         >
           <Bell className="size-5" />
           {unread > 0 && (
@@ -90,7 +90,7 @@ export function NotificationBell() {
 
       <PopoverContent align="end" className="w-80 p-0">
         <div className="border-b border-border/60 px-3 py-2">
-          <p className="text-sm font-semibold">Notificações</p>
+          <p className="text-sm font-semibold">Notifications</p>
         </div>
 
         <div className="max-h-80 overflow-y-auto">
@@ -105,9 +105,9 @@ export function NotificationBell() {
           {!isLoading && data?.notifications.length === 0 && (
             <div className="px-4 py-10 text-center">
               <Bell className="mx-auto size-5 text-muted-foreground/50" />
-              <p className="mt-2 text-sm text-muted-foreground">Ainda não há nada por aqui.</p>
+              <p className="mt-2 text-sm text-muted-foreground">Nothing here yet.</p>
               <p className="mt-1 text-xs text-muted-foreground/80">
-                Gostos, comentários e seguidores novos aparecem aqui.
+                Likes, comments and new followers show up here.
               </p>
             </div>
           )}

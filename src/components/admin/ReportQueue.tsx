@@ -11,14 +11,14 @@ const REASON_LABEL: Record<string, string> = {
   ofensivo: "Ofensivo",
   perigoso: "Perigoso",
   spam: "Spam",
-  copia: "Cópia",
+  copia: "Copy",
   outro: "Outro",
 };
 
 const SUBJECT_LABEL: Record<ModerationReport["subjectType"], string> = {
-  recipe: "Receita",
-  comment: "Comentário",
-  user: "Conta",
+  recipe: "Recipe",
+  comment: "Comment",
+  user: "Account",
 };
 
 function quando(value: string) {
@@ -37,7 +37,7 @@ function Conteudo({ report }: { report: ModerationReport }) {
   if (!report.subject) {
     return (
       <p className="text-xs italic text-muted-foreground">
-        O conteúdo já não existe. A denúncia fica para historial.
+        The content is gone. The report stays for the record.
       </p>
     );
   }
@@ -100,7 +100,7 @@ export function ReportQueue() {
           className="h-9 rounded-full text-xs"
           onClick={() => setStatus(status === "open" ? "all" : "open")}
         >
-          {status === "open" ? "Ver também as tratadas" : "Ver só as abertas"}
+          {status === "open" ? "Include handled" : "Open only"}
         </Button>
       </div>
 
@@ -108,7 +108,7 @@ export function ReportQueue() {
 
       {fila.data?.reports.length === 0 && (
         <p className="py-10 text-center text-sm text-muted-foreground">
-          Nada por tratar. É o que se quer.
+          Nothing to handle. That's the idea.
         </p>
       )}
 
@@ -127,7 +127,7 @@ export function ReportQueue() {
               </Badge>
               {report.reportsOnSubject > 1 && (
                 <Badge variant="outline" className="rounded-full text-[10px]">
-                  {report.reportsOnSubject} denúncias
+                  {report.reportsOnSubject} reports
                 </Badge>
               )}
               {report.status !== "open" && (
@@ -161,7 +161,7 @@ export function ReportQueue() {
                     disabled={resolver.isPending || !report.subject}
                     onClick={() => resolver.mutate({ id: report.id, action: "remover" })}
                   >
-                    <Trash2 className="mr-1.5 size-3.5" /> Remover
+                    <Trash2 className="mr-1.5 size-3.5" /> Remove
                   </Button>
                 )}
                 <Button

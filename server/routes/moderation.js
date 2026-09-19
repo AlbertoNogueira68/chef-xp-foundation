@@ -117,18 +117,18 @@ router.post(
   validate({ params: reportIdParamSchema, body: reportResolveSchema }),
   asyncHandler(async (req, res) => {
     const decision = resolutionOf(req.valid.body.action);
-    if (!decision) return res.status(400).json({ error: "Ação desconhecida" });
+    if (!decision) return res.status(400).json({ error: "Unknown action" });
 
     const { rows } = await query(`SELECT * FROM reports WHERE id = $1`, [req.valid.params.id]);
     const report = rows[0];
-    if (!report) return res.status(404).json({ error: "Denúncia não encontrada" });
+    if (!report) return res.status(404).json({ error: "Report not found" });
     if (report.status !== "open") {
-      return res.status(409).json({ error: "Esta denúncia já foi tratada" });
+      return res.status(409).json({ error: "This report has already been handled" });
     }
 
     if (decision.resolution === "removido" && report.subject_type === "user") {
       return res.status(400).json({
-        error: "Uma conta não se apaga pela fila — trata o conteúdo dela, uma peça de cada vez",
+        error: "Accounts aren't deleted from the queue — handle their content, one piece at a time",
       });
     }
 

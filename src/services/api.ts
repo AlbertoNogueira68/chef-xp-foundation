@@ -64,8 +64,8 @@ type ApiFetchOptions = RequestInit & {
  * nada que ela possa fazer e o pior seria mandá-la verificar a Internet que
  * está a funcionar.
  */
-export const OFFLINE_MESSAGE = "Sem ligação. Isto fica por gravar até voltares a ter rede.";
-export const SERVER_MESSAGE = "O servidor não respondeu. Nada ficou gravado — tenta outra vez.";
+export const OFFLINE_MESSAGE = "You're offline. This stays unsaved until you're back online.";
+export const SERVER_MESSAGE = "The server didn't answer. Nothing was saved — try again.";
 
 /**
  * Emitido quando um pedido falha na rede, e outra vez quando volta a haver
@@ -160,7 +160,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
       // reage, mantendo o estado e a rota de origem.
       window.dispatchEvent(new CustomEvent(SESSION_EXPIRED_EVENT));
     }
-    const err = new Error("Sessão expirada") as ApiError;
+    const err = new Error("Session expired") as ApiError;
     err.status = 401;
     throw err;
   }

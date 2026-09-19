@@ -116,7 +116,7 @@ export function useLessonPlayer() {
         const { lesson: loaded } = await learningService.getLesson(lessonId);
         resetSession(loaded);
       } catch (error) {
-        toast.error(error instanceof Error ? error.message : "Não foi possível abrir a lição");
+        toast.error(error instanceof Error ? error.message : "Couldn't open the lesson");
       }
     },
     [resetSession],
@@ -199,7 +199,7 @@ export function useLessonPlayer() {
         }
 
         setSelectedAnswer(null);
-        toast.error(error instanceof Error ? error.message : "Não foi possível validar a resposta");
+        toast.error(error instanceof Error ? error.message : "Couldn't check the answer");
       } finally {
         setIsChecking(false);
       }
@@ -243,7 +243,7 @@ export function useLessonPlayer() {
       queryClient.invalidateQueries({ queryKey: ["userStats"] });
 
       if (result.streakBonus) {
-        toast.success(`Streak de ${result.streak} dias! +${result.streakBonus} XP extra`);
+        toast.success(`${result.streak}-day streak! +${result.streakBonus} bonus XP`);
       }
 
       setPhase("complete");
@@ -253,7 +253,7 @@ export function useLessonPlayer() {
         // `ref` é a lição: se a mesma lição for feita outra vez offline, fica
         // a última tentativa em vez de duas.
         const guardado = await enqueue({
-          descricao: `Lição: ${lesson.dishName}`,
+          descricao: `Lesson: ${lesson.dishName}`,
           path: `/learning/lessons/${lesson.id}/complete`,
           method: "POST",
           body: { answers: answers.current },
@@ -269,7 +269,7 @@ export function useLessonPlayer() {
         }
       }
 
-      toast.error(error instanceof Error ? error.message : "Não foi possível concluir a lição");
+      toast.error(error instanceof Error ? error.message : "Couldn't finish the lesson");
     } finally {
       setIsFinishing(false);
     }

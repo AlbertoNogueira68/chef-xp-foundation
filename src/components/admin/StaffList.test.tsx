@@ -46,7 +46,7 @@ describe("contas, na administração", () => {
     const utilizador = userEvent.setup();
 
     renderWithProviders(<StaffList meId="admin-1" />);
-    await utilizador.click(screen.getByRole("button", { name: /tornar moderador/i }));
+    await utilizador.click(screen.getByRole("button", { name: /make moderator/i }));
 
     expect(mocks.setRole).toHaveBeenCalledWith({ id: "user-9", role: "moderator" });
   });
@@ -56,8 +56,8 @@ describe("contas, na administração", () => {
 
     renderWithProviders(<StaffList meId="admin-1" />);
 
-    expect(screen.getByRole("button", { name: /retirar moderação/i })).toBeInTheDocument();
-    expect(screen.getByText("Moderador")).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /remove moderator/i })).toBeInTheDocument();
+    expect(screen.getByText("Moderator")).toBeInTheDocument();
   });
 
   test("não oferece mudar o meu próprio papel nem despromover outro admin", () => {
@@ -69,7 +69,7 @@ describe("contas, na administração", () => {
     renderWithProviders(<StaffList meId="admin-1" />);
 
     expect(
-      screen.queryByRole("button", { name: /tornar moderador|retirar moderação/i }),
+      screen.queryByRole("button", { name: /make moderator|remove moderator/i }),
     ).not.toBeInTheDocument();
   });
 
@@ -78,9 +78,9 @@ describe("contas, na administração", () => {
 
     renderWithProviders(<StaffList meId="admin-1" />);
 
-    const linha = screen.getByText(/3 receitas/);
-    expect(linha).toHaveTextContent("2 denúncias");
-    expect(linha).toHaveTextContent("email por confirmar");
+    const linha = screen.getByText(/3 recipes/);
+    expect(linha).toHaveTextContent("2 reports");
+    expect(linha).toHaveTextContent("email unconfirmed");
   });
 
   test("apagar uma conta pede o nome escrito à mão", async () => {
@@ -89,16 +89,16 @@ describe("contas, na administração", () => {
     const utilizador = userEvent.setup();
 
     renderWithProviders(<StaffList meId="admin-1" />);
-    await utilizador.click(screen.getByRole("button", { name: /apagar conta/i }));
+    await utilizador.click(screen.getByRole("button", { name: /delete account/i }));
 
-    const apagar = screen.getByRole("button", { name: /apagar para sempre/i });
+    const apagar = screen.getByRole("button", { name: /delete for good/i });
     expect(apagar).toBeDisabled();
 
-    await utilizador.type(screen.getByLabelText(/para confirmar/i), "outro");
+    await utilizador.type(screen.getByLabelText(/to confirm/i), "outro");
     expect(apagar).toBeDisabled();
 
-    await utilizador.clear(screen.getByLabelText(/para confirmar/i));
-    await utilizador.type(screen.getByLabelText(/para confirmar/i), "Bruno");
+    await utilizador.clear(screen.getByLabelText(/to confirm/i));
+    await utilizador.type(screen.getByLabelText(/to confirm/i), "Bruno");
     await utilizador.click(apagar);
 
     expect(mocks.deleteUser).toHaveBeenCalledWith(
@@ -115,7 +115,7 @@ describe("contas, na administração", () => {
 
     renderWithProviders(<StaffList meId="admin-1" />);
 
-    expect(screen.queryByRole("button", { name: /apagar conta/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /delete account/i })).not.toBeInTheDocument();
   });
 
   test("oferece apagar a conta de um moderador", () => {
@@ -123,6 +123,6 @@ describe("contas, na administração", () => {
 
     renderWithProviders(<StaffList meId="admin-1" />);
 
-    expect(screen.getByRole("button", { name: /apagar conta/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /delete account/i })).toBeInTheDocument();
   });
 });

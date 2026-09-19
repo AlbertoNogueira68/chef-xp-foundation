@@ -19,11 +19,11 @@ export function VerifyEmailPage() {
   if (!token) {
     return (
       <AuthCard
-        titulo="Link incompleto"
-        descricao="Este endereço não traz nenhum token. Abre o link tal como veio no email."
+        titulo="Incomplete link"
+        descricao="This address carries no token. Open the link exactly as it came in the email."
       >
         <Button asChild className="w-full rounded-full">
-          <Link to="/feed">Ir para a app</Link>
+          <Link to="/feed">Go to the app</Link>
         </Button>
       </AuthCard>
     );
@@ -31,7 +31,7 @@ export function VerifyEmailPage() {
 
   if (confirmar.isPending) {
     return (
-      <AuthCard titulo="A confirmar…" descricao="Um instante.">
+      <AuthCard titulo="Confirming…" descricao="Um instante.">
         <div className="flex justify-center py-2">
           <span className="size-6 animate-spin rounded-full border-2 border-muted border-t-amber-500" />
         </div>
@@ -42,23 +42,23 @@ export function VerifyEmailPage() {
   if (confirmar.isError) {
     return (
       <AuthCard
-        titulo="Não deu para confirmar"
+        titulo="Couldn't confirm"
         descricao={
           confirmar.error instanceof Error
             ? confirmar.error.message
-            : "O link é inválido ou já expirou."
+            : "The link is invalid or has expired."
         }
         rodape={
           <Link
             to="/feed"
             className="inline-flex min-h-8 items-center px-2 text-muted-foreground underline-offset-4 hover:underline"
           >
-            Ir para a app
+            Go to the app
           </Link>
         }
       >
         <p className="text-sm text-muted-foreground">
-          Podes pedir outro link nas definições do perfil, com a sessão aberta.
+          You can ask for another link in your profile settings, while signed in.
         </p>
       </AuthCard>
     );
@@ -66,18 +66,18 @@ export function VerifyEmailPage() {
 
   return (
     <AuthCard
-      titulo={confirmar.data.alreadyVerified ? "Já estava confirmado" : "Email confirmado"}
+      titulo={confirmar.data.alreadyVerified ? "Already confirmed" : "Email confirmed"}
       descricao={
         confirmar.data.alreadyVerified
-          ? "Este endereço já tinha sido confirmado. Não tens de fazer mais nada."
-          : "Obrigado. É por este endereço que recuperas a conta se perderes a password."
+          ? "This address was already confirmed. Nothing else to do."
+          : "Thanks. This address is how you recover the account if you lose your password."
       }
     >
       <Button
         asChild
         className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
       >
-        <Link to="/feed">Ir para a app</Link>
+        <Link to="/feed">Go to the app</Link>
       </Button>
     </AuthCard>
   );

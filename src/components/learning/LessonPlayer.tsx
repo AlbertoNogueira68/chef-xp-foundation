@@ -27,9 +27,9 @@ import {
 import { cn } from "@/lib/utils";
 
 const DIFFICULTY: Record<string, string> = {
-  facil: "Fácil",
-  medio: "Médio",
-  dificil: "Difícil",
+  facil: "Easy",
+  medio: "Medium",
+  dificil: "Hard",
 };
 
 export function LessonPlayer({
@@ -117,7 +117,7 @@ export function LessonPlayer({
     return (
       <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
         <ChefMascot size="xl" mood="triste" className="ring-4 ring-rose-100" />
-        <h2 className="mt-4 text-xl font-bold">Sem corações!</h2>
+        <h2 className="mt-4 text-xl font-bold">Out of lives!</h2>
         <ChefSpeech
           tone="errado"
           size="xs"
@@ -129,10 +129,10 @@ export function LessonPlayer({
         <div className="mt-8 flex w-full max-w-xs flex-col gap-2">
           <Button className="rounded-full bg-emerald-500 hover:bg-emerald-600" onClick={onRetry}>
             <RotateCcw className="mr-2 size-4" />
-            Tentar novamente
+            Try again
           </Button>
           <Button variant="ghost" className="rounded-full" onClick={onClose}>
-            Voltar ao trilho
+            Back to the path
           </Button>
         </div>
       </div>
@@ -231,10 +231,10 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
     <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6 pt-4">
       <Badge className="mb-2 w-fit rounded-full border-0 bg-emerald-100 text-emerald-800">
         {lesson.type === "chest"
-          ? "Bónus"
+          ? "Bonus"
           : lesson.type === "boss"
-            ? "Revisão"
-            : `Dia ${lesson.dayNumber}`}
+            ? "Review"
+            : `Day ${lesson.dayNumber}`}
       </Badge>
       <h2 className="text-2xl font-bold leading-tight">{lesson.dishName}</h2>
       <p className="mt-1 text-sm text-muted-foreground">{lesson.description}</p>
@@ -264,7 +264,7 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
       <div className="mt-5">
         <h3 className="flex items-center gap-2 text-sm font-semibold">
           <ListChecks className="size-4 text-emerald-600" />
-          Ingredientes
+          Ingredients
         </h3>
         <ul className="mt-2 space-y-1.5">
           {lesson.ingredients.map((item) => (
@@ -278,9 +278,9 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
 
       <p className="mt-4 text-xs text-muted-foreground">
         {[
-          `${lesson.preparationSteps.length} passos de preparação`,
-          tipCount > 0 && `${tipCount} ${tipCount === 1 ? "dica" : "dicas"} do Chef`,
-          `${lesson.questions.length} perguntas`,
+          `${lesson.preparationSteps.length} prep steps`,
+          tipCount > 0 && `${tipCount} Chef ${tipCount === 1 ? "tip" : "tips"}`,
+          `${lesson.questions.length} questions`,
         ]
           .filter(Boolean)
           .join(" + ")}
@@ -290,7 +290,7 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
         className="mt-6 w-full rounded-full bg-emerald-500 py-6 text-base font-semibold hover:bg-emerald-600"
         onClick={onStart}
       >
-        Começar preparação
+        Start prep
         <ArrowRight className="ml-2 size-5" />
       </Button>
     </div>
@@ -324,7 +324,7 @@ function LessonPrep({
         </p>
       ) : (
         <p className="text-xs font-medium uppercase tracking-wider text-emerald-600">
-          Preparação · Passo {stepIndex + 1} de {stepCount}
+          Prep · Step {stepIndex + 1} of {stepCount}
         </p>
       )}
       <p className="mt-1 text-sm text-muted-foreground">{lesson.dishName}</p>
@@ -365,7 +365,7 @@ function LessonPrep({
       <div className="mt-auto flex gap-2">
         <Button variant="outline" className="rounded-full" onClick={onPrev}>
           <ArrowLeft className="mr-1 size-4" />
-          {stepIndex === 0 ? "Voltar" : "Anterior"}
+          {stepIndex === 0 ? "Back" : "Previous"}
         </Button>
         <Button
           className="flex-1 rounded-full bg-emerald-500 hover:bg-emerald-600"
@@ -373,12 +373,12 @@ function LessonPrep({
         >
           {isLast ? (
             <>
-              Testar conhecimentos
+              Test what you know
               <Check className="ml-2 size-4" />
             </>
           ) : (
             <>
-              Seguinte
+              Next
               <ArrowRight className="ml-2 size-4" />
             </>
           )}
@@ -477,7 +477,7 @@ function OrderExercise({
       <div className="rounded-2xl border-2 border-dashed border-border p-3">
         {picked.length === 0 ? (
           <p className="py-3 text-center text-xs text-muted-foreground">
-            Toca nos passos pela ordem certa
+            Tap the steps in the right order
           </p>
         ) : (
           <ol className="flex flex-col gap-2">
@@ -519,14 +519,14 @@ function OrderExercise({
             disabled={isChecking}
           >
             <Undo2 className="size-4" />
-            Recomeçar
+            Start over
           </Button>
           <Button
             className="flex-1 rounded-full bg-emerald-500 hover:bg-emerald-600"
             disabled={!complete || isChecking}
             onClick={() => onSubmit(picked)}
           >
-            Confirmar ordem
+            Confirm order
           </Button>
         </div>
       )}
@@ -570,7 +570,7 @@ function EstimateExercise({
 
       {question.tolerance !== undefined && (
         <p className="text-xs text-muted-foreground">
-          Aceita-se uma margem de ±{question.tolerance} {question.unit}. Estima, não decores.
+          Anything within ±{question.tolerance} {question.unit} counts. Estimate, don't memorise.
         </p>
       )}
 
@@ -580,7 +580,7 @@ function EstimateExercise({
           disabled={!valid || isChecking}
           onClick={() => onSubmit(parsed)}
         >
-          Confirmar
+          Confirm
         </Button>
       )}
     </>
@@ -638,7 +638,7 @@ function LessonQuiz({
         Quiz · {dishName}
       </p>
       <p className="mt-0.5 text-xs text-muted-foreground">
-        Pergunta {questionIndex + 1} de {totalQuestions}
+        Question {questionIndex + 1} of {totalQuestions}
       </p>
 
       {/* Quem pergunta é o chef. O enunciado continua a ser o cabeçalho da
@@ -689,18 +689,18 @@ function LessonQuiz({
             title={
               <span className="flex items-center gap-2">
                 <CloudUpload className="size-4" />
-                Resposta guardada
+                Answer saved
               </span>
             }
           >
-            Sem rede, a correção fica para quando voltares a ter ligação. Podes continuar a lição —
-            não perdes corações por isto.
+            With no connection, marking waits until you're back online. Carry on with the lesson —
+            this costs you no lives.
           </ChefSpeech>
           <Button
             className="mt-3 w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
             onClick={onNext}
           >
-            Continuar
+            Continue
           </Button>
         </div>
       )}
@@ -719,7 +719,7 @@ function LessonQuiz({
 
             {showCorrectInFeedback && (
               <p className="mt-2 rounded-xl bg-white/60 px-3 py-2">
-                <span className="font-semibold">Resposta certa: </span>
+                <span className="font-semibold">Correct answer: </span>
                 {formatAnswer(correctAnswer, question.unit)}
               </p>
             )}
@@ -732,7 +732,7 @@ function LessonQuiz({
             onClick={onNext}
             disabled={!isCorrect && hearts <= 0}
           >
-            Continuar
+            Continue
           </Button>
         </div>
       )}

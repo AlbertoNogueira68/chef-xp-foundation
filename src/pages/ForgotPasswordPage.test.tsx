@@ -39,7 +39,7 @@ describe("pedir o link de recuperação", () => {
     renderWithProviders(<ForgotPasswordPage />);
 
     await utilizador.type(screen.getByLabelText(/email/i), "alguem@chef-xp.test");
-    await utilizador.click(screen.getByRole("button", { name: /enviar o link/i }));
+    await utilizador.click(screen.getByRole("button", { name: /send the link/i }));
 
     expect(pedir.mutate).toHaveBeenCalledWith("alguem@chef-xp.test");
   });
@@ -56,7 +56,7 @@ describe("pedir o link de recuperação", () => {
     renderWithProviders(<ForgotPasswordPage />);
 
     await utilizador.type(screen.getByLabelText(/email/i), "isto-nao-e-um-email");
-    await utilizador.click(screen.getByRole("button", { name: /enviar o link/i }));
+    await utilizador.click(screen.getByRole("button", { name: /send the link/i }));
 
     expect(pedir.mutate).not.toHaveBeenCalled();
   });
@@ -70,7 +70,7 @@ describe("pedir o link de recuperação", () => {
     pedir.isSuccess = true;
     renderWithProviders(<ForgotPasswordPage />);
 
-    expect(screen.getByText(/se houver uma conta/i)).toBeInTheDocument();
+    expect(screen.getByText(/if there's an account/i)).toBeInTheDocument();
   });
 });
 
@@ -80,7 +80,7 @@ describe("redefinir a password", () => {
   test("sem token no endereço, o ecrã manda pedir outro link", () => {
     renderWithProviders(<ResetPasswordPage />, { route: "/reset-password" });
 
-    expect(screen.getByText(/link incompleto/i)).toBeInTheDocument();
+    expect(screen.getByText(/incomplete link/i)).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /pedir outro link/i })).toBeInTheDocument();
   });
 
@@ -90,11 +90,11 @@ describe("redefinir a password", () => {
       route: `/reset-password?token=${"a".repeat(64)}`,
     });
 
-    await utilizador.type(screen.getByLabelText(/^password nova$/i), "Password-nova-1!");
-    await utilizador.type(screen.getByLabelText(/repetir/i), "password-diferente");
-    await utilizador.click(screen.getByRole("button", { name: /guardar a password/i }));
+    await utilizador.type(screen.getByLabelText(/^new password$/i), "Password-nova-1!");
+    await utilizador.type(screen.getByLabelText(/repeat/i), "password-diferente");
+    await utilizador.click(screen.getByRole("button", { name: /save password/i }));
 
-    expect(await screen.findByText(/não coincidem/i)).toBeInTheDocument();
+    expect(await screen.findByText(/don't match/i)).toBeInTheDocument();
     expect(redefinir.mutate).not.toHaveBeenCalled();
   });
 
@@ -103,9 +103,9 @@ describe("redefinir a password", () => {
     const token = "b".repeat(64);
     renderWithProviders(<ResetPasswordPage />, { route: `/reset-password?token=${token}` });
 
-    await utilizador.type(screen.getByLabelText(/^password nova$/i), "Password-nova-1!");
-    await utilizador.type(screen.getByLabelText(/repetir/i), "Password-nova-1!");
-    await utilizador.click(screen.getByRole("button", { name: /guardar a password/i }));
+    await utilizador.type(screen.getByLabelText(/^new password$/i), "Password-nova-1!");
+    await utilizador.type(screen.getByLabelText(/repeat/i), "Password-nova-1!");
+    await utilizador.click(screen.getByRole("button", { name: /save password/i }));
 
     expect(redefinir.mutate).toHaveBeenCalledTimes(1);
     expect(redefinir.mutate.mock.calls[0][0]).toMatchObject({

@@ -26,17 +26,17 @@ export const passwordRules = [
   },
   {
     id: "maiuscula",
-    message: "A password tem de ter uma letra maiúscula",
+    message: "The password needs an uppercase letter",
     test: (value) => /[A-Z]/.test(value),
   },
   {
     id: "numero",
-    message: "A password tem de ter um número",
+    message: "The password needs a number",
     test: (value) => /[0-9]/.test(value),
   },
   {
     id: "especial",
-    message: "A password tem de ter um caractere especial",
+    message: "The password needs a special character",
     test: (value) => ESPECIAL.test(value),
   },
 ];

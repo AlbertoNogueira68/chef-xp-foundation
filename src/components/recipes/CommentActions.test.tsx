@@ -23,7 +23,7 @@ function makeComment(authorId: string): Comment {
 
 const abrirMenu = async () => {
   const utilizador = userEvent.setup();
-  await utilizador.click(screen.getByRole("button", { name: /opções do comentário/i }));
+  await utilizador.click(screen.getByRole("button", { name: /options for/i }));
   return utilizador;
 };
 
@@ -45,8 +45,8 @@ describe("opções de um comentário", () => {
     );
     await abrirMenu();
 
-    expect(await screen.findByRole("menuitem", { name: /^apagar$/i })).toBeInTheDocument();
-    expect(screen.queryByRole("menuitem", { name: /denunciar/i })).not.toBeInTheDocument();
+    expect(await screen.findByRole("menuitem", { name: /^delete$/i })).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: /report/i })).not.toBeInTheDocument();
   });
 
   test("o dono da receita apaga o comentário de outra pessoa — e vê de quem é a casa", async () => {
@@ -62,7 +62,7 @@ describe("opções de um comentário", () => {
     );
     const utilizador = await abrirMenu();
 
-    const item = await screen.findByRole("menuitem", { name: /apagar da minha receita/i });
+    const item = await screen.findByRole("menuitem", { name: /delete from my recipe/i });
     await utilizador.click(item);
     expect(apagar).toHaveBeenCalled();
   });
@@ -79,8 +79,8 @@ describe("opções de um comentário", () => {
     );
     await abrirMenu();
 
-    expect(await screen.findByRole("menuitem", { name: /denunciar/i })).toBeInTheDocument();
-    expect(screen.queryByRole("menuitem", { name: /apagar/i })).not.toBeInTheDocument();
+    expect(await screen.findByRole("menuitem", { name: /report/i })).toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: /delete/i })).not.toBeInTheDocument();
   });
 
   test("sem sessão não se mostra menu nenhum", () => {
@@ -93,6 +93,6 @@ describe("opções de um comentário", () => {
       />,
     );
 
-    expect(screen.queryByRole("button", { name: /opções do comentário/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: /options for/i })).not.toBeInTheDocument();
   });
 });

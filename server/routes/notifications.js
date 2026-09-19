@@ -99,7 +99,7 @@ router.post(
         req.valid.params.id,
         req.user.id,
       ]);
-      if (!rows[0]) return res.status(404).json({ error: "Notificação não encontrada" });
+      if (!rows[0]) return res.status(404).json({ error: "Notification not found" });
     }
 
     res.status(204).end();

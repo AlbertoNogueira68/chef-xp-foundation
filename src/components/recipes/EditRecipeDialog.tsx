@@ -72,7 +72,7 @@ export function EditRecipeDialog({
       setImage(await fileToResizedDataUrl(file));
       setRemoveImage(false);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Não foi possível usar essa imagem");
+      toast.error(error instanceof Error ? error.message : "Couldn't use that image");
     } finally {
       setProcessing(false);
     }
@@ -105,8 +105,8 @@ export function EditRecipeDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-md">
         <DialogHeader className="text-left">
-          <DialogTitle>Editar receita</DialogTitle>
-          <DialogDescription>O XP já ganho não muda com as correções.</DialogDescription>
+          <DialogTitle>Edit recipe</DialogTitle>
+          <DialogDescription>XP already earned doesn't change when you edit.</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={submit} className="space-y-4">
@@ -155,7 +155,7 @@ export function EditRecipeDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="edit-title">Título</Label>
+            <Label htmlFor="edit-title">Title</Label>
             <Input
               id="edit-title"
               value={title}
@@ -167,7 +167,7 @@ export function EditRecipeDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="edit-description">Descrição</Label>
+            <Label htmlFor="edit-description">Description</Label>
             <Textarea
               id="edit-description"
               value={description}
@@ -180,7 +180,7 @@ export function EditRecipeDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="edit-ingredients">Ingredientes</Label>
+            <Label htmlFor="edit-ingredients">Ingredients</Label>
             <Textarea
               id="edit-ingredients"
               value={ingredients}
@@ -195,7 +195,7 @@ export function EditRecipeDialog({
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="edit-time">Tempo (min)</Label>
+              <Label htmlFor="edit-time">Time (min)</Label>
               <Input
                 id="edit-time"
                 type="number"
@@ -207,7 +207,7 @@ export function EditRecipeDialog({
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="edit-difficulty">Dificuldade</Label>
+              <Label htmlFor="edit-difficulty">Difficulty</Label>
               <Select
                 value={difficulty}
                 onValueChange={(value) => setDifficulty(value as RecipeDifficulty)}
@@ -216,16 +216,16 @@ export function EditRecipeDialog({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="facil">Fácil</SelectItem>
-                  <SelectItem value="medio">Médio</SelectItem>
-                  <SelectItem value="dificil">Difícil</SelectItem>
+                  <SelectItem value="facil">Easy</SelectItem>
+                  <SelectItem value="medio">Medium</SelectItem>
+                  <SelectItem value="dificil">Hard</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <Button type="submit" className="w-full rounded-full" disabled={update.isPending}>
-            {update.isPending ? "A guardar…" : "Guardar"}
+            {update.isPending ? "Saving…" : "Save"}
           </Button>
         </form>
       </DialogContent>

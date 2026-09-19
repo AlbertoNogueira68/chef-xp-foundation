@@ -29,7 +29,7 @@ export function AuthCard({
         <div className="text-center">
           <Link
             to="/"
-            aria-label="Chef XP — página inicial"
+            aria-label="ChefXP — home"
             className="inline-flex min-h-8 items-center justify-center px-2"
           >
             <ChefXPLogo className="text-3xl" />

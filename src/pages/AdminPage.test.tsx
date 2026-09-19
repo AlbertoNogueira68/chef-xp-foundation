@@ -31,8 +31,8 @@ describe("área de administração", () => {
 
     renderWithProviders(<AdminPage />, { route: "/admin" });
 
-    expect(screen.getByRole("heading", { name: "Moderação" })).toBeInTheDocument();
-    expect(screen.getByText(/nada por tratar/i)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Moderation" })).toBeInTheDocument();
+    expect(screen.getByText(/nothing to handle/i)).toBeInTheDocument();
     expect(screen.queryByRole("tab", { name: "Contas" })).not.toBeInTheDocument();
   });
 
@@ -41,10 +41,10 @@ describe("área de administração", () => {
 
     renderWithProviders(<AdminPage />, { route: "/admin" });
 
-    expect(screen.getByRole("heading", { name: "Administração" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "Fila" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Admin" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Queue" })).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: "Contas" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "Números" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Numbers" })).toBeInTheDocument();
   });
 
   test("quem não tem papel nenhum é reencaminhado para fora", () => {
@@ -52,8 +52,6 @@ describe("área de administração", () => {
 
     renderWithProviders(<AdminPage />, { route: "/admin" });
 
-    expect(
-      screen.queryByRole("heading", { name: /administração|moderação/i }),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name: /admin|moderation/i })).not.toBeInTheDocument();
   });
 });

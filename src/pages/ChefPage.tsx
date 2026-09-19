@@ -80,9 +80,9 @@ export function ChefPage() {
   if (isError || !chef) {
     return (
       <div className="py-16 text-center">
-        <p className="text-sm text-muted-foreground">Este chef não existe.</p>
+        <p className="text-sm text-muted-foreground">This chef doesn't exist.</p>
         <Button variant="outline" className="mt-4 rounded-full" onClick={() => navigate("/search")}>
-          Procurar chefs
+          Search chefs
         </Button>
       </div>
     );
@@ -99,7 +99,7 @@ export function ChefPage() {
         className="-ml-2 rounded-full text-muted-foreground"
         onClick={() => navigate(-1)}
       >
-        <ArrowLeft className="mr-1.5 size-4" /> Voltar
+        <ArrowLeft className="mr-1.5 size-4" /> Back
       </Button>
 
       <div className="flex items-start justify-between">
@@ -120,11 +120,11 @@ export function ChefPage() {
             >
               {following ? (
                 <>
-                  <UserCheck className="mr-1.5 size-3.5" /> A seguir
+                  <UserCheck className="mr-1.5 size-3.5" /> Following
                 </>
               ) : (
                 <>
-                  <UserPlus className="mr-1.5 size-3.5" /> Seguir
+                  <UserPlus className="mr-1.5 size-3.5" /> Follow
                 </>
               )}
             </Button>
@@ -135,15 +135,15 @@ export function ChefPage() {
 
       <div>
         <h1 className="text-xl font-bold">{chef.username}</h1>
-        <p className="text-sm text-muted-foreground">Nível {chef.level}</p>
+        <p className="text-sm text-muted-foreground">Level {chef.level}</p>
       </div>
 
       {/* Sem isto, um perfil bloqueado parecia um perfil vazio: as listas vêm
           filtradas do servidor e não havia nada a dizer porquê. */}
       {blocked && (
         <p className="rounded-xl border border-border/60 bg-muted/50 p-3 text-xs text-muted-foreground">
-          Bloqueaste esta pessoa. O que ela publica não te aparece, e ela não vê o que publicas.
-          Desbloqueia no menu aqui em cima ou nas definições.
+          You blocked this person. Their posts don't reach you, and they can't see yours. Unblock
+          from the menu above or in settings.
         </p>
       )}
 
@@ -153,7 +153,7 @@ export function ChefPage() {
         ) : (
           <>
             <Stat label="Cozinhados" value={stats.cooked} />
-            <Stat label="Receitas" value={stats.recipes} />
+            <Stat label="Recipes" value={stats.recipes} />
             <Stat
               label="Seguidores"
               value={stats.followers}
@@ -188,14 +188,14 @@ export function ChefPage() {
             <ChefHat className="mr-1.5 size-3.5" /> Cozinhados
           </TabsTrigger>
           <TabsTrigger value="recipes" className="rounded-full text-xs">
-            <Grid3X3 className="mr-1.5 size-3.5" /> Receitas
+            <Grid3X3 className="mr-1.5 size-3.5" /> Recipes
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="cooked" className="mt-4">
           {cooked.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              Ainda não cozinhou nenhuma missão em público.
+              Hasn't cooked a mission in public yet.
             </p>
           ) : (
             <div className="columns-2 gap-3">
@@ -209,7 +209,7 @@ export function ChefPage() {
         <TabsContent value="recipes" className="mt-4">
           {recipes.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              Ainda não publicou nenhuma receita.
+              Hasn't published a recipe yet.
             </p>
           ) : (
             <div className="columns-2 gap-3">

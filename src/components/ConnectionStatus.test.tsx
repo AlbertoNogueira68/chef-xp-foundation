@@ -25,10 +25,10 @@ describe("aviso de falta de ligação", () => {
     ligacao(false);
 
     const aviso = screen.getByRole("status");
-    expect(aviso).toHaveTextContent(/sem ligação/i);
+    expect(aviso).toHaveTextContent(/you're offline/i);
     // A promessa que a app faz agora: continuar é possível, e o que se fizer
     // fica guardado até haver rede.
-    expect(aviso).toHaveTextContent(/fica guardado aqui/i);
+    expect(aviso).toHaveTextContent(/saved here/i);
   });
 
   test("volta a desaparecer quando a rede volta", () => {
@@ -59,7 +59,7 @@ describe("servidor em baixo, com rede a funcionar", () => {
       await apiFetch("/recipes").catch(() => {});
     });
 
-    expect(screen.getByRole("status")).toHaveTextContent(/servidor não está a responder/i);
+    expect(screen.getByRole("status")).toHaveTextContent(/server isn't responding/i);
   });
 
   test("um pedido que volta a responder faz a barra desaparecer", async () => {

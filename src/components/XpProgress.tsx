@@ -25,9 +25,9 @@ export function XpProgress({
   return (
     <div className={cn("space-y-1.5", className)}>
       <div className="flex items-center justify-between text-xs">
-        <span className="font-medium text-foreground">Nível {level}</span>
+        <span className="font-medium text-foreground">Level {level}</span>
         <span className="tabular-nums text-muted-foreground">
-          {isMaxLevel ? `${totalXp ?? xp} XP · nível máximo` : `${xp} / ${nextLevelXp} XP`}
+          {isMaxLevel ? `${totalXp ?? xp} XP · max level` : `${xp} / ${nextLevelXp} XP`}
         </span>
       </div>
       <Progress value={pct} className="h-2 bg-muted" />

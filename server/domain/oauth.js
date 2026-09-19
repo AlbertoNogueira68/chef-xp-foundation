@@ -39,25 +39,25 @@ export function decodeJwtPayload(token) {
  */
 export function validateIdTokenClaims(claims, { clientId, now = Date.now() } = {}) {
   if (!claims || typeof claims !== "object") {
-    return { ok: false, reason: "id_token ilegível" };
+    return { ok: false, reason: "unreadable id_token" };
   }
   if (!GOOGLE_ISSUERS.includes(claims.iss)) {
     return { ok: false, reason: "Emissor inesperado" };
   }
   if (!clientId || claims.aud !== clientId) {
-    return { ok: false, reason: "Token emitido para outra aplicação" };
+    return { ok: false, reason: "Token issued for another application" };
   }
   if (typeof claims.exp !== "number" || claims.exp * 1000 <= now) {
     return { ok: false, reason: "Token expirado" };
   }
   if (!claims.sub) {
-    return { ok: false, reason: "Token sem identificador de utilizador" };
+    return { ok: false, reason: "Token without a user identifier" };
   }
   if (!claims.email) {
-    return { ok: false, reason: "A conta Google não partilhou o email" };
+    return { ok: false, reason: "The Google account didn't share the email" };
   }
   if (claims.email_verified !== true) {
-    return { ok: false, reason: "Email da conta Google não verificado" };
+    return { ok: false, reason: "The Google account's email isn't verified" };
   }
   return { ok: true };
 }

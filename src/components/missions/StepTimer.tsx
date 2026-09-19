@@ -53,7 +53,7 @@ export function StepTimer({
         {format(remainingMs)}
       </span>
       <span className="text-xs text-muted-foreground">
-        {done ? "Está na hora" : paused ? "em pausa" : "a contar"}
+        {done ? "Time's up" : paused ? "paused" : "a contar"}
       </span>
 
       <div className="ml-auto flex gap-1">

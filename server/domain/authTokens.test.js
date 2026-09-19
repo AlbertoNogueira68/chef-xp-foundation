@@ -58,7 +58,7 @@ test("a recuperação vale uma hora e a verificação um dia", () => {
 });
 
 test("um tipo desconhecido não recebe prazo nenhum", () => {
-  assert.throws(() => expiryFor("qualquer-coisa"), /desconhecido/);
+  assert.throws(() => expiryFor("qualquer-coisa"), /[Uu]nknown/);
 });
 
 /* -------------------------------------------------------------------- */
@@ -82,7 +82,7 @@ test("um token que não existe é recusado", () => {
 test("um token já usado é recusado", () => {
   const resultado = checkToken(linha({ used_at: AGORA }), { kind: PASSWORD_RESET, now: AGORA });
   assert.equal(resultado.ok, false);
-  assert.equal(resultado.reason, "já usado");
+  assert.equal(resultado.reason, "already used");
 });
 
 test("um token expirado é recusado", () => {

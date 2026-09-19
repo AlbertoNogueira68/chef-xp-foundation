@@ -43,18 +43,18 @@ export function CreateAccountPage() {
 
   useEffect(() => {
     if (!criar.isSuccess) return;
-    toast.success("Conta criada. Bem-vindo ao ChefXP!");
+    toast.success("Account created. Welcome to ChefXP!");
     navigate("/feed", { replace: true });
   }, [criar.isSuccess, navigate]);
 
   if (!token || link.isError) {
     return (
       <AuthCard
-        titulo="Link inválido ou expirado"
-        descricao="Este link já não serve — ou já foi usado, ou passou o prazo. Pedir outro leva dez segundos."
+        titulo="Invalid or expired link"
+        descricao="This link no longer works — it was used already, or it expired. Asking for another takes ten seconds."
       >
         <Button asChild className="w-full rounded-full">
-          <Link to="/auth">Pedir outro link</Link>
+          <Link to="/auth">Ask for another link</Link>
         </Button>
       </AuthCard>
     );
@@ -77,8 +77,8 @@ export function CreateAccountPage() {
       titulo="Escolhe o nome e a password"
       descricao={
         <>
-          O endereço <strong className="text-foreground">{link.data?.email}</strong> está
-          confirmado. Falta o resto.
+          The address <strong className="text-foreground">{link.data?.email}</strong> is confirmed.
+          Now the rest.
         </>
       }
     >
@@ -86,7 +86,7 @@ export function CreateAccountPage() {
         <input type="hidden" {...register("token")} />
 
         <div className="space-y-2">
-          <Label htmlFor="signup-username">Nome de utilizador</Label>
+          <Label htmlFor="signup-username">Username</Label>
           <Input
             id="signup-username"
             autoComplete="username"
@@ -111,7 +111,7 @@ export function CreateAccountPage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="signup-confirm">Repetir a password</Label>
+          <Label htmlFor="signup-confirm">Repeat the password</Label>
           <PasswordInput id="signup-confirm" autoComplete="new-password" {...register("confirm")} />
           {errors.confirm && <p className="text-xs text-destructive">{errors.confirm.message}</p>}
         </div>
@@ -121,7 +121,7 @@ export function CreateAccountPage() {
           className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
           disabled={criar.isPending}
         >
-          {criar.isPending ? "A criar a conta…" : "Criar conta"}
+          {criar.isPending ? "A criar a conta…" : "Create account"}
         </Button>
       </form>
     </AuthCard>

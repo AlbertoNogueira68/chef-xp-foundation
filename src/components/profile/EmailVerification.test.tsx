@@ -27,8 +27,8 @@ describe("estado do email nas definições", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<EmailVerification user={makeUser({ emailVerified: false })} />);
 
-    expect(screen.getByText(/por confirmar/i)).toBeInTheDocument();
-    await utilizador.click(screen.getByRole("button", { name: /enviar confirmação/i }));
+    expect(screen.getByText(/unconfirmed/i)).toBeInTheDocument();
+    await utilizador.click(screen.getByRole("button", { name: /send confirmation/i }));
 
     expect(enviar).toHaveBeenCalledTimes(1);
   });
@@ -36,7 +36,7 @@ describe("estado do email nas definições", () => {
   test("uma conta confirmada não oferece botão nenhum", () => {
     renderWithProviders(<EmailVerification user={makeUser({ emailVerified: true })} />);
 
-    expect(screen.getByText(/email confirmado/i)).toBeInTheDocument();
+    expect(screen.getByText(/email confirmed/i)).toBeInTheDocument();
     expect(screen.queryByRole("button")).not.toBeInTheDocument();
   });
 

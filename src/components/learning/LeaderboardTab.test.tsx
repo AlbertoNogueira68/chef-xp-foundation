@@ -42,7 +42,7 @@ describe("ranking", () => {
     expect(screen.getByText("maria")).toBeInTheDocument();
     expect(screen.getByText("chefdemo")).toBeInTheDocument();
     // A palavra que marca quem está a ver.
-    expect(screen.getByText("tu")).toBeInTheDocument();
+    expect(screen.getByText("you")).toBeInTheDocument();
   });
 
   test("quem fica fora do top vê a sua linha à parte", () => {
@@ -69,14 +69,14 @@ describe("ranking", () => {
     estado.dados = { scope: "weekly", entries: [linha(1, "maria", 200)], me: null };
     renderWithProviders(<LeaderboardTab />);
 
-    expect(screen.getByText(/Ainda não ganhaste XP esta semana/i)).toBeInTheDocument();
+    expect(screen.getByText(/No XP yet this week/i)).toBeInTheDocument();
   });
 
   test("uma semana sem ninguém convida em vez de mostrar um vazio", () => {
     estado.dados = { scope: "weekly", entries: [], me: null };
     renderWithProviders(<LeaderboardTab />);
 
-    expect(screen.getByText(/Começa tu/i)).toBeInTheDocument();
+    expect(screen.getByText(/go first/i)).toBeInTheDocument();
   });
 
   test("trocar para «Sempre» pede o outro ranking", async () => {

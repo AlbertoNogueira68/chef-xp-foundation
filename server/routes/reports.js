@@ -29,7 +29,7 @@ router.post(
     const { subjectType, subjectId, reason, details } = req.valid.body;
 
     const owner = await subjectOwner(subjectType, subjectId);
-    if (!owner) return res.status(404).json({ error: "Isso já não existe" });
+    if (!owner) return res.status(404).json({ error: "That no longer exists" });
 
     const refusal = reportRefusal({
       reporterId: req.user.id,

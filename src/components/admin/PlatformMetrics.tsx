@@ -42,37 +42,37 @@ export function PlatformMetrics() {
         </h2>
         <div className="grid grid-cols-2 gap-2">
           <Numero
-            label="Contas"
+            label="Accounts"
             value={data.contas}
-            nota={`+${data.contasUltimos7Dias} nos últimos 7 dias`}
+            nota={`+${data.contasUltimos7Dias} in the last 7 days`}
           />
           <Numero
-            label="Ativos (7 dias)"
+            label="Active (7 days)"
             value={data.ativosUltimos7Dias}
-            nota="ganharam XP, não só abriram"
+            nota="earned XP, not just signed up"
           />
           <Numero
             label="Email confirmado"
             value={data.contasConfirmadas}
-            nota={`de ${data.contas}`}
+            nota={`of ${data.contas}`}
           />
-          <Numero label="Com papel" value={data.equipa} nota="moderação e administração" />
+          <Numero label="With a role" value={data.equipa} nota="moderation and admin" />
         </div>
       </section>
 
       <section className="space-y-2">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Conteúdo
+          Content
         </h2>
         <div className="grid grid-cols-2 gap-2">
           <Numero
-            label="Receitas"
+            label="Recipes"
             value={data.receitas}
-            nota={`+${data.receitasUltimos7Dias} nos últimos 7 dias`}
+            nota={`+${data.receitasUltimos7Dias} in the last 7 days`}
           />
-          <Numero label="Comentários" value={data.comentarios} />
+          <Numero label="Comments" value={data.comentarios} />
           <Numero label="Gostos" value={data.gostos} />
-          <Numero label="Desafios a decorrer" value={data.desafiosAtivos} />
+          <Numero label="Live challenges" value={data.desafiosAtivos} />
         </div>
       </section>
 
@@ -81,19 +81,19 @@ export function PlatformMetrics() {
           Aprendizagem
         </h2>
         <div className="grid grid-cols-2 gap-2">
-          <Numero label="Lições concluídas" value={data.licoesConcluidas} />
-          <Numero label="Missões cozinhadas" value={data.missoesConcluidas} />
-          <Numero label="XP distribuído" value={data.xpDistribuido} nota="soma do livro-razão" />
+          <Numero label="Lessons completed" value={data.licoesConcluidas} />
+          <Numero label="Missions cooked" value={data.missoesConcluidas} />
+          <Numero label="XP awarded" value={data.xpDistribuido} nota="from the ledger" />
         </div>
       </section>
 
       <section className="space-y-2">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Convivência
+          Community
         </h2>
         <div className="grid grid-cols-2 gap-2">
           <Numero
-            label="Denúncias por tratar"
+            label="Open reports"
             value={data.denunciasAbertas}
             nota={`${data.denunciasTotal} desde sempre`}
           />

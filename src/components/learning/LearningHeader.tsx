@@ -30,12 +30,12 @@ export function LearningHeader({
         <Stat
           icon={<Flame className="size-4 text-orange-500" />}
           value={progress.streak}
-          label={progress.streak === 1 ? "dia seguido" : "dias seguidos"}
+          label={progress.streak === 1 ? "day streak" : "day streak"}
         />
         <Stat
           icon={<Sparkles className="size-4 text-emerald-500" />}
           value={`${learned}/${skillCount}`}
-          label="competências"
+          label="skills"
         />
         {hearts != null ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-1 px-2">
@@ -50,7 +50,7 @@ export function LearningHeader({
                 />
               ))}
             </div>
-            <p className="text-[10px] uppercase tracking-wide text-muted-foreground">vidas</p>
+            <p className="text-[10px] uppercase tracking-wide text-muted-foreground">lives</p>
           </div>
         ) : (
           <div className="flex flex-1 flex-col justify-center gap-1.5 pl-3">
@@ -67,7 +67,7 @@ export function LearningHeader({
                 </span>
               </span>
               <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                XP hoje
+                XP today
               </span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-muted">

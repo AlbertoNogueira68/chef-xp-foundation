@@ -25,7 +25,7 @@ const COLOR_MAP: Record<string, { bar: string; tint: string; text: string; ring:
 
 /**
  * O cabeçalho da unidade passou a carregar informação em vez de gradiente:
- * quantas lições faltam e quantas competências já estão de pé. Antes dizia
+ * quantas lessons faltam e quantas skills já estão de pé. Antes dizia
  * apenas o nome — bonito e inútil.
  */
 export function UnitBanner({
@@ -91,13 +91,13 @@ export function UnitBanner({
           <span className="font-semibold text-foreground tabular-nums">
             {lessonsDone}/{lessonsTotal}
           </span>{" "}
-          lições
+          lessons
         </span>
         <span>
           <span className="font-semibold text-foreground tabular-nums">
             {skillsDone}/{skillsTotal}
           </span>{" "}
-          competências
+          skills
         </span>
       </div>
     </div>

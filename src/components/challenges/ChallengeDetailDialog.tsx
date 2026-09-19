@@ -70,8 +70,7 @@ export function ChallengeDetailDialog({
               </span>
               <span className="inline-flex items-center gap-1">
                 <Users className="size-3.5" />
-                {challenge.entriesCount}{" "}
-                {challenge.entriesCount === 1 ? "participação" : "participações"}
+                {challenge.entriesCount} {challenge.entriesCount === 1 ? "entry" : "entries"}
               </span>
               <span className="inline-flex items-center gap-1">
                 <CalendarDays className="size-3.5" />
@@ -84,12 +83,12 @@ export function ChallengeDetailDialog({
             {/* --- Participar / retirar --- */}
             {!challenge.active ? (
               <p className="rounded-xl border border-dashed border-border px-4 py-3 text-center text-xs text-muted-foreground">
-                Este desafio fechou. O resultado fica como está.
+                This challenge is closed. The result stands.
               </p>
             ) : entered ? (
               <div className="flex items-center justify-between gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-3 py-2.5">
                 <p className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-400">
-                  <Check className="size-4" /> Já estás a participar
+                  <Check className="size-4" /> You're in
                 </p>
                 <Button
                   size="sm"
@@ -105,10 +104,10 @@ export function ChallengeDetailDialog({
               <div className="rounded-xl border border-dashed border-border px-4 py-5 text-center">
                 <ChefHat className="mx-auto size-5 text-muted-foreground/60" />
                 <p className="mt-2 text-sm text-muted-foreground">
-                  Precisas de uma receita publicada para participar.
+                  You need a published recipe to enter.
                 </p>
                 <Button asChild size="sm" className="mt-3 rounded-full" onClick={onClose}>
-                  <Link to="/publish">Publicar receita</Link>
+                  <Link to="/publish">Publish a recipe</Link>
                 </Button>
               </div>
             ) : (
@@ -164,7 +163,7 @@ export function ChallengeDetailDialog({
             <div>
               <div className="mb-2 flex items-baseline justify-between">
                 <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Participações
+                  Entries
                 </p>
                 {entries.length > 1 && (
                   <p className="text-[11px] text-muted-foreground">Por gostos</p>
@@ -172,7 +171,7 @@ export function ChallengeDetailDialog({
               </div>
               {entries.length === 0 ? (
                 <p className="py-6 text-center text-sm text-muted-foreground">
-                  Ainda ninguém participou. Podes ser o primeiro.
+                  Nobody has entered yet. You could be the first.
                 </p>
               ) : (
                 <div className="columns-2 gap-3">

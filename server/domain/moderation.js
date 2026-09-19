@@ -44,11 +44,11 @@ export function canAdminister(role) {
  *    vez de um clique.
  */
 export function roleChangeRefusal({ actorId, actorRole, targetId, targetRole, newRole }) {
-  if (!canAdminister(actorRole)) return "Isto é da administração";
+  if (!canAdminister(actorRole)) return "This is for admins";
   if (!ROLES.includes(newRole)) return "Papel desconhecido";
-  if (actorId === targetId) return "O teu próprio papel não se muda por aqui";
-  if (newRole === "admin") return "Um administrador só se cria na linha de comandos";
-  if (targetRole === "admin") return "Um administrador não se despromove por aqui";
+  if (actorId === targetId) return "You can't change your own role here";
+  if (newRole === "admin") return "An admin is only created from the command line";
+  if (targetRole === "admin") return "An admin isn't demoted from here";
   if (targetRole === newRole) return null;
   return null;
 }
@@ -67,9 +67,9 @@ export function roleChangeRefusal({ actorId, actorRole, targetId, targetRole, ne
  *    administração inteira.
  */
 export function accountDeletionRefusal({ actorId, actorRole, targetId, targetRole }) {
-  if (!canAdminister(actorRole)) return "Isto é da administração";
-  if (actorId === targetId) return "A tua própria conta apaga-se no perfil";
-  if (targetRole === "admin") return "Um administrador não se apaga por aqui";
+  if (!canAdminister(actorRole)) return "This is for admins";
+  if (actorId === targetId) return "Your own account is deleted from your profile";
+  if (targetRole === "admin") return "An admin isn't deleted from here";
   return null;
 }
 
@@ -109,13 +109,13 @@ export function commentDeleterRole({ userId, role, commentAuthorId, recipeAuthor
  * 400 e não 403: o pedido não faz sentido, não é uma questão de permissão.
  */
 export function reportRefusal({ reporterId, subjectType, subjectOwnerId }) {
-  if (!REPORT_SUBJECTS.includes(subjectType)) return "Tipo de conteúdo inválido";
+  if (!REPORT_SUBJECTS.includes(subjectType)) return "Invalid content type";
   if (!subjectOwnerId) return null;
   if (subjectOwnerId !== reporterId) return null;
 
   return subjectType === "user"
-    ? "Não te podes denunciar a ti próprio"
-    : "Para tirar o que é teu, apaga — denunciar é para o que é dos outros";
+    ? "You can't report yourself"
+    : "To remove your own, delete it — reporting is for other people's";
 }
 
 /**

@@ -16,9 +16,9 @@ import { shareLink } from "@/lib/share";
 import { cn } from "@/lib/utils";
 
 const difficultyLabel: Record<Recipe["difficulty"], string> = {
-  facil: "Fácil",
-  medio: "Médio",
-  dificil: "Difícil",
+  facil: "Easy",
+  medio: "Medium",
+  dificil: "Hard",
 };
 
 function formatDate(value: string) {
@@ -69,9 +69,9 @@ export function RecipePage() {
   if (isError || !recipe) {
     return (
       <div className="py-16 text-center">
-        <p className="text-sm text-muted-foreground">Esta receita já não existe.</p>
+        <p className="text-sm text-muted-foreground">This recipe no longer exists.</p>
         <Button variant="outline" className="mt-4 rounded-full" onClick={() => navigate("/feed")}>
-          Voltar ao feed
+          Back to the feed
         </Button>
       </div>
     );
@@ -95,7 +95,7 @@ export function RecipePage() {
         className="-ml-2 rounded-full text-muted-foreground"
         onClick={() => navigate(-1)}
       >
-        <ArrowLeft className="mr-1.5 size-4" /> Voltar
+        <ArrowLeft className="mr-1.5 size-4" /> Back
       </Button>
 
       <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-muted">
@@ -130,7 +130,7 @@ export function RecipePage() {
               {recipe.author.username}
             </span>
             <span className="text-[11px] text-muted-foreground">
-              Nível {recipe.author.level} · {formatDate(recipe.createdAt)}
+              Level {recipe.author.level} · {formatDate(recipe.createdAt)}
             </span>
           </span>
         </Link>
@@ -167,7 +167,7 @@ export function RecipePage() {
           variant="ghost"
           size="sm"
           className="ml-auto rounded-full"
-          aria-label="Partilhar receita"
+          aria-label="Share recipe"
           onClick={() => shareLink({ path: `/recipe/${recipe.id}`, title: recipe.title })}
         >
           <Send className="size-4" />
@@ -178,7 +178,7 @@ export function RecipePage() {
 
       <section>
         <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Ingredientes
+          Ingredients
         </h2>
         <ul className="space-y-1.5 rounded-xl border border-border/60 bg-card p-3">
           {ingredients.map((line, index) => (
@@ -192,17 +192,17 @@ export function RecipePage() {
 
       <section>
         <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Comentários
+          Comments
         </h2>
 
         <form onSubmit={submitComment} className="mb-3 flex gap-2">
           <Input
             value={draft}
             onChange={(event) => setDraft(event.target.value)}
-            placeholder="Escreve um comentário…"
+            placeholder="Write a comment…"
             className="rounded-full"
             maxLength={500}
-            aria-label="Comentário"
+            aria-label="Comment"
           />
           <Button
             type="submit"
@@ -210,13 +210,13 @@ export function RecipePage() {
             className="rounded-full"
             disabled={!draft.trim() || addComment.isPending}
           >
-            Enviar
+            Send
           </Button>
         </form>
 
         {comments.data?.length === 0 && (
           <p className="py-4 text-center text-sm text-muted-foreground">
-            Ainda não há comentários. Diz alguma coisa.
+            No comments yet. Say something.
           </p>
         )}
 

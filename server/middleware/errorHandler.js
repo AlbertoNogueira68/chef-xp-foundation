@@ -8,7 +8,7 @@ export function requestId(req, res, next) {
 }
 
 export function notFound(req, res) {
-  res.status(404).json({ error: "Endpoint não encontrado", requestId: req.id });
+  res.status(404).json({ error: "Endpoint not found", requestId: req.id });
 }
 
 /**
@@ -28,7 +28,7 @@ export function errorHandler(error, req, res, _next) {
   if (res.headersSent) return;
 
   res.status(status).json({
-    error: status >= 500 ? "Erro interno do servidor" : error?.message || "Pedido inválido",
+    error: status >= 500 ? "Internal server error" : error?.message || "Invalid request",
     requestId: req.id,
   });
 }

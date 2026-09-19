@@ -41,15 +41,15 @@ export function ResetPasswordPage() {
   // sessão: quem redefiniu provou que lê aquele email, não que é a pessoa.
   useEffect(() => {
     if (!redefinir.isSuccess) return;
-    toast.success("Password alterada. Entra com a nova.");
+    toast.success("Password changed. Sign in with the new one.");
     navigate("/auth", { replace: true });
   }, [redefinir.isSuccess, navigate]);
 
   if (!token) {
     return (
       <AuthCard
-        titulo="Link incompleto"
-        descricao="Este endereço não traz nenhum token. Abre o link tal como veio no email, ou pede outro."
+        titulo="Incomplete link"
+        descricao="This address carries no token. Open the link exactly as it came in the email, or ask for another."
       >
         <Button asChild className="w-full rounded-full">
           <Link to="/forgot-password">Pedir outro link</Link>
@@ -62,14 +62,14 @@ export function ResetPasswordPage() {
 
   return (
     <AuthCard
-      titulo="Escolher password nova"
-      descricao="A password nova tem de cumprir os mesmos requisitos do registo. Depois de guardares, entras com ela."
+      titulo="Choose a new password"
+      descricao="The new password has to meet the same requirements as sign-up. Once you save it, you sign in with it."
     >
       <form onSubmit={onSubmit} className="space-y-4">
         <input type="hidden" {...register("token")} />
 
         <div className="space-y-2">
-          <Label htmlFor="reset-password">Password nova</Label>
+          <Label htmlFor="reset-password">New password</Label>
           <PasswordInput
             id="reset-password"
             autoComplete="new-password"
@@ -83,7 +83,7 @@ export function ResetPasswordPage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="reset-confirm">Repetir a password</Label>
+          <Label htmlFor="reset-confirm">Repeat the password</Label>
           <PasswordInput id="reset-confirm" autoComplete="new-password" {...register("confirm")} />
           {errors.confirm && <p className="text-xs text-destructive">{errors.confirm.message}</p>}
         </div>
@@ -97,7 +97,7 @@ export function ResetPasswordPage() {
               to="/forgot-password"
               className="inline-flex min-h-8 items-center text-xs text-muted-foreground underline underline-offset-4"
             >
-              Pedir um link novo
+              Ask for a new link
             </Link>
           </div>
         )}
@@ -107,7 +107,7 @@ export function ResetPasswordPage() {
           className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
           disabled={redefinir.isPending}
         >
-          {redefinir.isPending ? "A guardar…" : "Guardar a password"}
+          {redefinir.isPending ? "A guardar…" : "Save password"}
         </Button>
       </form>
     </AuthCard>

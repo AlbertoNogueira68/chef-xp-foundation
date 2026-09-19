@@ -36,12 +36,12 @@ describe("menu de opções da receita", () => {
     const utilizador = userEvent.setup();
 
     renderWithProviders(<RecipeActionsMenu recipe={makeRecipe()} />);
-    await utilizador.click(screen.getByRole("button", { name: "Opções da receita" }));
+    await utilizador.click(screen.getByRole("button", { name: "Recipe options" }));
 
-    expect(await screen.findByRole("menuitem", { name: /denunciar receita/i })).toBeInTheDocument();
+    expect(await screen.findByRole("menuitem", { name: /report recipe/i })).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: /bloquear/i })).toBeInTheDocument();
-    expect(screen.queryByRole("menuitem", { name: /editar/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole("menuitem", { name: /^apagar/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: /edit/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole("menuitem", { name: /^delete/i })).not.toBeInTheDocument();
   });
 
   test("bloquear pergunta antes, e diz o que acontece a quem se seguia", async () => {
@@ -49,11 +49,11 @@ describe("menu de opções da receita", () => {
     const utilizador = userEvent.setup();
 
     renderWithProviders(<RecipeActionsMenu recipe={makeRecipe()} />);
-    await utilizador.click(screen.getByRole("button", { name: "Opções da receita" }));
+    await utilizador.click(screen.getByRole("button", { name: "Recipe options" }));
     await utilizador.click(await screen.findByRole("menuitem", { name: /bloquear/i }));
 
     const aviso = await screen.findByRole("alertdialog");
-    expect(aviso).toHaveTextContent(/deixam de se seguir/i);
+    expect(aviso).toHaveTextContent(/that ends/i);
     expect(block).not.toHaveBeenCalled();
   });
 
@@ -62,7 +62,7 @@ describe("menu de opções da receita", () => {
 
     renderWithProviders(<RecipeActionsMenu recipe={makeRecipe()} />);
 
-    expect(screen.queryByRole("button", { name: "Opções da receita" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("button", { name: "Recipe options" })).not.toBeInTheDocument();
   });
 
   test("aparece ao autor, com editar e apagar", async () => {
@@ -70,10 +70,10 @@ describe("menu de opções da receita", () => {
     const utilizador = userEvent.setup();
 
     renderWithProviders(<RecipeActionsMenu recipe={makeRecipe()} />);
-    await utilizador.click(screen.getByRole("button", { name: "Opções da receita" }));
+    await utilizador.click(screen.getByRole("button", { name: "Recipe options" }));
 
-    expect(await screen.findByRole("menuitem", { name: /editar/i })).toBeInTheDocument();
-    expect(screen.getByRole("menuitem", { name: /apagar/i })).toBeInTheDocument();
+    expect(await screen.findByRole("menuitem", { name: /edit/i })).toBeInTheDocument();
+    expect(screen.getByRole("menuitem", { name: /delete/i })).toBeInTheDocument();
   });
 
   test("apagar pede confirmação e diz o que se perde", async () => {
@@ -81,12 +81,12 @@ describe("menu de opções da receita", () => {
     const utilizador = userEvent.setup();
 
     renderWithProviders(<RecipeActionsMenu recipe={makeRecipe({ xpReward: 25 })} />);
-    await utilizador.click(screen.getByRole("button", { name: "Opções da receita" }));
-    await utilizador.click(await screen.findByRole("menuitem", { name: /apagar/i }));
+    await utilizador.click(screen.getByRole("button", { name: "Recipe options" }));
+    await utilizador.click(await screen.findByRole("menuitem", { name: /delete/i }));
 
     const aviso = await screen.findByRole("alertdialog");
     expect(aviso).toHaveTextContent(/25 XP/);
-    expect(aviso).toHaveTextContent(/não dá para voltar atrás/i);
+    expect(aviso).toHaveTextContent(/there's no undo/i);
     // Ainda não apagou nada: só perguntou.
     expect(remove).not.toHaveBeenCalled();
   });

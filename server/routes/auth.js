@@ -63,7 +63,7 @@ const loginLimiter = rateLimit({
   max: () => Number(process.env.RATE_LIMIT_AUTH_MAX || 20),
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: "Demasiadas tentativas de login. Tenta daqui a uns minutos." },
+  message: { error: "Too many sign-in attempts. Try again in a few minutes." },
 });
 
 const registerLimiter = rateLimit({
@@ -97,7 +97,7 @@ router.post(
   asyncHandler(async (req, res) => {
     if (isMailConfigured()) {
       return res.status(404).json({
-        error: "Criar conta é por email confirmado. Pede o link em /signup.",
+        error: "Sign-up goes through a confirmed email. Ask for the link at /signup.",
       });
     }
 
@@ -124,7 +124,7 @@ router.post(
       });
     } catch (error) {
       if (error?.code === "23505") {
-        return res.status(409).json({ error: "Email ou nome de utilizador já em uso" });
+        return res.status(409).json({ error: "Email or username already taken" });
       }
       throw error;
     }
@@ -150,7 +150,7 @@ router.post(
     // pessoa não saiba já ao ver o botão do Google.
     if (user && user.password_hash === null) {
       return res.status(409).json({
-        error: "Esta conta entra com o Google. Usa o botão «Continuar com Google».",
+        error: "This account signs in with Google. Use the «Continue with Google» button.",
       });
     }
 
@@ -158,7 +158,7 @@ router.post(
     // quais os emails registados.
     const ok = user ? await bcrypt.compare(password, user.password_hash) : false;
     if (!ok) {
-      return res.status(401).json({ error: "Credenciais inválidas" });
+      return res.status(401).json({ error: "Invalid credentials" });
     }
 
     setAuthCookie(res, signToken({ sub: user.id, email: user.email }));
@@ -233,7 +233,7 @@ router.get("/providers", (_req, res) => {
 
 router.get("/google", (req, res) => {
   if (!isGoogleConfigured()) {
-    return res.status(404).json({ error: "Início de sessão com Google não está configurado" });
+    return res.status(404).json({ error: "Google sign-in isn't configured" });
   }
 
   // O `state` é a defesa contra CSRF no fluxo OAuth: quem regressa tem de
@@ -292,26 +292,26 @@ router.get(
     const fail = (reason) =>
       res.redirect(`${frontendUrl("/auth")}?erro=${encodeURIComponent(reason)}`);
 
-    if (!isGoogleConfigured()) return fail("Google não configurado");
+    if (!isGoogleConfigured()) return fail("Google isn't configured");
 
     const cookieState = req.cookies?.[OAUTH_STATE_COOKIE];
     res.clearCookie(OAUTH_STATE_COOKIE, { ...baseCookieOptions(), sameSite: "lax" });
 
-    if (req.query.error) return fail("Autorização cancelada");
+    if (req.query.error) return fail("Authorisation cancelled");
 
     const state = typeof req.query.state === "string" ? req.query.state : "";
     if (!cookieState || !state || cookieState !== state) {
-      return fail("Pedido inválido ou expirado");
+      return fail("Invalid or expired request");
     }
 
     const code = typeof req.query.code === "string" ? req.query.code : "";
-    if (!code) return fail("A Google não devolveu código");
+    if (!code) return fail("Google returned no code");
 
     let claims;
     try {
       claims = decodeJwtPayload(await exchangeCodeForIdToken(code));
     } catch {
-      return fail("Não foi possível falar com a Google");
+      return fail("Couldn't reach Google");
     }
 
     const check = validateIdTokenClaims(claims, { clientId: googleClientId() });
@@ -352,7 +352,7 @@ router.get(
         if (existing[0] && !existing[0].email_verified_at) {
           await client.query("ROLLBACK");
           return fail(
-            "Já existe uma conta com este email, ainda por confirmar. Entra com a password.",
+            "There's already an account for this email, still unconfirmed. Sign in with the password.",
           );
         }
 
@@ -417,7 +417,7 @@ router.get(
       res.redirect(frontendUrl("/feed"));
     } catch (error) {
       await client.query("ROLLBACK");
-      if (error?.code === "23505") return fail("Já existe uma conta com estes dados");
+      if (error?.code === "23505") return fail("An account with these details already exists");
       throw error;
     } finally {
       client.release();
@@ -442,7 +442,7 @@ const mailLimiter = rateLimit({
   max: () => Number(process.env.RATE_LIMIT_MAIL_MAX || process.env.RATE_LIMIT_AUTH_MAX || 5),
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: "Demasiados pedidos de email. Tenta daqui a uma hora." },
+  message: { error: "Too many email requests. Try again in an hour." },
 });
 
 /** Emite um token novo e deita fora os anteriores do mesmo tipo. */
@@ -485,7 +485,7 @@ router.post(
   validate({ body: signupStartSchema }),
   asyncHandler(async (req, res) => {
     if (!isMailConfigured()) {
-      return res.status(404).json({ error: "Criar conta por email não está configurado" });
+      return res.status(404).json({ error: "Email sign-up isn't configured" });
     }
 
     const { email } = req.valid.body;
@@ -552,7 +552,7 @@ router.get(
 
     const check = checkToken(rows[0]);
     if (!check.ok) {
-      return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+      return res.status(400).json({ error: "Invalid or expired link. Ask for another." });
     }
 
     res.json({ email: check.email });
@@ -592,7 +592,7 @@ router.post(
       const check = checkToken(rows[0]);
       if (!check.ok) {
         await client.query("ROLLBACK");
-        return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+        return res.status(400).json({ error: "Invalid or expired link. Ask for another." });
       }
 
       const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
@@ -612,7 +612,7 @@ router.post(
           // Pode ser o nome (tenta outro) ou o email (a conta apareceu entre
           // o pedido do link e este momento). A mensagem cobre os dois sem
           // dizer qual, que é o que a resposta do `/signup` também faz.
-          return res.status(409).json({ error: "Esse nome de utilizador já está em uso" });
+          return res.status(409).json({ error: "That username is already taken" });
         }
         throw error;
       }
@@ -651,7 +651,7 @@ router.post(
   validate({ body: forgotPasswordSchema }),
   asyncHandler(async (req, res) => {
     if (!isMailConfigured()) {
-      return res.status(404).json({ error: "Recuperação de password não está configurada" });
+      return res.status(404).json({ error: "Password recovery isn't configured" });
     }
 
     const { email } = req.valid.body;
@@ -722,7 +722,7 @@ router.post(
         await client.query("ROLLBACK");
         // A mesma resposta para inexistente, expirado e já usado: distingui-los
         // era deixar tentar até acertar num que existisse.
-        return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+        return res.status(400).json({ error: "Invalid or expired link. Ask for another." });
       }
 
       const passwordHash = await bcrypt.hash(req.valid.body.password, BCRYPT_ROUNDS);
@@ -766,7 +766,7 @@ router.post(
   mailLimiter,
   asyncHandler(async (req, res) => {
     if (!isMailConfigured()) {
-      return res.status(404).json({ error: "Verificação de email não está configurada" });
+      return res.status(404).json({ error: "Email verification isn't configured" });
     }
 
     const { rows } = await query(
@@ -776,7 +776,7 @@ router.post(
     const user = rows[0];
     if (!user) return res.status(401).json({ error: "Unauthorized" });
     if (user.email_verified_at) {
-      return res.status(409).json({ error: "Este email já está confirmado" });
+      return res.status(409).json({ error: "This email is already confirmed" });
     }
 
     const token = await issueToken({
@@ -798,7 +798,7 @@ router.post(
       // que o pediu: esconder a falha só o deixava à espera de um email que
       // nunca chegaria.
       console.error("[mail] verificação de email não saiu:", error.message);
-      return res.status(502).json({ error: "Não foi possível enviar o email. Tenta mais tarde." });
+      return res.status(502).json({ error: "Couldn't send the email. Try again later." });
     }
 
     res.json({ ok: true });
@@ -847,7 +847,7 @@ router.post(
         }
 
         await client.query("ROLLBACK");
-        return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+        return res.status(400).json({ error: "Invalid or expired link. Ask for another." });
       }
 
       // O email tem de ser ainda o da conta. Quem mudou de endereço depois de
@@ -862,7 +862,7 @@ router.post(
 
       if (!updated[0]) {
         await client.query("ROLLBACK");
-        return res.status(400).json({ error: "Link inválido ou expirado. Pede outro." });
+        return res.status(400).json({ error: "Invalid or expired link. Ask for another." });
       }
 
       await client.query(`UPDATE auth_tokens SET used_at = now() WHERE token_hash = $1`, [

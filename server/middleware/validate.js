@@ -19,7 +19,7 @@ export function validate(shape) {
     } catch (error) {
       if (error instanceof ZodError) {
         return res.status(400).json({
-          error: "Dados inválidos",
+          error: "Invalid data",
           details: error.issues.map((issue) => ({
             field: issue.path.join(".") || "(raiz)",
             message: issue.message,

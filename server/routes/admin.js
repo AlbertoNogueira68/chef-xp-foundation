@@ -163,7 +163,7 @@ router.patch(
       req.valid.params.id,
     ]);
     const target = rows[0];
-    if (!target) return res.status(404).json({ error: "Utilizador não encontrado" });
+    if (!target) return res.status(404).json({ error: "User not found" });
 
     const refusal = roleChangeRefusal({
       actorId: req.user.id,
@@ -263,7 +263,7 @@ router.delete(
       const target = rows[0];
       if (!target) {
         await client.query("ROLLBACK");
-        return res.status(404).json({ error: "Utilizador não encontrado" });
+        return res.status(404).json({ error: "User not found" });
       }
 
       const refusal = accountDeletionRefusal({
@@ -279,7 +279,7 @@ router.delete(
 
       if (req.valid.body.confirmUsername !== target.username) {
         await client.query("ROLLBACK");
-        return res.status(400).json({ error: "O nome não coincide com o da conta" });
+        return res.status(400).json({ error: "The name doesn't match the account's" });
       }
 
       await client.query(

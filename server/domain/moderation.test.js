@@ -101,20 +101,20 @@ test("denunciar conteúdo de outra pessoa passa", () => {
 
 test("denunciar o que é meu é recusado com o caminho certo à frente", () => {
   const recusa = reportRefusal({ reporterId: eu, subjectType: "comment", subjectOwnerId: eu });
-  assert.match(recusa, /apaga/);
+  assert.match(recusa, /delete/);
 });
 
 test("denunciar-me a mim próprio é recusado", () => {
   assert.equal(
     reportRefusal({ reporterId: eu, subjectType: "user", subjectOwnerId: eu }),
-    "Não te podes denunciar a ti próprio",
+    "You can't report yourself",
   );
 });
 
 test("um tipo de alvo desconhecido é recusado antes de qualquer consulta", () => {
   assert.equal(
     reportRefusal({ reporterId: eu, subjectType: "mensagem", subjectOwnerId: outro }),
-    "Tipo de conteúdo inválido",
+    "Invalid content type",
   );
 });
 
@@ -174,25 +174,25 @@ test("despromover um moderador é a mesma operação ao contrário", () => {
 });
 
 test("quem não é admin não muda papéis", () => {
-  assert.match(roleChangeRefusal({ ...mudanca, actorRole: "moderator" }), /administração/);
-  assert.match(roleChangeRefusal({ ...mudanca, actorRole: "user" }), /administração/);
+  assert.match(roleChangeRefusal({ ...mudanca, actorRole: "moderator" }), /admins/);
+  assert.match(roleChangeRefusal({ ...mudanca, actorRole: "user" }), /admins/);
 });
 
 test("o meu próprio papel não se muda por aqui", () => {
   assert.match(
     roleChangeRefusal({ ...mudanca, targetId: "admin-1", newRole: "user" }),
-    /próprio papel/,
+    /own role/,
   );
 });
 
 test("nenhum admin nasce dentro da aplicação", () => {
-  assert.match(roleChangeRefusal({ ...mudanca, newRole: "admin" }), /linha de comandos/);
+  assert.match(roleChangeRefusal({ ...mudanca, newRole: "admin" }), /command line/);
 });
 
 test("um admin não é despromovido por outro admin a um clique", () => {
   assert.match(
     roleChangeRefusal({ ...mudanca, targetRole: "admin", newRole: "user" }),
-    /não se despromove/,
+    /isn't demoted/,
   );
 });
 
@@ -212,11 +212,11 @@ test("um admin apaga a conta de um utilizador ou de um moderador", () => {
 });
 
 test("só um admin apaga contas", () => {
-  assert.match(accountDeletionRefusal({ ...apagar, actorRole: "moderator" }), /administração/);
-  assert.match(accountDeletionRefusal({ ...apagar, actorRole: "user" }), /administração/);
+  assert.match(accountDeletionRefusal({ ...apagar, actorRole: "moderator" }), /admins/);
+  assert.match(accountDeletionRefusal({ ...apagar, actorRole: "user" }), /admins/);
 });
 
 test("um admin não apaga outro admin nem a si próprio pelo painel", () => {
-  assert.match(accountDeletionRefusal({ ...apagar, targetRole: "admin" }), /administrador/);
-  assert.match(accountDeletionRefusal({ ...apagar, targetId: "admin-1", targetRole: "admin" }), /perfil/);
+  assert.match(accountDeletionRefusal({ ...apagar, targetRole: "admin" }), /admin/);
+  assert.match(accountDeletionRefusal({ ...apagar, targetId: "admin-1", targetRole: "admin" }), /profile/);
 });

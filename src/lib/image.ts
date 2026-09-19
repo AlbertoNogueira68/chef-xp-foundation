@@ -5,7 +5,7 @@ export const MAX_UPLOAD_BYTES = 2.5 * 1024 * 1024;
 
 export class ImageTooLargeError extends Error {
   constructor() {
-    super("A imagem é demasiado grande, mesmo depois de reduzida");
+    super("The image is too large, even after resizing");
     this.name = "ImageTooLargeError";
   }
 }
@@ -20,7 +20,7 @@ function loadImage(file: File): Promise<HTMLImageElement> {
     };
     image.onerror = () => {
       URL.revokeObjectURL(url);
-      reject(new Error("Não foi possível ler a imagem"));
+      reject(new Error("Couldn't read the image"));
     };
     image.src = url;
   });
@@ -43,7 +43,7 @@ export async function fileToResizedDataUrl(
   maxDimension = MAX_IMAGE_DIMENSION,
 ): Promise<string> {
   if (!file.type.startsWith("image/")) {
-    throw new Error("Escolhe um ficheiro de imagem");
+    throw new Error("Choose an image file");
   }
 
   const image = await loadImage(file);
@@ -56,7 +56,7 @@ export async function fileToResizedDataUrl(
   canvas.height = height;
 
   const context = canvas.getContext("2d");
-  if (!context) throw new Error("O browser não suporta o redimensionamento de imagens");
+  if (!context) throw new Error("This browser can't resize images");
 
   context.drawImage(image, 0, 0, width, height);
 

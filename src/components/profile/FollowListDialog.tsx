@@ -16,8 +16,8 @@ import { useToggleFollow } from "@/features/profile/hooks/useUserStats";
 import { cn } from "@/lib/utils";
 
 const TITLES: Record<FollowListKind, { title: string; empty: string }> = {
-  followers: { title: "Seguidores", empty: "Ainda ninguém segue este perfil." },
-  following: { title: "A seguir", empty: "Ainda não segue ninguém." },
+  followers: { title: "Seguidores", empty: "Nobody follows this profile yet." },
+  following: { title: "A seguir", empty: "Not following anyone yet." },
 };
 
 const TABS: FollowListKind[] = ["followers", "following"];
@@ -112,9 +112,9 @@ export function FollowListDialog({
                 <span className="min-w-0">
                   <span className="block truncate text-sm font-semibold">
                     {person.username}
-                    {person.isMe && <span className="ml-1.5 text-xs text-amber-600">tu</span>}
+                    {person.isMe && <span className="ml-1.5 text-xs text-amber-600">you</span>}
                   </span>
-                  <span className="text-[11px] text-muted-foreground">Nível {person.level}</span>
+                  <span className="text-[11px] text-muted-foreground">Level {person.level}</span>
                 </span>
               </Link>
 
@@ -134,7 +134,7 @@ export function FollowListDialog({
                     </>
                   ) : (
                     <>
-                      <UserPlus className="mr-1 size-3" /> Seguir
+                      <UserPlus className="mr-1 size-3" /> Follow
                     </>
                   )}
                 </Button>

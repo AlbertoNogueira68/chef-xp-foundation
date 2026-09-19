@@ -161,9 +161,9 @@ export function useUpdateRecipe(id: string) {
     onSuccess: (recipe) => {
       queryClient.setQueryData(recipeQueryKey(recipe.id), recipe);
       queryClient.invalidateQueries({ queryKey: [RECIPES_ROOT_KEY] });
-      toast.success("Receita atualizada");
+      toast.success("Recipe updated");
     },
-    onError: (error: Error) => toast.error(error.message || "Não foi possível guardar"),
+    onError: (error: Error) => toast.error(error.message || "Couldn't save"),
   });
 }
 
@@ -181,8 +181,8 @@ export function useDeleteRecipe() {
       queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
       queryClient.invalidateQueries({ queryKey: ["userStats"] });
       queryClient.invalidateQueries({ queryKey: ["challenges"] });
-      toast.success(revoked > 0 ? `Receita apagada · −${revoked} XP` : "Receita apagada");
+      toast.success(revoked > 0 ? `Recipe deleted · −${revoked} XP` : "Recipe deleted");
     },
-    onError: (error: Error) => toast.error(error.message || "Não foi possível apagar"),
+    onError: (error: Error) => toast.error(error.message || "Couldn't delete"),
   });
 }

@@ -27,7 +27,7 @@ vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 function requisito(texto: string | RegExp) {
   const item = screen.getByText(texto).closest("li");
   if (!item) throw new Error(`requisito não encontrado: ${texto}`);
-  return within(item).queryByText("— cumprido") ? "cumprido" : "em falta";
+  return within(item).queryByText("— done") ? "cumprido" : "em falta";
 }
 
 describe("criar conta com email a funcionar", () => {
@@ -41,8 +41,8 @@ describe("criar conta com email a funcionar", () => {
     renderWithProviders(<RegisterForm />);
 
     expect(await screen.findByLabelText("Email")).toBeInTheDocument();
-    expect(screen.queryByLabelText("Palavra-passe")).not.toBeInTheDocument();
-    expect(screen.queryByLabelText("Nome de utilizador")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Password")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Username")).not.toBeInTheDocument();
   });
 
   test("submeter manda o email e diz que o link vai a caminho", async () => {
@@ -50,10 +50,12 @@ describe("criar conta com email a funcionar", () => {
     renderWithProviders(<RegisterForm />);
 
     await utilizador.type(await screen.findByLabelText("Email"), "novo@chef-xp.test");
-    await utilizador.click(screen.getByRole("button", { name: /enviar link/i }));
+    await utilizador.click(screen.getByRole("button", { name: /send sign-up link/i }));
 
     expect(pedirLink).toHaveBeenCalledWith("novo@chef-xp.test");
-    expect(await screen.findByText(/vai um email para novo@chef-xp.test/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/an email is on its way to novo@chef-xp.test/i),
+    ).toBeInTheDocument();
   });
 });
 
@@ -67,20 +69,20 @@ describe("criar conta sem email configurado", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<RegisterForm />);
 
-    const campo = await screen.findByLabelText("Palavra-passe");
+    const campo = await screen.findByLabelText("Password");
 
     await utilizador.type(campo, "chefchef");
-    expect(requisito(/pelo menos 8 caracteres/i)).toBe("cumprido");
-    expect(requisito(/letra maiúscula/i)).toBe("em falta");
-    expect(requisito(/um número/i)).toBe("em falta");
+    expect(requisito(/at least 8 characters/i)).toBe("cumprido");
+    expect(requisito(/uppercase letter/i)).toBe("em falta");
+    expect(requisito(/one number/i)).toBe("em falta");
 
     await utilizador.clear(campo);
     await utilizador.type(campo, "Chef12345!");
     for (const texto of [
-      /pelo menos 8 caracteres/i,
-      /letra maiúscula/i,
-      /um número/i,
-      /caractere especial/i,
+      /at least 8 characters/i,
+      /uppercase letter/i,
+      /one number/i,
+      /special character/i,
     ]) {
       expect(requisito(texto)).toBe("cumprido");
     }
@@ -90,13 +92,13 @@ describe("criar conta sem email configurado", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<RegisterForm />);
 
-    const campo = await screen.findByLabelText("Palavra-passe");
+    const campo = await screen.findByLabelText("Password");
     expect(campo).toHaveAttribute("type", "password");
 
-    await utilizador.click(screen.getByRole("button", { name: "Mostrar a password" }));
+    await utilizador.click(screen.getByRole("button", { name: "Show password" }));
     expect(campo).toHaveAttribute("type", "text");
 
-    await utilizador.click(screen.getByRole("button", { name: "Esconder a password" }));
+    await utilizador.click(screen.getByRole("button", { name: "Hide password" }));
     expect(campo).toHaveAttribute("type", "password");
   });
 
@@ -104,10 +106,10 @@ describe("criar conta sem email configurado", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<RegisterForm />);
 
-    await utilizador.type(await screen.findByLabelText("Nome de utilizador"), "chefteste");
+    await utilizador.type(await screen.findByLabelText("Username"), "chefteste");
     await utilizador.type(screen.getByLabelText("Email"), "chef@chef-xp.test");
-    await utilizador.type(screen.getByLabelText("Palavra-passe"), "chefchef");
-    await utilizador.click(screen.getByRole("button", { name: /criar conta/i }));
+    await utilizador.type(screen.getByLabelText("Password"), "chefchef");
+    await utilizador.click(screen.getByRole("button", { name: /create account/i }));
 
     expect(signUp.mutate).not.toHaveBeenCalled();
   });
@@ -116,10 +118,10 @@ describe("criar conta sem email configurado", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<RegisterForm />);
 
-    await utilizador.type(await screen.findByLabelText("Nome de utilizador"), "chefteste");
+    await utilizador.type(await screen.findByLabelText("Username"), "chefteste");
     await utilizador.type(screen.getByLabelText("Email"), "chef@chef-xp.test");
-    await utilizador.type(screen.getByLabelText("Palavra-passe"), "Chef12345!");
-    await utilizador.click(screen.getByRole("button", { name: /criar conta/i }));
+    await utilizador.type(screen.getByLabelText("Password"), "Chef12345!");
+    await utilizador.click(screen.getByRole("button", { name: /create account/i }));
 
     expect(signUp.mutate).toHaveBeenCalledWith(
       expect.objectContaining({ password: "Chef12345!" }),

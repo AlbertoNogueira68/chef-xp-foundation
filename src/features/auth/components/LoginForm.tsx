@@ -71,7 +71,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
         className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
         disabled={signIn.isPending}
       >
-        {signIn.isPending ? "A entrar…" : "Entrar"}
+        {signIn.isPending ? "Signing in…" : "Sign in"}
       </Button>
     </form>
   );

@@ -33,10 +33,10 @@ describe("chef sapo", () => {
   });
 
   test("o balão mostra o que o chef diz", () => {
-    renderWithProviders(<ChefSpeech title="Correto!">Sal no fim, sempre.</ChefSpeech>);
+    renderWithProviders(<ChefSpeech title="That's it!">Salt at the end, always.</ChefSpeech>);
 
-    expect(screen.getByText("Correto!")).toBeInTheDocument();
-    expect(screen.getByText("Sal no fim, sempre.")).toBeInTheDocument();
+    expect(screen.getByText("That's it!")).toBeInTheDocument();
+    expect(screen.getByText("Salt at the end, always.")).toBeInTheDocument();
   });
 
   test("a mesma lição dá sempre a mesma frase", () => {
