@@ -1,5 +1,7 @@
 import { CloudUpload, Sparkles, Trophy, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ChefMascot, ChefSpeech } from "@/components/ChefMascot";
+import { chefCompleteLine } from "@/lib/chefLines";
 
 export function LessonComplete({
   xpEarned,
@@ -15,9 +17,12 @@ export function LessonComplete({
 }) {
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
+      {/* Quem dá os parabéns é o chef que deu a lição — a taça fica ao lado,
+          como um crachá, e não no lugar dele. */}
       <div className="relative mb-6">
-        <div className="flex size-24 items-center justify-center rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-lg shadow-amber-500/30">
-          <Trophy className="size-12 text-white" />
+        <ChefMascot size="xl" className="shadow-lg shadow-amber-500/20 ring-4 ring-amber-100" />
+        <div className="absolute -bottom-1 -right-1 flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-md">
+          <Trophy className="size-5 text-white" />
         </div>
         <Sparkles className="absolute -right-2 -top-2 size-8 text-amber-400" />
         <Sparkles className="absolute -bottom-1 -left-3 size-6 text-orange-400" />
@@ -25,6 +30,10 @@ export function LessonComplete({
 
       <h2 className="text-2xl font-bold">Lição concluída!</h2>
       <p className="mt-1 text-sm text-muted-foreground">{lessonTitle}</p>
+
+      <ChefSpeech className="mt-5 w-full max-w-xs text-left" size="xs">
+        {chefCompleteLine(lessonTitle)}
+      </ChefSpeech>
 
       {/* Sem rede não se anuncia XP nenhum: quem corrige é o servidor, e ele
           ainda não viu as respostas. Prometer um número aqui era arriscar

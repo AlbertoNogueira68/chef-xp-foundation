@@ -133,7 +133,7 @@ describe("service worker: navegação", () => {
   test("sem rede e sem nada guardado, mostra o ecrã de offline", async () => {
     const worker = montarWorker(semRede);
     // Sem instalar: é a primeira visita, e nem o shell existe.
-    const cache = await worker.caches.open("chefxp-shell-v2");
+    const cache = await worker.caches.open("chefxp-shell-v3");
     await cache.put("/offline.html", new Response("ecrã de offline"));
 
     const { resposta } = await worker.pedir("/recipe/1", { mode: "navigate" });
@@ -148,13 +148,13 @@ describe("service worker: API", () => {
     const { resposta } = await worker.pedir("/api/recipes");
     expect(await resposta!.text()).toBe('{"receitas":[]}');
 
-    const cache = await worker.caches.open("chefxp-api-v2");
+    const cache = await worker.caches.open("chefxp-api-v3");
     expect(await cache.match(`${ORIGEM}/api/recipes`)).toBeDefined();
   });
 
   test("sem rede, devolve a cópia e diz que é uma cópia", async () => {
     const worker = montarWorker(semRede);
-    const cache = await worker.caches.open("chefxp-api-v2");
+    const cache = await worker.caches.open("chefxp-api-v3");
     await cache.put(`${ORIGEM}/api/recipes`, new Response('{"receitas":["arroz"]}'));
 
     const { resposta } = await worker.pedir("/api/recipes");
@@ -176,7 +176,7 @@ describe("service worker: API", () => {
 
     await worker.pedir("/api/auth/me");
 
-    const cache = await worker.caches.open("chefxp-api-v2");
+    const cache = await worker.caches.open("chefxp-api-v3");
     expect(await cache.match(`${ORIGEM}/api/auth/me`)).toBeUndefined();
   });
 
@@ -201,7 +201,7 @@ describe("service worker: ficheiros", () => {
     expect(worker.idas).toHaveLength(2); // com rede, é sempre a rede
 
     const semLigacao = montarWorker(semRede);
-    const cache = await semLigacao.caches.open("chefxp-outros-v2");
+    const cache = await semLigacao.caches.open("chefxp-outros-v3");
     await cache.put(`${ORIGEM}/src/main.tsx`, new Response("módulo guardado"));
 
     const { resposta } = await semLigacao.pedir("/src/main.tsx");
@@ -222,7 +222,7 @@ describe("service worker: ficheiros", () => {
 
     for (let i = 0; i < 65; i++) await worker.pedir(`/uploads/foto-${i}.jpg`);
 
-    const cache = await worker.caches.open("chefxp-imagens-v2");
+    const cache = await worker.caches.open("chefxp-imagens-v3");
     expect(cache.itens.size).toBe(60);
     // Saem as mais antigas, não as últimas que a pessoa viu.
     expect(await cache.match(`${ORIGEM}/uploads/foto-0.jpg`)).toBeUndefined();
