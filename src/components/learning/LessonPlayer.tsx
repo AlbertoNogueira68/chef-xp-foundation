@@ -111,9 +111,14 @@ export function LessonPlayer({
   if (phase === "failed") {
     return (
       <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-        <ChefMascot size="xl" className="ring-4 ring-rose-100" />
+        <ChefMascot size="xl" mood="triste" className="ring-4 ring-rose-100" />
         <h2 className="mt-4 text-xl font-bold">Sem corações!</h2>
-        <ChefSpeech tone="errado" size="xs" className="mt-4 w-full max-w-xs text-left">
+        <ChefSpeech
+          tone="errado"
+          size="xs"
+          mood="triste"
+          className="mt-4 w-full max-w-xs text-left"
+        >
           {chefFailedLine(lesson.dishName)}
         </ChefSpeech>
         <div className="mt-8 flex w-full max-w-xs flex-col gap-2">
@@ -677,6 +682,7 @@ function LessonQuiz({
         <div className="mt-4">
           <ChefSpeech
             tone={isCorrect ? "certo" : "errado"}
+            mood={isCorrect ? "aprovar" : "erro"}
             size="sm"
             title={chefFeedbackLine(isCorrect, `${dishName}!${questionIndex}`)}
           >

@@ -20,7 +20,13 @@ export function LessonComplete({
       {/* Quem dá os parabéns é o chef que deu a lição — a taça fica ao lado,
           como um crachá, e não no lugar dele. */}
       <div className="relative mb-6">
-        <ChefMascot size="xl" className="shadow-lg shadow-amber-500/20 ring-4 ring-amber-100" />
+        {/* Sem rede ainda não há XP para festejar: o chef só celebra quando o
+            servidor confirmou. */}
+        <ChefMascot
+          size="xl"
+          mood={porEnviar ? "aprovar" : "celebrar"}
+          className="shadow-lg shadow-amber-500/20 ring-4 ring-amber-100"
+        />
         <div className="absolute -bottom-1 -right-1 flex size-10 items-center justify-center rounded-full bg-gradient-to-br from-amber-300 to-amber-500 shadow-md">
           <Trophy className="size-5 text-white" />
         </div>
