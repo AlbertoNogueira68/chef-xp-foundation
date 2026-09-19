@@ -325,7 +325,7 @@ function MissionComplete({ run, skills }: { run: Run; skills: Map<string, Skill>
   return (
     <div className="flex h-full flex-col items-center justify-center gap-4 px-6 text-center">
       <div className="relative">
-        <ChefMascot size="xl" className="ring-4 ring-emerald-100" />
+        <ChefMascot size="xl" mood="celebrar" className="ring-4 ring-emerald-100" />
         <span className="absolute -bottom-1 -right-1 flex size-9 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md">
           <ChefHat className="size-5" />
         </span>

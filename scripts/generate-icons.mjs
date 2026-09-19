@@ -24,6 +24,14 @@ const ICONS = path.join(RAIZ, "public/icons");
 const MASCOTE = path.join(RAIZ, "public/mascot");
 
 /**
+ * As caras do chef para cada momento da lição. Os originais vivem em
+ * `design/mascot/` e não em `public/`: são uns 200 kB cada e a app só usa os
+ * recortes pequenos que saem daqui.
+ */
+const HUMORES = ["aprovar", "celebrar", "erro", "triste"];
+const DESENHOS = path.join(RAIZ, "design/mascot");
+
+/**
  * O fundo do desenho, usado onde o ícone não pode ter transparência. É lido do
  * canto da própria imagem: à mão, bastava um tom de diferença para se ver o
  * quadrado do desenho recortado contra a margem.
@@ -66,11 +74,42 @@ function encontrarCirculo(imagem) {
 }
 
 /**
+ * Os desenhos dos humores têm fundo branco e enfeites que saem do círculo (os
+ * confettis, a nuvem), por isso a caixa do que não é fundo não serve. Mede-se
+ * o círculo pela linha e pela coluna do meio, onde só há círculo, e recua-se
+ * dois pixels para não apanhar a franja branca da borda.
+ */
+function circuloAoCentro(imagem) {
+  const { width, height, pixels } = imagem;
+  const branco = (x, y) => {
+    const i = (y * width + x) * 4;
+    return Math.min(pixels[i], pixels[i + 1], pixels[i + 2]) > 235;
+  };
+  const meioY = Math.floor(height / 2);
+  const meioX = Math.floor(width / 2);
+
+  let esquerda = 0;
+  while (esquerda < meioX && branco(esquerda, meioY)) esquerda++;
+  let direita = width - 1;
+  while (direita > meioX && branco(direita, meioY)) direita--;
+  let cima = 0;
+  while (cima < meioY && branco(meioX, cima)) cima++;
+  let baixo = height - 1;
+  while (baixo > meioY && branco(meioX, baixo)) baixo--;
+
+  return {
+    cx: (esquerda + direita) / 2,
+    cy: (cima + baixo) / 2,
+    raio: Math.min(direita - esquerda, baixo - cima) / 2 - 2,
+  };
+}
+
+/**
  * O chef sozinho, redondo, com o resto transparente — é assim que ele entra
  * nos balões de fala sem levar um quadrado escuro atrás.
  */
-function recorteRedondo(imagem, destino) {
-  const { cx, cy, raio } = encontrarCirculo(imagem);
+function recorteRedondo(imagem, destino, circulo = encontrarCirculo(imagem)) {
+  const { cx, cy, raio } = circulo;
   const lado = Math.round(raio * 2);
   const quadrado = crop(imagem, Math.round(cx - raio), Math.round(cy - raio), lado);
   const pequeno = resize(quadrado, destino);
@@ -166,3 +205,18 @@ console.log(`[icons] public/favicon.ico — 16/32/48, ${(ico.length / 1024).toFi
 /* O mascote para dentro da app: redondo e leve, que aparece em cada lição. */
 await escrever(path.join(MASCOTE, "chef-frog-avatar.png"), recorteRedondo(fonte, 256));
 await escrever(path.join(MASCOTE, "chef-frog-avatar-96.png"), recorteRedondo(fonte, 96));
+
+/* Os humores: a mesma ideia, um por cada momento da lição (acertar, errar,
+   chumbar, ganhar XP). */
+for (const humor of HUMORES) {
+  const desenho = decodePng(await readFile(path.join(DESENHOS, `chef-frog-${humor}.png`)));
+  const circulo = circuloAoCentro(desenho);
+  await escrever(
+    path.join(MASCOTE, `chef-frog-${humor}.png`),
+    recorteRedondo(desenho, 256, circulo),
+  );
+  await escrever(
+    path.join(MASCOTE, `chef-frog-${humor}-96.png`),
+    recorteRedondo(desenho, 96, circulo),
+  );
+}

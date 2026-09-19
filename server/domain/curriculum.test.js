@@ -151,6 +151,13 @@ test("a fixture de referência é válida", () => {
   assert.ok(validateCurriculum(fixture()).ok);
 });
 
+test("apanha uma dica do Chef sem texto", () => {
+  const errors = errorsOf((c) => {
+    c.units[0].lessons[0].tips = [{ title: "Espaço à volta da tábua", text: "" }];
+  });
+  assert.match(errors, /dica 1 precisa de título e texto/);
+});
+
 test("apanha ciclos no grafo de pré-requisitos", () => {
   const errors = errorsOf((c) => {
     c.skills[0].requires = ["b"]; // a → b → a

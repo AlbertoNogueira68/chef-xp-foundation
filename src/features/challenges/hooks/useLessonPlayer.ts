@@ -12,6 +12,9 @@ const MAX_HEARTS = 3;
 
 type GivenAnswer = { questionId: string; answer: AnswerValue };
 
+/** Um ecrã da fase de preparação: um passo ou uma dica do Chef. */
+export type PrepItem = { title: string; description: string; isTip: boolean };
+
 /**
  * O leitor de lições mantém o ritmo do Duolingo (feedback imediato a cada
  * resposta) mas nenhuma correção acontece no browser: cada resposta é
@@ -55,12 +58,26 @@ export function useLessonPlayer() {
   const answers = useRef<GivenAnswer[]>([]);
 
   const currentQuestion: Question | null = lesson?.questions[questionIndex] ?? null;
-  const currentPrepStep = lesson?.preparationSteps[prepStepIndex] ?? null;
+
+  // As dicas do Chef passam-se como os passos de preparação, logo a seguir a
+  // eles: lêem-se, não se respondem.
+  const prepItems = useMemo<PrepItem[]>(() => {
+    if (!lesson) return [];
+    return [
+      ...lesson.preparationSteps.map((step) => ({ ...step, isTip: false })),
+      ...(lesson.tips ?? []).map((tip) => ({
+        title: tip.title,
+        description: tip.text,
+        isTip: true,
+      })),
+    ];
+  }, [lesson]);
+  const currentPrepStep = prepItems[prepStepIndex] ?? null;
 
   const totalSteps = useMemo(() => {
     if (!lesson) return 1;
-    return 1 + lesson.preparationSteps.length + lesson.questions.length;
-  }, [lesson]);
+    return 1 + prepItems.length + lesson.questions.length;
+  }, [lesson, prepItems]);
 
   const progress = useMemo(() => {
     if (!lesson) return 0;
@@ -70,10 +87,10 @@ export function useLessonPlayer() {
     let done = 0;
     if (phase === "prep") done = 1 + prepStepIndex + 1;
     if (phase === "quiz") {
-      done = 1 + lesson.preparationSteps.length + questionIndex + (showFeedback ? 1 : 0);
+      done = 1 + prepItems.length + questionIndex + (showFeedback ? 1 : 0);
     }
     return (done / totalSteps) * 100;
-  }, [lesson, phase, prepStepIndex, questionIndex, showFeedback, totalSteps]);
+  }, [lesson, phase, prepStepIndex, questionIndex, showFeedback, totalSteps, prepItems]);
 
   const resetSession = useCallback((loaded: Lesson) => {
     answers.current = [];
@@ -117,13 +134,13 @@ export function useLessonPlayer() {
 
   const nextPrepStep = useCallback(() => {
     if (!lesson) return;
-    if (prepStepIndex >= lesson.preparationSteps.length - 1) {
+    if (prepStepIndex >= prepItems.length - 1) {
       setPhase("quiz");
       setQuestionIndex(0);
       return;
     }
     setPrepStepIndex((i) => i + 1);
-  }, [lesson, prepStepIndex]);
+  }, [lesson, prepStepIndex, prepItems]);
 
   const prevPrepStep = useCallback(() => {
     if (prepStepIndex <= 0) {
@@ -270,6 +287,7 @@ export function useLessonPlayer() {
     currentQuestion,
     currentPrepStep,
     prepStepIndex,
+    prepStepCount: prepItems.length,
     questionIndex,
     hearts,
     maxHearts: MAX_HEARTS,

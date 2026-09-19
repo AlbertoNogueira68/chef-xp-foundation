@@ -696,6 +696,12 @@
               "description": "Se vais mexer em carne ou peixe crus, separa já a segunda tábua."
             }
           ],
+          "tips": [
+            {
+              "title": "Espaço à volta da tábua",
+              "text": "Deixa uns 20 cm livres de cada lado: dá para uma taça com o que já cortaste e para pousar a faca."
+            }
+          ],
           "questions": [
             {
               "id": "u1-l1-q1",
@@ -765,19 +771,6 @@
               "explainWrong": "Uma bancada cheia parece produtiva mas obriga a cortar num quadrado pequeno. É onde a faca encontra um frasco em vez da tábua."
             },
             {
-              "id": "u1-l1-q5",
-              "type": "estimate",
-              "skills": [
-                "seguranca.bancada"
-              ],
-              "prompt": "Quanto espaço livre deves ter de cada lado da tábua?",
-              "correctAnswer": 20,
-              "tolerance": 10,
-              "unit": "cm",
-              "explanation": "Cerca de 20 cm de cada lado chegam para uma taça do que já cortaste e para pousar a faca.",
-              "explainWrong": "Menos de 10 cm não dá para pousar nada, e acabas a empilhar em cima da tábua. Muito mais do que isso e estás só a andar mais para chegar às coisas."
-            },
-            {
               "id": "u1-l1-q6",
               "type": "choice",
               "skills": [
@@ -817,8 +810,7 @@
           ],
           "ingredients": [
             "A tua faca de chef",
-            "Um tomate maduro",
-            "Uma fieira ou afiador"
+            "Um tomate maduro"
           ],
           "preparationSteps": [
             {
@@ -830,12 +822,22 @@
               "description": "Se a pele cede, tens fio. Se a lâmina desliza, não tens."
             },
             {
-              "title": "Passar pela fieira",
-              "description": "Ângulo baixo e constante, alternando os dois lados."
+              "title": "Se não cortou",
+              "description": "A faca precisa de ser afiada. Leva-a a afiar ou pede ajuda a quem saiba. Até lá, usa outra faca que passe no teste."
             },
             {
               "title": "Repetir o teste",
-              "description": "Volta ao tomate. Tem de morder à primeira."
+              "description": "Depois de afiada, volta ao tomate. Tem de morder à primeira."
+            }
+          ],
+          "tips": [
+            {
+              "title": "Testa antes de afiar",
+              "text": "Se a faca morde o tomate à primeira, não precisa de nada. Só vale a pena afiar quando a lâmina desliza."
+            },
+            {
+              "title": "Afiar, se quiseres ir mais longe",
+              "text": "Na fieira, a lâmina vai inclinada cerca de 20°. Se não te sentes à vontade, não há problema: leva a faca a afiar e usa o teste do tomate para saber quando."
             }
           ],
           "questions": [
@@ -871,35 +873,6 @@
               "correctAnswer": "Não, precisa de fio antes de cortar",
               "explanation": "O teste do tomate é binário: ou a pele cede ao peso da lâmina, ou não tens fio.",
               "explainWrong": "\"Fazer mais força\" é a resposta que manda gente para as urgências. Se a lâmina não morde ao peso dela, o que muda com força é a velocidade a que escorrega."
-            },
-            {
-              "id": "u1-l2-q3",
-              "type": "order",
-              "skills": [
-                "seguranca.faca-romba"
-              ],
-              "prompt": "Ordena o teste do tomate.",
-              "correctOrder": [
-                "Pousar a lâmina sobre a pele, sem carregar",
-                "Puxar a faca para trás numa passagem",
-                "Ver se a pele abriu ou se a lâmina deslizou",
-                "Passar pela fieira se deslizou"
-              ],
-              "explanation": "Testar antes de afiar poupa-te a afiar o que já estava bom — e avisa-te do que não estava.",
-              "explainWrong": "Afiar primeiro e testar depois tira-te a informação que interessa: nunca ficas a saber em que estado a faca estava, nem se o que fizeste resolveu."
-            },
-            {
-              "id": "u1-l2-q4",
-              "type": "estimate",
-              "skills": [
-                "seguranca.faca-romba"
-              ],
-              "prompt": "Que ângulo fazes entre a lâmina e a fieira?",
-              "correctAnswer": 20,
-              "tolerance": 5,
-              "unit": "graus",
-              "explanation": "Cerca de 20°. É o ângulo da maioria das facas de cozinha ocidentais.",
-              "explainWrong": "Muito mais do que 20° arredonda o fio em vez de o alinhar — ficas com uma faca pior do que aquela com que começaste. Muito menos e não tocas no gume."
             },
             {
               "id": "u1-l2-q5",
@@ -979,6 +952,12 @@
               "description": "O movimento vem do ombro e do cotovelo, não do pulso."
             }
           ],
+          "tips": [
+            {
+              "title": "A ponta quase não sai da tábua",
+              "text": "Cortar é empurrar para a frente e para baixo, não dar golpes. A ponta fica a uns 3 cm da tábua."
+            }
+          ],
           "questions": [
             {
               "id": "u1-l3-q1",
@@ -1047,19 +1026,6 @@
               "explainWrong": "É a pega mais comum em quem aprendeu sozinho, e é também a que faz a lâmina fugir para o lado ao terceiro corte — o dedo esticado não trava a rotação da faca."
             },
             {
-              "id": "u1-l3-q5",
-              "type": "estimate",
-              "skills": [
-                "faca.pega"
-              ],
-              "prompt": "A que altura, acima da tábua, deve estar a ponta da faca no início de cada corte?",
-              "correctAnswer": 3,
-              "tolerance": 2,
-              "unit": "cm",
-              "explanation": "Uns 3 cm. A ponta quase não sai da tábua: o corte é um movimento para a frente e para baixo, não um golpe.",
-              "explainWrong": "Levantar a faca 10 ou 15 cm transforma cada corte num golpe vertical. Perdes precisão e o dedo que está do outro lado deixa de ter aviso."
-            },
-            {
               "id": "u1-l3-q6",
               "type": "choice",
               "skills": [
@@ -1120,6 +1086,12 @@
               "description": "A cada corte, a mão recua o equivalente à fatia seguinte."
             }
           ],
+          "tips": [
+            {
+              "title": "A mão marca a espessura",
+              "text": "O quanto a mão recua entre cortes é a grossura da fatia. Para fatias finas, uns 5 mm de cada vez."
+            }
+          ],
           "questions": [
             {
               "id": "u1-l4-q1",
@@ -1170,19 +1142,6 @@
               "correctAnswer": "Não, as pontas dos dedos estão no caminho",
               "explanation": "Com os dedos esticados não há batente. A única coisa entre a lâmina e a unha é a tua atenção.",
               "explainWrong": "\"Devagar\" não é uma proteção — é o que se faz enquanto se está concentrado, e ninguém está concentrado durante uma cebola inteira. A garra protege mesmo quando te distrais."
-            },
-            {
-              "id": "u1-l4-q4",
-              "type": "estimate",
-              "skills": [
-                "faca.garra"
-              ],
-              "prompt": "De quanto recua a mão entre cortes, para fatias finas de cenoura?",
-              "correctAnswer": 5,
-              "tolerance": 3,
-              "unit": "mm",
-              "explanation": "Uns 5 mm. O recuo da mão é literalmente a espessura da fatia seguinte.",
-              "explainWrong": "Se recuas 2 cm de cada vez ficas com rodelas grossas e desiguais; se não recuas nada, a faca corta no mesmo sítio e não sai fatia nenhuma."
             },
             {
               "id": "u1-l4-q5",
@@ -1266,6 +1225,16 @@
               "description": "Agora corta ao contrário: saem cubos sozinhos."
             }
           ],
+          "tips": [
+            {
+              "title": "Cubos pequenos para refogar",
+              "text": "Cubos de uns 5 mm amolecem em poucos minutos sem desaparecerem no molho."
+            },
+            {
+              "title": "Nos cortes deitados, a mão vai por cima",
+              "text": "Quando cortas a cebola na horizontal, pousa a palma da mão espalmada em cima dela. É a única vez em que não usas a garra."
+            }
+          ],
           "questions": [
             {
               "id": "u1-l5-q1",
@@ -1303,19 +1272,6 @@
               "explainWrong": "Fatiar antes de fazer a grelha dá meias-luas, não cubos. E descascar antes de cortar ao meio deixa-te a girar uma esfera escorregadia na tábua."
             },
             {
-              "id": "u1-l5-q3",
-              "type": "estimate",
-              "skills": [
-                "faca.cubos"
-              ],
-              "prompt": "Que lado deve ter cada cubo, para uma cebola que vai refogar?",
-              "correctAnswer": 5,
-              "tolerance": 3,
-              "unit": "mm",
-              "explanation": "Cerca de 5 mm. É o tamanho que amolece em 4 minutos sem desaparecer no molho.",
-              "explainWrong": "Cubos de 15 mm ainda estão crus quando o resto já está pronto; picada quase a pó desfaz-se e queima antes de a cebola adoçar."
-            },
-            {
               "id": "u1-l5-q4",
               "type": "judge",
               "skills": [
@@ -1330,24 +1286,6 @@
               "correctAnswer": "Não, os pequenos queimam antes de os grandes cozerem",
               "explanation": "Tamanho igual não é estética: é o que faz tudo ficar pronto ao mesmo tempo.",
               "explainWrong": "Não se desfaz tudo por igual. Os pedaços pequenos chegam a amargo enquanto os grandes ainda estão crus, e esse amargo vai para o molho inteiro."
-            },
-            {
-              "id": "u1-l5-q5",
-              "type": "choice",
-              "skills": [
-                "faca.cubos",
-                "faca.garra"
-              ],
-              "prompt": "Quando fazes os cortes horizontais, onde está a mão que não segura a faca?",
-              "options": [
-                "Espalmada por cima da cebola, a achatá-la contra a tábua",
-                "Em garra ao lado da cebola",
-                "A segurar a raiz",
-                "Fora da tábua"
-              ],
-              "correctAnswer": "Espalmada por cima da cebola, a achatá-la contra a tábua",
-              "explanation": "É a única exceção à garra: no corte horizontal a lâmina viaja paralela à tábua, por baixo da palma.",
-              "explainWrong": "Manter a garra no corte horizontal põe os nós exatamente na trajetória da lâmina, que aqui anda de lado. A regra muda porque a direção da faca mudou."
             },
             {
               "id": "u1-l5-q6",
@@ -1415,6 +1353,12 @@
               "description": "Com tudo alinhado, ligar o lume é o último gesto."
             }
           ],
+          "tips": [
+            {
+              "title": "Conta com 10 minutos",
+              "text": "Preparar tudo para um refogado simples leva uns 10 minutos. Parece muito, mas poupa-te a correria depois."
+            }
+          ],
           "questions": [
             {
               "id": "u1-l6-q1",
@@ -1467,19 +1411,6 @@
               ],
               "explanation": "Ler primeiro é o que evita descobrir a meio que faltava um ingrediente. Acender é sempre o último passo.",
               "explainWrong": "Cortar antes de ler a receita inteira é como o improviso começa: descobres ao quarto passo que a cebola era para ser em meias-luas e já a picaste."
-            },
-            {
-              "id": "u1-l6-q4",
-              "type": "estimate",
-              "skills": [
-                "org.mise-en-place"
-              ],
-              "prompt": "Quanto tempo demora a mise en place de um refogado simples, com prática?",
-              "correctAnswer": 10,
-              "tolerance": 5,
-              "unit": "minutos",
-              "explanation": "Cerca de 10 minutos. Parece muito antes de começar, e é o que evita 20 minutos de correria depois.",
-              "explainWrong": "Se contas 1 ou 2 minutos, ainda não contaste com o descascar, o lavar e o arrumar. Se contas 40, estás a preparar uma refeição de domingo e não um refogado."
             },
             {
               "id": "u1-l6-q5",
@@ -1567,6 +1498,12 @@
               "description": "Tem de chiar ao entrar. Se entra em silêncio, ainda não era."
             }
           ],
+          "tips": [
+            {
+              "title": "Dá tempo à frigideira",
+              "text": "Em lume médio, uma frigideira precisa de uns 3 minutos para ficar pronta. É o que separa tostado de cozido."
+            }
+          ],
           "questions": [
             {
               "id": "u2-l1-q1",
@@ -1601,19 +1538,6 @@
               ],
               "explanation": "A frigideira aquece primeiro, a gordura entra já quase no fim. Assim a gordura passa pouco tempo ao lume e não tem tempo de queimar.",
               "explainWrong": "Pôr o azeite na frigideira fria é o erro mais comum da cozinha caseira: ele fica lá a aquecer os três minutos todos, e uma gordura que fumega antes da comida entrar já está queimada."
-            },
-            {
-              "id": "u2-l1-q3",
-              "type": "estimate",
-              "skills": [
-                "calor.pre-aquecer"
-              ],
-              "prompt": "Quanto tempo demora uma frigideira normal a ficar pronta, em lume médio?",
-              "correctAnswer": 3,
-              "tolerance": 2,
-              "unit": "min",
-              "explanation": "Cerca de três minutos. Parece muito quando se tem fome, mas é o que separa tostado de cozido.",
-              "explainWrong": "Trinta segundos não chegam a aquecer o metal, e dez minutos numa frigideira vazia já são mais do que ela precisa — e do que algumas aguentam."
             },
             {
               "id": "u2-l1-q4",
@@ -1692,6 +1616,12 @@
               "description": "Selar em alto, acabar em médio: o lume não é uma escolha só."
             }
           ],
+          "tips": [
+            {
+              "title": "Como reconhecer o lume brando",
+              "text": "Num molho em lume brando vês uma bolha de vez em quando, não uma fervura constante."
+            }
+          ],
           "questions": [
             {
               "id": "u2-l2-q1",
@@ -1742,19 +1672,6 @@
               ],
               "explanation": "A mesma frigideira faz três trabalhos. O que muda entre eles é o lume, e é essa mudança que faz o prato.",
               "explainWrong": "Deixar o lume alto do princípio ao fim queima o fundo antes de o molho apurar — e o que estava no fundo era o sabor todo do bife."
-            },
-            {
-              "id": "u2-l2-q4",
-              "type": "estimate",
-              "skills": [
-                "calor.niveis"
-              ],
-              "prompt": "Em lume brando, quantas bolhas por segundo deves ver num molho?",
-              "correctAnswer": 1,
-              "tolerance": 1,
-              "unit": "bolhas/s",
-              "explanation": "Uma bolha de vez em quando. Se for uma fervura constante, já não é brando — é médio disfarçado.",
-              "explainWrong": "Dez bolhas por segundo é fervura a sério: agita o molho, parte o que lá está dentro e reduz depressa de mais para os sabores se juntarem."
             },
             {
               "id": "u2-l2-q5",
@@ -1817,6 +1734,12 @@
               "description": "Queima depressa por causa do leite. Junta-se no fim, ou com um pouco de óleo."
             }
           ],
+          "tips": [
+            {
+              "title": "Pouca gordura chega",
+              "text": "Para saltear basta uma película fina a cobrir o fundo da frigideira. Mais do que isso já é fritar."
+            }
+          ],
           "questions": [
             {
               "id": "u2-l3-q1",
@@ -1850,19 +1773,6 @@
               "correctAnswer": "Não, isto já passou de avelã e está queimada",
               "explanation": "A manteiga avelã é dourada e cheira a frutos secos. Pontos pretos e cheiro agressivo já é o passo seguinte, e não tem volta.",
               "explainWrong": "Há mesmo uma janela em que a manteiga tostada é ótima — mas é curta, e o que a fecha é a cor escura e o cheiro a queimado. Passada essa janela, o amargo fica."
-            },
-            {
-              "id": "u2-l3-q3",
-              "type": "estimate",
-              "skills": [
-                "calor.gordura"
-              ],
-              "prompt": "Que espessura de gordura chega no fundo de uma frigideira para saltear?",
-              "correctAnswer": 2,
-              "tolerance": 1.5,
-              "unit": "mm",
-              "explanation": "Uma película que cubra o fundo. A gordura está ali para transmitir calor por igual, não para fritar.",
-              "explainWrong": "Meio centímetro de óleo já é fritura rasa: a comida absorve-a e fica pesada. E fundo seco em pontos dá zonas que agarram e zonas que não."
             },
             {
               "id": "u2-l3-q4",
@@ -2078,6 +1988,12 @@
               "description": "O lume brando não se acelera. Subir o lume é mudar de técnica, não ir mais depressa."
             }
           ],
+          "tips": [
+            {
+              "title": "Brando é abaixo da fervura",
+              "text": "O lume brando anda perto dos 90 °C: o molho mexe-se de leve, mas não ferve."
+            }
+          ],
           "questions": [
             {
               "id": "u3-l1-q1",
@@ -2111,19 +2027,6 @@
               "correctAnswer": "Não, isto é fervura — brando é bolha rara",
               "explanation": "Em lume brando a superfície quase não se mexe. Uma bolha aqui, outra ali, e nada mais.",
               "explainWrong": "O tamanho das bolhas engana; o que conta é a superfície. Se ela está agitada, o molho está a ser batido enquanto reduz — e o que devia ficar cremoso fica desfeito."
-            },
-            {
-              "id": "u3-l1-q3",
-              "type": "estimate",
-              "skills": [
-                "calor.lume-brando"
-              ],
-              "prompt": "A que temperatura anda um lume brando, mais ou menos?",
-              "correctAnswer": 90,
-              "tolerance": 10,
-              "unit": "°C",
-              "explanation": "Uns 90 graus: abaixo dos 100 da fervura. É essa diferença de dez graus que muda o resultado.",
-              "explainWrong": "Aos 100 já é fervura a sério, e aos 60 nada acontece — a água nem sequer borbulha e o molho não reduz."
             },
             {
               "id": "u3-l1-q4",
@@ -2202,6 +2105,12 @@
               "description": "Retira com o ovo ainda brilhante. O calor do prato acaba o trabalho."
             }
           ],
+          "tips": [
+            {
+              "title": "O ovo não precisa de lume alto",
+              "text": "A clara começa a ficar sólida pouco acima dos 60 °C, muito antes de a água ferver. Lume alto deixa-o borrachudo."
+            }
+          ],
           "questions": [
             {
               "id": "u3-l2-q1",
@@ -2235,19 +2144,6 @@
               "correctAnswer": "Sim, acabam de cozinhar no prato",
               "explanation": "Brilhante e ligeiramente líquido é o ponto de tirar. Trinta segundos depois, no prato, está exatamente como se quer.",
               "explainWrong": "Não estão crus — estão um passo antes do pronto, que é onde têm de estar quando saem. Esperar pelo aspeto final na frigideira é garantir que chegam à mesa passados."
-            },
-            {
-              "id": "u3-l2-q3",
-              "type": "estimate",
-              "skills": [
-                "ponto.ovo"
-              ],
-              "prompt": "A que temperatura é que a clara do ovo começa a ficar sólida?",
-              "correctAnswer": 62,
-              "tolerance": 6,
-              "unit": "°C",
-              "explanation": "Pouco acima dos 60 graus. Muito abaixo da fervura — daí o ovo não precisar de lume alto para nada.",
-              "explainWrong": "Não são precisos 100 graus: o ovo está feito muito antes disso. É justamente por se cozinhar com lume alto que ele fica borrachudo."
             },
             {
               "id": "u3-l2-q4",
@@ -2328,6 +2224,12 @@
               "description": "Provar antes de salgar é a única maneira de não salgar a dobrar."
             }
           ],
+          "tips": [
+            {
+              "title": "Beringela com sal: 20 minutos",
+              "text": "Salga, espera uns 20 minutos, seca com um pano e só depois vai para a frigideira."
+            }
+          ],
           "questions": [
             {
               "id": "u3-l3-q1",
@@ -2378,19 +2280,6 @@
               ],
               "explanation": "Uma pitada no início ajuda os legumes a libertar sabor; o acerto é sempre no fim, com a sopa no volume final.",
               "explainWrong": "Acertar o sal a meio da cozedura é acertar para um volume de água que ainda vai mudar. Só no fim é que a sopa é a sopa."
-            },
-            {
-              "id": "u3-l3-q4",
-              "type": "estimate",
-              "skills": [
-                "tempero.sal-momento"
-              ],
-              "prompt": "Quanto tempo deve o sal ficar na beringela antes de a secares?",
-              "correctAnswer": 20,
-              "tolerance": 12,
-              "unit": "min",
-              "explanation": "Vinte minutos chegam para a água vir à superfície. Depois seca-se com um pano e vai para a frigideira.",
-              "explainWrong": "Trinta segundos não dão tempo à osmose de fazer nada, e duas horas deixam a beringela salgada de mais e murcha."
             },
             {
               "id": "u3-l3-q5",
@@ -2971,6 +2860,12 @@
               "description": "Sal grosso e azeite em cru no fim sentem-se muito mais."
             }
           ],
+          "tips": [
+            {
+              "title": "Prova várias vezes",
+              "text": "Num prato de meia hora, prova umas quatro vezes: a cada mudança importante e no fim."
+            }
+          ],
           "questions": [
             {
               "id": "u5-l2-q1",
@@ -3039,19 +2934,6 @@
               "correctAnswer": "Sim, o tempero em cru no fim sente-se muito mais",
               "explanation": "Os cristais de sal grosso ainda inteiros e o azeite que não passou pelo lume dão um contraste que o tempero cozinhado não dá.",
               "explainWrong": "As duas coisas não competem: o tempero ao lume constrói o fundo, o tempero em cru dá o remate. Um prato com só um dos dois fica sempre a meio caminho."
-            },
-            {
-              "id": "u5-l2-q5",
-              "type": "estimate",
-              "skills": [
-                "tempero.camadas"
-              ],
-              "prompt": "Quantas vezes deves provar um prato que demora meia hora?",
-              "correctAnswer": 4,
-              "tolerance": 2,
-              "unit": "vezes",
-              "explanation": "Umas quatro: a cada mudança importante e no fim. Provar é a única forma de saber, e não há outra.",
-              "explainWrong": "Provar uma só vez, no fim, é descobrir os problemas quando já não há nada a fazer. Provar de dois em dois minutos também não ajuda: entre provas tem de acontecer alguma coisa."
             }
           ]
         },
@@ -3094,6 +2976,16 @@
             {
               "title": "Servir logo",
               "description": "Empratar é o último passo, não um momento para fotografias longas."
+            }
+          ],
+          "tips": [
+            {
+              "title": "Deixa o bordo limpo",
+              "text": "Uns 2 cm livres à volta da comida fazem o prato parecer arrumado em vez de cheio."
+            },
+            {
+              "title": "Empratar é rápido",
+              "text": "Com pratos e colheres à mão, dois pratos empratam-se em menos de um minuto — a comida está a arrefecer."
             }
           ],
           "questions": [
@@ -3147,37 +3039,6 @@
               ],
               "explanation": "Do fundo para cima, e sempre a acabar pelo que não se quer que cozinhe mais: o molho fresco e o azeite em cru.",
               "explainWrong": "Limpar os bordos antes de pôr o molho é limpar duas vezes. E o tempero em cru posto primeiro fica soterrado, que é o mesmo que não o ter posto."
-            },
-            {
-              "id": "u5-l3-q4",
-              "type": "estimate",
-              "skills": [
-                "org.empratar"
-              ],
-              "prompt": "Que largura deve ficar livre à volta da comida, no bordo do prato?",
-              "correctAnswer": 2,
-              "tolerance": 1.5,
-              "unit": "cm",
-              "explanation": "Uns dois centímetros de bordo livre. É o espaço que faz o prato parecer composto em vez de cheio.",
-              "explainWrong": "Comida até ao limite do prato parece transbordar, e cinco centímetros de vazio fazem a porção parecer pequena e o prato pretensioso."
-            },
-            {
-              "id": "u5-l3-q5",
-              "type": "choice",
-              "skills": [
-                "org.empratar",
-                "org.sequenciar"
-              ],
-              "prompt": "Quanto tempo deve demorar a empratar dois pratos?",
-              "options": [
-                "Menos de um minuto, com tudo já à mão",
-                "O tempo que for preciso para ficar perfeito",
-                "Cinco minutos, é a parte mais importante",
-                "Não interessa, a comida está feita"
-              ],
-              "correctAnswer": "Menos de um minuto, com tudo já à mão",
-              "explanation": "A comida está a arrefecer enquanto empratas. Por isso é que os pratos e as colheres estão prontos antes de começares.",
-              "explainWrong": "Um prato perfeito e frio é um prato pior do que um prato simples e quente. O tempo de empratar conta para o tempo em que a comida espera."
             }
           ]
         }

@@ -24,7 +24,7 @@
  * está a cozinhar prefere saber já que aquele passo não foi registado.
  */
 
-const VERSAO = "v3";
+const VERSAO = "v4";
 const CACHE_SHELL = `chefxp-shell-${VERSAO}`;
 const CACHE_ASSETS = `chefxp-assets-${VERSAO}`;
 const CACHE_API = `chefxp-api-${VERSAO}`;
@@ -46,6 +46,12 @@ const SHELL = [
   // balões de fala com um buraco ao lado.
   "/mascot/chef-frog-avatar.png",
   "/mascot/chef-frog-avatar-96.png",
+  // As caras do chef ao acertar, errar, chumbar e ganhar XP: sem elas, a
+  // primeira resposta dada offline mostrava um buraco no lugar do chef.
+  ...["aprovar", "celebrar", "erro", "triste"].flatMap((humor) => [
+    `/mascot/chef-frog-${humor}.png`,
+    `/mascot/chef-frog-${humor}-96.png`,
+  ]),
 ];
 
 self.addEventListener("install", (event) => {
