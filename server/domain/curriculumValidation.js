@@ -280,6 +280,14 @@ export function validateCurriculum(curriculum) {
     for (const question of questions) {
       validateQuestion(lesson, question, knownSkills, errors);
     }
+
+    // As dicas não valem corações: é onde fica o que é bom saber mas técnico
+    // de mais para se perguntar a quem está a começar.
+    (lesson.tips ?? []).forEach((tip, i) => {
+      if (!isNonEmptyString(tip?.title) || !isNonEmptyString(tip?.text)) {
+        errors.push(`lição ${lesson.id}: a dica ${i + 1} precisa de título e texto`);
+      }
+    });
   });
 
   // Toda a competência ensinada tem de ser praticada numa missão: é a regra

@@ -13,6 +13,25 @@ describe("chef sapo", () => {
     expect(img.getAttribute("aria-hidden")).toBe("true");
   });
 
+  test("muda de cara conforme o que aconteceu", () => {
+    const { container } = renderWithProviders(
+      <>
+        <ChefMascot mood="aprovar" />
+        <ChefMascot mood="erro" />
+        <ChefMascot size="xl" mood="triste" />
+        <ChefSpeech mood="celebrar">+25 XP</ChefSpeech>
+      </>,
+    );
+
+    const srcs = [...container.querySelectorAll("img")].map((img) => img.getAttribute("src"));
+    expect(srcs).toEqual([
+      "/mascot/chef-frog-aprovar-96.png",
+      "/mascot/chef-frog-erro-96.png",
+      "/mascot/chef-frog-triste.png",
+      "/mascot/chef-frog-celebrar-96.png",
+    ]);
+  });
+
   test("o balão mostra o que o chef diz", () => {
     renderWithProviders(<ChefSpeech title="Correto!">Sal no fim, sempre.</ChefSpeech>);
 

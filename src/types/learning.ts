@@ -43,6 +43,12 @@ export interface PreparationStep {
   description: string;
 }
 
+/** Uma dica do Chef: fica a saber-se, mas não se pergunta nem tira corações. */
+export interface LessonTip {
+  title: string;
+  text: string;
+}
+
 export interface Lesson {
   id: string;
   dayNumber: number;
@@ -57,6 +63,7 @@ export interface Lesson {
   difficulty: "facil" | "medio" | "dificil";
   ingredients: string[];
   preparationSteps: PreparationStep[];
+  tips?: LessonTip[];
   questions: Question[];
   /** Competências que a lição ensina e que exige (ids). */
   teaches?: string[];

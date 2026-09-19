@@ -106,6 +106,7 @@ export function ChallengesPage() {
             currentQuestion={player.currentQuestion}
             currentPrepStep={player.currentPrepStep}
             prepStepIndex={player.prepStepIndex}
+            prepStepCount={player.prepStepCount}
             questionIndex={player.questionIndex}
             hearts={player.hearts}
             maxHearts={player.maxHearts}

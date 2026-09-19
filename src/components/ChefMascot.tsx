@@ -24,21 +24,39 @@ const TAMANHOS = {
 
 export type ChefMascotSize = keyof typeof TAMANHOS;
 
+/**
+ * A cara do chef conforme o que acabou de acontecer: acertaste (`aprovar`),
+ * enganaste-te (`erro`), ficaste sem corações (`triste`) ou ganhaste XP
+ * (`celebrar`). Fora desses momentos, é o chef de sempre.
+ */
+export type ChefMood = "normal" | "aprovar" | "celebrar" | "erro" | "triste";
+
+const IMAGENS: Record<ChefMood, string> = {
+  normal: "chef-frog-avatar",
+  aprovar: "chef-frog-aprovar",
+  celebrar: "chef-frog-celebrar",
+  erro: "chef-frog-erro",
+  triste: "chef-frog-triste",
+};
+
 export function ChefMascot({
   size = "md",
+  mood = "normal",
   className,
   alt = "",
 }: {
   size?: ChefMascotSize;
+  mood?: ChefMood;
   className?: string;
   /** Vazio (por omissão) quando é decorativo: há sempre texto ao lado. */
   alt?: string;
 }) {
   const grande = size === "lg" || size === "xl";
+  const imagem = IMAGENS[mood];
 
   return (
     <img
-      src={grande ? "/mascot/chef-frog-avatar.png" : "/mascot/chef-frog-avatar-96.png"}
+      src={grande ? `/mascot/${imagem}.png` : `/mascot/${imagem}-96.png`}
       width={grande ? 256 : 96}
       height={grande ? 256 : 96}
       alt={alt}
@@ -68,19 +86,21 @@ export function ChefSpeech({
   children,
   tone = "neutro",
   size = "md",
+  mood = "normal",
   title,
   className,
 }: {
   children: ReactNode;
   tone?: ChefTone;
   size?: ChefMascotSize;
+  mood?: ChefMood;
   /** Uma linha em destaque por cima do resto — o "Correto!", o nome do passo. */
   title?: ReactNode;
   className?: string;
 }) {
   return (
     <div className={cn("flex items-start gap-2.5", className)}>
-      <ChefMascot size={size} className="mt-1" />
+      <ChefMascot size={size} mood={mood} className="mt-1" />
 
       <div className="relative min-w-0 flex-1">
         {/* O bico do balão: um quadrado rodado, com a mesma borda e o mesmo
