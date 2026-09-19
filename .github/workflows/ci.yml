@@ -153,6 +153,8 @@ jobs:
       PORT: 3010
       COOKIE_SECURE: "false"
       BASE_URL: http://localhost:3010
+      # Em produção a app recusa arrancar sem saber a sua origem (fecha o CORS).
+      FRONTEND_URL: http://localhost:3010
       # Medir dez ecrãs e cinco diálogos em quatro larguras faz, em dois
       # minutos, mais pedidos do que uma pessoa faz em quinze — e apanhar um
       # 429 a meio da medição não diz nada sobre o layout. É o mesmo motivo
