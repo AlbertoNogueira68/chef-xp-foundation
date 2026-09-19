@@ -73,9 +73,14 @@ export function AuthPage() {
           )}
         </div>
 
-        <p className="text-center text-xs text-muted-foreground">
-          Demo: <span className="font-medium text-foreground">demo@chef-xp.local</span> / chef123
-        </p>
+        {/* A conta de demonstração vem do seed, que em produção não corre — e
+            não deve. Mostrá-la lá mandava quem chega tentar uma conta que não
+            existe; se existisse, era uma conta aberta a quem passasse. */}
+        {import.meta.env.DEV && (
+          <p className="text-center text-xs text-muted-foreground">
+            Demo: <span className="font-medium text-foreground">demo@chef-xp.local</span> / chef123
+          </p>
+        )}
       </div>
     </div>
   );
