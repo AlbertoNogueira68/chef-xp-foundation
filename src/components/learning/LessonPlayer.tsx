@@ -4,6 +4,7 @@ import {
   Check,
   Clock,
   CloudUpload,
+  Lightbulb,
   ListChecks,
   Undo2,
   RotateCcw,
@@ -13,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import type { AnswerValue, Lesson, LessonPlayerPhase, Question } from "@/types/learning";
+import type { PrepItem } from "@/features/challenges/hooks/useLessonPlayer";
 import { LessonComplete } from "./LessonComplete";
 import { ChefMascot, ChefSpeech } from "@/components/ChefMascot";
 import {
@@ -36,6 +38,7 @@ export function LessonPlayer({
   currentQuestion,
   currentPrepStep,
   prepStepIndex,
+  prepStepCount,
   questionIndex,
   hearts,
   maxHearts,
@@ -62,8 +65,10 @@ export function LessonPlayer({
   lesson: Lesson | null;
   phase: LessonPlayerPhase;
   currentQuestion: Question | null;
-  currentPrepStep: { title: string; description: string } | null;
+  currentPrepStep: PrepItem | null;
   prepStepIndex: number;
+  /** Passos de preparação mais dicas do Chef. */
+  prepStepCount: number;
   questionIndex: number;
   hearts: number;
   maxHearts: number;
@@ -151,7 +156,7 @@ export function LessonPlayer({
           lesson={lesson}
           step={currentPrepStep}
           stepIndex={prepStepIndex}
-          totalSteps={lesson.preparationSteps.length}
+          totalSteps={prepStepCount}
           onNext={onNextPrepStep}
           onPrev={onPrevPrepStep}
         />
@@ -220,6 +225,8 @@ function PlayerTopBar({
 }
 
 function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void }) {
+  const tipCount = lesson.tips?.length ?? 0;
+
   return (
     <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6 pt-4">
       <Badge className="mb-2 w-fit rounded-full border-0 bg-emerald-100 text-emerald-800">
@@ -270,7 +277,13 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
       </div>
 
       <p className="mt-4 text-xs text-muted-foreground">
-        {lesson.preparationSteps.length} passos de preparação + {lesson.questions.length} perguntas
+        {[
+          `${lesson.preparationSteps.length} passos de preparação`,
+          tipCount > 0 && `${tipCount} ${tipCount === 1 ? "dica" : "dicas"} do Chef`,
+          `${lesson.questions.length} perguntas`,
+        ]
+          .filter(Boolean)
+          .join(" + ")}
       </p>
 
       <Button
@@ -293,29 +306,41 @@ function LessonPrep({
   onPrev,
 }: {
   lesson: Lesson;
-  step: { title: string; description: string };
+  step: PrepItem;
   stepIndex: number;
   totalSteps: number;
   onNext: () => void;
   onPrev: () => void;
 }) {
   const isLast = stepIndex >= totalSteps - 1;
+  const stepCount = lesson.preparationSteps.length;
 
   return (
     <div className="flex flex-1 flex-col px-4 pb-6 pt-4">
-      <p className="text-xs font-medium uppercase tracking-wider text-emerald-600">
-        Preparação · Passo {stepIndex + 1} de {totalSteps}
-      </p>
+      {step.isTip ? (
+        <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-amber-600">
+          <Lightbulb className="size-3.5" />
+          Dica do Chef · {stepIndex - stepCount + 1} de {totalSteps - stepCount}
+        </p>
+      ) : (
+        <p className="text-xs font-medium uppercase tracking-wider text-emerald-600">
+          Preparação · Passo {stepIndex + 1} de {stepCount}
+        </p>
+      )}
       <p className="mt-1 text-sm text-muted-foreground">{lesson.dishName}</p>
 
       <div className="mt-6 flex flex-1 flex-col justify-center">
         {/* O passo é o chef a dizê-lo, não um cartão de texto: é a mesma
             informação, mas com alguém a ensiná-la. */}
-        <ChefSpeech tone="certo" size="lg" title={step.title}>
+        {/* As dicas são para guardar, não para responder: não há pergunta nem
+            corações atrás delas. */}
+        <ChefSpeech tone={step.isTip ? "neutro" : "certo"} size="lg" title={step.title}>
           <p>{step.description}</p>
-          <p className="mt-2 text-xs italic opacity-70">
-            {chefPrepLine(lesson.dishName, stepIndex)}
-          </p>
+          {!step.isTip && (
+            <p className="mt-2 text-xs italic opacity-70">
+              {chefPrepLine(lesson.dishName, stepIndex)}
+            </p>
+          )}
         </ChefSpeech>
 
         <div className="mt-6 flex justify-center gap-2">
@@ -325,7 +350,9 @@ function LessonPrep({
               className={cn(
                 "h-1.5 rounded-full transition-all",
                 i === stepIndex
-                  ? "w-6 bg-emerald-500"
+                  ? i >= stepCount
+                    ? "w-6 bg-amber-500"
+                    : "w-6 bg-emerald-500"
                   : i < stepIndex
                     ? "w-1.5 bg-emerald-300"
                     : "w-1.5 bg-muted",
