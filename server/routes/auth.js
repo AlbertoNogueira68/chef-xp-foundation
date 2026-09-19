@@ -373,9 +373,11 @@ router.get(
           // Sem fotografia nesta altura: ela é descarregada e gravada depois
           // da transação, para não haver um pedido à rede a segurar uma
           // ligação à base de dados.
+          // Nasce com o email confirmado: a Google já o verificou, e sem
+          // isso `validateIdTokenClaims` nem tinha deixado chegar aqui.
           const { rows: created } = await client.query(
-            `INSERT INTO users (username, email, password_hash)
-             VALUES ($1, $2, NULL)
+            `INSERT INTO users (username, email, password_hash, email_verified_at)
+             VALUES ($1, $2, NULL, now())
              RETURNING id`,
             [username, email],
           );
@@ -389,6 +391,16 @@ router.get(
           [claims.sub, userId, email],
         );
       }
+
+      // Contas criadas antes de isto ser registado, e contas locais já
+      // confirmadas que só agora se ligam: a Google verificou este endereço,
+      // por isso fica confirmado. Só se for ainda o email da conta — quem
+      // mudou de endereço não confirma o novo com a prova do antigo.
+      await client.query(
+        `UPDATE users SET email_verified_at = now()
+          WHERE id = $1 AND lower(email) = $2 AND email_verified_at IS NULL`,
+        [userId, email],
+      );
 
       const { rows: userRows } = await client.query(
         `SELECT ${USER_COLUMNS} FROM users WHERE id = $1`,
