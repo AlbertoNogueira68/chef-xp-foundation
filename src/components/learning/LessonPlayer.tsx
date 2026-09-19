@@ -4,7 +4,6 @@ import {
   Check,
   Clock,
   CloudUpload,
-  HeartCrack,
   ListChecks,
   Undo2,
   RotateCcw,
@@ -15,6 +14,14 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import type { AnswerValue, Lesson, LessonPlayerPhase, Question } from "@/types/learning";
 import { LessonComplete } from "./LessonComplete";
+import { ChefMascot, ChefSpeech } from "@/components/ChefMascot";
+import {
+  chefFailedLine,
+  chefFeedbackLine,
+  chefGreeting,
+  chefPrepLine,
+  chefQuizLine,
+} from "@/lib/chefLines";
 import { cn } from "@/lib/utils";
 
 const DIFFICULTY: Record<string, string> = {
@@ -104,11 +111,11 @@ export function LessonPlayer({
   if (phase === "failed") {
     return (
       <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
-        <HeartCrack className="size-16 text-rose-400" />
+        <ChefMascot size="xl" className="ring-4 ring-rose-100" />
         <h2 className="mt-4 text-xl font-bold">Sem corações!</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Repete a lição de <strong>{lesson.dishName}</strong> e acerta nas perguntas.
-        </p>
+        <ChefSpeech tone="errado" size="xs" className="mt-4 w-full max-w-xs text-left">
+          {chefFailedLine(lesson.dishName)}
+        </ChefSpeech>
         <div className="mt-8 flex w-full max-w-xs flex-col gap-2">
           <Button className="rounded-full bg-emerald-500 hover:bg-emerald-600" onClick={onRetry}>
             <RotateCcw className="mr-2 size-4" />
@@ -230,6 +237,10 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
         </span>
       </div>
 
+      <ChefSpeech className="mt-4" size="sm">
+        {chefGreeting(lesson.dishName)}
+      </ChefSpeech>
+
       <div className="mt-4 overflow-hidden rounded-2xl">
         <img
           src={lesson.imageUrl}
@@ -293,10 +304,14 @@ function LessonPrep({
       <p className="mt-1 text-sm text-muted-foreground">{lesson.dishName}</p>
 
       <div className="mt-6 flex flex-1 flex-col justify-center">
-        <div className="rounded-2xl border border-emerald-200/60 bg-emerald-50/50 p-5">
-          <h3 className="text-lg font-bold text-emerald-900">{step.title}</h3>
-          <p className="mt-3 text-sm leading-relaxed text-emerald-900/80">{step.description}</p>
-        </div>
+        {/* O passo é o chef a dizê-lo, não um cartão de texto: é a mesma
+            informação, mas com alguém a ensiná-la. */}
+        <ChefSpeech tone="certo" size="lg" title={step.title}>
+          <p>{step.description}</p>
+          <p className="mt-2 text-xs italic opacity-70">
+            {chefPrepLine(lesson.dishName, stepIndex)}
+          </p>
+        </ChefSpeech>
 
         <div className="mt-6 flex justify-center gap-2">
           {Array.from({ length: totalSteps }).map((_, i) => (
@@ -593,7 +608,12 @@ function LessonQuiz({
       <p className="mt-0.5 text-xs text-muted-foreground">
         Pergunta {questionIndex + 1} de {totalQuestions}
       </p>
-      <h2 className="mt-3 text-xl font-bold leading-snug">{question.prompt}</h2>
+
+      {/* Quem pergunta é o chef. O enunciado continua a ser o cabeçalho da
+          pergunta para quem ouve a página — só mudou quem o diz. */}
+      <ChefSpeech className="mt-3" size="sm" title={chefQuizLine(dishName, questionIndex)}>
+        <h2 className="text-lg font-bold leading-snug">{question.prompt}</h2>
+      </ChefSpeech>
 
       <div className="mt-6 flex flex-1 flex-col gap-3">
         {(question.type === "choice" || question.type === "judge") && (
@@ -628,17 +648,22 @@ function LessonQuiz({
       </div>
 
       {showFeedback && semCorrecao && (
-        <div className="mt-4 rounded-2xl bg-stone-100 p-4 text-stone-800">
-          <p className="flex items-center gap-2 font-semibold">
-            <CloudUpload className="size-4" />
-            Resposta guardada
-          </p>
+        <div className="mt-4">
           {/* Nem "certo" nem "errado": quem corrige é o servidor, e ele não
               está ao alcance. Inventar um dos dois seria pior do que esperar. */}
-          <p className="mt-1 text-sm">
+          <ChefSpeech
+            tone="calmo"
+            size="sm"
+            title={
+              <span className="flex items-center gap-2">
+                <CloudUpload className="size-4" />
+                Resposta guardada
+              </span>
+            }
+          >
             Sem rede, a correção fica para quando voltares a ter ligação. Podes continuar a lição —
             não perdes corações por isto.
-          </p>
+          </ChefSpeech>
           <Button
             className="mt-3 w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
             onClick={onNext}
@@ -649,26 +674,25 @@ function LessonQuiz({
       )}
 
       {showFeedback && !semCorrecao && (
-        <div
-          className={cn(
-            "mt-4 rounded-2xl p-4",
-            isCorrect ? "bg-emerald-50 text-emerald-900" : "bg-rose-50 text-rose-900",
-          )}
-        >
-          <p className="font-semibold">{isCorrect ? "Correto!" : "Ups…"}</p>
+        <div className="mt-4">
+          <ChefSpeech
+            tone={isCorrect ? "certo" : "errado"}
+            size="sm"
+            title={chefFeedbackLine(isCorrect, `${dishName}!${questionIndex}`)}
+          >
+            {/* Quando se erra, o que aparece primeiro é o porquê do erro — não
+                a resposta certa. É a diferença entre ensinar e avaliar. */}
+            {!isCorrect && explainWrong && <p className="font-medium">{explainWrong}</p>}
 
-          {/* Quando se erra, o que aparece primeiro é o porquê do erro — não a
-              resposta certa. É a diferença entre ensinar e avaliar. */}
-          {!isCorrect && explainWrong && <p className="mt-1 text-sm font-medium">{explainWrong}</p>}
+            {showCorrectInFeedback && (
+              <p className="mt-2 rounded-xl bg-white/60 px-3 py-2">
+                <span className="font-semibold">Resposta certa: </span>
+                {formatAnswer(correctAnswer, question.unit)}
+              </p>
+            )}
 
-          {showCorrectInFeedback && (
-            <p className="mt-2 rounded-xl bg-white/60 px-3 py-2 text-sm">
-              <span className="font-semibold">Resposta certa: </span>
-              {formatAnswer(correctAnswer, question.unit)}
-            </p>
-          )}
-
-          <p className="mt-2 text-sm opacity-90">{explanation}</p>
+            <p className="mt-2">{explanation}</p>
+          </ChefSpeech>
 
           <Button
             className="mt-3 w-full rounded-full bg-emerald-500 hover:bg-emerald-600"

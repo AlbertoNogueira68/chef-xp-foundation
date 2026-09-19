@@ -1,5 +1,6 @@
-import { LifeBuoy, X } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ChefMascot } from "@/components/ChefMascot";
 import { RESCUE_LABELS, type RescueKind } from "@/types/learning";
 
 /**
@@ -26,8 +27,10 @@ export function RescuePanel({
   if (answer) {
     return (
       <div className="rounded-2xl border-2 border-amber-300 bg-amber-50 p-4">
-        <div className="flex items-start gap-2">
-          <LifeBuoy className="mt-0.5 size-4 shrink-0 text-amber-700" />
+        <div className="flex items-start gap-2.5">
+          {/* A ajuda tem cara: é o mesmo chef das lições que aparece quando o
+              prato está a correr mal, e não um ícone de salva-vidas. */}
+          <ChefMascot size="sm" />
           <div className="min-w-0 flex-1">
             <p className="text-xs font-bold uppercase tracking-wide text-amber-700">
               {RESCUE_LABELS[answer.kind]}

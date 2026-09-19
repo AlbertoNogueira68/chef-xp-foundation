@@ -3,6 +3,8 @@ import { LearningHeader } from "./LearningHeader";
 import { LessonRow } from "./LessonRow";
 import { MissionCard } from "./MissionCard";
 import { UnitBanner } from "./UnitBanner";
+import { ChefSpeech } from "@/components/ChefMascot";
+import { chefPathLine } from "@/lib/chefLines";
 import type { LearningPath, Skill } from "@/types/learning";
 
 export function LearningPathView({
@@ -42,6 +44,10 @@ export function LearningPathView({
   return (
     <div className="space-y-5 pb-8">
       <LearningHeader progress={path.progress} skillCount={teachableSkills.size} />
+
+      {/* O chef abre o trilho: é o mesmo que aparece dentro de cada lição, e é
+          o que liga a lista de lições a alguém que as ensina. */}
+      <ChefSpeech size="sm">{chefPathLine()}</ChefSpeech>
 
       {path.units.map((unit, unitIndex) => {
         // As competências da unidade são as que as suas lições ensinam — não

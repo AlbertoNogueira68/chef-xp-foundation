@@ -23,6 +23,7 @@ import { useCamera } from "@/features/missions/hooks/useCamera";
 import { useWakeLock } from "@/features/missions/hooks/useWakeLock";
 import type { useMissionRun } from "@/features/missions/hooks/useMissionRun";
 import type { Skill } from "@/types/learning";
+import { ChefMascot } from "@/components/ChefMascot";
 import { cn } from "@/lib/utils";
 
 type Run = ReturnType<typeof useMissionRun>;
@@ -106,8 +107,15 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
         <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-600">
           {mission.dishName} · passo {run.stepIndex + 1} de {total}
         </p>
-        <h2 className="mt-1 text-2xl font-bold leading-tight">{step.title}</h2>
-        <p className="mt-2 text-base leading-relaxed text-foreground/80">{step.description}</p>
+        {/* Modo cozinha: o chef está presente, mas pequeno. Quem tem as mãos
+            na frigideira precisa do passo em letra grande, não de um balão. */}
+        <div className="mt-1 flex items-start gap-3">
+          <ChefMascot size="sm" className="mt-1" />
+          <div className="min-w-0 flex-1">
+            <h2 className="text-2xl font-bold leading-tight">{step.title}</h2>
+            <p className="mt-2 text-base leading-relaxed text-foreground/80">{step.description}</p>
+          </div>
+        </div>
 
         {voice.listening && (
           <p className="mt-2 text-xs text-emerald-700">
@@ -316,9 +324,12 @@ function MissionComplete({ run, skills }: { run: Run; skills: Map<string, Skill>
 
   return (
     <div className="flex h-full flex-col items-center justify-center gap-4 px-6 text-center">
-      <span className="flex size-20 items-center justify-center rounded-full bg-emerald-500 text-white">
-        <ChefHat className="size-10" />
-      </span>
+      <div className="relative">
+        <ChefMascot size="xl" className="ring-4 ring-emerald-100" />
+        <span className="absolute -bottom-1 -right-1 flex size-9 items-center justify-center rounded-full bg-emerald-500 text-white shadow-md">
+          <ChefHat className="size-5" />
+        </span>
+      </div>
 
       <div>
         <h2 className="text-2xl font-bold">Cozinhaste.</h2>

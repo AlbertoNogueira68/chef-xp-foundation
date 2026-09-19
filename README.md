@@ -168,6 +168,15 @@ auditável.
 sem I/O, testado com `node --test`. O frontend recebe `nextLevelXp` já calculado
 e nunca reimplementa a fórmula.
 
+**Quem ensina é uma personagem, não uma caixa de texto.** O Chef Sapo é a mesma
+imagem em todo o lado — o ícone da app, a cara no cabeçalho e o avatar que
+aparece nas lições. Durante uma lição é ele que dá as boas-vindas ao prato,
+que explica cada passo da preparação, que faz as perguntas e que reage ao
+acerto e ao erro; em modo cozinha aparece pequeno ao lado do passo, e é ele
+que responde quando se pede socorro. O que ele diz está todo em
+`src/lib/chefLines.ts`, e a escolha da frase é determinista: com
+`Math.random()`, cada re-render do React trocava a frase a meio da lição.
+
 **O gabarito nunca chega ao browser.** O currículo está em
 `shared/curriculum.json`, lido apenas pelo servidor. A lição é enviada sem
 `correctAnswer`; cada resposta é validada em
@@ -487,9 +496,12 @@ primeira vez.
 espera e a app pergunta. Trocar a aplicação por baixo dos pés de quem está a
 meio de uma missão é a diferença entre um PWA e um susto.
 
-Os ícones são gerados por código (`npm run icons`), sem dependências: muda-se
-a cor no script, corre-se, e não fica um binário no repositório que ninguém
-sabe refazer. E `npm run check:pwa` corre no CI a verificar que a build
+Os ícones são gerados por código (`npm run icons`), sem dependências: a fonte é
+um desenho só — `public/mascot/chef-frog.png`, o Chef Sapo — e o script
+(que traz consigo um leitor e um escritor de PNG em `scripts/lib/png.mjs`)
+tira dali os tamanhos do manifesto, o `favicon.ico` e os recortes redondos que
+a app usa quando o chef aparece a falar. Muda-se o desenho, corre-se, e não
+ficam seis binários no repositório que ninguém sabe refazer. E `npm run check:pwa` corre no CI a verificar que a build
 continua instalável — um manifesto desligado do `index.html` ou um ícone que
 não foi copiado não falha em lado nenhum, só faz desaparecer o botão de
 instalar no telemóvel de quem estiver a avaliar.

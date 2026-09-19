@@ -24,7 +24,7 @@
  * está a cozinhar prefere saber já que aquele passo não foi registado.
  */
 
-const VERSAO = "v2";
+const VERSAO = "v3";
 const CACHE_SHELL = `chefxp-shell-${VERSAO}`;
 const CACHE_ASSETS = `chefxp-assets-${VERSAO}`;
 const CACHE_API = `chefxp-api-${VERSAO}`;
@@ -41,6 +41,11 @@ const SHELL = [
   "/manifest.webmanifest",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
+  // O chef aparece em todos os ecrãs de lição, e as lições são para fazer ao
+  // pé do fogão — onde a rede é o que é. Sem isto, quem cozinha offline vê
+  // balões de fala com um buraco ao lado.
+  "/mascot/chef-frog-avatar.png",
+  "/mascot/chef-frog-avatar-96.png",
 ];
 
 self.addEventListener("install", (event) => {
@@ -82,7 +87,11 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(api(request));
   } else if (url.pathname.startsWith("/uploads/")) {
     event.respondWith(cachePrimeiro(request, CACHE_IMAGENS, LIMITE_DE_IMAGENS));
-  } else if (url.pathname.startsWith("/assets/") || url.pathname.startsWith("/icons/")) {
+  } else if (
+    url.pathname.startsWith("/assets/") ||
+    url.pathname.startsWith("/icons/") ||
+    url.pathname.startsWith("/mascot/")
+  ) {
     event.respondWith(cachePrimeiro(request, CACHE_ASSETS));
   } else {
     // Tudo o resto — incluindo os módulos que o Vite serve em `/src/` e
