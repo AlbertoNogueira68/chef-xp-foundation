@@ -84,7 +84,7 @@ describe("ranking", () => {
     const utilizador = userEvent.setup();
     renderWithProviders(<LeaderboardTab />);
 
-    await utilizador.click(screen.getByRole("button", { name: "Sempre" }));
+    await utilizador.click(screen.getByRole("button", { name: "All time" }));
 
     expect(estado.scopes).toContain("global");
   });

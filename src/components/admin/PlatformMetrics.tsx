@@ -1,5 +1,6 @@
 import { Skeleton } from "@/components/ui/skeleton";
 import { usePlatformMetrics } from "@/features/admin/hooks/useAdmin";
+import { t } from "@/i18n";
 
 function Numero({ label, value, nota }: { label: string; value: number; nota?: string }) {
   return (
@@ -38,64 +39,64 @@ export function PlatformMetrics() {
     <div className="space-y-4">
       <section className="space-y-2">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Gente
+          {t("People")}
         </h2>
         <div className="grid grid-cols-2 gap-2">
           <Numero
-            label="Accounts"
+            label={t("Accounts")}
             value={data.contas}
-            nota={`+${data.contasUltimos7Dias} in the last 7 days`}
+            nota={t("+{count} in the last 7 days", { count: data.contasUltimos7Dias })}
           />
           <Numero
-            label="Active (7 days)"
+            label={t("Active (7 days)")}
             value={data.ativosUltimos7Dias}
-            nota="earned XP, not just signed up"
+            nota={t("earned XP, not just signed up")}
           />
           <Numero
             label="Email confirmado"
             value={data.contasConfirmadas}
-            nota={`of ${data.contas}`}
+            nota={t("of {total}", { total: data.contas })}
           />
-          <Numero label="With a role" value={data.equipa} nota="moderation and admin" />
+          <Numero label={t("With a role")} value={data.equipa} nota={t("moderation and admin")} />
         </div>
       </section>
 
       <section className="space-y-2">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Content
+          {t("Content")}
         </h2>
         <div className="grid grid-cols-2 gap-2">
           <Numero
-            label="Recipes"
+            label={t("Recipes")}
             value={data.receitas}
-            nota={`+${data.receitasUltimos7Dias} in the last 7 days`}
+            nota={t("+{count} in the last 7 days", { count: data.receitasUltimos7Dias })}
           />
-          <Numero label="Comments" value={data.comentarios} />
+          <Numero label={t("Comments")} value={data.comentarios} />
           <Numero label="Gostos" value={data.gostos} />
-          <Numero label="Live challenges" value={data.desafiosAtivos} />
+          <Numero label={t("Live challenges")} value={data.desafiosAtivos} />
         </div>
       </section>
 
       <section className="space-y-2">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Aprendizagem
+          {t("Learning")}
         </h2>
         <div className="grid grid-cols-2 gap-2">
-          <Numero label="Lessons completed" value={data.licoesConcluidas} />
-          <Numero label="Missions cooked" value={data.missoesConcluidas} />
-          <Numero label="XP awarded" value={data.xpDistribuido} nota="from the ledger" />
+          <Numero label={t("Lessons completed")} value={data.licoesConcluidas} />
+          <Numero label={t("Missions cooked")} value={data.missoesConcluidas} />
+          <Numero label={t("XP awarded")} value={data.xpDistribuido} nota={t("from the ledger")} />
         </div>
       </section>
 
       <section className="space-y-2">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Community
+          {t("Community")}
         </h2>
         <div className="grid grid-cols-2 gap-2">
           <Numero
-            label="Open reports"
+            label={t("Open reports")}
             value={data.denunciasAbertas}
-            nota={`${data.denunciasTotal} desde sempre`}
+            nota={t("{count} since the start", { count: data.denunciasTotal })}
           />
           <Numero label="Bloqueios" value={data.bloqueios} nota="entre utilizadores" />
         </div>

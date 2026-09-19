@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ChefMascot } from "@/components/ChefMascot";
 import { RESCUE_LABELS, type RescueKind } from "@/types/learning";
+import { t } from "@/i18n";
 
 /**
  * Os quatro botões que seguram quem está prestes a desistir.
@@ -42,7 +43,7 @@ export function RescuePanel({
             variant="ghost"
             className="size-7 shrink-0 text-amber-800"
             onClick={onDismiss}
-            aria-label="Close help"
+            aria-label={t("Close help")}
           >
             <X className="size-4" />
           </Button>
@@ -54,7 +55,7 @@ export function RescuePanel({
   return (
     <div>
       <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
-        Something off?
+        {t("Something off?")}
       </p>
       <div className="grid grid-cols-2 gap-2">
         {kinds.map((kind) => (

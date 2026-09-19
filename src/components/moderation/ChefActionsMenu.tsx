@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ReportDialog } from "@/components/moderation/ReportDialog";
 import { useToggleBlock } from "@/features/moderation/hooks/useModeration";
+import { t } from "@/i18n";
 
 /**
  * Denunciar ou bloquear, a partir do perfil de outra pessoa.
@@ -48,28 +49,31 @@ export function ChefActionsMenu({
             variant="ghost"
             size="icon"
             className="size-9 rounded-full"
-            aria-label={`${username}'s options`}
+            aria-label={t("{username}'s options", { username })}
           >
             <MoreHorizontal className="size-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onSelect={() => setReporting(true)}>
-            <Flag className="mr-2 size-3.5" /> Report account
+            <Flag className="mr-2 size-3.5" />
+            {t("Report account")}
           </DropdownMenuItem>
           {isBlocked ? (
             <DropdownMenuItem
               disabled={toggleBlock.isPending}
               onSelect={() => toggleBlock.mutate({ id: userId, blocked: true })}
             >
-              <UserCheck className="mr-2 size-3.5" /> Unblock
+              <UserCheck className="mr-2 size-3.5" />
+              {t("Unblock")}
             </DropdownMenuItem>
           ) : (
             <DropdownMenuItem
               className="text-destructive focus:text-destructive"
               onSelect={() => setConfirming(true)}
             >
-              <UserX className="mr-2 size-3.5" /> Block
+              <UserX className="mr-2 size-3.5" />
+              {t("Block")}
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
@@ -87,12 +91,13 @@ export function ChefActionsMenu({
           <AlertDialogHeader>
             <AlertDialogTitle>Bloquear {username}?</AlertDialogTitle>
             <AlertDialogDescription>
-              You stop seeing what they post and they stop seeing you. If you followed each other,
-              that ends. You can undo it in settings.
+              {t(
+                "You stop seeing what they post and they stop seeing you. If you followed each other, that ends. You can undo it in settings.",
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
             <AlertDialogAction
               className={buttonVariants({ variant: "destructive" })}
               disabled={toggleBlock.isPending}
@@ -104,7 +109,7 @@ export function ChefActionsMenu({
                 );
               }}
             >
-              {toggleBlock.isPending ? "A bloquear…" : "Block"}
+              {toggleBlock.isPending ? "A bloquear…" : t("Block")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

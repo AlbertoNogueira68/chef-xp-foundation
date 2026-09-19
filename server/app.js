@@ -10,6 +10,7 @@ import rateLimit from "express-rate-limit";
 import { validateEnv } from "./lib/validateEnv.js";
 import { cspDirectives } from "./lib/cspConfig.js";
 import { csrfProtection } from "./middleware/csrf.js";
+import { language } from "./middleware/language.js";
 import { errorHandler, notFound, requestId } from "./middleware/errorHandler.js";
 import { UPLOAD_DIR, UPLOAD_ROUTE } from "./lib/imageStore.js";
 import authRoutes from "./routes/auth.js";
@@ -106,6 +107,8 @@ export function createApp() {
   app.use("/api/missions", express.json({ limit: "6mb" }));
   app.use(express.json({ limit: "1mb" }));
 
+  // A partir daqui, `req.lang` diz em que língua se responde.
+  app.use("/api", language);
   app.use("/api", csrfProtection);
 
   app.get("/api/health", (_req, res) => res.json({ status: "ok" }));

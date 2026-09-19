@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { t } from "@/i18n";
 
 /**
  * O logótipo vai inline em SVG, não como imagem de um servidor da Google: a
@@ -32,7 +33,7 @@ function GoogleMark({ className }: { className?: string }) {
  * Uma navegação de página inteira, não um `fetch`: o servidor responde com um
  * redirecionamento para a Google, e é o browser que tem de o seguir.
  */
-export function GoogleButton({ label = "Continue with Google" }: { label?: string }) {
+export function GoogleButton({ label = t("Continue with Google") }: { label?: string }) {
   return (
     <Button
       type="button"

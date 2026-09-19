@@ -17,6 +17,7 @@ import { useUserStats, useToggleFollow } from "@/features/profile/hooks/useUserS
 import { ChefActionsMenu } from "@/components/moderation/ChefActionsMenu";
 import { FollowListDialog } from "@/components/profile/FollowListDialog";
 import type { FollowListKind } from "@/features/profile/hooks/useFollowList";
+import { t } from "@/i18n";
 
 function Stat({
   label,
@@ -80,9 +81,9 @@ export function ChefPage() {
   if (isError || !chef) {
     return (
       <div className="py-16 text-center">
-        <p className="text-sm text-muted-foreground">This chef doesn't exist.</p>
+        <p className="text-sm text-muted-foreground">{t("This chef doesn't exist.")}</p>
         <Button variant="outline" className="mt-4 rounded-full" onClick={() => navigate("/search")}>
-          Search chefs
+          {t("Search chefs")}
         </Button>
       </div>
     );
@@ -99,7 +100,8 @@ export function ChefPage() {
         className="-ml-2 rounded-full text-muted-foreground"
         onClick={() => navigate(-1)}
       >
-        <ArrowLeft className="mr-1.5 size-4" /> Back
+        <ArrowLeft className="mr-1.5 size-4" />
+        {t("Back")}
       </Button>
 
       <div className="flex items-start justify-between">
@@ -120,11 +122,13 @@ export function ChefPage() {
             >
               {following ? (
                 <>
-                  <UserCheck className="mr-1.5 size-3.5" /> Following
+                  <UserCheck className="mr-1.5 size-3.5" />
+                  {t("Following")}
                 </>
               ) : (
                 <>
-                  <UserPlus className="mr-1.5 size-3.5" /> Follow
+                  <UserPlus className="mr-1.5 size-3.5" />
+                  {t("Follow")}
                 </>
               )}
             </Button>
@@ -142,8 +146,9 @@ export function ChefPage() {
           filtradas do servidor e não havia nada a dizer porquê. */}
       {blocked && (
         <p className="rounded-xl border border-border/60 bg-muted/50 p-3 text-xs text-muted-foreground">
-          You blocked this person. Their posts don't reach you, and they can't see yours. Unblock
-          from the menu above or in settings.
+          {t(
+            "You blocked this person. Their posts don't reach you, and they can't see yours. Unblock from the menu above or in settings.",
+          )}
         </p>
       )}
 
@@ -153,7 +158,7 @@ export function ChefPage() {
         ) : (
           <>
             <Stat label="Cozinhados" value={stats.cooked} />
-            <Stat label="Recipes" value={stats.recipes} />
+            <Stat label={t("Recipes")} value={stats.recipes} />
             <Stat
               label="Seguidores"
               value={stats.followers}
@@ -185,17 +190,18 @@ export function ChefPage() {
       <Tabs defaultValue="cooked">
         <TabsList className="grid w-full grid-cols-2 rounded-full">
           <TabsTrigger value="cooked" className="rounded-full text-xs">
-            <ChefHat className="mr-1.5 size-3.5" /> Cozinhados
+            <ChefHat className="mr-1.5 size-3.5" /> {t("Cooked")}
           </TabsTrigger>
           <TabsTrigger value="recipes" className="rounded-full text-xs">
-            <Grid3X3 className="mr-1.5 size-3.5" /> Recipes
+            <Grid3X3 className="mr-1.5 size-3.5" />
+            {t("Recipes")}
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="cooked" className="mt-4">
           {cooked.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              Hasn't cooked a mission in public yet.
+              {t("Hasn't cooked a mission in public yet.")}
             </p>
           ) : (
             <div className="columns-2 gap-3">
@@ -209,7 +215,7 @@ export function ChefPage() {
         <TabsContent value="recipes" className="mt-4">
           {recipes.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              Hasn't published a recipe yet.
+              {t("Hasn't published a recipe yet.")}
             </p>
           ) : (
             <div className="columns-2 gap-3">

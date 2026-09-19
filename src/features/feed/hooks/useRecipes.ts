@@ -16,6 +16,7 @@ import type {
   RecipeUpdateInput,
 } from "@/types/recipe";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
+import { t } from "@/i18n";
 
 export const RECIPES_ROOT_KEY = "recipes";
 
@@ -161,9 +162,9 @@ export function useUpdateRecipe(id: string) {
     onSuccess: (recipe) => {
       queryClient.setQueryData(recipeQueryKey(recipe.id), recipe);
       queryClient.invalidateQueries({ queryKey: [RECIPES_ROOT_KEY] });
-      toast.success("Recipe updated");
+      toast.success(t("Recipe updated"));
     },
-    onError: (error: Error) => toast.error(error.message || "Couldn't save"),
+    onError: (error: Error) => toast.error(error.message || t("Couldn't save")),
   });
 }
 
@@ -181,8 +182,10 @@ export function useDeleteRecipe() {
       queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
       queryClient.invalidateQueries({ queryKey: ["userStats"] });
       queryClient.invalidateQueries({ queryKey: ["challenges"] });
-      toast.success(revoked > 0 ? `Recipe deleted · −${revoked} XP` : "Recipe deleted");
+      toast.success(
+        revoked > 0 ? t("Recipe deleted · −{xp} XP", { xp: revoked }) : t("Recipe deleted"),
+      );
     },
-    onError: (error: Error) => toast.error(error.message || "Couldn't delete"),
+    onError: (error: Error) => toast.error(error.message || t("Couldn't delete")),
   });
 }

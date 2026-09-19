@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { act, renderHook, waitFor } from "@testing-library/react";
 import { useLessonPlayer } from "./useLessonPlayer";
 import { clearOutbox, outboxItems } from "@/lib/offline/outbox";
-import { OFFLINE_MESSAGE } from "@/services/api";
+import { offlineMessage } from "@/services/api";
 
 /**
  * A lição sem rede: continua até ao fim, guarda tudo, e não inventa correções.
@@ -41,7 +41,7 @@ vi.mock("@tanstack/react-query", () => ({
 
 /** O erro que o `apiFetch` dá quando não há rede: `status` a zero. */
 function erroDeRede() {
-  const erro = new Error(OFFLINE_MESSAGE) as Error & { status: number };
+  const erro = new Error(offlineMessage()) as Error & { status: number };
   erro.status = 0;
   return erro;
 }

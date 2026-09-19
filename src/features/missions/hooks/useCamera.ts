@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { JPEG_QUALITY, MAX_IMAGE_DIMENSION } from "@/lib/image";
+import { t } from "@/i18n";
 
 /**
  * Câmara dentro da app, para o checkpoint da missão.
@@ -48,8 +49,8 @@ export function useCamera() {
         // que aconteceu e o input de ficheiro continua disponível.
         setError(
           cause instanceof DOMException && cause.name === "NotAllowedError"
-            ? "No camera access. You can pick a photo from your device instead."
-            : "Couldn't open the camera.",
+            ? t("No camera access. You can pick a photo from your device instead.")
+            : t("Couldn't open the camera."),
         );
         setActive(false);
       }

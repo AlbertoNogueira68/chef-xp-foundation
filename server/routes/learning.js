@@ -3,21 +3,15 @@ import { getPool } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
+import { answerSubmitSchema, lessonCompleteSchema, lessonParamSchema } from "../schemas/index.js";
 import {
-  answerSubmitSchema,
-  lessonCompleteSchema,
-  lessonParamSchema,
-} from "../schemas/index.js";
-import {
-  LEARNING_CURRICULUM,
-  MISSIONS,
-  SKILLS,
   gradeAnswers,
   isAnswerCorrect,
   getLesson,
   getLessonIndex,
   getLessonOrder,
   toClientLesson,
+  curriculumFor,
 } from "../domain/curriculum.js";
 import { MAX_HEARTS, xpForLesson } from "../domain/xp.js";
 import { awardStreakBonus, awardXp, loadDailyState } from "../lib/xpLedger.js";
@@ -27,10 +21,9 @@ const router = Router();
 router.use(requireAuth);
 
 async function loadCompletedIds(client, userId) {
-  const { rows } = await client.query(
-    `SELECT lesson_id FROM lesson_progress WHERE user_id = $1`,
-    [userId],
-  );
+  const { rows } = await client.query(`SELECT lesson_id FROM lesson_progress WHERE user_id = $1`, [
+    userId,
+  ]);
   return new Set(rows.map((row) => row.lesson_id));
 }
 
@@ -55,7 +48,7 @@ function buildStatuses(completed) {
   return statuses;
 }
 
-async function buildPath(client, userId) {
+async function buildPath(client, userId, lang) {
   const { rows: userRows } = await client.query(
     `SELECT time_zone, daily_xp_goal FROM users WHERE id = $1`,
     [userId],
@@ -67,14 +60,16 @@ async function buildPath(client, userId) {
   const statuses = buildStatuses(completed);
   const daily = await loadDailyState(client, userId, { timeZone });
 
-  const units = LEARNING_CURRICULUM.map((unit) => ({
+  const { units: unidades, missions, skills, lessons: todasAsLicoes } = curriculumFor(lang);
+
+  const units = unidades.map((unit) => ({
     id: unit.id,
     title: unit.title,
     subtitle: unit.subtitle,
     color: unit.color,
     // A missão é o que fecha a unidade. Sem ela no percurso, o utilizador vê
     // seis lições e nenhuma razão para as fazer.
-    mission: MISSIONS.find((mission) => mission.id === unit.missionId) ?? null,
+    mission: missions.find((mission) => mission.id === unit.missionId) ?? null,
     lessons: unit.lessons.map((lesson) => ({
       ...toClientLesson(lesson),
       status: statuses.get(lesson.id) ?? "locked",
@@ -85,7 +80,7 @@ async function buildPath(client, userId) {
   // entre "fizeste 3 lições" e "sabes segurar uma faca".
   const learnedSkills = [
     ...new Set(
-      LEARNING_CURRICULUM.flatMap((unit) => unit.lessons)
+      todasAsLicoes
         .filter((lesson) => completed.has(lesson.id))
         .flatMap((lesson) => lesson.teaches ?? []),
     ),
@@ -95,7 +90,7 @@ async function buildPath(client, userId) {
     units,
     // Catálogo de competências: o cliente tem os ids nas lições, mas não os
     // nomes legíveis.
-    skills: SKILLS.map(({ id, name, category, description }) => ({
+    skills: skills.map(({ id, name, category, description }) => ({
       id,
       name,
       category,
@@ -115,14 +110,14 @@ async function buildPath(client, userId) {
 router.get(
   "/path",
   asyncHandler(async (req, res) => {
-    res.json(await buildPath(getPool(), req.user.id));
+    res.json(await buildPath(getPool(), req.user.id, req.lang));
   }),
 );
 
 router.get(
   "/progress",
   asyncHandler(async (req, res) => {
-    const path = await buildPath(getPool(), req.user.id);
+    const path = await buildPath(getPool(), req.user.id, req.lang);
     res.json({ progress: path.progress });
   }),
 );
@@ -131,7 +126,7 @@ router.get(
   "/lessons/:id",
   validate({ params: lessonParamSchema }),
   asyncHandler(async (req, res) => {
-    const lesson = getLesson(req.valid.params.id);
+    const lesson = getLesson(req.valid.params.id, req.lang);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
     const completed = await loadCompletedIds(getPool(), req.user.id);
@@ -153,7 +148,7 @@ router.post(
   "/lessons/:id/answer",
   validate({ params: lessonParamSchema, body: answerSubmitSchema }),
   asyncHandler(async (req, res) => {
-    const lesson = getLesson(req.valid.params.id);
+    const lesson = getLesson(req.valid.params.id, req.lang);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
     const { questionId, answer } = req.valid.body;
@@ -185,7 +180,7 @@ router.post(
   "/lessons/:id/complete",
   validate({ params: lessonParamSchema, body: lessonCompleteSchema }),
   asyncHandler(async (req, res) => {
-    const lesson = getLesson(req.valid.params.id);
+    const lesson = getLesson(req.valid.params.id, req.lang);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
     const pool = getPool();
@@ -252,7 +247,7 @@ router.post(
         timeZone,
       });
 
-      const path = await buildPath(client, req.user.id);
+      const path = await buildPath(client, req.user.id, req.lang);
 
       await client.query("COMMIT");
 

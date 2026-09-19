@@ -1,5 +1,7 @@
 import crypto from "node:crypto";
 
+import { translate } from "../lib/i18n.js";
+
 /** Um id por pedido, para ligar o que o utilizador vê ao que está no log. */
 export function requestId(req, res, next) {
   req.id = req.get("X-Request-Id") || crypto.randomUUID();
@@ -8,7 +10,7 @@ export function requestId(req, res, next) {
 }
 
 export function notFound(req, res) {
-  res.status(404).json({ error: "Endpoint not found", requestId: req.id });
+  res.status(404).json({ error: translate("Endpoint not found", req.lang), requestId: req.id });
 }
 
 /**
@@ -27,8 +29,12 @@ export function errorHandler(error, req, res, _next) {
 
   if (res.headersSent) return;
 
+  // Uma só passagem pela tradução, à saída: as mensagens nascem em inglês
+  // onde a regra é decidida, e só aqui se sabe em que língua vão ser lidas.
+  const mensagem = status >= 500 ? "Internal server error" : error?.message || "Invalid request";
+
   res.status(status).json({
-    error: status >= 500 ? "Internal server error" : error?.message || "Invalid request",
+    error: translate(mensagem, req.lang),
     requestId: req.id,
   });
 }

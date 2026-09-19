@@ -1,5 +1,7 @@
 import { ZodError } from "zod";
 
+import { translate } from "../lib/i18n.js";
+
 /**
  * Validação declarativa com Zod, igual em todas as rotas.
  *
@@ -19,10 +21,10 @@ export function validate(shape) {
     } catch (error) {
       if (error instanceof ZodError) {
         return res.status(400).json({
-          error: "Invalid data",
+          error: translate("Invalid data", req.lang),
           details: error.issues.map((issue) => ({
             field: issue.path.join(".") || "(raiz)",
-            message: issue.message,
+            message: translate(issue.message, req.lang),
           })),
         });
       }

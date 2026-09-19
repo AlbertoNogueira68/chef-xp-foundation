@@ -18,6 +18,7 @@ import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { useUserStats } from "@/features/profile/hooks/useUserStats";
 import { useMissionPosts } from "@/features/missions/hooks/useMissionPosts";
 import { shareLink } from "@/lib/share";
+import { t } from "@/i18n";
 
 function Stat({
   label,
@@ -65,8 +66,8 @@ export function ProfilePage() {
     user &&
     shareLink({
       path: `/chef/${user.id}`,
-      title: `${user.username} no ChefXP`,
-      copiedMessage: "Profile link copied",
+      title: t("{username} on ChefXP", { username: user.username }),
+      copiedMessage: t("Profile link copied"),
     });
 
   return (
@@ -81,7 +82,7 @@ export function ProfilePage() {
             variant="ghost"
             size="icon"
             className="size-9 rounded-full"
-            aria-label="Share profile"
+            aria-label={t("Share profile")}
             onClick={shareProfile}
           >
             <Share2 className="size-4" />
@@ -93,7 +94,7 @@ export function ProfilePage() {
               variant="ghost"
               size="icon"
               className="size-9 rounded-full"
-              aria-label={user.role === "admin" ? "Admin" : "Moderation"}
+              aria-label={user.role === "admin" ? t("Admin") : t("Moderation")}
               onClick={() => navigate("/admin")}
             >
               <Shield className="size-4" />
@@ -103,7 +104,7 @@ export function ProfilePage() {
             variant="ghost"
             size="icon"
             className="size-9 rounded-full"
-            aria-label="Settings"
+            aria-label={t("Settings")}
             onClick={() => setSettingsOpen(true)}
           >
             <Settings className="size-4" />
@@ -112,7 +113,7 @@ export function ProfilePage() {
             variant="ghost"
             size="icon"
             className="size-9 rounded-full"
-            aria-label="Sign out"
+            aria-label={t("Sign out")}
             onClick={() => signOut.mutate()}
           >
             <LogOut className="size-4" />
@@ -136,7 +137,7 @@ export function ProfilePage() {
         ) : (
           <>
             <Stat label="Cozinhados" value={stats.cooked} />
-            <Stat label="Recipes" value={stats.recipes} />
+            <Stat label={t("Recipes")} value={stats.recipes} />
             <Stat
               label="Seguidores"
               value={stats.followers}
@@ -170,7 +171,7 @@ export function ProfilePage() {
       {stats && stats.lessonsCompleted > 0 && (
         <p className="text-xs text-muted-foreground">
           {stats.lessonsCompleted}{" "}
-          {stats.lessonsCompleted === 1 ? "lesson completed" : "lessons completed"}
+          {stats.lessonsCompleted === 1 ? t("lesson completed") : t("lessons completed")}
           {" · "}
           {stats.likesReceived} {stats.likesReceived === 1 ? "gosto recebido" : "gostos recebidos"}
         </p>
@@ -179,13 +180,14 @@ export function ProfilePage() {
       <Tabs value={tab} onValueChange={setTab}>
         <TabsList className="grid w-full grid-cols-3 rounded-full">
           <TabsTrigger value="cooked" className="rounded-full text-xs">
-            <ChefHat className="mr-1.5 size-3.5" /> Cozinhados
+            <ChefHat className="mr-1.5 size-3.5" /> {t("Cooked")}
           </TabsTrigger>
           <TabsTrigger value="recipes" className="rounded-full text-xs">
-            <Grid3X3 className="mr-1.5 size-3.5" /> Recipes
+            <Grid3X3 className="mr-1.5 size-3.5" />
+            {t("Recipes")}
           </TabsTrigger>
           <TabsTrigger value="stats" className="rounded-full text-xs">
-            Atividade
+            {t("Activity")}
           </TabsTrigger>
         </TabsList>
 
@@ -200,10 +202,10 @@ export function ProfilePage() {
             <div className="rounded-xl border border-dashed border-border px-4 py-8 text-center">
               <ChefHat className="mx-auto size-6 text-muted-foreground/50" />
               <p className="mt-2 text-sm text-muted-foreground">
-                You haven't cooked a mission yet.
+                {t("You haven't cooked a mission yet.")}
               </p>
               <p className="mt-1 text-xs text-muted-foreground/80">
-                Photos from the missions you finish show up here.
+                {t("Photos from the missions you finish show up here.")}
               </p>
             </div>
           ) : (
@@ -218,7 +220,7 @@ export function ProfilePage() {
         <TabsContent value="recipes" className="mt-4">
           {myRecipes.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">
-              You haven't published a recipe yet.
+              {t("You haven't published a recipe yet.")}
             </p>
           ) : (
             <div className="columns-2 gap-3">
@@ -231,19 +233,19 @@ export function ProfilePage() {
 
         <TabsContent value="stats" className="mt-4 space-y-2 text-sm">
           <div className="flex justify-between rounded-xl bg-muted/50 px-3 py-2">
-            <span className="text-muted-foreground">XP total</span>
+            <span className="text-muted-foreground">{t("Total XP")}</span>
             <span className="font-semibold tabular-nums">{user?.xp ?? 0}</span>
           </div>
           <div className="flex justify-between rounded-xl bg-muted/50 px-3 py-2">
-            <span className="text-muted-foreground">Lessons completed</span>
+            <span className="text-muted-foreground">{t("Lessons completed")}</span>
             <span className="font-semibold tabular-nums">{stats?.lessonsCompleted ?? 0}</span>
           </div>
           <div className="flex justify-between rounded-xl bg-muted/50 px-3 py-2">
-            <span className="text-muted-foreground">Gostos recebidos</span>
+            <span className="text-muted-foreground">{t("Likes received")}</span>
             <span className="font-semibold tabular-nums">{stats?.likesReceived ?? 0}</span>
           </div>
           <div className="flex justify-between rounded-xl bg-muted/50 px-3 py-2">
-            <span className="text-muted-foreground">Dias seguidos</span>
+            <span className="text-muted-foreground">{t("Day streak")}</span>
             <span className="font-semibold tabular-nums">{stats?.streak ?? 0}</span>
           </div>
         </TabsContent>

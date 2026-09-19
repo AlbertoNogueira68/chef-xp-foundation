@@ -74,13 +74,7 @@ export function accountDeletionRefusal({ actorId, actorRole, targetId, targetRol
 }
 
 /** Os motivos que uma denúncia pode ter. A mesma lista que o CHECK da 012. */
-export const REPORT_REASONS = Object.freeze([
-  "spam",
-  "ofensivo",
-  "perigoso",
-  "copia",
-  "outro",
-]);
+export const REPORT_REASONS = Object.freeze(["spam", "ofensivo", "perigoso", "copia", "outro"]);
 
 /** O que se pode denunciar. */
 export const REPORT_SUBJECTS = Object.freeze(["recipe", "comment", "user"]);

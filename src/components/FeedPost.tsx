@@ -10,12 +10,10 @@ import { useAddComment, useComments } from "@/features/feed/hooks/useComments";
 import type { Recipe } from "@/types/recipe";
 import { shareLink } from "@/lib/share";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
-const difficultyLabel: Record<Recipe["difficulty"], string> = {
-  facil: "Easy",
-  medio: "Medium",
-  dificil: "Hard",
-};
+const difficultyLabel = (nivel: Recipe["difficulty"]) =>
+  ({ facil: t("Easy"), medio: t("Medium"), dificil: t("Hard") })[nivel] ?? nivel;
 
 export function FeedPost({
   recipe,
@@ -98,7 +96,7 @@ export function FeedPost({
               variant="ghost"
               size="icon"
               className="size-9 rounded-full"
-              aria-label="Comments"
+              aria-label={t("Comments")}
               aria-expanded={showComments}
               onClick={() => setShowComments((open) => !open)}
             >
@@ -108,7 +106,7 @@ export function FeedPost({
               variant="ghost"
               size="icon"
               className="size-9 rounded-full"
-              aria-label="Share"
+              aria-label={t("Share")}
               onClick={() => shareLink({ path: `/recipe/${recipe.id}`, title: recipe.title })}
             >
               <Send className="size-5" />
@@ -132,7 +130,7 @@ export function FeedPost({
             <Clock className="size-3" /> {recipe.cookTimeMin} min
           </span>
           <span className="inline-flex items-center gap-1">
-            <Flame className="size-3" /> {difficultyLabel[recipe.difficulty]}
+            <Flame className="size-3" /> {difficultyLabel(recipe.difficulty)}
           </span>
           {recipe.commentsCount > 0 && (
             <button
@@ -141,7 +139,9 @@ export function FeedPost({
               className="-my-2 py-2 hover:text-foreground"
               onClick={() => setShowComments((open) => !open)}
             >
-              See {recipe.commentsCount} {recipe.commentsCount === 1 ? "comment" : "comments"}
+              {t(recipe.commentsCount === 1 ? "See {count} comment" : "See {count} comments", {
+                count: recipe.commentsCount,
+              })}
             </button>
           )}
         </div>
@@ -149,7 +149,7 @@ export function FeedPost({
         {showComments && (
           <div className="space-y-2 border-t border-border/60 pt-2.5">
             {comments.isLoading && (
-              <p className="text-xs text-muted-foreground">Loading comments…</p>
+              <p className="text-xs text-muted-foreground">{t("Loading comments…")}</p>
             )}
 
             {comments.data?.map((comment) => (
@@ -170,14 +170,14 @@ export function FeedPost({
             ))}
 
             {comments.data?.length === 0 && !comments.isLoading && (
-              <p className="text-xs text-muted-foreground">No comments yet. Be the first.</p>
+              <p className="text-xs text-muted-foreground">{t("No comments yet. Be the first.")}</p>
             )}
 
             <form onSubmit={submitComment} className="flex gap-2 pt-1">
               <Input
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
-                placeholder="Write a comment…"
+                placeholder={t("Write a comment…")}
                 maxLength={500}
                 className="h-8 rounded-full text-xs"
               />
@@ -188,7 +188,7 @@ export function FeedPost({
                 className="h-8 rounded-full text-xs"
                 disabled={addComment.isPending || !draft.trim()}
               >
-                Send
+                {t("Send")}
               </Button>
             </form>
           </div>

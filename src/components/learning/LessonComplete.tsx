@@ -2,6 +2,7 @@ import { CloudUpload, Sparkles, Trophy, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ChefMascot, ChefSpeech } from "@/components/ChefMascot";
 import { chefCompleteLine } from "@/lib/chefLines";
+import { t } from "@/i18n";
 
 export function LessonComplete({
   xpEarned,
@@ -34,7 +35,7 @@ export function LessonComplete({
         <Sparkles className="absolute -bottom-1 -left-3 size-6 text-orange-400" />
       </div>
 
-      <h2 className="text-2xl font-bold">Lesson complete!</h2>
+      <h2 className="text-2xl font-bold">{t("Lesson complete!")}</h2>
       <p className="mt-1 text-sm text-muted-foreground">{lessonTitle}</p>
 
       <ChefSpeech className="mt-5 w-full max-w-xs text-left" size="xs">
@@ -48,11 +49,12 @@ export function LessonComplete({
         <div className="mt-6 max-w-xs space-y-2 rounded-2xl bg-stone-100 px-5 py-3 text-stone-700">
           <p className="flex items-center justify-center gap-2 font-semibold">
             <CloudUpload className="size-5" />
-            Saved on this device
+            {t("Saved on this device")}
           </p>
           <p className="text-sm">
-            Your answers go to the server as soon as you're online. That's where the marking and the
-            XP show up — even if you close the app.
+            {t(
+              "Your answers go to the server as soon as you're online. That's where the marking and the XP show up — even if you close the app.",
+            )}
           </p>
         </div>
       ) : (
@@ -67,7 +69,7 @@ export function LessonComplete({
         size="lg"
         onClick={onContinue}
       >
-        Continue
+        {t("Continue")}
       </Button>
     </div>
   );

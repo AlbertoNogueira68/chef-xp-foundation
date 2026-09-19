@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import type { Mission, Skill } from "@/types/learning";
 import { SkillChips } from "./SkillChip";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 /**
  * A missão é o que fecha a unidade — e é a razão pela qual isto não é mais um
@@ -47,7 +48,7 @@ export function MissionCard({
               unlocked ? "text-amber-700" : "text-muted-foreground",
             )}
           >
-            Mission · cook for real
+            {t("Mission · cook for real")}
           </p>
           <h4
             className={cn("truncate font-bold leading-tight", !unlocked && "text-muted-foreground")}
@@ -84,11 +85,18 @@ export function MissionCard({
           onClick={() => onStart?.(mission.id)}
         >
           <Play className="size-4 fill-current" />
-          Vamos cozinhar
+          {t("Let's cook")}
         </Button>
       ) : (
         <p className="mt-3 text-[11px] font-medium text-muted-foreground">
-          {lessonsLeft} more {lessonsLeft === 1 ? "lesson" : "lessons"} to unlock it.
+          {t(
+            lessonsLeft === 1
+              ? "{count} more lesson to unlock it."
+              : "{count} more lessons to unlock it.",
+            {
+              count: lessonsLeft,
+            },
+          )}
         </p>
       )}
     </div>

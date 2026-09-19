@@ -24,6 +24,7 @@ import { useDeleteRecipe } from "@/features/feed/hooks/useRecipes";
 import { useToggleBlock } from "@/features/moderation/hooks/useModeration";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import type { Recipe } from "@/types/recipe";
+import { t } from "@/i18n";
 
 /**
  * O menu de uma receita — e o que ele tem depende de quem a vê.
@@ -76,7 +77,7 @@ export function RecipeActionsMenu({
             variant="ghost"
             size="icon"
             className="size-8 rounded-full"
-            aria-label="Recipe options"
+            aria-label={t("Recipe options")}
           >
             <MoreHorizontal className="size-4" />
           </Button>
@@ -85,19 +86,22 @@ export function RecipeActionsMenu({
           {isMine ? (
             <>
               <DropdownMenuItem onSelect={() => setEditing(true)}>
-                <Pencil className="mr-2 size-3.5" /> Edit
+                <Pencil className="mr-2 size-3.5" />
+                {t("Edit")}
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
                 onSelect={() => setConfirming(true)}
               >
-                <Trash2 className="mr-2 size-3.5" /> Delete
+                <Trash2 className="mr-2 size-3.5" />
+                {t("Delete")}
               </DropdownMenuItem>
             </>
           ) : (
             <>
               <DropdownMenuItem onSelect={() => setReporting(true)}>
-                <Flag className="mr-2 size-3.5" /> Report recipe
+                <Flag className="mr-2 size-3.5" />
+                {t("Report recipe")}
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
@@ -131,7 +135,7 @@ export function RecipeActionsMenu({
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Manter</AlertDialogCancel>
+            <AlertDialogCancel>{t("Keep")}</AlertDialogCancel>
             <AlertDialogAction
               // Por omissão herda a cor primária, que aqui diria "confirma" a
               // uma ação que não se desfaz.
@@ -144,7 +148,7 @@ export function RecipeActionsMenu({
                 confirmDelete();
               }}
             >
-              {remove.isPending ? "A apagar…" : "Delete"}
+              {remove.isPending ? "A apagar…" : t("Delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -155,12 +159,13 @@ export function RecipeActionsMenu({
           <AlertDialogHeader>
             <AlertDialogTitle>Bloquear {recipe.author.username}?</AlertDialogTitle>
             <AlertDialogDescription>
-              You stop seeing what they post and they stop seeing you. If you followed each other,
-              that ends. You can undo it in settings.
+              {t(
+                "You stop seeing what they post and they stop seeing you. If you followed each other, that ends. You can undo it in settings.",
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
             <AlertDialogAction
               className={buttonVariants({ variant: "destructive" })}
               disabled={toggleBlock.isPending}

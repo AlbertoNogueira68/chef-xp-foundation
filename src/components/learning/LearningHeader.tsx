@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Flame, Heart, Sparkles } from "lucide-react";
 import type { LearningProgress } from "@/types/learning";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 /**
  * A tira de estado diário. Três números que respondem sempre à mesma
@@ -30,12 +31,12 @@ export function LearningHeader({
         <Stat
           icon={<Flame className="size-4 text-orange-500" />}
           value={progress.streak}
-          label={progress.streak === 1 ? "day streak" : "day streak"}
+          label={t(progress.streak === 1 ? "day streak" : "days streak")}
         />
         <Stat
           icon={<Sparkles className="size-4 text-emerald-500" />}
           value={`${learned}/${skillCount}`}
-          label="skills"
+          label={t("skills")}
         />
         {hearts != null ? (
           <div className="flex flex-1 flex-col items-center justify-center gap-1 px-2">
@@ -50,7 +51,9 @@ export function LearningHeader({
                 />
               ))}
             </div>
-            <p className="text-[10px] uppercase tracking-wide text-muted-foreground">lives</p>
+            <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
+              {t("lives")}
+            </p>
           </div>
         ) : (
           <div className="flex flex-1 flex-col justify-center gap-1.5 pl-3">
@@ -67,7 +70,7 @@ export function LearningHeader({
                 </span>
               </span>
               <span className="text-[10px] uppercase tracking-wide text-muted-foreground">
-                XP today
+                {t("XP today")}
               </span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-muted">

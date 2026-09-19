@@ -16,6 +16,7 @@ import {
 import { buttonVariants } from "@/components/ui/button";
 import { useDeleteAccount, useExportData } from "@/features/profile/hooks/useAccount";
 import type { User } from "@/types/user";
+import { t } from "@/i18n";
 
 /**
  * Levar os dados e ir embora.
@@ -35,7 +36,7 @@ export function DangerZone({ user }: { user: User }) {
 
   const submit = () => {
     if (!nameMatches) {
-      toast.error("The username doesn't match");
+      toast.error(t("The username doesn't match"));
       return;
     }
     deleteAccount.mutate({
@@ -47,7 +48,7 @@ export function DangerZone({ user }: { user: User }) {
   return (
     <div className="space-y-3 border-t border-border pt-4">
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Your account
+        {t("Your account")}
       </p>
 
       <Button
@@ -65,7 +66,7 @@ export function DangerZone({ user }: { user: User }) {
         Descarregar os meus dados
       </Button>
       <p className="text-[11px] text-muted-foreground">
-        One file with everything: recipes, comments, progress and every XP point you earned.
+        {t("One file with everything: recipes, comments, progress and every XP point you earned.")}
       </p>
 
       <Button
@@ -79,7 +80,7 @@ export function DangerZone({ user }: { user: User }) {
         }}
       >
         <Trash2 className="mr-1.5 size-4" />
-        Delete your account
+        {t("Delete your account")}
       </Button>
 
       <AlertDialog open={confirming} onOpenChange={setConfirming}>
@@ -87,15 +88,17 @@ export function DangerZone({ user }: { user: User }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Apagar a conta de @{user.username}?</AlertDialogTitle>
             <AlertDialogDescription>
-              Everything goes: recipes, comments, likes, missions, progress and XP. We keep no copy
-              and there's no undo. If you want to keep what you made, download your data first.
+              {t(
+                "Everything goes: recipes, comments, likes, missions, progress and XP. We keep no copy and there's no undo. If you want to keep what you made, download your data first.",
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
 
           <div className="space-y-3">
             <div className="space-y-1.5">
               <Label htmlFor="confirm-name">
-                Escreve <span className="font-mono font-semibold">{user.username}</span> to confirm
+                {t("Type")} <span className="font-mono font-semibold">{user.username}</span>
+                {t("to confirm")}
               </Label>
               <Input
                 id="confirm-name"
@@ -108,7 +111,7 @@ export function DangerZone({ user }: { user: User }) {
             {/* Contas de Google não têm password para dar; nesses casos o nome
                 escrito à mão é o travão. */}
             <div className="space-y-1.5">
-              <Label htmlFor="confirm-password">Password (if your account has one)</Label>
+              <Label htmlFor="confirm-password">{t("Password (if your account has one)")}</Label>
               <Input
                 id="confirm-password"
                 type="password"
@@ -120,14 +123,14 @@ export function DangerZone({ user }: { user: User }) {
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel>Manter a conta</AlertDialogCancel>
+            <AlertDialogCancel>{t("Keep the account")}</AlertDialogCancel>
             <button
               type="button"
               className={buttonVariants({ variant: "destructive" })}
               disabled={!nameMatches || deleteAccount.isPending}
               onClick={submit}
             >
-              {deleteAccount.isPending ? "A apagar…" : "Delete for good"}
+              {deleteAccount.isPending ? "A apagar…" : t("Delete for good")}
             </button>
           </AlertDialogFooter>
         </AlertDialogContent>

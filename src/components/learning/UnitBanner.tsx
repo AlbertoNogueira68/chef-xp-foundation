@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 const COLOR_MAP: Record<string, { bar: string; tint: string; text: string; ring: string }> = {
   emerald: {
@@ -74,7 +75,7 @@ export function UnitBanner({
 
         {done && (
           <span className="shrink-0 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-emerald-700 ring-1 ring-inset ring-emerald-200">
-            Completa
+            {t("Complete")}
           </span>
         )}
       </div>

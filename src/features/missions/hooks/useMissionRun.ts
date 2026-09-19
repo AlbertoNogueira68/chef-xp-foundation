@@ -7,6 +7,7 @@ import { enqueue } from "@/lib/offline/outbox";
 import type { ApiError } from "@/services/api";
 import { missionService } from "../services/missionService";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
+import { t } from "@/i18n";
 
 /**
  * Estado do modo cozinha.
@@ -40,9 +41,9 @@ export function useMissionRun() {
       setState(next);
       setCompletion(null);
       setRescue(null);
-      if (next.resumed) toast.info("We picked up where you left off.");
+      if (next.resumed) toast.info(t("We picked up where you left off."));
     } catch (error) {
-      fail(error, "Couldn't start the mission");
+      fail(error, t("Couldn't start the mission"));
     } finally {
       setIsBusy(false);
     }
@@ -62,7 +63,7 @@ export function useMissionRun() {
       try {
         setState(await missionService.moveToStep(runId, next));
       } catch (error) {
-        fail(error, "Couldn't change step");
+        fail(error, t("Couldn't change step"));
       } finally {
         setIsBusy(false);
       }
@@ -77,7 +78,7 @@ export function useMissionRun() {
         const result = await missionService.rescue(runId, stepIndex, kind);
         setRescue({ kind, answer: result.answer });
       } catch (error) {
-        fail(error, "Couldn't ask for help");
+        fail(error, t("Couldn't ask for help"));
       }
     },
     [runId, stepIndex],
@@ -108,7 +109,7 @@ export function useMissionRun() {
         // está bonito — não é o momento de ir procurar wifi.
         if ((error as ApiError).status === 0) {
           const guardada = await enqueue({
-            descricao: `Photo for step ${stepIndex + 1}`,
+            descricao: t("Photo for step {step}", { step: stepIndex + 1 }),
             path: `/missions/runs/${runId}/checkpoint`,
             method: "POST",
             body: { stepIndex, imageDataUrl: dataUrl },
@@ -131,15 +132,15 @@ export function useMissionRun() {
                   }
                 : current,
             );
-            toast.success("Photo saved on your phone. We'll send it when you're online.");
+            toast.success(t("Photo saved on your phone. We'll send it when you're online."));
             return;
           }
 
-          fail(new Error("The photo is too large to sit waiting for a connection."), "");
+          fail(new Error(t("The photo is too large to sit waiting for a connection.")), "");
           return;
         }
 
-        fail(error, "Couldn't save the photo");
+        fail(error, t("Couldn't save the photo"));
       } finally {
         setIsUploading(false);
       }
@@ -152,7 +153,7 @@ export function useMissionRun() {
       try {
         await uploadDataUrl(await fileToResizedDataUrl(file));
       } catch (error) {
-        fail(error, "Couldn't read the image");
+        fail(error, t("Couldn't read the image"));
       }
     },
     [uploadDataUrl],
@@ -171,7 +172,7 @@ export function useMissionRun() {
         queryClient.invalidateQueries({ queryKey: ["userStats"] });
         queryClient.invalidateQueries({ queryKey: ["missionPosts"] });
       } catch (error) {
-        fail(error, "Couldn't finish the mission");
+        fail(error, t("Couldn't finish the mission"));
       } finally {
         setIsBusy(false);
       }

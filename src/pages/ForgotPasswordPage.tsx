@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { AuthCard } from "@/features/auth/components/AuthCard";
 import { useForgotPassword } from "@/features/auth/hooks/usePasswordRecovery";
 import { forgotPasswordSchema, type ForgotPasswordInput } from "@/features/auth/schemas";
+import { t } from "@/i18n";
 
 /**
  * Pedir o link de recuperação.
@@ -32,11 +33,12 @@ export function ForgotPasswordPage() {
   if (pedir.isSuccess) {
     return (
       <AuthCard
-        titulo="Check your email"
+        titulo={t("Check your email")}
         descricao={
           <>
-            If there's an account for <strong>{getValues("email")}</strong>, the recovery link is on
-            its way. It lasts an hour and works once.
+            {t("If there's an account for")}
+            <strong>{getValues("email")}</strong>
+            {t(", the recovery link is on its way. It lasts an hour and works once.")}
           </>
         }
         rodape={
@@ -44,19 +46,19 @@ export function ForgotPasswordPage() {
             to="/auth"
             className="inline-flex min-h-8 items-center px-2 text-muted-foreground underline-offset-4 hover:underline"
           >
-            Back to sign in
+            {t("Back to sign in")}
           </Link>
         }
       >
         <p className="text-sm text-muted-foreground">
-          Nothing arrived? Check the address you typed, and your spam folder.
+          {t("Nothing arrived? Check the address you typed, and your spam folder.")}
         </p>
         <Button
           variant="outline"
           className="mt-4 w-full rounded-full"
           onClick={() => pedir.reset()}
         >
-          Try another email
+          {t("Try another email")}
         </Button>
       </AuthCard>
     );
@@ -64,14 +66,14 @@ export function ForgotPasswordPage() {
 
   return (
     <AuthCard
-      titulo="Recover your password"
-      descricao="Type your account's email. We'll send you a link to choose a new password."
+      titulo={t("Recover your password")}
+      descricao={t("Type your account's email. We'll send you a link to choose a new password.")}
       rodape={
         <Link
           to="/auth"
           className="inline-flex min-h-8 items-center px-2 text-muted-foreground underline-offset-4 hover:underline"
         >
-          Actually, I remember — back to sign in
+          {t("Actually, I remember — back to sign in")}
         </Link>
       }
     >
@@ -100,7 +102,7 @@ export function ForgotPasswordPage() {
           className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
           disabled={pedir.isPending}
         >
-          {pedir.isPending ? "A enviar…" : "Send the link"}
+          {pedir.isPending ? "A enviar…" : t("Send the link")}
         </Button>
       </form>
     </AuthCard>

@@ -38,9 +38,7 @@ export function validateEnv(env = process.env) {
   const hasGoogleId = Boolean(env.GOOGLE_CLIENT_ID);
   const hasGoogleSecret = Boolean(env.GOOGLE_CLIENT_SECRET);
   if (hasGoogleId !== hasGoogleSecret) {
-    errors.push(
-      "GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET têm de ser definidas as duas, ou nenhuma",
-    );
+    errors.push("GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET têm de ser definidas as duas, ou nenhuma");
   }
 
   // Mesma regra para o SMTP, pela mesma razão: com só metade das credenciais,

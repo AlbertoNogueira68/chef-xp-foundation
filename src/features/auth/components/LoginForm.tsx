@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { useAuthProviders } from "../hooks/useAuthProviders";
 import { useSignIn } from "../hooks/useSignIn";
 import { loginSchema, type LoginInput } from "../schemas";
+import { t } from "@/i18n";
 
 export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
   const signIn = useSignIn();
@@ -43,7 +44,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
       </div>
       <div className="space-y-2">
         <div className="flex items-baseline justify-between gap-2">
-          <Label htmlFor="login-password">Palavra-passe</Label>
+          <Label htmlFor="login-password">{t("Password")}</Label>
           {/*
             Só aparece se o servidor tiver SMTP: sem ele, o link levava a um
             formulário que nunca enviava email nenhum.
@@ -53,7 +54,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
               to="/forgot-password"
               className="inline-flex min-h-8 items-center px-1 text-xs text-muted-foreground underline-offset-4 hover:underline"
             >
-              Esqueceste-te?
+              {t("Forgot it?")}
             </Link>
           )}
         </div>
@@ -71,7 +72,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
         className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
         disabled={signIn.isPending}
       >
-        {signIn.isPending ? "Signing in…" : "Sign in"}
+        {signIn.isPending ? t("Signing in…") : t("Sign in")}
       </Button>
     </form>
   );

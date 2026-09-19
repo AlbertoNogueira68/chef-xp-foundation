@@ -10,22 +10,23 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useRecipes } from "@/features/feed/hooks/useRecipes";
 import { useSuggestedChefs, useToggleFollow } from "@/features/profile/hooks/useUserStats";
 import type { RecipeDifficulty } from "@/types/recipe";
+import { t } from "@/i18n";
 
 /**
  * Filtros reais em vez das hashtags fictícias que estavam em demo.ts:
  * cada um corresponde a um parâmetro que a API sabe aplicar.
  */
-const FILTERS: Array<{
+const filters = (): Array<{
   id: string;
   label: string;
   difficulty?: RecipeDifficulty;
   maxTime?: number;
-}> = [
-  { id: "rapido", label: "Under 20 min", maxTime: 20 },
-  { id: "meia-hora", label: "Under 30 min", maxTime: 30 },
-  { id: "facil", label: "Easy", difficulty: "facil" },
-  { id: "medio", label: "Medium", difficulty: "medio" },
-  { id: "dificil", label: "Hard", difficulty: "dificil" },
+}> => [
+  { id: "rapido", label: t("Under 20 min"), maxTime: 20 },
+  { id: "meia-hora", label: t("Under 30 min"), maxTime: 30 },
+  { id: "facil", label: t("Easy"), difficulty: "facil" },
+  { id: "medio", label: t("Medium"), difficulty: "medio" },
+  { id: "dificil", label: t("Hard"), difficulty: "dificil" },
 ];
 
 export function SearchPage() {
@@ -33,7 +34,7 @@ export function SearchPage() {
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const deferredQ = useDeferredValue(q);
 
-  const filter = FILTERS.find((f) => f.id === activeFilter);
+  const filter = filters().find((f) => f.id === activeFilter);
   const { recipes, isFetching } = useRecipes({
     q: deferredQ || undefined,
     difficulty: filter?.difficulty,
@@ -51,7 +52,7 @@ export function SearchPage() {
         <Input
           value={q}
           onChange={(event) => setQ(event.target.value)}
-          placeholder="Recipes, chefs, ingredients…"
+          placeholder={t("Recipes, chefs, ingredients…")}
           className="rounded-full border-border/60 bg-muted/50 pl-10"
           autoComplete="off"
           aria-label="Pesquisar"
@@ -60,11 +61,11 @@ export function SearchPage() {
 
       <div>
         <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Filtros
+          {t("Filters")}
         </h2>
         <ScrollArea className="w-full whitespace-nowrap">
           <div className="flex gap-2">
-            {FILTERS.map((item) => {
+            {filters().map((item) => {
               const active = activeFilter === item.id;
               return (
                 <button
@@ -90,7 +91,7 @@ export function SearchPage() {
 
       <div>
         <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Chefs sugeridos
+          {t("Suggested chefs")}
         </h2>
         <div className="space-y-2">
           {chefs.data?.map((chef) => (
@@ -106,8 +107,12 @@ export function SearchPage() {
                 <div>
                   <p className="text-sm font-semibold">{chef.username}</p>
                   <p className="text-xs text-muted-foreground">
-                    Lv. {chef.level} · {chef.recipes} {chef.recipes === 1 ? "recipe" : "recipes"} ·{" "}
-                    {chef.followers} {chef.followers === 1 ? "seguidor" : "seguidores"}
+                    {t("Lv. {level} · {recipes} {recipesWord}", {
+                      level: chef.level,
+                      recipes: chef.recipes,
+                      recipesWord: t(chef.recipes === 1 ? "recipe" : "recipes"),
+                    })}{" "}
+                    · {chef.followers} {chef.followers === 1 ? "seguidor" : "seguidores"}
                   </p>
                 </div>
               </Link>
@@ -118,7 +123,8 @@ export function SearchPage() {
                 disabled={toggleFollow.isPending}
                 onClick={() => toggleFollow.mutate({ id: chef.id, following: false })}
               >
-                <UserPlus className="mr-1 size-3" /> Follow
+                <UserPlus className="mr-1 size-3" />
+                {t("Follow")}
               </Button>
             </div>
           ))}
@@ -126,7 +132,7 @@ export function SearchPage() {
           {chefs.data?.length === 0 && (
             <p className="rounded-xl border border-dashed border-border/60 p-4 text-center text-xs text-muted-foreground">
               <UserCheck className="mx-auto mb-1 size-4" />
-              You already follow everyone here.
+              {t("You already follow everyone here.")}
             </p>
           )}
         </div>
@@ -135,14 +141,16 @@ export function SearchPage() {
       <div>
         <div className="mb-3 flex items-center justify-between">
           <h2 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            Descobrir
+            {t("Discover")}
           </h2>
-          {isFetching && <span className="text-xs text-muted-foreground">A pesquisar…</span>}
+          {isFetching && <span className="text-xs text-muted-foreground">{t("Searching…")}</span>}
         </div>
 
         {!isFetching && recipes.length === 0 && (
           <p className="py-8 text-center text-sm text-muted-foreground">
-            {deferredQ ? `No results for “${deferredQ}”.` : "No recipes for these filters."}
+            {deferredQ
+              ? t("No results for “{query}”.", { query: deferredQ })
+              : t("No recipes for these filters.")}
           </p>
         )}
 

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useSuggestedChefs, useToggleFollow } from "@/features/profile/hooks/useUserStats";
+import { t } from "@/i18n";
 
 /**
  * Substitui a fila de "stories" que era alimentada por dados fictícios.
@@ -32,7 +33,7 @@ export function ChefsToFollowRow() {
   return (
     <section aria-label="Chefs a seguir">
       <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-        Chefs a seguir
+        {t("Chefs to follow")}
       </h2>
       <ScrollArea className="w-full whitespace-nowrap">
         <div className="flex gap-3 pb-1">
@@ -41,7 +42,7 @@ export function ChefsToFollowRow() {
               <Link
                 to={`/chef/${chef.id}`}
                 className="flex flex-col items-center gap-1.5"
-                aria-label={`See ${chef.username}'s profile`}
+                aria-label={t("See {username}'s profile", { username: chef.username })}
               >
                 <div className="rounded-full bg-gradient-to-tr from-amber-500 via-orange-500 to-rose-500 p-[2px]">
                   <Avatar className="size-14 border-2 border-background">
@@ -60,7 +61,8 @@ export function ChefsToFollowRow() {
                 disabled={toggleFollow.isPending}
                 onClick={() => toggleFollow.mutate({ id: chef.id, following: false })}
               >
-                <UserPlus className="mr-1 size-3" /> Follow
+                <UserPlus className="mr-1 size-3" />
+                {t("Follow")}
               </Button>
             </div>
           ))}

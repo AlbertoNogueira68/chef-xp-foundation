@@ -81,7 +81,7 @@ describe("redefinir a password", () => {
     renderWithProviders(<ResetPasswordPage />, { route: "/reset-password" });
 
     expect(screen.getByText(/incomplete link/i)).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /pedir outro link/i })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /ask for another link/i })).toBeInTheDocument();
   });
 
   test("passwords diferentes não são enviadas", async () => {

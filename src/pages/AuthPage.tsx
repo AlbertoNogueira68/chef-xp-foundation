@@ -7,6 +7,8 @@ import { GoogleButton } from "@/features/auth/components/GoogleButton";
 import { LoginForm } from "@/features/auth/components/LoginForm";
 import { RegisterForm } from "@/features/auth/components/RegisterForm";
 import { useAuthProviders } from "@/features/auth/hooks/useAuthProviders";
+import { t } from "@/i18n";
+import { LanguageToggle } from "@/i18n/LanguageToggle";
 
 export function AuthPage() {
   const navigate = useNavigate();
@@ -26,6 +28,7 @@ export function AuthPage() {
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
+      <LanguageToggle flutuante />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-100/70 via-background to-background" />
       <img
         src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=1200&fit=crop"
@@ -37,7 +40,7 @@ export function AuthPage() {
         <div className="text-center">
           <ChefXPLogo className="text-3xl" />
           <p className="mt-2 text-sm text-muted-foreground">
-            Join the community and start earning XP.
+            {t("Join the community and start earning XP.")}
           </p>
         </div>
 
@@ -45,10 +48,10 @@ export function AuthPage() {
           <Tabs defaultValue="login">
             <TabsList className="grid w-full grid-cols-2 rounded-full bg-muted/80 p-1">
               <TabsTrigger value="login" className="rounded-full">
-                Sign in
+                {t("Sign in")}
               </TabsTrigger>
               <TabsTrigger value="register" className="rounded-full">
-                Sign up
+                {t("Sign up")}
               </TabsTrigger>
             </TabsList>
             <TabsContent value="login" className="mt-5">

@@ -1,9 +1,4 @@
-import {
-  computeStreak,
-  dayInTimeZone,
-  levelForXp,
-  streakBonusFor,
-} from "../domain/xp.js";
+import { computeStreak, dayInTimeZone, levelForXp, streakBonusFor } from "../domain/xp.js";
 
 /**
  * Recalcula users.xp a partir do livro-razão e ajusta o nível.

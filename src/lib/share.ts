@@ -1,4 +1,5 @@
 import { toast } from "sonner";
+import { t } from "@/i18n";
 
 /**
  * Partilhar um link.
@@ -27,6 +28,6 @@ export async function shareLink({
     toast.success(copiedMessage);
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError") return;
-    toast.error("Couldn't share");
+    toast.error(t("Couldn't share"));
   }
 }

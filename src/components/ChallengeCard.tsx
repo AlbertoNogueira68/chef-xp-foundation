@@ -2,6 +2,7 @@ import { CalendarDays, Check, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { Challenge } from "@/types/challenge";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 function formatDate(value: string) {
   return new Date(value).toLocaleDateString("pt-PT", { day: "2-digit", month: "short" });
@@ -45,7 +46,9 @@ export function ChallengeCard({
           </span>
           {urgent && (
             <span className="rounded-full bg-amber-400 px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-amber-950">
-              Ends in {remaining} {remaining === 1 ? "day" : "days"}
+              {t(remaining === 1 ? "Ends in {count} day" : "Ends in {count} days", {
+                count: remaining,
+              })}
             </span>
           )}
         </div>
@@ -63,7 +66,7 @@ export function ChallengeCard({
             {challenge.active ? (
               <>
                 Termina {formatDate(challenge.endsAt)}
-                {!urgent && `  · ${remaining}d left`}
+                {!urgent && t(" · {count}d left", { count: remaining })}
               </>
             ) : (
               <>Terminou {formatDate(challenge.endsAt)}</>
@@ -83,12 +86,12 @@ export function ChallengeCard({
         >
           {challenge.myEntry ? (
             <>
-              <Check className="mr-1.5 size-3.5" /> A participar · ver
+              <Check className="mr-1.5 size-3.5" /> {t("You're in · see")}
             </>
           ) : challenge.active ? (
             "Participar"
           ) : (
-            "See entries"
+            t("See entries")
           )}
         </Button>
       </div>

@@ -6,20 +6,21 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useReports, useResolveReport } from "@/features/admin/hooks/useAdmin";
 import type { ModerationReport } from "@/types/admin";
+import { t } from "@/i18n";
 
-const REASON_LABEL: Record<string, string> = {
-  ofensivo: "Ofensivo",
-  perigoso: "Perigoso",
-  spam: "Spam",
-  copia: "Copy",
-  outro: "Outro",
-};
+// Lidas quando se desenha, e não no arranque: uma tabela montada no topo do
+// módulo fixava a língua do momento em que a app carregou.
+const reasonLabel = (motivo: string) =>
+  ({
+    ofensivo: t("Offensive"),
+    perigoso: t("Dangerous"),
+    spam: t("Spam"),
+    copia: t("Copy"),
+    outro: t("Other"),
+  })[motivo] ?? motivo;
 
-const SUBJECT_LABEL: Record<ModerationReport["subjectType"], string> = {
-  recipe: "Recipe",
-  comment: "Comment",
-  user: "Account",
-};
+const subjectLabel = (tipo: ModerationReport["subjectType"]) =>
+  ({ recipe: t("Recipe"), comment: t("Comment"), user: t("Account") })[tipo] ?? tipo;
 
 function quando(value: string) {
   return new Date(value).toLocaleDateString("pt-PT", { day: "2-digit", month: "short" });
@@ -37,7 +38,7 @@ function Conteudo({ report }: { report: ModerationReport }) {
   if (!report.subject) {
     return (
       <p className="text-xs italic text-muted-foreground">
-        The content is gone. The report stays for the record.
+        {t("The content is gone. The report stays for the record.")}
       </p>
     );
   }
@@ -92,7 +93,7 @@ export function ReportQueue() {
     <div className="space-y-3">
       <div className="flex items-center justify-between gap-2">
         <p className="text-xs text-muted-foreground">
-          {fila.data ? `${fila.data.open} por tratar` : "…"}
+          {fila.data ? t("{count} to handle", { count: fila.data.open }) : "…"}
         </p>
         <Button
           size="sm"
@@ -100,7 +101,7 @@ export function ReportQueue() {
           className="h-9 rounded-full text-xs"
           onClick={() => setStatus(status === "open" ? "all" : "open")}
         >
-          {status === "open" ? "Include handled" : "Open only"}
+          {status === "open" ? t("Include handled") : t("Open only")}
         </Button>
       </div>
 
@@ -108,7 +109,7 @@ export function ReportQueue() {
 
       {fila.data?.reports.length === 0 && (
         <p className="py-10 text-center text-sm text-muted-foreground">
-          Nothing to handle. That's the idea.
+          {t("Nothing to handle. That's the idea.")}
         </p>
       )}
 
@@ -120,10 +121,10 @@ export function ReportQueue() {
                 variant={report.reason === "perigoso" ? "destructive" : "secondary"}
                 className="rounded-full text-[10px]"
               >
-                {REASON_LABEL[report.reason] ?? report.reason}
+                {reasonLabel(report.reason) ?? report.reason}
               </Badge>
               <Badge variant="outline" className="rounded-full text-[10px]">
-                {SUBJECT_LABEL[report.subjectType]}
+                {subjectLabel(report.subjectType)}
               </Badge>
               {report.reportsOnSubject > 1 && (
                 <Badge variant="outline" className="rounded-full text-[10px]">
@@ -161,7 +162,8 @@ export function ReportQueue() {
                     disabled={resolver.isPending || !report.subject}
                     onClick={() => resolver.mutate({ id: report.id, action: "remover" })}
                   >
-                    <Trash2 className="mr-1.5 size-3.5" /> Remove
+                    <Trash2 className="mr-1.5 size-3.5" />
+                    {t("Remove")}
                   </Button>
                 )}
                 <Button
@@ -171,7 +173,7 @@ export function ReportQueue() {
                   disabled={resolver.isPending}
                   onClick={() => resolver.mutate({ id: report.id, action: "arquivar" })}
                 >
-                  <Archive className="mr-1.5 size-3.5" /> Arquivar
+                  <Archive className="mr-1.5 size-3.5" /> {t("Archive")}
                 </Button>
               </div>
             )}

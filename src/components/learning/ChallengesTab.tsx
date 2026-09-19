@@ -4,6 +4,7 @@ import { ChallengeCard } from "@/components/ChallengeCard";
 import { ChallengeDetailDialog } from "@/components/challenges/ChallengeDetailDialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useChallenges } from "@/features/challenges/hooks/useChallenges";
+import { t } from "@/i18n";
 
 export function ChallengesTab() {
   const { data: challenges, isLoading, isError } = useChallenges();
@@ -16,7 +17,7 @@ export function ChallengesTab() {
           competia com eles pela atenção. Uma linha chega. */}
       <div className="flex items-center gap-2 px-1">
         <Flame className="size-4 text-orange-500" />
-        <p className="text-sm font-semibold">Community challenges</p>
+        <p className="text-sm font-semibold">{t("Community challenges")}</p>
         <span className="ml-auto text-xs text-muted-foreground tabular-nums">
           {active} {active === 1 ? "ativo" : "ativos"}
         </span>
@@ -32,13 +33,13 @@ export function ChallengesTab() {
 
       {isError && (
         <p className="rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
-          Couldn't load the challenges.
+          {t("Couldn't load the challenges.")}
         </p>
       )}
 
       {!isLoading && challenges?.length === 0 && (
         <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted-foreground">
-          No challenges running right now.
+          {t("No challenges running right now.")}
         </p>
       )}
 

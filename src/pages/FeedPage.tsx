@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useRecipes, useToggleLike } from "@/features/feed/hooks/useRecipes";
 import type { FeedScope } from "@/types/recipe";
+import { t } from "@/i18n";
 
 function FeedSkeleton() {
   return (
@@ -40,13 +41,13 @@ export function FeedPage() {
       <Tabs value={scope} onValueChange={(value) => setScope(value as FeedScope)}>
         <TabsList className="grid w-full grid-cols-3 rounded-full bg-muted/80 p-1">
           <TabsTrigger value="all" className="rounded-full text-xs">
-            Recentes
+            {t("Recent")}
           </TabsTrigger>
           <TabsTrigger value="following" className="rounded-full text-xs">
-            Following
+            {t("Following")}
           </TabsTrigger>
           <TabsTrigger value="popular" className="rounded-full text-xs">
-            Em alta
+            {t("Trending")}
           </TabsTrigger>
         </TabsList>
       </Tabs>
@@ -55,15 +56,15 @@ export function FeedPage() {
 
       {isError && (
         <p className="rounded-xl bg-destructive/10 px-4 py-3 text-sm text-destructive">
-          Couldn't load the feed.
+          {t("Couldn't load the feed.")}
         </p>
       )}
 
       {!isLoading && !isError && recipes.length === 0 && (
         <p className="py-10 text-center text-sm text-muted-foreground">
           {scope === "following"
-            ? "Nobody you follow has published yet. Follow a few chefs up there."
-            : "No recipes yet. Be the first to publish."}
+            ? t("Nobody you follow has published yet. Follow a few chefs up there.")
+            : t("No recipes yet. Be the first to publish.")}
         </p>
       )}
 
@@ -85,7 +86,7 @@ export function FeedPage() {
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
         >
-          {isFetchingNextPage ? "A carregar…" : "Load more"}
+          {isFetchingNextPage ? "A carregar…" : t("Load more")}
         </Button>
       )}
     </section>

@@ -6,10 +6,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useLeaderboard } from "@/features/leaderboard/hooks/useLeaderboard";
 import type { LeaderboardEntry, LeaderboardScope } from "@/types/leaderboard";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
-const SCOPES: Array<{ id: LeaderboardScope; label: string; hint: string }> = [
-  { id: "weekly", label: "Esta semana", hint: "XP over the last seven days" },
-  { id: "global", label: "Sempre", hint: "XP since day one" },
+const scopes = (): Array<{ id: LeaderboardScope; label: string; hint: string }> => [
+  { id: "weekly", label: t("This week"), hint: t("XP over the last seven days") },
+  { id: "global", label: t("All time"), hint: t("XP since day one") },
 ];
 
 /** Ouro, prata e bronze; do quarto em diante é só o número. */
@@ -49,7 +50,7 @@ function Row({ entry, fixed = false }: { entry: LeaderboardEntry; fixed?: boolea
         <span className="min-w-0">
           <span className="block truncate text-sm font-semibold">
             {entry.user.username}
-            {entry.isMe && <span className="ml-1.5 text-xs text-amber-600">you</span>}
+            {entry.isMe && <span className="ml-1.5 text-xs text-amber-600">{t("you")}</span>}
           </span>
           <span className="text-[11px] text-muted-foreground">Level {entry.user.level}</span>
         </span>
@@ -77,7 +78,7 @@ export function LeaderboardTab() {
   return (
     <div className="space-y-3">
       <div className="flex gap-2">
-        {SCOPES.map((option) => (
+        {scopes().map((option) => (
           <button
             key={option.id}
             type="button"
@@ -96,7 +97,7 @@ export function LeaderboardTab() {
       </div>
 
       <p className="px-1 text-xs text-muted-foreground">
-        {SCOPES.find((option) => option.id === scope)?.hint}
+        {scopes().find((option) => option.id === scope)?.hint}
       </p>
 
       {isLoading && (
@@ -112,8 +113,8 @@ export function LeaderboardTab() {
       {!isLoading && data?.entries.length === 0 && (
         <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-muted-foreground">
           {scope === "weekly"
-            ? "Nobody earned XP this week. Go first."
-            : "Nobody on the leaderboard yet."}
+            ? t("Nobody earned XP this week. Go first.")
+            : t("Nobody on the leaderboard yet.")}
         </p>
       )}
 
@@ -137,8 +138,8 @@ export function LeaderboardTab() {
       {data && !data.me && data.entries.length > 0 && (
         <p className="rounded-xl border border-dashed border-border px-4 py-3 text-center text-xs text-muted-foreground">
           {scope === "weekly"
-            ? "No XP yet this week — one lesson is enough to get in."
-            : "You don't have XP to make the leaderboard yet."}
+            ? t("No XP yet this week — one lesson is enough to get in.")
+            : t("You don't have XP to make the leaderboard yet.")}
         </p>
       )}
     </div>

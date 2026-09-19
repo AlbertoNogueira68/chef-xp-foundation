@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { t } from "@/i18n";
 
 /**
  * A regra da password, num sítio só.
@@ -25,7 +26,7 @@ export type PasswordRule = {
 export const passwordRules: PasswordRule[] = [
   {
     id: "tamanho",
-    label: `At least ${PASSWORD_MIN} characters`,
+    label: t("At least {count} characters", { count: PASSWORD_MIN }),
     test: (value) => value.length >= PASSWORD_MIN,
   },
   {
@@ -70,6 +71,6 @@ export const passwordSchema = z
     if (!falta) return;
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: `Falta: ${falta.label.toLowerCase()}`,
+      message: t("Missing: {rule}", { rule: falta.label.toLowerCase() }),
     });
   });

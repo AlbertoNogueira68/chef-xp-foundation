@@ -19,6 +19,7 @@ import { useRecipes } from "@/features/feed/hooks/useRecipes";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { t } from "@/i18n";
 
 function formatDate(value: string) {
   return new Date(value).toLocaleDateString("pt-PT", { day: "2-digit", month: "long" });
@@ -70,25 +71,26 @@ export function ChallengeDetailDialog({
               </span>
               <span className="inline-flex items-center gap-1">
                 <Users className="size-3.5" />
-                {challenge.entriesCount} {challenge.entriesCount === 1 ? "entry" : "entries"}
+                {challenge.entriesCount} {t(challenge.entriesCount === 1 ? "entry" : "entries")}
               </span>
               <span className="inline-flex items-center gap-1">
                 <CalendarDays className="size-3.5" />
                 {challenge.active
-                  ? `Termina ${formatDate(challenge.endsAt)}`
-                  : `Terminou ${formatDate(challenge.endsAt)}`}
+                  ? t("Ends {date}", { date: formatDate(challenge.endsAt) })
+                  : t("Ended {date}", { date: formatDate(challenge.endsAt) })}
               </span>
             </div>
 
             {/* --- Participar / retirar --- */}
             {!challenge.active ? (
               <p className="rounded-xl border border-dashed border-border px-4 py-3 text-center text-xs text-muted-foreground">
-                This challenge is closed. The result stands.
+                {t("This challenge is closed. The result stands.")}
               </p>
             ) : entered ? (
               <div className="flex items-center justify-between gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-3 py-2.5">
                 <p className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-400">
-                  <Check className="size-4" /> You're in
+                  <Check className="size-4" />
+                  {t("You're in")}
                 </p>
                 <Button
                   size="sm"
@@ -97,23 +99,23 @@ export function ChallengeDetailDialog({
                   disabled={leave.isPending}
                   onClick={() => leave.mutate(challenge.id)}
                 >
-                  Retirar
+                  {t("Withdraw")}
                 </Button>
               </div>
             ) : myRecipes.length === 0 ? (
               <div className="rounded-xl border border-dashed border-border px-4 py-5 text-center">
                 <ChefHat className="mx-auto size-5 text-muted-foreground/60" />
                 <p className="mt-2 text-sm text-muted-foreground">
-                  You need a published recipe to enter.
+                  {t("You need a published recipe to enter.")}
                 </p>
                 <Button asChild size="sm" className="mt-3 rounded-full" onClick={onClose}>
-                  <Link to="/publish">Publish a recipe</Link>
+                  <Link to="/publish">{t("Publish a recipe")}</Link>
                 </Button>
               </div>
             ) : (
               <div className="space-y-2">
                 <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Escolhe a receita
+                  {t("Choose the recipe")}
                 </p>
                 <div className="max-h-52 space-y-1.5 overflow-y-auto pr-1">
                   {myRecipes.map((recipe) => (
@@ -163,15 +165,15 @@ export function ChallengeDetailDialog({
             <div>
               <div className="mb-2 flex items-baseline justify-between">
                 <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  Entries
+                  {t("Entries")}
                 </p>
                 {entries.length > 1 && (
-                  <p className="text-[11px] text-muted-foreground">Por gostos</p>
+                  <p className="text-[11px] text-muted-foreground">{t("By likes")}</p>
                 )}
               </div>
               {entries.length === 0 ? (
                 <p className="py-6 text-center text-sm text-muted-foreground">
-                  Nobody has entered yet. You could be the first.
+                  {t("Nobody has entered yet. You could be the first.")}
                 </p>
               ) : (
                 <div className="columns-2 gap-3">

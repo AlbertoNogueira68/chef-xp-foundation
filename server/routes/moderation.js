@@ -53,7 +53,12 @@ const SELECT_REPORT = `
 function toReport(row) {
   const subject =
     row.subject_type === "recipe" && row.recipe_title
-      ? { kind: "recipe", title: row.recipe_title, imageUrl: row.recipe_image ?? null, author: row.recipe_author }
+      ? {
+          kind: "recipe",
+          title: row.recipe_title,
+          imageUrl: row.recipe_image ?? null,
+          author: row.recipe_author,
+        }
       : row.subject_type === "comment" && row.comment_body
         ? { kind: "comment", body: row.comment_body, author: row.comment_author }
         : row.subject_type === "user" && row.user_username
@@ -175,13 +180,7 @@ router.post(
             AND subject_type = $4
             AND subject_id = $5
         RETURNING id`,
-        [
-          decision.status,
-          decision.resolution,
-          req.user.id,
-          report.subject_type,
-          report.subject_id,
-        ],
+        [decision.status, decision.resolution, req.user.id, report.subject_type, report.subject_id],
       );
 
       await client.query("COMMIT");

@@ -1,3 +1,4 @@
+import { getLanguage, t } from "@/i18n";
 const PROFILE_KEY = "chef-xp:user";
 
 /**
@@ -8,6 +9,18 @@ const CSRF_COOKIE_NAMES = ["__Host-csrf", "csrf"];
 
 /** Emitido quando a API responde 401. A UI decide o que fazer. */
 export const SESSION_EXPIRED_EVENT = "chef-xp:session-expired";
+
+/**
+ * Acrescenta a língua ao endereço.
+ *
+ * Vai no URL e não num cabeçalho porque a cache do service worker é indexada
+ * pelo endereço: com um cabeçalho, a lição guardada em português era servida
+ * a quem tinha entretanto mudado para inglês.
+ */
+function comLingua(path: string): string {
+  const separador = path.includes("?") ? "&" : "?";
+  return `${path}${separador}lang=${getLanguage()}`;
+}
 
 function apiBase(): string {
   if (import.meta.env.PROD) return "/api";
@@ -64,8 +77,9 @@ type ApiFetchOptions = RequestInit & {
  * nada que ela possa fazer e o pior seria mandá-la verificar a Internet que
  * está a funcionar.
  */
-export const OFFLINE_MESSAGE = "You're offline. This stays unsaved until you're back online.";
-export const SERVER_MESSAGE = "The server didn't answer. Nothing was saved — try again.";
+export const offlineMessage = () =>
+  t("You're offline. This stays unsaved until you're back online.");
+export const serverMessage = () => t("The server didn't answer. Nothing was saved — try again.");
 
 /**
  * Emitido quando um pedido falha na rede, e outra vez quando volta a haver
@@ -87,7 +101,7 @@ function anunciarLigacao(alcancavel: boolean) {
 /** Um erro de rede, já com uma frase que se percebe. */
 function erroDeLigacao(): ApiError {
   const offline = typeof navigator !== "undefined" && !navigator.onLine;
-  const err = new Error(offline ? OFFLINE_MESSAGE : SERVER_MESSAGE) as ApiError;
+  const err = new Error(offline ? offlineMessage() : serverMessage()) as ApiError;
   err.status = 0;
   return err;
 }
@@ -112,7 +126,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
     typeof navigator !== "undefined" &&
     !navigator.onLine
   ) {
-    const err = new Error(OFFLINE_MESSAGE) as ApiError;
+    const err = new Error(offlineMessage()) as ApiError;
     err.status = 0;
     throw err;
   }
@@ -128,7 +142,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
 
   let res: Response;
   try {
-    res = await fetch(`${apiBase()}${path}`, {
+    res = await fetch(`${apiBase()}${comLingua(path)}`, {
       ...init,
       headers,
       credentials: "include",
@@ -160,7 +174,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
       // reage, mantendo o estado e a rota de origem.
       window.dispatchEvent(new CustomEvent(SESSION_EXPIRED_EVENT));
     }
-    const err = new Error("Session expired") as ApiError;
+    const err = new Error(t("Session expired")) as ApiError;
     err.status = 401;
     throw err;
   }

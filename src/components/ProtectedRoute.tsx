@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { authService } from "@/features/auth/services/authService";
+import { t } from "@/i18n";
 
 export function ProtectedRoute({ children }: { children?: React.ReactNode }) {
   const sessionQuery = useQuery({
@@ -13,7 +14,7 @@ export function ProtectedRoute({ children }: { children?: React.ReactNode }) {
   if (sessionQuery.isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">
-        A carregar…
+        {t("Loading…")}
       </div>
     );
   }

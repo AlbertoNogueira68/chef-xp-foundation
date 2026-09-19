@@ -1,5 +1,6 @@
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 /**
  * `xp` e `nextLevelXp` são relativos ao nível atual e vêm calculados do
@@ -27,7 +28,9 @@ export function XpProgress({
       <div className="flex items-center justify-between text-xs">
         <span className="font-medium text-foreground">Level {level}</span>
         <span className="tabular-nums text-muted-foreground">
-          {isMaxLevel ? `${totalXp ?? xp} XP · max level` : `${xp} / ${nextLevelXp} XP`}
+          {isMaxLevel
+            ? t("{xp} XP · max level", { xp: totalXp ?? xp })
+            : `${xp} / ${nextLevelXp} XP`}
         </span>
       </div>
       <Progress value={pct} className="h-2 bg-muted" />

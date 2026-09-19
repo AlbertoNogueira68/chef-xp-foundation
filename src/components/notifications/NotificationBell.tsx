@@ -12,6 +12,7 @@ import {
 } from "@/features/notifications/hooks/useNotifications";
 import type { AppNotification, NotificationKind } from "@/types/notification";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 const ICONS: Record<NotificationKind, typeof Heart> = {
   like: Heart,
@@ -27,12 +28,12 @@ const COLORS: Record<NotificationKind, string> = {
 
 function timeAgo(value: string) {
   const minutes = Math.floor((Date.now() - new Date(value).getTime()) / 60_000);
-  if (minutes < 1) return "just now";
-  if (minutes < 60) return `${minutes}m ago`;
+  if (minutes < 1) return t("just now");
+  if (minutes < 60) return t("{minutes}m ago", { minutes });
   const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
+  if (hours < 24) return t("{hours}h ago", { hours });
   const days = Math.floor(hours / 24);
-  if (days < 7) return `${days}d ago`;
+  if (days < 7) return t("{days}d ago", { days });
   return new Date(value).toLocaleDateString("pt-PT", { day: "2-digit", month: "short" });
 }
 
@@ -45,11 +46,17 @@ function describe(notification: AppNotification) {
   const quem = notification.actor.username;
   switch (notification.kind) {
     case "like":
-      return `${quem} liked ${notification.recipe?.title ?? "one of your recipes"}`;
+      return t("{name} liked {recipe}", {
+        name: quem,
+        recipe: notification.recipe?.title ?? t("one of your recipes"),
+      });
     case "comment":
-      return `${quem} commented on ${notification.recipe?.title ?? "one of your recipes"}`;
+      return t("{name} commented on {recipe}", {
+        name: quem,
+        recipe: notification.recipe?.title ?? t("one of your recipes"),
+      });
     case "follow":
-      return `${quem} started following you`;
+      return t("{name} started following you", { name: quem });
   }
 }
 
@@ -77,7 +84,9 @@ export function NotificationBell() {
           variant="ghost"
           size="icon"
           className="relative size-9 rounded-full"
-          aria-label={unread > 0 ? `Notifications (${unread} unread)` : "Notifications"}
+          aria-label={
+            unread > 0 ? t("Notifications ({count} unread)", { count: unread }) : t("Notifications")
+          }
         >
           <Bell className="size-5" />
           {unread > 0 && (
@@ -90,7 +99,7 @@ export function NotificationBell() {
 
       <PopoverContent align="end" className="w-80 p-0">
         <div className="border-b border-border/60 px-3 py-2">
-          <p className="text-sm font-semibold">Notifications</p>
+          <p className="text-sm font-semibold">{t("Notifications")}</p>
         </div>
 
         <div className="max-h-80 overflow-y-auto">
@@ -105,9 +114,9 @@ export function NotificationBell() {
           {!isLoading && data?.notifications.length === 0 && (
             <div className="px-4 py-10 text-center">
               <Bell className="mx-auto size-5 text-muted-foreground/50" />
-              <p className="mt-2 text-sm text-muted-foreground">Nothing here yet.</p>
+              <p className="mt-2 text-sm text-muted-foreground">{t("Nothing here yet.")}</p>
               <p className="mt-1 text-xs text-muted-foreground/80">
-                Likes, comments and new followers show up here.
+                {t("Likes, comments and new followers show up here.")}
               </p>
             </div>
           )}

@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import { act, screen } from "@testing-library/react";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
-import { OFFLINE_MESSAGE, SERVER_MESSAGE, apiFetch } from "@/services/api";
+import { offlineMessage, serverMessage, apiFetch } from "@/services/api";
 import { renderWithProviders } from "@/test/utils";
 
 /** Finge o que o browser diz sobre a ligação, e avisa quem estiver a ouvir. */
@@ -47,7 +47,7 @@ describe("servidor em baixo, com rede a funcionar", () => {
     vi.spyOn(globalThis, "fetch").mockRejectedValue(new TypeError("Failed to fetch"));
 
     await expect(apiFetch("/learning/lessons/1/answer", { method: "POST" })).rejects.toThrow(
-      SERVER_MESSAGE,
+      serverMessage(),
     );
   });
 
@@ -91,7 +91,7 @@ describe("servidor em baixo, com rede a funcionar", () => {
       }),
     );
 
-    await expect(apiFetch("/recipes")).rejects.toThrow(SERVER_MESSAGE);
+    await expect(apiFetch("/recipes")).rejects.toThrow(serverMessage());
   });
 });
 
@@ -101,7 +101,7 @@ describe("gravar sem rede", () => {
     const rede = vi.spyOn(globalThis, "fetch");
 
     await expect(apiFetch("/recipes", { method: "POST", body: "{}" })).rejects.toThrow(
-      OFFLINE_MESSAGE,
+      offlineMessage(),
     );
     expect(rede).not.toHaveBeenCalled();
   });

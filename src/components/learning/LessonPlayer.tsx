@@ -25,12 +25,10 @@ import {
   chefQuizLine,
 } from "@/lib/chefLines";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
-const DIFFICULTY: Record<string, string> = {
-  facil: "Easy",
-  medio: "Medium",
-  dificil: "Hard",
-};
+const difficultyLabel = (nivel: string) =>
+  ({ facil: t("Easy"), medio: t("Medium"), dificil: t("Hard") })[nivel] ?? nivel;
 
 export function LessonPlayer({
   lesson,
@@ -117,7 +115,7 @@ export function LessonPlayer({
     return (
       <div className="flex flex-1 flex-col items-center justify-center px-6 text-center">
         <ChefMascot size="xl" mood="triste" className="ring-4 ring-rose-100" />
-        <h2 className="mt-4 text-xl font-bold">Out of lives!</h2>
+        <h2 className="mt-4 text-xl font-bold">{t("Out of lives!")}</h2>
         <ChefSpeech
           tone="errado"
           size="xs"
@@ -129,10 +127,10 @@ export function LessonPlayer({
         <div className="mt-8 flex w-full max-w-xs flex-col gap-2">
           <Button className="rounded-full bg-emerald-500 hover:bg-emerald-600" onClick={onRetry}>
             <RotateCcw className="mr-2 size-4" />
-            Try again
+            {t("Try again")}
           </Button>
           <Button variant="ghost" className="rounded-full" onClick={onClose}>
-            Back to the path
+            {t("Back to the path")}
           </Button>
         </div>
       </div>
@@ -231,10 +229,10 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
     <div className="flex flex-1 flex-col overflow-y-auto px-4 pb-6 pt-4">
       <Badge className="mb-2 w-fit rounded-full border-0 bg-emerald-100 text-emerald-800">
         {lesson.type === "chest"
-          ? "Bonus"
+          ? t("Bonus")
           : lesson.type === "boss"
-            ? "Review"
-            : `Day ${lesson.dayNumber}`}
+            ? t("Review")
+            : t("Day {day}", { day: lesson.dayNumber })}
       </Badge>
       <h2 className="text-2xl font-bold leading-tight">{lesson.dishName}</h2>
       <p className="mt-1 text-sm text-muted-foreground">{lesson.description}</p>
@@ -243,7 +241,9 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
         <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2.5 py-1">
           <Clock className="size-3" /> {lesson.cookTimeMin} min
         </span>
-        <span className="rounded-full bg-muted px-2.5 py-1">{DIFFICULTY[lesson.difficulty]}</span>
+        <span className="rounded-full bg-muted px-2.5 py-1">
+          {difficultyLabel(lesson.difficulty)}
+        </span>
         <span className="rounded-full bg-amber-100 px-2.5 py-1 text-amber-800">
           +{lesson.xpReward} XP
         </span>
@@ -264,7 +264,7 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
       <div className="mt-5">
         <h3 className="flex items-center gap-2 text-sm font-semibold">
           <ListChecks className="size-4 text-emerald-600" />
-          Ingredients
+          {t("Ingredients")}
         </h3>
         <ul className="mt-2 space-y-1.5">
           {lesson.ingredients.map((item) => (
@@ -278,9 +278,10 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
 
       <p className="mt-4 text-xs text-muted-foreground">
         {[
-          `${lesson.preparationSteps.length} prep steps`,
-          tipCount > 0 && `${tipCount} Chef ${tipCount === 1 ? "tip" : "tips"}`,
-          `${lesson.questions.length} questions`,
+          t("{count} prep steps", { count: lesson.preparationSteps.length }),
+          tipCount > 0 &&
+            t(tipCount === 1 ? "{count} Chef tip" : "{count} Chef tips", { count: tipCount }),
+          t("{count} questions", { count: lesson.questions.length }),
         ]
           .filter(Boolean)
           .join(" + ")}
@@ -290,7 +291,7 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
         className="mt-6 w-full rounded-full bg-emerald-500 py-6 text-base font-semibold hover:bg-emerald-600"
         onClick={onStart}
       >
-        Start prep
+        {t("Start prep")}
         <ArrowRight className="ml-2 size-5" />
       </Button>
     </div>
@@ -324,7 +325,7 @@ function LessonPrep({
         </p>
       ) : (
         <p className="text-xs font-medium uppercase tracking-wider text-emerald-600">
-          Prep · Step {stepIndex + 1} of {stepCount}
+          {t("Prep · Step {step} of {total}", { step: stepIndex + 1, total: stepCount })}
         </p>
       )}
       <p className="mt-1 text-sm text-muted-foreground">{lesson.dishName}</p>
@@ -365,7 +366,7 @@ function LessonPrep({
       <div className="mt-auto flex gap-2">
         <Button variant="outline" className="rounded-full" onClick={onPrev}>
           <ArrowLeft className="mr-1 size-4" />
-          {stepIndex === 0 ? "Back" : "Previous"}
+          {stepIndex === 0 ? t("Back") : t("Previous")}
         </Button>
         <Button
           className="flex-1 rounded-full bg-emerald-500 hover:bg-emerald-600"
@@ -373,12 +374,12 @@ function LessonPrep({
         >
           {isLast ? (
             <>
-              Test what you know
+              {t("Test what you know")}
               <Check className="ml-2 size-4" />
             </>
           ) : (
             <>
-              Next
+              {t("Next")}
               <ArrowRight className="ml-2 size-4" />
             </>
           )}
@@ -477,7 +478,7 @@ function OrderExercise({
       <div className="rounded-2xl border-2 border-dashed border-border p-3">
         {picked.length === 0 ? (
           <p className="py-3 text-center text-xs text-muted-foreground">
-            Tap the steps in the right order
+            {t("Tap the steps in the right order")}
           </p>
         ) : (
           <ol className="flex flex-col gap-2">
@@ -519,14 +520,14 @@ function OrderExercise({
             disabled={isChecking}
           >
             <Undo2 className="size-4" />
-            Start over
+            {t("Start over")}
           </Button>
           <Button
             className="flex-1 rounded-full bg-emerald-500 hover:bg-emerald-600"
             disabled={!complete || isChecking}
             onClick={() => onSubmit(picked)}
           >
-            Confirm order
+            {t("Confirm order")}
           </Button>
         </div>
       )}
@@ -570,7 +571,10 @@ function EstimateExercise({
 
       {question.tolerance !== undefined && (
         <p className="text-xs text-muted-foreground">
-          Anything within ±{question.tolerance} {question.unit} counts. Estimate, don't memorise.
+          {t("Anything within ±{tolerance} {unit} counts. Estimate, don't memorise.", {
+            tolerance: question.tolerance ?? 0,
+            unit: question.unit ?? "",
+          })}
         </p>
       )}
 
@@ -580,7 +584,7 @@ function EstimateExercise({
           disabled={!valid || isChecking}
           onClick={() => onSubmit(parsed)}
         >
-          Confirm
+          {t("Confirm")}
         </Button>
       )}
     </>
@@ -635,10 +639,10 @@ function LessonQuiz({
   return (
     <div className="flex flex-1 flex-col px-4 pb-6 pt-4">
       <p className="text-xs font-medium uppercase tracking-wider text-emerald-600">
-        Quiz · {dishName}
+        {t("Quiz · {dish}", { dish: dishName })}
       </p>
       <p className="mt-0.5 text-xs text-muted-foreground">
-        Question {questionIndex + 1} of {totalQuestions}
+        {t("Question {number} of {total}", { number: questionIndex + 1, total: totalQuestions })}
       </p>
 
       {/* Quem pergunta é o chef. O enunciado continua a ser o cabeçalho da
@@ -689,18 +693,19 @@ function LessonQuiz({
             title={
               <span className="flex items-center gap-2">
                 <CloudUpload className="size-4" />
-                Answer saved
+                {t("Answer saved")}
               </span>
             }
           >
-            With no connection, marking waits until you're back online. Carry on with the lesson —
-            this costs you no lives.
+            {t(
+              "With no connection, marking waits until you're back online. Carry on with the lesson — this costs you no lives.",
+            )}
           </ChefSpeech>
           <Button
             className="mt-3 w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
             onClick={onNext}
           >
-            Continue
+            {t("Continue")}
           </Button>
         </div>
       )}
@@ -719,7 +724,7 @@ function LessonQuiz({
 
             {showCorrectInFeedback && (
               <p className="mt-2 rounded-xl bg-white/60 px-3 py-2">
-                <span className="font-semibold">Correct answer: </span>
+                <span className="font-semibold">{t("Correct answer:")}</span>
                 {formatAnswer(correctAnswer, question.unit)}
               </p>
             )}
@@ -732,7 +737,7 @@ function LessonQuiz({
             onClick={onNext}
             disabled={!isCorrect && hearts <= 0}
           >
-            Continue
+            {t("Continue")}
           </Button>
         </div>
       )}

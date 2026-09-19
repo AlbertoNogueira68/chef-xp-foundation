@@ -193,7 +193,6 @@ router.get(
   }),
 );
 
-
 /* ---------------------------------------------------------------- *
  * A minha conta: levar os dados e ir embora
  * ---------------------------------------------------------------- */
@@ -212,42 +211,64 @@ router.get(
 
     const um = async (text) => (await query(text, [id])).rows;
 
-    const [perfil, receitas, comentarios, gostos, seguidores, seguindo, licoes, missoes, xp, desafios, notificacoes, identidades, atividade, bloqueados, denuncias] =
-      await Promise.all([
-        um(`SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, role, created_at
+    const [
+      perfil,
+      receitas,
+      comentarios,
+      gostos,
+      seguidores,
+      seguindo,
+      licoes,
+      missoes,
+      xp,
+      desafios,
+      notificacoes,
+      identidades,
+      atividade,
+      bloqueados,
+      denuncias,
+    ] = await Promise.all([
+      um(`SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, role, created_at
               FROM users WHERE id = $1`),
-        um(`SELECT id, title, description, ingredients, cook_time_min, difficulty, image_url, created_at
+      um(`SELECT id, title, description, ingredients, cook_time_min, difficulty, image_url, created_at
               FROM recipes WHERE author_id = $1 ORDER BY created_at`),
-        um(`SELECT id, recipe_id, body, created_at FROM comments WHERE author_id = $1 ORDER BY created_at`),
-        um(`SELECT recipe_id FROM recipe_likes WHERE user_id = $1`),
-        um(`SELECT u.username, f.created_at FROM follows f JOIN users u ON u.id = f.follower_id
+      um(
+        `SELECT id, recipe_id, body, created_at FROM comments WHERE author_id = $1 ORDER BY created_at`,
+      ),
+      um(`SELECT recipe_id FROM recipe_likes WHERE user_id = $1`),
+      um(`SELECT u.username, f.created_at FROM follows f JOIN users u ON u.id = f.follower_id
              WHERE f.followee_id = $1`),
-        um(`SELECT u.username, f.created_at FROM follows f JOIN users u ON u.id = f.followee_id
+      um(`SELECT u.username, f.created_at FROM follows f JOIN users u ON u.id = f.followee_id
              WHERE f.follower_id = $1`),
-        um(`SELECT lesson_id, xp_earned, hearts_left, completed_at FROM lesson_progress
+      um(`SELECT lesson_id, xp_earned, hearts_left, completed_at FROM lesson_progress
              WHERE user_id = $1 ORDER BY completed_at`),
-        um(`SELECT id, mission_id, status, current_step, started_at, completed_at, shared
+      um(`SELECT id, mission_id, status, current_step, started_at, completed_at, shared
               FROM mission_runs WHERE user_id = $1 ORDER BY started_at`),
-        um(`SELECT source, source_ref, amount, created_at FROM xp_events WHERE user_id = $1
+      um(`SELECT source, source_ref, amount, created_at FROM xp_events WHERE user_id = $1
              ORDER BY created_at`),
-        um(`SELECT challenge_id, recipe_id, created_at FROM challenge_entries WHERE user_id = $1`),
-        um(`SELECT kind, recipe_id, read_at, created_at FROM notifications WHERE user_id = $1
+      um(`SELECT challenge_id, recipe_id, created_at FROM challenge_entries WHERE user_id = $1`),
+      um(`SELECT kind, recipe_id, read_at, created_at FROM notifications WHERE user_id = $1
              ORDER BY created_at`),
-        um(`SELECT provider, email, created_at, last_login_at FROM auth_identities WHERE user_id = $1`),
-        um(`SELECT to_char(day, 'YYYY-MM-DD') AS day, xp, goal_met FROM daily_activity
+      um(
+        `SELECT provider, email, created_at, last_login_at FROM auth_identities WHERE user_id = $1`,
+      ),
+      um(`SELECT to_char(day, 'YYYY-MM-DD') AS day, xp, goal_met FROM daily_activity
              WHERE user_id = $1 ORDER BY day`),
-        um(`SELECT u.username, b.created_at FROM user_blocks b JOIN users u ON u.id = b.blocked_id
+      um(`SELECT u.username, b.created_at FROM user_blocks b JOIN users u ON u.id = b.blocked_id
              WHERE b.blocker_id = $1 ORDER BY b.created_at`),
-        // As denúncias que eu fiz. As que outros fizeram sobre mim não saem
-        // aqui: dá-las era entregar-me quem me denunciou.
-        um(`SELECT subject_type, reason, details, status, created_at FROM reports
+      // As denúncias que eu fiz. As que outros fizeram sobre mim não saem
+      // aqui: dá-las era entregar-me quem me denunciou.
+      um(`SELECT subject_type, reason, details, status, created_at FROM reports
              WHERE reporter_id = $1 ORDER BY created_at`),
-      ]);
+    ]);
 
     // Um nome com data, para quem exportar duas vezes não ficar com dois
     // ficheiros iguais na pasta das transferências.
     const dia = new Date().toISOString().slice(0, 10);
-    res.setHeader("Content-Disposition", `attachment; filename="chefxp-${perfil[0]?.username ?? "dados"}-${dia}.json"`);
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="chefxp-${perfil[0]?.username ?? "dados"}-${dia}.json"`,
+    );
 
     res.json({
       exportadoEm: new Date().toISOString(),

@@ -3,6 +3,7 @@ import { AuthError } from "@/data/contracts/errors";
 import { apiFetch, clearProfile, saveProfile } from "@/services/api";
 import { clearOutbox } from "@/lib/offline/outbox";
 import type { User } from "@/types/user";
+import { t } from "@/i18n";
 
 /** As respostas da API que o service worker guardou para usar sem rede. */
 async function clearApiCaches() {
@@ -95,7 +96,7 @@ export class ApiAuthRepository implements AuthRepository {
       return { userId: data.user.id };
     } catch (error) {
       throw new AuthError(
-        error instanceof Error ? error.message : "Couldn't create the account",
+        error instanceof Error ? error.message : t("Couldn't create the account"),
         error,
       );
     }
@@ -103,7 +104,7 @@ export class ApiAuthRepository implements AuthRepository {
 
   async signInWithGoogle(_redirectUri: string): Promise<void> {
     void _redirectUri;
-    throw new AuthError("Google sign-in isn't available in this version");
+    throw new AuthError(t("Google sign-in isn't available in this version"));
   }
 
   async requestPasswordReset(email: string): Promise<void> {

@@ -66,7 +66,9 @@ describe("moderação", skipWithoutDatabase, () => {
 
   test("o autor continua a poder apagar o que escreveu", async () => {
     const { recipe } = await publishRecipe(ana);
-    const comentario = await bruno.post(`/api/recipes/${recipe.id}/comments`, { body: "enganei-me" });
+    const comentario = await bruno.post(`/api/recipes/${recipe.id}/comments`, {
+      body: "enganei-me",
+    });
 
     const apagar = await bruno.delete(
       `/api/recipes/${recipe.id}/comments/${comentario.body.comment.id}`,
@@ -176,7 +178,10 @@ describe("moderação", skipWithoutDatabase, () => {
 
     // O gosto do Bruno nem chega a acontecer: a receita não existe para ele.
     assert.equal((await bruno.post(`/api/recipes/${recipe.id}/like`)).status, 404);
-    assert.equal((await bruno.post(`/api/recipes/${recipe.id}/comments`, { body: "oi" })).status, 404);
+    assert.equal(
+      (await bruno.post(`/api/recipes/${recipe.id}/comments`, { body: "oi" })).status,
+      404,
+    );
 
     const { rows } = await query(`SELECT count(*)::int AS n FROM notifications`);
     assert.equal(rows[0].n, 0);
@@ -309,7 +314,10 @@ describe("moderação", skipWithoutDatabase, () => {
 
   test("a fila é fechada a quem não é moderador", async () => {
     assert.equal((await ana.get("/api/moderation/reports")).status, 403);
-    assert.equal((await ana.post("/api/moderation/reports/1/resolve", { action: "arquivar" })).status, 403);
+    assert.equal(
+      (await ana.post("/api/moderation/reports/1/resolve", { action: "arquivar" })).status,
+      403,
+    );
   });
 
   test("o moderador vê a denúncia com o conteúdo ao lado", async () => {
@@ -416,7 +424,10 @@ describe("moderação", skipWithoutDatabase, () => {
     const resposta = await ana.post(`/api/moderation/reports/${id}/resolve`, { action: "remover" });
 
     assert.equal(resposta.status, 400);
-    assert.equal((await query(`SELECT count(*)::int AS n FROM users WHERE id = $1`, [brunoId])).rows[0].n, 1);
+    assert.equal(
+      (await query(`SELECT count(*)::int AS n FROM users WHERE id = $1`, [brunoId])).rows[0].n,
+      1,
+    );
   });
 
   test("os bloqueios e as denúncias que fiz saem na exportação dos meus dados", async () => {

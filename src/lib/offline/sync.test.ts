@@ -37,9 +37,14 @@ function redeQueResponde(corpo?: unknown) {
 
 /** O caminho que o `apiFetch` percorre inclui um pedido de CSRF. */
 function caminhos(rede: { mock: { calls: unknown[][] } }) {
-  return rede.mock.calls
-    .map((chamada) => String(chamada[0]))
-    .filter((url) => !url.includes("/auth/csrf"));
+  return (
+    rede.mock.calls
+      .map((chamada) => String(chamada[0]))
+      .filter((url) => !url.includes("/auth/csrf"))
+      // A língua vai no endereço de cada pedido; o que aqui se verifica é a
+      // ordem por que as coisas saíram, não em que língua saíram.
+      .map((url) => url.replace(/[?&]lang=[a-z]{2}/, ""))
+  );
 }
 
 beforeEach(async () => {

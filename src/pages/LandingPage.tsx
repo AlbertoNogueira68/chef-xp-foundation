@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import { ChefHat, Flame, Sparkles, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ChefXPLogo } from "@/components/ChefXPLogo";
+import { t } from "@/i18n";
+import { LanguageToggle } from "@/i18n/LanguageToggle";
 
 const PREVIEW_IMAGES = [
   "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=400&fit=crop",
@@ -10,11 +12,11 @@ const PREVIEW_IMAGES = [
   "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=300&h=400&fit=crop",
 ];
 
-const features = [
-  { icon: Flame, label: "Earn XP by cooking" },
-  { icon: Users, label: "Active community" },
-  { icon: ChefHat, label: "Recipes from chefs" },
-  { icon: Sparkles, label: "Weekly challenges" },
+const features = () => [
+  { icon: Flame, label: t("Earn XP by cooking") },
+  { icon: Users, label: t("Active community") },
+  { icon: ChefHat, label: t("Recipes from chefs") },
+  { icon: Sparkles, label: t("Weekly challenges") },
 ];
 
 export function LandingPage() {
@@ -25,26 +27,28 @@ export function LandingPage() {
       <div className="pointer-events-none absolute -left-16 bottom-32 size-64 rounded-full bg-rose-200/30 blur-3xl" />
 
       <div className="relative mx-auto flex min-h-screen max-w-lg flex-col px-5 py-10">
+        <LanguageToggle flutuante />
         <ChefXPLogo className="text-2xl" />
 
         <div className="mt-10 flex-1">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-600">
-            Final Degree Project
+            {t("Final Degree Project")}
           </p>
           <h1 className="mt-3 text-4xl font-bold leading-[1.1] tracking-tight">
-            Cook.
+            {t("Cook.")}
             <br />
             <span className="bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 bg-clip-text text-transparent">
-              Share. Level up.
+              {t("Share. Level up.")}
             </span>
           </h1>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-            The gamified social network for people who love to cook — inspired by the best of
-            Instagram, TikTok and Pinterest.
+            {t(
+              "The gamified social network for people who love to cook — inspired by the best of Instagram, TikTok and Pinterest.",
+            )}
           </p>
 
           <div className="mt-6 grid grid-cols-2 gap-2">
-            {features.map(({ icon: Icon, label }) => (
+            {features().map(({ icon: Icon, label }) => (
               <div
                 key={label}
                 className="flex items-center gap-2 rounded-xl border border-border/60 bg-card/60 px-3 py-2.5 text-xs font-medium backdrop-blur-sm"
@@ -74,10 +78,10 @@ export function LandingPage() {
             size="lg"
             className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 text-base font-semibold shadow-lg shadow-orange-500/25"
           >
-            <Link to="/auth">Start now</Link>
+            <Link to="/auth">{t("Start now")}</Link>
           </Button>
           <p className="mt-2 text-center text-xs text-muted-foreground">
-            Free · No card · Demo with mock data
+            {t("Free · No card · Demo with mock data")}
           </p>
         </div>
       </div>

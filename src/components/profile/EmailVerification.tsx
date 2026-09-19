@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useAuthProviders } from "@/features/auth/hooks/useAuthProviders";
 import { useSendEmailVerification } from "@/features/auth/hooks/usePasswordRecovery";
 import type { User } from "@/types/user";
+import { t } from "@/i18n";
 
 /**
  * O estado do email da própria conta, nas definições.
@@ -37,11 +38,11 @@ export function EmailVerification({ user }: { user: User }) {
     <div className="rounded-xl border border-amber-500/40 bg-amber-500/5 p-4">
       <p className="flex items-center gap-2 text-sm font-medium">
         <MailWarning className="size-4 shrink-0 text-amber-600" />
-        Email unconfirmed
+        {t("Email unconfirmed")}
       </p>
       <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-        Confirma <span className="font-medium text-foreground">{user.email}</span> so you can
-        recover the account if you lose your password.
+        Confirma <span className="font-medium text-foreground">{user.email}</span>
+        {t("so you can recover the account if you lose your password.")}
       </p>
       <Button
         variant="outline"
@@ -50,12 +51,12 @@ export function EmailVerification({ user }: { user: User }) {
         disabled={enviar.isPending || enviar.isSuccess}
         onClick={() =>
           enviar.mutate(undefined, {
-            onSuccess: () => toast.success("Email sent. Check your inbox."),
+            onSuccess: () => toast.success(t("Email sent. Check your inbox.")),
             onError: (error) => toast.error(error.message),
           })
         }
       >
-        {enviar.isPending ? "A enviar…" : enviar.isSuccess ? "Enviado" : "Send confirmation"}
+        {enviar.isPending ? "A enviar…" : enviar.isSuccess ? "Enviado" : t("Send confirmation")}
       </Button>
     </div>
   );

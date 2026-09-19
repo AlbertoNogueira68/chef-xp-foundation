@@ -25,6 +25,7 @@ import { EmailVerification } from "@/components/profile/EmailVerification";
 import { useUpdateProfile } from "@/features/profile/hooks/useUpdateProfile";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { User, UserUpdate } from "@/types/user";
+import { t } from "@/i18n";
 
 /**
  * Os fusos que fazem sentido para quem usa a app. O streak é calculado neste
@@ -42,11 +43,11 @@ const TIME_ZONES = [
   "UTC",
 ];
 
-const GOALS = [
-  { value: 20, label: "Easy · 20 XP a day" },
-  { value: 50, label: "Steady · 50 XP a day" },
-  { value: 100, label: "Serious · 100 XP a day" },
-  { value: 200, label: "Intense · 200 XP a day" },
+const goals = () => [
+  { value: 20, label: t("Easy · 20 XP a day") },
+  { value: 50, label: t("Steady · 50 XP a day") },
+  { value: 100, label: t("Serious · 100 XP a day") },
+  { value: 200, label: t("Intense · 200 XP a day") },
 ];
 
 export function SettingsDialog({
@@ -86,7 +87,7 @@ export function SettingsDialog({
     try {
       setPhoto(await fileToResizedDataUrl(file));
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Couldn't use that image");
+      toast.error(error instanceof Error ? error.message : t("Couldn't use that image"));
     } finally {
       setProcessing(false);
     }
@@ -115,8 +116,10 @@ export function SettingsDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-md">
         <DialogHeader className="text-left">
-          <DialogTitle>Settings</DialogTitle>
-          <DialogDescription>Your profile, and the pace you want to learn at.</DialogDescription>
+          <DialogTitle>{t("Settings")}</DialogTitle>
+          <DialogDescription>
+            {t("Your profile, and the pace you want to learn at.")}
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={submit} className="space-y-4">
@@ -149,13 +152,13 @@ export function SettingsDialog({
                 Mudar fotografia
               </Button>
               <p className="mt-1 text-[11px] text-muted-foreground">
-                Resized in the browser before it leaves your phone.
+                {t("Resized in the browser before it leaves your phone.")}
               </p>
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="username">Username</Label>
+            <Label htmlFor="username">{t("Username")}</Label>
             <Input
               id="username"
               value={username}
@@ -166,12 +169,12 @@ export function SettingsDialog({
               required
             />
             <p className="text-[11px] text-muted-foreground">
-              Lowercase letters, numbers, dot and underscore only.
+              {t("Lowercase letters, numbers, dot and underscore only.")}
             </p>
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="timezone">Time zone</Label>
+            <Label htmlFor="timezone">{t("Time zone")}</Label>
             <Select value={timeZone} onValueChange={setTimeZone}>
               <SelectTrigger id="timezone">
                 <SelectValue />
@@ -185,18 +188,18 @@ export function SettingsDialog({
               </SelectContent>
             </Select>
             <p className="text-[11px] text-muted-foreground">
-              This is where the day rolls over, and the day is what decides your streak.
+              {t("This is where the day rolls over, and the day is what decides your streak.")}
             </p>
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="goal">Daily goal</Label>
+            <Label htmlFor="goal">{t("Daily goal")}</Label>
             <Select value={String(goal)} onValueChange={(value) => setGoal(Number(value))}>
               <SelectTrigger id="goal">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {GOALS.map((option) => (
+                {goals().map((option) => (
                   <SelectItem key={option.value} value={String(option.value)}>
                     {option.label}
                   </SelectItem>
@@ -206,7 +209,7 @@ export function SettingsDialog({
           </div>
 
           <Button type="submit" className="w-full rounded-full" disabled={update.isPending}>
-            {update.isPending ? "A guardar…" : "Save"}
+            {update.isPending ? "A guardar…" : t("Save")}
           </Button>
         </form>
 

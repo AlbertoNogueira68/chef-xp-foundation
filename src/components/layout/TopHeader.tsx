@@ -1,5 +1,6 @@
 import { ChefXPLogo } from "@/components/ChefXPLogo";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
+import { LanguageToggle } from "@/i18n/LanguageToggle";
 
 export function TopHeader() {
   return (
@@ -9,7 +10,10 @@ export function TopHeader() {
         {/* Havia aqui um botão de mensagens que nunca teve mensagens por
             baixo. Um botão que não faz nada é pior do que botão nenhum: ensina
             quem usa a app que carregar nas coisas não vale a pena. */}
-        <NotificationBell />
+        <div className="flex items-center gap-2">
+          <LanguageToggle />
+          <NotificationBell />
+        </div>
       </div>
     </header>
   );

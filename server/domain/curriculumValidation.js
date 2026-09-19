@@ -11,14 +11,7 @@
 // `organizacao` não estava no plano, mas mise en place, sequenciar e empratar
 // não são faca nem calor nem tempero nem ponto — e enfiá-las em "seguranca"
 // tornava a categoria uma gaveta de tudo.
-export const SKILL_CATEGORIES = [
-  "faca",
-  "calor",
-  "tempero",
-  "ponto",
-  "seguranca",
-  "organizacao",
-];
+export const SKILL_CATEGORIES = ["faca", "calor", "tempero", "ponto", "seguranca", "organizacao"];
 export const QUESTION_TYPES = ["choice", "order", "judge", "estimate"];
 
 /** Os quatro botões do painel de socorro, na ordem em que aparecem. */

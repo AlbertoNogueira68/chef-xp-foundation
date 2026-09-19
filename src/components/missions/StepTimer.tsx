@@ -1,6 +1,7 @@
 import { Pause, Play, RotateCcw, Timer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 function format(ms: number) {
   const total = Math.ceil(ms / 1000);
@@ -53,7 +54,7 @@ export function StepTimer({
         {format(remainingMs)}
       </span>
       <span className="text-xs text-muted-foreground">
-        {done ? "Time's up" : paused ? "paused" : "a contar"}
+        {done ? t("Time's up") : paused ? "paused" : "a contar"}
       </span>
 
       <div className="ml-auto flex gap-1">

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { adminService } from "../services/adminService";
 import type { UserRole } from "@/types/user";
+import { t } from "@/i18n";
 
 export const metricsQueryKey = ["admin", "metrics"] as const;
 export const adminUsersQueryKey = (q: string, role: string) => ["admin", "users", q, role] as const;
@@ -26,11 +27,15 @@ export function useSetRole() {
     onSuccess: (user) => {
       // Os papéis chamam-se `moderator` e `admin` na base de dados, que é onde
       // devem ter nome inglês. No ecrã falam português.
-      const nome = { admin: "administrador", moderator: "moderador", user: "" }[user.role];
-      toast.success(user.role === "user" ? "Papel retirado" : `${user.username} passou a ${nome}`);
+      const nome = { admin: t("administrator"), moderator: t("moderator"), user: "" }[user.role];
+      toast.success(
+        user.role === "user"
+          ? t("Role removed")
+          : t("{name} is now {role}", { name: user.username, role: nome }),
+      );
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Couldn't change the role");
+      toast.error(error instanceof Error ? error.message : t("Couldn't change the role"));
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["admin"] });
@@ -44,10 +49,10 @@ export function useDeleteUser() {
     mutationFn: ({ id, confirmUsername }: { id: string; confirmUsername: string }) =>
       adminService.deleteUser(id, confirmUsername),
     onSuccess: (user) => {
-      toast.success(`@${user.username}'s account was deleted`);
+      toast.success(t("@{username}'s account was deleted", { username: user.username }));
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Couldn't delete the account");
+      toast.error(error instanceof Error ? error.message : t("Couldn't delete the account"));
     },
     onSettled: () => {
       // As métricas e a fila também mudam: a conta levou receitas, comentários
@@ -77,14 +82,16 @@ export function useResolveReport() {
     mutationFn: ({ id, action }: { id: string; action: "remover" | "arquivar" }) =>
       adminService.resolve(id, action),
     onSuccess: ({ resolved }, { action }) => {
-      const verbo = action === "remover" ? "Content removed" : "Report archived";
+      const verbo = action === "remover" ? t("Content removed") : t("Report archived");
       toast.success(verbo, {
         description:
-          resolved > 1 ? `${resolved} reports about the same target were closed.` : undefined,
+          resolved > 1
+            ? t("{count} reports about the same target were closed.", { count: resolved })
+            : undefined,
       });
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Couldn't close the report");
+      toast.error(error instanceof Error ? error.message : t("Couldn't close the report"));
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["moderation"] });

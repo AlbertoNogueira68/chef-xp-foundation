@@ -11,6 +11,7 @@ import { PasswordChecklist } from "@/features/auth/components/PasswordChecklist"
 import { PasswordInput } from "@/features/auth/components/PasswordInput";
 import { useCompleteSignup, useSignupToken } from "@/features/auth/hooks/useSignUp";
 import { signupCompleteSchema, type SignupCompleteInput } from "@/features/auth/schemas";
+import { t } from "@/i18n";
 
 /**
  * O segundo passo de criar conta, aberto a partir do link do email.
@@ -43,18 +44,20 @@ export function CreateAccountPage() {
 
   useEffect(() => {
     if (!criar.isSuccess) return;
-    toast.success("Account created. Welcome to ChefXP!");
+    toast.success(t("Account created. Welcome to ChefXP!"));
     navigate("/feed", { replace: true });
   }, [criar.isSuccess, navigate]);
 
   if (!token || link.isError) {
     return (
       <AuthCard
-        titulo="Invalid or expired link"
-        descricao="This link no longer works — it was used already, or it expired. Asking for another takes ten seconds."
+        titulo={t("Invalid or expired link")}
+        descricao={t(
+          "This link no longer works — it was used already, or it expired. Asking for another takes ten seconds.",
+        )}
       >
         <Button asChild className="w-full rounded-full">
-          <Link to="/auth">Ask for another link</Link>
+          <Link to="/auth">{t("Ask for another link")}</Link>
         </Button>
       </AuthCard>
     );
@@ -77,8 +80,9 @@ export function CreateAccountPage() {
       titulo="Escolhe o nome e a password"
       descricao={
         <>
-          The address <strong className="text-foreground">{link.data?.email}</strong> is confirmed.
-          Now the rest.
+          {t("The address")}
+          <strong className="text-foreground">{link.data?.email}</strong>
+          {t("is confirmed. Now the rest.")}
         </>
       }
     >
@@ -86,7 +90,7 @@ export function CreateAccountPage() {
         <input type="hidden" {...register("token")} />
 
         <div className="space-y-2">
-          <Label htmlFor="signup-username">Username</Label>
+          <Label htmlFor="signup-username">{t("Username")}</Label>
           <Input
             id="signup-username"
             autoComplete="username"
@@ -98,7 +102,7 @@ export function CreateAccountPage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="signup-password">Password</Label>
+          <Label htmlFor="signup-password">{t("Password")}</Label>
           <PasswordInput
             id="signup-password"
             autoComplete="new-password"
@@ -111,7 +115,7 @@ export function CreateAccountPage() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="signup-confirm">Repeat the password</Label>
+          <Label htmlFor="signup-confirm">{t("Repeat the password")}</Label>
           <PasswordInput id="signup-confirm" autoComplete="new-password" {...register("confirm")} />
           {errors.confirm && <p className="text-xs text-destructive">{errors.confirm.message}</p>}
         </div>
@@ -121,7 +125,7 @@ export function CreateAccountPage() {
           className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
           disabled={criar.isPending}
         >
-          {criar.isPending ? "A criar a conta…" : "Create account"}
+          {criar.isPending ? "A criar a conta…" : t("Create account")}
         </Button>
       </form>
     </AuthCard>

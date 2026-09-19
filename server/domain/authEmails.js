@@ -1,4 +1,5 @@
 import { TTL_MINUTES, PASSWORD_RESET, EMAIL_VERIFICATION, SIGNUP } from "./authTokens.js";
+import { translate } from "../lib/i18n.js";
 
 /**
  * O texto dos emails.
@@ -12,6 +13,21 @@ import { TTL_MINUTES, PASSWORD_RESET, EMAIL_VERIFICATION, SIGNUP } from "./authT
  * um email de recuperação que chega vazio é um utilizador trancado à porta.
  */
 
+/**
+ * Uma frase do email, na língua de quem o pediu, com os valores substituídos.
+ *
+ * A língua é a do pedido que desencadeou o envio — quem carregou em "recuperar
+ * password" estava a olhar para a app numa língua, e o email que chega a
+ * seguir tem de ser o mesmo idioma dessa app.
+ */
+function frase(chave, lang, valores = {}) {
+  let texto = translate(chave, lang);
+  for (const [nome, valor] of Object.entries(valores)) {
+    texto = texto.replaceAll(`{${nome}}`, String(valor));
+  }
+  return texto;
+}
+
 /** Escapa o que vem da base de dados antes de entrar no HTML do email. */
 function escapeHtml(value) {
   return String(value ?? "")
@@ -21,22 +37,22 @@ function escapeHtml(value) {
     .replace(/"/g, "&quot;");
 }
 
-function horas(minutos) {
+function horas(minutos, lang) {
   if (minutos % (60 * 24) === 0) {
     const dias = minutos / (60 * 24);
-    return dias === 1 ? "24 hours" : `${dias} days`;
+    return dias === 1 ? frase("24 hours", lang) : frase("{days} days", lang, { days: dias });
   }
   if (minutos % 60 === 0) {
     const h = minutos / 60;
-    return h === 1 ? "1 hour" : `${h} hours`;
+    return h === 1 ? frase("1 hour", lang) : frase("{hours} hours", lang, { hours: h });
   }
-  return `${minutos} minutes`;
+  return frase("{minutes} minutes", lang, { minutes: minutos });
 }
 
 /** Moldura comum: o mesmo cabeçalho, botão e rodapé para os dois emails. */
-function layout({ titulo, corpo, link, textoBotao, rodape }) {
+function layout({ titulo, corpo, link, textoBotao, rodape, lang }) {
   return `<!doctype html>
-<html lang="en">
+<html lang="${lang === "pt" ? "pt" : "en"}">
   <body style="margin:0;background:#faf7f2;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#1c1917">
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:32px 16px">
       <tr><td align="center">
@@ -47,7 +63,7 @@ function layout({ titulo, corpo, link, textoBotao, rodape }) {
             <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:#44403c">${corpo}</p>
             <a href="${escapeHtml(link)}" style="display:inline-block;background:#d97706;color:#ffffff;text-decoration:none;font-weight:600;font-size:15px;padding:12px 24px;border-radius:999px">${escapeHtml(textoBotao)}</a>
             <p style="margin:24px 0 0;font-size:13px;line-height:1.6;color:#78716c">${rodape}</p>
-            <p style="margin:16px 0 0;font-size:12px;line-height:1.6;color:#a8a29e;word-break:break-all">If the button doesn't work, copy this address into your browser:<br>${escapeHtml(link)}</p>
+            <p style="margin:16px 0 0;font-size:12px;line-height:1.6;color:#a8a29e;word-break:break-all">${frase("If the button doesn't work, copy this address into your browser:", lang)}<br>${escapeHtml(link)}</p>
           </td></tr>
         </table>
       </td></tr>
@@ -56,52 +72,75 @@ function layout({ titulo, corpo, link, textoBotao, rodape }) {
 </html>`;
 }
 
-export function passwordResetEmail({ username, link }) {
-  const validade = horas(TTL_MINUTES[PASSWORD_RESET]);
+export function passwordResetEmail({ username, link, lang }) {
+  const validade = horas(TTL_MINUTES[PASSWORD_RESET], lang);
 
   return {
-    subject: "Reset your password — ChefXP",
+    subject: frase("Reset your password — ChefXP", lang),
     text: [
-      `Hi ${username},`,
+      frase("Hi {name},", lang, { name: username }),
       "",
-      "You asked to reset the password for your ChefXP account. Open this address:",
+      frase("You asked to reset the password for your ChefXP account. Open this address:", lang),
       link,
       "",
-      `The link lasts ${validade} and works once.`,
+      frase("The link lasts {validity} and works once.", lang, { validity: validade }),
       "",
-      "If this wasn't you, ignore this email — your password stays as it is.",
+      frase("If this wasn't you, ignore this email — your password stays as it is.", lang),
     ].join("\n"),
     html: layout({
-      titulo: "Reset the password",
-      corpo: `Hi <strong>${escapeHtml(username)}</strong>, you asked to reset your account's password.`,
+      lang,
+      titulo: frase("Reset the password", lang),
+      corpo: frase(
+        "Hi <strong>{name}</strong>, you asked to reset your account's password.",
+        lang,
+        {
+          name: escapeHtml(username),
+        },
+      ),
       link,
-      textoBotao: "Choose a new password",
-      rodape: `The link lasts ${validade} and works once. If this wasn't you, ignore this email — your password stays as it is.`,
+      textoBotao: frase("Choose a new password", lang),
+      rodape: frase(
+        "The link lasts {validity} and works once. If this wasn't you, ignore this email — your password stays as it is.",
+        lang,
+        { validity: validade },
+      ),
     }),
   };
 }
 
-export function emailVerificationEmail({ username, link }) {
-  const validade = horas(TTL_MINUTES[EMAIL_VERIFICATION]);
+export function emailVerificationEmail({ username, link, lang }) {
+  const validade = horas(TTL_MINUTES[EMAIL_VERIFICATION], lang);
 
   return {
-    subject: "Confirm your email — ChefXP",
+    subject: frase("Confirm your email — ChefXP", lang),
     text: [
-      `Hi ${username},`,
+      frase("Hi {name},", lang, { name: username }),
       "",
-      "Confirm this address is yours so we can help you recover the account if you lose your password:",
+      frase(
+        "Confirm this address is yours so we can help you recover the account if you lose your password:",
+        lang,
+      ),
       link,
       "",
-      `The link lasts ${validade}.`,
+      frase("The link lasts {validity}.", lang, { validity: validade }),
       "",
-      "If you didn't create a ChefXP account, ignore this email.",
+      frase("If you didn't create a ChefXP account, ignore this email.", lang),
     ].join("\n"),
     html: layout({
-      titulo: "Confirm your email",
-      corpo: `Hi <strong>${escapeHtml(username)}</strong>, confirm this address is yours — it's how you recover the account if you lose your password.`,
+      lang,
+      titulo: frase("Confirm your email", lang),
+      corpo: frase(
+        "Hi <strong>{name}</strong>, confirm this address is yours — it's how you recover the account if you lose your password.",
+        lang,
+        { name: escapeHtml(username) },
+      ),
       link,
-      textoBotao: "Confirm email",
-      rodape: `The link lasts ${validade}. If you didn't create a ChefXP account, ignore this email.`,
+      textoBotao: frase("Confirm email", lang),
+      rodape: frase(
+        "The link lasts {validity}. If you didn't create a ChefXP account, ignore this email.",
+        lang,
+        { validity: validade },
+      ),
     }),
   };
 }
@@ -113,28 +152,35 @@ export function emailVerificationEmail({ username, link }) {
  * o nome de utilizador é escolhido do outro lado do link, já com o email
  * confirmado.
  */
-export function signupEmail({ link }) {
-  const validade = horas(TTL_MINUTES[SIGNUP]);
+export function signupEmail({ link, lang }) {
+  const validade = horas(TTL_MINUTES[SIGNUP], lang);
 
   return {
-    subject: "Create your account — ChefXP",
+    subject: frase("Create your account — ChefXP", lang),
     text: [
-      "Welcome to ChefXP!",
+      frase("Welcome to ChefXP!", lang),
       "",
-      "Open this address to choose your username and password:",
+      frase("Open this address to choose your username and password:", lang),
       link,
       "",
-      `The link lasts ${validade} and works once.`,
+      frase("The link lasts {validity} and works once.", lang, { validity: validade }),
       "",
-      "If you didn't ask for this, ignore this email — no account is created.",
+      frase("If you didn't ask for this, ignore this email — no account is created.", lang),
     ].join("\n"),
     html: layout({
-      titulo: "Create your account",
-      corpo:
+      lang,
+      titulo: frase("Create your account", lang),
+      corpo: frase(
         "We've confirmed this address is yours. Now choose your username and password.",
+        lang,
+      ),
       link,
-      textoBotao: "Choose username and password",
-      rodape: `The link lasts ${validade} and works once. If you didn't ask for this, ignore this email — no account is created.`,
+      textoBotao: frase("Choose username and password", lang),
+      rodape: frase(
+        "The link lasts {validity} and works once. If you didn't ask for this, ignore this email — no account is created.",
+        lang,
+        { validity: validade },
+      ),
     }),
   };
 }
@@ -147,25 +193,33 @@ export function signupEmail({ link }) {
  * para descobrir quem tem conta aqui. Quem for mesmo dono da caixa fica a
  * saber o que se passa; quem estiver a sondar não fica a saber nada.
  */
-export function signupExistingAccountEmail({ username, link }) {
+export function signupExistingAccountEmail({ username, link, lang }) {
   return {
-    subject: "You already have a ChefXP account",
+    subject: frase("You already have a ChefXP account", lang),
     text: [
-      `Hi ${username},`,
+      frase("Hi {name},", lang, { name: username }),
       "",
-      "Someone (maybe you) asked to create an account with this address — but it already has one.",
+      frase(
+        "Someone (maybe you) asked to create an account with this address — but it already has one.",
+        lang,
+      ),
       "",
-      "If it was you and you don't remember the password, reset it here:",
+      frase("If it was you and you don't remember the password, reset it here:", lang),
       link,
       "",
-      "If it wasn't you, you can ignore this email: nothing changed in your account.",
+      frase("If it wasn't you, you can ignore this email: nothing changed in your account.", lang),
     ].join("\n"),
     html: layout({
-      titulo: "You already have a ChefXP account",
-      corpo: `Hi <strong>${escapeHtml(username)}</strong>, someone asked to create an account with this address — but it already has one. If it was you and you don't remember the password, you can reset it.`,
+      lang,
+      titulo: frase("You already have a ChefXP account", lang),
+      corpo: frase(
+        "Hi <strong>{name}</strong>, someone asked to create an account with this address — but it already has one. If it was you and you don't remember the password, you can reset it.",
+        lang,
+        { name: escapeHtml(username) },
+      ),
       link,
-      textoBotao: "Reset the password",
-      rodape: "If it wasn't you, ignore this email: nothing changed in your account.",
+      textoBotao: frase("Reset the password", lang),
+      rodape: frase("If it wasn't you, ignore this email: nothing changed in your account.", lang),
     }),
   };
 }

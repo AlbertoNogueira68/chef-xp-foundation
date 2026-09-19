@@ -498,6 +498,7 @@ router.post(
         await sendMail({
           to: email,
           ...signupExistingAccountEmail({
+            lang: req.lang,
             username: existente.username,
             link: frontendUrl("/forgot-password"),
           }),
@@ -519,7 +520,10 @@ router.post(
 
         await sendMail({
           to: email,
-          ...signupEmail({ link: buildLink(process.env.FRONTEND_URL, "/criar-conta", token) }),
+          ...signupEmail({
+            lang: req.lang,
+            link: buildLink(process.env.FRONTEND_URL, "/criar-conta", token),
+          }),
         });
       }
     } catch (error) {
@@ -675,6 +679,7 @@ router.post(
         await sendMail({
           to: user.email,
           ...passwordResetEmail({
+            lang: req.lang,
             username: user.username,
             link: buildLink(process.env.FRONTEND_URL, "/reset-password", token),
           }),
@@ -789,6 +794,7 @@ router.post(
       await sendMail({
         to: user.email,
         ...emailVerificationEmail({
+          lang: req.lang,
           username: user.username,
           link: buildLink(process.env.FRONTEND_URL, "/verify-email", token),
         }),

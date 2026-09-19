@@ -49,15 +49,15 @@ async function isUnlocked(client, userId, missionId) {
 }
 
 async function loadRun(client, userId, runId) {
-  const { rows } = await client.query(
-    `SELECT * FROM mission_runs WHERE id = $1 AND user_id = $2`,
-    [runId, userId],
-  );
+  const { rows } = await client.query(`SELECT * FROM mission_runs WHERE id = $1 AND user_id = $2`, [
+    runId,
+    userId,
+  ]);
   return rows[0] ?? null;
 }
 
-async function runPayload(client, run) {
-  const mission = getMission(run.mission_id);
+async function runPayload(client, run, lang) {
+  const mission = getMission(run.mission_id, lang);
   const { rows: checkpoints } = await client.query(
     `SELECT step_index, image_url, feedback FROM mission_checkpoints
       WHERE run_id = $1 ORDER BY step_index`,
@@ -169,7 +169,7 @@ router.get(
 
     res.json({
       posts: rows.map((row) => {
-        const mission = getMission(row.mission_id);
+        const mission = getMission(row.mission_id, req.lang);
         return {
           id: Number(row.run_id),
           missionId: row.mission_id,
@@ -206,7 +206,7 @@ router.post(
   "/:id/start",
   validate({ params: missionParamSchema }),
   asyncHandler(async (req, res) => {
-    const mission = getMission(req.valid.params.id);
+    const mission = getMission(req.valid.params.id, req.lang);
     if (!mission) return res.status(404).json({ error: "Mission not found" });
 
     const pool = getPool();
@@ -223,14 +223,16 @@ router.post(
       [req.user.id, mission.id],
     );
     if (existing.rowCount > 0) {
-      return res.status(200).json({ resumed: true, ...(await runPayload(pool, existing.rows[0])) });
+      return res
+        .status(200)
+        .json({ resumed: true, ...(await runPayload(pool, existing.rows[0], req.lang)) });
     }
 
     const { rows } = await pool.query(
       `INSERT INTO mission_runs (user_id, mission_id) VALUES ($1, $2) RETURNING *`,
       [req.user.id, mission.id],
     );
-    res.status(201).json({ resumed: false, ...(await runPayload(pool, rows[0])) });
+    res.status(201).json({ resumed: false, ...(await runPayload(pool, rows[0], req.lang)) });
   }),
 );
 
@@ -238,7 +240,7 @@ router.get(
   "/:id/run",
   validate({ params: missionParamSchema }),
   asyncHandler(async (req, res) => {
-    const mission = getMission(req.valid.params.id);
+    const mission = getMission(req.valid.params.id, req.lang);
     if (!mission) return res.status(404).json({ error: "Mission not found" });
 
     const pool = getPool();
@@ -249,7 +251,7 @@ router.get(
     );
     if (rows.length === 0) return res.status(404).json({ error: "No mission running" });
 
-    res.json(await runPayload(pool, rows[0]));
+    res.json(await runPayload(pool, rows[0], req.lang));
   }),
 );
 
@@ -268,7 +270,7 @@ router.patch(
       return res.status(409).json({ error: "This mission is already finished" });
     }
 
-    const mission = getMission(run.mission_id);
+    const mission = getMission(run.mission_id, req.lang);
     const next = req.valid.body.stepIndex;
     const move = validateStepMove(mission, run.current_step, next);
     if (!move.ok) return res.status(400).json({ error: move.reason });
@@ -279,7 +281,7 @@ router.patch(
       `UPDATE mission_runs SET current_step = $1 WHERE id = $2 RETURNING *`,
       [next, run.id],
     );
-    res.json(await runPayload(pool, rows[0]));
+    res.json(await runPayload(pool, rows[0], req.lang));
   }),
 );
 
@@ -296,7 +298,7 @@ router.post(
     const run = await loadRun(pool, req.user.id, req.valid.params.runId);
     if (!run) return res.status(404).json({ error: "Mission not found" });
 
-    const mission = getMission(run.mission_id);
+    const mission = getMission(run.mission_id, req.lang);
     const { stepIndex, kind } = req.valid.body;
     const answer = findRescueAnswer(mission, stepIndex, kind);
     if (!answer) return res.status(404).json({ error: "No answer for this step" });
@@ -318,7 +320,7 @@ router.post(
     }
 
     const { stepIndex, imageDataUrl } = req.valid.body;
-    const mission = getMission(run.mission_id);
+    const mission = getMission(run.mission_id, req.lang);
     if (!mission.steps[stepIndex]?.checkpoint) {
       return res.status(400).json({ error: "This step doesn't ask for a photo" });
     }
@@ -389,7 +391,7 @@ router.post(
         return res.status(409).json({ error: "This mission is already finished" });
       }
 
-      const mission = getMission(run.mission_id);
+      const mission = getMission(run.mission_id, req.lang);
       const { rows: userRows } = await client.query(
         `SELECT time_zone, level FROM users WHERE id = $1 FOR UPDATE`,
         [req.user.id],

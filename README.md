@@ -168,6 +168,29 @@ auditável.
 sem I/O, testado com `node --test`. O frontend recebe `nextLevelXp` já calculado
 e nunca reimplementa a fórmula.
 
+**Duas línguas, e um botão no canto.** A app fala inglês e português, e
+troca-se no botão que está sempre no canto superior direito. A língua é a
+chave da árvore inteira (`key={lingua}` em `App.tsx`): trocar remonta tudo de
+uma vez, em vez de pedir a cada componente que ouça a mudança. As chaves do
+dicionário (`src/i18n/pt.ts`) são o próprio texto em inglês — lê-se o
+componente e vê-se o que aparece no ecrã, sem saltar para uma tabela de
+`auth.login.button.label`; uma chave em falta aparece em inglês em vez de
+mostrar um código a quem está a usar a app, e há um teste que exige que não
+falte nenhuma. Texto guardado em constantes de módulo é a armadilha desta
+abordagem: `const X = t("…")` no topo do ficheiro fixa a língua do arranque,
+por isso essas tabelas são funções.
+
+**O servidor também fala as duas.** O currículo existe nas duas línguas com
+os **mesmos ids** (`shared/curriculum.json` e `curriculum.pt.json`) — é isso
+que permite traduzir sem tocar em lógica nenhuma, porque o progresso e o XP
+andam sobre ids, e a correção compara a resposta com o gabarito da mesma
+versão. A língua vai em `?lang=` no endereço de cada pedido e não num
+cabeçalho: a cache do service worker é indexada pelo endereço, e com um
+cabeçalho a lição guardada em português era servida a quem entretanto mudou
+para inglês. As mensagens de erro nascem em inglês onde a regra é decidida e
+são traduzidas num sítio só, à saída, no tratador de erros; os emails saem na
+língua do pedido que os desencadeou.
+
 **Quem ensina é uma personagem, não uma caixa de texto.** O Chef Sapo é a mesma
 imagem em todo o lado — o ícone da app, a cara no cabeçalho e o avatar que
 aparece nas lições. Durante uma lição é ele que dá as boas-vindas ao prato,

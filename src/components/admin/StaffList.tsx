@@ -18,12 +18,13 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAdminUsers, useDeleteUser, useSetRole } from "@/features/admin/hooks/useAdmin";
 import type { AdminUser } from "@/types/admin";
+import { t } from "@/i18n";
 
-const FILTROS = [
-  { id: "staff", label: "With a role" },
-  { id: "all", label: "All" },
-  { id: "moderator", label: "Moderators" },
-  { id: "admin", label: "Admins" },
+const filtros = () => [
+  { id: "staff", label: t("With a role") },
+  { id: "all", label: t("All") },
+  { id: "moderator", label: t("Moderators") },
+  { id: "admin", label: t("Admins") },
 ];
 
 /**
@@ -59,7 +60,7 @@ export function StaffList({ meId }: { meId?: string }) {
   };
 
   const papel = (user: AdminUser) =>
-    user.role === "admin" ? "Admin" : user.role === "moderator" ? "Moderator" : null;
+    user.role === "admin" ? t("Admin") : user.role === "moderator" ? t("Moderator") : null;
 
   return (
     <div className="space-y-3">
@@ -70,12 +71,12 @@ export function StaffList({ meId }: { meId?: string }) {
           onChange={(event) => setQ(event.target.value)}
           placeholder="Nome ou email"
           className="rounded-full pl-10"
-          aria-label="Search accounts"
+          aria-label={t("Search accounts")}
         />
       </div>
 
       <div className="flex flex-wrap gap-1.5">
-        {FILTROS.map((item) => (
+        {filtros().map((item) => (
           <button
             key={item.id}
             type="button"
@@ -96,7 +97,9 @@ export function StaffList({ meId }: { meId?: string }) {
       {contas.isLoading && <Skeleton className="h-20 w-full rounded-xl" />}
 
       {contas.data?.length === 0 && (
-        <p className="py-8 text-center text-sm text-muted-foreground">No account matches that.</p>
+        <p className="py-8 text-center text-sm text-muted-foreground">
+          {t("No account matches that.")}
+        </p>
       )}
 
       <ul className="space-y-2">
@@ -119,8 +122,13 @@ export function StaffList({ meId }: { meId?: string }) {
                   )}
                 </p>
                 <p className="truncate text-[11px] text-muted-foreground">
-                  Lv. {user.level} · {user.recipes} {user.recipes === 1 ? "recipe" : "recipes"}
-                  {user.reportsReceived > 0 && `  · ${user.reportsReceived} reports`}
+                  {t("Lv. {level} · {recipes} {recipesWord}", {
+                    level: user.level,
+                    recipes: user.recipes,
+                    recipesWord: t(user.recipes === 1 ? "recipe" : "recipes"),
+                  })}
+                  {user.reportsReceived > 0 &&
+                    t(" · {count} reports", { count: user.reportsReceived })}
                   {!user.emailVerified && " · email unconfirmed"}
                 </p>
               </div>
@@ -144,11 +152,13 @@ export function StaffList({ meId }: { meId?: string }) {
                 >
                   {user.role === "moderator" ? (
                     <>
-                      <ShieldOff className="mr-1.5 size-3.5" /> Remove moderator
+                      <ShieldOff className="mr-1.5 size-3.5" />
+                      {t("Remove moderator")}
                     </>
                   ) : (
                     <>
-                      <ShieldCheck className="mr-1.5 size-3.5" /> Make moderator
+                      <ShieldCheck className="mr-1.5 size-3.5" />
+                      {t("Make moderator")}
                     </>
                   )}
                 </Button>
@@ -161,7 +171,8 @@ export function StaffList({ meId }: { meId?: string }) {
                     setAApagar(user);
                   }}
                 >
-                  <Trash2 className="mr-1.5 size-3.5" /> Delete account
+                  <Trash2 className="mr-1.5 size-3.5" />
+                  {t("Delete account")}
                 </Button>
               </div>
             )}
@@ -174,15 +185,16 @@ export function StaffList({ meId }: { meId?: string }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Apagar a conta de @{aApagar?.username}?</AlertDialogTitle>
             <AlertDialogDescription>
-              Everything of theirs goes: recipes, comments, likes, missions, progress and XP.
-              There's no undo. It's logged that you did it.
+              {t(
+                "Everything of theirs goes: recipes, comments, likes, missions, progress and XP. There's no undo. It's logged that you did it.",
+              )}
             </AlertDialogDescription>
           </AlertDialogHeader>
 
           <div className="space-y-1.5">
             <Label htmlFor="admin-confirm-name">
-              Escreve <span className="font-mono font-semibold">{aApagar?.username}</span> to
-              confirm
+              {t("Type")} <span className="font-mono font-semibold">{aApagar?.username}</span>
+              {t("to confirm")}
             </Label>
             <Input
               id="admin-confirm-name"
@@ -193,14 +205,14 @@ export function StaffList({ meId }: { meId?: string }) {
           </div>
 
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("Cancel")}</AlertDialogCancel>
             <button
               type="button"
               className={buttonVariants({ variant: "destructive" })}
               disabled={!nomeCoincide || deleteUser.isPending}
               onClick={confirmarApagar}
             >
-              {deleteUser.isPending ? "A apagar…" : "Delete for good"}
+              {deleteUser.isPending ? "A apagar…" : t("Delete for good")}
             </button>
           </AlertDialogFooter>
         </AlertDialogContent>

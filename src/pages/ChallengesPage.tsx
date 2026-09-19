@@ -12,6 +12,7 @@ import { useLessonPlayer } from "@/features/challenges/hooks/useLessonPlayer";
 import { useMissionRun } from "@/features/missions/hooks/useMissionRun";
 import type { Skill } from "@/types/learning";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 export function ChallengesPage() {
   const { data: path, isLoading: pathLoading } = useLearningPath();
@@ -28,9 +29,9 @@ export function ChallengesPage() {
   return (
     <section className="relative space-y-4">
       <header>
-        <h1 className="text-2xl font-bold tracking-tight">Aprender a cozinhar</h1>
+        <h1 className="text-2xl font-bold tracking-tight">{t("Learn to cook")}</h1>
         <p className="mt-0.5 text-sm text-muted-foreground">
-          A path of skills that always ends in the kitchen.
+          {t("A path of skills that always ends in the kitchen.")}
         </p>
       </header>
 
@@ -44,21 +45,21 @@ export function ChallengesPage() {
             className="gap-1.5 rounded-lg py-2 text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-emerald-700 data-[state=active]:shadow-sm"
           >
             <GraduationCap className="size-4" />
-            Percurso
+            {t("Path")}
           </TabsTrigger>
           <TabsTrigger
             value="challenges"
             className="gap-1.5 rounded-lg py-2 text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-orange-600 data-[state=active]:shadow-sm"
           >
             <Trophy className="size-4" />
-            Challenges
+            {t("Challenges")}
           </TabsTrigger>
           <TabsTrigger
             value="ranking"
             className="gap-1.5 rounded-lg py-2 text-xs font-semibold data-[state=active]:bg-card data-[state=active]:text-amber-600 data-[state=active]:shadow-sm"
           >
             <BarChart3 className="size-4" />
-            Leaderboard
+            {t("Leaderboard")}
           </TabsTrigger>
         </TabsList>
 

@@ -119,7 +119,10 @@ test("um tipo de alvo desconhecido é recusado antes de qualquer consulta", () =
 });
 
 test("dono desconhecido não inventa recusa — quem valida a existência é a rota", () => {
-  assert.equal(reportRefusal({ reporterId: eu, subjectType: "recipe", subjectOwnerId: null }), null);
+  assert.equal(
+    reportRefusal({ reporterId: eu, subjectType: "recipe", subjectOwnerId: null }),
+    null,
+  );
 });
 
 /* ---------------------------------------------------------------- *
@@ -139,7 +142,6 @@ test("as listas fechadas são as mesmas que a base aceita", () => {
   assert.deepEqual([...REPORT_REASONS], ["spam", "ofensivo", "perigoso", "copia", "outro"]);
   assert.deepEqual([...REPORT_SUBJECTS], ["recipe", "comment", "user"]);
 });
-
 
 /* ---------------------------------------------------------------- *
  * Papéis
@@ -167,10 +169,7 @@ test("um admin promove alguém a moderador", () => {
 });
 
 test("despromover um moderador é a mesma operação ao contrário", () => {
-  assert.equal(
-    roleChangeRefusal({ ...mudanca, targetRole: "moderator", newRole: "user" }),
-    null,
-  );
+  assert.equal(roleChangeRefusal({ ...mudanca, targetRole: "moderator", newRole: "user" }), null);
 });
 
 test("quem não é admin não muda papéis", () => {
@@ -179,10 +178,7 @@ test("quem não é admin não muda papéis", () => {
 });
 
 test("o meu próprio papel não se muda por aqui", () => {
-  assert.match(
-    roleChangeRefusal({ ...mudanca, targetId: "admin-1", newRole: "user" }),
-    /own role/,
-  );
+  assert.match(roleChangeRefusal({ ...mudanca, targetId: "admin-1", newRole: "user" }), /own role/);
 });
 
 test("nenhum admin nasce dentro da aplicação", () => {
@@ -218,5 +214,8 @@ test("só um admin apaga contas", () => {
 
 test("um admin não apaga outro admin nem a si próprio pelo painel", () => {
   assert.match(accountDeletionRefusal({ ...apagar, targetRole: "admin" }), /admin/);
-  assert.match(accountDeletionRefusal({ ...apagar, targetId: "admin-1", targetRole: "admin" }), /profile/);
+  assert.match(
+    accountDeletionRefusal({ ...apagar, targetId: "admin-1", targetRole: "admin" }),
+    /profile/,
+  );
 });

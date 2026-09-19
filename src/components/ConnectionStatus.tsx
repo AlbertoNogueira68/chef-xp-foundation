@@ -9,6 +9,7 @@ import { SYNC_EVENT, flushOutbox, type ResumoDaSincronizacao } from "@/lib/offli
 import { avisoDoEnvio, avisoDoResumo, type Aviso } from "@/lib/offline/mensagens";
 import { refreshOutboxCount } from "@/lib/offline/outbox";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
+import { t } from "@/i18n";
 
 /**
  * A barra de "sem ligação" e o aviso de versão nova.
@@ -80,9 +81,9 @@ export function ConnectionStatus() {
   // um toque.
   useEffect(() => {
     const avisar = () => {
-      toast("There's a new version of ChefXP.", {
+      toast(t("There's a new version of ChefXP."), {
         duration: Infinity,
-        action: { label: "Update", onClick: () => applyUpdate() },
+        action: { label: t("Update"), onClick: () => applyUpdate() },
       });
     };
 
@@ -113,8 +114,8 @@ export function ConnectionStatus() {
   // passa.
   const base =
     ligacao === "sem-rede"
-      ? "You're offline. Carry on — whatever you do is saved here."
-      : "The server isn't responding. Carry on — it's saved here.";
+      ? t("You're offline. Carry on — whatever you do is saved here.")
+      : t("The server isn't responding. Carry on — it's saved here.");
 
   const mensagem =
     porEnviar > 0 ? `${base} ${porEnviar} ${porEnviar === 1 ? "por enviar" : "por enviar"}.` : base;

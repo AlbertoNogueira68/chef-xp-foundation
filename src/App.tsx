@@ -6,6 +6,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { LandingPage } from "@/pages/LandingPage";
+import { t, useLanguage } from "@/i18n";
 
 /**
  * As rotas são carregadas à medida que se visitam.
@@ -63,7 +64,7 @@ function ARotaACarregar() {
   return (
     <div className="flex min-h-[50vh] items-center justify-center">
       <span className="size-6 animate-spin rounded-full border-2 border-muted border-t-amber-500" />
-      <span className="sr-only">A carregar…</span>
+      <span className="sr-only">{t("Loading…")}</span>
     </div>
   );
 }
@@ -76,6 +77,24 @@ import { SESSION_EXPIRED_EVENT } from "@/services/api";
  * recarregava a aplicação inteira e deitava fora a cache. Agora navegamos pelo
  * router e guardamos a rota de origem, para poder voltar depois do login.
  */
+/**
+ * Trocar de língua esvazia a cache de dados.
+ *
+ * As lições e as missões vêm do servidor já traduzidas, e o React Query
+ * guarda-as por chave — sem isto, o percurso continuava a mostrar o que tinha
+ * sido carregado na língua anterior até alguma coisa o invalidar.
+ */
+function LanguageWatcher() {
+  const lingua = useLanguage();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    queryClient.clear();
+  }, [lingua, queryClient]);
+
+  return null;
+}
+
 function SessionWatcher() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -97,10 +116,17 @@ function SessionWatcher() {
 }
 
 export default function App() {
+  // A chave é a língua: trocá-la remonta a árvore toda de uma vez. É mais
+  // simples — e mais fiável — do que fazer cada componente ouvir a mudança,
+  // e o que se perde é estado de formulário que ninguém tinha a meio de
+  // carregar num botão de idioma.
+  const lingua = useLanguage();
+
   return (
-    <>
+    <div key={lingua}>
       <ConnectionStatus />
       <SessionWatcher />
+      <LanguageWatcher />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route
@@ -180,6 +206,6 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster richColors position="top-center" />
-    </>
+    </div>
   );
 }

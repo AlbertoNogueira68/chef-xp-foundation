@@ -1,4 +1,4 @@
-import { CURRICULUM, LEARNING_CURRICULUM } from "./curriculum.js";
+import { CURRICULUM, LEARNING_CURRICULUM, curriculumFor } from "./curriculum.js";
 
 export const MISSIONS = CURRICULUM.missions;
 
@@ -10,7 +10,8 @@ const unitByMissionId = new Map(
 /** XP de uma missão. Vale mais do que uma lição porque exige ir à cozinha. */
 export const MISSION_BASE_XP = 100;
 
-export function getMission(id) {
+export function getMission(id, lang) {
+  if (lang) return curriculumFor(lang).missionsById.get(id) ?? null;
   return missionsById.get(id) ?? null;
 }
 

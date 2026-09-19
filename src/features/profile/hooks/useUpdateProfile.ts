@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { userService } from "@/features/profile/services/userService";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
 import type { User, UserUpdate } from "@/types/user";
+import { t } from "@/i18n";
 
 /**
  * Editar o próprio perfil.
@@ -22,11 +23,11 @@ export function useUpdateProfile(userId: string | undefined) {
       // O nome e a fotografia aparecem em cada receita e comentário.
       queryClient.invalidateQueries({ queryKey: ["recipes"] });
       queryClient.invalidateQueries({ queryKey: ["comments"] });
-      toast.success("Profile updated");
+      toast.success(t("Profile updated"));
     },
 
     onError: (error: Error) => {
-      toast.error(error.message || "Couldn't save");
+      toast.error(error.message || t("Couldn't save"));
     },
   });
 }

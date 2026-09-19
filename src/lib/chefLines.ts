@@ -1,3 +1,4 @@
+import { t } from "@/i18n";
 /**
  * O que o Chef Sapo diz.
  *
@@ -13,10 +14,10 @@
 // Nem todas as lições são pratos: há "Bancada pronta" e "Faca com fio". As
 // frases têm de servir a um título, e não só a um nome de comida.
 const GREETINGS = [
-  "Aprons on. Today: {prato}.",
-  "Good pick — {prato}. One of those that pays off straight away.",
-  "{prato}, then? Come on — I'm with you from start to finish.",
-  "Today: {prato}. Read all the ingredients first — that's half the job.",
+  "Aprons on. Today: {dish}.",
+  "Good pick — {dish}. One of those that pays off straight away.",
+  "{dish}, then? Come on — I'm with you from start to finish.",
+  "Today: {dish}. Read all the ingredients first — that's half the job.",
 ];
 
 const PREP = [
@@ -72,12 +73,20 @@ function semente(texto: string) {
   return Math.abs(h);
 }
 
-function escolher(frases: readonly string[], chave: string) {
-  return frases[semente(chave) % frases.length];
+/**
+ * A frase, já traduzida.
+ *
+ * As listas guardam o inglês — que é também a chave do dicionário — e a
+ * tradução é feita aqui, no momento de mostrar. Traduzir na lista era fixar a
+ * língua no arranque da app, e o botão de idioma deixava o Chef a falar
+ * sozinho na língua antiga.
+ */
+function escolher(frases: readonly string[], chave: string, valores?: Record<string, string>) {
+  return t(frases[semente(chave) % frases.length], valores);
 }
 
 export function chefGreeting(dishName: string) {
-  return escolher(GREETINGS, dishName).replace("{prato}", dishName);
+  return escolher(GREETINGS, dishName, { dish: dishName });
 }
 
 export function chefPrepLine(dishName: string, stepIndex: number) {

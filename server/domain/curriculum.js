@@ -5,61 +5,106 @@ import { fileURLToPath } from "node:url";
 import { validateCurriculum } from "./curriculumValidation.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const curriculumPath = path.resolve(__dirname, "../../shared/curriculum.json");
+const caminhos = {
+  en: path.resolve(__dirname, "../../shared/curriculum.json"),
+  pt: path.resolve(__dirname, "../../shared/curriculum.pt.json"),
+};
 
-const raw = JSON.parse(fs.readFileSync(curriculumPath, "utf8"));
+export const LANGUAGES = Object.keys(caminhos);
+export const DEFAULT_LANGUAGE = "en";
 
 /**
- * O currículo é conteúdo versionado, por isso um erro nele é um erro de
- * código: falha no arranque, tal como `validateEnv`. Um percurso que exige
- * uma competência ainda não ensinada é pior do que um servidor que não sobe.
+ * O currículo existe nas duas línguas, com os **mesmos ids**.
+ *
+ * Isso é o que permite servir português sem tocar em lógica nenhuma: o
+ * progresso, o XP e a ordem das lições andam sobre ids, e a língua só decide
+ * qual dos dois textos sai. E como a correção das respostas compara o que o
+ * utilizador escolheu com o gabarito da mesma versão, uma opção em português
+ * é comparada com a resposta certa em português.
  */
-const check = validateCurriculum(raw);
-if (!check.ok) {
-  throw new Error(`Currículo inválido:\n  - ${check.errors.join("\n  - ")}`);
+function carregar(caminho) {
+  const raw = JSON.parse(fs.readFileSync(caminho, "utf8"));
+
+  /**
+   * Um erro no currículo é um erro de código: falha no arranque, tal como o
+   * `validateEnv`. Um percurso que exige uma competência ainda não ensinada é
+   * pior do que um servidor que não sobe.
+   */
+  const check = validateCurriculum(raw);
+  if (!check.ok) {
+    throw new Error(
+      `Currículo inválido (${path.basename(caminho)}):\n  - ${check.errors.join("\n  - ")}`,
+    );
+  }
+
+  const units = raw.units;
+  const lessons = units.flatMap((unit) => unit.lessons);
+
+  return {
+    curriculum: raw,
+    skills: raw.skills,
+    missions: raw.missions,
+    units,
+    lessons,
+    lessonsById: new Map(lessons.map((lesson) => [lesson.id, lesson])),
+    lessonOrder: lessons.map((lesson) => lesson.id),
+    skillsById: new Map(raw.skills.map((skill) => [skill.id, skill])),
+    missionsById: new Map(raw.missions.map((mission) => [mission.id, mission])),
+    unitByLessonId: new Map(
+      units.flatMap((unit) => unit.lessons.map((lesson) => [lesson.id, unit])),
+    ),
+  };
 }
 
-export const CURRICULUM = raw;
-export const SKILLS = raw.skills;
-export const MISSIONS = raw.missions;
-
-/** Compatibilidade: o resto do servidor trata o currículo como lista de unidades. */
-export const LEARNING_CURRICULUM = raw.units;
-
-const allLessons = LEARNING_CURRICULUM.flatMap((unit) => unit.lessons);
-const lessonsById = new Map(allLessons.map((lesson) => [lesson.id, lesson]));
-const lessonOrder = allLessons.map((lesson) => lesson.id);
-const skillsById = new Map(SKILLS.map((skill) => [skill.id, skill]));
-const unitByLessonId = new Map(
-  LEARNING_CURRICULUM.flatMap((unit) => unit.lessons.map((lesson) => [lesson.id, unit])),
+const POR_LINGUA = Object.fromEntries(
+  Object.entries(caminhos).map(([lingua, caminho]) => [lingua, carregar(caminho)]),
 );
 
-export function getAllLessons() {
-  return allLessons;
+/** O conjunto do currículo numa língua. Uma língua desconhecida cai no inglês. */
+export function curriculumFor(lang = DEFAULT_LANGUAGE) {
+  return POR_LINGUA[lang] ?? POR_LINGUA[DEFAULT_LANGUAGE];
 }
 
-export function getLesson(id) {
-  return lessonsById.get(id) ?? null;
+/*
+ * As versões sem língua são as inglesas, e são as que o resto do servidor usa
+ * quando o texto não vai para o ecrã de ninguém — a sincronização com a base
+ * de dados, por exemplo.
+ */
+const ingles = POR_LINGUA[DEFAULT_LANGUAGE];
+export const CURRICULUM = ingles.curriculum;
+export const SKILLS = ingles.skills;
+export const MISSIONS = ingles.missions;
+
+/** Compatibilidade: o resto do servidor trata o currículo como lista de unidades. */
+export const LEARNING_CURRICULUM = ingles.units;
+
+export function getAllLessons(lang) {
+  return curriculumFor(lang).lessons;
+}
+
+export function getLesson(id, lang) {
+  return curriculumFor(lang).lessonsById.get(id) ?? null;
 }
 
 export function getLessonIndex(id) {
-  return lessonOrder.indexOf(id);
+  return ingles.lessonOrder.indexOf(id);
 }
 
 export function getLessonOrder() {
-  return [...lessonOrder];
+  return [...ingles.lessonOrder];
 }
 
-export function getSkill(id) {
-  return skillsById.get(id) ?? null;
+export function getSkill(id, lang) {
+  return curriculumFor(lang).skillsById.get(id) ?? null;
 }
 
-export function getUnitOfLesson(id) {
-  return unitByLessonId.get(id) ?? null;
+export function getUnitOfLesson(id, lang) {
+  return curriculumFor(lang).unitByLessonId.get(id) ?? null;
 }
 
 /** Competências que uma lição ensina, já resolvidas em objetos. */
-export function getLessonSkills(lesson) {
+export function getLessonSkills(lesson, lang) {
+  const { skillsById } = curriculumFor(lang);
   return {
     teaches: (lesson.teaches ?? []).map((id) => skillsById.get(id)).filter(Boolean),
     requires: (lesson.requires ?? []).map((id) => skillsById.get(id)).filter(Boolean),

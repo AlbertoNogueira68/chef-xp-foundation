@@ -13,6 +13,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { useReport } from "@/features/moderation/hooks/useModeration";
 import type { ReportReason, ReportSubjectType } from "@/types/moderation";
+import { t } from "@/i18n";
 
 /**
  * Motivos fechados, com as palavras de quem cozinha e não as de um formulário
@@ -20,19 +21,20 @@ import type { ReportReason, ReportSubjectType } from "@/types/moderation";
  * receita que manda servir frango mal passado é um problema diferente de um
  * insulto, e quem modera precisa de os distinguir à primeira vista.
  */
-const REASONS: Array<{ value: ReportReason; label: string; hint: string }> = [
-  { value: "ofensivo", label: "Ofensivo", hint: "Insults, hate, harassment" },
-  { value: "perigoso", label: "Perigoso", hint: "Unsafe for anyone who follows it" },
-  { value: "spam", label: "Spam", hint: "Spam or repetition" },
-  { value: "copia", label: "Copy", hint: "Someone else's work, uncredited" },
-  { value: "outro", label: "Outro", hint: "Explica abaixo" },
+const reasons = (): Array<{ value: ReportReason; label: string; hint: string }> => [
+  { value: "ofensivo", label: t("Offensive"), hint: t("Insults, hate, harassment") },
+  { value: "perigoso", label: t("Dangerous"), hint: t("Unsafe for anyone who follows it") },
+  { value: "spam", label: t("Spam"), hint: t("Spam or repetition") },
+  { value: "copia", label: t("Copy"), hint: t("Someone else's work, uncredited") },
+  { value: "outro", label: t("Other"), hint: t("Explain below") },
 ];
 
-const TITLES: Record<ReportSubjectType, string> = {
-  recipe: "Report this recipe",
-  comment: "Report this comment",
-  user: "Report this account",
-};
+const title = (tipo: ReportSubjectType) =>
+  ({
+    recipe: t("Report this recipe"),
+    comment: t("Report this comment"),
+    user: t("Report this account"),
+  })[tipo];
 
 export function ReportDialog({
   subjectType,
@@ -69,16 +71,17 @@ export function ReportDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-md">
         <DialogHeader className="text-left">
-          <DialogTitle>{TITLES[subjectType]}</DialogTitle>
+          <DialogTitle>{title(subjectType)}</DialogTitle>
           <DialogDescription>
-            It's logged under your name and only moderators see it. The person reported won't know
-            it was you.
+            {t(
+              "It's logged under your name and only moderators see it. The person reported won't know it was you.",
+            )}
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={submit} className="space-y-4">
           <RadioGroup value={reason} onValueChange={(value) => setReason(value as ReportReason)}>
-            {REASONS.map((option) => (
+            {reasons().map((option) => (
               <Label
                 key={option.value}
                 htmlFor={`reason-${option.value}`}
@@ -96,14 +99,14 @@ export function ReportDialog({
           </RadioGroup>
 
           <div className="space-y-1.5">
-            <Label htmlFor="report-details">What's going on (optional)</Label>
+            <Label htmlFor="report-details">{t("What's going on (optional)")}</Label>
             <Textarea
               id="report-details"
               value={details}
               onChange={(event) => setDetails(event.target.value)}
               maxLength={500}
               rows={3}
-              placeholder="Two lines will do. The more specific, the faster it gets sorted."
+              placeholder={t("Two lines will do. The more specific, the faster it gets sorted.")}
             />
           </div>
 
@@ -114,10 +117,10 @@ export function ReportDialog({
               className="rounded-full"
               onClick={() => onOpenChange(false)}
             >
-              Cancel
+              {t("Cancel")}
             </Button>
             <Button type="submit" className="rounded-full" disabled={report.isPending}>
-              {report.isPending ? "Sending…" : "Report"}
+              {report.isPending ? t("Sending…") : t("Report")}
             </Button>
           </DialogFooter>
         </form>

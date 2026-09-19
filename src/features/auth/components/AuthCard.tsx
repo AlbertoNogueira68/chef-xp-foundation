@@ -1,6 +1,8 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { ChefXPLogo } from "@/components/ChefXPLogo";
+import { LanguageToggle } from "@/i18n/LanguageToggle";
+import { t } from "@/i18n";
 
 /**
  * A moldura dos ecrãs de conta que não são o de entrada: recuperar password,
@@ -24,12 +26,13 @@ export function AuthCard({
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-100/70 via-background to-background" />
+      <LanguageToggle flutuante />
 
       <div className="relative w-full max-w-md space-y-6">
         <div className="text-center">
           <Link
             to="/"
-            aria-label="ChefXP — home"
+            aria-label={t("ChefXP — home")}
             className="inline-flex min-h-8 items-center justify-center px-2"
           >
             <ChefXPLogo className="text-3xl" />

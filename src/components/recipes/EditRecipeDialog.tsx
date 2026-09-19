@@ -22,6 +22,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useUpdateRecipe } from "@/features/feed/hooks/useRecipes";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { Recipe, RecipeDifficulty, RecipeUpdateInput } from "@/types/recipe";
+import { t } from "@/i18n";
 
 /**
  * Editar uma receita já publicada.
@@ -72,7 +73,7 @@ export function EditRecipeDialog({
       setImage(await fileToResizedDataUrl(file));
       setRemoveImage(false);
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Couldn't use that image");
+      toast.error(error instanceof Error ? error.message : t("Couldn't use that image"));
     } finally {
       setProcessing(false);
     }
@@ -105,13 +106,15 @@ export function EditRecipeDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-md">
         <DialogHeader className="text-left">
-          <DialogTitle>Edit recipe</DialogTitle>
-          <DialogDescription>XP already earned doesn't change when you edit.</DialogDescription>
+          <DialogTitle>{t("Edit recipe")}</DialogTitle>
+          <DialogDescription>
+            {t("XP already earned doesn't change when you edit.")}
+          </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={submit} className="space-y-4">
           <div className="space-y-1.5">
-            <Label>Fotografia</Label>
+            <Label>{t("Photo")}</Label>
             <input
               ref={fileInput}
               type="file"
@@ -155,7 +158,7 @@ export function EditRecipeDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="edit-title">Title</Label>
+            <Label htmlFor="edit-title">{t("Title")}</Label>
             <Input
               id="edit-title"
               value={title}
@@ -167,7 +170,7 @@ export function EditRecipeDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="edit-description">Description</Label>
+            <Label htmlFor="edit-description">{t("Description")}</Label>
             <Textarea
               id="edit-description"
               value={description}
@@ -180,7 +183,7 @@ export function EditRecipeDialog({
           </div>
 
           <div className="space-y-1.5">
-            <Label htmlFor="edit-ingredients">Ingredients</Label>
+            <Label htmlFor="edit-ingredients">{t("Ingredients")}</Label>
             <Textarea
               id="edit-ingredients"
               value={ingredients}
@@ -190,12 +193,12 @@ export function EditRecipeDialog({
               maxLength={4000}
               required
             />
-            <p className="text-[11px] text-muted-foreground">Um por linha.</p>
+            <p className="text-[11px] text-muted-foreground">{t("One per line.")}</p>
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label htmlFor="edit-time">Time (min)</Label>
+              <Label htmlFor="edit-time">{t("Time (min)")}</Label>
               <Input
                 id="edit-time"
                 type="number"
@@ -207,7 +210,7 @@ export function EditRecipeDialog({
               />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="edit-difficulty">Difficulty</Label>
+              <Label htmlFor="edit-difficulty">{t("Difficulty")}</Label>
               <Select
                 value={difficulty}
                 onValueChange={(value) => setDifficulty(value as RecipeDifficulty)}
@@ -216,16 +219,16 @@ export function EditRecipeDialog({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="facil">Easy</SelectItem>
-                  <SelectItem value="medio">Medium</SelectItem>
-                  <SelectItem value="dificil">Hard</SelectItem>
+                  <SelectItem value="facil">{t("Easy")}</SelectItem>
+                  <SelectItem value="medio">{t("Medium")}</SelectItem>
+                  <SelectItem value="dificil">{t("Hard")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <Button type="submit" className="w-full rounded-full" disabled={update.isPending}>
-            {update.isPending ? "Saving…" : "Save"}
+            {update.isPending ? t("Saving…") : t("Save")}
           </Button>
         </form>
       </DialogContent>

@@ -33,7 +33,7 @@ describe("área de administração", () => {
 
     expect(screen.getByRole("heading", { name: "Moderation" })).toBeInTheDocument();
     expect(screen.getByText(/nothing to handle/i)).toBeInTheDocument();
-    expect(screen.queryByRole("tab", { name: "Contas" })).not.toBeInTheDocument();
+    expect(screen.queryByRole("tab", { name: "Accounts" })).not.toBeInTheDocument();
   });
 
   test("o admin vê os três separadores", () => {
@@ -43,7 +43,7 @@ describe("área de administração", () => {
 
     expect(screen.getByRole("heading", { name: "Admin" })).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: "Queue" })).toBeInTheDocument();
-    expect(screen.getByRole("tab", { name: "Contas" })).toBeInTheDocument();
+    expect(screen.getByRole("tab", { name: "Accounts" })).toBeInTheDocument();
     expect(screen.getByRole("tab", { name: "Numbers" })).toBeInTheDocument();
   });
 

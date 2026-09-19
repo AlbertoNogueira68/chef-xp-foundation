@@ -18,6 +18,7 @@ import {
 import type { LessonWithStatus, Skill } from "@/types/learning";
 import { SkillChips } from "./SkillChip";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 const ICONS: Record<string, ComponentType<{ className?: string }>> = {
   pasta: UtensilsCrossed,
@@ -65,10 +66,10 @@ export function LessonRow({
 
   const label =
     lesson.type === "chest"
-      ? "Chest"
+      ? t("Chest")
       : lesson.type === "boss"
-        ? "Review"
-        : `Dia ${lesson.dayNumber}`;
+        ? t("Review")
+        : t("Day {day}", { day: lesson.dayNumber });
 
   return (
     <li className="relative flex gap-3 pb-3">
@@ -129,7 +130,7 @@ export function LessonRow({
 
           {lesson.type === "boss" && !isLocked && (
             <span className="rounded-full bg-amber-100 px-1.5 py-px text-[9px] font-bold uppercase tracking-wide text-amber-800">
-              Fecha a unidade
+              {t("Closes the unit")}
             </span>
           )}
 
@@ -170,7 +171,7 @@ export function LessonRow({
         {isCurrent && (
           <span className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-emerald-500 px-3 py-1.5 text-xs font-semibold text-white">
             <Play className="size-3 fill-current" />
-            Start
+            {t("Start")}
           </span>
         )}
       </button>

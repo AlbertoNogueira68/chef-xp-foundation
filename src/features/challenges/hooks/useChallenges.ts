@@ -4,6 +4,7 @@ import { challengeService } from "../services/challengeService";
 import { currentUserQueryKey } from "@/features/profile/hooks/useCurrentUser";
 import type { Challenge } from "@/types/challenge";
 import type { ApiError } from "@/services/api";
+import { t } from "@/i18n";
 
 export const CHALLENGES_ROOT_KEY = "challenges";
 
@@ -44,11 +45,11 @@ export function useEnterChallenge() {
       queryClient.invalidateQueries({ queryKey: ["userStats"] });
 
       // `earned: 0` não é um erro: já tinhas ganho o XP deste desafio antes.
-      toast.success(xp.earned > 0 ? `You're in · +${xp.earned} XP` : "You're in");
+      toast.success(xp.earned > 0 ? t("You're in · +{xp} XP", { xp: xp.earned }) : t("You're in"));
     },
 
     onError: (error: ApiError) => {
-      toast.error(error.message || "Couldn't enter");
+      toast.error(error.message || t("Couldn't enter"));
     },
   });
 }
@@ -60,10 +61,10 @@ export function useLeaveChallenge() {
     mutationFn: (id: string) => challengeService.leave(id),
     onSuccess: (challenge) => {
       patchChallenge(queryClient, challenge);
-      toast.success("Entry withdrawn");
+      toast.success(t("Entry withdrawn"));
     },
     onError: (error: ApiError) => {
-      toast.error(error.message || "Couldn't withdraw the entry");
+      toast.error(error.message || t("Couldn't withdraw the entry"));
     },
   });
 }

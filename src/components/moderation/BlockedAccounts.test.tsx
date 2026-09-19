@@ -44,7 +44,7 @@ describe("contas bloqueadas", () => {
 
     expect(screen.getByText("bruno")).toBeInTheDocument();
 
-    await utilizador.click(screen.getByRole("button", { name: "Desbloquear" }));
+    await utilizador.click(screen.getByRole("button", { name: "Unblock" }));
     expect(mocks.toggle).toHaveBeenCalledWith({ id: "user-9", blocked: true });
   });
 });

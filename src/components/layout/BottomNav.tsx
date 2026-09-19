@@ -1,26 +1,28 @@
 import { NavLink } from "react-router-dom";
 import { Home, Plus, Search, Trophy, User } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
 // `accent` está em todos os items de propósito: com `as const` e a
 // propriedade só num deles, o TypeScript infere uma união em que `accent`
 // não existe nos restantes.
-const items = [
-  { to: "/feed", icon: Home, label: "Feed", accent: false },
-  { to: "/search", icon: Search, label: "Explore", accent: false },
-  { to: "/publish", icon: Plus, label: "Publish", accent: true },
-  { to: "/challenges", icon: Trophy, label: "Challenges", accent: false },
-  { to: "/profile", icon: User, label: "Profile", accent: false },
-] as const;
+const items = () =>
+  [
+    { to: "/feed", icon: Home, label: "Feed", accent: false },
+    { to: "/search", icon: Search, label: t("Explore"), accent: false },
+    { to: "/publish", icon: Plus, label: t("Publish"), accent: true },
+    { to: "/challenges", icon: Trophy, label: t("Challenges"), accent: false },
+    { to: "/profile", icon: User, label: t("Profile"), accent: false },
+  ] as const;
 
 export function BottomNav() {
   return (
     <nav
       className="fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-background/90 backdrop-blur-xl"
-      aria-label="Main navigation"
+      aria-label={t("Main navigation")}
     >
       <ul className="mx-auto flex max-w-lg items-center justify-around px-2 py-1.5">
-        {items.map(({ to, icon: Icon, label, accent }) => (
+        {items().map(({ to, icon: Icon, label, accent }) => (
           <li key={to}>
             <NavLink
               to={to}

@@ -14,11 +14,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useFollowList, type FollowListKind } from "@/features/profile/hooks/useFollowList";
 import { useToggleFollow } from "@/features/profile/hooks/useUserStats";
 import { cn } from "@/lib/utils";
+import { t } from "@/i18n";
 
-const TITLES: Record<FollowListKind, { title: string; empty: string }> = {
-  followers: { title: "Seguidores", empty: "Nobody follows this profile yet." },
-  following: { title: "A seguir", empty: "Not following anyone yet." },
-};
+const titulo = (tipo: FollowListKind) =>
+  ({
+    followers: { title: t("Followers"), empty: t("Nobody follows this profile yet.") },
+    following: { title: t("Following"), empty: t("Not following anyone yet.") },
+  })[tipo];
 
 const TABS: FollowListKind[] = ["followers", "following"];
 
@@ -51,7 +53,7 @@ export function FollowListDialog({
   const { data, isLoading } = useFollowList(active, userId, open);
   const toggleFollow = useToggleFollow();
 
-  const copy = TITLES[active];
+  const copy = titulo(active);
 
   return (
     <Dialog open={open} onOpenChange={(next) => !next && onClose()}>
@@ -77,7 +79,7 @@ export function FollowListDialog({
                   : "bg-muted text-muted-foreground hover:bg-muted/70",
               )}
             >
-              {TITLES[tab].title}
+              {titulo(tab).title}
             </button>
           ))}
         </div>
@@ -112,7 +114,9 @@ export function FollowListDialog({
                 <span className="min-w-0">
                   <span className="block truncate text-sm font-semibold">
                     {person.username}
-                    {person.isMe && <span className="ml-1.5 text-xs text-amber-600">you</span>}
+                    {person.isMe && (
+                      <span className="ml-1.5 text-xs text-amber-600">{t("you")}</span>
+                    )}
                   </span>
                   <span className="text-[11px] text-muted-foreground">Level {person.level}</span>
                 </span>
@@ -130,11 +134,12 @@ export function FollowListDialog({
                 >
                   {person.isFollowing ? (
                     <>
-                      <UserCheck className="mr-1 size-3" /> A seguir
+                      <UserCheck className="mr-1 size-3" /> {t("Following")}
                     </>
                   ) : (
                     <>
-                      <UserPlus className="mr-1 size-3" /> Follow
+                      <UserPlus className="mr-1 size-3" />
+                      {t("Follow")}
                     </>
                   )}
                 </Button>

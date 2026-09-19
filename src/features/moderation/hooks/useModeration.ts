@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { moderationService } from "../services/moderationService";
 import type { ReportInput } from "@/types/moderation";
+import { t } from "@/i18n";
 
 export const blockedUsersQueryKey = ["blockedUsers"] as const;
 
@@ -9,12 +10,12 @@ export function useReport() {
   return useMutation({
     mutationFn: (input: ReportInput) => moderationService.report(input),
     onSuccess: () => {
-      toast.success("Report sent", {
-        description: "A moderator will look at this. Thanks for flagging it.",
+      toast.success(t("Report sent"), {
+        description: t("A moderator will look at this. Thanks for flagging it."),
       });
     },
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Couldn't send the report");
+      toast.error(error instanceof Error ? error.message : t("Couldn't send the report"));
     },
   });
 }
@@ -32,15 +33,15 @@ export function useToggleBlock() {
       blocked ? moderationService.unblock(id) : moderationService.block(id),
 
     onSuccess: (_data, { blocked }) => {
-      toast.success(blocked ? "Account unblocked" : "Account blocked", {
+      toast.success(blocked ? t("Account unblocked") : t("Account blocked"), {
         description: blocked
           ? "Volta a aparecer-te no feed e na pesquisa."
-          : "You stop seeing what they post, and they stop seeing you.",
+          : t("You stop seeing what they post, and they stop seeing you."),
       });
     },
 
     onError: (error) => {
-      toast.error(error instanceof Error ? error.message : "Couldn't block");
+      toast.error(error instanceof Error ? error.message : t("Couldn't block"));
     },
 
     onSettled: () => {

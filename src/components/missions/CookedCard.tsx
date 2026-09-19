@@ -1,11 +1,12 @@
 import { ChefHat, Clock, Lock } from "lucide-react";
 import type { MissionPost } from "@/types/learning";
+import { t } from "@/i18n";
 
 function timeAgo(value: string) {
   const days = Math.floor((Date.now() - new Date(value).getTime()) / 86_400_000);
   if (days === 0) return "hoje";
   if (days === 1) return "ontem";
-  if (days < 30) return `${days}d ago`;
+  if (days < 30) return t("{days}d ago", { days });
   return new Date(value).toLocaleDateString("pt-PT", { day: "2-digit", month: "short" });
 }
 
@@ -50,7 +51,7 @@ export function CookedCard({ post }: { post: MissionPost }) {
           {!post.shared && (
             <span className="inline-flex items-center gap-0.5 rounded-full bg-muted px-1.5 py-px font-medium">
               <Lock className="size-2.5" />
-              private
+              {t("private")}
             </span>
           )}
         </div>

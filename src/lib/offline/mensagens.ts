@@ -1,4 +1,5 @@
 import type { ResultadoDeEnvio } from "./sync";
+import { t } from "@/i18n";
 
 /**
  * O que se diz a quem respondeu offline, depois de o servidor ter visto as
@@ -36,11 +37,11 @@ export function avisoDoEnvio(envio: ResultadoDeEnvio): Aviso {
   }
 
   if (envio.item.tipo === "foto") {
-    return { tom: "sucesso", texto: `${envio.item.descricao} sent.` };
+    return { tom: "sucesso", texto: t("{item} sent.", { item: envio.item.descricao }) };
   }
 
   if (envio.item.tipo !== "licao") {
-    return { tom: "sucesso", texto: `${envio.item.descricao}: sent.` };
+    return { tom: "sucesso", texto: t("{item}: sent.", { item: envio.item.descricao }) };
   }
 
   const corpo = (envio.resposta ?? {}) as CorpoDeLicao;
@@ -50,17 +51,20 @@ export function avisoDoEnvio(envio: ResultadoDeEnvio): Aviso {
     const erradas = corpo.results?.filter((resultado) => !resultado.correct).length ?? 0;
     const quantas =
       erradas === 1
-        ? "one wrong answer"
+        ? t("one wrong answer")
         : erradas > 1
-          ? `${erradas} wrong answers`
-          : "too many mistakes";
+          ? t("{count} wrong answers", { count: erradas })
+          : t("too many mistakes");
 
     // Sem rede não houve correção nem corações a descontar: é aqui que a
     // pessoa descobre o resultado, e tem de perceber que pode repetir.
     return {
       tom: "erro",
       demorado: true,
-      texto: `"${licao}": you didn't pass — ${quantas}. The lesson stays open for another go.`,
+      texto: t('"{lesson}": you didn\'t pass — {reason}. The lesson stays open for another go.', {
+        lesson: licao,
+        reason: quantas,
+      }),
     };
   }
 
@@ -68,7 +72,10 @@ export function avisoDoEnvio(envio: ResultadoDeEnvio): Aviso {
   return {
     tom: "sucesso",
     demorado: true,
-    texto: xp > 0 ? `"${licao}": you passed! +${xp} XP.` : `"${licao}": you passed!`,
+    texto:
+      xp > 0
+        ? t('"{lesson}": you passed! +{xp} XP.', { lesson: licao, xp })
+        : t('"{lesson}": you passed!', { lesson: licao }),
   };
 }
 
@@ -81,8 +88,11 @@ export function avisoDoResumo(enviados: ResultadoDeEnvio[]): Aviso {
     return total + (corpo?.xpEarned ?? 0) + (corpo?.streakBonus ?? 0);
   }, 0);
 
-  const partes = [`Sent ${enviados.length} items that were waiting`];
-  if (licoes.length > 0) partes.push(`${passadas.length} of ${licoes.length} lessons passed`);
+  const partes = [t("Sent {count} items that were waiting", { count: enviados.length })];
+  if (licoes.length > 0)
+    partes.push(
+      t("{count} of {total} lessons passed", { count: passadas.length, total: licoes.length }),
+    );
   if (xp > 0) partes.push(`+${xp} XP`);
 
   return {

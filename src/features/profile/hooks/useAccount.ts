@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { userService } from "@/features/profile/services/userService";
 import type { ApiError } from "@/services/api";
+import { t } from "@/i18n";
 
 /** Descarrega o ficheiro de dados sem passar por servidor nenhum pelo meio. */
 export function useExportData() {
@@ -18,7 +19,7 @@ export function useExportData() {
       URL.revokeObjectURL(url);
       toast.success("Os teus dados foram descarregados");
     },
-    onError: (error: ApiError) => toast.error(error.message || "Couldn't export"),
+    onError: (error: ApiError) => toast.error(error.message || t("Couldn't export")),
   });
 }
 
@@ -35,9 +36,9 @@ export function useDeleteAccount() {
       // está cá.
       queryClient.clear();
       navigate("/", { replace: true });
-      toast.success("Your account was deleted");
+      toast.success(t("Your account was deleted"));
     },
 
-    onError: (error: ApiError) => toast.error(error.message || "Couldn't delete the account"),
+    onError: (error: ApiError) => toast.error(error.message || t("Couldn't delete the account")),
   });
 }

@@ -1,19 +1,20 @@
 import { z } from "zod";
 import { passwordSchema } from "./passwordPolicy";
+import { t } from "@/i18n";
 
 export const loginSchema = z.object({
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "At least 6 characters"),
+  email: z.string().email(t("Invalid email")),
+  password: z.string().min(6, t("At least 6 characters")),
 });
 export type LoginInput = z.infer<typeof loginSchema>;
 
 export const registerSchema = z.object({
   username: z
     .string()
-    .min(3, "At least 3 characters")
-    .max(20, "At most 20 characters")
-    .regex(/^[a-zA-Z0-9_]+$/, "Letters, numbers and _ only"),
-  email: z.string().email("Invalid email"),
+    .min(3, t("At least 3 characters"))
+    .max(20, t("At most 20 characters"))
+    .regex(/^[a-zA-Z0-9_]+$/, t("Letters, numbers and _ only")),
+  email: z.string().email(t("Invalid email")),
   password: passwordSchema,
 });
 export type RegisterInput = z.infer<typeof registerSchema>;
@@ -24,7 +25,7 @@ export type RegisterInput = z.infer<typeof registerSchema>;
  * mesmo de quem se está a inscrever.
  */
 export const signupStartSchema = z.object({
-  email: z.string().email("Invalid email"),
+  email: z.string().email(t("Invalid email")),
 });
 export type SignupStartInput = z.infer<typeof signupStartSchema>;
 
@@ -35,19 +36,19 @@ export type SignupStartInput = z.infer<typeof signupStartSchema>;
  */
 export const signupCompleteSchema = z
   .object({
-    token: z.string().min(16, "Invalid link"),
+    token: z.string().min(16, t("Invalid link")),
     username: registerSchema.shape.username,
     password: passwordSchema,
     confirm: z.string(),
   })
   .refine((value) => value.password === value.confirm, {
-    message: "The passwords don't match",
+    message: t("The passwords don't match"),
     path: ["confirm"],
   });
 export type SignupCompleteInput = z.infer<typeof signupCompleteSchema>;
 
 export const forgotPasswordSchema = z.object({
-  email: z.string().email("Invalid email"),
+  email: z.string().email(t("Invalid email")),
 });
 export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
 
@@ -59,12 +60,12 @@ export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
  */
 export const resetPasswordSchema = z
   .object({
-    token: z.string().min(16, "Invalid link"),
+    token: z.string().min(16, t("Invalid link")),
     password: passwordSchema,
     confirm: z.string(),
   })
   .refine((value) => value.password === value.confirm, {
-    message: "The passwords don't match",
+    message: t("The passwords don't match"),
     path: ["confirm"],
   });
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;

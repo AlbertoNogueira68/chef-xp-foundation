@@ -15,6 +15,7 @@ import {
 } from "../schemas";
 import { PasswordChecklist } from "./PasswordChecklist";
 import { PasswordInput } from "./PasswordInput";
+import { t } from "@/i18n";
 
 /**
  * Criar conta.
@@ -69,11 +70,12 @@ function PedirLinkForm() {
           <p>An email is on its way to {getValues("email")}.</p>
         </div>
         <p className="leading-relaxed text-muted-foreground">
-          Open the link inside to choose your username and password. If you already have an account
-          with this address, the email says so — and how to recover the password.
+          {t(
+            "Open the link inside to choose your username and password. If you already have an account with this address, the email says so — and how to recover the password.",
+          )}
         </p>
         <p className="text-xs text-muted-foreground">
-          Nothing arrived? Check your spam, or try again in a minute.
+          {t("Nothing arrived? Check your spam, or try again in a minute.")}
         </p>
       </div>
     );
@@ -93,15 +95,16 @@ function PedirLinkForm() {
         {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
       </div>
       <p className="text-xs leading-relaxed text-muted-foreground">
-        We confirm the address before creating the account. You choose the password next, in the
-        link we send you.
+        {t(
+          "We confirm the address before creating the account. You choose the password next, in the link we send you.",
+        )}
       </p>
       <Button
         type="submit"
         className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
         disabled={pedir.isPending}
       >
-        {pedir.isPending ? "Sending…" : "Send sign-up link"}
+        {pedir.isPending ? t("Sending…") : t("Send sign-up link")}
       </Button>
     </form>
   );
@@ -126,7 +129,7 @@ function RegistoDiretoForm({ onSuccess }: { onSuccess?: () => void }) {
   const onSubmit = handleSubmit((values) => {
     signUp.mutate(values, {
       onSuccess: () => {
-        toast.success("Welcome to ChefXP!");
+        toast.success(t("Welcome to ChefXP!"));
         onSuccess?.();
       },
       onError: (error) => toast.error(error.message),
@@ -136,7 +139,7 @@ function RegistoDiretoForm({ onSuccess }: { onSuccess?: () => void }) {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="register-username">Username</Label>
+        <Label htmlFor="register-username">{t("Username")}</Label>
         <Input
           id="register-username"
           autoComplete="username"
@@ -157,7 +160,7 @@ function RegistoDiretoForm({ onSuccess }: { onSuccess?: () => void }) {
         {errors.email && <p className="text-xs text-destructive">{errors.email.message}</p>}
       </div>
       <div className="space-y-2">
-        <Label htmlFor="register-password">Password</Label>
+        <Label htmlFor="register-password">{t("Password")}</Label>
         <PasswordInput
           id="register-password"
           autoComplete="new-password"
@@ -173,7 +176,7 @@ function RegistoDiretoForm({ onSuccess }: { onSuccess?: () => void }) {
         className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
         disabled={signUp.isPending}
       >
-        {signUp.isPending ? "A criar conta…" : "Create account"}
+        {signUp.isPending ? "A criar conta…" : t("Create account")}
       </Button>
     </form>
   );

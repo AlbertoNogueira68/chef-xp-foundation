@@ -2,6 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBlockedUsers, useToggleBlock } from "@/features/moderation/hooks/useModeration";
+import { t } from "@/i18n";
 
 /**
  * As contas que bloqueei, dentro das definições.
@@ -16,13 +17,13 @@ export function BlockedAccounts() {
 
   return (
     <section className="space-y-2 border-t border-border/60 pt-4">
-      <h3 className="text-sm font-semibold">Contas bloqueadas</h3>
+      <h3 className="text-sm font-semibold">{t("Blocked accounts")}</h3>
 
       {blocked.isLoading && <Skeleton className="h-12 w-full rounded-xl" />}
 
       {blocked.data?.length === 0 && (
         <p className="text-[11px] text-muted-foreground">
-          You haven't blocked anyone. Blocking hides what they post, both ways.
+          {t("You haven't blocked anyone. Blocking hides what they post, both ways.")}
         </p>
       )}
 
@@ -46,7 +47,7 @@ export function BlockedAccounts() {
               disabled={toggleBlock.isPending}
               onClick={() => toggleBlock.mutate({ id: user.id, blocked: true })}
             >
-              Desbloquear
+              {t("Unblock")}
             </Button>
           </li>
         ))}

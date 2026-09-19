@@ -16,15 +16,12 @@ export async function runMigrations() {
     )
   `);
 
-  const files = (await fs.readdir(migrationsDir))
-    .filter((name) => name.endsWith(".sql"))
-    .sort();
+  const files = (await fs.readdir(migrationsDir)).filter((name) => name.endsWith(".sql")).sort();
 
   for (const filename of files) {
-    const { rows } = await pool.query(
-      "SELECT 1 FROM applied_migrations WHERE filename = $1",
-      [filename],
-    );
+    const { rows } = await pool.query("SELECT 1 FROM applied_migrations WHERE filename = $1", [
+      filename,
+    ]);
     if (rows.length > 0) continue;
 
     const sql = await fs.readFile(path.join(migrationsDir, filename), "utf8");

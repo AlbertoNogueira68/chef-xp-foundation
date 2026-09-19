@@ -2,12 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { validateEnv, MIN_SECRET_LENGTH } from "./validateEnv.js";
-import {
-  baseCookieOptions,
-  csrfCookieName,
-  tokenCookieName,
-  useSecureCookies,
-} from "./cookies.js";
+import { baseCookieOptions, csrfCookieName, tokenCookieName, useSecureCookies } from "./cookies.js";
 import { detectImageType } from "./imageStore.js";
 
 const GOOD_SECRET = "a".repeat(MIN_SECRET_LENGTH);
@@ -56,10 +51,7 @@ test("o segredo de exemplo do .env é recusado em produção", () => {
 });
 
 test("em produção é preciso declarar a origem do frontend", () => {
-  assert.throws(
-    () => validateEnv({ ...baseEnv, NODE_ENV: "production" }),
-    /FRONTEND_URL/,
-  );
+  assert.throws(() => validateEnv({ ...baseEnv, NODE_ENV: "production" }), /FRONTEND_URL/);
   assert.doesNotThrow(() =>
     validateEnv({ ...baseEnv, NODE_ENV: "production", FRONTEND_URL: "https://chefxp.pt" }),
   );
@@ -122,8 +114,14 @@ test("um script disfarçado de imagem é rejeitado", () => {
 test("GOOGLE_CLIENT_ID sem GOOGLE_CLIENT_SECRET não arranca", () => {
   // Meio configurado é o pior dos mundos: o botão aparece e o fluxo falha
   // depois de o utilizador já ter saído da app para a Google.
-  assert.throws(() => validateEnv({ ...baseEnv, GOOGLE_CLIENT_ID: "x.apps.googleusercontent.com" }), /GOOGLE_CLIENT/);
-  assert.throws(() => validateEnv({ ...baseEnv, GOOGLE_CLIENT_SECRET: "segredo" }), /GOOGLE_CLIENT/);
+  assert.throws(
+    () => validateEnv({ ...baseEnv, GOOGLE_CLIENT_ID: "x.apps.googleusercontent.com" }),
+    /GOOGLE_CLIENT/,
+  );
+  assert.throws(
+    () => validateEnv({ ...baseEnv, GOOGLE_CLIENT_SECRET: "segredo" }),
+    /GOOGLE_CLIENT/,
+  );
   assert.doesNotThrow(() =>
     validateEnv({
       ...baseEnv,

@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ReportDialog } from "@/components/moderation/ReportDialog";
 import type { Comment } from "@/types/recipe";
+import { t } from "@/i18n";
 
 /**
  * O que se pode fazer a um comentário.
@@ -47,7 +48,9 @@ export function CommentActions({
             variant="ghost"
             size="icon"
             className="size-8 shrink-0 rounded-full text-muted-foreground"
-            aria-label={`Options for ${comment.author.username}'s comment`}
+            aria-label={t("Options for {username}'s comment", {
+              username: comment.author.username,
+            })}
           >
             <MoreHorizontal className="size-3.5" />
           </Button>
@@ -60,12 +63,13 @@ export function CommentActions({
               onSelect={onDelete}
             >
               <Trash2 className="mr-2 size-3.5" />
-              {isMine ? "Delete" : "Delete from my recipe"}
+              {isMine ? t("Delete") : t("Delete from my recipe")}
             </DropdownMenuItem>
           )}
           {!isMine && (
             <DropdownMenuItem onSelect={() => setReporting(true)}>
-              <Flag className="mr-2 size-3.5" /> Report
+              <Flag className="mr-2 size-3.5" />
+              {t("Report")}
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
