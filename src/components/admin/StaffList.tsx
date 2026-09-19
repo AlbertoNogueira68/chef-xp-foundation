@@ -1,12 +1,22 @@
 import { useDeferredValue, useState } from "react";
 import { Link } from "react-router-dom";
-import { Search, ShieldCheck, ShieldOff } from "lucide-react";
+import { Search, ShieldCheck, ShieldOff, Trash2 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useAdminUsers, useSetRole } from "@/features/admin/hooks/useAdmin";
+import { useAdminUsers, useDeleteUser, useSetRole } from "@/features/admin/hooks/useAdmin";
 import type { AdminUser } from "@/types/admin";
 
 const FILTROS = [
@@ -24,6 +34,10 @@ const FILTROS = [
  * nome. O botão muda de sentido conforme o papel atual, e o meu próprio não
  * aparece: o servidor recusa, e um botão que vai falhar é pior do que botão
  * nenhum.
+ *
+ * Apagar segue a mesma regra: aparece em quem não é admin, e nunca em mim —
+ * a minha conta apaga-se no perfil. Pede o nome escrito à mão, como o perfil
+ * pede ao próprio, porque não há volta atrás.
  */
 export function StaffList({ meId }: { meId?: string }) {
   const [q, setQ] = useState("");
@@ -31,6 +45,18 @@ export function StaffList({ meId }: { meId?: string }) {
   const deferredQ = useDeferredValue(q);
   const contas = useAdminUsers(deferredQ, filtro);
   const setRole = useSetRole();
+  const deleteUser = useDeleteUser();
+  const [aApagar, setAApagar] = useState<AdminUser | null>(null);
+  const [nomeEscrito, setNomeEscrito] = useState("");
+  const nomeCoincide = aApagar !== null && nomeEscrito.trim().toLowerCase() === aApagar.username;
+
+  const confirmarApagar = () => {
+    if (!aApagar || !nomeCoincide) return;
+    deleteUser.mutate(
+      { id: aApagar.id, confirmUsername: aApagar.username },
+      { onSuccess: () => setAApagar(null) },
+    );
+  };
 
   const papel = (user: AdminUser) =>
     user.role === "admin" ? "Administrador" : user.role === "moderator" ? "Moderador" : null;
@@ -105,32 +131,82 @@ export function StaffList({ meId }: { meId?: string }) {
             {/* O meu próprio papel não se muda por aqui, e um administrador não
                 é despromovido a um clique por outro. */}
             {user.id !== meId && user.role !== "admin" && (
-              <Button
-                size="sm"
-                variant={user.role === "moderator" ? "outline" : "secondary"}
-                className="mt-2 h-9 w-full rounded-full text-xs"
-                disabled={setRole.isPending}
-                onClick={() =>
-                  setRole.mutate({
-                    id: user.id,
-                    role: user.role === "moderator" ? "user" : "moderator",
-                  })
-                }
-              >
-                {user.role === "moderator" ? (
-                  <>
-                    <ShieldOff className="mr-1.5 size-3.5" /> Retirar moderação
-                  </>
-                ) : (
-                  <>
-                    <ShieldCheck className="mr-1.5 size-3.5" /> Tornar moderador
-                  </>
-                )}
-              </Button>
+              <div className="mt-2 flex gap-2">
+                <Button
+                  size="sm"
+                  variant={user.role === "moderator" ? "outline" : "secondary"}
+                  className="h-9 flex-1 rounded-full text-xs"
+                  disabled={setRole.isPending}
+                  onClick={() =>
+                    setRole.mutate({
+                      id: user.id,
+                      role: user.role === "moderator" ? "user" : "moderator",
+                    })
+                  }
+                >
+                  {user.role === "moderator" ? (
+                    <>
+                      <ShieldOff className="mr-1.5 size-3.5" /> Retirar moderação
+                    </>
+                  ) : (
+                    <>
+                      <ShieldCheck className="mr-1.5 size-3.5" /> Tornar moderador
+                    </>
+                  )}
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="h-9 rounded-full text-xs text-destructive hover:bg-destructive/10 hover:text-destructive"
+                  onClick={() => {
+                    setNomeEscrito("");
+                    setAApagar(user);
+                  }}
+                >
+                  <Trash2 className="mr-1.5 size-3.5" /> Apagar conta
+                </Button>
+              </div>
             )}
           </li>
         ))}
       </ul>
+
+      <AlertDialog open={aApagar !== null} onOpenChange={(aberto) => !aberto && setAApagar(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Apagar a conta de @{aApagar?.username}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Desaparece tudo o que é desta pessoa: receitas, comentários, gostos, missões,
+              progresso e XP. Não há forma de voltar atrás. Fica registado que foste tu.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="admin-confirm-name">
+              Escreve <span className="font-mono font-semibold">{aApagar?.username}</span> para
+              confirmar
+            </Label>
+            <Input
+              id="admin-confirm-name"
+              value={nomeEscrito}
+              autoComplete="off"
+              onChange={(event) => setNomeEscrito(event.target.value)}
+            />
+          </div>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <button
+              type="button"
+              className={buttonVariants({ variant: "destructive" })}
+              disabled={!nomeCoincide || deleteUser.isPending}
+              onClick={confirmarApagar}
+            >
+              {deleteUser.isPending ? "A apagar…" : "Apagar para sempre"}
+            </button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

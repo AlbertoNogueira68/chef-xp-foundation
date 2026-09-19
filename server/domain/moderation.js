@@ -53,6 +53,26 @@ export function roleChangeRefusal({ actorId, actorRole, targetId, targetRole, ne
   return null;
 }
 
+/**
+ * Apagar a conta de outra pessoa — o que o impede.
+ *
+ * 1. Só um admin apaga contas. Um moderador trata conteúdo, uma peça de cada
+ *    vez; uma conta inteira leva tudo o que a pessoa fez, e isso é outra
+ *    ordem de grandeza.
+ * 2. A minha própria conta não se apaga por aqui. Há um sítio para isso, no
+ *    perfil, que pede a password — e um admin que se apagasse do painel
+ *    podia deixar a aplicação sem admin nenhum.
+ * 3. Um admin não apaga outro admin, pela mesma razão que não o despromove:
+ *    uma sessão roubada, ou dois admins zangados, não chegam para apagar a
+ *    administração inteira.
+ */
+export function accountDeletionRefusal({ actorId, actorRole, targetId, targetRole }) {
+  if (!canAdminister(actorRole)) return "Isto é da administração";
+  if (actorId === targetId) return "A tua própria conta apaga-se no perfil";
+  if (targetRole === "admin") return "Um administrador não se apaga por aqui";
+  return null;
+}
+
 /** Os motivos que uma denúncia pode ter. A mesma lista que o CHECK da 012. */
 export const REPORT_REASONS = Object.freeze([
   "spam",

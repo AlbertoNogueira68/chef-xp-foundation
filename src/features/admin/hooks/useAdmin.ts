@@ -38,6 +38,26 @@ export function useSetRole() {
   });
 }
 
+export function useDeleteUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, confirmUsername }: { id: string; confirmUsername: string }) =>
+      adminService.deleteUser(id, confirmUsername),
+    onSuccess: (user) => {
+      toast.success(`A conta de @${user.username} foi apagada`);
+    },
+    onError: (error) => {
+      toast.error(error instanceof Error ? error.message : "Não foi possível apagar a conta");
+    },
+    onSettled: () => {
+      // As métricas e a fila também mudam: a conta levou receitas, comentários
+      // e as denúncias que tinha feito.
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+      queryClient.invalidateQueries({ queryKey: ["moderation"] });
+    },
+  });
+}
+
 export function useReports(status: string, enabled = true) {
   return useQuery({
     queryKey: reportsQueryKey(status),

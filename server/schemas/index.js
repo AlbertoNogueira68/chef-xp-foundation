@@ -287,3 +287,11 @@ export const adminUserListSchema = z.object({
 export const roleChangeSchema = z.object({
   role: z.enum(ROLES),
 });
+
+/**
+ * Apagar a conta de alguém: escreve-se o nome dela, como no perfil. Um clique
+ * enganado na linha de cima não pode levar a conta de outra pessoa.
+ */
+export const adminAccountDeleteSchema = z.object({
+  confirmUsername: z.string().trim().toLowerCase().min(1, "Escreve o nome da conta"),
+});

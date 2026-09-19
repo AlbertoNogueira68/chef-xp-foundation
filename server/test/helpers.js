@@ -49,6 +49,7 @@ export function lastEmail() {
 
 /** Tabelas que cada teste limpa. A ordem não importa: é um TRUNCATE em cascata. */
 const TABLES = [
+  "account_deletions",
   "role_changes",
   "reports",
   "user_blocks",

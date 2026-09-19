@@ -5,11 +5,16 @@ import { StaffList } from "@/components/admin/StaffList";
 import { renderWithProviders } from "@/test/utils";
 import type { AdminUser } from "@/types/admin";
 
-const mocks = vi.hoisted(() => ({ users: [] as AdminUser[], setRole: vi.fn() }));
+const mocks = vi.hoisted(() => ({
+  users: [] as AdminUser[],
+  setRole: vi.fn(),
+  deleteUser: vi.fn(),
+}));
 
 vi.mock("@/features/admin/hooks/useAdmin", () => ({
   useAdminUsers: () => ({ data: mocks.users, isLoading: false }),
   useSetRole: () => ({ mutate: mocks.setRole, isPending: false }),
+  useDeleteUser: () => ({ mutate: mocks.deleteUser, isPending: false }),
 }));
 
 vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
@@ -76,5 +81,48 @@ describe("contas, na administração", () => {
     const linha = screen.getByText(/3 receitas/);
     expect(linha).toHaveTextContent("2 denúncias");
     expect(linha).toHaveTextContent("email por confirmar");
+  });
+
+  test("apagar uma conta pede o nome escrito à mão", async () => {
+    mocks.users = [conta()];
+    mocks.deleteUser.mockClear();
+    const utilizador = userEvent.setup();
+
+    renderWithProviders(<StaffList meId="admin-1" />);
+    await utilizador.click(screen.getByRole("button", { name: /apagar conta/i }));
+
+    const apagar = screen.getByRole("button", { name: /apagar para sempre/i });
+    expect(apagar).toBeDisabled();
+
+    await utilizador.type(screen.getByLabelText(/para confirmar/i), "outro");
+    expect(apagar).toBeDisabled();
+
+    await utilizador.clear(screen.getByLabelText(/para confirmar/i));
+    await utilizador.type(screen.getByLabelText(/para confirmar/i), "Bruno");
+    await utilizador.click(apagar);
+
+    expect(mocks.deleteUser).toHaveBeenCalledWith(
+      { id: "user-9", confirmUsername: "bruno" },
+      expect.anything(),
+    );
+  });
+
+  test("não oferece apagar a minha conta nem a de outro admin", () => {
+    mocks.users = [
+      conta({ id: "admin-1", role: "admin" }),
+      conta({ id: "admin-2", role: "admin" }),
+    ];
+
+    renderWithProviders(<StaffList meId="admin-1" />);
+
+    expect(screen.queryByRole("button", { name: /apagar conta/i })).not.toBeInTheDocument();
+  });
+
+  test("oferece apagar a conta de um moderador", () => {
+    mocks.users = [conta({ role: "moderator" })];
+
+    renderWithProviders(<StaffList meId="admin-1" />);
+
+    expect(screen.getByRole("button", { name: /apagar conta/i })).toBeInTheDocument();
   });
 });

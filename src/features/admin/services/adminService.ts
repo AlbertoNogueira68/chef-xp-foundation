@@ -28,6 +28,15 @@ export const adminService = {
     return data.user;
   },
 
+  /** Apaga a conta de alguém. O nome escrito à mão é a confirmação. */
+  async deleteUser(id: string, confirmUsername: string): Promise<{ id: string; username: string }> {
+    const data = await apiFetch<{ deleted: { id: string; username: string } }>(
+      `/admin/users/${id}`,
+      { method: "DELETE", body: JSON.stringify({ confirmUsername }) },
+    );
+    return data.deleted;
+  },
+
   /** A fila. Aberta a moderadores e a administradores. */
   async reports(status: string): Promise<{ reports: ModerationReport[]; open: number }> {
     return apiFetch<{ reports: ModerationReport[]; open: number }>(

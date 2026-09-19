@@ -9,6 +9,7 @@ import {
   reportRefusal,
   resolutionOf,
   roleChangeRefusal,
+  accountDeletionRefusal,
 } from "./moderation.js";
 
 const eu = "user-1";
@@ -201,4 +202,21 @@ test("um papel que não existe é recusado antes de qualquer escrita", () => {
 
 test("promover quem já tem o papel não é erro — é não fazer nada", () => {
   assert.equal(roleChangeRefusal({ ...mudanca, targetRole: "moderator" }), null);
+});
+
+const apagar = { actorId: "admin-1", actorRole: "admin", targetId: "user-9", targetRole: "user" };
+
+test("um admin apaga a conta de um utilizador ou de um moderador", () => {
+  assert.equal(accountDeletionRefusal(apagar), null);
+  assert.equal(accountDeletionRefusal({ ...apagar, targetRole: "moderator" }), null);
+});
+
+test("só um admin apaga contas", () => {
+  assert.match(accountDeletionRefusal({ ...apagar, actorRole: "moderator" }), /administração/);
+  assert.match(accountDeletionRefusal({ ...apagar, actorRole: "user" }), /administração/);
+});
+
+test("um admin não apaga outro admin nem a si próprio pelo painel", () => {
+  assert.match(accountDeletionRefusal({ ...apagar, targetRole: "admin" }), /administrador/);
+  assert.match(accountDeletionRefusal({ ...apagar, targetId: "admin-1", targetRole: "admin" }), /perfil/);
 });

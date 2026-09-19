@@ -3,9 +3,14 @@ import { getPool, query } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
-import { adminUserListSchema, idParamSchema, roleChangeSchema } from "../schemas/index.js";
+import {
+  adminAccountDeleteSchema,
+  adminUserListSchema,
+  idParamSchema,
+  roleChangeSchema,
+} from "../schemas/index.js";
 import { requireAdmin } from "../lib/moderation.js";
-import { roleChangeRefusal } from "../domain/moderation.js";
+import { accountDeletionRefusal, roleChangeRefusal } from "../domain/moderation.js";
 
 const router = Router();
 
@@ -229,6 +234,69 @@ router.get(
         by: row.actor ?? null,
       })),
     });
+  }),
+);
+
+/**
+ * Apagar a conta de alguém.
+ *
+ * O que leva é o mesmo que o próprio leva ao apagar-se no perfil: a linha sai
+ * e as chaves estrangeiras em cascata levam o resto. O que fica é uma linha em
+ * `account_deletions` a dizer quem foi, e por mão de quem.
+ *
+ * FOR UPDATE na conta: sem ele, uma promoção a admin a meio deste pedido
+ * passava pela verificação ainda como "user" e era apagada já como admin.
+ */
+router.delete(
+  "/users/:id",
+  validate({ params: idParamSchema, body: adminAccountDeleteSchema }),
+  asyncHandler(async (req, res) => {
+    const client = await getPool().connect();
+
+    try {
+      await client.query("BEGIN");
+
+      const { rows } = await client.query(
+        `SELECT id, username, role FROM users WHERE id = $1 FOR UPDATE`,
+        [req.valid.params.id],
+      );
+      const target = rows[0];
+      if (!target) {
+        await client.query("ROLLBACK");
+        return res.status(404).json({ error: "Utilizador não encontrado" });
+      }
+
+      const refusal = accountDeletionRefusal({
+        actorId: req.user.id,
+        actorRole: req.user.role,
+        targetId: target.id,
+        targetRole: target.role,
+      });
+      if (refusal) {
+        await client.query("ROLLBACK");
+        return res.status(403).json({ error: refusal });
+      }
+
+      if (req.valid.body.confirmUsername !== target.username) {
+        await client.query("ROLLBACK");
+        return res.status(400).json({ error: "O nome não coincide com o da conta" });
+      }
+
+      await client.query(
+        `INSERT INTO account_deletions (deleted_user_id, deleted_username, deleted_role, actor_id)
+         VALUES ($1, $2, $3, $4)`,
+        [target.id, target.username, target.role, req.user.id],
+      );
+      await client.query(`DELETE FROM users WHERE id = $1`, [target.id]);
+
+      await client.query("COMMIT");
+      res.json({ deleted: { id: target.id, username: target.username } });
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   }),
 );
 
