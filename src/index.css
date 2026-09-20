@@ -141,4 +141,9 @@
   img {
     user-select: none;
   }
+
+  /* Enable smooth scrolling on mobile browsers */
+  [class*="overflow-y"] {
+    -webkit-overflow-scrolling: touch;
+  }
 }
