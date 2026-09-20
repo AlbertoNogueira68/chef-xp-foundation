@@ -157,10 +157,10 @@ export function ChefPage() {
           [1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-14 rounded-xl" />)
         ) : (
           <>
-            <Stat label="Cozinhados" value={stats.cooked} />
+            <Stat label={t("Cooked")} value={stats.cooked} />
             <Stat label={t("Recipes")} value={stats.recipes} />
             <Stat
-              label="Seguidores"
+              label={t("Followers")}
               value={stats.followers}
               onClick={() => setFollowList("followers")}
             />

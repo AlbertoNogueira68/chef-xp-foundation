@@ -184,6 +184,9 @@ const browser = await chromium.launch({
 try {
   for (const largura of LARGURAS) {
     const ctx = await browser.newContext({ viewport: { width: largura, height: 780 } });
+    // A app é bilingue e escolhe pela locale do browser quando ninguém
+    // escolheu: aqui fixa-se, para os nomes procurados serem sempre os mesmos.
+    await ctx.addInitScript(() => localStorage.setItem("chefxp.lang", "en"));
     const page = await ctx.newPage();
     await entrar(page);
 
@@ -196,13 +199,13 @@ try {
     // Os diálogos são metade da aplicação e nenhum deles aparece numa rota.
     await page.goto(`${BASE}/profile`, { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(1200);
-    await page.getByRole("button", { name: "Definições" }).click();
+    await page.getByRole("button", { name: "Settings" }).click();
     await page.waitForTimeout(700);
     await medir(page, "diálogo: definições", largura);
     await page.keyboard.press("Escape");
     await page.waitForTimeout(400);
 
-    await page.getByRole("button", { name: /Seguidores/ }).click();
+    await page.getByRole("button", { name: /followers/i }).click();
     await page.waitForTimeout(900);
     await medir(page, "diálogo: seguidores", largura);
     await page.keyboard.press("Escape");
@@ -211,11 +214,11 @@ try {
     // conteúdo mais alto de qualquer diálogo da aplicação.
     await page.goto(`${BASE}/feed`, { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(1500);
-    const opcoes = page.getByRole("button", { name: "Opções da receita" }).first();
+    const opcoes = page.getByRole("button", { name: "Recipe options" }).first();
     if (await opcoes.count()) {
       await opcoes.click();
       await page.waitForTimeout(500);
-      const denunciar = page.getByRole("menuitem", { name: /denunciar/i }).first();
+      const denunciar = page.getByRole("menuitem", { name: /report/i }).first();
       if (await denunciar.count()) {
         await denunciar.click();
         await page.waitForTimeout(800);
@@ -227,9 +230,9 @@ try {
 
     await page.goto(`${BASE}/challenges`, { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(1200);
-    await page.getByRole("tab", { name: /desafios/i }).click();
+    await page.getByRole("tab", { name: /challenges/i }).click();
     await page.waitForTimeout(1000);
-    const cartao = page.getByRole("button", { name: /participar|ver participações/i }).first();
+    const cartao = page.getByRole("button", { name: /enter|see entries|you're in/i }).first();
     if (await cartao.count()) {
       await cartao.click();
       await page.waitForTimeout(1200);
@@ -237,7 +240,7 @@ try {
       await page.keyboard.press("Escape");
     }
 
-    await page.getByRole("tab", { name: /ranking/i }).click();
+    await page.getByRole("tab", { name: /leaderboard/i }).click();
     await page.waitForTimeout(1200);
     await medir(page, "ranking", largura);
 

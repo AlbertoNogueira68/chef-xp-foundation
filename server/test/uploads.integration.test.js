@@ -64,7 +64,7 @@ describe("imagens carregadas", skipWithoutDatabase, () => {
     const resposta = await publish(SCRIPT_DISFARCADO);
 
     assert.equal(resposta.status, 400);
-    assert.match(JSON.stringify(resposta.body), /imagem/i);
+    assert.match(JSON.stringify(resposta.body), /image/i);
   });
 
   test("um URL externo é recusado — a fotografia tem de ficar em nossa casa", async () => {

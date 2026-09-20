@@ -10,6 +10,8 @@
  */
 
 export const PT: Record<string, string> = {
+  Enter: "Participar",
+  "Submitting…": "A submeter…",
   " · {count} reports": " · {count} denúncias",
   " · {count}d left": " · faltam {count} dias",
   " — missing": " — em falta",

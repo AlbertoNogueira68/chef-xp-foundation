@@ -66,10 +66,10 @@ export function expiryFor(kind, now = new Date()) {
  * tentar para descobrir quais os hashes que existem.
  */
 export function checkToken(row, { kind, now = new Date() } = {}) {
-  if (!row) return { ok: false, reason: "inexistente" };
-  if (kind && row.kind !== kind) return { ok: false, reason: "tipo errado" };
-  if (row.used_at) return { ok: false, reason: "already used" };
-  if (new Date(row.expires_at).getTime() <= now.getTime()) return { ok: false, reason: "expirado" };
+  if (!row) return { ok: false, reason: "missing" };
+  if (kind && row.kind !== kind) return { ok: false, reason: "wrongKind" };
+  if (row.used_at) return { ok: false, reason: "used" };
+  if (new Date(row.expires_at).getTime() <= now.getTime()) return { ok: false, reason: "expired" };
   return { ok: true, userId: row.user_id, email: row.email };
 }
 

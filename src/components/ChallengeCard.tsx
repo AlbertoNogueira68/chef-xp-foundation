@@ -89,7 +89,7 @@ export function ChallengeCard({
               <Check className="mr-1.5 size-3.5" /> {t("You're in · see")}
             </>
           ) : challenge.active ? (
-            "Participar"
+            t("Enter")
           ) : (
             t("See entries")
           )}

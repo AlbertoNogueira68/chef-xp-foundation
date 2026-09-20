@@ -136,10 +136,10 @@ export function ProfilePage() {
           </>
         ) : (
           <>
-            <Stat label="Cozinhados" value={stats.cooked} />
+            <Stat label={t("Cooked")} value={stats.cooked} />
             <Stat label={t("Recipes")} value={stats.recipes} />
             <Stat
-              label="Seguidores"
+              label={t("Followers")}
               value={stats.followers}
               onClick={() => setFollowList("followers")}
             />

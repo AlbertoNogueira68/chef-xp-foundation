@@ -156,7 +156,7 @@ export function ChallengeDetailDialog({
                   onClick={() => picked && enter.mutate({ id: challenge.id, recipeId: picked })}
                 >
                   <Trophy className="mr-1.5 size-4" />
-                  {enter.isPending ? "A submeter…" : "Participar"}
+                  {enter.isPending ? t("Submitting…") : t("Enter")}
                 </Button>
               </div>
             )}

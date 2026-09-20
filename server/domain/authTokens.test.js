@@ -75,19 +75,19 @@ test("um token dentro do prazo e por usar é aceite", () => {
 test("um token que não existe é recusado", () => {
   assert.deepEqual(checkToken(undefined, { kind: PASSWORD_RESET, now: AGORA }), {
     ok: false,
-    reason: "inexistente",
+    reason: "missing",
   });
 });
 
 test("um token já usado é recusado", () => {
   const resultado = checkToken(linha({ used_at: AGORA }), { kind: PASSWORD_RESET, now: AGORA });
   assert.equal(resultado.ok, false);
-  assert.equal(resultado.reason, "already used");
+  assert.equal(resultado.reason, "used");
 });
 
 test("um token expirado é recusado", () => {
   const expirado = linha({ expires_at: new Date(AGORA.getTime() - 1000) });
-  assert.equal(checkToken(expirado, { kind: PASSWORD_RESET, now: AGORA }).reason, "expirado");
+  assert.equal(checkToken(expirado, { kind: PASSWORD_RESET, now: AGORA }).reason, "expired");
 });
 
 test("o instante exato da expiração já não vale", () => {
@@ -99,7 +99,7 @@ test("um token de verificação não serve para redefinir a password", () => {
   const outro = linha({ kind: EMAIL_VERIFICATION });
   const resultado = checkToken(outro, { kind: PASSWORD_RESET, now: AGORA });
   assert.equal(resultado.ok, false);
-  assert.equal(resultado.reason, "tipo errado");
+  assert.equal(resultado.reason, "wrongKind");
 });
 
 /* -------------------------------------------------------------------- */

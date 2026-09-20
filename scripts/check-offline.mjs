@@ -45,13 +45,14 @@ try {
 
   const browser = await abrirChrome();
   paraFechar.push(() => browser.fechar());
-  const { js, abrir, recarregar, rede, ate } = browser;
+  const { js, abrir, recarregar, rede, ate, fixarLingua } = browser;
 
   await ate("o servidor responder", async () => (await fetch(`${URL_BASE}/api/health`)).ok);
   console.log(`[offline] servidor de pé em ${URL_BASE}`);
 
   /* 1. Primeira visita, com rede. */
   await abrir(`${URL_BASE}/feed`);
+  await fixarLingua("en");
   await ate("a app desenhar-se", () =>
     js(`return document.querySelector("#root")?.children.length > 0;`),
   );
@@ -82,7 +83,7 @@ try {
   // carregar como prova de que funciona offline.
   await ate("a app desenhar-se sem rede", async () => {
     const texto = await js(`return document.body.innerText;`);
-    return !texto.includes("A carregar") && texto.trim().length > 20;
+    return !texto.includes("Loading") && texto.trim().length > 20;
   });
 
   // Sem rede, a sessão não se confirma e a app leva ao ecrã de entrada. Este
@@ -118,7 +119,7 @@ try {
     if (/Failed to fetch|NetworkError/i.test(ecra)) {
       throw new Error("a app mostrou o erro cru do browser");
     }
-    return /Sem ligação|não respondeu/i.test(ecra);
+    return /You're offline|didn't answer/i.test(ecra);
   });
   console.log('[offline] ao tentar gravar, a app explica-se em vez de mostrar "Failed to fetch"');
 

@@ -841,7 +841,7 @@ router.post(
         // vezes em desenvolvimento, e há clientes de email que seguem os links
         // por si. Se o token já foi usado e o email está mesmo confirmado, a
         // resposta é "está confirmado" e não um erro que a pessoa não percebe.
-        if (row && check.reason === "já usado") {
+        if (row && check.reason === "used") {
           const { rows: done } = await client.query(
             `SELECT 1 FROM users WHERE id = $1 AND email = $2 AND email_verified_at IS NOT NULL`,
             [row.user_id, row.email],

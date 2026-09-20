@@ -194,7 +194,20 @@ export async function abrirChrome() {
     );
   }
 
-  return { cdp, sessionId, js, abrir, recarregar, rede, ate, fechar };
+  /**
+   * Fixa a língua da app e recarrega.
+   *
+   * A app escolhe a língua pelo browser quando ninguém escolheu nenhuma, e a
+   * locale de um runner de CI não é uma coisa em que valha a pena confiar:
+   * sem isto, estas verificações passam ou falham conforme a máquina onde
+   * correm. Com isto, procuram sempre o texto de uma língua conhecida.
+   */
+  async function fixarLingua(lingua = "en") {
+    await js(`localStorage.setItem("chefxp.lang", ${JSON.stringify(lingua)}); return true;`);
+    await recarregar();
+  }
+
+  return { cdp, sessionId, js, abrir, recarregar, rede, ate, fechar, fixarLingua };
 }
 
 /** Levanta o servidor a servir a build, e devolve como o parar. */

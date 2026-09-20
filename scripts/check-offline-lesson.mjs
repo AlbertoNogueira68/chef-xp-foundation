@@ -41,7 +41,7 @@ try {
 
   const browser = await abrirChrome();
   paraFechar.push(() => browser.fechar());
-  const { js, abrir, rede, ate } = browser;
+  const { js, abrir, rede, ate, fixarLingua } = browser;
 
   await ate("o servidor responder", async () => (await fetch(`${URL_BASE}/api/health`)).ok);
 
@@ -145,6 +145,7 @@ try {
 
   /* 1. Entrar e abrir a lição seguinte. */
   await abrir(`${URL_BASE}/auth`);
+  await fixarLingua("en");
   await ate("o ecrã de entrada", () =>
     js(`return Boolean(document.querySelector("#login-email"));`),
   );
@@ -158,9 +159,10 @@ try {
   if (login !== 200) throw new Error(`o login de demonstração devolveu ${login}`);
 
   await abrir(`${URL_BASE}/challenges`);
-  await ate(
-    "o percurso carregar",
-    async () => !(await js(`return document.body.innerText;`)).includes("A carregar"),
+  // Esperar pelo botão e não pela ausência de "Loading": o texto de espera
+  // mudou de língua uma vez, e a espera passou a não esperar por nada.
+  await ate("o percurso carregar", () =>
+    js(`return [...document.querySelectorAll("button")].some((b) => b.innerText.includes("Start"));`),
   );
   const xpAntes = await xpDeHoje();
 
@@ -178,7 +180,7 @@ try {
   await clicar("Start prep");
   for (let i = 0; i < 10 && (await clicar("Next")); i++) await esperar(300);
   await clicar("Test what you know");
-  await ate("o quiz", async () => /Pergunta \d+ de \d+/.test((await textoDoLeitor()) ?? ""));
+  await ate("o quiz", async () => /Question \d+ of \d+/.test((await textoDoLeitor()) ?? ""));
   console.log("[lição] no quiz, com rede");
 
   /* 2. Cortar a rede e responder à lição inteira. */
@@ -192,7 +194,7 @@ try {
 
     const ecra = (await textoDoLeitor()) ?? "";
     if (ecra.includes("Saved on this device")) break;
-    if (!/Resposta guardada/.test(ecra)) {
+    if (!/Answer saved/.test(ecra)) {
       throw new Error(`sem rede, a pergunta não ficou guardada: ${ecra.slice(0, 120)}`);
     }
     respostas++;
@@ -235,7 +237,7 @@ try {
     "a app dizer se a lição passou",
     async () => {
       const ecra = await js(`return document.body.innerText;`);
-      return ecra.match(/"[^"]+": (passaste[^\n]*|não passaste[^\n]*)/)?.[0] ?? null;
+      return ecra.match(/"[^"]+": (you passed[^\n]*|you didn't pass[^\n]*)/)?.[0] ?? null;
     },
     { tentativas: 20 },
   );
