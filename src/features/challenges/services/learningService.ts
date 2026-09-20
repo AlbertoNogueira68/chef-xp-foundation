@@ -17,12 +17,16 @@ import type {
  */
 export const learningService = {
   getPath(trailId?: string): Promise<LearningPath> {
-    const url = trailId ? `/learning/path?trailId=${encodeURIComponent(trailId)}` : "/learning/path";
+    const url = trailId
+      ? `/learning/path?trailId=${encodeURIComponent(trailId)}`
+      : "/learning/path";
     return apiFetch<LearningPath>(url);
   },
 
   async getProgress(trailId?: string) {
-    const url = trailId ? `/learning/progress?trailId=${encodeURIComponent(trailId)}` : "/learning/progress";
+    const url = trailId
+      ? `/learning/progress?trailId=${encodeURIComponent(trailId)}`
+      : "/learning/progress";
     const data = await apiFetch<{ progress: LearningPath["progress"] }>(url);
     return data.progress;
   },
@@ -35,7 +39,12 @@ export const learningService = {
   },
 
   /** Corrige uma resposta. Quem decide é o servidor. */
-  checkAnswer(lessonId: string, questionId: string, answer: AnswerValue, trailId?: string): Promise<AnswerResult> {
+  checkAnswer(
+    lessonId: string,
+    questionId: string,
+    answer: AnswerValue,
+    trailId?: string,
+  ): Promise<AnswerResult> {
     const url = trailId
       ? `/learning/lessons/${lessonId}/answer?trailId=${encodeURIComponent(trailId)}`
       : `/learning/lessons/${lessonId}/answer`;

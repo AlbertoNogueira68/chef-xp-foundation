@@ -1,33 +1,53 @@
 /**
- * Espelha `shared/curriculum.json` nas tabelas `skills`, `skill_prerequisites`
- * e `lesson_skills`.
+ * Espelha os currículos de **todos** os trilhos nas tabelas `skills`,
+ * `skill_prerequisites` e `lesson_skills`.
  *
  * O JSON é a fonte de verdade. Este script faz upsert do que lá está e apaga
  * o que já lá não está — correr duas vezes seguidas tem de dar exatamente o
  * mesmo resultado, e há um teste no CI a exigi-lo.
  *
- * Valida antes de escrever: um currículo com um ciclo no grafo nunca chega
- * à base de dados.
+ * Tem de cobrir os trilhos todos, não só o fundacional: `skill_practice` tem
+ * chave estrangeira para `skills`, por isso uma competência italiana que não
+ * chegasse aqui rebentava a primeira missão italiana concluída — e a limpeza
+ * no fim apagava-a a cada arranque.
+ *
+ * As competências são globais de propósito: `calor.niveis` é a mesma coisa em
+ * qualquer trilho, e é isso que permite a um trilho especializado apoiar-se
+ * nos fundamentos em vez de os repetir.
  */
-import { CURRICULUM, LEARNING_CURRICULUM } from "../domain/curriculum.js";
-import { validateCurriculum } from "../domain/curriculumValidation.js";
+import { getAllTrailIds, curriculumFor, DEFAULT_LANGUAGE } from "../domain/curriculum.js";
 
 export async function syncCurriculum(pool) {
-  const { ok, errors } = validateCurriculum(CURRICULUM);
-  if (!ok) {
-    throw new Error(`Currículo inválido, sync abortado:\n  - ${errors.join("\n  - ")}`);
-  }
+  // `curriculumFor` já validou cada trilho ao carregá-lo — um inválido nem
+  // deixa o módulo importar.
+  const trilhos = getAllTrailIds().map((id) => curriculumFor(DEFAULT_LANGUAGE, id));
 
-  const skills = CURRICULUM.skills;
-  const prerequisites = skills.flatMap((skill) =>
-    (skill.requires ?? []).map((requiresId) => [skill.id, requiresId]),
-  );
-  const lessonSkills = LEARNING_CURRICULUM.flatMap((unit) =>
-    unit.lessons.flatMap((lesson) => [
-      ...(lesson.teaches ?? []).map((skillId) => [lesson.id, skillId, "teaches"]),
-      ...(lesson.requires ?? []).map((skillId) => [lesson.id, skillId, "requires"]),
-    ]),
-  );
+  // Um Map por id deduplica as competências partilhadas entre trilhos.
+  const skills = [
+    ...new Map(trilhos.flatMap((t) => t.skills).map((skill) => [skill.id, skill])).values(),
+  ];
+  const prerequisites = [
+    ...new Map(
+      skills.flatMap((skill) =>
+        (skill.requires ?? []).map((requiresId) => [
+          `${skill.id}\u0000${requiresId}`,
+          [skill.id, requiresId],
+        ]),
+      ),
+    ).values(),
+  ];
+  const lessonSkills = [
+    ...new Map(
+      trilhos
+        .flatMap((t) =>
+          t.lessons.flatMap((lesson) => [
+            ...(lesson.teaches ?? []).map((skillId) => [lesson.id, skillId, "teaches"]),
+            ...(lesson.requires ?? []).map((skillId) => [lesson.id, skillId, "requires"]),
+          ]),
+        )
+        .map((row) => [row.join("\u0000"), row]),
+    ).values(),
+  ];
 
   const client = await pool.connect();
   try {

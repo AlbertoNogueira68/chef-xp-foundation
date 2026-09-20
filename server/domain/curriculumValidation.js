@@ -69,7 +69,7 @@ export function findSkillCycles(skills) {
   return cycles;
 }
 
-function validateSkills(curriculum, errors) {
+function validateSkills(curriculum, errors, inherited) {
   const skills = curriculum.skills ?? [];
   if (skills.length === 0) errors.push("o currículo não declara competências");
 
@@ -77,7 +77,7 @@ function validateSkills(curriculum, errors) {
     errors.push(`competência duplicada: ${id}`);
   }
 
-  const known = new Set(skills.map((s) => s.id));
+  const known = new Set([...skills.map((s) => s.id), ...inherited]);
 
   for (const skill of skills) {
     if (!isNonEmptyString(skill.id)) errors.push("competência sem id");
@@ -211,15 +211,21 @@ function validateMissionSteps(mission, errors) {
 /**
  * Corre todas as regras. Devolve `{ ok, errors }` em vez de atirar, para que
  * o chamador decida — o teste quer a lista toda, o arranque quer só falhar.
+ *
+ * `inheritedSkills` são competências ensinadas noutro trilho — as do trilho
+ * fundacional, quando se valida um trilho especializado. Contam como
+ * conhecidas para pré-requisitos, mas não são obrigadas a ser praticadas
+ * numa missão deste trilho: quem as ensina é que responde por isso.
  */
-export function validateCurriculum(curriculum) {
+export function validateCurriculum(curriculum, { inheritedSkills = [] } = {}) {
   const errors = [];
 
   if (!curriculum || typeof curriculum !== "object") {
     return { ok: false, errors: ["currículo ausente ou malformado"] };
   }
 
-  const knownSkills = validateSkills(curriculum, errors);
+  const inherited = new Set(inheritedSkills);
+  const knownSkills = validateSkills(curriculum, errors, inherited);
   const units = curriculum.units ?? [];
   const missions = curriculum.missions ?? [];
 
@@ -262,7 +268,11 @@ export function validateCurriculum(curriculum) {
       }
       const taught = taughtAt.get(skillId);
       if (taught === undefined) {
-        errors.push(`lição ${lesson.id}: exige ${skillId}, que nenhuma lição ensina`);
+        // Uma competência herdada já foi ensinada no trilho de base: exigi-la
+        // sem a ensinar outra vez é o que torna um trilho especializado possível.
+        if (!inherited.has(skillId)) {
+          errors.push(`lição ${lesson.id}: exige ${skillId}, que nenhuma lição ensina`);
+        }
       } else if (taught >= index) {
         errors.push(
           `lição ${lesson.id}: exige ${skillId}, que só é ensinada mais à frente (${lessons[taught].id})`,

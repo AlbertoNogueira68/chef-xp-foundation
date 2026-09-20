@@ -12,6 +12,7 @@ import {
   getLessonOrder,
   toClientLesson,
   curriculumFor,
+  trailExists,
   DEFAULT_TRAIL,
 } from "../domain/curriculum.js";
 import { MAX_HEARTS, xpForLesson } from "../domain/xp.js";
@@ -20,14 +21,42 @@ import {
   getAllAvailableTrails,
   getTrailCurriculum,
   getUserTrails,
+  isTrailPublished,
   startUserTrail,
-  selectUserTrail,
   deleteUserTrail,
 } from "../services/trailService.js";
 
 const router = Router();
 
 router.use(requireAuth);
+
+/**
+ * Resolve `?trailId=` uma vez por pedido.
+ *
+ * `curriculumFor` atira num trilho desconhecido — de propósito, para nunca
+ * servir o currículo errado em silêncio — por isso um id vindo de fora tem de
+ * ser recusado aqui, com 404, antes de chegar ao domínio. Um rascunho por
+ * publicar também não se serve: publicar é o que o torna visível, e sem esta
+ * verificação bastava adivinhar o id para ler conteúdo que ainda não saiu.
+ */
+const resolveTrail = asyncHandler(async (req, res, next) => {
+  const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+
+  if (!trailExists(trailId)) {
+    return res.status(404).json({ error: "Trail not found" });
+  }
+
+  if (trailId !== DEFAULT_TRAIL && req.user.role === "user") {
+    if (!(await isTrailPublished(getPool(), trailId))) {
+      return res.status(404).json({ error: "Trail not found" });
+    }
+  }
+
+  req.trailId = trailId;
+  next();
+});
+
+router.use(resolveTrail);
 
 async function loadCompletedIds(client, userId, trailId = DEFAULT_TRAIL) {
   const { rows } = await client.query(
@@ -70,7 +99,12 @@ async function buildPath(client, userId, lang = "en", trailId = DEFAULT_TRAIL) {
   const statuses = buildStatuses(completed, trailId);
   const daily = await loadDailyState(client, userId, { timeZone });
 
-  const { units: unidades, missions, skills, lessons: todasAsLicoes } = curriculumFor(lang, trailId);
+  const {
+    units: unidades,
+    missions,
+    skills,
+    lessons: todasAsLicoes,
+  } = curriculumFor(lang, trailId);
 
   const units = unidades.map((unit) => ({
     id: unit.id,
@@ -120,7 +154,7 @@ async function buildPath(client, userId, lang = "en", trailId = DEFAULT_TRAIL) {
 router.get(
   "/path",
   asyncHandler(async (req, res) => {
-    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    const trailId = req.trailId;
     res.json(await buildPath(getPool(), req.user.id, req.lang, trailId));
   }),
 );
@@ -128,7 +162,7 @@ router.get(
 router.get(
   "/progress",
   asyncHandler(async (req, res) => {
-    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    const trailId = req.trailId;
     const path = await buildPath(getPool(), req.user.id, req.lang, trailId);
     res.json({ progress: path.progress });
   }),
@@ -138,7 +172,7 @@ router.get(
   "/lessons/:id",
   validate({ params: lessonParamSchema }),
   asyncHandler(async (req, res) => {
-    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    const trailId = req.trailId;
     const lesson = getLesson(req.valid.params.id, req.lang, trailId);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
@@ -161,7 +195,7 @@ router.post(
   "/lessons/:id/answer",
   validate({ params: lessonParamSchema, body: answerSubmitSchema }),
   asyncHandler(async (req, res) => {
-    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    const trailId = req.trailId;
     const lesson = getLesson(req.valid.params.id, req.lang, trailId);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
@@ -194,7 +228,7 @@ router.post(
   "/lessons/:id/complete",
   validate({ params: lessonParamSchema, body: lessonCompleteSchema }),
   asyncHandler(async (req, res) => {
-    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    const trailId = req.trailId;
     const lesson = getLesson(req.valid.params.id, req.lang, trailId);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
@@ -239,18 +273,12 @@ router.post(
       const alreadyDone = completed.has(lesson.id);
       const xpEarned = xpForLesson(lesson.xpReward, heartsLeft);
 
-      // Check if already completed, if not insert (handles trail_id in unique constraint)
-      const existingResult = await client.query(
-        `SELECT 1 FROM lesson_progress WHERE user_id = $1 AND lesson_id = $2 AND trail_id = $3`,
-        [req.user.id, lesson.id, trailId],
+      await client.query(
+        `INSERT INTO lesson_progress (user_id, lesson_id, trail_id, xp_earned, hearts_left)
+         VALUES ($1, $2, $3, $4, $5)
+         ON CONFLICT (user_id, lesson_id) DO NOTHING`,
+        [req.user.id, lesson.id, trailId, xpEarned, heartsLeft],
       );
-      if (existingResult.rows.length === 0) {
-        await client.query(
-          `INSERT INTO lesson_progress (user_id, lesson_id, trail_id, xp_earned, hearts_left)
-           VALUES ($1, $2, $3, $4, $5)`,
-          [req.user.id, lesson.id, trailId, xpEarned, heartsLeft],
-        );
-      }
 
       // sourceRef = id da lição, por isso repetir a lição nunca paga duas vezes.
       const award = await awardXp(client, {
@@ -293,32 +321,48 @@ router.post(
   }),
 );
 
-// Trail management endpoints
+/* ---------------------------------------------------------------- *
+ * Trilhos
+ * ---------------------------------------------------------------- */
 
+/** Os trilhos que dá para escolher: publicados e com currículo carregado. */
 router.get(
   "/trails",
   asyncHandler(async (req, res) => {
-    const trails = await getAllAvailableTrails(getPool());
-    res.json({ trails });
-  }),
-);
+    const [trails, mine] = await Promise.all([
+      getAllAvailableTrails(getPool()),
+      getUserTrails(getPool(), req.user.id),
+    ]);
 
-router.get(
-  "/trails/:trailId",
-  asyncHandler(async (req, res) => {
-    const curriculum = await getTrailCurriculum(req.params.trailId, req.lang);
-    if (!curriculum) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
-    res.json(curriculum);
+    // Sem isto o cliente tinha de cruzar duas listas para saber em quais já
+    // anda — e o cartão pisca entre "Começar" e "Continuar" enquanto a
+    // segunda não chega.
+    const started = new Set(mine.map((trail) => trail.id));
+    res.json({ trails: trails.map((trail) => ({ ...trail, started: started.has(trail.id) })) });
   }),
 );
 
 router.get(
   "/my-trails",
   asyncHandler(async (req, res) => {
-    const trails = await getUserTrails(getPool(), req.user.id);
-    res.json({ trails });
+    res.json({ trails: await getUserTrails(getPool(), req.user.id) });
+  }),
+);
+
+/** O currículo em bruto de um trilho, para o painel e para pré-visualizar. */
+router.get(
+  "/trails/:trailId",
+  asyncHandler(async (req, res) => {
+    const { trailId } = req.params;
+
+    if (req.user.role === "user" && !(await isTrailPublished(getPool(), trailId))) {
+      return res.status(404).json({ error: "Trail not found" });
+    }
+
+    const loaded = getTrailCurriculum(trailId, req.lang);
+    if (!loaded) return res.status(404).json({ error: "Trail not found" });
+
+    res.json({ trail: trailId, curriculum: loaded.curriculum });
   }),
 );
 
@@ -326,29 +370,21 @@ router.post(
   "/trails/:trailId/start",
   asyncHandler(async (req, res) => {
     const progress = await startUserTrail(getPool(), req.user.id, req.params.trailId);
-    if (!progress) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
-    res.json({ success: true, progress });
+    if (!progress) return res.status(404).json({ error: "Trail not found" });
+    res.json({ progress });
   }),
 );
 
-router.post(
-  "/trails/:trailId/select",
-  asyncHandler(async (req, res) => {
-    const progress = await selectUserTrail(getPool(), req.user.id, req.params.trailId);
-    if (!progress) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
-    res.json({ success: true, progress });
-  }),
-);
-
+/**
+ * Sair de um trilho. Tira-o da lista de "os meus" e nada mais: as lições
+ * feitas ficam em `lesson_progress`, para quem volta não recomeçar do zero.
+ */
 router.delete(
   "/trails/:trailId",
   asyncHandler(async (req, res) => {
-    const result = await deleteUserTrail(getPool(), req.user.id, req.params.trailId);
-    res.json({ success: true, deleted: !!result });
+    const removed = await deleteUserTrail(getPool(), req.user.id, req.params.trailId);
+    if (!removed) return res.status(404).json({ error: "You are not on that trail" });
+    res.json({ left: req.params.trailId });
   }),
 );
 

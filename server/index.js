@@ -3,6 +3,7 @@ import { createApp } from "./app.js";
 import { getPool, closePool } from "./db/index.js";
 import { runMigrations } from "./db/runMigrations.js";
 import { syncCurriculum } from "./scripts/sync-curriculum.js";
+import { loadDbTrails } from "./services/trailService.js";
 import { ensureUploadDir } from "./lib/imageStore.js";
 
 const port = Number(process.env.PORT || 3010);
@@ -24,6 +25,18 @@ async function boot() {
    * É idempotente e valida antes de escrever, por isso arrancar mil vezes
    * dá o mesmo resultado que arrancar uma.
    */
+  /**
+   * Os trilhos escritos pelo painel entram antes do sync, porque o sync é
+   * que leva as competências deles para a tabela `skills` — e é dessa tabela
+   * que `skill_practice` depende.
+   */
+  const trilhos = await loadDbTrails(getPool());
+  for (const { id, errors } of trilhos.rejeitados) {
+    console.error(
+      `[trilhos] ${id} ficou de fora, currículo inválido:\n  - ${errors.join("\n  - ")}`,
+    );
+  }
+
   const sync = await syncCurriculum(getPool());
   console.log(
     `[db] currículo sincronizado: ${sync.skills} competências, ${sync.lessonSkills} ligações`,

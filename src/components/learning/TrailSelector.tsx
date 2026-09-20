@@ -47,7 +47,8 @@ function TrailCard({ trail, userTrail, isSelected, isEnrolled, onSelect }: Trail
 
   const getBackgroundColor = () => {
     if (isSelected) return "bg-blue-50 dark:bg-blue-950 border-2 border-blue-500";
-    if (isEnrolled) return "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700";
+    if (isEnrolled)
+      return "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700";
     return "bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 opacity-60";
   };
 

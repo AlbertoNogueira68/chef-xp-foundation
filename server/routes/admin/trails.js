@@ -1,394 +1,324 @@
 import { Router } from "express";
 import { getPool } from "../../db/index.js";
-import { requireAuth } from "../../middleware/auth.js";
 import { asyncHandler } from "../../middleware/errorHandler.js";
-import { curriculumFor, trailExists } from "../../domain/curriculum.js";
-import { getAllAvailableTrails, getTrailMetadata } from "../../services/trailService.js";
+import {
+  curriculumFor,
+  registerTrail,
+  unregisterTrail,
+  trailExists,
+} from "../../domain/curriculum.js";
+import { syncCurriculum } from "../../scripts/sync-curriculum.js";
+import { getTrailMetadata } from "../../services/trailService.js";
 
+/**
+ * Criar trilhos pelo painel, sem deploy.
+ *
+ * O currículo entra por aqui em JSON e fica em `trails.curriculum_json`.
+ * Passa pela mesma validação dos trilhos de ficheiro: é o que impede publicar
+ * um percurso que exige uma competência que nenhuma lição ensina.
+ *
+ * Um trilho válido é instalado logo, mesmo em rascunho — é assim que o
+ * administrador o consegue pré-visualizar. O que `publish` muda é quem o vê.
+ *
+ * A autenticação e o `requireAdmin` vêm do router pai (`routes/admin.js`).
+ */
 const router = Router();
 
-// Note: Admin middleware is already applied by parent router (admin.js)
+const DIFFICULTIES = ["beginner", "intermediate", "advanced"];
+const ID_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
+/** `{en: {...}}` ou um currículo só, que se assume inglês. */
+function asLanguageMap(curriculum) {
+  return curriculum?.en ? curriculum : { en: curriculum };
+}
 
 /**
- * GET /admin/trails - List all trails (published and drafts)
+ * Instala o trilho e leva as competências dele para a tabela `skills`.
+ * Sem o sync, a primeira missão concluída rebentava na chave estrangeira de
+ * `skill_practice`.
  */
+async function installTrail(trailId, curriculum) {
+  const { ok, errors } = registerTrail(trailId, asLanguageMap(curriculum));
+  if (!ok) return { ok, errors };
+
+  await syncCurriculum(getPool());
+  return { ok: true, errors: [] };
+}
+
 router.get(
   "/",
-  asyncHandler(async (req, res) => {
-    const { rows: trails } = await getPool().query(
-      `SELECT * FROM trails ORDER BY order_index ASC, created_at DESC`,
+  asyncHandler(async (_req, res) => {
+    const { rows } = await getPool().query(
+      `SELECT id, name, description, icon, color, difficulty, order_index,
+              published_at, published_by, created_at, updated_at,
+              (curriculum_json IS NOT NULL) AS admin_authored
+         FROM trails
+        ORDER BY order_index ASC, name ASC`,
     );
-    res.json({ trails });
+    res.json({ trails: rows.map((row) => ({ ...row, loaded: trailExists(row.id) })) });
   }),
 );
 
-/**
- * GET /admin/trails/:trailId - Get specific trail metadata and curriculum
- */
 router.get(
   "/:trailId",
   asyncHandler(async (req, res) => {
     const trail = await getTrailMetadata(getPool(), req.params.trailId);
-    if (!trail) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
+    if (!trail) return res.status(404).json({ error: "Trail not found" });
 
-    const curriculum = curriculumFor("en", req.params.trailId);
-    res.json({
-      metadata: trail,
-      curriculum,
-    });
+    // Um trilho cuja linha existe mas cujo currículo não carregou tem de o
+    // dizer, em vez de devolver metade da verdade.
+    const curriculum = trailExists(trail.id) ? curriculumFor("en", trail.id).curriculum : null;
+    res.json({ trail, curriculum, loaded: curriculum !== null });
   }),
 );
 
 /**
- * POST /admin/trails - Create a new trail
- * Body:
- * {
- *   id: string (unique identifier, e.g., "italian-cooking")
- *   name: string
- *   description: string (optional)
- *   icon: string (emoji or lucide-react name)
- *   color: string (tailwind color, e.g., "emerald")
- *   difficulty: string ("beginner" | "intermediate" | "advanced")
- *   curriculum: object (the full curriculum JSON)
- * }
- */
-router.post(
-  "/",
-  asyncHandler(async (req, res) => {
-    const {
-      id,
-      name,
-      description,
-      icon,
-      color,
-      difficulty,
-      order_index,
-    } = req.body;
-
-    // Validate required fields
-    if (!id || !name || !difficulty) {
-      return res.status(400).json({
-        error: "Missing required fields: id, name, difficulty",
-      });
-    }
-
-    // Validate difficulty
-    if (!["beginner", "intermediate", "advanced"].includes(difficulty)) {
-      return res.status(400).json({
-        error: "Invalid difficulty. Must be: beginner, intermediate, or advanced",
-      });
-    }
-
-    // Check if trail already exists
-    const existing = await getPool().query("SELECT 1 FROM trails WHERE id = $1", [id]);
-    if (existing.rows.length > 0) {
-      return res.status(409).json({ error: "Trail already exists" });
-    }
-
-    // Create trail in database (as draft)
-    const result = await getPool().query(
-      `INSERT INTO trails (id, name, description, icon, color, difficulty, order_index, created_at, updated_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, now(), now())
-       RETURNING *`,
-      [id, name, description || null, icon || null, color || "slate", difficulty, order_index || 0],
-    );
-
-    res.status(201).json({
-      success: true,
-      trail: result.rows[0],
-      message: `Trail "${name}" created as draft. Publish when ready.`,
-    });
-  }),
-);
-
-/**
- * PUT /admin/trails/:trailId - Update trail metadata (only drafts)
- */
-router.put(
-  "/:trailId",
-  asyncHandler(async (req, res) => {
-    const { name, description, icon, color, difficulty, order_index } = req.body;
-
-    const trail = await getTrailMetadata(getPool(), req.params.trailId);
-    if (!trail) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
-
-    // Prevent editing published trails
-    if (trail.published_at) {
-      return res.status(403).json({
-        error: "Cannot edit published trails. Unpublish first.",
-      });
-    }
-
-    // Validate difficulty if provided
-    if (difficulty && !["beginner", "intermediate", "advanced"].includes(difficulty)) {
-      return res.status(400).json({
-        error: "Invalid difficulty. Must be: beginner, intermediate, or advanced",
-      });
-    }
-
-    const updates = [];
-    const params = [req.params.trailId];
-    let paramCount = 2;
-
-    if (name !== undefined) {
-      updates.push(`name = $${paramCount}`);
-      params.push(name);
-      paramCount++;
-    }
-    if (description !== undefined) {
-      updates.push(`description = $${paramCount}`);
-      params.push(description || null);
-      paramCount++;
-    }
-    if (icon !== undefined) {
-      updates.push(`icon = $${paramCount}`);
-      params.push(icon || null);
-      paramCount++;
-    }
-    if (color !== undefined) {
-      updates.push(`color = $${paramCount}`);
-      params.push(color || "slate");
-      paramCount++;
-    }
-    if (difficulty !== undefined) {
-      updates.push(`difficulty = $${paramCount}`);
-      params.push(difficulty);
-      paramCount++;
-    }
-    if (order_index !== undefined) {
-      updates.push(`order_index = $${paramCount}`);
-      params.push(order_index);
-      paramCount++;
-    }
-
-    if (updates.length === 0) {
-      return res.json({
-        success: true,
-        trail,
-        message: "No changes provided",
-      });
-    }
-
-    updates.push(`updated_at = now()`);
-
-    const result = await getPool().query(
-      `UPDATE trails SET ${updates.join(", ")} WHERE id = $1 RETURNING *`,
-      params,
-    );
-
-    res.json({
-      success: true,
-      trail: result.rows[0],
-    });
-  }),
-);
-
-/**
- * POST /admin/trails/:trailId/publish - Publish a trail (make it visible to users)
- */
-router.post(
-  "/:trailId/publish",
-  asyncHandler(async (req, res) => {
-    const trail = await getTrailMetadata(getPool(), req.params.trailId);
-    if (!trail) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
-
-    if (trail.published_at) {
-      return res.json({
-        success: true,
-        trail,
-        message: "Trail already published",
-      });
-    }
-
-    // Verify curriculum exists and is valid
-    const curriculum = curriculumFor("en", req.params.trailId);
-    if (!curriculum) {
-      return res.status(400).json({
-        error: "Curriculum not found. Cannot publish trail without curriculum.",
-      });
-    }
-
-    const result = await getPool().query(
-      `UPDATE trails SET published_at = now(), published_by = $2, updated_at = now() WHERE id = $1 RETURNING *`,
-      [req.params.trailId, req.user.id],
-    );
-
-    res.json({
-      success: true,
-      trail: result.rows[0],
-      message: `Trail "${trail.name}" published successfully`,
-    });
-  }),
-);
-
-/**
- * POST /admin/trails/:trailId/unpublish - Unpublish a trail (hide from users)
- */
-router.post(
-  "/:trailId/unpublish",
-  asyncHandler(async (req, res) => {
-    const trail = await getTrailMetadata(getPool(), req.params.trailId);
-    if (!trail) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
-
-    if (!trail.published_at) {
-      return res.json({
-        success: true,
-        trail,
-        message: "Trail is already a draft",
-      });
-    }
-
-    const result = await getPool().query(
-      `UPDATE trails SET published_at = NULL, updated_at = now() WHERE id = $1 RETURNING *`,
-      [req.params.trailId],
-    );
-
-    res.json({
-      success: true,
-      trail: result.rows[0],
-      message: `Trail reverted to draft`,
-    });
-  }),
-);
-
-/**
- * DELETE /admin/trails/:trailId - Delete a trail (only if no users have started it)
- */
-router.delete(
-  "/:trailId",
-  asyncHandler(async (req, res) => {
-    const trail = await getTrailMetadata(getPool(), req.params.trailId);
-    if (!trail) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
-
-    // Check if any users have started this trail
-    const { rows: userProgress } = await getPool().query(
-      "SELECT COUNT(*) as count FROM user_trail_progress WHERE trail_id = $1",
-      [req.params.trailId],
-    );
-
-    if (parseInt(userProgress[0].count) > 0) {
-      return res.status(403).json({
-        error: `Cannot delete trail with ${userProgress[0].count} user(s) enrolled. Unpublish instead.`,
-      });
-    }
-
-    await getPool().query("DELETE FROM trails WHERE id = $1", [req.params.trailId]);
-
-    res.json({
-      success: true,
-      message: `Trail "${trail.name}" deleted`,
-    });
-  }),
-);
-
-/**
- * GET /admin/trails/:trailId/preview - Preview a trail before publishing
+ * Pré-visualização: a estrutura do trilho em números, para o painel mostrar
+ * o que vai publicar sem ter de desenhar o percurso inteiro.
  */
 router.get(
   "/:trailId/preview",
   asyncHandler(async (req, res) => {
     const trail = await getTrailMetadata(getPool(), req.params.trailId);
-    if (!trail) {
-      return res.status(404).json({ error: "Trail not found" });
+    if (!trail) return res.status(404).json({ error: "Trail not found" });
+    if (!trailExists(trail.id)) {
+      return res.status(409).json({ error: "Trail has no loadable curriculum" });
     }
 
-    const curriculum = curriculumFor("en", req.params.trailId);
-    if (!curriculum) {
-      return res.status(400).json({ error: "Curriculum not found" });
-    }
+    const { units, lessons, skills, missions } = curriculumFor("en", trail.id);
 
-    // Return a preview of the trail structure
-    const preview = {
-      metadata: {
-        id: trail.id,
-        name: trail.name,
-        description: trail.description,
-        icon: trail.icon,
-        color: trail.color,
-        difficulty: trail.difficulty,
-        published: !!trail.published_at,
+    res.json({
+      trail,
+      totals: {
+        units: units.length,
+        lessons: lessons.length,
+        skills: skills.length,
+        missions: missions.length,
       },
-      structure: {
-        units: curriculum.units.length,
-        lessons: curriculum.lessons.length,
-        skills: curriculum.skills.length,
-        missions: curriculum.missions.length,
-      },
-      units: curriculum.units.map((unit) => ({
+      units: units.map((unit) => ({
         id: unit.id,
         title: unit.title,
         subtitle: unit.subtitle,
-        lessonsCount: unit.lessons.length,
-        missions: unit.missionId ? 1 : 0,
+        lessons: unit.lessons.length,
+        hasMission: Boolean(unit.missionId),
       })),
-    };
-
-    res.json(preview);
+    });
   }),
 );
 
-/**
- * GET /admin/trails/:trailId/stats - Get analytics for a trail
- */
 router.get(
   "/:trailId/stats",
   asyncHandler(async (req, res) => {
     const trail = await getTrailMetadata(getPool(), req.params.trailId);
-    if (!trail) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
+    if (!trail) return res.status(404).json({ error: "Trail not found" });
 
-    const curriculum = curriculumFor("en", req.params.trailId);
-    if (!curriculum) {
-      return res.status(400).json({ error: "Curriculum not found" });
-    }
-
-    // User engagement stats
-    const { rows: enrollmentRows } = await getPool().query(
-      `SELECT COUNT(*) as total_users,
-              COUNT(CASE WHEN completed_at IS NOT NULL THEN 1 END) as completed_users
-       FROM user_trail_progress
-       WHERE trail_id = $1`,
-      [req.params.trailId],
+    const { rows } = await getPool().query(
+      `SELECT
+         (SELECT COUNT(*) FROM user_trail_progress WHERE trail_id = $1)                          AS inscritos,
+         (SELECT COUNT(*) FROM user_trail_progress WHERE trail_id = $1 AND completed_at IS NOT NULL) AS concluidos,
+         (SELECT COUNT(DISTINCT user_id) FROM lesson_progress WHERE trail_id = $1)               AS com_progresso,
+         (SELECT COUNT(*) FROM lesson_progress WHERE trail_id = $1)                              AS licoes_concluidas,
+         (SELECT COALESCE(SUM(xp_earned), 0) FROM lesson_progress WHERE trail_id = $1)           AS xp_distribuido`,
+      [trail.id],
     );
 
-    const enrollment = enrollmentRows[0];
-
-    // Lesson completion stats
-    const { rows: lessonStats } = await getPool().query(
-      `SELECT COUNT(DISTINCT user_id) as users_with_progress,
-              COUNT(DISTINCT lesson_id) as lessons_started,
-              AVG(hearts_left) as avg_hearts
-       FROM lesson_progress
-       WHERE trail_id = $1`,
-      [req.params.trailId],
-    );
+    const n = (value) => Number(value ?? 0);
+    const row = rows[0];
 
     res.json({
-      metadata: trail,
-      curriculum: {
-        units: curriculum.units.length,
-        lessons: curriculum.lessons.length,
-        skills: curriculum.skills.length,
-        missions: curriculum.missions.length,
+      trail,
+      stats: {
+        inscritos: n(row.inscritos),
+        concluidos: n(row.concluidos),
+        comProgresso: n(row.com_progresso),
+        licoesConcluidas: n(row.licoes_concluidas),
+        xpDistribuido: n(row.xp_distribuido),
       },
-      engagement: {
-        total_enrollments: parseInt(enrollment.total_users) || 0,
-        completed: parseInt(enrollment.completed_users) || 0,
-        in_progress: (parseInt(enrollment.total_users) || 0) - (parseInt(enrollment.completed_users) || 0),
-      },
-      lessons: lessonStats[0],
     });
+  }),
+);
+
+router.post(
+  "/",
+  asyncHandler(async (req, res) => {
+    const { id, name, description, icon, color, difficulty, orderIndex, curriculum } = req.body;
+
+    if (!ID_PATTERN.test(id ?? "")) {
+      return res.status(400).json({ error: "id must be lowercase words joined by hyphens" });
+    }
+    if (!name?.trim()) return res.status(400).json({ error: "name is required" });
+    if (!DIFFICULTIES.includes(difficulty)) {
+      return res
+        .status(400)
+        .json({ error: `difficulty must be one of ${DIFFICULTIES.join(", ")}` });
+    }
+    if (trailExists(id)) {
+      return res.status(409).json({ error: "A trail with that id already exists" });
+    }
+
+    // Validar antes de gravar: uma linha criada e um currículo recusado
+    // deixava um trilho que nunca se conseguia publicar nem perceber porquê.
+    if (curriculum) {
+      const check = registerTrail(id, asLanguageMap(curriculum), { dryRun: true });
+      if (!check.ok)
+        return res.status(400).json({ error: "Invalid curriculum", errors: check.errors });
+    }
+
+    const { rows } = await getPool().query(
+      `INSERT INTO trails (id, name, description, icon, color, difficulty, order_index, curriculum_json)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       ON CONFLICT (id) DO NOTHING
+       RETURNING *`,
+      [
+        id,
+        name.trim(),
+        description ?? null,
+        icon ?? null,
+        color ?? "slate",
+        difficulty,
+        orderIndex ?? 0,
+        curriculum ? JSON.stringify(asLanguageMap(curriculum)) : null,
+      ],
+    );
+
+    if (rows.length === 0) {
+      return res.status(409).json({ error: "A trail with that id already exists" });
+    }
+
+    if (curriculum) await installTrail(id, curriculum);
+
+    res.status(201).json({ trail: rows[0] });
+  }),
+);
+
+router.put(
+  "/:trailId",
+  asyncHandler(async (req, res) => {
+    const trail = await getTrailMetadata(getPool(), req.params.trailId);
+    if (!trail) return res.status(404).json({ error: "Trail not found" });
+
+    const { name, description, icon, color, difficulty, orderIndex, curriculum } = req.body;
+
+    if (difficulty !== undefined && !DIFFICULTIES.includes(difficulty)) {
+      return res
+        .status(400)
+        .json({ error: `difficulty must be one of ${DIFFICULTIES.join(", ")}` });
+    }
+    if (name !== undefined && !name?.trim()) {
+      return res.status(400).json({ error: "name cannot be empty" });
+    }
+    // O currículo dos trilhos de ficheiro é código versionado: muda-se no
+    // repositório, não por aqui, ou o próximo deploy desfazia a alteração.
+    if (curriculum !== undefined && trail.curriculum_json === null) {
+      return res.status(409).json({ error: "This trail's curriculum lives in the repository" });
+    }
+    if (curriculum !== undefined) {
+      const check = registerTrail(trail.id, asLanguageMap(curriculum), { dryRun: true });
+      if (!check.ok)
+        return res.status(400).json({ error: "Invalid curriculum", errors: check.errors });
+    }
+
+    const { rows } = await getPool().query(
+      `UPDATE trails
+          SET name            = COALESCE($2, name),
+              description     = COALESCE($3, description),
+              icon            = COALESCE($4, icon),
+              color           = COALESCE($5, color),
+              difficulty      = COALESCE($6, difficulty),
+              order_index     = COALESCE($7, order_index),
+              curriculum_json = COALESCE($8, curriculum_json),
+              updated_at      = now()
+        WHERE id = $1
+        RETURNING *`,
+      [
+        trail.id,
+        name?.trim() ?? null,
+        description ?? null,
+        icon ?? null,
+        color ?? null,
+        difficulty ?? null,
+        orderIndex ?? null,
+        curriculum ? JSON.stringify(asLanguageMap(curriculum)) : null,
+      ],
+    );
+
+    if (curriculum !== undefined) await installTrail(trail.id, curriculum);
+
+    res.json({ trail: rows[0] });
+  }),
+);
+
+/**
+ * Publicar é o que torna um trilho visível. Exige um currículo carregado:
+ * publicar uma linha sem percurso punha um cartão no ecrã que dava erro ao
+ * ser aberto.
+ */
+router.post(
+  "/:trailId/publish",
+  asyncHandler(async (req, res) => {
+    const trail = await getTrailMetadata(getPool(), req.params.trailId);
+    if (!trail) return res.status(404).json({ error: "Trail not found" });
+
+    if (!trailExists(trail.id)) {
+      return res.status(409).json({ error: "Trail has no loadable curriculum, cannot publish" });
+    }
+
+    const { rows } = await getPool().query(
+      `UPDATE trails
+          SET published_at = COALESCE(published_at, now()),
+              published_by = COALESCE(published_by, $2),
+              updated_at   = now()
+        WHERE id = $1
+        RETURNING *`,
+      [trail.id, req.user.id],
+    );
+    res.json({ trail: rows[0] });
+  }),
+);
+
+router.post(
+  "/:trailId/unpublish",
+  asyncHandler(async (req, res) => {
+    const trail = await getTrailMetadata(getPool(), req.params.trailId);
+    if (!trail) return res.status(404).json({ error: "Trail not found" });
+
+    const { rows } = await getPool().query(
+      `UPDATE trails SET published_at = NULL, published_by = NULL, updated_at = now()
+        WHERE id = $1 RETURNING *`,
+      [trail.id],
+    );
+    res.json({ trail: rows[0] });
+  }),
+);
+
+/**
+ * Apagar só enquanto ninguém lá anda. Depois disso o caminho é despublicar:
+ * apagar levava com ele o progresso de quem já tinha feito lições.
+ */
+router.delete(
+  "/:trailId",
+  asyncHandler(async (req, res) => {
+    const trail = await getTrailMetadata(getPool(), req.params.trailId);
+    if (!trail) return res.status(404).json({ error: "Trail not found" });
+
+    const { rows } = await getPool().query(
+      `SELECT COUNT(*)::int AS inscritos FROM user_trail_progress WHERE trail_id = $1`,
+      [trail.id],
+    );
+    if (rows[0].inscritos > 0) {
+      return res.status(409).json({
+        error: `${rows[0].inscritos} learner(s) are on this trail. Unpublish it instead.`,
+      });
+    }
+    if (trail.curriculum_json === null) {
+      return res.status(409).json({ error: "This trail lives in the repository" });
+    }
+
+    await getPool().query(`DELETE FROM trails WHERE id = $1`, [trail.id]);
+    unregisterTrail(trail.id);
+    await syncCurriculum(getPool());
+
+    res.json({ deleted: trail.id });
   }),
 );
 

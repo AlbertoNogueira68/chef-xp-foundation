@@ -1,61 +1,58 @@
--- 016: Sistema de múltiplos trilhos
+-- 016: vários trilhos de aprendizagem
 --
--- Expande o sistema para suportar múltiplos trilhos de aprendizagem.
--- O trilho "main-course" é o fundacional existente.
--- Novos trilhos (italiano, asiático, etc) são adicionados sem mexer no código.
+-- Até aqui havia um percurso só. Passa a haver trilhos: o fundacional
+-- ("main-course", o que sempre existiu) e os especializados — cozinha
+-- italiana, asiática, pastelaria.
 --
--- Estrutura:
--- - `trails` — metadados de cada trilho (nome, descrição, cor, dificuldade)
--- - `user_trail_progress` — qual trilho o utilizador está a fazer
--- - Modificações em `lesson_progress`, `skill_practice`, `mission_runs` para incluir `trail_id`
+-- Um trilho tem duas metades. O currículo (unidades, lições, missões) vem do
+-- JSON em `shared/trails/`, ou de `curriculum_json` quando foi o
+-- administrador que o escreveu pelo painel. Os metadados — nome, cor,
+-- dificuldade, publicado ou não — vivem aqui, que é onde se lhes mexe sem
+-- deploy.
+--
+-- As competências continuam globais de propósito: `calor.niveis` é a mesma
+-- coisa em qualquer trilho, e é isso que deixa o trilho italiano apoiar-se
+-- nos fundamentos em vez de os repetir. Por isso `skills` e `skill_practice`
+-- não levam `trail_id` — quem o levasse dizia que a mesma competência
+-- praticada na cozinha italiana era outra competência.
 
--- Tabela de metadados de trilhos
 CREATE TABLE IF NOT EXISTS trails (
-  id TEXT PRIMARY KEY,
-  -- 'main-course', 'italian-cooking', etc
-
+  id   TEXT PRIMARY KEY,          -- 'main-course', 'italian'
   name TEXT NOT NULL,
-  -- "Cozinha Italiana", "Main Course"
 
   description TEXT,
-  -- Descrição breve do trilho
-
-  icon TEXT,
-  -- Ícone (emoji ou nome lucide-react)
-
-  color TEXT NOT NULL DEFAULT 'slate',
-  -- Cor Tailwind: 'emerald', 'red', 'orange', etc
+  icon        TEXT,               -- emoji
+  color       TEXT NOT NULL DEFAULT 'slate',
 
   difficulty TEXT NOT NULL
     CHECK (difficulty IN ('beginner', 'intermediate', 'advanced')),
-  -- Dificuldade do trilho
+
+  -- O currículo escrito pelo painel de administração. NULL nos trilhos que
+  -- vêm de ficheiro: esses são código versionado e é de lá que se carregam.
+  curriculum_json JSONB,
+
+  -- NULL = rascunho. Com data = publicado, e só então é visível a quem aprende.
+  published_at TIMESTAMPTZ,
+  published_by UUID REFERENCES users(id) ON DELETE SET NULL,
+
+  order_index INT NOT NULL DEFAULT 0,
 
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-
-  published_at TIMESTAMPTZ,
-  -- NULL = draft, com timestamp = publicado
-
-  published_by UUID REFERENCES users(id) ON DELETE SET NULL,
-  -- Admin que publicou
-
-  order_index INT NOT NULL DEFAULT 0
-  -- Ordem de apresentação na UI
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
 CREATE INDEX IF NOT EXISTS idx_trails_published
-  ON trails (published_at DESC) WHERE published_at IS NOT NULL;
+  ON trails (order_index) WHERE published_at IS NOT NULL;
 
--- Progresso do utilizador em cada trilho
+-- Em que trilhos cada pessoa anda. Uma linha por trilho começado: dá para
+-- andar em mais do que um e voltar a qualquer deles sem perder o lugar.
 CREATE TABLE IF NOT EXISTS user_trail_progress (
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  user_id  UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   trail_id TEXT NOT NULL REFERENCES trails(id) ON DELETE CASCADE,
 
-  started_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  -- Quando começou o trilho
-
+  started_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
+  completed_at    TIMESTAMPTZ,
   current_unit_id TEXT,
-  -- Qual unidade está a fazer (referência ao JSON)
 
   PRIMARY KEY (user_id, trail_id)
 );
@@ -63,66 +60,52 @@ CREATE TABLE IF NOT EXISTS user_trail_progress (
 CREATE INDEX IF NOT EXISTS idx_user_trail_progress_user
   ON user_trail_progress (user_id);
 
--- Adicionar trail_id às tabelas de progresso existentes
--- Isto é feito separadamente porque são alterações a tabelas já existentes
-
--- Para lesson_progress: adicionar coluna trail_id (default 'main-course' para compatibilidade)
+-- O progresso existente é todo do trilho fundacional, e o DEFAULT trata disso
+-- sem um UPDATE: as linhas que já lá estão ficam com 'main-course'.
+--
+-- A chave primária de `lesson_progress` continua (user_id, lesson_id), sem o
+-- trilho. Os ids de lição são únicos entre trilhos — o carregador recusa
+-- arrancar se dois trilhos repetirem um — por isso a lição já diz a que
+-- trilho pertence, e metê-lo na chave só dava a ilusão de que a mesma lição
+-- podia ser feita duas vezes em trilhos diferentes.
 ALTER TABLE lesson_progress
   ADD COLUMN IF NOT EXISTS trail_id TEXT NOT NULL DEFAULT 'main-course';
-
--- Criar unique constraint para (user_id, lesson_id, trail_id) para evitar duplicados
-CREATE UNIQUE INDEX IF NOT EXISTS idx_lesson_progress_user_lesson_trail
-  ON lesson_progress (user_id, lesson_id, trail_id);
-
--- Criar índice para queries rápidas por trilho
-CREATE INDEX IF NOT EXISTS idx_lesson_progress_trail
-  ON lesson_progress (trail_id);
 
 CREATE INDEX IF NOT EXISTS idx_lesson_progress_user_trail
   ON lesson_progress (user_id, trail_id);
 
--- Para skill_practice: adicionar coluna trail_id
-ALTER TABLE skill_practice
-  ADD COLUMN IF NOT EXISTS trail_id TEXT NOT NULL DEFAULT 'main-course';
-
-CREATE INDEX IF NOT EXISTS idx_skill_practice_trail
-  ON skill_practice (trail_id);
-
-CREATE INDEX IF NOT EXISTS idx_skill_practice_user_trail
-  ON skill_practice (user_id, trail_id);
-
--- Para mission_runs: adicionar coluna trail_id
 ALTER TABLE mission_runs
   ADD COLUMN IF NOT EXISTS trail_id TEXT NOT NULL DEFAULT 'main-course';
-
-CREATE INDEX IF NOT EXISTS idx_mission_runs_trail
-  ON mission_runs (trail_id);
 
 CREATE INDEX IF NOT EXISTS idx_mission_runs_user_trail
   ON mission_runs (user_id, trail_id);
 
--- Para skills: adicionar coluna trail_id
--- Skills podem ser reutilizadas entre trilhos (ex: calor.niveis aparece em vários)
--- Portanto usamos (id, trail_id) como chave primária
-ALTER TABLE skills
-  ADD COLUMN IF NOT EXISTS trail_id TEXT NOT NULL DEFAULT 'main-course';
-
--- Remover chave primária anterior se existir
--- Isto depende da estrutura atual, deixamos como comentário por cautela
--- ALTER TABLE skills DROP CONSTRAINT IF EXISTS skills_pkey;
--- CREATE UNIQUE INDEX IF NOT EXISTS idx_skills_id_trail
---   ON skills (id, trail_id);
-
--- Seed: inserir trilho main-course se não existir
+-- O fundacional. Vem de ficheiro, por isso não leva `curriculum_json`, e
+-- nasce publicado porque já estava a ser servido a toda a gente.
 INSERT INTO trails (id, name, description, icon, color, difficulty, published_at, order_index)
 VALUES (
   'main-course',
   'Main Course',
-  'Master the fundamentals of cooking',
-  '🏛️',
+  'The fundamentals: knife, heat, seasoning and doneness.',
+  '🍳',
   'emerald',
   'beginner',
   now(),
   0
+)
+ON CONFLICT (id) DO NOTHING;
+
+-- Cozinha italiana. O currículo está em `shared/trails/italian.json`; esta
+-- linha é só o que o painel precisa de saber para o mostrar.
+INSERT INTO trails (id, name, description, icon, color, difficulty, published_at, order_index)
+VALUES (
+  'italian',
+  'Italian Cooking',
+  'Fresh pasta, the sauces that go on it, risotto and pizza.',
+  '🇮🇹',
+  'red',
+  'intermediate',
+  now(),
+  1
 )
 ON CONFLICT (id) DO NOTHING;

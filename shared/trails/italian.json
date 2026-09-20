@@ -1,11 +1,11 @@
 {
-  "id": "trail.italian",
+  "id": "italian",
   "version": 1,
   "name": "Italian Cuisine: From Pasta to Tradition",
   "description": "Master the techniques of Italian cooking: fresh pasta, classic sauces, risotto, and artisan breads.",
   "icon": "🇮🇹",
   "color": "#E31937",
-  "requires": ["trail.foundational"],
+  "requires": ["main-course"],
   "difficulty": "medium",
   "estimatedHours": 25,
   "skills": [
@@ -166,31 +166,34 @@
           "teaches": ["italiana.pasta-tipi"],
           "questions": [
             {
-              "id": "q1",
+              "id": "it-u1-l1-q1",
               "type": "choice",
               "prompt": "You have a chunky Bolognese sauce. Which pasta shape holds it best?",
               "options": ["Spaghetti", "Rigatoni", "Linguine", "Angel hair"],
               "correctAnswer": "Rigatoni",
               "explanation": "Tubes trap the chunky sauce inside. Oil-based sauces need thin, long strands.",
-              "skills": ["italiana.pasta-tipi"]
+              "skills": ["italiana.pasta-tipi"],
+              "explainWrong": "Long thin strands let a chunky ragù slide straight off onto the plate. The meat ends up at the bottom of the bowl and the pasta comes up bare — the shape has nowhere to hold it."
             },
             {
-              "id": "q2",
+              "id": "it-u1-l1-q2",
               "type": "choice",
               "prompt": "A creamy sauce with seafood: which long pasta?",
               "options": ["Spaghetti", "Fettuccine", "Spaghettini", "Capellini"],
               "correctAnswer": "Fettuccine",
               "explanation": "Flat ribbons hold cream better than round strands.",
-              "skills": ["italiana.pasta-tipi"]
+              "skills": ["italiana.pasta-tipi"],
+              "explainWrong": "Round strands shed a cream sauce as fast as you lift them. A flat ribbon gives the sauce a surface to sit on, which is why cream is almost always served on ribbons."
             },
             {
-              "id": "q3",
+              "id": "it-u1-l1-q3",
               "type": "choice",
               "prompt": "Pesto is best served with?",
               "options": ["Penne", "Linguine", "Trofie or hand-rolled", "Ravioli"],
               "correctAnswer": "Linguine",
               "explanation": "Pesto clings to flat pasta. Hand-rolled (trofie) also works beautifully.",
-              "skills": ["italiana.pasta-tipi"]
+              "skills": ["italiana.pasta-tipi"],
+              "explainWrong": "Penne and ravioli give pesto nowhere to cling — it slides off and pools at the bottom. Trofie is the Ligurian classic and works beautifully too, but of these the flat strand is the one that carries pesto best."
             }
           ]
         },
@@ -232,25 +235,37 @@
           "teaches": ["italiana.pasta-agua-farinha", "italiana.pasta-amassar"],
           "questions": [
             {
-              "id": "q1",
+              "id": "it-u1-l2-q1",
               "type": "choice",
               "prompt": "Your dough is cracking at the edges. What do you do?",
-              "options": ["Add more flour", "Knead harder", "Add a tiny drop of water", "Start over"],
+              "options": [
+                "Add more flour",
+                "Knead harder",
+                "Add a tiny drop of water",
+                "Start over"
+              ],
               "correctAnswer": "Add a tiny drop of water",
               "explanation": "Cracks mean too little hydration. A single drop on each crack, then knead.",
-              "skills": ["italiana.pasta-agua-farinha"]
+              "skills": ["italiana.pasta-agua-farinha"],
+              "explainWrong": "Adding flour or kneading harder makes it worse: cracking is a dry dough asking for water, and both answers take water away or force a dough that has none to give. Starting over throws out a dough that is one drop from right."
             },
             {
-              "id": "q2",
+              "id": "it-u1-l2-q2",
               "type": "choice",
               "prompt": "After 5 minutes of kneading, your dough is still sticky. Normal?",
-              "options": ["No, add more flour now", "Yes, keep going, it'll smooth out", "Wrap it and rest first", "You used too many eggs"],
+              "options": [
+                "No, add more flour now",
+                "Yes, keep going, it'll smooth out",
+                "Wrap it and rest first",
+                "You used too many eggs"
+              ],
               "correctAnswer": "Yes, keep going, it'll smooth out",
               "explanation": "Sticky dough becomes smooth with kneading. Don't add flour — you'll dry it out.",
-              "skills": ["italiana.pasta-amassar"]
+              "skills": ["italiana.pasta-amassar"],
+              "explainWrong": "Adding flour now is the reflex that ruins fresh pasta. Sticky at five minutes is the gluten still forming; flour at that moment gives you a dough that rolls stiff and cooks tough, and you cannot take it back out."
             },
             {
-              "id": "q3",
+              "id": "it-u1-l2-q3",
               "type": "order",
               "prompt": "Order the steps of making pasta dough from scratch",
               "items": [
@@ -261,9 +276,17 @@
                 "Knead for 8-10 minutes until smooth",
                 "Rest wrapped for 30 minutes"
               ],
-              "correctAnswer": ["Pile flour and make a well", "Beat eggs into the well with a fork", "Start drawing flour into the egg", "Use hands when it gets too thick", "Knead for 8-10 minutes until smooth", "Rest wrapped for 30 minutes"],
               "explanation": "This is the order that builds structure without tearing or drying.",
-              "skills": ["italiana.pasta-agua-farinha", "italiana.pasta-amassar"]
+              "skills": ["italiana.pasta-agua-farinha", "italiana.pasta-amassar"],
+              "explainWrong": "Beating the eggs before the well is built sends them across the counter. And kneading before the flour is drawn in leaves dry pockets that never hydrate — resting cannot fix what the mixing skipped.",
+              "correctOrder": [
+                "Pile flour and make a well",
+                "Beat eggs into the well with a fork",
+                "Start drawing flour into the egg",
+                "Use hands when it gets too thick",
+                "Knead for 8-10 minutes until smooth",
+                "Rest wrapped for 30 minutes"
+              ]
             }
           ]
         },
@@ -306,23 +329,30 @@
           "requires": ["italiana.pasta-amassar"],
           "questions": [
             {
-              "id": "q1",
+              "id": "it-u1-l3-q1",
               "type": "judge",
               "prompt": "Is this pasta sheet ready for cutting?",
               "imageUrl": "https://images.unsplash.com/photo-1585335268335-f1995092ec2f?w=400",
               "options": ["Yes, it's thin enough", "No, it's too thick", "It's torn, start over"],
               "correctAnswer": "Yes, it's thin enough",
               "explanation": "You can see hand shadows through it — that's the right thickness.",
-              "skills": ["italiana.pasta-esticar"]
+              "skills": ["italiana.pasta-esticar"],
+              "explainWrong": "Calling a sheet too thick when the light already passes through means you keep rolling until it tears. The shadow test is the whole point: once you can see through it, stop."
             },
             {
-              "id": "q2",
+              "id": "it-u1-l3-q2",
               "type": "choice",
               "prompt": "Your dough tears as you press it. What happened?",
-              "options": ["You pressed too hard", "It wasn't rested long enough between presses", "The flour on top burned it", "You used too much water"],
+              "options": [
+                "You pressed too hard",
+                "It wasn't rested long enough between presses",
+                "The flour on top burned it",
+                "You used too much water"
+              ],
               "correctAnswer": "It wasn't rested long enough between presses",
               "explanation": "Gluten needs to relax. If you press continuously, it fights back and tears.",
-              "skills": ["italiana.pasta-esticar"]
+              "skills": ["italiana.pasta-esticar"],
+              "explainWrong": "Pressing harder or blaming the water reads the tear backwards. A rested dough stretches; an unrested one springs back and splits along the line you just pushed. The fix is time, not force."
             }
           ]
         }
@@ -334,7 +364,11 @@
         "dishName": "Hand-Rolled Tagliatelle",
         "cookTimeMin": 45,
         "summary": "From dough to plate: make, roll, dry, cook and eat your own pasta.",
-        "practices": ["italiana.pasta-agua-farinha", "italiana.pasta-amassar", "italiana.pasta-esticar"],
+        "practices": [
+          "italiana.pasta-agua-farinha",
+          "italiana.pasta-amassar",
+          "italiana.pasta-esticar"
+        ],
         "xpReward": 500,
         "ingredients": ["300g flour", "3 eggs", "Salt", "Butter", "Parmesan"],
         "steps": [
@@ -435,7 +469,8 @@
             ]
           }
         ]
-      }
+      },
+      "missionId": "mission.tagliatelle"
     },
     {
       "id": "unit-italiano-2",
@@ -477,22 +512,34 @@
           "teaches": ["italiana.tomate-reducao", "italiana.tomate-acidez"],
           "questions": [
             {
-              "id": "q1",
+              "id": "it-u2-l1-q1",
               "type": "choice",
               "prompt": "Your garlic is turning brown in the oil. What went wrong?",
-              "options": ["The garlic is old", "The heat is too high", "You used minced garlic", "The oil is bad"],
+              "options": [
+                "The garlic is old",
+                "The heat is too high",
+                "You used minced garlic",
+                "The oil is bad"
+              ],
               "correctAnswer": "The heat is too high",
               "explanation": "Garlic burns at high heat. Low heat until the tomatoes go in, then keep it at a bubble.",
-              "skills": ["italiana.tomate-reducao"]
+              "skills": ["italiana.tomate-reducao"],
+              "explainWrong": "Old garlic and cheap oil do not brown on their own — heat does. Turn the flame down before you change anything else, or the next clove burns exactly the same way."
             },
             {
-              "id": "q2",
+              "id": "it-u2-l1-q2",
               "type": "choice",
               "prompt": "After 20 minutes, the sauce tastes too acidic. How do you fix it?",
-              "options": ["Add sugar", "Add more salt", "Cook it longer with a lid off", "Add butter or cream"],
+              "options": [
+                "Add sugar",
+                "Add more salt",
+                "Cook it longer with a lid off",
+                "Add butter or cream"
+              ],
               "correctAnswer": "Cook it longer with a lid off",
               "explanation": "Time reduces acidity. Fat (butter, cream, or good oil) rounds it out too.",
-              "skills": ["italiana.tomate-acidez"]
+              "skills": ["italiana.tomate-acidez"],
+              "explainWrong": "Sugar leaves the sauce tasting sweet instead of ripe, and salt sharpens acidity rather than softening it. Fat does round the edge, but it is the uncovered simmer that actually drives the sharpness off."
             }
           ]
         },
@@ -531,22 +578,34 @@
           "requires": ["ponto.ovo"],
           "questions": [
             {
-              "id": "q1",
+              "id": "it-u2-l2-q1",
               "type": "choice",
               "prompt": "Your carbonara scrambled. What happened?",
-              "options": ["The eggs were too old", "The pan was too hot when you added the egg mix", "You didn't use guanciale", "You cooked it too long"],
+              "options": [
+                "The eggs were too old",
+                "The pan was too hot when you added the egg mix",
+                "You didn't use guanciale",
+                "You cooked it too long"
+              ],
               "correctAnswer": "The pan was too hot when you added the egg mix",
               "explanation": "Off heat, stirring fast, splash of pasta water to cool it down. Those three things prevent scrambling.",
-              "skills": ["italiana.carbonara-emulsao"]
+              "skills": ["italiana.carbonara-emulsao"],
+              "explainWrong": "Egg age and guanciale change the flavour, not the texture. Scrambling is heat: the pan was still cooking when the egg went in. Off the heat, moving fast, with a splash of pasta water — that is what keeps it a sauce."
             },
             {
-              "id": "q2",
+              "id": "it-u2-l2-q2",
               "type": "choice",
               "prompt": "The sauce is too thick, coating the pasta like glue. Fix it?",
-              "options": ["Add more egg", "Splash of pasta water and stir", "Cook it longer", "Add cream"],
+              "options": [
+                "Add more egg",
+                "Splash of pasta water and stir",
+                "Cook it longer",
+                "Add cream"
+              ],
               "correctAnswer": "Splash of pasta water and stir",
               "explanation": "Starch in the water loosens it. Cream is not traditional and breaks the emulsion.",
-              "skills": ["italiana.carbonara-emulsao"]
+              "skills": ["italiana.carbonara-emulsao"],
+              "explainWrong": "More egg thickens what is already too thick, and more cooking sets it harder. Cream is the tempting fix and the one that breaks it — starchy water loosens an emulsion without washing out the flavour."
             }
           ]
         }
@@ -560,7 +619,18 @@
         "summary": "Slow, low heat: meat, tomato, and time create depth. The engine of Italian cooking.",
         "practices": ["italiana.ragu-brasear", "italiana.tomate-reducao", "tempero.camadas"],
         "xpReward": 600,
-        "ingredients": ["300g ground meat", "100g pancetta", "1 onion", "1 carrot", "1 celery", "500g tomatoes", "Milk", "White wine", "Olive oil", "Salt"],
+        "ingredients": [
+          "300g ground meat",
+          "100g pancetta",
+          "1 onion",
+          "1 carrot",
+          "1 celery",
+          "500g tomatoes",
+          "Milk",
+          "White wine",
+          "Olive oil",
+          "Salt"
+        ],
         "steps": [
           {
             "id": "s1",
@@ -647,7 +717,8 @@
             ]
           }
         ]
-      }
+      },
+      "missionId": "mission.due-sughi"
     },
     {
       "id": "unit-italiano-3",
@@ -667,7 +738,14 @@
           "xpReward": 300,
           "icon": "🥘",
           "imageUrl": "https://images.unsplash.com/photo-1614521267537-b85faf00021b?w=400",
-          "ingredients": ["300g risotto rice (Arborio or Carnaroli)", "1 onion", "1 litre stock", "White wine", "Butter", "Parmesan"],
+          "ingredients": [
+            "300g risotto rice (Arborio or Carnaroli)",
+            "1 onion",
+            "1 litre stock",
+            "White wine",
+            "Butter",
+            "Parmesan"
+          ],
           "preparationSteps": [
             {
               "title": "Stock hot",
@@ -694,30 +772,47 @@
               "description": "At the end, off heat: cold butter and cheese folded in. Creates the flow."
             }
           ],
-          "teaches": ["italiana.risotto-stirring", "italiana.risotto-mantecatura", "italiana.risotto-ponto"],
+          "teaches": [
+            "italiana.risotto-stirring",
+            "italiana.risotto-mantecatura",
+            "italiana.risotto-ponto"
+          ],
           "questions": [
             {
-              "id": "q1",
+              "id": "it-u3-l1-q1",
               "type": "choice",
               "prompt": "How do you know when to add the next ladle of stock?",
-              "options": ["After exactly 2 minutes", "When the rice looks dry on top", "When the previous liquid is almost absorbed", "When the rice grains show white"],
+              "options": [
+                "After exactly 2 minutes",
+                "When the rice looks dry on top",
+                "When the previous liquid is almost absorbed",
+                "When the rice grains show white"
+              ],
               "correctAnswer": "When the previous liquid is almost absorbed",
               "explanation": "Not bone dry, not swimming. Almost absorbed. That's the rhythm of risotto.",
-              "skills": ["italiana.risotto-stirring"]
+              "skills": ["italiana.risotto-stirring"],
+              "explainWrong": "A timer ignores how fast your pan runs, and waiting for dry rice means the grains stick and catch. Almost absorbed is the point where the rice still has something to work with."
             },
             {
-              "id": "q2",
+              "id": "it-u3-l1-q2",
               "type": "choice",
               "prompt": "Your risotto is soupy after 18 minutes. What happens next?",
-              "options": ["Stop adding stock", "Keep adding stock", "Add the butter and cheese now", "Cook it longer without adding stock"],
+              "options": [
+                "Stop adding stock",
+                "Keep adding stock",
+                "Add the butter and cheese now",
+                "Cook it longer without adding stock"
+              ],
               "correctAnswer": "Cook it longer without adding stock",
               "explanation": "Time varies. If it's still soupy at 18 minutes, keep stirring until the rice is creamy and coats the spoon.",
-              "skills": ["italiana.risotto-ponto"]
+              "skills": ["italiana.risotto-ponto"],
+              "explainWrong": "Stopping early leaves raw rice in a soup, and more stock makes more soup. Finishing with butter and cheese onto a loose risotto just thins them. Let the liquid go before you finish it."
             }
           ]
         }
       ],
-      "mission": null
+      "mission": null,
+      "missionId": "mission.risotto"
     },
     {
       "id": "unit-italiano-4",
@@ -755,18 +850,486 @@
           "teaches": ["italiana.pizza-massa", "italiana.pao-fermentacao"],
           "questions": [
             {
-              "id": "q1",
+              "id": "it-u4-l1-q1",
               "type": "choice",
               "prompt": "Why do you add salt and oil after 30 minutes, not at the start?",
-              "options": ["Salt kills yeast if added too early", "Oil prevents gluten development", "It's just tradition", "Salt needs water to dissolve"],
+              "options": [
+                "Salt kills yeast if added too early",
+                "Oil prevents gluten development",
+                "It's just tradition",
+                "Salt needs water to dissolve"
+              ],
               "correctAnswer": "Salt kills yeast if added too early",
               "explanation": "Salt directly on dry yeast can kill it. After hydration, it's safe.",
-              "skills": ["italiana.pizza-massa"]
+              "skills": ["italiana.pizza-massa"],
+              "explainWrong": "Oil slows gluten a little but does not stop it, and tradition is never the reason in bread. Salt straight onto dry yeast draws the water out of it, and a dough that never rises will not tell you why."
             }
           ]
         }
       ],
-      "mission": null
+      "mission": null,
+      "missionId": "mission.pizza"
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.tagliatelle",
+      "unitId": "unit-italiano-1",
+      "title": "Pasta you made yourself",
+      "dishName": "Fresh tagliatelle",
+      "cookTimeMin": 60,
+      "summary": "Flour, eggs and your hands. Most of the hour is resting time — the work itself is about fifteen minutes.",
+      "practices": [
+        "italiana.pasta-tipi",
+        "italiana.pasta-agua-farinha",
+        "italiana.pasta-amassar",
+        "italiana.pasta-esticar"
+      ],
+      "ingredients": [
+        "200 g plain flour (or 00 flour)",
+        "2 eggs",
+        "A pinch of salt",
+        "Extra flour for dusting",
+        "A rolling pin or pasta machine"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "The well",
+          "description": "Pile the flour on the counter and open a wide well in the middle. Crack the eggs into it. The wall has to be high enough to hold them.",
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "One egg short? Take out 50 g of flour. The ratio matters more than the amount — roughly one egg per 100 g."
+            },
+            {
+              "kind": "pronto",
+              "answer": "The well is right when you can beat the eggs without a single one escaping the wall."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Bring it together",
+          "description": "Beat the eggs with a fork, drawing in flour from the inside wall a little at a time. When it is too thick for the fork, switch to your hands.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Sticking to your fingers is normal at this stage. Scrape your hands clean with a bench scraper rather than adding flour."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Ready to knead when there is no loose flour left and it holds as one rough lump."
+            }
+          ],
+          "durationSec": 300
+        },
+        {
+          "id": "s3",
+          "title": "Knead",
+          "description": "Push with the heel of your hand, fold, turn a quarter. Eight to ten minutes. It goes from rough to smooth and slightly springy.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Still sticky after five minutes? Keep going. Flour now gives you stiff pasta that cooks tough."
+            },
+            {
+              "kind": "falta",
+              "answer": "Cracking at the edges means it is dry: wet your fingers and keep kneading, a few drops at a time."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Press a thumb in. If the dent springs most of the way back, it is done."
+            }
+          ],
+          "durationSec": 540
+        },
+        {
+          "id": "s4",
+          "title": "Rest",
+          "description": "Wrap it and leave it on the counter for 30 minutes. This is not optional: unrested dough fights the pin and tears.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Thirty minutes is the minimum. An hour is better, and it keeps in the fridge overnight."
+            }
+          ],
+          "durationSec": 1800
+        },
+        {
+          "id": "s5",
+          "title": "Roll it out",
+          "description": "Flatten, then roll from the centre outwards, turning as you go. Stop when you can see the shadow of your hand through the sheet.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Dust the counter and the pin, not the dough. Too much flour on the sheet stops it sealing when you fold it."
+            },
+            {
+              "kind": "falta",
+              "answer": "No pin? A straight wine bottle works. Roll in short passes and turn often."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Hold the sheet up to the light: your hand should read as a shadow through it."
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "title": "Cut and cook",
+          "description": "Dust the sheet, roll it loosely, cut ribbons a centimetre wide. Shake them out. Salted boiling water, two to three minutes — fresh pasta is quick.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Ribbons welding together means the roll was not floured enough. Toss the cut pasta in flour and spread it out."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Fresh pasta floats and turns tender in two to three minutes. Taste one — it should give with no chalky centre."
+            }
+          ],
+          "durationSec": 180
+        }
+      ]
+    },
+    {
+      "id": "mission.due-sughi",
+      "unitId": "unit-italiano-2",
+      "title": "Two sauces, one pot",
+      "dishName": "Pomodoro and carbonara",
+      "cookTimeMin": 40,
+      "summary": "The same pasta water serves both: one sauce built by reducing, one built by emulsifying. Cooking them side by side is what makes the difference obvious.",
+      "practices": [
+        "italiana.tomate-reducao",
+        "italiana.tomate-acidez",
+        "italiana.carbonara-emulsao",
+        "italiana.pasta-tipi"
+      ],
+      "ingredients": [
+        "400 g spaghetti (200 g per sauce)",
+        "1 tin of peeled tomatoes",
+        "2 cloves of garlic",
+        "Olive oil",
+        "2 eggs plus 1 yolk",
+        "80 g guanciale or pancetta",
+        "50 g pecorino or parmesan, grated",
+        "Black pepper and salt"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Get the water on",
+          "description": "A big pot, well salted. It has to be boiling before either sauce is finished — both of them need that water.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Salt it until it tastes like a light broth. This is the only chance to season the pasta itself."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Garlic, gently",
+          "description": "Sliced garlic into cold oil, then low heat. Let it go pale gold and perfume the oil. It must not brown.",
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Brown garlic turns the whole sauce bitter and it will not cook out. Start the oil again — thirty seconds against a ruined sauce."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Ready when it smells sweet and sizzles slowly. If it is crackling hard, the heat is too high."
+            }
+          ],
+          "durationSec": 180
+        },
+        {
+          "id": "s3",
+          "title": "Reduce the tomato",
+          "description": "Tomatoes in, crushed by hand. Simmer uncovered, 15 to 20 minutes, until it thickens and the colour deepens from red to brick.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Catching on the bottom means the heat is too high or the pan too thin. Move it off, do not scrape the burnt layer up into the sauce."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Drag a spoon across the pan: the trail should hold for a second before closing. Still sharp? Give it five more minutes uncovered."
+            }
+          ],
+          "durationSec": 1200
+        },
+        {
+          "id": "s4",
+          "title": "Render the guanciale",
+          "description": "Separate pan, no oil, low heat. Let the fat come out slowly until the meat is crisp at the edges. Keep the fat.",
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Hard and dark means it went too fast. Low and slow is what renders fat instead of burning it."
+            },
+            {
+              "kind": "falta",
+              "answer": "No guanciale? Pancetta works, smoked bacon changes the dish but still teaches the emulsion."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Ready when the pieces are golden and there is a pool of clear fat."
+            }
+          ],
+          "durationSec": 420
+        },
+        {
+          "id": "s5",
+          "title": "The egg mix",
+          "description": "Beat the eggs, the extra yolk, the cheese and a lot of black pepper into a paste. Do this before the pasta is drained, not after.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "It should be thick enough to fall off the fork in a ribbon. If it is runny, add more cheese."
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "title": "Marry them, off the heat",
+          "description": "Drain, saving a mug of water. Half the pasta into the tomato. The other half into the guanciale pan, off the heat, then the egg mix, stirring hard with a splash of pasta water.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Scrambled egg means the pan was still hot. Take it right off next time and let it stand thirty seconds first."
+            },
+            {
+              "kind": "cola",
+              "answer": "Claggy and thick: another splash of pasta water and keep stirring. The starch is what loosens it."
+            },
+            {
+              "kind": "pronto",
+              "answer": "The carbonara is right when it coats the pasta and slides — glossy, not set."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.risotto",
+      "unitId": "unit-italiano-3",
+      "title": "Risotto, by the spoon",
+      "dishName": "Risotto alla parmigiana",
+      "cookTimeMin": 35,
+      "summary": "Twenty minutes at the pan without walking away. It is the one dish where the stirring is the technique, not a chore.",
+      "practices": [
+        "italiana.risotto-stirring",
+        "italiana.risotto-mantecatura",
+        "italiana.risotto-ponto"
+      ],
+      "ingredients": [
+        "320 g carnaroli or arborio rice",
+        "1.5 l hot stock, kept simmering",
+        "1 small onion, finely chopped",
+        "A glass of white wine",
+        "60 g cold butter",
+        "60 g parmesan, grated",
+        "Olive oil and salt"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Stock on, and keep it hot",
+          "description": "The stock simmers in its own pan next to you the whole time. Cold stock into hot rice stops the cooking dead each time you ladle.",
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No stock? Hot salted water with a bay leaf is honest and works. Never use cold water."
+            },
+            {
+              "kind": "pronto",
+              "answer": "It should be steaming and barely trembling, not at a rolling boil."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Soffritto",
+          "description": "Onion in oil over low heat until soft and translucent — no colour. Five to seven minutes.",
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Brown onion gives the risotto a harsh edge you cannot remove. Lower the heat and add a spoon of stock to cool the pan."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Soft, glassy, and it smells sweet rather than sharp."
+            }
+          ],
+          "durationSec": 400
+        },
+        {
+          "id": "s3",
+          "title": "Toast the rice",
+          "description": "Rice in dry, stir for two minutes until the grains are hot and the edges go translucent with a white dot at the centre. Then the wine, and let it disappear.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Sticking means the pan is too hot with too little fat. Keep the grains moving."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Pick a grain out: a clear rim around a white centre means it is toasted."
+            }
+          ],
+          "durationSec": 180
+        },
+        {
+          "id": "s4",
+          "title": "Ladle and stir",
+          "description": "One ladle of stock, stir, wait until it is almost absorbed, repeat. Eighteen minutes or so. Almost absorbed — not dry, not swimming.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Catching on the base means you let it go too dry between ladles. Next ladle a little sooner."
+            },
+            {
+              "kind": "falta",
+              "answer": "Out of stock before the rice is done? Hot water finishes it. Better that than stopping early."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Taste a grain from eighteen minutes on: tender with the faintest resistance at the core, and no chalk."
+            }
+          ],
+          "durationSec": 1080
+        },
+        {
+          "id": "s5",
+          "title": "Mantecatura",
+          "description": "Off the heat. Cold butter and the parmesan, beaten in hard for a minute. This is what turns cooked rice into risotto.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Stiff and heavy: a splash of hot stock and keep beating. It should move, not stand."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Shake the pan — the risotto should settle in a slow wave. That is all'onda, and it is the test."
+            }
+          ],
+          "durationSec": 90
+        }
+      ]
+    },
+    {
+      "id": "mission.pizza",
+      "unitId": "unit-italiano-4",
+      "title": "Pizza from a cold rise",
+      "dishName": "Pizza margherita",
+      "cookTimeMin": 90,
+      "summary": "Almost all of it is waiting. Twenty minutes of work, a long rise, and the hottest oven you own.",
+      "practices": ["italiana.pizza-massa", "italiana.pao-fermentacao"],
+      "ingredients": [
+        "500 g strong bread flour",
+        "325 ml cold water",
+        "3 g dried yeast",
+        "12 g salt",
+        "A tablespoon of olive oil",
+        "Passata, mozzarella, basil"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Flour, water, yeast",
+          "description": "Mix flour, water and yeast to a shaggy mass. No salt, no oil yet. Leave it 30 minutes so the flour drinks properly.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "It is meant to be wet and untidy at this point. Wet your hands instead of adding flour."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Ready to rest when there is no dry flour left in the bowl."
+            }
+          ],
+          "durationSec": 1800
+        },
+        {
+          "id": "s2",
+          "title": "Now the salt and oil",
+          "description": "Work the salt and oil in. Salt on dry yeast at the start draws the water out of it and the dough never rises.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "It gets slacker before it gets stronger. Fold it over on itself rather than kneading hard."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Worked in when you cannot feel grains of salt between your fingers."
+            }
+          ],
+          "durationSec": 300
+        },
+        {
+          "id": "s3",
+          "title": "Fold, then let it rise",
+          "description": "Four folds, 20 minutes apart. Then cover and leave it: 6 to 8 hours at room temperature, or overnight in the fridge.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Risen when it has roughly doubled and the surface is domed with bubbles underneath."
+            },
+            {
+              "kind": "falta",
+              "answer": "Short on time? A warmer spot speeds it up, but the flavour comes from the long slow rise."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "title": "Shape it by hand",
+          "description": "Press from the centre outwards, leaving the last two centimetres untouched. That rim is the cornicione. Never use a rolling pin.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Sticking to the counter means not enough semolina underneath. Dust, do not add flour to the dough."
+            },
+            {
+              "kind": "falta",
+              "answer": "Tearing means it is under-rested. Cover it and give it ten minutes, then try again."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Stretched enough when you can see light through the middle."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "title": "Hottest oven you have",
+          "description": "Oven as high as it goes with a tray or stone preheated inside for 30 minutes. Sauce thin, cheese sparse. Six to ten minutes.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Burnt base with a pale top: the stone was too hot and too low. Move it up a shelf."
+            },
+            {
+              "kind": "cola",
+              "answer": "Stuck to the peel or tray? Too much sauce, or it sat too long before going in. Build it fast and launch it."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Done when the rim is blistered and spotted brown and the base lifts stiff off the tray."
+            }
+          ],
+          "durationSec": 600
+        }
+      ]
     }
   ]
 }
