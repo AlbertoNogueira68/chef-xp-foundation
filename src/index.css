@@ -145,5 +145,15 @@
   /* Enable smooth scrolling on mobile browsers */
   [class*="overflow-y"] {
     -webkit-overflow-scrolling: touch;
+    -webkit-touch-callout: none;
+  }
+
+  /* Fix scrolling in flex containers on mobile */
+  .flex-1.min-h-0[class*="overflow-y"],
+  .flex-1[class*="overflow-y-auto"] {
+    overflow-y: scroll !important;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
   }
 }

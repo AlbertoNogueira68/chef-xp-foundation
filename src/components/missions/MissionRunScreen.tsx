@@ -61,7 +61,7 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
   const remaining = timers.remainingMs(run.stepIndex);
 
   return (
-    <div className="flex h-full flex-col bg-background">
+    <div className="flex h-full w-full flex-col bg-background overflow-hidden">
       {/* Barra de topo */}
       <div className="flex items-center gap-3 border-b border-border px-3 py-2.5">
         <Button
@@ -111,7 +111,15 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
         )}
       </div>
 
-      <div className="flex-1 min-h-0 overflow-y-auto px-4 pb-4 pt-5">
+      <div
+        className="flex-1 min-h-0 px-4 pb-4 pt-5"
+        style={{
+          overflowY: 'scroll',
+          WebkitOverflowScrolling: 'touch',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
         <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-600">
           {t("{dish} · step {step} of {total}", {
             dish: mission.dishName,

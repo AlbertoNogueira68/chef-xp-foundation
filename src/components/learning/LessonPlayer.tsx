@@ -138,7 +138,7 @@ export function LessonPlayer({
   }
 
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 w-full flex-col overflow-hidden">
       <PlayerTopBar
         progress={progress}
         hearts={hearts}
@@ -226,7 +226,15 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
   const tipCount = lesson.tips?.length ?? 0;
 
   return (
-    <div className="flex flex-1 flex-col min-h-0 overflow-y-auto px-4 pb-6 pt-4">
+    <div
+      className="flex flex-1 flex-col min-h-0 px-4 pb-6 pt-4"
+      style={{
+        overflowY: 'scroll',
+        WebkitOverflowScrolling: 'touch',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
       <Badge className="mb-2 w-fit rounded-full border-0 bg-emerald-100 text-emerald-800">
         {lesson.type === "chest"
           ? t("Bonus")
