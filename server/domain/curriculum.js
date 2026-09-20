@@ -5,13 +5,11 @@ import { fileURLToPath } from "node:url";
 import { validateCurriculum } from "./curriculumValidation.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const caminhos = {
-  en: path.resolve(__dirname, "../../shared/curriculum.json"),
-  pt: path.resolve(__dirname, "../../shared/curriculum.pt.json"),
-};
+const TRAILS_DIR = path.resolve(__dirname, "../../shared/trails");
 
-export const LANGUAGES = Object.keys(caminhos);
+export const LANGUAGES = ["en", "pt"];
 export const DEFAULT_LANGUAGE = "en";
+export const DEFAULT_TRAIL = "main-course";
 
 /**
  * O currículo existe nas duas línguas, com os **mesmos ids**.
@@ -56,13 +54,83 @@ function carregar(caminho) {
   };
 }
 
-const POR_LINGUA = Object.fromEntries(
-  Object.entries(caminhos).map(([lingua, caminho]) => [lingua, carregar(caminho)]),
-);
+// Load the foundational curriculum as "main-course" (backward compatibility)
+const mainCoursePaths = {
+  en: path.resolve(__dirname, "../../shared/curriculum.json"),
+  pt: path.resolve(__dirname, "../../shared/curriculum.pt.json"),
+};
 
-/** O conjunto do currículo numa língua. Uma língua desconhecida cai no inglês. */
-export function curriculumFor(lang = DEFAULT_LANGUAGE) {
-  return POR_LINGUA[lang] ?? POR_LINGUA[DEFAULT_LANGUAGE];
+const TRAILS_BY_ID = {};
+
+// Load main-course trail
+const mainCourseByLang = Object.fromEntries(
+  Object.entries(mainCoursePaths).map(([lingua, caminho]) => [lingua, carregar(caminho)]),
+);
+TRAILS_BY_ID[DEFAULT_TRAIL] = mainCourseByLang;
+
+// Load all other trails from shared/trails directory
+function loadAllTrails() {
+  if (!fs.existsSync(TRAILS_DIR)) {
+    return;
+  }
+
+  const files = fs.readdirSync(TRAILS_DIR);
+  const trailIds = new Set();
+
+  // Discover trail IDs (e.g., italian.json → "italian" trail)
+  files.forEach((file) => {
+    if (file.endsWith(".json") && !file.includes(".")) {
+      const match = file.match(/^([^.]+)\.json$/);
+      if (match) {
+        const trailId = match[1];
+        if (trailId !== DEFAULT_TRAIL) {
+          trailIds.add(trailId);
+        }
+      }
+    }
+  });
+
+  // For each trail ID, load all language variants
+  trailIds.forEach((trailId) => {
+    const trailByLang = {};
+    LANGUAGES.forEach((lang) => {
+      const filename = `${trailId}.json`;
+      const filepath = path.resolve(TRAILS_DIR, filename);
+      if (fs.existsSync(filepath)) {
+        try {
+          trailByLang[lang] = carregar(filepath);
+        } catch (err) {
+          console.error(`Failed to load trail ${trailId} (${lang}):`, err.message);
+        }
+      }
+    });
+
+    // Only register the trail if it has at least one language variant
+    if (Object.keys(trailByLang).length > 0) {
+      TRAILS_BY_ID[trailId] = trailByLang;
+    }
+  });
+}
+
+loadAllTrails();
+
+/** Retorna todos os IDs dos trilhos disponíveis. */
+export function getAllTrailIds() {
+  return Object.keys(TRAILS_BY_ID);
+}
+
+/** Verificar se um trilho existe. */
+export function trailExists(trailId) {
+  return trailId in TRAILS_BY_ID;
+}
+
+/** O conjunto do currículo de um trilho numa língua. */
+export function curriculumFor(lang = DEFAULT_LANGUAGE, trailId = DEFAULT_TRAIL) {
+  const trail = TRAILS_BY_ID[trailId];
+  if (!trail) {
+    return TRAILS_BY_ID[DEFAULT_TRAIL][lang] ?? TRAILS_BY_ID[DEFAULT_TRAIL][DEFAULT_LANGUAGE];
+  }
+  return trail[lang] ?? trail[DEFAULT_LANGUAGE];
 }
 
 /*
@@ -70,7 +138,7 @@ export function curriculumFor(lang = DEFAULT_LANGUAGE) {
  * quando o texto não vai para o ecrã de ninguém — a sincronização com a base
  * de dados, por exemplo.
  */
-const ingles = POR_LINGUA[DEFAULT_LANGUAGE];
+const ingles = mainCourseByLang[DEFAULT_LANGUAGE];
 export const CURRICULUM = ingles.curriculum;
 export const SKILLS = ingles.skills;
 export const MISSIONS = ingles.missions;
@@ -78,33 +146,41 @@ export const MISSIONS = ingles.missions;
 /** Compatibilidade: o resto do servidor trata o currículo como lista de unidades. */
 export const LEARNING_CURRICULUM = ingles.units;
 
-export function getAllLessons(lang) {
-  return curriculumFor(lang).lessons;
+export function getAllLessons(lang = DEFAULT_LANGUAGE, trailId = DEFAULT_TRAIL) {
+  return curriculumFor(lang, trailId).lessons;
 }
 
-export function getLesson(id, lang) {
-  return curriculumFor(lang).lessonsById.get(id) ?? null;
+export function getLesson(id, lang = DEFAULT_LANGUAGE, trailId = DEFAULT_TRAIL) {
+  return curriculumFor(lang, trailId).lessonsById.get(id) ?? null;
 }
 
-export function getLessonIndex(id) {
-  return ingles.lessonOrder.indexOf(id);
+export function getLessonIndex(id, trailId = DEFAULT_TRAIL) {
+  const trail = TRAILS_BY_ID[trailId];
+  if (!trail) {
+    return ingles.lessonOrder.indexOf(id);
+  }
+  return trail[DEFAULT_LANGUAGE]?.lessonOrder.indexOf(id) ?? -1;
 }
 
-export function getLessonOrder() {
-  return [...ingles.lessonOrder];
+export function getLessonOrder(trailId = DEFAULT_TRAIL) {
+  const trail = TRAILS_BY_ID[trailId];
+  if (!trail) {
+    return [...ingles.lessonOrder];
+  }
+  return [...(trail[DEFAULT_LANGUAGE]?.lessonOrder ?? [])];
 }
 
-export function getSkill(id, lang) {
-  return curriculumFor(lang).skillsById.get(id) ?? null;
+export function getSkill(id, lang = DEFAULT_LANGUAGE, trailId = DEFAULT_TRAIL) {
+  return curriculumFor(lang, trailId).skillsById.get(id) ?? null;
 }
 
-export function getUnitOfLesson(id, lang) {
-  return curriculumFor(lang).unitByLessonId.get(id) ?? null;
+export function getUnitOfLesson(id, lang = DEFAULT_LANGUAGE, trailId = DEFAULT_TRAIL) {
+  return curriculumFor(lang, trailId).unitByLessonId.get(id) ?? null;
 }
 
 /** Competências que uma lição ensina, já resolvidas em objetos. */
-export function getLessonSkills(lesson, lang) {
-  const { skillsById } = curriculumFor(lang);
+export function getLessonSkills(lesson, lang = DEFAULT_LANGUAGE, trailId = DEFAULT_TRAIL) {
+  const { skillsById } = curriculumFor(lang, trailId);
   return {
     teaches: (lesson.teaches ?? []).map((id) => skillsById.get(id)).filter(Boolean),
     requires: (lesson.requires ?? []).map((id) => skillsById.get(id)).filter(Boolean),
