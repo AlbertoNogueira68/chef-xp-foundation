@@ -325,53 +325,55 @@ function LessonPrep({
   const stepCount = lesson.preparationSteps.length;
 
   return (
-    <div className="flex flex-1 flex-col px-4 pb-6 pt-4">
-      {step.isTip ? (
-        <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-amber-600">
-          <Lightbulb className="size-3.5" />
-          Dica do Chef · {stepIndex - stepCount + 1} de {totalSteps - stepCount}
-        </p>
-      ) : (
-        <p className="text-xs font-medium uppercase tracking-wider text-emerald-600">
-          {t("Prep · Step {step} of {total}", { step: stepIndex + 1, total: stepCount })}
-        </p>
-      )}
-      <p className="mt-1 text-sm text-muted-foreground">{lesson.dishName}</p>
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-4">
+        {step.isTip ? (
+          <p className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-amber-600">
+            <Lightbulb className="size-3.5" />
+            Dica do Chef · {stepIndex - stepCount + 1} de {totalSteps - stepCount}
+          </p>
+        ) : (
+          <p className="text-xs font-medium uppercase tracking-wider text-emerald-600">
+            {t("Prep · Step {step} of {total}", { step: stepIndex + 1, total: stepCount })}
+          </p>
+        )}
+        <p className="mt-1 text-sm text-muted-foreground">{lesson.dishName}</p>
 
-      <div className="mt-6 flex flex-1 flex-col justify-center">
-        {/* O passo é o chef a dizê-lo, não um cartão de texto: é a mesma
+        <div className="mt-6 flex flex-col justify-center">
+          {/* O passo é o chef a dizê-lo, não um cartão de texto: é a mesma
             informação, mas com alguém a ensiná-la. */}
-        {/* As dicas são para guardar, não para responder: não há pergunta nem
+          {/* As dicas são para guardar, não para responder: não há pergunta nem
             corações atrás delas. */}
-        <ChefSpeech tone={step.isTip ? "neutro" : "certo"} size="lg" title={step.title}>
-          <p>{step.description}</p>
-          {!step.isTip && (
-            <p className="mt-2 text-xs italic opacity-70">
-              {chefPrepLine(lesson.dishName, stepIndex)}
-            </p>
-          )}
-        </ChefSpeech>
+          <ChefSpeech tone={step.isTip ? "neutro" : "certo"} size="lg" title={step.title}>
+            <p>{step.description}</p>
+            {!step.isTip && (
+              <p className="mt-2 text-xs italic opacity-70">
+                {chefPrepLine(lesson.dishName, stepIndex)}
+              </p>
+            )}
+          </ChefSpeech>
 
-        <div className="mt-6 flex justify-center gap-2">
-          {Array.from({ length: totalSteps }).map((_, i) => (
-            <div
-              key={i}
-              className={cn(
-                "h-1.5 rounded-full transition-all",
-                i === stepIndex
-                  ? i >= stepCount
-                    ? "w-6 bg-amber-500"
-                    : "w-6 bg-emerald-500"
-                  : i < stepIndex
-                    ? "w-1.5 bg-emerald-300"
-                    : "w-1.5 bg-muted",
-              )}
-            />
-          ))}
+          <div className="mt-6 flex justify-center gap-2">
+            {Array.from({ length: totalSteps }).map((_, i) => (
+              <div
+                key={i}
+                className={cn(
+                  "h-1.5 rounded-full transition-all",
+                  i === stepIndex
+                    ? i >= stepCount
+                      ? "w-6 bg-amber-500"
+                      : "w-6 bg-emerald-500"
+                    : i < stepIndex
+                      ? "w-1.5 bg-emerald-300"
+                      : "w-1.5 bg-muted",
+                )}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      <div className="mt-auto flex gap-2">
+      <div className="flex shrink-0 gap-2 border-t border-border/60 bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3">
         <Button variant="outline" className="rounded-full" onClick={onPrev}>
           <ArrowLeft className="mr-1 size-4" />
           {stepIndex === 0 ? t("Back") : t("Previous")}
@@ -520,7 +522,9 @@ function OrderExercise({
       </div>
 
       {picked.length > 0 && !showFeedback && (
-        <div className="flex gap-2">
+        // Com muitos passos a lista empurra os botões para fora do ecrã;
+        // colados ao fundo da área que rola, continuam a apanhar o toque.
+        <div className="sticky bottom-0 z-10 flex gap-2 bg-background py-2">
           <Button
             variant="outline"
             className="rounded-full"
@@ -645,105 +649,107 @@ function LessonQuiz({
     showFeedback && !isCorrect && (question.type === "order" || question.type === "estimate");
 
   return (
-    <div className="flex flex-1 flex-col px-4 pb-6 pt-4">
-      <p className="text-xs font-medium uppercase tracking-wider text-emerald-600">
-        {t("Quiz · {dish}", { dish: dishName })}
-      </p>
-      <p className="mt-0.5 text-xs text-muted-foreground">
-        {t("Question {number} of {total}", { number: questionIndex + 1, total: totalQuestions })}
-      </p>
+    // A explicação de uma pergunta pode ser mais alta do que o ecrã. O corpo
+    // rola; o botão de continuar fica ancorado no fundo, sempre ao alcance.
+    <div className="flex min-h-0 flex-1 flex-col">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 pt-4">
+        <p className="text-xs font-medium uppercase tracking-wider text-emerald-600">
+          {t("Quiz · {dish}", { dish: dishName })}
+        </p>
+        <p className="mt-0.5 text-xs text-muted-foreground">
+          {t("Question {number} of {total}", { number: questionIndex + 1, total: totalQuestions })}
+        </p>
 
-      {/* Quem pergunta é o chef. O enunciado continua a ser o cabeçalho da
+        {/* Quem pergunta é o chef. O enunciado continua a ser o cabeçalho da
           pergunta para quem ouve a página — só mudou quem o diz. */}
-      <ChefSpeech className="mt-3" size="sm" title={chefQuizLine(dishName, questionIndex)}>
-        <h2 className="text-lg font-bold leading-snug">{question.prompt}</h2>
-      </ChefSpeech>
+        <ChefSpeech className="mt-3" size="sm" title={chefQuizLine(dishName, questionIndex)}>
+          <h2 className="text-lg font-bold leading-snug">{question.prompt}</h2>
+        </ChefSpeech>
 
-      <div className="mt-6 flex flex-1 flex-col gap-3">
-        {(question.type === "choice" || question.type === "judge") && (
-          <ChoiceExercise
-            question={question}
-            selectedAnswer={selectedAnswer}
-            showFeedback={showFeedback}
-            isCorrect={isCorrect}
-            correctAnswer={correctAnswer}
-            isChecking={isChecking}
-            onSubmit={onSubmit}
-          />
+        <div className="mt-6 flex flex-col gap-3">
+          {(question.type === "choice" || question.type === "judge") && (
+            <ChoiceExercise
+              question={question}
+              selectedAnswer={selectedAnswer}
+              showFeedback={showFeedback}
+              isCorrect={isCorrect}
+              correctAnswer={correctAnswer}
+              isChecking={isChecking}
+              onSubmit={onSubmit}
+            />
+          )}
+
+          {question.type === "order" && (
+            <OrderExercise
+              question={question}
+              showFeedback={showFeedback}
+              isChecking={isChecking}
+              onSubmit={onSubmit}
+            />
+          )}
+
+          {question.type === "estimate" && (
+            <EstimateExercise
+              question={question}
+              showFeedback={showFeedback}
+              isChecking={isChecking}
+              onSubmit={onSubmit}
+            />
+          )}
+        </div>
+
+        {showFeedback && semCorrecao && (
+          <div className="mt-4">
+            {/* Nem "certo" nem "errado": quem corrige é o servidor, e ele não
+              está ao alcance. Inventar um dos dois seria pior do que esperar. */}
+            <ChefSpeech
+              tone="calmo"
+              size="sm"
+              title={
+                <span className="flex items-center gap-2">
+                  <CloudUpload className="size-4" />
+                  {t("Answer saved")}
+                </span>
+              }
+            >
+              {t(
+                "With no connection, marking waits until you're back online. Carry on with the lesson — this costs you no lives.",
+              )}
+            </ChefSpeech>
+          </div>
         )}
 
-        {question.type === "order" && (
-          <OrderExercise
-            question={question}
-            showFeedback={showFeedback}
-            isChecking={isChecking}
-            onSubmit={onSubmit}
-          />
-        )}
+        {showFeedback && !semCorrecao && (
+          <div className="mt-4">
+            <ChefSpeech
+              tone={isCorrect ? "certo" : "errado"}
+              mood={isCorrect ? "aprovar" : "erro"}
+              size="sm"
+              title={chefFeedbackLine(isCorrect, `${dishName}!${questionIndex}`)}
+            >
+              {/* Quando se erra, o que aparece primeiro é o porquê do erro — não
+                a resposta certa. É a diferença entre ensinar e avaliar. */}
+              {!isCorrect && explainWrong && <p className="font-medium">{explainWrong}</p>}
 
-        {question.type === "estimate" && (
-          <EstimateExercise
-            question={question}
-            showFeedback={showFeedback}
-            isChecking={isChecking}
-            onSubmit={onSubmit}
-          />
+              {showCorrectInFeedback && (
+                <p className="mt-2 rounded-xl bg-white/60 px-3 py-2">
+                  <span className="font-semibold">{t("Correct answer:")} </span>
+                  {formatAnswer(correctAnswer, question.unit)}
+                </p>
+              )}
+
+              <p className="mt-2">{explanation}</p>
+            </ChefSpeech>
+          </div>
         )}
       </div>
 
-      {showFeedback && semCorrecao && (
-        <div className="mt-4">
-          {/* Nem "certo" nem "errado": quem corrige é o servidor, e ele não
-              está ao alcance. Inventar um dos dois seria pior do que esperar. */}
-          <ChefSpeech
-            tone="calmo"
-            size="sm"
-            title={
-              <span className="flex items-center gap-2">
-                <CloudUpload className="size-4" />
-                {t("Answer saved")}
-              </span>
-            }
-          >
-            {t(
-              "With no connection, marking waits until you're back online. Carry on with the lesson — this costs you no lives.",
-            )}
-          </ChefSpeech>
+      {showFeedback && (
+        <div className="shrink-0 border-t border-border/60 bg-background px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-3">
           <Button
-            className="mt-3 w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
+            className="w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
             onClick={onNext}
-          >
-            {t("Continue")}
-          </Button>
-        </div>
-      )}
-
-      {showFeedback && !semCorrecao && (
-        <div className="mt-4">
-          <ChefSpeech
-            tone={isCorrect ? "certo" : "errado"}
-            mood={isCorrect ? "aprovar" : "erro"}
-            size="sm"
-            title={chefFeedbackLine(isCorrect, `${dishName}!${questionIndex}`)}
-          >
-            {/* Quando se erra, o que aparece primeiro é o porquê do erro — não
-                a resposta certa. É a diferença entre ensinar e avaliar. */}
-            {!isCorrect && explainWrong && <p className="font-medium">{explainWrong}</p>}
-
-            {showCorrectInFeedback && (
-              <p className="mt-2 rounded-xl bg-white/60 px-3 py-2">
-                <span className="font-semibold">{t("Correct answer:")}</span>
-                {formatAnswer(correctAnswer, question.unit)}
-              </p>
-            )}
-
-            <p className="mt-2">{explanation}</p>
-          </ChefSpeech>
-
-          <Button
-            className="mt-3 w-full rounded-full bg-emerald-500 hover:bg-emerald-600"
-            onClick={onNext}
-            disabled={!isCorrect && hearts <= 0}
+            disabled={!semCorrecao && !isCorrect && hearts <= 0}
           >
             {t("Continue")}
           </Button>
