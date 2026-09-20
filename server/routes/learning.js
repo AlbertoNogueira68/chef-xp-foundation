@@ -12,18 +12,28 @@ import {
   getLessonOrder,
   toClientLesson,
   curriculumFor,
+  DEFAULT_TRAIL,
 } from "../domain/curriculum.js";
 import { MAX_HEARTS, xpForLesson } from "../domain/xp.js";
 import { awardStreakBonus, awardXp, loadDailyState } from "../lib/xpLedger.js";
+import {
+  getAllAvailableTrails,
+  getTrailCurriculum,
+  getUserTrails,
+  startUserTrail,
+  selectUserTrail,
+  deleteUserTrail,
+} from "../services/trailService.js";
 
 const router = Router();
 
 router.use(requireAuth);
 
-async function loadCompletedIds(client, userId) {
-  const { rows } = await client.query(`SELECT lesson_id FROM lesson_progress WHERE user_id = $1`, [
-    userId,
-  ]);
+async function loadCompletedIds(client, userId, trailId = DEFAULT_TRAIL) {
+  const { rows } = await client.query(
+    `SELECT lesson_id FROM lesson_progress WHERE user_id = $1 AND trail_id = $2`,
+    [userId, trailId],
+  );
   return new Set(rows.map((row) => row.lesson_id));
 }
 
@@ -31,11 +41,11 @@ async function loadCompletedIds(client, userId) {
  * Estados do percurso: tudo o que já foi feito é "completed", a primeira por
  * fazer é "current", as seguintes ficam trancadas. A ordem é a do currículo.
  */
-function buildStatuses(completed) {
+function buildStatuses(completed, trailId = DEFAULT_TRAIL) {
   const statuses = new Map();
   let foundCurrent = false;
 
-  for (const lessonId of getLessonOrder()) {
+  for (const lessonId of getLessonOrder(trailId)) {
     if (completed.has(lessonId)) {
       statuses.set(lessonId, "completed");
     } else if (!foundCurrent) {
@@ -48,7 +58,7 @@ function buildStatuses(completed) {
   return statuses;
 }
 
-async function buildPath(client, userId, lang) {
+async function buildPath(client, userId, lang = "en", trailId = DEFAULT_TRAIL) {
   const { rows: userRows } = await client.query(
     `SELECT time_zone, daily_xp_goal FROM users WHERE id = $1`,
     [userId],
@@ -56,11 +66,11 @@ async function buildPath(client, userId, lang) {
   const timeZone = userRows[0]?.time_zone ?? "UTC";
   const dailyXpGoal = Number(userRows[0]?.daily_xp_goal ?? 50);
 
-  const completed = await loadCompletedIds(client, userId);
-  const statuses = buildStatuses(completed);
+  const completed = await loadCompletedIds(client, userId, trailId);
+  const statuses = buildStatuses(completed, trailId);
   const daily = await loadDailyState(client, userId, { timeZone });
 
-  const { units: unidades, missions, skills, lessons: todasAsLicoes } = curriculumFor(lang);
+  const { units: unidades, missions, skills, lessons: todasAsLicoes } = curriculumFor(lang, trailId);
 
   const units = unidades.map((unit) => ({
     id: unit.id,
@@ -110,14 +120,16 @@ async function buildPath(client, userId, lang) {
 router.get(
   "/path",
   asyncHandler(async (req, res) => {
-    res.json(await buildPath(getPool(), req.user.id, req.lang));
+    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    res.json(await buildPath(getPool(), req.user.id, req.lang, trailId));
   }),
 );
 
 router.get(
   "/progress",
   asyncHandler(async (req, res) => {
-    const path = await buildPath(getPool(), req.user.id, req.lang);
+    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    const path = await buildPath(getPool(), req.user.id, req.lang, trailId);
     res.json({ progress: path.progress });
   }),
 );
@@ -126,11 +138,12 @@ router.get(
   "/lessons/:id",
   validate({ params: lessonParamSchema }),
   asyncHandler(async (req, res) => {
-    const lesson = getLesson(req.valid.params.id, req.lang);
+    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    const lesson = getLesson(req.valid.params.id, req.lang, trailId);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
-    const completed = await loadCompletedIds(getPool(), req.user.id);
-    const status = buildStatuses(completed).get(lesson.id);
+    const completed = await loadCompletedIds(getPool(), req.user.id, trailId);
+    const status = buildStatuses(completed, trailId).get(lesson.id);
     if (status === "locked") {
       return res.status(403).json({ error: "Finish the earlier lessons first" });
     }
@@ -148,7 +161,8 @@ router.post(
   "/lessons/:id/answer",
   validate({ params: lessonParamSchema, body: answerSubmitSchema }),
   asyncHandler(async (req, res) => {
-    const lesson = getLesson(req.valid.params.id, req.lang);
+    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    const lesson = getLesson(req.valid.params.id, req.lang, trailId);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
     const { questionId, answer } = req.valid.body;
@@ -180,7 +194,8 @@ router.post(
   "/lessons/:id/complete",
   validate({ params: lessonParamSchema, body: lessonCompleteSchema }),
   asyncHandler(async (req, res) => {
-    const lesson = getLesson(req.valid.params.id, req.lang);
+    const trailId = req.query.trailId ?? DEFAULT_TRAIL;
+    const lesson = getLesson(req.valid.params.id, req.lang, trailId);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
     const pool = getPool();
@@ -195,11 +210,11 @@ router.post(
       );
       const timeZone = userRows[0]?.time_zone ?? "UTC";
 
-      const completed = await loadCompletedIds(client, req.user.id);
+      const completed = await loadCompletedIds(client, req.user.id, trailId);
 
       // Não se salta lições: todas as anteriores têm de estar feitas.
-      const index = getLessonIndex(lesson.id);
-      const previous = getLessonOrder().slice(0, index);
+      const index = getLessonIndex(lesson.id, trailId);
+      const previous = getLessonOrder(trailId).slice(0, index);
       const missing = previous.filter((id) => !completed.has(id));
       if (missing.length > 0) {
         await client.query("ROLLBACK");
@@ -224,12 +239,18 @@ router.post(
       const alreadyDone = completed.has(lesson.id);
       const xpEarned = xpForLesson(lesson.xpReward, heartsLeft);
 
-      await client.query(
-        `INSERT INTO lesson_progress (user_id, lesson_id, xp_earned, hearts_left)
-         VALUES ($1, $2, $3, $4)
-         ON CONFLICT (user_id, lesson_id) DO NOTHING`,
-        [req.user.id, lesson.id, xpEarned, heartsLeft],
+      // Check if already completed, if not insert (handles trail_id in unique constraint)
+      const existingResult = await client.query(
+        `SELECT 1 FROM lesson_progress WHERE user_id = $1 AND lesson_id = $2 AND trail_id = $3`,
+        [req.user.id, lesson.id, trailId],
       );
+      if (existingResult.rows.length === 0) {
+        await client.query(
+          `INSERT INTO lesson_progress (user_id, lesson_id, trail_id, xp_earned, hearts_left)
+           VALUES ($1, $2, $3, $4, $5)`,
+          [req.user.id, lesson.id, trailId, xpEarned, heartsLeft],
+        );
+      }
 
       // sourceRef = id da lição, por isso repetir a lição nunca paga duas vezes.
       const award = await awardXp(client, {
@@ -247,7 +268,7 @@ router.post(
         timeZone,
       });
 
-      const path = await buildPath(client, req.user.id, req.lang);
+      const path = await buildPath(client, req.user.id, req.lang, trailId);
 
       await client.query("COMMIT");
 
@@ -269,6 +290,65 @@ router.post(
     } finally {
       client.release();
     }
+  }),
+);
+
+// Trail management endpoints
+
+router.get(
+  "/trails",
+  asyncHandler(async (req, res) => {
+    const trails = await getAllAvailableTrails(getPool());
+    res.json({ trails });
+  }),
+);
+
+router.get(
+  "/trails/:trailId",
+  asyncHandler(async (req, res) => {
+    const curriculum = await getTrailCurriculum(req.params.trailId, req.lang);
+    if (!curriculum) {
+      return res.status(404).json({ error: "Trail not found" });
+    }
+    res.json(curriculum);
+  }),
+);
+
+router.get(
+  "/my-trails",
+  asyncHandler(async (req, res) => {
+    const trails = await getUserTrails(getPool(), req.user.id);
+    res.json({ trails });
+  }),
+);
+
+router.post(
+  "/trails/:trailId/start",
+  asyncHandler(async (req, res) => {
+    const progress = await startUserTrail(getPool(), req.user.id, req.params.trailId);
+    if (!progress) {
+      return res.status(404).json({ error: "Trail not found" });
+    }
+    res.json({ success: true, progress });
+  }),
+);
+
+router.post(
+  "/trails/:trailId/select",
+  asyncHandler(async (req, res) => {
+    const progress = await selectUserTrail(getPool(), req.user.id, req.params.trailId);
+    if (!progress) {
+      return res.status(404).json({ error: "Trail not found" });
+    }
+    res.json({ success: true, progress });
+  }),
+);
+
+router.delete(
+  "/trails/:trailId",
+  asyncHandler(async (req, res) => {
+    const result = await deleteUserTrail(getPool(), req.user.id, req.params.trailId);
+    res.json({ success: true, deleted: !!result });
   }),
 );
 

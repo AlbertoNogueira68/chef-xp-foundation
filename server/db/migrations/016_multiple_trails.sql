@@ -70,6 +70,10 @@ CREATE INDEX IF NOT EXISTS idx_user_trail_progress_user
 ALTER TABLE lesson_progress
   ADD COLUMN IF NOT EXISTS trail_id TEXT NOT NULL DEFAULT 'main-course';
 
+-- Criar unique constraint para (user_id, lesson_id, trail_id) para evitar duplicados
+CREATE UNIQUE INDEX IF NOT EXISTS idx_lesson_progress_user_lesson_trail
+  ON lesson_progress (user_id, lesson_id, trail_id);
+
 -- Criar índice para queries rápidas por trilho
 CREATE INDEX IF NOT EXISTS idx_lesson_progress_trail
   ON lesson_progress (trail_id);
