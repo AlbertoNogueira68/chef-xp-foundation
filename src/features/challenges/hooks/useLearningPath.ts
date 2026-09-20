@@ -2,23 +2,23 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { learningService } from "../services/learningService";
 import type { LearningPath } from "@/types/learning";
 
-export const learningPathQueryKey = ["learningPath"] as const;
+export const learningPathQueryKey = (trailId?: string) => ["learningPath", trailId] as const;
 
-export function useLearningPath() {
+export function useLearningPath(trailId?: string) {
   return useQuery({
-    queryKey: learningPathQueryKey,
-    queryFn: () => learningService.getPath(),
+    queryKey: learningPathQueryKey(trailId),
+    queryFn: () => learningService.getPath(trailId),
     staleTime: 15_000,
   });
 }
 
-export function useInvalidateLearningPath() {
+export function useInvalidateLearningPath(trailId?: string) {
   const queryClient = useQueryClient();
-  return () => queryClient.invalidateQueries({ queryKey: learningPathQueryKey });
+  return () => queryClient.invalidateQueries({ queryKey: learningPathQueryKey(trailId) });
 }
 
 /** O servidor devolve o percurso já atualizado ao concluir uma lição. */
-export function useSetLearningPath() {
+export function useSetLearningPath(trailId?: string) {
   const queryClient = useQueryClient();
-  return (path: LearningPath) => queryClient.setQueryData(learningPathQueryKey, path);
+  return (path: LearningPath) => queryClient.setQueryData(learningPathQueryKey(trailId), path);
 }

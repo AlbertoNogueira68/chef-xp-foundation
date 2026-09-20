@@ -16,22 +16,30 @@ import type {
  * não dava para construir rankings. Agora o localStorage não é usado de todo.
  */
 export const learningService = {
-  getPath(): Promise<LearningPath> {
-    return apiFetch<LearningPath>("/learning/path");
+  getPath(trailId?: string): Promise<LearningPath> {
+    const url = trailId ? `/learning/path?trailId=${encodeURIComponent(trailId)}` : "/learning/path";
+    return apiFetch<LearningPath>(url);
   },
 
-  async getProgress() {
-    const data = await apiFetch<{ progress: LearningPath["progress"] }>("/learning/progress");
+  async getProgress(trailId?: string) {
+    const url = trailId ? `/learning/progress?trailId=${encodeURIComponent(trailId)}` : "/learning/progress";
+    const data = await apiFetch<{ progress: LearningPath["progress"] }>(url);
     return data.progress;
   },
 
-  async getLesson(id: string): Promise<{ lesson: Lesson; status: LessonStatus }> {
-    return apiFetch<{ lesson: Lesson; status: LessonStatus }>(`/learning/lessons/${id}`);
+  async getLesson(id: string, trailId?: string): Promise<{ lesson: Lesson; status: LessonStatus }> {
+    const url = trailId
+      ? `/learning/lessons/${id}?trailId=${encodeURIComponent(trailId)}`
+      : `/learning/lessons/${id}`;
+    return apiFetch<{ lesson: Lesson; status: LessonStatus }>(url);
   },
 
   /** Corrige uma resposta. Quem decide é o servidor. */
-  checkAnswer(lessonId: string, questionId: string, answer: AnswerValue): Promise<AnswerResult> {
-    return apiFetch<AnswerResult>(`/learning/lessons/${lessonId}/answer`, {
+  checkAnswer(lessonId: string, questionId: string, answer: AnswerValue, trailId?: string): Promise<AnswerResult> {
+    const url = trailId
+      ? `/learning/lessons/${lessonId}/answer?trailId=${encodeURIComponent(trailId)}`
+      : `/learning/lessons/${lessonId}/answer`;
+    return apiFetch<AnswerResult>(url, {
       method: "POST",
       body: JSON.stringify({ questionId, answer }),
     });
@@ -41,8 +49,12 @@ export const learningService = {
   completeLesson(
     lessonId: string,
     answers: Array<{ questionId: string; answer: AnswerValue }>,
+    trailId?: string,
   ): Promise<LessonCompletion> {
-    return apiFetch<LessonCompletion>(`/learning/lessons/${lessonId}/complete`, {
+    const url = trailId
+      ? `/learning/lessons/${lessonId}/complete?trailId=${encodeURIComponent(trailId)}`
+      : `/learning/lessons/${lessonId}/complete`;
+    return apiFetch<LessonCompletion>(url, {
       method: "POST",
       body: JSON.stringify({ answers }),
     });
