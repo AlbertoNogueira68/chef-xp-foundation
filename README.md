@@ -111,39 +111,40 @@ Para confirmar que as credenciais autenticam, sem enviar nada a ninguém:
 ```bash
 node -e "import('dotenv/config').then(async()=>{const n=await import('nodemailer');const p=+(process.env.SMTP_PORT||587);await n.default.createTransport({host:process.env.SMTP_HOST,port:p,secure:p===465,auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASSWORD}}).verify();console.log('SMTP ok')})"
 ```
+
 - Health: http://localhost:3010/api/health
 
 ## Credenciais de seed (só em desenvolvimento)
 
-| Email | Password | Notas |
-| --- | --- | --- |
-| `demo@chef-xp.local` | `chef123` | chefdemo · nível 3 · **administrador** |
-| `sous@chef-xp.local` | `chef123` | souschef · **moderador** |
-| `maria@chef-xp.local` | `chef123` | mariacozinha · nível 5 |
-| `joao@chef-xp.local` | `chef123` | joaoforno |
+| Email                 | Password  | Notas                                  |
+| --------------------- | --------- | -------------------------------------- |
+| `demo@chef-xp.local`  | `chef123` | chefdemo · nível 3 · **administrador** |
+| `sous@chef-xp.local`  | `chef123` | souschef · **moderador**               |
+| `maria@chef-xp.local` | `chef123` | mariacozinha · nível 5                 |
+| `joao@chef-xp.local`  | `chef123` | joaoforno                              |
 
 O seed inclui 6 receitas com fotografia, gostos e comentários reais, relações de
 seguidor e 3 desafios.
 
 ## Scripts
 
-| Script | Descrição |
-| --- | --- |
-| `npm run dev:all` | Vite + Express em paralelo |
-| `npm run verify` | lint + tipos + testes + build (o mesmo que o CI corre) |
-| `npm test` | Testes do servidor (`node --test`) |
-| `npm run test:unit` | Só o domínio puro, sem base de dados |
-| `npm run test:integration` | API contra um Postgres real |
-| `npm run test:ui` | Interface (Vitest + Testing Library) |
-| `npm run typecheck` | `tsc --noEmit` |
-| `npm run build` | Build do frontend |
-| `npm start` | Serve a API (+ `dist` em produção) |
-| `npm run db:migrate` | Aplica as migrations SQL |
-| `npm run db:seed` | Popula dados de demonstração |
-| `npm run role:set -- <email> <papel>` | Dá ou tira papéis: `user`, `moderator`, `admin` |
-| `npm run test:hardening` | Build + bloqueia CDNs proibidas |
-| `npm run check:responsive` | Mede a app em 320–414px (ver `docs/RESPONSIVIDADE.md`) |
-| `npm run lint` | ESLint |
+| Script                                | Descrição                                              |
+| ------------------------------------- | ------------------------------------------------------ |
+| `npm run dev:all`                     | Vite + Express em paralelo                             |
+| `npm run verify`                      | lint + tipos + testes + build (o mesmo que o CI corre) |
+| `npm test`                            | Testes do servidor (`node --test`)                     |
+| `npm run test:unit`                   | Só o domínio puro, sem base de dados                   |
+| `npm run test:integration`            | API contra um Postgres real                            |
+| `npm run test:ui`                     | Interface (Vitest + Testing Library)                   |
+| `npm run typecheck`                   | `tsc --noEmit`                                         |
+| `npm run build`                       | Build do frontend                                      |
+| `npm start`                           | Serve a API (+ `dist` em produção)                     |
+| `npm run db:migrate`                  | Aplica as migrations SQL                               |
+| `npm run db:seed`                     | Popula dados de demonstração                           |
+| `npm run role:set -- <email> <papel>` | Dá ou tira papéis: `user`, `moderator`, `admin`        |
+| `npm run test:hardening`              | Build + bloqueia CDNs proibidas                        |
+| `npm run check:responsive`            | Mede a app em 320–414px (ver `docs/RESPONSIVIDADE.md`) |
+| `npm run lint`                        | ESLint                                                 |
 
 ## Arquitetura
 
@@ -360,11 +361,11 @@ uma matriz seria mais código para configurar do que para cumprir. Quem está
 acima pode o que está abaixo, e isso está escrito em duas funções
 (`canModerate`, `canAdminister`) em vez de espalhado por dez rotas.
 
-| Papel | O que pode |
-| --- | --- |
-| `user` | Denunciar e bloquear — o que qualquer pessoa pode |
-| `moderator` | A fila de denúncias e apagar conteúdo denunciado |
-| `admin` | Tudo o que o moderador pode, mais papéis e números da plataforma |
+| Papel       | O que pode                                                       |
+| ----------- | ---------------------------------------------------------------- |
+| `user`      | Denunciar e bloquear — o que qualquer pessoa pode                |
+| `moderator` | A fila de denúncias e apagar conteúdo denunciado                 |
+| `admin`     | Tudo o que o moderador pode, mais papéis e números da plataforma |
 
 **O papel lê-se da base de dados a cada pedido**, e não do token de sessão.
 Dentro do JWT ficaria congelado até o cookie expirar: retirar a moderação a
@@ -534,7 +535,7 @@ instalar no telemóvel de quem estiver a avaliar.
 Na app de sempre, em **http://localhost:5173**. Não há um segundo endereço para
 o modo instalável: o service worker é registado também em desenvolvimento, e
 está montado para que isso não atrapalhe — a página, a API e os módulos que o
-Vite serve são todos *rede primeiro*, por isso com rede chega sempre o mais
+Vite serve são todos _rede primeiro_, por isso com rede chega sempre o mais
 recente e o hot reload não dá por nada. A cópia guardada só entra em jogo
 quando a rede falha. (`VITE_DISABLE_SW=true` desliga o registo para quem
 estiver mesmo a depurar cache.)
@@ -606,9 +607,9 @@ As rotas são carregadas à medida que se visitam, e as bibliotecas ficam em
 ficheiros próprios para sobreviverem na cache entre deploys. Medido na build de
 produção, a 390 px:
 
-| | Antes | Agora |
-| --- | --- | --- |
-| Landing | 820 kB | 515 kB |
+|                                    | Antes  | Agora  |
+| ---------------------------------- | ------ | ------ |
+| Landing                            | 820 kB | 515 kB |
 | Percurso completo até aos desafios | 820 kB | 704 kB |
 
 O percurso de aprendizagem é a rota mais pesada (67 kB) porque arrasta o leitor
@@ -634,7 +635,7 @@ alcançável pela rede interna do compose.
 1. **Uma máquina alcançável da internet**, com as portas 80 e 443 a chegarem
    lá. Um VPS, um servidor, ou uma ligação com reencaminhamento de portas — o
    Caddy precisa da 80 para o desafio do certificado e da 443 para servir.
-2. **Um nome a apontar para o IP dessa máquina**, e a resolver *antes* de
+2. **Um nome a apontar para o IP dessa máquina**, e a resolver _antes_ de
    levantares os contentores. Serve um domínio próprio ou um subdomínio
    gratuito (o `dedyn.io` do deSEC, por exemplo). Se o nome ainda não
    resolver, o Let's Encrypt recusa o certificado e o Caddy fica a tentar.
@@ -664,11 +665,11 @@ uma conta aberta a quem passar.
 
 ### O que fica em disco
 
-| O quê | Onde | Perder isto significa |
-| --- | --- | --- |
-| Base de dados | volume `chef_xp_pgdata_prod` | Contas, receitas, XP, tudo |
-| Imagens | volume `chef_xp_uploads` | Fotografias de receitas e avatares |
-| Certificados | volume `caddy_data` | Pedir tudo de novo — e o Let's Encrypt tem limites semanais |
+| O quê         | Onde                         | Perder isto significa                                       |
+| ------------- | ---------------------------- | ----------------------------------------------------------- |
+| Base de dados | volume `chef_xp_pgdata_prod` | Contas, receitas, XP, tudo                                  |
+| Imagens       | volume `chef_xp_uploads`     | Fotografias de receitas e avatares                          |
+| Certificados  | volume `caddy_data`          | Pedir tudo de novo — e o Let's Encrypt tem limites semanais |
 
 Os dois primeiros não se reconstroem a partir do repositório. Há um guião
 para eles:

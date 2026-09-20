@@ -5,19 +5,19 @@ ser feito. Atualizar este ficheiro faz parte de fechar cada ponto.
 
 ## Feito
 
-| Área | Detalhe |
-| --- | --- |
-| Autenticação | Email/password, cookie HttpOnly, CSRF double-submit, bcrypt, Google OAuth |
-| XP | Livro-razão `xp_events` idempotente, curva de níveis pura e testada, badges derivadas |
-| Aprendizagem | Currículo no servidor, gabarito nunca sai do servidor, corações, meta diária, streak no fuso do utilizador |
-| Missões | Ciclo completo `start → step → rescue → checkpoint → complete/abandon`, temporizadores, wake lock, voz, câmara |
-| Feed social | Publicar receita com foto validada por bytes, gostos, comentários, seguir, três vistas |
-| Perfil | XP, nível, streak, badges, separadores Cozinhados / Receitas / Atividade |
-| Pesquisa | Query e filtros (dificuldade, tempo) aplicados pela API |
-| Email | Recuperação de password e confirmação de endereço por SMTP, desligáveis |
-| Infra | Migrations idempotentes, Docker dev/prod, CSP e hardening, CI com lint, tipos, testes e build |
-| PWA | App instalável, abre sem rede, cache por tipo de recurso, atualização com consentimento, `check:pwa` no CI |
-| Offline | Lições e fotografias de missões feitas sem rede ficam em fila (IndexedDB) no dispositivo e são enviadas por ordem quando a ligação volta, com aviso do resultado; verificado num Chrome a sério no CI |
+| Área         | Detalhe                                                                                                                                                                                               |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Autenticação | Email/password, cookie HttpOnly, CSRF double-submit, bcrypt, Google OAuth                                                                                                                             |
+| XP           | Livro-razão `xp_events` idempotente, curva de níveis pura e testada, badges derivadas                                                                                                                 |
+| Aprendizagem | Currículo no servidor, gabarito nunca sai do servidor, corações, meta diária, streak no fuso do utilizador                                                                                            |
+| Missões      | Ciclo completo `start → step → rescue → checkpoint → complete/abandon`, temporizadores, wake lock, voz, câmara                                                                                        |
+| Feed social  | Publicar receita com foto validada por bytes, gostos, comentários, seguir, três vistas                                                                                                                |
+| Perfil       | XP, nível, streak, badges, separadores Cozinhados / Receitas / Atividade                                                                                                                              |
+| Pesquisa     | Query e filtros (dificuldade, tempo) aplicados pela API                                                                                                                                               |
+| Email        | Recuperação de password e confirmação de endereço por SMTP, desligáveis                                                                                                                               |
+| Infra        | Migrations idempotentes, Docker dev/prod, CSP e hardening, CI com lint, tipos, testes e build                                                                                                         |
+| PWA          | App instalável, abre sem rede, cache por tipo de recurso, atualização com consentimento, `check:pwa` no CI                                                                                            |
+| Offline      | Lições e fotografias de missões feitas sem rede ficam em fila (IndexedDB) no dispositivo e são enviadas por ordem quando a ligação volta, com aviso do resultado; verificado num Chrome a sério no CI |
 
 ## Por fazer, por ordem
 

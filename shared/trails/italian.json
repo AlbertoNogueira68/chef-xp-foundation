@@ -235,7 +235,12 @@
               "id": "q1",
               "type": "choice",
               "prompt": "Your dough is cracking at the edges. What do you do?",
-              "options": ["Add more flour", "Knead harder", "Add a tiny drop of water", "Start over"],
+              "options": [
+                "Add more flour",
+                "Knead harder",
+                "Add a tiny drop of water",
+                "Start over"
+              ],
               "correctAnswer": "Add a tiny drop of water",
               "explanation": "Cracks mean too little hydration. A single drop on each crack, then knead.",
               "skills": ["italiana.pasta-agua-farinha"]
@@ -244,7 +249,12 @@
               "id": "q2",
               "type": "choice",
               "prompt": "After 5 minutes of kneading, your dough is still sticky. Normal?",
-              "options": ["No, add more flour now", "Yes, keep going, it'll smooth out", "Wrap it and rest first", "You used too many eggs"],
+              "options": [
+                "No, add more flour now",
+                "Yes, keep going, it'll smooth out",
+                "Wrap it and rest first",
+                "You used too many eggs"
+              ],
               "correctAnswer": "Yes, keep going, it'll smooth out",
               "explanation": "Sticky dough becomes smooth with kneading. Don't add flour — you'll dry it out.",
               "skills": ["italiana.pasta-amassar"]
@@ -261,7 +271,14 @@
                 "Knead for 8-10 minutes until smooth",
                 "Rest wrapped for 30 minutes"
               ],
-              "correctAnswer": ["Pile flour and make a well", "Beat eggs into the well with a fork", "Start drawing flour into the egg", "Use hands when it gets too thick", "Knead for 8-10 minutes until smooth", "Rest wrapped for 30 minutes"],
+              "correctAnswer": [
+                "Pile flour and make a well",
+                "Beat eggs into the well with a fork",
+                "Start drawing flour into the egg",
+                "Use hands when it gets too thick",
+                "Knead for 8-10 minutes until smooth",
+                "Rest wrapped for 30 minutes"
+              ],
               "explanation": "This is the order that builds structure without tearing or drying.",
               "skills": ["italiana.pasta-agua-farinha", "italiana.pasta-amassar"]
             }
@@ -319,7 +336,12 @@
               "id": "q2",
               "type": "choice",
               "prompt": "Your dough tears as you press it. What happened?",
-              "options": ["You pressed too hard", "It wasn't rested long enough between presses", "The flour on top burned it", "You used too much water"],
+              "options": [
+                "You pressed too hard",
+                "It wasn't rested long enough between presses",
+                "The flour on top burned it",
+                "You used too much water"
+              ],
               "correctAnswer": "It wasn't rested long enough between presses",
               "explanation": "Gluten needs to relax. If you press continuously, it fights back and tears.",
               "skills": ["italiana.pasta-esticar"]
@@ -334,7 +356,11 @@
         "dishName": "Hand-Rolled Tagliatelle",
         "cookTimeMin": 45,
         "summary": "From dough to plate: make, roll, dry, cook and eat your own pasta.",
-        "practices": ["italiana.pasta-agua-farinha", "italiana.pasta-amassar", "italiana.pasta-esticar"],
+        "practices": [
+          "italiana.pasta-agua-farinha",
+          "italiana.pasta-amassar",
+          "italiana.pasta-esticar"
+        ],
         "xpReward": 500,
         "ingredients": ["300g flour", "3 eggs", "Salt", "Butter", "Parmesan"],
         "steps": [
@@ -480,7 +506,12 @@
               "id": "q1",
               "type": "choice",
               "prompt": "Your garlic is turning brown in the oil. What went wrong?",
-              "options": ["The garlic is old", "The heat is too high", "You used minced garlic", "The oil is bad"],
+              "options": [
+                "The garlic is old",
+                "The heat is too high",
+                "You used minced garlic",
+                "The oil is bad"
+              ],
               "correctAnswer": "The heat is too high",
               "explanation": "Garlic burns at high heat. Low heat until the tomatoes go in, then keep it at a bubble.",
               "skills": ["italiana.tomate-reducao"]
@@ -489,7 +520,12 @@
               "id": "q2",
               "type": "choice",
               "prompt": "After 20 minutes, the sauce tastes too acidic. How do you fix it?",
-              "options": ["Add sugar", "Add more salt", "Cook it longer with a lid off", "Add butter or cream"],
+              "options": [
+                "Add sugar",
+                "Add more salt",
+                "Cook it longer with a lid off",
+                "Add butter or cream"
+              ],
               "correctAnswer": "Cook it longer with a lid off",
               "explanation": "Time reduces acidity. Fat (butter, cream, or good oil) rounds it out too.",
               "skills": ["italiana.tomate-acidez"]
@@ -534,7 +570,12 @@
               "id": "q1",
               "type": "choice",
               "prompt": "Your carbonara scrambled. What happened?",
-              "options": ["The eggs were too old", "The pan was too hot when you added the egg mix", "You didn't use guanciale", "You cooked it too long"],
+              "options": [
+                "The eggs were too old",
+                "The pan was too hot when you added the egg mix",
+                "You didn't use guanciale",
+                "You cooked it too long"
+              ],
               "correctAnswer": "The pan was too hot when you added the egg mix",
               "explanation": "Off heat, stirring fast, splash of pasta water to cool it down. Those three things prevent scrambling.",
               "skills": ["italiana.carbonara-emulsao"]
@@ -543,7 +584,12 @@
               "id": "q2",
               "type": "choice",
               "prompt": "The sauce is too thick, coating the pasta like glue. Fix it?",
-              "options": ["Add more egg", "Splash of pasta water and stir", "Cook it longer", "Add cream"],
+              "options": [
+                "Add more egg",
+                "Splash of pasta water and stir",
+                "Cook it longer",
+                "Add cream"
+              ],
               "correctAnswer": "Splash of pasta water and stir",
               "explanation": "Starch in the water loosens it. Cream is not traditional and breaks the emulsion.",
               "skills": ["italiana.carbonara-emulsao"]
@@ -560,7 +606,18 @@
         "summary": "Slow, low heat: meat, tomato, and time create depth. The engine of Italian cooking.",
         "practices": ["italiana.ragu-brasear", "italiana.tomate-reducao", "tempero.camadas"],
         "xpReward": 600,
-        "ingredients": ["300g ground meat", "100g pancetta", "1 onion", "1 carrot", "1 celery", "500g tomatoes", "Milk", "White wine", "Olive oil", "Salt"],
+        "ingredients": [
+          "300g ground meat",
+          "100g pancetta",
+          "1 onion",
+          "1 carrot",
+          "1 celery",
+          "500g tomatoes",
+          "Milk",
+          "White wine",
+          "Olive oil",
+          "Salt"
+        ],
         "steps": [
           {
             "id": "s1",
@@ -667,7 +724,14 @@
           "xpReward": 300,
           "icon": "🥘",
           "imageUrl": "https://images.unsplash.com/photo-1614521267537-b85faf00021b?w=400",
-          "ingredients": ["300g risotto rice (Arborio or Carnaroli)", "1 onion", "1 litre stock", "White wine", "Butter", "Parmesan"],
+          "ingredients": [
+            "300g risotto rice (Arborio or Carnaroli)",
+            "1 onion",
+            "1 litre stock",
+            "White wine",
+            "Butter",
+            "Parmesan"
+          ],
           "preparationSteps": [
             {
               "title": "Stock hot",
@@ -694,13 +758,22 @@
               "description": "At the end, off heat: cold butter and cheese folded in. Creates the flow."
             }
           ],
-          "teaches": ["italiana.risotto-stirring", "italiana.risotto-mantecatura", "italiana.risotto-ponto"],
+          "teaches": [
+            "italiana.risotto-stirring",
+            "italiana.risotto-mantecatura",
+            "italiana.risotto-ponto"
+          ],
           "questions": [
             {
               "id": "q1",
               "type": "choice",
               "prompt": "How do you know when to add the next ladle of stock?",
-              "options": ["After exactly 2 minutes", "When the rice looks dry on top", "When the previous liquid is almost absorbed", "When the rice grains show white"],
+              "options": [
+                "After exactly 2 minutes",
+                "When the rice looks dry on top",
+                "When the previous liquid is almost absorbed",
+                "When the rice grains show white"
+              ],
               "correctAnswer": "When the previous liquid is almost absorbed",
               "explanation": "Not bone dry, not swimming. Almost absorbed. That's the rhythm of risotto.",
               "skills": ["italiana.risotto-stirring"]
@@ -709,7 +782,12 @@
               "id": "q2",
               "type": "choice",
               "prompt": "Your risotto is soupy after 18 minutes. What happens next?",
-              "options": ["Stop adding stock", "Keep adding stock", "Add the butter and cheese now", "Cook it longer without adding stock"],
+              "options": [
+                "Stop adding stock",
+                "Keep adding stock",
+                "Add the butter and cheese now",
+                "Cook it longer without adding stock"
+              ],
               "correctAnswer": "Cook it longer without adding stock",
               "explanation": "Time varies. If it's still soupy at 18 minutes, keep stirring until the rice is creamy and coats the spoon.",
               "skills": ["italiana.risotto-ponto"]
@@ -758,7 +836,12 @@
               "id": "q1",
               "type": "choice",
               "prompt": "Why do you add salt and oil after 30 minutes, not at the start?",
-              "options": ["Salt kills yeast if added too early", "Oil prevents gluten development", "It's just tradition", "Salt needs water to dissolve"],
+              "options": [
+                "Salt kills yeast if added too early",
+                "Oil prevents gluten development",
+                "It's just tradition",
+                "Salt needs water to dissolve"
+              ],
               "correctAnswer": "Salt kills yeast if added too early",
               "explanation": "Salt directly on dry yeast can kill it. After hydration, it's safe.",
               "skills": ["italiana.pizza-massa"]

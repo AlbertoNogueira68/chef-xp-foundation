@@ -34,36 +34,28 @@
       "name": "Pega em pinça",
       "category": "faca",
       "description": "Segurar a faca pela lâmina com polegar e indicador, não pelo cabo.",
-      "requires": [
-        "seguranca.faca-romba"
-      ]
+      "requires": ["seguranca.faca-romba"]
     },
     {
       "id": "faca.garra",
       "name": "Mão em garra",
       "category": "faca",
       "description": "Recolher as pontas dos dedos e guiar a lâmina pelos nós.",
-      "requires": [
-        "faca.pega"
-      ]
+      "requires": ["faca.pega"]
     },
     {
       "id": "faca.cubos",
       "name": "Cubos regulares",
       "category": "faca",
       "description": "Cortar do mesmo tamanho para tudo cozinhar ao mesmo tempo.",
-      "requires": [
-        "faca.garra"
-      ]
+      "requires": ["faca.garra"]
     },
     {
       "id": "org.mise-en-place",
       "name": "Mise en place",
       "category": "organizacao",
       "description": "Ter tudo cortado e à mão antes de ligar o fogão.",
-      "requires": [
-        "seguranca.bancada"
-      ]
+      "requires": ["seguranca.bancada"]
     },
     {
       "id": "calor.pre-aquecer",
@@ -77,45 +69,35 @@
       "name": "Ler o lume",
       "category": "calor",
       "description": "Distinguir brando, médio e forte pelo som e pelo cheiro.",
-      "requires": [
-        "calor.pre-aquecer"
-      ]
+      "requires": ["calor.pre-aquecer"]
     },
     {
       "id": "calor.gordura",
       "name": "Escolher a gordura",
       "category": "calor",
       "description": "Azeite, manteiga ou óleo conforme a temperatura que aguentam.",
-      "requires": [
-        "calor.pre-aquecer"
-      ]
+      "requires": ["calor.pre-aquecer"]
     },
     {
       "id": "ponto.douramento",
       "name": "Dourar",
       "category": "ponto",
       "description": "Reconhecer a crosta dourada e o que a impede.",
-      "requires": [
-        "calor.niveis"
-      ]
+      "requires": ["calor.niveis"]
     },
     {
       "id": "calor.lume-brando",
       "name": "Lume brando",
       "category": "calor",
       "description": "Cozinhar devagar sem queimar as bordas.",
-      "requires": [
-        "calor.niveis"
-      ]
+      "requires": ["calor.niveis"]
     },
     {
       "id": "ponto.ovo",
       "name": "Ponto do ovo",
       "category": "ponto",
       "description": "Saber quando a clara está feita e a gema ainda mole.",
-      "requires": [
-        "calor.lume-brando"
-      ]
+      "requires": ["calor.lume-brando"]
     },
     {
       "id": "tempero.sal-momento",
@@ -129,54 +111,42 @@
       "name": "Água salgada",
       "category": "tempero",
       "description": "Temperar por dentro, na água de cozedura.",
-      "requires": [
-        "tempero.sal-momento"
-      ]
+      "requires": ["tempero.sal-momento"]
     },
     {
       "id": "ponto.al-dente",
       "name": "Al dente",
       "category": "ponto",
       "description": "Provar em vez de confiar no relógio.",
-      "requires": [
-        "calor.niveis"
-      ]
+      "requires": ["calor.niveis"]
     },
     {
       "id": "calor.racio-agua",
       "name": "Rácio de água",
       "category": "calor",
       "description": "A proporção que faz arroz solto e não papa.",
-      "requires": [
-        "calor.lume-brando"
-      ]
+      "requires": ["calor.lume-brando"]
     },
     {
       "id": "org.sequenciar",
       "name": "Sequenciar",
       "category": "organizacao",
       "description": "Começar pelo que demora mais para tudo chegar quente à mesa.",
-      "requires": [
-        "org.mise-en-place"
-      ]
+      "requires": ["org.mise-en-place"]
     },
     {
       "id": "tempero.camadas",
       "name": "Temperar em camadas",
       "category": "tempero",
       "description": "Sal em cada etapa em vez de tudo no fim.",
-      "requires": [
-        "tempero.sal-momento"
-      ]
+      "requires": ["tempero.sal-momento"]
     },
     {
       "id": "org.empratar",
       "name": "Empratar",
       "category": "organizacao",
       "description": "Prato quente, altura e uma cor que contraste.",
-      "requires": [
-        "org.sequenciar"
-      ]
+      "requires": ["org.sequenciar"]
     }
   ],
   "missions": [
@@ -195,13 +165,7 @@
         "faca.pega",
         "org.mise-en-place"
       ],
-      "ingredients": [
-        "1 ovo",
-        "Azeite ou manteiga",
-        "Sal",
-        "Uma frigideira pequena",
-        "Uma tampa"
-      ],
+      "ingredients": ["1 ovo", "Azeite ou manteiga", "Sal", "Uma frigideira pequena", "Uma tampa"],
       "steps": [
         {
           "id": "s1",
@@ -317,12 +281,7 @@
         "calor.gordura",
         "ponto.douramento"
       ],
-      "ingredients": [
-        "2 cebolas",
-        "Azeite",
-        "Sal",
-        "Uma frigideira larga"
-      ],
+      "ingredients": ["2 cebolas", "Azeite", "Sal", "Uma frigideira larga"],
       "steps": [
         {
           "id": "s1",
@@ -397,17 +356,8 @@
       "dishName": "Omelete simples",
       "cookTimeMin": 15,
       "summary": "O teste do lume brando: se a base ficou castanha, o lume estava alto.",
-      "practices": [
-        "ponto.ovo",
-        "calor.lume-brando",
-        "tempero.sal-momento"
-      ],
-      "ingredients": [
-        "3 ovos",
-        "Sal",
-        "Manteiga",
-        "Uma frigideira antiaderente"
-      ],
+      "practices": ["ponto.ovo", "calor.lume-brando", "tempero.sal-momento"],
+      "ingredients": ["3 ovos", "Sal", "Manteiga", "Uma frigideira antiaderente"],
       "steps": [
         {
           "id": "s1",
@@ -481,11 +431,7 @@
       "dishName": "Arroz branco",
       "cookTimeMin": 20,
       "summary": "Medir em vez de adivinhar. É o rácio que decide, não o talento.",
-      "practices": [
-        "tempero.agua-salgada",
-        "ponto.al-dente",
-        "calor.racio-agua"
-      ],
+      "practices": ["tempero.agua-salgada", "ponto.al-dente", "calor.racio-agua"],
       "ingredients": [
         "1 chávena de arroz",
         "2 chávenas de água",
@@ -566,11 +512,7 @@
       "dishName": "Frango com arroz e salada",
       "cookTimeMin": 45,
       "summary": "Três coisas ao mesmo tempo, tudo quente à mesa. É aqui que se vê a diferença.",
-      "practices": [
-        "org.sequenciar",
-        "tempero.camadas",
-        "org.empratar"
-      ],
+      "practices": ["org.sequenciar", "tempero.camadas", "org.empratar"],
       "ingredients": [
         "2 coxas de frango",
         "1 chávena de arroz",
@@ -667,10 +609,7 @@
           "imageUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop",
           "cookTimeMin": 5,
           "difficulty": "facil",
-          "teaches": [
-            "seguranca.bancada",
-            "seguranca.higiene"
-          ],
+          "teaches": ["seguranca.bancada", "seguranca.higiene"],
           "requires": [],
           "ingredients": [
             "Uma tábua de cortar",
@@ -706,9 +645,7 @@
             {
               "id": "u1-l1-q1",
               "type": "choice",
-              "skills": [
-                "seguranca.bancada"
-              ],
+              "skills": ["seguranca.bancada"],
               "prompt": "A tábua desliza na bancada de cada vez que cortas. O que fazes?",
               "options": [
                 "Ponho um pano húmido dobrado por baixo",
@@ -723,9 +660,7 @@
             {
               "id": "u1-l1-q2",
               "type": "choice",
-              "skills": [
-                "seguranca.higiene"
-              ],
+              "skills": ["seguranca.higiene"],
               "prompt": "Acabaste de cortar frango cru. A seguir precisas de cortar a alface. O que fazes à tábua?",
               "options": [
                 "Lavo com água quente e detergente, ou uso outra tábua",
@@ -740,10 +675,7 @@
             {
               "id": "u1-l1-q3",
               "type": "order",
-              "skills": [
-                "seguranca.bancada",
-                "org.mise-en-place"
-              ],
+              "skills": ["seguranca.bancada", "org.mise-en-place"],
               "prompt": "Ordena o que fazes antes da primeira facada.",
               "correctOrder": [
                 "Lavar as mãos",
@@ -757,15 +689,10 @@
             {
               "id": "u1-l1-q4",
               "type": "judge",
-              "skills": [
-                "seguranca.bancada"
-              ],
+              "skills": ["seguranca.bancada"],
               "prompt": "Esta bancada está pronta para começar a cortar?",
               "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=500&fit=crop",
-              "options": [
-                "Sim, dá para trabalhar",
-                "Não, falta espaço livre à volta da tábua"
-              ],
+              "options": ["Sim, dá para trabalhar", "Não, falta espaço livre à volta da tábua"],
               "correctAnswer": "Não, falta espaço livre à volta da tábua",
               "explanation": "Precisas de espaço para o que já cortaste. Sem isso, os cortes acumulam-se em cima da tábua e o corte seguinte fica apertado.",
               "explainWrong": "Uma bancada cheia parece produtiva mas obriga a cortar num quadrado pequeno. É onde a faca encontra um frasco em vez da tábua."
@@ -773,10 +700,7 @@
             {
               "id": "u1-l1-q6",
               "type": "choice",
-              "skills": [
-                "seguranca.bancada",
-                "seguranca.faca-romba"
-              ],
+              "skills": ["seguranca.bancada", "seguranca.faca-romba"],
               "prompt": "Vais buscar um ingrediente ao frigorífico. Onde pousas a faca?",
               "options": [
                 "Na bancada, gume para dentro e cabo longe da beira",
@@ -802,16 +726,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
           "cookTimeMin": 5,
           "difficulty": "facil",
-          "teaches": [
-            "seguranca.faca-romba"
-          ],
-          "requires": [
-            "seguranca.bancada"
-          ],
-          "ingredients": [
-            "A tua faca de chef",
-            "Um tomate maduro"
-          ],
+          "teaches": ["seguranca.faca-romba"],
+          "requires": ["seguranca.bancada"],
+          "ingredients": ["A tua faca de chef", "Um tomate maduro"],
           "preparationSteps": [
             {
               "title": "O teste do tomate",
@@ -844,9 +761,7 @@
             {
               "id": "u1-l2-q1",
               "type": "choice",
-              "skills": [
-                "seguranca.faca-romba"
-              ],
+              "skills": ["seguranca.faca-romba"],
               "prompt": "Porque é que uma faca romba é mais perigosa do que uma afiada?",
               "options": [
                 "Escorrega em vez de morder, e a mão vai atrás",
@@ -861,15 +776,10 @@
             {
               "id": "u1-l2-q2",
               "type": "judge",
-              "skills": [
-                "seguranca.faca-romba"
-              ],
+              "skills": ["seguranca.faca-romba"],
               "prompt": "A lâmina deslizou pela pele do tomate sem a marcar. Esta faca está pronta a usar?",
               "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=500&fit=crop",
-              "options": [
-                "Sim, é só fazer mais força",
-                "Não, precisa de fio antes de cortar"
-              ],
+              "options": ["Sim, é só fazer mais força", "Não, precisa de fio antes de cortar"],
               "correctAnswer": "Não, precisa de fio antes de cortar",
               "explanation": "O teste do tomate é binário: ou a pele cede ao peso da lâmina, ou não tens fio.",
               "explainWrong": "\"Fazer mais força\" é a resposta que manda gente para as urgências. Se a lâmina não morde ao peso dela, o que muda com força é a velocidade a que escorrega."
@@ -877,10 +787,7 @@
             {
               "id": "u1-l2-q5",
               "type": "choice",
-              "skills": [
-                "seguranca.faca-romba",
-                "seguranca.bancada"
-              ],
+              "skills": ["seguranca.faca-romba", "seguranca.bancada"],
               "prompt": "A faca escorrega da bancada e vai a cair. O que fazes?",
               "options": [
                 "Afasto os pés e deixo cair",
@@ -895,10 +802,7 @@
             {
               "id": "u1-l2-q6",
               "type": "choice",
-              "skills": [
-                "seguranca.faca-romba",
-                "seguranca.higiene"
-              ],
+              "skills": ["seguranca.faca-romba", "seguranca.higiene"],
               "prompt": "Como lavas a faca depois de usar?",
               "options": [
                 "À mão, logo a seguir, e seco-a",
@@ -924,16 +828,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1603133872877-684f208fb84b?w=800&h=600&fit=crop",
           "cookTimeMin": 5,
           "difficulty": "facil",
-          "teaches": [
-            "faca.pega"
-          ],
-          "requires": [
-            "seguranca.faca-romba"
-          ],
-          "ingredients": [
-            "A tua faca de chef",
-            "Duas cenouras"
-          ],
+          "teaches": ["faca.pega"],
+          "requires": ["seguranca.faca-romba"],
+          "ingredients": ["A tua faca de chef", "Duas cenouras"],
           "preparationSteps": [
             {
               "title": "Subir a mão",
@@ -962,9 +859,7 @@
             {
               "id": "u1-l3-q1",
               "type": "choice",
-              "skills": [
-                "faca.pega"
-              ],
+              "skills": ["faca.pega"],
               "prompt": "Onde ficam o polegar e o indicador na pega em pinça?",
               "options": [
                 "A agarrar a lâmina, à frente do cabo",
@@ -979,9 +874,7 @@
             {
               "id": "u1-l3-q2",
               "type": "choice",
-              "skills": [
-                "faca.pega"
-              ],
+              "skills": ["faca.pega"],
               "prompt": "Sentes o pulso a doer ao fim de duas cenouras. O que está errado?",
               "options": [
                 "Estou a cortar com o pulso em vez do braço",
@@ -996,9 +889,7 @@
             {
               "id": "u1-l3-q3",
               "type": "order",
-              "skills": [
-                "faca.pega"
-              ],
+              "skills": ["faca.pega"],
               "prompt": "Ordena os passos para pegar na faca.",
               "correctOrder": [
                 "Pousar a faca na tábua com o gume para baixo",
@@ -1012,15 +903,10 @@
             {
               "id": "u1-l3-q4",
               "type": "judge",
-              "skills": [
-                "faca.pega"
-              ],
+              "skills": ["faca.pega"],
               "prompt": "A mão nesta imagem segura o cabo inteiro, com o indicador esticado por cima das costas da lâmina. Está correta?",
               "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop",
-              "options": [
-                "Sim, é a pega correta",
-                "Não, o indicador esticado tira-te controlo"
-              ],
+              "options": ["Sim, é a pega correta", "Não, o indicador esticado tira-te controlo"],
               "correctAnswer": "Não, o indicador esticado tira-te controlo",
               "explanation": "O indicador esticado por cima parece dar direção, mas tira força e desalinha a lâmina em cortes longos.",
               "explainWrong": "É a pega mais comum em quem aprendeu sozinho, e é também a que faz a lâmina fugir para o lado ao terceiro corte — o dedo esticado não trava a rotação da faca."
@@ -1028,10 +914,7 @@
             {
               "id": "u1-l3-q6",
               "type": "choice",
-              "skills": [
-                "faca.pega",
-                "seguranca.bancada"
-              ],
+              "skills": ["faca.pega", "seguranca.bancada"],
               "prompt": "Precisas de passar a faca a outra pessoa. Como?",
               "options": [
                 "Pouso-a na bancada e deixo que a peguem",
@@ -1057,17 +940,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": [
-            "faca.garra"
-          ],
-          "requires": [
-            "faca.pega"
-          ],
-          "ingredients": [
-            "A tua faca de chef",
-            "Uma cenoura",
-            "Um curgete"
-          ],
+          "teaches": ["faca.garra"],
+          "requires": ["faca.pega"],
+          "ingredients": ["A tua faca de chef", "Uma cenoura", "Um curgete"],
           "preparationSteps": [
             {
               "title": "Recolher as pontas",
@@ -1096,16 +971,9 @@
             {
               "id": "u1-l4-q1",
               "type": "choice",
-              "skills": [
-                "faca.garra"
-              ],
+              "skills": ["faca.garra"],
               "prompt": "O que faz de batente à lâmina na mão em garra?",
-              "options": [
-                "Os nós dos dedos",
-                "As unhas",
-                "O polegar",
-                "A palma da mão"
-              ],
+              "options": ["Os nós dos dedos", "As unhas", "O polegar", "A palma da mão"],
               "correctAnswer": "Os nós dos dedos",
               "explanation": "Os nós são a parte mais saliente da mão dobrada. A lâmina encosta a eles e nunca chega às pontas.",
               "explainWrong": "As unhas e as pontas dos dedos são precisamente o que a garra esconde. Se a lâmina lhes toca, a mão não está dobrada o suficiente."
@@ -1113,10 +981,7 @@
             {
               "id": "u1-l4-q2",
               "type": "order",
-              "skills": [
-                "faca.garra",
-                "faca.pega"
-              ],
+              "skills": ["faca.garra", "faca.pega"],
               "prompt": "Ordena o ciclo de um corte com a mão em garra.",
               "correctOrder": [
                 "Dobrar os dedos e segurar o ingrediente",
@@ -1130,15 +995,10 @@
             {
               "id": "u1-l4-q3",
               "type": "judge",
-              "skills": [
-                "faca.garra"
-              ],
+              "skills": ["faca.garra"],
               "prompt": "Nesta imagem os dedos estão esticados a segurar a cenoura. Podes cortar assim?",
               "imageUrl": "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=800&h=500&fit=crop",
-              "options": [
-                "Sim, se cortar devagar",
-                "Não, as pontas dos dedos estão no caminho"
-              ],
+              "options": ["Sim, se cortar devagar", "Não, as pontas dos dedos estão no caminho"],
               "correctAnswer": "Não, as pontas dos dedos estão no caminho",
               "explanation": "Com os dedos esticados não há batente. A única coisa entre a lâmina e a unha é a tua atenção.",
               "explainWrong": "\"Devagar\" não é uma proteção — é o que se faz enquanto se está concentrado, e ninguém está concentrado durante uma cebola inteira. A garra protege mesmo quando te distrais."
@@ -1146,10 +1006,7 @@
             {
               "id": "u1-l4-q5",
               "type": "choice",
-              "skills": [
-                "faca.garra",
-                "faca.cubos"
-              ],
+              "skills": ["faca.garra", "faca.cubos"],
               "prompt": "Estás a cortar uma curgete redonda que rola na tábua. O que fazes primeiro?",
               "options": [
                 "Corto uma fatia fina ao comprido para criar uma base plana",
@@ -1164,9 +1021,7 @@
             {
               "id": "u1-l4-q6",
               "type": "choice",
-              "skills": [
-                "faca.garra"
-              ],
+              "skills": ["faca.garra"],
               "prompt": "Ao fim de meia cebola dás por ti com os dedos esticados outra vez. Porquê?",
               "options": [
                 "A garra cansa até virar hábito — é normal e corrige-se parando",
@@ -1192,17 +1047,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
           "cookTimeMin": 8,
           "difficulty": "facil",
-          "teaches": [
-            "faca.cubos"
-          ],
-          "requires": [
-            "faca.garra"
-          ],
-          "ingredients": [
-            "Duas cebolas",
-            "A tua faca de chef",
-            "A tábua"
-          ],
+          "teaches": ["faca.cubos"],
+          "requires": ["faca.garra"],
+          "ingredients": ["Duas cebolas", "A tua faca de chef", "A tábua"],
           "preparationSteps": [
             {
               "title": "Cortar ao meio",
@@ -1239,9 +1086,7 @@
             {
               "id": "u1-l5-q1",
               "type": "choice",
-              "skills": [
-                "faca.cubos"
-              ],
+              "skills": ["faca.cubos"],
               "prompt": "Porque é que se deixa a raiz da cebola inteira?",
               "options": [
                 "É ela que segura as camadas todas juntas",
@@ -1256,10 +1101,7 @@
             {
               "id": "u1-l5-q2",
               "type": "order",
-              "skills": [
-                "faca.cubos",
-                "faca.garra"
-              ],
+              "skills": ["faca.cubos", "faca.garra"],
               "prompt": "Ordena o corte da cebola em cubos.",
               "correctOrder": [
                 "Cortar ao meio, do topo à raiz",
@@ -1274,9 +1116,7 @@
             {
               "id": "u1-l5-q4",
               "type": "judge",
-              "skills": [
-                "faca.cubos"
-              ],
+              "skills": ["faca.cubos"],
               "prompt": "Nesta cebola picada há pedaços do tamanho de uma ervilha e outros do tamanho de uma unha. Serve para refogar?",
               "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
               "options": [
@@ -1290,9 +1130,7 @@
             {
               "id": "u1-l5-q6",
               "type": "choice",
-              "skills": [
-                "faca.cubos"
-              ],
+              "skills": ["faca.cubos"],
               "prompt": "As lágrimas estão a impedir-te de ver o que cortas. O que ajuda mesmo?",
               "options": [
                 "Cebola fria e faca afiada",
@@ -1318,13 +1156,8 @@
           "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop",
           "cookTimeMin": 10,
           "difficulty": "facil",
-          "teaches": [
-            "org.mise-en-place",
-            "seguranca.fogo"
-          ],
-          "requires": [
-            "faca.cubos"
-          ],
+          "teaches": ["org.mise-en-place", "seguranca.fogo"],
+          "requires": ["faca.cubos"],
           "ingredients": [
             "Tudo o que a receita pedir",
             "Taças pequenas",
@@ -1363,9 +1196,7 @@
             {
               "id": "u1-l6-q1",
               "type": "choice",
-              "skills": [
-                "org.mise-en-place"
-              ],
+              "skills": ["org.mise-en-place"],
               "prompt": "Porque é que se corta tudo antes de ligar o fogão?",
               "options": [
                 "Porque a partir do lume o tempo passa a ser da comida, não teu",
@@ -1380,9 +1211,7 @@
             {
               "id": "u1-l6-q2",
               "type": "choice",
-              "skills": [
-                "seguranca.fogo"
-              ],
+              "skills": ["seguranca.fogo"],
               "prompt": "O óleo na frigideira pegou fogo. O que fazes?",
               "options": [
                 "Desligo o lume e tapo com uma tampa",
@@ -1397,10 +1226,7 @@
             {
               "id": "u1-l6-q3",
               "type": "order",
-              "skills": [
-                "org.mise-en-place",
-                "seguranca.fogo"
-              ],
+              "skills": ["org.mise-en-place", "seguranca.fogo"],
               "prompt": "Ordena a preparação antes de acender o lume.",
               "correctOrder": [
                 "Ler a receita do princípio ao fim",
@@ -1415,9 +1241,7 @@
             {
               "id": "u1-l6-q5",
               "type": "judge",
-              "skills": [
-                "org.mise-en-place"
-              ],
+              "skills": ["org.mise-en-place"],
               "prompt": "As taças estão cheias e alinhadas, mas do lado direito do fogão — e tu és destro, com a colher na direita. Está bem assim?",
               "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop",
               "options": [
@@ -1431,10 +1255,7 @@
             {
               "id": "u1-l6-q6",
               "type": "choice",
-              "skills": [
-                "org.mise-en-place",
-                "seguranca.bancada"
-              ],
+              "skills": ["org.mise-en-place", "seguranca.bancada"],
               "prompt": "A receita pede que a cebola entre primeiro e o alho dois minutos depois. Como preparas?",
               "options": [
                 "Taças separadas: se forem juntas, o alho queima",
@@ -1469,17 +1290,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": [
-            "calor.pre-aquecer"
-          ],
-          "requires": [
-            "org.mise-en-place"
-          ],
-          "ingredients": [
-            "Uma frigideira",
-            "Um fio de azeite",
-            "Umas gotas de água"
-          ],
+          "teaches": ["calor.pre-aquecer"],
+          "requires": ["org.mise-en-place"],
+          "ingredients": ["Uma frigideira", "Um fio de azeite", "Umas gotas de água"],
           "preparationSteps": [
             {
               "title": "Frigideira vazia ao lume",
@@ -1508,9 +1321,7 @@
             {
               "id": "u2-l1-q1",
               "type": "choice",
-              "skills": [
-                "calor.pre-aquecer"
-              ],
+              "skills": ["calor.pre-aquecer"],
               "prompt": "Puseste o bife numa frigideira que ainda estava morna. O que acontece?",
               "options": [
                 "Larga água e acaba cozido em vez de tostado",
@@ -1525,10 +1336,7 @@
             {
               "id": "u2-l1-q2",
               "type": "order",
-              "skills": [
-                "calor.pre-aquecer",
-                "calor.gordura"
-              ],
+              "skills": ["calor.pre-aquecer", "calor.gordura"],
               "prompt": "Ordena o arranque de qualquer salteado.",
               "correctOrder": [
                 "Frigideira vazia ao lume médio",
@@ -1542,10 +1350,7 @@
             {
               "id": "u2-l1-q4",
               "type": "judge",
-              "skills": [
-                "calor.pre-aquecer",
-                "calor.gordura"
-              ],
+              "skills": ["calor.pre-aquecer", "calor.gordura"],
               "prompt": "O azeite desta frigideira está a fumegar e a comida ainda não entrou. Podes avançar?",
               "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=500&fit=crop",
               "options": [
@@ -1559,9 +1364,7 @@
             {
               "id": "u2-l1-q5",
               "type": "choice",
-              "skills": [
-                "calor.pre-aquecer"
-              ],
+              "skills": ["calor.pre-aquecer"],
               "prompt": "Como sabes que a frigideira já está quente antes de pôr a gordura?",
               "options": [
                 "Umas gotas de água dançam à superfície em vez de evaporarem logo",
@@ -1587,17 +1390,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1603133872877-684f208fb84b?w=800&h=600&fit=crop",
           "cookTimeMin": 7,
           "difficulty": "facil",
-          "teaches": [
-            "calor.niveis"
-          ],
-          "requires": [
-            "calor.pre-aquecer"
-          ],
-          "ingredients": [
-            "Uma frigideira",
-            "Uma cebola",
-            "Azeite"
-          ],
+          "teaches": ["calor.niveis"],
+          "requires": ["calor.pre-aquecer"],
+          "ingredients": ["Uma frigideira", "Uma cebola", "Azeite"],
           "preparationSteps": [
             {
               "title": "Lume alto",
@@ -1626,9 +1421,7 @@
             {
               "id": "u2-l2-q1",
               "type": "choice",
-              "skills": [
-                "calor.niveis"
-              ],
+              "skills": ["calor.niveis"],
               "prompt": "Queres cebola macia e doce para um refogado. Que lume?",
               "options": [
                 "Médio, durante bastante tempo",
@@ -1643,9 +1436,7 @@
             {
               "id": "u2-l2-q2",
               "type": "judge",
-              "skills": [
-                "calor.niveis"
-              ],
+              "skills": ["calor.niveis"],
               "prompt": "Esta frigideira está a chiar muito alto e sai fumo dos lados. Estás a refogar cebola. Certo ou errado?",
               "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=500&fit=crop",
               "options": [
@@ -1659,10 +1450,7 @@
             {
               "id": "u2-l2-q3",
               "type": "order",
-              "skills": [
-                "calor.niveis",
-                "calor.pre-aquecer"
-              ],
+              "skills": ["calor.niveis", "calor.pre-aquecer"],
               "prompt": "Ordena os lumes de um bife com molho na mesma frigideira.",
               "correctOrder": [
                 "Lume alto para selar os dois lados",
@@ -1676,10 +1464,7 @@
             {
               "id": "u2-l2-q5",
               "type": "choice",
-              "skills": [
-                "calor.niveis",
-                "calor.pre-aquecer"
-              ],
+              "skills": ["calor.niveis", "calor.pre-aquecer"],
               "prompt": "A comida começou a agarrar e a escurecer de mais. Qual é o primeiro gesto?",
               "options": [
                 "Baixar o lume e só depois raspar o fundo com uma colher",
@@ -1705,17 +1490,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": [
-            "calor.gordura"
-          ],
-          "requires": [
-            "calor.pre-aquecer"
-          ],
-          "ingredients": [
-            "Azeite",
-            "Óleo de girassol",
-            "Manteiga"
-          ],
+          "teaches": ["calor.gordura"],
+          "requires": ["calor.pre-aquecer"],
+          "ingredients": ["Azeite", "Óleo de girassol", "Manteiga"],
           "preparationSteps": [
             {
               "title": "Ponto de fumo",
@@ -1744,9 +1521,7 @@
             {
               "id": "u2-l3-q1",
               "type": "choice",
-              "skills": [
-                "calor.gordura"
-              ],
+              "skills": ["calor.gordura"],
               "prompt": "Vais selar um bife em lume bem alto. Que gordura?",
               "options": [
                 "Óleo neutro, e a manteiga só no fim",
@@ -1761,9 +1536,7 @@
             {
               "id": "u2-l3-q2",
               "type": "judge",
-              "skills": [
-                "calor.gordura"
-              ],
+              "skills": ["calor.gordura"],
               "prompt": "A manteiga desta frigideira tem pontos castanhos escuros e cheira a torrado forte. Serve para acabar o molho?",
               "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop",
               "options": [
@@ -1777,10 +1550,7 @@
             {
               "id": "u2-l3-q4",
               "type": "order",
-              "skills": [
-                "calor.gordura",
-                "calor.pre-aquecer"
-              ],
+              "skills": ["calor.gordura", "calor.pre-aquecer"],
               "prompt": "Ordena um bife selado acabado em manteiga.",
               "correctOrder": [
                 "Frigideira bem quente",
@@ -1795,10 +1565,7 @@
             {
               "id": "u2-l3-q5",
               "type": "choice",
-              "skills": [
-                "calor.gordura",
-                "seguranca.fogo"
-              ],
+              "skills": ["calor.gordura", "seguranca.fogo"],
               "prompt": "Uma frigideira com óleo pegou fogo. O que fazes?",
               "options": [
                 "Desligo o lume e tapo com uma tampa",
@@ -1824,18 +1591,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
           "cookTimeMin": 9,
           "difficulty": "medio",
-          "teaches": [
-            "ponto.douramento"
-          ],
-          "requires": [
-            "calor.niveis",
-            "calor.gordura"
-          ],
-          "ingredients": [
-            "Uma cebola",
-            "Azeite",
-            "Uma pitada de sal"
-          ],
+          "teaches": ["ponto.douramento"],
+          "requires": ["calor.niveis", "calor.gordura"],
+          "ingredients": ["Uma cebola", "Azeite", "Uma pitada de sal"],
           "preparationSteps": [
             {
               "title": "Espalhar bem",
@@ -1858,9 +1616,7 @@
             {
               "id": "u2-l4-q1",
               "type": "choice",
-              "skills": [
-                "ponto.douramento"
-              ],
+              "skills": ["ponto.douramento"],
               "prompt": "Puseste os cogumelos todos de uma vez e eles largaram água em vez de dourarem. Porquê?",
               "options": [
                 "A frigideira estava cheia e a temperatura caiu a pique",
@@ -1875,9 +1631,7 @@
             {
               "id": "u2-l4-q2",
               "type": "judge",
-              "skills": [
-                "ponto.douramento"
-              ],
+              "skills": ["ponto.douramento"],
               "prompt": "Esta cebola está cor de mel, encolheu para metade e cheira doce. Tiras ou deixas mais?",
               "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
               "options": [
@@ -1891,9 +1645,7 @@
             {
               "id": "u2-l4-q3",
               "type": "estimate",
-              "skills": [
-                "ponto.douramento"
-              ],
+              "skills": ["ponto.douramento"],
               "prompt": "Quanto tempo demora uma cebola em cubos a ficar dourada, em lume médio?",
               "correctAnswer": 12,
               "tolerance": 5,
@@ -1904,10 +1656,7 @@
             {
               "id": "u2-l4-q4",
               "type": "order",
-              "skills": [
-                "ponto.douramento",
-                "calor.niveis"
-              ],
+              "skills": ["ponto.douramento", "calor.niveis"],
               "prompt": "Ordena o que a cebola faz, do princípio ao fim.",
               "correctOrder": [
                 "Chia ao entrar na gordura quente",
@@ -1921,10 +1670,7 @@
             {
               "id": "u2-l4-q5",
               "type": "choice",
-              "skills": [
-                "ponto.douramento",
-                "tempero.sal-momento"
-              ],
+              "skills": ["ponto.douramento", "tempero.sal-momento"],
               "prompt": "Uma pitada de sal na cebola, logo no início, serve para quê?",
               "options": [
                 "Ajuda a puxar a água para fora e a cebola amolece mais depressa",
@@ -1959,17 +1705,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop",
           "cookTimeMin": 7,
           "difficulty": "facil",
-          "teaches": [
-            "calor.lume-brando"
-          ],
-          "requires": [
-            "calor.niveis"
-          ],
-          "ingredients": [
-            "Um tacho",
-            "Água",
-            "Uma colher de pau"
-          ],
+          "teaches": ["calor.lume-brando"],
+          "requires": ["calor.niveis"],
+          "ingredients": ["Um tacho", "Água", "Uma colher de pau"],
           "preparationSteps": [
             {
               "title": "Reconhecer",
@@ -1998,9 +1736,7 @@
             {
               "id": "u3-l1-q1",
               "type": "choice",
-              "skills": [
-                "calor.lume-brando"
-              ],
+              "skills": ["calor.lume-brando"],
               "prompt": "Porque é que um molho de tomate fica melhor em lume brando do que a ferver?",
               "options": [
                 "A fervura agita e parte tudo; o lume brando deixa os sabores juntarem-se",
@@ -2015,15 +1751,10 @@
             {
               "id": "u3-l1-q2",
               "type": "judge",
-              "skills": [
-                "calor.lume-brando"
-              ],
+              "skills": ["calor.lume-brando"],
               "prompt": "Este tacho tem a superfície toda agitada e bolhas por todo o lado. Chamas a isto lume brando?",
               "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop",
-              "options": [
-                "Sim, tem bolhas pequenas",
-                "Não, isto é fervura — brando é bolha rara"
-              ],
+              "options": ["Sim, tem bolhas pequenas", "Não, isto é fervura — brando é bolha rara"],
               "correctAnswer": "Não, isto é fervura — brando é bolha rara",
               "explanation": "Em lume brando a superfície quase não se mexe. Uma bolha aqui, outra ali, e nada mais.",
               "explainWrong": "O tamanho das bolhas engana; o que conta é a superfície. Se ela está agitada, o molho está a ser batido enquanto reduz — e o que devia ficar cremoso fica desfeito."
@@ -2031,10 +1762,7 @@
             {
               "id": "u3-l1-q4",
               "type": "order",
-              "skills": [
-                "calor.lume-brando",
-                "calor.niveis"
-              ],
+              "skills": ["calor.lume-brando", "calor.niveis"],
               "prompt": "Ordena o apurar de um molho.",
               "correctOrder": [
                 "Levantar fervura em lume médio",
@@ -2048,9 +1776,7 @@
             {
               "id": "u3-l1-q5",
               "type": "choice",
-              "skills": [
-                "calor.lume-brando"
-              ],
+              "skills": ["calor.lume-brando"],
               "prompt": "O molho está a pegar no fundo do tacho mesmo em lume baixo. O que é mais provável?",
               "options": [
                 "O tacho é fino e faz um ponto quente onde o molho queima",
@@ -2076,17 +1802,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=500&fit=crop",
           "cookTimeMin": 8,
           "difficulty": "medio",
-          "teaches": [
-            "ponto.ovo"
-          ],
-          "requires": [
-            "calor.lume-brando"
-          ],
-          "ingredients": [
-            "Três ovos",
-            "Manteiga",
-            "Sal"
-          ],
+          "teaches": ["ponto.ovo"],
+          "requires": ["calor.lume-brando"],
+          "ingredients": ["Três ovos", "Manteiga", "Sal"],
           "preparationSteps": [
             {
               "title": "Bater sem exagero",
@@ -2115,9 +1833,7 @@
             {
               "id": "u3-l2-q1",
               "type": "choice",
-              "skills": [
-                "ponto.ovo"
-              ],
+              "skills": ["ponto.ovo"],
               "prompt": "Porque é que os ovos mexidos ficam secos mesmo tendo sido tirados no ponto certo?",
               "options": [
                 "Continuam a cozinhar no prato com o calor que já têm",
@@ -2132,15 +1848,10 @@
             {
               "id": "u3-l2-q2",
               "type": "judge",
-              "skills": [
-                "ponto.ovo"
-              ],
+              "skills": ["ponto.ovo"],
               "prompt": "Estes ovos mexidos ainda estão brilhantes e um pouco líquidos nos bordos. Tiras do lume?",
               "imageUrl": "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=800&h=500&fit=crop",
-              "options": [
-                "Sim, acabam de cozinhar no prato",
-                "Não, ainda estão crus"
-              ],
+              "options": ["Sim, acabam de cozinhar no prato", "Não, ainda estão crus"],
               "correctAnswer": "Sim, acabam de cozinhar no prato",
               "explanation": "Brilhante e ligeiramente líquido é o ponto de tirar. Trinta segundos depois, no prato, está exatamente como se quer.",
               "explainWrong": "Não estão crus — estão um passo antes do pronto, que é onde têm de estar quando saem. Esperar pelo aspeto final na frigideira é garantir que chegam à mesa passados."
@@ -2148,10 +1859,7 @@
             {
               "id": "u3-l2-q4",
               "type": "order",
-              "skills": [
-                "ponto.ovo",
-                "calor.lume-brando"
-              ],
+              "skills": ["ponto.ovo", "calor.lume-brando"],
               "prompt": "Ordena uns ovos mexidos cremosos.",
               "correctOrder": [
                 "Bater os ovos só até ficarem uniformes",
@@ -2166,10 +1874,7 @@
             {
               "id": "u3-l2-q5",
               "type": "choice",
-              "skills": [
-                "ponto.ovo",
-                "calor.niveis"
-              ],
+              "skills": ["ponto.ovo", "calor.niveis"],
               "prompt": "Um ovo estrelado com clara firme e gema mole: que lume?",
               "options": [
                 "Médio-baixo, com a frigideira tapada no fim",
@@ -2195,17 +1900,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": [
-            "tempero.sal-momento"
-          ],
-          "requires": [
-            "calor.lume-brando"
-          ],
-          "ingredients": [
-            "Sal grosso",
-            "Sal fino",
-            "Um tomate"
-          ],
+          "teaches": ["tempero.sal-momento"],
+          "requires": ["calor.lume-brando"],
+          "ingredients": ["Sal grosso", "Sal fino", "Um tomate"],
           "preparationSteps": [
             {
               "title": "Sal cedo",
@@ -2234,9 +1931,7 @@
             {
               "id": "u3-l3-q1",
               "type": "choice",
-              "skills": [
-                "tempero.sal-momento"
-              ],
+              "skills": ["tempero.sal-momento"],
               "prompt": "Vais apurar um molho durante meia hora. Quando salgas?",
               "options": [
                 "Pouco no início e acerto no fim, depois de reduzir",
@@ -2251,9 +1946,7 @@
             {
               "id": "u3-l3-q2",
               "type": "judge",
-              "skills": [
-                "tempero.sal-momento"
-              ],
+              "skills": ["tempero.sal-momento"],
               "prompt": "Salgaste a beringela e passados dez minutos há água na tábua. Correu mal?",
               "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
               "options": [
@@ -2267,10 +1960,7 @@
             {
               "id": "u3-l3-q3",
               "type": "order",
-              "skills": [
-                "tempero.sal-momento",
-                "calor.lume-brando"
-              ],
+              "skills": ["tempero.sal-momento", "calor.lume-brando"],
               "prompt": "Ordena o tempero de uma sopa que vai cozer uma hora.",
               "correctOrder": [
                 "Uma pitada com os legumes, no início",
@@ -2284,9 +1974,7 @@
             {
               "id": "u3-l3-q5",
               "type": "choice",
-              "skills": [
-                "tempero.sal-momento"
-              ],
+              "skills": ["tempero.sal-momento"],
               "prompt": "Um bife: sal antes ou depois de selar?",
               "options": [
                 "Antes, e logo antes de ir à frigideira",
@@ -2321,17 +2009,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": [
-            "tempero.agua-salgada"
-          ],
-          "requires": [
-            "tempero.sal-momento"
-          ],
-          "ingredients": [
-            "Um tacho grande",
-            "Água",
-            "Sal grosso"
-          ],
+          "teaches": ["tempero.agua-salgada"],
+          "requires": ["tempero.sal-momento"],
+          "ingredients": ["Um tacho grande", "Água", "Sal grosso"],
           "preparationSteps": [
             {
               "title": "Muito água",
@@ -2354,9 +2034,7 @@
             {
               "id": "u4-l1-q1",
               "type": "estimate",
-              "skills": [
-                "tempero.agua-salgada"
-              ],
+              "skills": ["tempero.agua-salgada"],
               "prompt": "Quanto sal por litro de água para cozer massa?",
               "correctAnswer": 10,
               "tolerance": 5,
@@ -2367,9 +2045,7 @@
             {
               "id": "u4-l1-q2",
               "type": "choice",
-              "skills": [
-                "tempero.agua-salgada"
-              ],
+              "skills": ["tempero.agua-salgada"],
               "prompt": "Azeite na água da massa serve para quê?",
               "options": [
                 "Para nada: fica à superfície e ainda faz o molho escorregar",
@@ -2384,10 +2060,7 @@
             {
               "id": "u4-l1-q3",
               "type": "order",
-              "skills": [
-                "tempero.agua-salgada",
-                "calor.niveis"
-              ],
+              "skills": ["tempero.agua-salgada", "calor.niveis"],
               "prompt": "Ordena a cozedura de massa.",
               "correctOrder": [
                 "Água ao lume, em quantidade",
@@ -2402,15 +2075,10 @@
             {
               "id": "u4-l1-q4",
               "type": "judge",
-              "skills": [
-                "tempero.agua-salgada"
-              ],
+              "skills": ["tempero.agua-salgada"],
               "prompt": "Esta massa está num tacho pequeno, com pouca água e a tocar toda umas nas outras. Serve?",
               "imageUrl": "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=800&h=500&fit=crop",
-              "options": [
-                "Sim, poupa água e tempo",
-                "Não, com pouca água a massa cola e coze mal"
-              ],
+              "options": ["Sim, poupa água e tempo", "Não, com pouca água a massa cola e coze mal"],
               "correctAnswer": "Não, com pouca água a massa cola e coze mal",
               "explanation": "Pouca água arrefece de mais quando a massa entra e concentra o amido. O resultado é uma massa pegada e com a superfície pastosa.",
               "explainWrong": "A poupança é real mas pequena, e o custo é a massa toda. Um tacho grande com água a ferver é o que faz a massa mexer-se e cozer por igual."
@@ -2418,10 +2086,7 @@
             {
               "id": "u4-l1-q5",
               "type": "choice",
-              "skills": [
-                "tempero.agua-salgada",
-                "tempero.sal-momento"
-              ],
+              "skills": ["tempero.agua-salgada", "tempero.sal-momento"],
               "prompt": "Porque é que se salga a água só depois de ferver?",
               "options": [
                 "O sal dissolve-se logo e não marca o fundo do tacho",
@@ -2447,18 +2112,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop",
           "cookTimeMin": 9,
           "difficulty": "medio",
-          "teaches": [
-            "calor.racio-agua"
-          ],
-          "requires": [
-            "calor.lume-brando"
-          ],
-          "ingredients": [
-            "Uma chávena de arroz",
-            "Duas chávenas de água",
-            "Sal",
-            "Azeite"
-          ],
+          "teaches": ["calor.racio-agua"],
+          "requires": ["calor.lume-brando"],
+          "ingredients": ["Uma chávena de arroz", "Duas chávenas de água", "Sal", "Azeite"],
           "preparationSteps": [
             {
               "title": "Medir com a mesma chávena",
@@ -2481,9 +2137,7 @@
             {
               "id": "u4-l2-q1",
               "type": "estimate",
-              "skills": [
-                "calor.racio-agua"
-              ],
+              "skills": ["calor.racio-agua"],
               "prompt": "Para uma chávena de arroz agulha, quantas chávenas de água?",
               "correctAnswer": 2,
               "tolerance": 0.5,
@@ -2494,9 +2148,7 @@
             {
               "id": "u4-l2-q2",
               "type": "choice",
-              "skills": [
-                "calor.racio-agua"
-              ],
+              "skills": ["calor.racio-agua"],
               "prompt": "Porque é que não se deve destapar o arroz a meio da cozedura?",
               "options": [
                 "O vapor que sai é o que está a cozer os grãos de cima",
@@ -2511,10 +2163,7 @@
             {
               "id": "u4-l2-q3",
               "type": "order",
-              "skills": [
-                "calor.racio-agua",
-                "calor.lume-brando"
-              ],
+              "skills": ["calor.racio-agua", "calor.lume-brando"],
               "prompt": "Ordena um arroz solto.",
               "correctOrder": [
                 "Refogar o arroz no azeite, um minuto",
@@ -2529,9 +2178,7 @@
             {
               "id": "u4-l2-q4",
               "type": "judge",
-              "skills": [
-                "calor.racio-agua"
-              ],
+              "skills": ["calor.racio-agua"],
               "prompt": "Este arroz ainda tem água à superfície e já passaram os minutos todos. Serves?",
               "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=500&fit=crop",
               "options": [
@@ -2545,9 +2192,7 @@
             {
               "id": "u4-l2-q5",
               "type": "choice",
-              "skills": [
-                "calor.racio-agua"
-              ],
+              "skills": ["calor.racio-agua"],
               "prompt": "Refogar o arroz no azeite antes da água serve para quê?",
               "options": [
                 "Reveste o grão e ajuda-o a ficar solto em vez de pegajoso",
@@ -2573,17 +2218,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop",
           "cookTimeMin": 8,
           "difficulty": "medio",
-          "teaches": [
-            "ponto.al-dente"
-          ],
-          "requires": [
-            "tempero.agua-salgada"
-          ],
-          "ingredients": [
-            "Massa seca",
-            "Água salgada a ferver",
-            "O molho já pronto"
-          ],
+          "teaches": ["ponto.al-dente"],
+          "requires": ["tempero.agua-salgada"],
+          "ingredients": ["Massa seca", "Água salgada a ferver", "O molho já pronto"],
           "preparationSteps": [
             {
               "title": "Provar cedo",
@@ -2606,9 +2243,7 @@
             {
               "id": "u4-l3-q1",
               "type": "choice",
-              "skills": [
-                "ponto.al-dente"
-              ],
+              "skills": ["ponto.al-dente"],
               "prompt": "Quando é que se escorre a massa que vai para uma frigideira com molho?",
               "options": [
                 "Um minuto antes do ponto: acaba de cozer no molho",
@@ -2623,15 +2258,10 @@
             {
               "id": "u4-l3-q2",
               "type": "judge",
-              "skills": [
-                "ponto.al-dente"
-              ],
+              "skills": ["ponto.al-dente"],
               "prompt": "Partiste um esparguete ao meio e vê-se um fio branco fino no centro. É al dente?",
               "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=500&fit=crop",
-              "options": [
-                "Sim, é exatamente esse o sinal",
-                "Não, branco no meio é massa crua"
-              ],
+              "options": ["Sim, é exatamente esse o sinal", "Não, branco no meio é massa crua"],
               "correctAnswer": "Sim, é exatamente esse o sinal",
               "explanation": "O fio branco é o amido que ainda não hidratou. Um fio fino é al dente; um núcleo grosso e opaco é que é cru.",
               "explainWrong": "Há uma diferença entre um fio fino e um centro branco grosso. O primeiro é o ponto; o segundo é massa que ainda precisa de um ou dois minutos."
@@ -2639,9 +2269,7 @@
             {
               "id": "u4-l3-q3",
               "type": "estimate",
-              "skills": [
-                "ponto.al-dente"
-              ],
+              "skills": ["ponto.al-dente"],
               "prompt": "Quantos minutos antes do tempo do pacote deves provar pela primeira vez?",
               "correctAnswer": 2,
               "tolerance": 1,
@@ -2652,10 +2280,7 @@
             {
               "id": "u4-l3-q4",
               "type": "order",
-              "skills": [
-                "ponto.al-dente",
-                "tempero.agua-salgada"
-              ],
+              "skills": ["ponto.al-dente", "tempero.agua-salgada"],
               "prompt": "Ordena a junção da massa com o molho.",
               "correctOrder": [
                 "Provar a massa dois minutos antes do tempo",
@@ -2670,9 +2295,7 @@
             {
               "id": "u4-l3-q5",
               "type": "choice",
-              "skills": [
-                "ponto.al-dente"
-              ],
+              "skills": ["ponto.al-dente"],
               "prompt": "A massa passou do ponto e ficou mole. O que se pode fazer?",
               "options": [
                 "Nada que a recupere: o amido já se desfez",
@@ -2707,16 +2330,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop",
           "cookTimeMin": 8,
           "difficulty": "medio",
-          "teaches": [
-            "org.sequenciar"
-          ],
-          "requires": [
-            "org.mise-en-place"
-          ],
-          "ingredients": [
-            "Um papel e uma caneta",
-            "A receita toda lida antes"
-          ],
+          "teaches": ["org.sequenciar"],
+          "requires": ["org.mise-en-place"],
+          "ingredients": ["Um papel e uma caneta", "A receita toda lida antes"],
           "preparationSteps": [
             {
               "title": "Ler tudo primeiro",
@@ -2739,9 +2355,7 @@
             {
               "id": "u5-l1-q1",
               "type": "choice",
-              "skills": [
-                "org.sequenciar"
-              ],
+              "skills": ["org.sequenciar"],
               "prompt": "Massa com molho de tomate e salada. Qual é o primeiro gesto?",
               "options": [
                 "Pôr a água ao lume, que é o que demora mais sem precisar de ti",
@@ -2756,10 +2370,7 @@
             {
               "id": "u5-l1-q2",
               "type": "order",
-              "skills": [
-                "org.sequenciar",
-                "org.mise-en-place"
-              ],
+              "skills": ["org.sequenciar", "org.mise-en-place"],
               "prompt": "Ordena o arranque de um jantar de massa com molho.",
               "correctOrder": [
                 "Ler a receita toda",
@@ -2774,9 +2385,7 @@
             {
               "id": "u5-l1-q3",
               "type": "judge",
-              "skills": [
-                "org.sequenciar"
-              ],
+              "skills": ["org.sequenciar"],
               "prompt": "Nesta bancada há três tachos ao lume ao mesmo tempo e nada cortado. É boa organização?",
               "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
               "options": [
@@ -2790,9 +2399,7 @@
             {
               "id": "u5-l1-q4",
               "type": "estimate",
-              "skills": [
-                "org.sequenciar"
-              ],
+              "skills": ["org.sequenciar"],
               "prompt": "Quanto tempo demora um tacho de água a levantar fervura, em lume alto?",
               "correctAnswer": 10,
               "tolerance": 5,
@@ -2803,9 +2410,7 @@
             {
               "id": "u5-l1-q5",
               "type": "choice",
-              "skills": [
-                "org.sequenciar"
-              ],
+              "skills": ["org.sequenciar"],
               "prompt": "Tens tudo pronto menos o bife, que leva quatro minutos. Quando o fazes?",
               "options": [
                 "No fim, já com o resto no prato ou tapado",
@@ -2831,17 +2436,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
           "cookTimeMin": 7,
           "difficulty": "medio",
-          "teaches": [
-            "tempero.camadas"
-          ],
-          "requires": [
-            "tempero.sal-momento"
-          ],
-          "ingredients": [
-            "Sal",
-            "Limão ou vinagre",
-            "Uma colher para provar"
-          ],
+          "teaches": ["tempero.camadas"],
+          "requires": ["tempero.sal-momento"],
+          "ingredients": ["Sal", "Limão ou vinagre", "Uma colher para provar"],
           "preparationSteps": [
             {
               "title": "Temperar cada fase",
@@ -2870,9 +2467,7 @@
             {
               "id": "u5-l2-q1",
               "type": "choice",
-              "skills": [
-                "tempero.camadas"
-              ],
+              "skills": ["tempero.camadas"],
               "prompt": "Um refogado temperado só no fim e outro temperado em cada fase. Qual é a diferença?",
               "options": [
                 "O temperado em camadas sabe a temperado por dentro, não só à superfície",
@@ -2887,9 +2482,7 @@
             {
               "id": "u5-l2-q2",
               "type": "choice",
-              "skills": [
-                "tempero.camadas"
-              ],
+              "skills": ["tempero.camadas"],
               "prompt": "O molho está bem de sal mas continua a saber a pouco. O que experimentas primeiro?",
               "options": [
                 "Umas gotas de limão ou vinagre",
@@ -2904,10 +2497,7 @@
             {
               "id": "u5-l2-q3",
               "type": "order",
-              "skills": [
-                "tempero.camadas",
-                "tempero.sal-momento"
-              ],
+              "skills": ["tempero.camadas", "tempero.sal-momento"],
               "prompt": "Ordena o tempero de um molho de tomate do princípio ao fim.",
               "correctOrder": [
                 "Pitada de sal na cebola a refogar",
@@ -2922,9 +2512,7 @@
             {
               "id": "u5-l2-q4",
               "type": "judge",
-              "skills": [
-                "tempero.camadas"
-              ],
+              "skills": ["tempero.camadas"],
               "prompt": "Este prato acabado levou sal grosso e um fio de azeite em cru, à mesa. Faz sentido?",
               "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
               "options": [
@@ -2949,17 +2537,9 @@
           "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop",
           "cookTimeMin": 6,
           "difficulty": "medio",
-          "teaches": [
-            "org.empratar"
-          ],
-          "requires": [
-            "org.sequenciar"
-          ],
-          "ingredients": [
-            "Pratos",
-            "Um pano da loiça",
-            "O que cozinhaste"
-          ],
+          "teaches": ["org.empratar"],
+          "requires": ["org.sequenciar"],
+          "ingredients": ["Pratos", "Um pano da loiça", "O que cozinhaste"],
           "preparationSteps": [
             {
               "title": "Pratos quentes",
@@ -2992,9 +2572,7 @@
             {
               "id": "u5-l3-q1",
               "type": "choice",
-              "skills": [
-                "org.empratar"
-              ],
+              "skills": ["org.empratar"],
               "prompt": "Porque é que se aquecem os pratos?",
               "options": [
                 "Um prato frio rouba o calor à comida em segundos",
@@ -3009,9 +2587,7 @@
             {
               "id": "u5-l3-q2",
               "type": "judge",
-              "skills": [
-                "org.empratar"
-              ],
+              "skills": ["org.empratar"],
               "prompt": "Este prato tem a comida espalhada até aos bordos e salpicos de molho por cima da borda. Serves assim?",
               "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
               "options": [
@@ -3025,10 +2601,7 @@
             {
               "id": "u5-l3-q3",
               "type": "order",
-              "skills": [
-                "org.empratar",
-                "org.sequenciar"
-              ],
+              "skills": ["org.empratar", "org.sequenciar"],
               "prompt": "Ordena o empratar.",
               "correctOrder": [
                 "Aquecer os pratos",

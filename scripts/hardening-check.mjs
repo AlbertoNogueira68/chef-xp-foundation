@@ -2,7 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 
 const ROOT = process.cwd();
-const FORBIDDEN = ["cdn.tailwindcss.com", "aistudiocdn.com", "gptengineer", "lovable.app", "lovable.dev"];
+const FORBIDDEN = [
+  "cdn.tailwindcss.com",
+  "aistudiocdn.com",
+  "gptengineer",
+  "lovable.app",
+  "lovable.dev",
+];
 
 function walk(dir, files = []) {
   if (!fs.existsSync(dir)) return files;

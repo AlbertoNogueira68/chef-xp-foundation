@@ -229,10 +229,10 @@ function LessonIntro({ lesson, onStart }: { lesson: Lesson; onStart: () => void 
     <div
       className="flex flex-1 flex-col min-h-0 px-4 pb-6 pt-4"
       style={{
-        overflowY: 'scroll',
-        WebkitOverflowScrolling: 'touch',
-        display: 'flex',
-        flexDirection: 'column'
+        overflowY: "scroll",
+        WebkitOverflowScrolling: "touch",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Badge className="mb-2 w-fit rounded-full border-0 bg-emerald-100 text-emerald-800">

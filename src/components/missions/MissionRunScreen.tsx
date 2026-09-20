@@ -114,10 +114,10 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
       <div
         className="flex-1 min-h-0 px-4 pb-4 pt-5"
         style={{
-          overflowY: 'scroll',
-          WebkitOverflowScrolling: 'touch',
-          display: 'flex',
-          flexDirection: 'column'
+          overflowY: "scroll",
+          WebkitOverflowScrolling: "touch",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-600">
