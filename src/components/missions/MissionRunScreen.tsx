@@ -111,7 +111,7 @@ export function MissionRunScreen({ run, skills }: { run: Run; skills: Map<string
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto px-4 pb-4 pt-5">
+      <div className="flex-1 min-h-0 overflow-y-auto px-4 pb-4 pt-5">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-emerald-600">
           {t("{dish} · step {step} of {total}", {
             dish: mission.dishName,
