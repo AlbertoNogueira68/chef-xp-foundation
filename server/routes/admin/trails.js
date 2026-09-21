@@ -72,40 +72,6 @@ router.get(
   }),
 );
 
-/**
- * Pré-visualização: a estrutura do trilho em números, para o painel mostrar
- * o que vai publicar sem ter de desenhar o percurso inteiro.
- */
-router.get(
-  "/:trailId/preview",
-  asyncHandler(async (req, res) => {
-    const trail = await getTrailMetadata(getPool(), req.params.trailId);
-    if (!trail) return res.status(404).json({ error: "Trail not found" });
-    if (!trailExists(trail.id)) {
-      return res.status(409).json({ error: "Trail has no loadable curriculum" });
-    }
-
-    const { units, lessons, skills, missions } = curriculumFor("en", trail.id);
-
-    res.json({
-      trail,
-      totals: {
-        units: units.length,
-        lessons: lessons.length,
-        skills: skills.length,
-        missions: missions.length,
-      },
-      units: units.map((unit) => ({
-        id: unit.id,
-        title: unit.title,
-        subtitle: unit.subtitle,
-        lessons: unit.lessons.length,
-        hasMission: Boolean(unit.missionId),
-      })),
-    });
-  }),
-);
-
 router.get(
   "/:trailId/stats",
   asyncHandler(async (req, res) => {
@@ -161,7 +127,7 @@ router.post(
     if (curriculum) {
       const check = registerTrail(id, asLanguageMap(curriculum), { dryRun: true });
       if (!check.ok)
-        return res.status(400).json({ error: "Invalid curriculum", errors: check.errors });
+        return res.status(400).json({ error: "Invalid curriculum", details: check.errors });
     }
 
     const { rows } = await getPool().query(
@@ -215,7 +181,7 @@ router.put(
     if (curriculum !== undefined) {
       const check = registerTrail(trail.id, asLanguageMap(curriculum), { dryRun: true });
       if (!check.ok)
-        return res.status(400).json({ error: "Invalid curriculum", errors: check.errors });
+        return res.status(400).json({ error: "Invalid curriculum", details: check.errors });
     }
 
     const { rows } = await getPool().query(

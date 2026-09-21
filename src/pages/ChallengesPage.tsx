@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { BarChart3, GraduationCap, Trophy } from "lucide-react";
 import { ChallengesTab } from "@/components/learning/ChallengesTab";
 import { LeaderboardTab } from "@/components/learning/LeaderboardTab";
 import { LearningPathView } from "@/components/learning/LearningPath";
+import { TrailSelector } from "@/components/learning/TrailSelector";
 import { LessonPlayer } from "@/components/learning/LessonPlayer";
 import { MissionRunScreen } from "@/components/missions/MissionRunScreen";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,12 +15,38 @@ import type { Skill } from "@/types/learning";
 import { cn } from "@/lib/utils";
 import { t } from "@/i18n";
 
+/**
+ * O trilho escolhido sobrevive a um recarregamento. Sem isto, trocar para a
+ * cozinha italiana e voltar à página punha a pessoa outra vez nos
+ * fundamentos, sem nada no ecrã a explicar porquê.
+ */
+const TRAIL_STORAGE_KEY = "chefxp.trail";
+
+function trilhoGuardado() {
+  try {
+    return localStorage.getItem(TRAIL_STORAGE_KEY) ?? "main-course";
+  } catch {
+    return "main-course";
+  }
+}
+
 export function ChallengesPage() {
-  const { data: path, isLoading: pathLoading } = useLearningPath();
+  const [trailId, setTrailId] = useState(trilhoGuardado);
+
+  const { data: path, isLoading: pathLoading } = useLearningPath(trailId);
   useChallenges();
 
-  const player = useLessonPlayer();
+  const player = useLessonPlayer(trailId);
   const mission = useMissionRun();
+
+  function escolherTrilho(id: string) {
+    setTrailId(id);
+    try {
+      localStorage.setItem(TRAIL_STORAGE_KEY, id);
+    } catch {
+      /* modo privado: a escolha vale só para esta sessão */
+    }
+  }
 
   const skillsById = useMemo(
     () => new Map<string, Skill>((path?.skills ?? []).map((skill) => [skill.id, skill])),
@@ -71,7 +98,8 @@ export function ChallengesPage() {
           <ChallengesTab />
         </TabsContent>
 
-        <TabsContent value="learn" className="mt-4">
+        <TabsContent value="learn" className="mt-4 space-y-4">
+          <TrailSelector currentTrailId={trailId} onSelect={escolherTrilho} />
           <LearningPathView
             path={path}
             isLoading={pathLoading}

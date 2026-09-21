@@ -115,8 +115,18 @@ test("as competências herdadas contam como conhecidas, mas só com a opção", 
         practices: ["x.avancada"],
         ingredients: ["Um ingrediente"],
         steps: [
-          { id: "s1", title: "Um", description: "Passo.", rescues: [{ kind: "pronto", answer: "Sim." }] },
-          { id: "s2", title: "Dois", description: "Passo.", rescues: [{ kind: "pronto", answer: "Sim." }] },
+          {
+            id: "s1",
+            title: "Um",
+            description: "Passo.",
+            rescues: [{ kind: "pronto", answer: "Sim." }],
+          },
+          {
+            id: "s2",
+            title: "Dois",
+            description: "Passo.",
+            rescues: [{ kind: "pronto", answer: "Sim." }],
+          },
           {
             id: "s3",
             title: "Três",

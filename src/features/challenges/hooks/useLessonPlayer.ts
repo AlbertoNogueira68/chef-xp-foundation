@@ -32,10 +32,10 @@ export type PrepItem = { title: string; description: string; isTip: boolean };
  * Os corações também ficam intactos offline. Descontá-los exigiria saber se a
  * resposta estava certa, que é exatamente o que não se sabe.
  */
-export function useLessonPlayer() {
+export function useLessonPlayer(trailId?: string) {
   const queryClient = useQueryClient();
-  const invalidatePath = useInvalidateLearningPath();
-  const setPath = useSetLearningPath();
+  const invalidatePath = useInvalidateLearningPath(trailId);
+  const setPath = useSetLearningPath(trailId);
 
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [phase, setPhase] = useState<LessonPlayerPhase>("intro");
@@ -114,13 +114,13 @@ export function useLessonPlayer() {
   const openLesson = useCallback(
     async (lessonId: string) => {
       try {
-        const { lesson: loaded } = await learningService.getLesson(lessonId);
+        const { lesson: loaded } = await learningService.getLesson(lessonId, trailId);
         resetSession(loaded);
       } catch (error) {
         toast.error(error instanceof Error ? error.message : t("Couldn't open the lesson"));
       }
     },
-    [resetSession],
+    [resetSession, trailId],
   );
 
   const closeLesson = useCallback(() => {
@@ -167,7 +167,12 @@ export function useLessonPlayer() {
       };
 
       try {
-        const result = await learningService.checkAnswer(lesson.id, currentQuestion.id, answer);
+        const result = await learningService.checkAnswer(
+          lesson.id,
+          currentQuestion.id,
+          answer,
+          trailId,
+        );
 
         guardar();
 
@@ -205,7 +210,7 @@ export function useLessonPlayer() {
         setIsChecking(false);
       }
     },
-    [lesson, currentQuestion, showFeedback, phase, hearts, isChecking],
+    [lesson, currentQuestion, showFeedback, phase, hearts, isChecking, trailId],
   );
 
   const nextQuestion = useCallback(async () => {
@@ -228,7 +233,7 @@ export function useLessonPlayer() {
 
     setIsFinishing(true);
     try {
-      const result = await learningService.completeLesson(lesson.id, answers.current);
+      const result = await learningService.completeLesson(lesson.id, answers.current, trailId);
 
       if (!result.passed) {
         setPhase("failed");
@@ -260,7 +265,7 @@ export function useLessonPlayer() {
         // a última tentativa em vez de duas.
         const guardado = await enqueue({
           descricao: t("Lesson: {dish}", { dish: lesson.dishName }),
-          path: `/learning/lessons/${lesson.id}/complete`,
+          path: `/learning/lessons/${lesson.id}/complete${trailId ? `?trailId=${encodeURIComponent(trailId)}` : ""}`,
           method: "POST",
           body: { answers: answers.current },
           tipo: "licao",
@@ -279,7 +284,17 @@ export function useLessonPlayer() {
     } finally {
       setIsFinishing(false);
     }
-  }, [lesson, phase, questionIndex, hearts, isFinishing, setPath, invalidatePath, queryClient]);
+  }, [
+    lesson,
+    phase,
+    questionIndex,
+    hearts,
+    isFinishing,
+    setPath,
+    invalidatePath,
+    queryClient,
+    trailId,
+  ]);
 
   const retryLesson = useCallback(() => {
     if (!lesson) return;

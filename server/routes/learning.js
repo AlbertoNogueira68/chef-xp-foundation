@@ -21,7 +21,7 @@ import {
   getAllAvailableTrails,
   getTrailCurriculum,
   getUserTrails,
-  isTrailPublished,
+  canSeeTrail,
   startUserTrail,
   deleteUserTrail,
 } from "../services/trailService.js";
@@ -46,10 +46,8 @@ const resolveTrail = asyncHandler(async (req, res, next) => {
     return res.status(404).json({ error: "Trail not found" });
   }
 
-  if (trailId !== DEFAULT_TRAIL && req.user.role === "user") {
-    if (!(await isTrailPublished(getPool(), trailId))) {
-      return res.status(404).json({ error: "Trail not found" });
-    }
+  if (!(await canSeeTrail(getPool(), req.user.id, trailId))) {
+    return res.status(404).json({ error: "Trail not found" });
   }
 
   req.trailId = trailId;
@@ -355,7 +353,7 @@ router.get(
   asyncHandler(async (req, res) => {
     const { trailId } = req.params;
 
-    if (req.user.role === "user" && !(await isTrailPublished(getPool(), trailId))) {
+    if (!(await canSeeTrail(getPool(), req.user.id, trailId))) {
       return res.status(404).json({ error: "Trail not found" });
     }
 

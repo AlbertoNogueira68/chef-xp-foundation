@@ -61,6 +61,29 @@ export async function isTrailPublished(db, trailId) {
 }
 
 /**
+ * Quem pode abrir este trilho.
+ *
+ * Um rascunho é visível a quem o está a preparar e a mais ninguém. O papel
+ * vem da base de dados de propósito: o token só transporta o id e o email, e
+ * ler o papel de lá dava uma verificação que passava sempre.
+ */
+export async function canSeeTrail(db, userId, trailId) {
+  if (trailId === DEFAULT_TRAIL) return true;
+
+  const { rows } = await db.query(
+    `SELECT (t.published_at IS NOT NULL) AS publicado,
+            (u.role <> 'user')          AS equipa
+       FROM users u
+       LEFT JOIN trails t ON t.id = $2
+      WHERE u.id = $1`,
+    [userId, trailId],
+  );
+
+  const linha = rows[0];
+  return Boolean(linha?.publicado || linha?.equipa);
+}
+
+/**
  * Os trilhos que alguém pode escolher.
  *
  * Cruza os dois lados numa consulta só: sem isto era uma query por trilho, e
