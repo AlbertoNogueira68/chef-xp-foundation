@@ -162,7 +162,9 @@ try {
   // Esperar pelo botão e não pela ausência de "Loading": o texto de espera
   // mudou de língua uma vez, e a espera passou a não esperar por nada.
   await ate("o percurso carregar", () =>
-    js(`return [...document.querySelectorAll("button")].some((b) => b.innerText.includes("Start"));`),
+    js(
+      `return [...document.querySelectorAll("button")].some((b) => b.innerText.includes("Start"));`,
+    ),
   );
   const xpAntes = await xpDeHoje();
 

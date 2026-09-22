@@ -357,120 +357,7 @@
           ]
         }
       ],
-      "mission": {
-        "id": "mission.pasta-fresca",
-        "unitId": "unit-italiano-1",
-        "title": "Your First Fresh Pasta",
-        "dishName": "Hand-Rolled Tagliatelle",
-        "cookTimeMin": 45,
-        "summary": "From dough to plate: make, roll, dry, cook and eat your own pasta.",
-        "practices": [
-          "italiana.pasta-agua-farinha",
-          "italiana.pasta-amassar",
-          "italiana.pasta-esticar"
-        ],
-        "xpReward": 500,
-        "ingredients": ["300g flour", "3 eggs", "Salt", "Butter", "Parmesan"],
-        "steps": [
-          {
-            "id": "s1",
-            "index": 0,
-            "title": "Make the dough",
-            "description": "Follow the lesson: flour well, eggs, fork, hands, knead 8-10 minutes.",
-            "durationSec": 600,
-            "rescues": [
-              {
-                "kind": "falta",
-                "answer": "Too crumbly? One drop of water. Too sticky? Work it longer before adding flour."
-              },
-              {
-                "kind": "pronto",
-                "answer": "Smooth, elastic, not sticky. Wrap and rest 30 minutes."
-              }
-            ]
-          },
-          {
-            "id": "s2",
-            "index": 1,
-            "title": "Rest the dough",
-            "description": "30 minutes wrapped in plastic. This lets gluten relax.",
-            "durationSec": 1800,
-            "rescues": [
-              {
-                "kind": "pronto",
-                "answer": "You can't over-rest it at room temperature."
-              }
-            ]
-          },
-          {
-            "id": "s3",
-            "index": 2,
-            "title": "Roll it out",
-            "description": "Press, spiral, rotate. Let it rest 1 minute every 2-3 presses. Aim for thin enough to see your hand.",
-            "durationSec": 900,
-            "checkpoint": true,
-            "rescues": [
-              {
-                "kind": "falta",
-                "answer": "If it tears, let it rest and try again from a thicker part. You can patch."
-              },
-              {
-                "kind": "pronto",
-                "answer": "Even thickness, translucent, no holes."
-              }
-            ]
-          },
-          {
-            "id": "s4",
-            "index": 3,
-            "title": "Cut and dry",
-            "description": "Cut into ribbons (tagliatelle), lay on a clean towel or drying rack. 15 minutes before cooking.",
-            "durationSec": 900,
-            "rescues": [
-              {
-                "kind": "falta",
-                "answer": "Not drying? It'll stick in the pot. 15 minutes is the minimum."
-              }
-            ]
-          },
-          {
-            "id": "s5",
-            "index": 4,
-            "title": "Cook in salted water",
-            "description": "Boiling, salted water. Fresh pasta takes 2-3 minutes only.",
-            "durationSec": 300,
-            "rescues": [
-              {
-                "kind": "pronto",
-                "answer": "As soon as it floats and stays up, it's done. Taste one strand."
-              },
-              {
-                "kind": "cola",
-                "answer": "It's sinking and cooking unevenly? The water might not be boiling hard enough."
-              }
-            ]
-          },
-          {
-            "id": "s6",
-            "index": 5,
-            "title": "Finish with butter and cheese",
-            "description": "Reserve pasta water. Drain, toss with cold butter, grated Parmesan, splash of pasta water.",
-            "durationSec": 300,
-            "checkpoint": true,
-            "rescues": [
-              {
-                "kind": "falta",
-                "answer": "No Parmesan? Use any hard cheese you have. Pecorino is traditional."
-              },
-              {
-                "kind": "pronto",
-                "answer": "Silky, coating the pasta, no grease pooling."
-              }
-            ]
-          }
-        ]
-      },
-      "missionId": "mission.tagliatelle"
+      "missionId": "mission.pasta-fresca"
     },
     {
       "id": "unit-italiano-2",
@@ -542,183 +429,9 @@
               "explainWrong": "Sugar leaves the sauce tasting sweet instead of ripe, and salt sharpens acidity rather than softening it. Fat does round the edge, but it is the uncovered simmer that actually drives the sharpness off."
             }
           ]
-        },
-        {
-          "id": "lesson.carbonara-tecnica",
-          "title": "Carbonara: The Science",
-          "dayNumber": 6,
-          "dishName": "Pasta alla Carbonara",
-          "description": "Eggs and cheese as sauce, without cream. Learn the temperature window.",
-          "type": "lesson",
-          "difficulty": "medio",
-          "cookTimeMin": 25,
-          "xpReward": 250,
-          "icon": "🥚",
-          "imageUrl": "https://images.unsplash.com/photo-1645112411341-6c4ee32510d8?w=400",
-          "ingredients": ["Pasta", "Guanciale or pancetta", "Eggs", "Pecorino cheese"],
-          "preparationSteps": [
-            {
-              "title": "Dice the guanciale",
-              "description": "Small cubes, render them gently so the fat releases."
-            },
-            {
-              "title": "Beat eggs with cheese",
-              "description": "Not cooking them — just mixing until you have a glossy paste."
-            },
-            {
-              "title": "Cook pasta",
-              "description": "Al dente. Reserve a cup of starchy water."
-            },
-            {
-              "title": "The trick: temperature control",
-              "description": "Drain pasta, toss with fat from guanciale, then add egg mix off heat while stirring fast."
-            }
-          ],
-          "teaches": ["italiana.carbonara-emulsao"],
-          "requires": ["ponto.ovo"],
-          "questions": [
-            {
-              "id": "it-u2-l2-q1",
-              "type": "choice",
-              "prompt": "Your carbonara scrambled. What happened?",
-              "options": [
-                "The eggs were too old",
-                "The pan was too hot when you added the egg mix",
-                "You didn't use guanciale",
-                "You cooked it too long"
-              ],
-              "correctAnswer": "The pan was too hot when you added the egg mix",
-              "explanation": "Off heat, stirring fast, splash of pasta water to cool it down. Those three things prevent scrambling.",
-              "skills": ["italiana.carbonara-emulsao"],
-              "explainWrong": "Egg age and guanciale change the flavour, not the texture. Scrambling is heat: the pan was still cooking when the egg went in. Off the heat, moving fast, with a splash of pasta water — that is what keeps it a sauce."
-            },
-            {
-              "id": "it-u2-l2-q2",
-              "type": "choice",
-              "prompt": "The sauce is too thick, coating the pasta like glue. Fix it?",
-              "options": [
-                "Add more egg",
-                "Splash of pasta water and stir",
-                "Cook it longer",
-                "Add cream"
-              ],
-              "correctAnswer": "Splash of pasta water and stir",
-              "explanation": "Starch in the water loosens it. Cream is not traditional and breaks the emulsion.",
-              "skills": ["italiana.carbonara-emulsao"],
-              "explainWrong": "More egg thickens what is already too thick, and more cooking sets it harder. Cream is the tempting fix and the one that breaks it — starchy water loosens an emulsion without washing out the flavour."
-            }
-          ]
         }
       ],
-      "mission": {
-        "id": "mission.ragu",
-        "unitId": "unit-italiano-2",
-        "title": "Ragù Bolognese",
-        "dishName": "Pasta al Ragù",
-        "cookTimeMin": 120,
-        "summary": "Slow, low heat: meat, tomato, and time create depth. The engine of Italian cooking.",
-        "practices": ["italiana.ragu-brasear", "italiana.tomate-reducao", "tempero.camadas"],
-        "xpReward": 600,
-        "ingredients": [
-          "300g ground meat",
-          "100g pancetta",
-          "1 onion",
-          "1 carrot",
-          "1 celery",
-          "500g tomatoes",
-          "Milk",
-          "White wine",
-          "Olive oil",
-          "Salt"
-        ],
-        "steps": [
-          {
-            "id": "s1",
-            "index": 0,
-            "title": "Soffritto",
-            "description": "Dice the pancetta, onion, carrot, celery (the holy trinity). Render pancetta, then sweat the vegetables gently until soft.",
-            "durationSec": 900,
-            "rescues": [
-              {
-                "kind": "falta",
-                "answer": "No celery? Just onion and carrot. No carrot? Onion and celery. One at least."
-              }
-            ]
-          },
-          {
-            "id": "s2",
-            "index": 1,
-            "title": "Meat",
-            "description": "Add ground meat. Stir to break it up. It should turn grey then slightly brown, but not crispy.",
-            "durationSec": 600,
-            "rescues": [
-              {
-                "kind": "queimei",
-                "answer": "Dark brown means too much heat. The ragù will taste burnt later. Lower the heat."
-              }
-            ]
-          },
-          {
-            "id": "s3",
-            "index": 2,
-            "title": "Wine",
-            "description": "Splash of white wine. Let it bubble away — this adds acidity and depth.",
-            "durationSec": 300,
-            "checkpoint": true,
-            "rescues": [
-              {
-                "kind": "falta",
-                "answer": "No wine? A splash of water, but wine is better."
-              }
-            ]
-          },
-          {
-            "id": "s4",
-            "index": 3,
-            "title": "Tomato and milk",
-            "description": "Add crushed tomatoes and a splash of milk. The milk softens the acidity. Low heat from here on.",
-            "durationSec": 1800,
-            "rescues": [
-              {
-                "kind": "queimei",
-                "answer": "Smells burnt? Too much heat. Move the pan to a quieter part of the stove or use a diffuser."
-              },
-              {
-                "kind": "pronto",
-                "answer": "Slow bubble, oil rising to the surface, flavours deepening."
-              }
-            ]
-          },
-          {
-            "id": "s5",
-            "index": 4,
-            "title": "Wait",
-            "description": "45 minutes minimum, 2 hours is better. Stir now and then. Taste after 45 — if flat, keep going.",
-            "durationSec": 2700,
-            "checkpoint": true,
-            "rescues": [
-              {
-                "kind": "pronto",
-                "answer": "Dark, complex, sweet, rich. If watery, simmer uncovered to reduce."
-              }
-            ]
-          },
-          {
-            "id": "s6",
-            "index": 5,
-            "title": "Season and finish",
-            "description": "Salt to taste. Serve over fresh pasta or dried. A little grated Parmesan on top.",
-            "durationSec": 300,
-            "rescues": [
-              {
-                "kind": "falta",
-                "answer": "Tastes flat? Salt. Tastes bitter? A splash of milk and simmer 5 more minutes."
-              }
-            ]
-          }
-        ]
-      },
-      "missionId": "mission.due-sughi"
+      "missionId": "mission.ragu"
     },
     {
       "id": "unit-italiano-3",
@@ -811,7 +524,6 @@
           ]
         }
       ],
-      "mission": null,
       "missionId": "mission.risotto"
     },
     {
@@ -867,249 +579,393 @@
           ]
         }
       ],
-      "mission": null,
       "missionId": "mission.pizza"
+    },
+    {
+      "id": "unit-italiano-5",
+      "title": "Carbonara: The Emulsion",
+      "subtitle": "Egg, fat and starch held together by nothing but heat and timing",
+      "color": "#E31937",
+      "missionId": "mission.carbonara",
+      "lessons": [
+        {
+          "id": "lesson.carbonara-tecnica",
+          "title": "Carbonara: The Science",
+          "dayNumber": 6,
+          "dishName": "Pasta alla Carbonara",
+          "description": "Eggs and cheese as sauce, without cream. Learn the temperature window.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 25,
+          "xpReward": 250,
+          "icon": "🥚",
+          "imageUrl": "https://images.unsplash.com/photo-1645112411341-6c4ee32510d8?w=400",
+          "ingredients": ["Pasta", "Guanciale or pancetta", "Eggs", "Pecorino cheese"],
+          "preparationSteps": [
+            {
+              "title": "Dice the guanciale",
+              "description": "Small cubes, render them gently so the fat releases."
+            },
+            {
+              "title": "Beat eggs with cheese",
+              "description": "Not cooking them — just mixing until you have a glossy paste."
+            },
+            {
+              "title": "Cook pasta",
+              "description": "Al dente. Reserve a cup of starchy water."
+            },
+            {
+              "title": "The trick: temperature control",
+              "description": "Drain pasta, toss with fat from guanciale, then add egg mix off heat while stirring fast."
+            }
+          ],
+          "teaches": ["italiana.carbonara-emulsao"],
+          "requires": ["ponto.ovo"],
+          "questions": [
+            {
+              "id": "it-u5-l1-q1",
+              "type": "choice",
+              "prompt": "Your carbonara scrambled. What happened?",
+              "options": [
+                "The eggs were too old",
+                "The pan was too hot when you added the egg mix",
+                "You didn't use guanciale",
+                "You cooked it too long"
+              ],
+              "correctAnswer": "The pan was too hot when you added the egg mix",
+              "explanation": "Off heat, stirring fast, splash of pasta water to cool it down. Those three things prevent scrambling.",
+              "skills": ["italiana.carbonara-emulsao"],
+              "explainWrong": "Egg age and guanciale change the flavour, not the texture. Scrambling is heat: the pan was still cooking when the egg went in. Off the heat, moving fast, with a splash of pasta water — that is what keeps it a sauce."
+            },
+            {
+              "id": "it-u5-l1-q2",
+              "type": "choice",
+              "prompt": "The sauce is too thick, coating the pasta like glue. Fix it?",
+              "options": [
+                "Add more egg",
+                "Splash of pasta water and stir",
+                "Cook it longer",
+                "Add cream"
+              ],
+              "correctAnswer": "Splash of pasta water and stir",
+              "explanation": "Starch in the water loosens it. Cream is not traditional and breaks the emulsion.",
+              "skills": ["italiana.carbonara-emulsao"],
+              "explainWrong": "More egg thickens what is already too thick, and more cooking sets it harder. Cream is the tempting fix and the one that breaks it — starchy water loosens an emulsion without washing out the flavour."
+            }
+          ]
+        }
+      ]
     }
   ],
   "missions": [
     {
-      "id": "mission.tagliatelle",
+      "id": "mission.pasta-fresca",
       "unitId": "unit-italiano-1",
-      "title": "Pasta you made yourself",
-      "dishName": "Fresh tagliatelle",
-      "cookTimeMin": 60,
-      "summary": "Flour, eggs and your hands. Most of the hour is resting time — the work itself is about fifteen minutes.",
+      "title": "Your First Fresh Pasta",
+      "dishName": "Hand-Rolled Tagliatelle",
+      "cookTimeMin": 45,
+      "summary": "From dough to plate: make, roll, dry, cook and eat your own pasta.",
       "practices": [
-        "italiana.pasta-tipi",
         "italiana.pasta-agua-farinha",
         "italiana.pasta-amassar",
-        "italiana.pasta-esticar"
+        "italiana.pasta-esticar",
+        "italiana.pasta-tipi"
       ],
-      "ingredients": [
-        "200 g plain flour (or 00 flour)",
-        "2 eggs",
-        "A pinch of salt",
-        "Extra flour for dusting",
-        "A rolling pin or pasta machine"
-      ],
+      "xpReward": 500,
+      "ingredients": ["300g flour", "3 eggs", "Salt", "Butter", "Parmesan"],
       "steps": [
         {
           "id": "s1",
-          "title": "The well",
-          "description": "Pile the flour on the counter and open a wide well in the middle. Crack the eggs into it. The wall has to be high enough to hold them.",
+          "index": 0,
+          "title": "Make the dough",
+          "description": "Follow the lesson: flour well, eggs, fork, hands, knead 8-10 minutes.",
+          "durationSec": 600,
           "rescues": [
             {
               "kind": "falta",
-              "answer": "One egg short? Take out 50 g of flour. The ratio matters more than the amount — roughly one egg per 100 g."
+              "answer": "Too crumbly? One drop of water. Too sticky? Work it longer before adding flour."
             },
             {
               "kind": "pronto",
-              "answer": "The well is right when you can beat the eggs without a single one escaping the wall."
+              "answer": "Smooth, elastic, not sticky. Wrap and rest 30 minutes."
             }
           ]
         },
         {
           "id": "s2",
-          "title": "Bring it together",
-          "description": "Beat the eggs with a fork, drawing in flour from the inside wall a little at a time. When it is too thick for the fork, switch to your hands.",
+          "index": 1,
+          "title": "Rest the dough",
+          "description": "30 minutes wrapped in plastic. This lets gluten relax.",
+          "durationSec": 1800,
           "rescues": [
             {
-              "kind": "cola",
-              "answer": "Sticking to your fingers is normal at this stage. Scrape your hands clean with a bench scraper rather than adding flour."
-            },
-            {
               "kind": "pronto",
-              "answer": "Ready to knead when there is no loose flour left and it holds as one rough lump."
+              "answer": "You can't over-rest it at room temperature."
             }
-          ],
-          "durationSec": 300
+          ]
         },
         {
           "id": "s3",
-          "title": "Knead",
-          "description": "Push with the heel of your hand, fold, turn a quarter. Eight to ten minutes. It goes from rough to smooth and slightly springy.",
-          "rescues": [
-            {
-              "kind": "cola",
-              "answer": "Still sticky after five minutes? Keep going. Flour now gives you stiff pasta that cooks tough."
-            },
-            {
-              "kind": "falta",
-              "answer": "Cracking at the edges means it is dry: wet your fingers and keep kneading, a few drops at a time."
-            },
-            {
-              "kind": "pronto",
-              "answer": "Press a thumb in. If the dent springs most of the way back, it is done."
-            }
-          ],
-          "durationSec": 540
-        },
-        {
-          "id": "s4",
-          "title": "Rest",
-          "description": "Wrap it and leave it on the counter for 30 minutes. This is not optional: unrested dough fights the pin and tears.",
-          "rescues": [
-            {
-              "kind": "pronto",
-              "answer": "Thirty minutes is the minimum. An hour is better, and it keeps in the fridge overnight."
-            }
-          ],
-          "durationSec": 1800
-        },
-        {
-          "id": "s5",
+          "index": 2,
           "title": "Roll it out",
-          "description": "Flatten, then roll from the centre outwards, turning as you go. Stop when you can see the shadow of your hand through the sheet.",
+          "description": "Press, spiral, rotate. Let it rest 1 minute every 2-3 presses. Aim for thin enough to see your hand.",
+          "durationSec": 900,
           "checkpoint": true,
           "rescues": [
             {
-              "kind": "cola",
-              "answer": "Dust the counter and the pin, not the dough. Too much flour on the sheet stops it sealing when you fold it."
-            },
-            {
               "kind": "falta",
-              "answer": "No pin? A straight wine bottle works. Roll in short passes and turn often."
+              "answer": "If it tears, let it rest and try again from a thicker part. You can patch."
             },
             {
               "kind": "pronto",
-              "answer": "Hold the sheet up to the light: your hand should read as a shadow through it."
+              "answer": "Even thickness, translucent, no holes."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Cut and dry",
+          "description": "Cut into ribbons (tagliatelle), lay on a clean towel or drying rack. 15 minutes before cooking.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Not drying? It'll stick in the pot. 15 minutes is the minimum."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Cook in salted water",
+          "description": "Boiling, salted water. Fresh pasta takes 2-3 minutes only.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "As soon as it floats and stays up, it's done. Taste one strand."
+            },
+            {
+              "kind": "cola",
+              "answer": "It's sinking and cooking unevenly? The water might not be boiling hard enough."
             }
           ]
         },
         {
           "id": "s6",
-          "title": "Cut and cook",
-          "description": "Dust the sheet, roll it loosely, cut ribbons a centimetre wide. Shake them out. Salted boiling water, two to three minutes — fresh pasta is quick.",
+          "index": 5,
+          "title": "Finish with butter and cheese",
+          "description": "Reserve pasta water. Drain, toss with cold butter, grated Parmesan, splash of pasta water.",
+          "durationSec": 300,
+          "checkpoint": true,
           "rescues": [
             {
-              "kind": "cola",
-              "answer": "Ribbons welding together means the roll was not floured enough. Toss the cut pasta in flour and spread it out."
+              "kind": "falta",
+              "answer": "No Parmesan? Use any hard cheese you have. Pecorino is traditional."
             },
             {
               "kind": "pronto",
-              "answer": "Fresh pasta floats and turns tender in two to three minutes. Taste one — it should give with no chalky centre."
+              "answer": "Silky, coating the pasta, no grease pooling."
             }
-          ],
-          "durationSec": 180
+          ]
         }
       ]
     },
     {
-      "id": "mission.due-sughi",
+      "id": "mission.ragu",
       "unitId": "unit-italiano-2",
-      "title": "Two sauces, one pot",
-      "dishName": "Pomodoro and carbonara",
-      "cookTimeMin": 40,
-      "summary": "The same pasta water serves both: one sauce built by reducing, one built by emulsifying. Cooking them side by side is what makes the difference obvious.",
+      "title": "Ragù Bolognese",
+      "dishName": "Pasta al Ragù",
+      "cookTimeMin": 120,
+      "summary": "Slow, low heat: meat, tomato, and time create depth. The engine of Italian cooking.",
       "practices": [
+        "italiana.ragu-brasear",
         "italiana.tomate-reducao",
-        "italiana.tomate-acidez",
-        "italiana.carbonara-emulsao",
-        "italiana.pasta-tipi"
+        "tempero.camadas",
+        "italiana.tomate-acidez"
       ],
+      "xpReward": 600,
       "ingredients": [
-        "400 g spaghetti (200 g per sauce)",
-        "1 tin of peeled tomatoes",
-        "2 cloves of garlic",
+        "300g ground meat",
+        "100g pancetta",
+        "1 onion",
+        "1 carrot",
+        "1 celery",
+        "500g tomatoes",
+        "Milk",
+        "White wine",
         "Olive oil",
-        "2 eggs plus 1 yolk",
-        "80 g guanciale or pancetta",
-        "50 g pecorino or parmesan, grated",
-        "Black pepper and salt"
+        "Salt"
       ],
       "steps": [
         {
           "id": "s1",
-          "title": "Get the water on",
-          "description": "A big pot, well salted. It has to be boiling before either sauce is finished — both of them need that water.",
+          "index": 0,
+          "title": "Soffritto",
+          "description": "Dice the pancetta, onion, carrot, celery (the holy trinity). Render pancetta, then sweat the vegetables gently until soft.",
+          "durationSec": 900,
           "rescues": [
             {
-              "kind": "pronto",
-              "answer": "Salt it until it tastes like a light broth. This is the only chance to season the pasta itself."
+              "kind": "falta",
+              "answer": "No celery? Just onion and carrot. No carrot? Onion and celery. One at least."
             }
           ]
         },
         {
           "id": "s2",
-          "title": "Garlic, gently",
-          "description": "Sliced garlic into cold oil, then low heat. Let it go pale gold and perfume the oil. It must not brown.",
+          "index": 1,
+          "title": "Meat",
+          "description": "Add ground meat. Stir to break it up. It should turn grey then slightly brown, but not crispy.",
+          "durationSec": 600,
           "rescues": [
             {
               "kind": "queimei",
-              "answer": "Brown garlic turns the whole sauce bitter and it will not cook out. Start the oil again — thirty seconds against a ruined sauce."
-            },
-            {
-              "kind": "pronto",
-              "answer": "Ready when it smells sweet and sizzles slowly. If it is crackling hard, the heat is too high."
+              "answer": "Dark brown means too much heat. The ragù will taste burnt later. Lower the heat."
             }
-          ],
-          "durationSec": 180
+          ]
         },
         {
           "id": "s3",
-          "title": "Reduce the tomato",
-          "description": "Tomatoes in, crushed by hand. Simmer uncovered, 15 to 20 minutes, until it thickens and the colour deepens from red to brick.",
+          "index": 2,
+          "title": "Wine",
+          "description": "Splash of white wine. Let it bubble away — this adds acidity and depth.",
+          "durationSec": 300,
           "checkpoint": true,
           "rescues": [
             {
-              "kind": "queimei",
-              "answer": "Catching on the bottom means the heat is too high or the pan too thin. Move it off, do not scrape the burnt layer up into the sauce."
-            },
-            {
-              "kind": "pronto",
-              "answer": "Drag a spoon across the pan: the trail should hold for a second before closing. Still sharp? Give it five more minutes uncovered."
+              "kind": "falta",
+              "answer": "No wine? A splash of water, but wine is better."
             }
-          ],
-          "durationSec": 1200
+          ]
         },
         {
           "id": "s4",
-          "title": "Render the guanciale",
-          "description": "Separate pan, no oil, low heat. Let the fat come out slowly until the meat is crisp at the edges. Keep the fat.",
+          "index": 3,
+          "title": "Tomato and milk",
+          "description": "Add crushed tomatoes and a splash of milk. The milk softens the acidity. Low heat from here on.",
+          "durationSec": 1800,
           "rescues": [
             {
               "kind": "queimei",
-              "answer": "Hard and dark means it went too fast. Low and slow is what renders fat instead of burning it."
-            },
-            {
-              "kind": "falta",
-              "answer": "No guanciale? Pancetta works, smoked bacon changes the dish but still teaches the emulsion."
+              "answer": "Smells burnt? Too much heat. Move the pan to a quieter part of the stove or use a diffuser."
             },
             {
               "kind": "pronto",
-              "answer": "Ready when the pieces are golden and there is a pool of clear fat."
+              "answer": "Slow bubble, oil rising to the surface, flavours deepening."
             }
-          ],
-          "durationSec": 420
+          ]
         },
         {
           "id": "s5",
-          "title": "The egg mix",
-          "description": "Beat the eggs, the extra yolk, the cheese and a lot of black pepper into a paste. Do this before the pasta is drained, not after.",
+          "index": 4,
+          "title": "Wait",
+          "description": "45 minutes minimum, 2 hours is better. Stir now and then. Taste after 45 — if flat, keep going.",
+          "durationSec": 2700,
+          "checkpoint": true,
           "rescues": [
             {
               "kind": "pronto",
-              "answer": "It should be thick enough to fall off the fork in a ribbon. If it is runny, add more cheese."
+              "answer": "Dark, complex, sweet, rich. If watery, simmer uncovered to reduce."
             }
           ]
         },
         {
           "id": "s6",
-          "title": "Marry them, off the heat",
-          "description": "Drain, saving a mug of water. Half the pasta into the tomato. The other half into the guanciale pan, off the heat, then the egg mix, stirring hard with a splash of pasta water.",
-          "checkpoint": true,
+          "index": 5,
+          "title": "Season and finish",
+          "description": "Salt to taste. Serve over fresh pasta or dried. A little grated Parmesan on top.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Tastes flat? Salt. Tastes bitter? A splash of milk and simmer 5 more minutes."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.carbonara",
+      "unitId": "unit-italiano-5",
+      "title": "The sauce that isn't cooked",
+      "dishName": "Spaghetti alla carbonara",
+      "cookTimeMin": 25,
+      "summary": "No cream, no pan on the heat at the end. The sauce is egg, cheese and pasta water, held together by the warmth already in the bowl.",
+      "practices": ["italiana.carbonara-emulsao", "italiana.pasta-tipi"],
+      "ingredients": [
+        "200 g spaghetti",
+        "80 g guanciale or pancetta",
+        "2 eggs plus 1 yolk",
+        "50 g pecorino, finely grated",
+        "Black pepper",
+        "Salt for the water"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Salt the water",
+          "description": "A big pot, well salted — the guanciale and the pecorino are salty, so taste the water and stop short of the usual.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "It should taste seasoned but not like the sea. The cheese brings the rest."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Render the guanciale",
+          "description": "Cold pan, no oil, low heat. Let the fat come out slowly until the pieces are golden and crisp at the edges. Keep every drop of the fat.",
+          "durationSec": 420,
           "rescues": [
             {
               "kind": "queimei",
-              "answer": "Scrambled egg means the pan was still hot. Take it right off next time and let it stand thirty seconds first."
+              "answer": "Dark and hard means it went too fast. Low and slow is what renders fat instead of burning it — start again if it tastes bitter."
             },
             {
-              "kind": "cola",
-              "answer": "Claggy and thick: another splash of pasta water and keep stirring. The starch is what loosens it."
+              "kind": "falta",
+              "answer": "No guanciale? Pancetta is the close cousin. Smoked bacon changes the dish but teaches the same emulsion."
             },
             {
               "kind": "pronto",
-              "answer": "The carbonara is right when it coats the pasta and slides — glossy, not set."
+              "answer": "Golden pieces sitting in a pool of clear fat."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "title": "Beat the eggs and cheese",
+          "description": "Eggs, the extra yolk, the pecorino and a lot of black pepper, beaten to a thick paste. Do this while the pasta cooks, not after it drains.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Thick enough to fall off the fork in a ribbon. Runny means it needs more cheese."
+            },
+            {
+              "kind": "cola",
+              "answer": "Clumping on the fork is the cheese grated too coarse. Grate it finer and it melts instead of seizing."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "title": "Off the heat, then the egg",
+          "description": "Drain, saving a mug of the water. Pasta into the guanciale pan off the heat, wait thirty seconds, then the egg mix and a splash of water, stirring hard the whole time.",
+          "checkpoint": true,
+          "durationSec": 90,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Scrambled means the pan was still cooking. There is no saving it — but next time let the pan stand half a minute before the egg goes in."
+            },
+            {
+              "kind": "cola",
+              "answer": "Thick and claggy: another splash of pasta water and keep stirring. The starch is what loosens it without washing out the flavour."
+            },
+            {
+              "kind": "pronto",
+              "answer": "It coats each strand and still slides on the plate. Glossy, not set — if it holds its shape, it went too far."
             }
           ]
         }
