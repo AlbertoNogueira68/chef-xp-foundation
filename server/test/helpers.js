@@ -76,6 +76,14 @@ const TABLES = [
 let migrated = false;
 
 /**
+ * `TRUNCATE users … CASCADE` arrasta `trails` com ele — o Postgres leva
+ * consigo tudo o que tenha uma chave estrangeira para a tabela truncada, e
+ * `trails.published_by` é uma. Sem isto, o primeiro reset apagava os trilhos
+ * semeados pela migração e todos os testes seguintes corriam sem nenhum.
+ */
+let trilhosSemente = [];
+
+/**
  * Recusa-se a correr contra uma base que não seja de teste.
  *
  * Isto existe porque aconteceu: correr a bateria com `DATABASE_URL` a apontar
@@ -134,6 +142,7 @@ export async function startTestServer() {
   if (!migrated) {
     await runMigrations();
     await syncCurriculum(getPool());
+    ({ rows: trilhosSemente } = await query(`SELECT * FROM trails ORDER BY order_index`));
     migrated = true;
   }
 
@@ -155,6 +164,26 @@ export async function startTestServer() {
 export async function resetDatabase() {
   outbox.length = 0;
   await query(`TRUNCATE ${TABLES.join(", ")} RESTART IDENTITY CASCADE`);
+
+  for (const trilho of trilhosSemente) {
+    await query(
+      `INSERT INTO trails (id, name, description, icon, color, difficulty,
+                           curriculum_json, published_at, order_index)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+       ON CONFLICT (id) DO NOTHING`,
+      [
+        trilho.id,
+        trilho.name,
+        trilho.description,
+        trilho.icon,
+        trilho.color,
+        trilho.difficulty,
+        trilho.curriculum_json,
+        trilho.published_at,
+        trilho.order_index,
+      ],
+    );
+  }
 }
 
 export async function closeDatabase() {
@@ -218,6 +247,7 @@ export function createClient(baseUrl) {
     get: (path, options) => request("GET", path, undefined, options),
     post: (path, body, options) => request("POST", path, body, options),
     patch: (path, body, options) => request("PATCH", path, body, options),
+    put: (path, body, options) => request("PUT", path, body, options),
     // DELETE com corpo não é comum, mas `DELETE /users/me` precisa dele: a
     // confirmação do nome e a password viajam no corpo, não no URL, para não
     // ficarem em registos de servidor nem no histórico do browser.

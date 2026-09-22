@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlatformMetrics } from "@/components/admin/PlatformMetrics";
 import { ReportQueue } from "@/components/admin/ReportQueue";
 import { StaffList } from "@/components/admin/StaffList";
+import { TrailManager } from "@/components/admin/TrailManager";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { t } from "@/i18n";
 
@@ -57,12 +58,15 @@ export function AdminPage() {
 
       {isAdmin ? (
         <Tabs defaultValue="fila">
-          <TabsList className="grid w-full grid-cols-3 rounded-full">
+          <TabsList className="grid w-full grid-cols-4 rounded-full">
             <TabsTrigger value="fila" className="rounded-full text-xs">
               {t("Queue")}
             </TabsTrigger>
             <TabsTrigger value="contas" className="rounded-full text-xs">
               {t("Accounts")}
+            </TabsTrigger>
+            <TabsTrigger value="trilhos" className="rounded-full text-xs">
+              {t("Trails")}
             </TabsTrigger>
             <TabsTrigger value="numeros" className="rounded-full text-xs">
               {t("Numbers")}
@@ -74,6 +78,9 @@ export function AdminPage() {
           </TabsContent>
           <TabsContent value="contas" className="mt-4">
             <StaffList meId={me?.id} />
+          </TabsContent>
+          <TabsContent value="trilhos" className="mt-4">
+            <TrailManager />
           </TabsContent>
           <TabsContent value="numeros" className="mt-4">
             <PlatformMetrics />

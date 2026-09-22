@@ -11,10 +11,14 @@ import {
 } from "../schemas/index.js";
 import { requireAdmin } from "../lib/moderation.js";
 import { accountDeletionRefusal, roleChangeRefusal } from "../domain/moderation.js";
+import trailRoutes from "./admin/trails.js";
 
 const router = Router();
 
 router.use(requireAuth, requireAdmin);
+
+// Mount trail management routes at /admin/trails
+router.use("/trails", trailRoutes);
 
 /* ---------------------------------------------------------------- *
  * Números da plataforma
