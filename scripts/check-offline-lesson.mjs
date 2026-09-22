@@ -220,7 +220,11 @@ try {
   const emEspera = await fila();
   if (emEspera.length !== 1)
     throw new Error(`esperava 1 item na fila, encontrei ${emEspera.length}`);
-  if (!emEspera[0].path.endsWith("/complete")) throw new Error("o item na fila não é a lição");
+  // O caminho leva `?trailId=`: é o que faz a lição chegar ao trilho certo
+  // quando a fila é enviada. Compara-se só o caminho, sem a query.
+  if (!new URL(emEspera[0].path, "http://x").pathname.endsWith("/complete")) {
+    throw new Error("o item na fila não é a lição");
+  }
   console.log(
     `[lição] na caixa de saída (IndexedDB): ${emEspera[0].descricao}` +
       ` — ${emEspera[0].respostas} respostas, ${emEspera[0].tamanho} bytes`,
