@@ -6,11 +6,9 @@ import {
   curriculumFor,
   getAllTrailIds,
   getLessonOrder,
-  registerTrail,
   trailExists,
-  unregisterTrail,
 } from "./curriculum.js";
-import { validateCurriculum } from "./curriculumValidation.js";
+import { MIN_MISSIONS_PER_TRAIL, validateCurriculum } from "./curriculumValidation.js";
 
 /**
  * O que estes testes protegem é uma regressão que já aconteceu: a descoberta
@@ -139,72 +137,265 @@ test("as competências herdadas contam como conhecidas, mas só com a opção", 
     ],
   };
 
+  const erroDeHeranca = (resultado) =>
+    resultado.errors.filter((erro) => erro.includes("calor.niveis"));
+
   const semHeranca = validateCurriculum(curriculum);
   assert.equal(semHeranca.ok, false, "sem herança, calor.niveis é desconhecida");
+  assert.ok(erroDeHeranca(semHeranca).length > 0);
 
+  // Só se olha para os erros sobre `calor.niveis`: este currículo é uma
+  // unidade só, e as regras de progressão — três receitas, do fácil para o
+  // difícil — recusam-no por outros motivos, que aqui não são o assunto.
   const comHeranca = validateCurriculum(curriculum, { inheritedSkills: ["calor.niveis"] });
-  assert.deepEqual(comHeranca.errors, []);
+  assert.deepEqual(erroDeHeranca(comHeranca), []);
 });
 
-test("registar um trilho valida-o como se viesse de ficheiro", () => {
-  const { ok, errors } = registerTrail("invalido", { en: { skills: [], units: [] } });
-  assert.equal(ok, false);
-  assert.ok(errors.length > 0);
-  assert.equal(trailExists("invalido"), false, "um trilho recusado não fica instalado");
+/**
+ * A promessa que o produto faz a quem está a começar: todo o trilho começa no
+ * fácil, sobe daí, e tem receitas que cheguem para haver percurso. São regras
+ * de conteúdo, por isso o que as prova é o conteúdo real — mais um currículo
+ * inventado de propósito para mostrar que o validador as apanha mesmo.
+ */
+test("todo o trilho tem pelo menos três receitas", () => {
+  for (const trailId of getAllTrailIds()) {
+    const { missions } = curriculumFor("en", trailId);
+    assert.ok(
+      missions.length >= MIN_MISSIONS_PER_TRAIL,
+      `${trailId} tem ${missions.length} receita(s), mínimo ${MIN_MISSIONS_PER_TRAIL}`,
+    );
+  }
 });
 
-test("dryRun valida sem instalar", () => {
-  const italian = curriculumFor("en", "italian").curriculum;
-  const copia = estruturaRenomeada(italian, "dry");
+test("todo o trilho começa no fácil e sobe: dayNumber sempre a subir", () => {
+  for (const trailId of getAllTrailIds()) {
+    const { units } = curriculumFor("en", trailId);
+    const licoes = units.flatMap((unit) => unit.lessons);
 
-  const check = registerTrail("dry-run", copia, { dryRun: true });
-  assert.equal(check.ok, true, check.errors.join("; "));
-  assert.equal(trailExists("dry-run"), false, "dryRun não pode instalar nada");
-});
+    assert.equal(licoes[0].difficulty, "facil", `${trailId} não começa numa lição fácil`);
 
-test("um trilho que repete ids de lição é recusado", () => {
-  const italian = curriculumFor("en", "italian").curriculum;
-  const { ok, errors } = registerTrail("clone", { en: italian });
-
-  assert.equal(ok, false);
-  assert.match(errors[0], /aparece em dois trilhos/);
-});
-
-test("o trilho fundacional não se substitui em runtime", () => {
-  const { ok } = registerTrail(DEFAULT_TRAIL, { en: {} });
-  assert.equal(ok, false);
-  assert.equal(unregisterTrail(DEFAULT_TRAIL), false);
-  assert.ok(trailExists(DEFAULT_TRAIL), "o fundacional tem de continuar lá");
-});
-
-test("registar e depois retirar deixa o resto como estava", () => {
-  const antes = getAllTrailIds();
-  const copia = estruturaRenomeada(curriculumFor("en", "italian").curriculum, "tmp");
-
-  assert.equal(registerTrail("temporario", copia).ok, true);
-  assert.ok(trailExists("temporario"));
-  assert.deepEqual(curriculumFor("en", "italian").lessonOrder, getLessonOrder("italian"));
-
-  unregisterTrail("temporario");
-  assert.deepEqual(getAllTrailIds(), antes);
-});
-
-/** Um clone com todos os ids prefixados, para não colidir com o original. */
-function estruturaRenomeada(curriculum, prefixo) {
-  const copia = structuredClone(curriculum);
-  const p = (id) => `${prefixo}-${id}`;
-
-  for (const unit of copia.units) {
-    unit.id = p(unit.id);
-    if (unit.missionId) unit.missionId = p(unit.missionId);
-    for (const lesson of unit.lessons) {
-      lesson.id = p(lesson.id);
-      for (const question of lesson.questions) question.id = p(question.id);
+    for (let i = 1; i < licoes.length; i += 1) {
+      assert.ok(
+        licoes[i].dayNumber > licoes[i - 1].dayNumber,
+        `${trailId}: ${licoes[i].id} (dia ${licoes[i].dayNumber}) vem depois de ${licoes[i - 1].id} (dia ${licoes[i - 1].dayNumber})`,
+      );
     }
   }
-  for (const mission of copia.missions ?? []) {
-    mission.id = p(mission.id);
-    mission.unitId = p(mission.unitId);
+});
+
+test("cada unidade fecha com uma missão, e cada missão pertence à sua unidade", () => {
+  for (const trailId of getAllTrailIds()) {
+    const { units, missionsById } = curriculumFor("en", trailId);
+    for (const unit of units) {
+      const missao = missionsById.get(unit.missionId);
+      assert.ok(missao, `${trailId}/${unit.id}: missionId ${unit.missionId} não existe`);
+      assert.equal(missao.unitId, unit.id, `${missao.id} diz ser de ${missao.unitId}`);
+    }
   }
-  return { en: copia };
-}
+});
+
+test("o validador recusa um trilho desordenado, sem receitas ou que começa no difícil", () => {
+  const licao = (id, dia, dificuldade, skill) => ({
+    id,
+    title: `Lição ${id}`,
+    dayNumber: dia,
+    difficulty: dificuldade,
+    xpReward: 100,
+    teaches: [skill],
+    questions: [
+      {
+        id: `${id}-q1`,
+        type: "choice",
+        skills: [skill],
+        prompt: "Pergunta?",
+        options: ["Certa", "Errada"],
+        correctAnswer: "Certa",
+        explanation: "Porque sim.",
+        explainWrong: "Porque não.",
+      },
+    ],
+  });
+
+  const missao = (id, unitId, skills) => ({
+    id,
+    unitId,
+    title: `Missão ${id}`,
+    practices: skills,
+    ingredients: ["Um ingrediente"],
+    steps: [
+      {
+        id: "s1",
+        title: "Um",
+        description: "Passo.",
+        rescues: [{ kind: "pronto", answer: "Sim." }],
+      },
+      {
+        id: "s2",
+        title: "Dois",
+        description: "Passo.",
+        rescues: [{ kind: "pronto", answer: "Sim." }],
+      },
+      {
+        id: "s3",
+        title: "Três",
+        description: "Passo.",
+        checkpoint: true,
+        rescues: [{ kind: "pronto", answer: "Sim." }],
+      },
+    ],
+  });
+
+  const skills = ["a", "b"].map((id) => ({
+    id: `x.${id}`,
+    name: id,
+    category: "calor",
+    description: "Competência.",
+    requires: [],
+  }));
+
+  // Duas unidades, a segunda com dias ANTERIORES à primeira: exactamente o que
+  // o trilho italiano tinha, e que fazia a carbonara do dia 6 abrir depois da
+  // pizza do dia 15.
+  const desordenado = {
+    skills,
+    units: [
+      { id: "u1", title: "Um", lessons: [licao("u1-l1", 10, "facil", "x.a")], missionId: "m1" },
+      { id: "u2", title: "Dois", lessons: [licao("u2-l1", 2, "medio", "x.b")], missionId: "m2" },
+    ],
+    missions: [missao("m1", "u1", ["x.a"]), missao("m2", "u2", ["x.b"])],
+  };
+
+  const fora = validateCurriculum(desordenado);
+  assert.equal(fora.ok, false);
+  assert.ok(
+    fora.errors.some((e) => e.includes("fora de ordem")),
+    `esperava um erro de ordem, vieram: ${fora.errors.join("; ")}`,
+  );
+  assert.ok(
+    fora.errors.some((e) => e.includes(`mínimo é ${MIN_MISSIONS_PER_TRAIL}`)),
+    "duas receitas deviam ser recusadas",
+  );
+
+  // O mesmo trilho, arrumado e com três receitas, passa.
+  const arrumado = {
+    skills: [
+      ...skills,
+      { id: "x.c", name: "c", category: "calor", description: "C.", requires: [] },
+    ],
+    units: [
+      { id: "u1", title: "Um", lessons: [licao("u1-l1", 1, "facil", "x.a")], missionId: "m1" },
+      { id: "u2", title: "Dois", lessons: [licao("u2-l1", 2, "medio", "x.b")], missionId: "m2" },
+      { id: "u3", title: "Três", lessons: [licao("u3-l1", 3, "dificil", "x.c")], missionId: "m3" },
+    ],
+    missions: [
+      missao("m1", "u1", ["x.a"]),
+      missao("m2", "u2", ["x.b"]),
+      missao("m3", "u3", ["x.c"]),
+    ],
+  };
+  assert.deepEqual(validateCurriculum(arrumado).errors, []);
+
+  // E começar no difícil é recusado, mesmo com tudo o resto certo.
+  const comecaDificil = structuredClone(arrumado);
+  comecaDificil.units[0].lessons[0].difficulty = "dificil";
+  const inicio = validateCurriculum(comecaDificil);
+  assert.equal(inicio.ok, false);
+  assert.ok(
+    inicio.errors.some((e) => e.includes("começa no fácil")),
+    `esperava um erro sobre o início, vieram: ${inicio.errors.join("; ")}`,
+  );
+});
+
+test("nenhuma missão pede uma competência que nenhuma lição do trilho ensina", () => {
+  const fundacionais = new Set(curriculumFor("en", DEFAULT_TRAIL).skills.map((s) => s.id));
+
+  for (const trailId of getAllTrailIds()) {
+    const { units, missions } = curriculumFor("en", trailId);
+    const ensinadas = new Set(
+      units.flatMap((unit) => unit.lessons).flatMap((licao) => licao.teaches ?? []),
+    );
+
+    for (const missao of missions) {
+      for (const skillId of missao.practices ?? []) {
+        assert.ok(
+          ensinadas.has(skillId) || fundacionais.has(skillId),
+          `${trailId}/${missao.id} pratica ${skillId}, que nenhuma lição ensina`,
+        );
+      }
+    }
+  }
+});
+
+test("nenhum trilho declara uma competência que nunca chega a ser ensinada", () => {
+  for (const trailId of getAllTrailIds()) {
+    const { units, skills } = curriculumFor("en", trailId);
+    const ensinadas = new Set(
+      units.flatMap((unit) => unit.lessons).flatMap((licao) => licao.teaches ?? []),
+    );
+
+    for (const skill of skills) {
+      assert.ok(
+        ensinadas.has(skill.id),
+        `${trailId}: ${skill.id} está declarada e nunca é ensinada`,
+      );
+    }
+  }
+});
+
+test("o trilho italiano começa em massa seca, não em massa fresca", () => {
+  const { units } = curriculumFor("en", "italian");
+  const primeira = units[0];
+
+  assert.equal(primeira.id, "unit-italiano-6");
+  for (const licao of primeira.lessons) {
+    assert.equal(
+      licao.difficulty,
+      "facil",
+      `${licao.id} abre o trilho e não é fácil — a primeira coisa que se cozinha não pode exigir experiência`,
+    );
+  }
+
+  // A massa fresca é o cartão de visita do trilho, mas não é por onde se entra.
+  const massaFresca = units.findIndex((unit) => unit.id === "unit-italiano-1");
+  const pizza = units.findIndex((unit) => unit.id === "unit-italiano-4");
+  assert.ok(massaFresca > 0, "amassar e esticar massa fresca não pode ser a primeira unidade");
+  assert.ok(pizza > massaFresca, "a massa de pizza vem depois de já se ter feito massa à mão");
+});
+
+test("a entrada de cada trilho não tem lições difíceis, e a subida chega ao fim", () => {
+  const ordem = ["facil", "medio", "dificil"];
+
+  for (const trailId of getAllTrailIds()) {
+    const { units } = curriculumFor("en", trailId);
+    const licoes = units.flatMap((unit) => unit.lessons);
+
+    for (const licao of units[0].lessons) {
+      assert.notEqual(
+        licao.difficulty,
+        "dificil",
+        `${trailId}: ${licao.id} é difícil e é das primeiras coisas que se faz`,
+      );
+    }
+
+    const maxIndice = Math.max(...licoes.map((l) => ordem.indexOf(l.difficulty)));
+    const ultima = units[units.length - 1];
+    assert.ok(
+      ultima.lessons.some((l) => ordem.indexOf(l.difficulty) === maxIndice),
+      `${trailId}: a última unidade (${ultima.id}) não chega a ${ordem[maxIndice]}`,
+    );
+  }
+});
+
+test("o trilho português começa na sopa, não no bacalhau de véspera", () => {
+  const { units } = curriculumFor("en", "portuguese");
+
+  assert.equal(units[0].id, "unit-portugues-4");
+  for (const licao of units[0].lessons) {
+    assert.equal(licao.difficulty, "facil");
+  }
+
+  // O bacalhau exige um dia inteiro de demolha antes de se poder cozinhar: é
+  // conteúdo do trilho, mas não é a primeira coisa que se pede a alguém.
+  const bacalhau = units.findIndex((unit) => unit.id === "unit-portugues-1");
+  assert.ok(bacalhau > 0, "a demolha do bacalhau não pode abrir o trilho");
+});

@@ -1,0 +1,934 @@
+{
+  "id": "mexican",
+  "version": 1,
+  "name": "Mexican Cuisine: Salsas, Masa, Fire",
+  "description": "Master the techniques of Mexican cooking: roasted salsas, fresh masa, seared meat and taco assembly.",
+  "icon": "🇲🇽",
+  "color": "#006341",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "intermediate",
+  "estimatedHours": 16,
+  "skills": [
+    {
+      "id": "mexicana.salsa-roasting",
+      "name": "Roasting for Salsa",
+      "category": "calor",
+      "description": "Charring tomatillos and chiles dry, in a hot pan, builds smoky depth no raw blend can fake.",
+      "requires": [
+        "calor.pre-aquecer"
+      ]
+    },
+    {
+      "id": "mexicana.salsa-blending",
+      "name": "Balancing a Blended Salsa",
+      "category": "tempero",
+      "description": "Salt, acid and roasted vegetable in the right order: a blender doesn't season for you.",
+      "requires": [
+        "mexicana.salsa-roasting"
+      ]
+    },
+    {
+      "id": "mexicana.masa-hydration",
+      "name": "Masa Hydration",
+      "category": "calor",
+      "description": "Masa harina takes water differently from wheat flour: too dry cracks, too wet won't hold a shape.",
+      "requires": [
+        "calor.racio-agua"
+      ]
+    },
+    {
+      "id": "mexicana.tortilla-pressing",
+      "name": "Pressing Tortillas",
+      "category": "organizacao",
+      "description": "Even pressure, even thickness: a lopsided tortilla cooks unevenly and tears when folded.",
+      "requires": [
+        "mexicana.masa-hydration"
+      ]
+    },
+    {
+      "id": "mexicana.searing-meat",
+      "name": "Searing for Tacos",
+      "category": "calor",
+      "description": "High heat, dry surface, no crowding: the crust that makes al pastor taste of more than spice.",
+      "requires": [
+        "calor.gordura",
+        "ponto.douramento"
+      ]
+    },
+    {
+      "id": "mexicana.taco-assembly",
+      "name": "Taco Assembly",
+      "category": "organizacao",
+      "description": "Warm tortilla, meat, then the sharp stuff last: onion and cilantro wilt if buried under hot meat too long.",
+      "requires": [
+        "org.empratar"
+      ]
+    },
+    {
+      "id": "mexicana.chiles-secos",
+      "name": "Toasting and Rehydrating Dried Chiles",
+      "category": "calor",
+      "description": "Dry chiles toasted for seconds and soaked in hot water: the deep, raisin-sweet base of a red sauce. Thirty seconds too long and the whole batch is bitter.",
+      "requires": [
+        "mexicana.salsa-roasting"
+      ]
+    },
+    {
+      "id": "mexicana.enchilada-montagem",
+      "name": "Enchiladas That Hold Together",
+      "category": "organizacao",
+      "description": "Tortillas softened in hot fat and dipped in sauce before filling, so they roll instead of cracking and don't dissolve in the dish.",
+      "requires": [
+        "mexicana.tortilla-pressing",
+        "mexicana.taco-assembly"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-mexicano-1",
+      "title": "Salsas From Fire",
+      "subtitle": "Roasting and Balance",
+      "color": "#C0392B",
+      "lessons": [
+        {
+          "id": "lesson.mexicana-roasting",
+          "title": "Roasting for Salsa",
+          "dayNumber": 1,
+          "dishName": "Roasted Tomatillo & Chile",
+          "description": "Learn why salsa starts in a dry, hot pan instead of a blender.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 20,
+          "xpReward": 150,
+          "icon": "🔥",
+          "imageUrl": "/lessons/mexican/mexicana-roasting.jpg",
+          "ingredients": [
+            "4 tomatillos",
+            "2 green chiles",
+            "1 onion quarter",
+            "2 garlic cloves"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Dry pan, no oil",
+              "description": "Get a comal or heavy skillet fully hot before anything touches it."
+            },
+            {
+              "title": "Char, don't stir constantly",
+              "description": "Let each side blacken in spots before turning — that's where the flavour comes from."
+            },
+            {
+              "title": "Char the chiles too",
+              "description": "Blister them alongside the tomatillos until the skin blackens in patches."
+            }
+          ],
+          "teaches": [
+            "mexicana.salsa-roasting"
+          ],
+          "questions": [
+            {
+              "id": "mx-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Your tomatillos came off the comal solid black all over, and the salsa tastes acrid. What went wrong?",
+              "options": [
+                "They went past charred into burnt — spotted black is the target",
+                "The pan wasn't hot enough",
+                "You roasted too many at once",
+                "The chiles should have gone in first"
+              ],
+              "correctAnswer": "They went past charred into burnt — spotted black is the target",
+              "explanation": "Charring builds smoke; burning builds bitterness, and nothing later in the salsa takes it back out.",
+              "skills": [
+                "mexicana.salsa-roasting"
+              ],
+              "explainWrong": "A cooler pan leaves tomatillos pale and raw-tasting, not acrid, and neither quantity nor order changes how a single tomatillo reacts to heat. All-over black is simply too long over the flame."
+            },
+            {
+              "id": "mx-u1-l1-q2",
+              "type": "judge",
+              "prompt": "Are these tomatillos roasted enough for salsa?",
+              "imageUrl": "https://images.unsplash.com/photo-1612874742237-6526221fcf4f?w=400",
+              "options": [
+                "Yes, well charred in spots",
+                "No, still too pale"
+              ],
+              "correctAnswer": "Yes, well charred in spots",
+              "explanation": "Blackened patches are exactly what builds the smoky depth a raw tomatillo can't give.",
+              "skills": [
+                "mexicana.salsa-roasting"
+              ],
+              "explainWrong": "Waiting for the whole surface to blacken instead of just spots turns the flesh underneath to mush and washes out the flavour you were trying to build. Spotted char is the target, not solid black."
+            }
+          ]
+        },
+        {
+          "id": "lesson.mexicana-blending",
+          "title": "Balancing a Blended Salsa",
+          "dayNumber": 2,
+          "dishName": "Salsa Verde",
+          "description": "A blender doesn't season for you — salt and acid still need a human decision.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "🌶️",
+          "imageUrl": "/lessons/mexican/mexicana-blending.jpg",
+          "ingredients": [
+            "Roasted tomatillos",
+            "Roasted chiles",
+            "Salt",
+            "Lime"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Blend roasted vegetables together",
+              "description": "Pulse rather than puree smooth — some texture keeps the salsa from tasting flat."
+            },
+            {
+              "title": "Season after blending",
+              "description": "Taste first, then add salt gradually — the roasted vegetables already carry a lot of flavour."
+            },
+            {
+              "title": "Finish with acid",
+              "description": "A squeeze of lime at the end brightens what roasting made deep and smoky."
+            }
+          ],
+          "teaches": [
+            "mexicana.salsa-blending"
+          ],
+          "requires": [
+            "mexicana.salsa-roasting"
+          ],
+          "questions": [
+            {
+              "id": "mx-u1-l2-q1",
+              "type": "choice",
+              "prompt": "Your freshly blended salsa tastes flat and one-note, even though the vegetables were well roasted. What's missing?",
+              "options": [
+                "More roasting time",
+                "Salt and a squeeze of acid",
+                "A finer blend",
+                "More chiles"
+              ],
+              "correctAnswer": "Salt and a squeeze of acid",
+              "explanation": "Roasting builds depth, but salt and acid are what make that depth taste finished, not just smoky.",
+              "skills": [
+                "mexicana.salsa-blending"
+              ],
+              "explainWrong": "The vegetables are already well roasted, so more char or more chiles just adds smoke and heat on top of a salsa that's still missing seasoning. A finer blend changes texture, not the flat taste — salt and acid are what round it out."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.salsa-roja"
+    },
+    {
+      "id": "unit-mexicano-2",
+      "title": "Masa & Tacos al Pastor",
+      "subtitle": "From Dough to Plate",
+      "color": "#F39C12",
+      "lessons": [
+        {
+          "id": "lesson.mexicana-masa",
+          "title": "Masa Hydration",
+          "dayNumber": 4,
+          "dishName": "Fresh Masa",
+          "description": "Masa harina takes water on its own terms: too dry cracks, too wet won't hold.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 150,
+          "icon": "🌽",
+          "imageUrl": "/lessons/mexican/mexicana-masa.jpg",
+          "ingredients": [
+            "2 cups masa harina",
+            "Warm water",
+            "Pinch of salt"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Add water gradually",
+              "description": "Mix in warm water a little at a time — masa harina hydrates fast, all at once oversoaks it."
+            },
+            {
+              "title": "Rest the dough",
+              "description": "Let it sit covered for a few minutes so the flour fully absorbs the water."
+            },
+            {
+              "title": "Test a small ball",
+              "description": "Press a small ball flat — clean edges with no cracking means it's ready."
+            }
+          ],
+          "teaches": [
+            "mexicana.masa-hydration"
+          ],
+          "questions": [
+            {
+              "id": "mx-u2-l1-q1",
+              "type": "choice",
+              "prompt": "You press a small ball of masa flat and the edges crack. What's the fix?",
+              "options": [
+                "Add more masa harina",
+                "Add a little more water and rest again",
+                "Press it harder next time",
+                "Cook it anyway, cracks disappear"
+              ],
+              "correctAnswer": "Add a little more water and rest again",
+              "explanation": "Cracked edges mean the dough is too dry. A small amount of water, worked in and rested, fixes it.",
+              "skills": [
+                "mexicana.masa-hydration"
+              ],
+              "explainWrong": "Adding more masa harina takes water away from a dough that's already too dry, and pressing harder just tears the cracks further instead of closing them. Cracks on a tortilla only get worse in the pan, so they need fixing before cooking, not after."
+            }
+          ]
+        },
+        {
+          "id": "lesson.mexicana-pressing",
+          "title": "Pressing Tortillas",
+          "dayNumber": 5,
+          "dishName": "Hand-Pressed Tortillas",
+          "description": "Even pressure, even thickness: the difference between a tortilla that folds and one that tears.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 180,
+          "icon": "🫓",
+          "imageUrl": "/lessons/mexican/mexicana-pressing.jpg",
+          "ingredients": [
+            "Masa dough balls",
+            "Plastic sheet"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Center the ball",
+              "description": "Place the ball dead center in the press so the pressure spreads evenly outward."
+            },
+            {
+              "title": "Press once, firmly",
+              "description": "One even press. Pressing twice or off-center makes one side thinner than the other."
+            },
+            {
+              "title": "Peel gently from the plastic",
+              "description": "Peel from the edge in one motion — pulling from the center tears the tortilla."
+            }
+          ],
+          "teaches": [
+            "mexicana.tortilla-pressing"
+          ],
+          "requires": [
+            "mexicana.masa-hydration"
+          ],
+          "questions": [
+            {
+              "id": "mx-u2-l2-q1",
+              "type": "choice",
+              "prompt": "Your pressed tortilla is noticeably thicker on one side. What caused it?",
+              "options": [
+                "The masa was too wet",
+                "The dough ball wasn't centered in the press",
+                "You didn't rest the dough long enough",
+                "The press wasn't clean"
+              ],
+              "correctAnswer": "The dough ball wasn't centered in the press",
+              "explanation": "An off-center ball gets uneven pressure, so one side ends up thicker than the other.",
+              "skills": [
+                "mexicana.tortilla-pressing"
+              ],
+              "explainWrong": "Hydration and resting affect whether the dough holds together, not which side of a single tortilla ends up thicker — that's a pressure problem, not a moisture one. A ball placed off-center gets pushed unevenly, which is exactly the lopsided result you're seeing."
+            }
+          ]
+        },
+        {
+          "id": "lesson.mexicana-searing",
+          "title": "Seared Meat & Assembly",
+          "dayNumber": 6,
+          "dishName": "Tacos al Pastor",
+          "description": "A hard sear and a bowl built in order: meat first, sharp garnish last.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 220,
+          "icon": "🌮",
+          "imageUrl": "/lessons/mexican/mexicana-searing.jpg",
+          "ingredients": [
+            "Marinated pork",
+            "Tortillas",
+            "Onion",
+            "Cilantro",
+            "Pineapple"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Pat the meat dry",
+              "description": "Wipe off excess marinade — a wet surface steams instead of searing."
+            },
+            {
+              "title": "Sear in a hot, dry pan",
+              "description": "Don't crowd the pan. Crowded meat drops the temperature and releases liquid instead of browning."
+            },
+            {
+              "title": "Assemble in order",
+              "description": "Warm tortilla, meat, then onion and cilantro last so they stay crisp and sharp."
+            }
+          ],
+          "teaches": [
+            "mexicana.searing-meat",
+            "mexicana.taco-assembly"
+          ],
+          "requires": [
+            "mexicana.tortilla-pressing"
+          ],
+          "questions": [
+            {
+              "id": "mx-u2-l3-q1",
+              "type": "choice",
+              "prompt": "Your pork is releasing liquid and steaming instead of browning. What's the likely cause?",
+              "options": [
+                "The pan is too hot",
+                "The pan is crowded with too much meat at once",
+                "The marinade had too much acid",
+                "You need a bigger cut of meat"
+              ],
+              "correctAnswer": "The pan is crowded with too much meat at once",
+              "explanation": "A crowded pan drops in temperature and traps steam, which stops browning from ever starting.",
+              "skills": [
+                "mexicana.searing-meat"
+              ],
+              "explainWrong": "A pan that's too hot isn't the issue here — steaming, not scorching, is the tell. Marinade acidity and cut size don't cause steaming on their own; overcrowding does, by dropping the pan's heat below what a sear needs."
+            },
+            {
+              "id": "mx-u2-l3-q2",
+              "type": "order",
+              "prompt": "Order the steps for assembling a taco al pastor",
+              "items": [
+                "Warm the tortilla",
+                "Add the seared meat",
+                "Top with onion and cilantro"
+              ],
+              "explanation": "Garnish goes on last so the sharp, fresh flavours don't wilt under the hot meat.",
+              "skills": [
+                "mexicana.taco-assembly"
+              ],
+              "explainWrong": "Onion and cilantro added before the meat sit under its heat the whole time and wilt flat by the time the taco is eaten. The order keeps the garnish crisp until the last moment.",
+              "correctOrder": [
+                "Warm the tortilla",
+                "Add the seared meat",
+                "Top with onion and cilantro"
+              ]
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.tacos-al-pastor"
+    },
+    {
+      "id": "unit-mexicano-3",
+      "title": "Dried Chiles and Enchiladas",
+      "subtitle": "The Red Sauce, Rolled",
+      "color": "#7F1D1D",
+      "missionId": "mission.enchiladas-rojas",
+      "lessons": [
+        {
+          "id": "lesson.mexicano-chiles",
+          "title": "Dried Chiles: Toast, Don't Burn",
+          "dayNumber": 7,
+          "dishName": "Chile Base",
+          "description": "A dried chile gives you depth in about twenty seconds of heat, and bitterness in about thirty.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 220,
+          "icon": "🌶️",
+          "imageUrl": "/lessons/mexican/mexicano-chiles.jpg",
+          "ingredients": [
+            "Guajillo chiles",
+            "Ancho chiles",
+            "Hot water",
+            "Garlic",
+            "Cumin",
+            "Oregano"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Open them and pull the seeds",
+              "description": "Stems and seeds carry most of the harshness. Tear each chile open and shake it out before it goes near the pan."
+            },
+            {
+              "title": "Dry pan, seconds a side",
+              "description": "No oil. Press them flat on a hot dry pan until they smell sweet and turn pliable — twenty seconds a side. If they smoke, they're already bitter."
+            },
+            {
+              "title": "Soak in hot water, then blend with the soaking water",
+              "description": "Twenty minutes in hot water softens them. Blend them with some of that water, unless it tastes bitter — then use fresh."
+            }
+          ],
+          "teaches": [
+            "mexicana.chiles-secos"
+          ],
+          "requires": [
+            "mexicana.salsa-roasting",
+            "mexicana.salsa-blending"
+          ],
+          "questions": [
+            {
+              "id": "mexicano-u3-l1-q1",
+              "type": "choice",
+              "prompt": "Your red sauce came out harshly bitter. The chiles were on a hot dry pan for about a minute a side. What happened?",
+              "options": [
+                "They needed longer to develop flavour",
+                "They scorched — dried chile burns in seconds, and burnt chile is bitter",
+                "You should have used oil",
+                "The soaking water was too hot"
+              ],
+              "correctAnswer": "They scorched — dried chile burns in seconds, and burnt chile is bitter",
+              "explanation": "A dried chile is thin and sugary. Twenty seconds a side makes it aromatic; a minute makes it charcoal, and nothing later in the recipe takes that bitterness out.",
+              "skills": [
+                "mexicana.chiles-secos"
+              ],
+              "explainWrong": "Longer is the opposite of what it needs, and oil would only fry the scorching faster. Hot soaking water is correct — it's the pan time that ruined the batch."
+            },
+            {
+              "id": "mexicano-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Why pull the seeds and stems out before toasting?",
+              "options": [
+                "They don't soften",
+                "They carry most of the harsh, bitter heat",
+                "They make the sauce too thick",
+                "It's only for appearance"
+              ],
+              "correctAnswer": "They carry most of the harsh, bitter heat",
+              "explanation": "The flesh is where the sweet, raisin-like depth lives. Seeds and stems bring aggressive bitterness that reads as burnt even when your toasting was fine.",
+              "skills": [
+                "mexicana.chiles-secos"
+              ],
+              "explainWrong": "Seeds do soften and they barely affect thickness — and this isn't cosmetic. Leaving them in is one of the two ways to end up with a bitter sauce."
+            }
+          ]
+        },
+        {
+          "id": "lesson.mexicano-enchiladas",
+          "title": "Enchiladas That Don't Fall Apart",
+          "dayNumber": 8,
+          "dishName": "Rolled and Sauced",
+          "description": "A tortilla straight from the pack cracks when you roll it, and a tortilla left swimming in sauce dissolves. Both are solved before the filling.",
+          "type": "lesson",
+          "difficulty": "dificil",
+          "cookTimeMin": 30,
+          "xpReward": 260,
+          "icon": "🫔",
+          "imageUrl": "/lessons/mexican/mexicano-enchiladas.jpg",
+          "ingredients": [
+            "Corn tortillas",
+            "Red chile sauce",
+            "Oil",
+            "Shredded chicken",
+            "Onion",
+            "Cheese"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Warm each tortilla in hot oil, briefly",
+              "description": "A few seconds a side in shallow hot oil makes corn tortillas flexible. Cold from the pack, they split the moment you roll them."
+            },
+            {
+              "title": "Dip in sauce before filling, not after",
+              "description": "Each tortilla goes through the warm sauce, then gets filled and rolled. Sauce poured over dry rolls soaks the outside and leaves the inside plain."
+            },
+            {
+              "title": "Sauce the dish, bake briefly",
+              "description": "A layer of sauce under the rolls, a layer over, cheese, and ten to fifteen minutes in the oven. Longer and the tortillas turn to paste."
+            }
+          ],
+          "teaches": [
+            "mexicana.enchilada-montagem"
+          ],
+          "requires": [
+            "mexicana.tortilla-pressing",
+            "mexicana.taco-assembly",
+            "mexicana.searing-meat"
+          ],
+          "questions": [
+            {
+              "id": "mexicano-u3-l2-q1",
+              "type": "choice",
+              "prompt": "Your enchiladas cracked apart as you rolled them. What was missing?",
+              "options": [
+                "The tortillas were too thick",
+                "The tortillas weren't warmed in hot oil first",
+                "There was too much filling",
+                "The sauce was too thin"
+              ],
+              "correctAnswer": "The tortillas weren't warmed in hot oil first",
+              "explanation": "Corn tortillas are brittle cold and flexible hot. A few seconds in hot oil is what makes the roll possible, and no amount of care with the filling replaces it.",
+              "skills": [
+                "mexicana.enchilada-montagem"
+              ],
+              "explainWrong": "Thickness and filling volume change how easy the roll is, but a cold corn tortilla cracks even empty — and a thin sauce doesn't cause cracking, it causes sogginess."
+            },
+            {
+              "id": "mexicano-u3-l2-q2",
+              "type": "choice",
+              "prompt": "You baked the assembled dish for forty minutes to be safe. What's the result?",
+              "options": [
+                "Better — the flavours combine",
+                "The tortillas break down into paste",
+                "The cheese protects them",
+                "No difference, they're already cooked"
+              ],
+              "correctAnswer": "The tortillas break down into paste",
+              "explanation": "Everything in the dish is already cooked; the bake is only there to melt cheese and heat it through. Ten to fifteen minutes is the whole window before the tortillas give up.",
+              "skills": [
+                "mexicana.enchilada-montagem"
+              ],
+              "explainWrong": "There is nothing left to combine — the filling is cooked, the sauce is cooked. The cheese doesn't shield the tortillas underneath from the sauce they're sitting in."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.salsa-roja",
+      "unitId": "unit-mexicano-1",
+      "title": "Salsa Verde From Scratch",
+      "dishName": "Roasted Salsa Verde",
+      "cookTimeMin": 30,
+      "summary": "Char, blend and balance: the salsa that anchors half of Mexican cooking.",
+      "estimatedCostEur": 3,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "mexicana.salsa-roasting",
+        "mexicana.salsa-blending"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "4 tomatillos",
+        "2 green chiles",
+        "1 onion quarter",
+        "2 garlic cloves",
+        "Salt",
+        "Lime"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Roast the vegetables",
+          "description": "Char tomatillos, onion and garlic in a dry, hot pan until spotted black.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Solid black instead of spotted char? Scrape off the worst of it — a little extra smoke is fine, all-black turns bitter."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Blistered and blackened in spots, softened but still holding shape."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Char the chiles",
+          "description": "Blister them in the same hot pan until the skin blackens in patches.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Skin gone to ash rather than blistered? Peel off what you can — blackened skin is the goal, powdery grey is not."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Blend",
+          "description": "Blend the roasted vegetables and chiles together, pulsing rather than pureeing smooth.",
+          "durationSec": 120,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Too thick to blend? A splash of water loosens it without diluting the flavour."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Rustic texture, not baby-food smooth."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Season and finish",
+          "description": "Taste, add salt gradually, then finish with a squeeze of lime.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Tastes flat? It's almost always salt or acid missing, not more chile."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Balanced smoky, salty and bright — not one-note."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.tacos-al-pastor",
+      "unitId": "unit-mexicano-2",
+      "title": "Tacos al Pastor",
+      "dishName": "Tacos al Pastor",
+      "cookTimeMin": 45,
+      "summary": "Fresh masa pressed by hand, meat seared hard, and a bowl built in the right order.",
+      "estimatedCostEur": 7,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja"
+      ],
+      "practices": [
+        "mexicana.masa-hydration",
+        "mexicana.tortilla-pressing",
+        "mexicana.searing-meat",
+        "mexicana.taco-assembly"
+      ],
+      "xpReward": 550,
+      "ingredients": [
+        "2 cups masa harina",
+        "Warm water",
+        "Marinated pork",
+        "Onion",
+        "Cilantro",
+        "Pineapple"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Mix and rest the masa",
+          "description": "Add water gradually to the masa harina, then rest a few minutes.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Dough cracking when pressed flat? Work in a little more water and rest again."
+            },
+            {
+              "kind": "pronto",
+              "answer": "A small pressed ball has clean, uncracked edges."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Press the tortillas",
+          "description": "Center each ball in the press and use one firm, even press.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No tortilla press? A flat-bottomed pan and steady hand pressure works too."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Even thickness across the whole tortilla, no thin or torn spots."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Sear the meat",
+          "description": "Pat the marinated pork dry, then sear in batches in a hot, dry pan.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Meat steaming instead of browning? Take some out of the pan — it's overcrowded."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Deep brown crust, cooked through, not grey and wet."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Assemble the tacos",
+          "description": "Warm tortilla, seared meat, then onion and cilantro on top last.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No pineapple on hand? The tacos still work without it, just less sweet."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Garnish still bright and crisp on top, not wilted under the meat."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.enchiladas-rojas",
+      "unitId": "unit-mexicano-3",
+      "title": "Enchiladas Rojas",
+      "dishName": "Chicken Enchiladas in Toasted Chile Sauce",
+      "cookTimeMin": 65,
+      "summary": "The trail's hardest dish: a sauce built from dried chiles you toasted yourself, rolled into tortillas that hold.",
+      "estimatedCostEur": 7.5,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "mexicana.salsa-roasting",
+        "mexicana.salsa-blending",
+        "mexicana.tortilla-pressing",
+        "mexicana.searing-meat",
+        "mexicana.taco-assembly",
+        "mexicana.chiles-secos",
+        "mexicana.enchilada-montagem"
+      ],
+      "xpReward": 800,
+      "ingredients": [
+        "6 guajillo chiles",
+        "2 ancho chiles",
+        "12 corn tortillas",
+        "2 chicken breasts",
+        "1 onion",
+        "3 garlic cloves",
+        "1 tsp cumin",
+        "Oregano",
+        "Oil",
+        "Cheese",
+        "Coriander"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Poach and shred the chicken",
+          "description": "Simmer the chicken gently with half an onion and a garlic clove until just cooked, then shred it with two forks. Keep a cup of the cooking liquid.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Shreds apart easily and is white through, with no pink at the thickest part."
+            },
+            {
+              "kind": "falta",
+              "answer": "No chicken? Black beans, drained and lightly fried, fill enchiladas just as well."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Seed and toast the chiles — seconds, not minutes",
+          "description": "Tear the chiles open, shake out seeds and stems, and press them onto a hot dry pan for about twenty seconds a side, until they smell sweet and go pliable. Off at the first hint of smoke.",
+          "durationSec": 180,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Smoke or a black patch? Discard that chile — one burnt chile makes the whole sauce bitter."
+            },
+            {
+              "kind": "falta",
+              "answer": "Only one kind of chile? Guajillo alone works; the sauce is just less rounded."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Soak, blend and fry the sauce",
+          "description": "Twenty minutes in hot water, then blend with garlic, cumin, oregano and enough soaking water to move. Fry the blended sauce in a little oil for five minutes — raw blended chile tastes flat.",
+          "durationSec": 1500,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Soaking water bitter? Blend with fresh hot water instead."
+            },
+            {
+              "kind": "cola",
+              "answer": "Sauce spitting as it fries? Lower the heat and half-cover the pan."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Deep brick red, coats a spoon, tastes sweet and toasty rather than sharp or bitter."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Warm each tortilla, dip in sauce, fill and roll",
+          "description": "A few seconds a side in shallow hot oil, straight through the warm sauce, a line of chicken and onion, then roll and lay it seam down in a sauced dish.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Cracking as you roll? The oil isn't hot enough or the tortilla cooled — back in the pan for a moment."
+            },
+            {
+              "kind": "falta",
+              "answer": "Running low on sauce? Thin it with the chicken poaching liquid, not water."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Sauce, cheese, and no more than fifteen minutes in the oven",
+          "description": "Remaining sauce over the top, cheese scattered, 200 °C for ten to fifteen minutes — just enough to melt and heat through. Coriander and onion at the table.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Cheese melted and bubbling, rolls still holding their shape when lifted with a spatula."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Edges of the tortillas darkening? Out now — it's already hot through."
+            },
+            {
+              "kind": "falta",
+              "answer": "No cheese? A spoon of sauce and raw onion on top still finishes it."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,5 @@
+import type { DietaryTag } from "./recipe";
+
 export type LessonStatus = "locked" | "available" | "current" | "completed";
 export type LessonNodeType = "lesson" | "chest" | "boss";
 export type QuestionType = "choice" | "order" | "judge" | "estimate";
@@ -116,6 +118,9 @@ export interface Mission {
   dishName: string;
   cookTimeMin: number;
   summary: string;
+  /** O mesmo par de uma receita — estimativa de custo e etiquetas alimentares — só que aqui vem do currículo, não de quem publica. */
+  estimatedCostEur?: number;
+  dietaryTags?: DietaryTag[];
   practices: string[];
   xpReward?: number;
   ingredients?: string[];

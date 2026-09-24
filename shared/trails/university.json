@@ -1,0 +1,760 @@
+{
+  "id": "university",
+  "version": 1,
+  "name": "Student Cooking: Cheap, Fast, Enough",
+  "description": "Survive the month on a student budget: a pantry that stretches, one-pot meals, and turning yesterday's leftovers into tonight's dinner.",
+  "icon": "🎓",
+  "color": "#4B5563",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "beginner",
+  "estimatedHours": 12,
+  "skills": [
+    {
+      "id": "uni.despensa-base",
+      "name": "The Pantry That Lasts the Month",
+      "category": "organizacao",
+      "description": "A handful of cheap staples — rice, pasta, eggs, canned tomato, onion — that combine into a dozen different meals.",
+      "requires": []
+    },
+    {
+      "id": "uni.uma-panela",
+      "name": "Cooking in One Pot",
+      "category": "organizacao",
+      "description": "A full meal from a single pot: fewer dishes, and the starch picks up flavour from everything cooked with it.",
+      "requires": [
+        "org.sequenciar"
+      ]
+    },
+    {
+      "id": "uni.esticar-proteina",
+      "name": "Stretching Protein",
+      "category": "tempero",
+      "description": "A small amount of meat, egg or beans, seasoned and spread across a full dish instead of eaten as a small side.",
+      "requires": [
+        "tempero.sal-momento"
+      ]
+    },
+    {
+      "id": "uni.sobras-reinventar",
+      "name": "Reinventing Leftovers",
+      "category": "organizacao",
+      "description": "Yesterday's rice or pasta isn't a repeat of the same meal — it's the base ingredient for a different one.",
+      "requires": [
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "uni.escalar-receita",
+      "name": "Cooking for Six, Not for One",
+      "category": "organizacao",
+      "description": "Scaling a pot up: what multiplies (staples, liquid), what doesn't (salt, spice, cooking time), and the pan size it needs.",
+      "requires": [
+        "uni.uma-panela"
+      ]
+    },
+    {
+      "id": "uni.congelar-porcoes",
+      "name": "The Freezer as Second Pantry",
+      "category": "organizacao",
+      "description": "Cooling fast, portioning flat, labelling with a date — so a Sunday pot is still four dinners in three weeks.",
+      "requires": [
+        "uni.sobras-reinventar"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-universitaria-1",
+      "title": "Surviving the End of the Month",
+      "subtitle": "A Pantry, One Pot",
+      "color": "#4B5563",
+      "lessons": [
+        {
+          "id": "lesson.uni-despensa",
+          "title": "The Pantry That Lasts",
+          "dayNumber": 1,
+          "dishName": "The Student Pantry",
+          "description": "A few cheap staples, combined differently, cover most nights of the month.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 5,
+          "xpReward": 130,
+          "icon": "🥫",
+          "imageUrl": "/lessons/university/uni-despensa.jpg",
+          "ingredients": [],
+          "preparationSteps": [
+            {
+              "title": "Pick staples that combine",
+              "description": "Rice, pasta, canned tomato, onion, eggs, canned beans — each pairs with all the others."
+            },
+            {
+              "title": "Buy what keeps",
+              "description": "Dry and canned goods don't spoil while you're not cooking every day."
+            },
+            {
+              "title": "Add one fresh thing at a time",
+              "description": "A single fresh vegetable or piece of meat on top of the pantry base keeps meals from feeling identical."
+            }
+          ],
+          "teaches": [
+            "uni.despensa-base"
+          ],
+          "questions": [
+            {
+              "id": "uni-u1-l1-q1",
+              "type": "choice",
+              "prompt": "You have €15 left for the week. Which shopping list gives you the most different meals?",
+              "options": [
+                "One large ready-made frozen meal",
+                "Rice, pasta, canned tomato, onion, eggs, canned beans",
+                "A single big cut of steak",
+                "Three different flavours of instant noodles"
+              ],
+              "correctAnswer": "Rice, pasta, canned tomato, onion, eggs, canned beans",
+              "explanation": "Staples that combine with each other give you far more different meals than one big item eaten the same way every time.",
+              "skills": [
+                "uni.despensa-base"
+              ],
+              "explainWrong": "A single frozen meal or one cut of steak is one meal and nothing else, and three noodle flavours are still the same dish three times. A handful of staples that combine covers rice bowls, pasta, beans on toast and more from the same shop."
+            }
+          ]
+        },
+        {
+          "id": "lesson.uni-uma-panela",
+          "title": "Cooking in One Pot",
+          "dayNumber": 2,
+          "dishName": "One-Pot Pasta",
+          "description": "Fewer dishes to wash, and the pasta cooks in flavour instead of plain water.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 20,
+          "xpReward": 180,
+          "icon": "🍝",
+          "imageUrl": "/lessons/university/uni-uma-panela.jpg",
+          "ingredients": [
+            "Pasta",
+            "Canned tomato",
+            "Onion",
+            "Garlic",
+            "Water"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Sweat onion and garlic in the pot",
+              "description": "Same pot you'll cook everything else in — no separate pan needed."
+            },
+            {
+              "title": "Add pasta, tomato and just enough water",
+              "description": "The pasta cooks directly in the sauce liquid, absorbing flavour as it softens."
+            },
+            {
+              "title": "Stir occasionally until the pasta is done",
+              "description": "The starch released thickens the sauce on its own — no draining needed."
+            }
+          ],
+          "teaches": [
+            "uni.uma-panela"
+          ],
+          "requires": [
+            "org.sequenciar"
+          ],
+          "questions": [
+            {
+              "id": "uni-u1-l2-q1",
+              "type": "choice",
+              "prompt": "Why does one-pot pasta not need to be drained at the end?",
+              "options": [
+                "You use less pasta than usual",
+                "The pasta cooks directly in the sauce liquid, which thickens as the starch releases",
+                "It's cooked for less time than boiled pasta",
+                "You add flour to thicken it separately"
+              ],
+              "correctAnswer": "The pasta cooks directly in the sauce liquid, which thickens as the starch releases",
+              "explanation": "Cooking pasta in exactly the amount of liquid it needs means there's no excess water to drain — it all becomes sauce.",
+              "skills": [
+                "uni.uma-panela"
+              ],
+              "explainWrong": "The amount of pasta and cook time aren't what change here, and no flour is involved — the trick is using only as much liquid as the pasta will absorb, so what's left behind is already sauce, not water to pour off."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.esparguete-uma-panela"
+    },
+    {
+      "id": "unit-universitaria-2",
+      "title": "Stretch It, Don't Waste It",
+      "subtitle": "Protein and Leftovers",
+      "color": "#B45309",
+      "lessons": [
+        {
+          "id": "lesson.uni-esticar",
+          "title": "Stretching Protein",
+          "dayNumber": 4,
+          "dishName": "Rice and Beans",
+          "description": "A small amount of protein, seasoned and spread across a full dish, feeds more than the same protein eaten alone.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 170,
+          "icon": "🫘",
+          "imageUrl": "/lessons/university/uni-esticar.jpg",
+          "ingredients": [
+            "1 can beans",
+            "2 eggs",
+            "Rice",
+            "Onion"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Season the small amount you have",
+              "description": "Salt and spice the beans or egg properly — a small seasoned amount reads as intentional, not skimped."
+            },
+            {
+              "title": "Spread it across the whole dish",
+              "description": "Mix it through the rice instead of serving it as a separate, tiny portion on the side."
+            },
+            {
+              "title": "Bulk with vegetables if you have them",
+              "description": "Onion, whatever vegetable is cheapest that week, stretches the dish further without needing more protein."
+            }
+          ],
+          "teaches": [
+            "uni.esticar-proteina"
+          ],
+          "requires": [
+            "tempero.sal-momento"
+          ],
+          "questions": [
+            {
+              "id": "uni-u2-l1-q1",
+              "type": "choice",
+              "prompt": "You only have one can of beans for two people. What makes the meal feel like enough?",
+              "options": [
+                "Split the can and serve it as a small side, unseasoned",
+                "Season the beans well and mix them through a full pot of rice",
+                "Skip the beans and just eat plain rice",
+                "Use the whole can just for one person"
+              ],
+              "correctAnswer": "Season the beans well and mix them through a full pot of rice",
+              "explanation": "A small amount of well-seasoned protein mixed through a starch reads as a real dish, not a shortage.",
+              "skills": [
+                "uni.esticar-proteina"
+              ],
+              "explainWrong": "An unseasoned side portion still feels like a shortage no matter how it's plated, and skipping the beans or giving them to only one person doesn't stretch anything — it just removes the protein from half the meal."
+            }
+          ]
+        },
+        {
+          "id": "lesson.uni-sobras",
+          "title": "Reinventing Leftovers",
+          "dayNumber": 5,
+          "dishName": "Fried Rice from Yesterday",
+          "description": "Yesterday's rice isn't the same meal again — it's the base ingredient for a completely different one.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 170,
+          "icon": "🍳",
+          "imageUrl": "/lessons/university/uni-sobras.jpg",
+          "ingredients": [
+            "Leftover rice",
+            "1 egg",
+            "Onion",
+            "Soy sauce"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Use cold, day-old rice",
+              "description": "Fresh rice turns to mush when fried — a day in the fridge dries it enough to fry properly."
+            },
+            {
+              "title": "High heat, keep it moving",
+              "description": "Fry hard and fast, breaking up clumps, until the rice is hot through and lightly crisp in spots."
+            },
+            {
+              "title": "Season at the end",
+              "description": "Soy sauce and whatever else you have goes in last, tossed through quickly."
+            }
+          ],
+          "teaches": [
+            "uni.sobras-reinventar"
+          ],
+          "requires": [
+            "org.mise-en-place"
+          ],
+          "questions": [
+            {
+              "id": "uni-u2-l2-q1",
+              "type": "choice",
+              "prompt": "You try to make fried rice with rice you just cooked ten minutes ago. It turns to a sticky mush in the pan. Why?",
+              "options": [
+                "You used too little oil",
+                "Fresh rice is too moist and clumps together instead of frying separately",
+                "The pan wasn't hot enough",
+                "You need to add more soy sauce"
+              ],
+              "correctAnswer": "Fresh rice is too moist and clumps together instead of frying separately",
+              "explanation": "Day-old rice has dried out slightly in the fridge, which is exactly what lets the grains separate and fry instead of steaming into a clump.",
+              "skills": [
+                "uni.sobras-reinventar"
+              ],
+              "explainWrong": "More oil or more heat won't dry out rice that's still fresh and wet — that moisture is the actual problem. Soy sauce is a seasoning, not a fix for texture."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.arroz-de-sobras"
+    },
+    {
+      "id": "unit-universitaria-3",
+      "title": "Cook Once, Eat All Week",
+      "subtitle": "Scaling Up and Freezing",
+      "color": "#1D4ED8",
+      "missionId": "mission.tacho-para-a-semana",
+      "lessons": [
+        {
+          "id": "lesson.uni-escalar",
+          "title": "Cooking for Six on a Student Budget",
+          "dayNumber": 7,
+          "dishName": "The Big Pot",
+          "description": "Cooking one big pot costs less per meal than cooking six small ones — but a recipe times six is not every number times six.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 200,
+          "icon": "🍲",
+          "imageUrl": "/lessons/university/uni-escalar.jpg",
+          "ingredients": [
+            "Dried beans or lentils",
+            "Rice or pasta",
+            "2 cans tomato",
+            "2 onions",
+            "Stock cube"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Multiply the bulk, not the seasoning",
+              "description": "Staples, vegetables and liquid scale straight up. Salt, chilli and strong spice scale slower — start at half and taste up."
+            },
+            {
+              "title": "Check the pot before you shop",
+              "description": "Six portions need a pot they fit in with room to stir. An overfull pot steams instead of simmering and the bottom catches."
+            },
+            {
+              "title": "Expect longer, not proportionally longer",
+              "description": "Six times the food takes longer to come to temperature, but not six times longer to cook — go by how it looks, not by multiplying the clock."
+            }
+          ],
+          "teaches": [
+            "uni.escalar-receita"
+          ],
+          "requires": [
+            "uni.uma-panela"
+          ],
+          "questions": [
+            {
+              "id": "uni-u3-l1-q1",
+              "type": "choice",
+              "prompt": "You're turning a one-person chilli into six portions. What do you multiply by six?",
+              "options": [
+                "Everything in the recipe, including the salt and the cooking time",
+                "The beans, tomato, onion and liquid — then season to taste at the end",
+                "Only the beans, keeping the liquid the same",
+                "Nothing: cook the same small pot six times"
+              ],
+              "correctAnswer": "The beans, tomato, onion and liquid — then season to taste at the end",
+              "explanation": "Bulk ingredients scale one-to-one. Salt and spice do not: six times the salt in a pot that concentrates as it reduces will be inedible, so you season at the end, by taste.",
+              "skills": [
+                "uni.escalar-receita"
+              ],
+              "explainWrong": "Multiplying the salt and the clock by six gives you an over-salted, overcooked pot. Keeping the liquid the same leaves the beans dry and uncooked, and cooking six separate small pots is exactly the gas, time and washing-up that batch cooking exists to avoid."
+            },
+            {
+              "id": "uni-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Your biggest pot is filled to two fingers from the rim before it even starts cooking. What happens?",
+              "options": [
+                "Nothing — a full pot cooks the same as a half-full one",
+                "It can't simmer or be stirred, so it steams on top and catches on the bottom",
+                "It cooks faster because there's more heat inside",
+                "The flavour gets stronger"
+              ],
+              "correctAnswer": "It can't simmer or be stirred, so it steams on top and catches on the bottom",
+              "explanation": "Food needs room to move. Without it you can't stir the bottom, so the bottom scorches while the top just steams — and it boils over the moment it gets going.",
+              "skills": [
+                "uni.escalar-receita"
+              ],
+              "explainWrong": "A full pot does not behave like a half-full one: more food means slower, not faster, and the flavour you get from a scorched bottom is burnt, not stronger. Cook in two batches or in a bigger pot instead."
+            }
+          ]
+        },
+        {
+          "id": "lesson.uni-congelar",
+          "title": "The Freezer Is Your Second Pantry",
+          "dayNumber": 8,
+          "dishName": "Portions for Later",
+          "description": "A Sunday pot only saves you money if it's still edible on Thursday — and that depends on how fast you cooled it and how you packed it.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 210,
+          "icon": "🧊",
+          "imageUrl": "https://images.unsplash.com/photo-1584270354949-c26b0d5b4a0c?w=400",
+          "ingredients": [
+            "Cooked food",
+            "Containers or freezer bags",
+            "Marker and tape"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Cool it fast, then freeze",
+              "description": "Spread it into a shallow tray or split it between containers so it drops out of warm quickly. A warm pot put straight in the freezer warms everything around it."
+            },
+            {
+              "title": "Portion before freezing, never after",
+              "description": "One meal per container. A single frozen block means defrosting the whole week to eat one dinner."
+            },
+            {
+              "title": "Flat bags, labelled with the date",
+              "description": "Frozen flat, a bag thaws in minutes and stacks. Write what it is and the date — unlabelled frozen food gets thrown away."
+            }
+          ],
+          "teaches": [
+            "uni.congelar-porcoes"
+          ],
+          "requires": [
+            "uni.sobras-reinventar"
+          ],
+          "questions": [
+            {
+              "id": "uni-u3-l2-q1",
+              "type": "choice",
+              "prompt": "You made a big pot of chilli. You want four dinners out of it. What do you do with it?",
+              "options": [
+                "Put the whole warm pot in the freezer and chip pieces off as needed",
+                "Cool it fast, split it into four labelled containers, then freeze",
+                "Leave it on the stove and reheat the pot each evening",
+                "Freeze it in one block and defrost the whole thing every time"
+              ],
+              "correctAnswer": "Cool it fast, split it into four labelled containers, then freeze",
+              "explanation": "Fast cooling keeps it out of the temperature range where food spoils, and portioning before freezing is what makes it one dinner instead of an all-or-nothing block.",
+              "skills": [
+                "uni.congelar-porcoes"
+              ],
+              "explainWrong": "A warm pot in the freezer cools slowly and warms what's around it, and chipping at a frozen block or defrosting all four portions to eat one wastes the food you were trying to save. Leaving it on the stove for days is how you get sick."
+            },
+            {
+              "id": "uni-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Why freeze portions flat in a bag rather than deep in a tub?",
+              "options": [
+                "It tastes better",
+                "It thaws far faster and stacks in a small freezer",
+                "It keeps for longer",
+                "It uses less electricity to freeze"
+              ],
+              "correctAnswer": "It thaws far faster and stacks in a small freezer",
+              "explanation": "A thin flat block thaws in minutes under cold water; a deep tub takes hours or a night in the fridge — which is the difference between eating it and ordering food.",
+              "skills": [
+                "uni.congelar-porcoes"
+              ],
+              "explainWrong": "Flat or deep, the taste and the keeping time are the same and the freezer draws the same power. The gain is thawing speed and the space it saves — which is what actually decides whether you eat it."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.esparguete-uma-panela",
+      "unitId": "unit-universitaria-1",
+      "title": "One-Pot Spaghetti",
+      "dishName": "One-Pot Spaghetti al Pomodoro",
+      "cookTimeMin": 25,
+      "summary": "A full meal, one pot, one wash-up: pantry staples turned into dinner.",
+      "estimatedCostEur": 1.5,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "uni.despensa-base",
+        "uni.uma-panela"
+      ],
+      "xpReward": 400,
+      "ingredients": [
+        "Spaghetti",
+        "1 can tomato",
+        "1 onion",
+        "2 garlic cloves",
+        "Olive oil",
+        "Water"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Sweat onion and garlic",
+          "description": "In the pot you'll cook everything in, soften onion and garlic in a little oil.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No garlic on hand? Onion alone still gives a decent base."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Add pasta, tomato and water",
+          "description": "Break the spaghetti in half if needed, add the canned tomato and just enough water to cover it.",
+          "durationSec": 120,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No canned tomato? A squeeze of tomato paste and extra water works in a pinch."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Simmer, stirring occasionally",
+          "description": "Cook until the pasta is tender and the liquid has thickened into a sauce, stirring so it doesn't stick.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Too dry before the pasta is done? Add a splash more water."
+            },
+            {
+              "kind": "cola",
+              "answer": "Sticking to the bottom? Lower the heat and stir more often."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Pasta tender, sauce coating it, no leftover water in the pot."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.arroz-de-sobras",
+      "unitId": "unit-universitaria-2",
+      "title": "Leftover Rice and Beans, Reinvented",
+      "dishName": "Fried Rice with Beans",
+      "cookTimeMin": 20,
+      "summary": "Yesterday's rice, a stretched can of beans, and an egg: nothing goes to waste.",
+      "estimatedCostEur": 1.2,
+      "dietaryTags": [
+        "vegetariano",
+        "sem_lactose",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "uni.esticar-proteina",
+        "uni.sobras-reinventar"
+      ],
+      "xpReward": 400,
+      "ingredients": [
+        "Leftover rice",
+        "1 can beans",
+        "1 egg",
+        "Onion",
+        "Soy sauce"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Season the beans",
+          "description": "Warm the beans with a little onion and seasoning until they taste like a real component, not an afterthought.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Bland beans? A splash of soy sauce or vinegar wakes them up fast."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Fry the cold rice hard and fast",
+          "description": "High heat, breaking up clumps, until hot through and lightly crisp in spots.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Clumping and sticking? The rice may not have been cold enough — press it apart with the spatula and keep the heat high."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Grains separated, hot through, lightly crisp in places."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Combine and finish with egg",
+          "description": "Mix the beans through the rice, push everything aside, scramble the egg in the cleared space, then fold it all together.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No egg? The dish still works without it, just less rich."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Beans and egg spread evenly through the rice, seasoned, nothing bland or dry."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.tacho-para-a-semana",
+      "unitId": "unit-universitaria-3",
+      "title": "The Pot That Feeds the Week",
+      "dishName": "Bean and Lentil Chilli, Four Portions Frozen",
+      "cookTimeMin": 70,
+      "summary": "One pot on Sunday, four labelled dinners in the freezer, under a euro fifty a meal.",
+      "estimatedCostEur": 5.5,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "uni.despensa-base",
+        "uni.uma-panela",
+        "uni.escalar-receita",
+        "uni.congelar-porcoes"
+      ],
+      "xpReward": 700,
+      "ingredients": [
+        "250 g dried red lentils",
+        "2 cans beans",
+        "2 cans chopped tomato",
+        "2 onions",
+        "3 garlic cloves",
+        "1 tbsp paprika",
+        "1 tsp cumin",
+        "Stock cube",
+        "Olive oil",
+        "Rice to serve"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Sweat the onion and garlic in the big pot",
+          "description": "Use the largest pot you own. Soften two chopped onions and the garlic in oil over low heat until translucent — this is the base for all six portions, so don't rush it.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No garlic? Onion alone still builds a base."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Browned too fast? Lower the heat and add a splash of water to stop it."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Bloom the spices, then add the bulk",
+          "description": "Stir paprika and cumin into the oil for half a minute, then add the lentils, drained beans, tomato and enough water to cover by two fingers. Season lightly — you'll correct it at the end.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No cumin? Paprika alone works; add a bay leaf if you have one."
+            },
+            {
+              "kind": "cola",
+              "answer": "Spices catching? They only need seconds — add the tomato straight away."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Simmer low until the lentils collapse",
+          "description": "Low heat, lid ajar, stirring the bottom every ten minutes. It's done when the lentils have broken down and the pot is thick enough to hold a spoon-trail.",
+          "durationSec": 1800,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Sticking on the bottom? Lower the heat further and add water — a big pot catches easily."
+            },
+            {
+              "kind": "falta",
+              "answer": "Too thick before the lentils are soft? Add hot water, not cold."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Lentils collapsed, no watery layer, a spoon dragged across the bottom leaves a trail."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Season by taste, now that it's reduced",
+          "description": "Only now add salt, and more spice if it needs it. Taste, adjust, taste again — the pot concentrated while it cooked, which is why this happens last and not at the start.",
+          "durationSec": 180,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No fresh lime or lemon? A splash of vinegar lifts it the same way."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Tastes seasoned on its own, not just when eaten with rice."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Cool fast, portion into four, label and freeze",
+          "description": "Keep two portions for the next two days and spread the rest shallow to cool quickly. Bag or box four single meals, write the name and today's date on each, and freeze them flat.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No containers? Freezer bags laid flat work better anyway."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Four single-meal portions, each labelled with the date, cool to the touch before they go in."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

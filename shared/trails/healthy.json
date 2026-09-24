@@ -1,0 +1,763 @@
+{
+  "id": "healthy",
+  "version": 1,
+  "name": "Healthy Cooking: Balance Without Blandness",
+  "description": "Cook without losing nutrients: steaming, a balanced plate, good fats in the right amount, and dessert without added sugar.",
+  "icon": "🥗",
+  "color": "#16A34A",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "beginner",
+  "estimatedHours": 12,
+  "skills": [
+    {
+      "id": "saudavel.vapor",
+      "name": "Steaming",
+      "category": "calor",
+      "description": "Gentle, moist heat that cooks vegetables through without leaching their nutrients into boiling water.",
+      "requires": [
+        "calor.niveis"
+      ]
+    },
+    {
+      "id": "saudavel.prato-equilibrado",
+      "name": "The Balanced Plate",
+      "category": "organizacao",
+      "description": "Protein, vegetable and carbohydrate in the right proportions on the same plate, not eaten as three separate afterthoughts.",
+      "requires": [
+        "org.empratar"
+      ]
+    },
+    {
+      "id": "saudavel.gordura-boa",
+      "name": "Good Fat, Right Amount",
+      "category": "tempero",
+      "description": "A drizzle of olive oil or a few slices of avocado does more for a dish than avoiding fat entirely.",
+      "requires": [
+        "calor.gordura"
+      ]
+    },
+    {
+      "id": "saudavel.doce-sem-acucar",
+      "name": "Sweet Without Added Sugar",
+      "category": "tempero",
+      "description": "Ripe fruit, spice and time can build sweetness that doesn't come from a bag of sugar.",
+      "requires": [
+        "tempero.sal-momento"
+      ]
+    },
+    {
+      "id": "saudavel.assar-tabuleiro",
+      "name": "One Tray, Whole Dinner",
+      "category": "calor",
+      "description": "A hot oven and a tray that isn't crowded: vegetables roast and caramelise instead of stewing in their own steam.",
+      "requires": [
+        "calor.pre-aquecer",
+        "saudavel.prato-equilibrado"
+      ]
+    },
+    {
+      "id": "saudavel.temperar-sem-sal",
+      "name": "Acid, Herb, Heat Instead of Salt",
+      "category": "tempero",
+      "description": "Lemon, vinegar, herbs and spice give a dish the lift people reach for the salt cellar to find.",
+      "requires": [
+        "tempero.camadas"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-saudavel-1",
+      "title": "Cooking Without Losing Nutrients",
+      "subtitle": "Steam and Balance",
+      "color": "#16A34A",
+      "lessons": [
+        {
+          "id": "lesson.saudavel-vapor",
+          "title": "Cooking With Steam",
+          "dayNumber": 1,
+          "dishName": "Steamed Vegetables",
+          "description": "Gentle heat that cooks vegetables through without boiling their nutrients away.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 140,
+          "icon": "♨️",
+          "imageUrl": "/lessons/healthy/saudavel-vapor.jpg",
+          "ingredients": [
+            "Broccoli",
+            "Carrots",
+            "Water"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Water below the basket, never touching",
+              "description": "The vegetables cook in steam, not boiling water — direct contact would leach out nutrients."
+            },
+            {
+              "title": "Cut pieces to a similar size",
+              "description": "Even pieces steam through at the same time — an uneven cut leaves some raw and some mushy."
+            },
+            {
+              "title": "Check early, not by the clock alone",
+              "description": "Pierce with a knife tip — tender but still with a little bite is the target."
+            }
+          ],
+          "teaches": [
+            "saudavel.vapor"
+          ],
+          "requires": [
+            "calor.niveis"
+          ],
+          "questions": [
+            {
+              "id": "sd-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Why does steaming keep more nutrients in vegetables than boiling them?",
+              "options": [
+                "Steam cooks faster than boiling water",
+                "The vegetables never touch the water directly, so nutrients don't leach out into it",
+                "Steaming uses less water overall",
+                "Steam is hotter than boiling water"
+              ],
+              "correctAnswer": "The vegetables never touch the water directly, so nutrients don't leach out into it",
+              "explanation": "Boiling submerges vegetables in water that pulls water-soluble nutrients out. Steaming cooks them without that direct contact.",
+              "skills": [
+                "saudavel.vapor"
+              ],
+              "explainWrong": "Steam isn't hotter than boiling water and isn't necessarily faster — the real reason is that boiling submerges food in the water nutrients dissolve into, while steaming never lets that contact happen."
+            }
+          ]
+        },
+        {
+          "id": "lesson.saudavel-prato",
+          "title": "The Balanced Plate",
+          "dayNumber": 2,
+          "dishName": "A Balanced Bowl",
+          "description": "Protein, vegetable and carbohydrate together on the plate, in the right proportions.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "🥙",
+          "imageUrl": "/lessons/healthy/saudavel-prato.jpg",
+          "ingredients": [
+            "Grilled chicken",
+            "Steamed vegetables",
+            "Brown rice"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Half the plate in vegetables",
+              "description": "The largest portion should be vegetables — not an afterthought pushed to one side."
+            },
+            {
+              "title": "A palm-sized portion of protein",
+              "description": "Enough to feel satisfying, without dominating the plate."
+            },
+            {
+              "title": "A modest portion of carbohydrate",
+              "description": "A cupped handful of rice or grain rounds the plate out without overwhelming it."
+            }
+          ],
+          "teaches": [
+            "saudavel.prato-equilibrado"
+          ],
+          "requires": [
+            "org.empratar"
+          ],
+          "questions": [
+            {
+              "id": "sd-u1-l2-q1",
+              "type": "choice",
+              "prompt": "Which plate best follows the balanced-plate idea?",
+              "options": [
+                "Mostly rice, a small side of chicken, no vegetables",
+                "Half vegetables, a palm-sized portion of protein, a modest portion of rice",
+                "Mostly chicken, a tiny scoop of rice, no vegetables",
+                "Equal parts rice and chicken, no vegetables"
+              ],
+              "correctAnswer": "Half vegetables, a palm-sized portion of protein, a modest portion of rice",
+              "explanation": "Vegetables taking up the largest share, with protein and carbohydrate in reasonable, not dominant, portions, is the balance the plate is built around.",
+              "skills": [
+                "saudavel.prato-equilibrado"
+              ],
+              "explainWrong": "Any plate that leaves out vegetables entirely, or lets rice or chicken take over most of the space, isn't balanced — it's just one food group with a side note."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.bowl-equilibrado"
+    },
+    {
+      "id": "unit-saudavel-2",
+      "title": "Good Fat, Real Sweetness",
+      "subtitle": "Without Guilt or Excess",
+      "color": "#CA8A04",
+      "lessons": [
+        {
+          "id": "lesson.saudavel-gordura",
+          "title": "The Right Amount of Good Fat",
+          "dayNumber": 4,
+          "dishName": "Olive Oil & Avocado Dressing",
+          "description": "A little good fat does more for a dish than cutting out fat entirely.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "🥑",
+          "imageUrl": "/lessons/healthy/saudavel-gordura.jpg",
+          "ingredients": [
+            "Olive oil",
+            "Avocado",
+            "Lemon"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Measure, don't pour freely",
+              "description": "A tablespoon of olive oil carries a salad; a free pour just adds empty calories."
+            },
+            {
+              "title": "Whole-food fat over processed fat",
+              "description": "A few slices of avocado or a spoon of nuts do more nutritionally than the same calories from a processed sauce."
+            }
+          ],
+          "teaches": [
+            "saudavel.gordura-boa"
+          ],
+          "requires": [
+            "calor.gordura"
+          ],
+          "questions": [
+            {
+              "id": "sd-u2-l1-q1",
+              "type": "choice",
+              "prompt": "You're trying to eat lighter but the salad still tastes flat without any fat at all. What's the better fix?",
+              "options": [
+                "Add a measured tablespoon of olive oil or a few slices of avocado",
+                "Pour oil freely until it tastes rich",
+                "Skip the fat entirely and add more salt instead",
+                "Use a bottled low-fat dressing with several added sugars"
+              ],
+              "correctAnswer": "Add a measured tablespoon of olive oil or a few slices of avocado",
+              "explanation": "A small, measured amount of good fat carries flavour without turning the dish into empty calories.",
+              "skills": [
+                "saudavel.gordura-boa"
+              ],
+              "explainWrong": "A free pour of oil adds far more calories than the flavour needs, and skipping fat for more salt just trades one problem for another. A bottled low-fat dressing often replaces the fat's flavour with added sugar, which isn't the goal either."
+            }
+          ]
+        },
+        {
+          "id": "lesson.saudavel-doce",
+          "title": "Sweet Without Added Sugar",
+          "dayNumber": 5,
+          "dishName": "Baked Fruit Dessert",
+          "description": "Ripe fruit, spice and heat can build real sweetness without a bag of sugar.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 20,
+          "xpReward": 170,
+          "icon": "🍎",
+          "imageUrl": "/lessons/healthy/saudavel-doce.jpg",
+          "ingredients": [
+            "2 apples",
+            "Cinnamon",
+            "A little water"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Use fruit that's properly ripe",
+              "description": "Underripe fruit is starchy, not sweet — ripeness does most of the work sugar would otherwise do."
+            },
+            {
+              "title": "Bake low and slow",
+              "description": "Time concentrates the fruit's own sugars as water evaporates out."
+            },
+            {
+              "title": "Spice instead of sweeten",
+              "description": "Cinnamon reads as 'dessert' to the palate without adding a gram of sugar."
+            }
+          ],
+          "teaches": [
+            "saudavel.doce-sem-acucar"
+          ],
+          "requires": [
+            "tempero.sal-momento"
+          ],
+          "questions": [
+            {
+              "id": "sd-u2-l2-q1",
+              "type": "choice",
+              "prompt": "Your baked apple dessert came out bland and starchy instead of sweet, even after baking. What's the likely cause?",
+              "options": [
+                "You didn't add enough cinnamon",
+                "The apples weren't ripe enough to begin with",
+                "You baked it for too long",
+                "You used too much water"
+              ],
+              "correctAnswer": "The apples weren't ripe enough to begin with",
+              "explanation": "Underripe fruit is starchy rather than sweet, and baking concentrates whatever sugars were already there — it can't create sweetness that wasn't present.",
+              "skills": [
+                "saudavel.doce-sem-acucar"
+              ],
+              "explainWrong": "Cinnamon adds aroma, not sweetness, so more of it wouldn't fix a starchy result, and neither bake time nor a little extra water changes how ripe the fruit was to start with. Baking only concentrates the sugar that's already there."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.sobremesa-fruta"
+    },
+    {
+      "id": "unit-saudavel-3",
+      "title": "A Whole Dinner, One Tray",
+      "subtitle": "Roasting and Seasoning Well",
+      "color": "#0E7490",
+      "missionId": "mission.tabuleiro-assado",
+      "lessons": [
+        {
+          "id": "lesson.saudavel-tabuleiro",
+          "title": "One Tray, Whole Dinner",
+          "dayNumber": 7,
+          "dishName": "Roast Tray",
+          "description": "Roasting is the least hands-on way to cook a balanced plate — as long as the oven is hot and the tray isn't crowded.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 40,
+          "xpReward": 200,
+          "icon": "🔥",
+          "imageUrl": "/lessons/healthy/saudavel-tabuleiro.jpg",
+          "ingredients": [
+            "Chicken thighs or chickpeas",
+            "Potatoes or sweet potato",
+            "Broccoli",
+            "Red onion",
+            "Olive oil",
+            "Lemon"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Preheat properly, 200 °C and up",
+              "description": "Food going into a lukewarm oven releases water before it can brown. The tray and the oven both need to be hot first."
+            },
+            {
+              "title": "One layer, space between pieces",
+              "description": "Crowded pieces trap steam and stew. If it doesn't fit in a single layer with gaps, use two trays."
+            },
+            {
+              "title": "Cut for the cooking time, not for looks",
+              "description": "Potatoes go in whole-ish and first, broccoli goes in for the last ten minutes. Same tray, staggered entry."
+            }
+          ],
+          "teaches": [
+            "saudavel.assar-tabuleiro"
+          ],
+          "requires": [
+            "calor.pre-aquecer",
+            "saudavel.prato-equilibrado"
+          ],
+          "questions": [
+            {
+              "id": "saudavel-u3-l1-q1",
+              "type": "choice",
+              "prompt": "Your roast vegetables come out pale, soft and wet instead of browned. The oven was at 200 °C. What went wrong?",
+              "options": [
+                "They needed more oil",
+                "The tray was crowded, so they steamed in their own moisture instead of roasting",
+                "They needed longer at the same temperature",
+                "The oven should have been lower"
+              ],
+              "correctAnswer": "The tray was crowded, so they steamed in their own moisture instead of roasting",
+              "explanation": "Water has to escape for browning to start. Piled-up pieces trap that steam against each other, so they boil in it — no amount of extra time fixes a crowded tray.",
+              "skills": [
+                "saudavel.assar-tabuleiro"
+              ],
+              "explainWrong": "Extra oil or extra time on a crowded tray just gives you oilier, softer vegetables, and a lower oven makes the steaming worse. Spread them out or use a second tray."
+            },
+            {
+              "id": "saudavel-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Potato and broccoli on the same tray. When does the broccoli go in?",
+              "options": [
+                "At the start, with the potato",
+                "In the last ten minutes",
+                "Halfway through",
+                "On a separate tray at a lower temperature"
+              ],
+              "correctAnswer": "In the last ten minutes",
+              "explanation": "Broccoli is done in about ten minutes; potato needs thirty or more. Staggering when each goes in is what lets one tray cook both properly.",
+              "skills": [
+                "saudavel.assar-tabuleiro"
+              ],
+              "explainWrong": "Broccoli in from the start or even halfway comes out grey and collapsed by the time the potato is ready, and a second tray at a lower temperature is extra work for a worse result."
+            }
+          ]
+        },
+        {
+          "id": "lesson.saudavel-tempero",
+          "title": "Acid, Herb and Heat Instead of Salt",
+          "dayNumber": 8,
+          "dishName": "Seasoning Without the Salt Cellar",
+          "description": "A dish that tastes flat usually isn't short of salt — it's short of acid.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 10,
+          "xpReward": 190,
+          "icon": "🍋",
+          "imageUrl": "/lessons/healthy/saudavel-tempero.jpg",
+          "ingredients": [
+            "Lemon",
+            "Vinegar",
+            "Fresh herbs",
+            "Black pepper",
+            "Chilli flakes",
+            "Garlic"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Try acid before more salt",
+              "description": "A squeeze of lemon or a splash of vinegar makes a dish taste sharper and fuller. Nine times out of ten that's what 'it needs salt' actually means."
+            },
+            {
+              "title": "Add herbs off the heat",
+              "description": "Dried herbs go in early with the fat; fresh herbs go in at the end, or the heat strips the aroma you added them for."
+            },
+            {
+              "title": "Let heat and aromatics do the work",
+              "description": "Pepper, chilli, garlic and toasted spice give a dish something to notice, which is what salt was being asked to provide."
+            }
+          ],
+          "teaches": [
+            "saudavel.temperar-sem-sal"
+          ],
+          "requires": [
+            "tempero.camadas",
+            "saudavel.gordura-boa"
+          ],
+          "questions": [
+            {
+              "id": "saudavel-u3-l2-q1",
+              "type": "choice",
+              "prompt": "A roast tray of vegetables tastes flat. You've already salted it once. What do you reach for first?",
+              "options": [
+                "More salt",
+                "A squeeze of lemon or a splash of vinegar",
+                "Butter",
+                "Sugar"
+              ],
+              "correctAnswer": "A squeeze of lemon or a splash of vinegar",
+              "explanation": "Acid sharpens everything else in the dish, which is the effect people are chasing when they keep adding salt to something already salted.",
+              "skills": [
+                "saudavel.temperar-sem-sal"
+              ],
+              "explainWrong": "Doubling the salt on something already salted makes it salty without making it taste less flat, and butter or sugar change the dish into something else instead of lifting what's there."
+            },
+            {
+              "id": "saudavel-u3-l2-q2",
+              "type": "choice",
+              "prompt": "When do fresh herbs go in?",
+              "options": [
+                "At the start, so the flavour spreads",
+                "Off the heat, at the end",
+                "Halfway through cooking",
+                "It makes no difference"
+              ],
+              "correctAnswer": "Off the heat, at the end",
+              "explanation": "The volatile aromas that make fresh herbs worth using are driven off by heat — added early, you paid for them and then cooked them away.",
+              "skills": [
+                "saudavel.temperar-sem-sal"
+              ],
+              "explainWrong": "Early or halfway, fresh herbs lose exactly the aroma you added them for and turn dark and bitter. Dried herbs are the ones that want the early, long heat."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.bowl-equilibrado",
+      "unitId": "unit-saudavel-1",
+      "title": "The Balanced Bowl",
+      "dishName": "Steamed Chicken & Vegetable Bowl",
+      "cookTimeMin": 35,
+      "summary": "Steamed vegetables, grilled protein and a modest portion of grain, built in the right proportions.",
+      "estimatedCostEur": 4,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "saudavel.vapor",
+        "saudavel.prato-equilibrado"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "Chicken breast",
+        "Broccoli",
+        "Carrots",
+        "Brown rice"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Steam the vegetables",
+          "description": "Similarly sized pieces, water below the basket, cook until tender with a little bite.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Still hard after the usual time? Give it a few more minutes — pieces cut too large take longer."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Tender but still with a little bite, bright colour, not mushy."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Grill the chicken",
+          "description": "Season simply and grill until cooked through, without drying it out.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Looks dry outside but pink inside? Lower the heat and give it a few more minutes covered."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Assemble the balanced bowl",
+          "description": "Half the bowl in vegetables, a palm-sized portion of chicken, a modest portion of rice.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No brown rice? White rice or another grain works, just adjust the portion the same way."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Vegetables clearly the largest portion, protein and grain in proportion, not overwhelming the plate."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.sobremesa-fruta",
+      "unitId": "unit-saudavel-2",
+      "title": "Baked Fruit Dessert",
+      "dishName": "Cinnamon Baked Apples",
+      "cookTimeMin": 30,
+      "summary": "Real sweetness from ripe fruit and spice, with a drizzle of good fat to finish.",
+      "estimatedCostEur": 2,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "saudavel.doce-sem-acucar",
+        "saudavel.gordura-boa"
+      ],
+      "xpReward": 400,
+      "ingredients": [
+        "2 ripe apples",
+        "Cinnamon",
+        "A little water",
+        "A few walnuts",
+        "A drizzle of olive oil"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Core and slice the apples",
+          "description": "Ripe apples, cored and sliced evenly so they bake through at the same rate.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Apples not quite ripe? Bake a little longer and rely more on the cinnamon and time."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Bake low and slow with cinnamon",
+          "description": "A light dusting of cinnamon, a splash of water in the dish, baked until soft and fragrant.",
+          "durationSec": 1200,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Still firm after the usual time? Every oven runs differently — give it more time rather than more heat."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Soft, fragrant, caramelized slightly at the edges, sweet without any added sugar."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Finish with a measured touch of fat",
+          "description": "A few crushed walnuts and a light drizzle of olive oil finish the dish without overloading it.",
+          "durationSec": 120,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No walnuts? Any nut, or a spoon of yoghurt, rounds it out just as well."
+            },
+            {
+              "kind": "pronto",
+              "answer": "A light, measured finish — richer, not greasy."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.tabuleiro-assado",
+      "unitId": "unit-saudavel-3",
+      "title": "The Balanced Tray",
+      "dishName": "Sheet-Pan Chicken, Potato and Broccoli, Lemon and Herb",
+      "cookTimeMin": 50,
+      "summary": "A whole balanced plate out of one tray: protein, starch and vegetable, seasoned with acid rather than salt.",
+      "estimatedCostEur": 6.5,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "saudavel.prato-equilibrado",
+        "saudavel.gordura-boa",
+        "saudavel.assar-tabuleiro",
+        "saudavel.temperar-sem-sal"
+      ],
+      "xpReward": 650,
+      "ingredients": [
+        "4 chicken thighs",
+        "600 g potatoes",
+        "1 head broccoli",
+        "1 red onion",
+        "2 tbsp olive oil",
+        "1 lemon",
+        "Dried oregano",
+        "Fresh parsley",
+        "Black pepper"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Heat the oven and the tray to 200 °C",
+          "description": "Put the empty tray in while the oven comes up. Food landing on hot metal starts browning immediately instead of sitting in its own water.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No second tray? Use the largest one you have and plan to cook in two goes."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Toss potato and onion, spread in one layer",
+          "description": "Cut the potatoes into even chunks, toss with a tablespoon of oil, oregano and pepper, and spread them out with gaps between pieces. Roast 20 minutes.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No oregano? Any dried herb, or just pepper and garlic."
+            },
+            {
+              "kind": "cola",
+              "answer": "Sticking to the tray? Leave them — they release once the crust forms."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Add the chicken, skin up, and roast on",
+          "description": "Nestle the thighs among the vegetables, skin side up, rubbed with the remaining oil and pepper. Back in for 20 minutes.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Skin darkening too fast? Drop the oven 20 degrees, don't cover it."
+            },
+            {
+              "kind": "falta",
+              "answer": "Chickpeas instead of chicken? Drain a can, toss in oil, add them here."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Broccoli in for the last ten minutes",
+          "description": "Break the broccoli into florets, toss in a little oil, and add it to the tray. Ten minutes is enough — you want it green with browned edges, not grey.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No broccoli? Any quick green: green beans, courgette, peppers."
+            },
+            {
+              "kind": "cola",
+              "answer": "Tray too full now? Broccoli on a second small tray is fine."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Check the chicken is done, then finish with lemon and parsley",
+          "description": "Juices at the thickest part of the thigh should run clear. Off the heat, squeeze lemon over the whole tray and scatter chopped parsley — and taste before you decide it needs salt.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Juices clear at the bone, potato browned and tender through, broccoli still green."
+            },
+            {
+              "kind": "falta",
+              "answer": "No lemon? Vinegar does the same job."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Vegetables darker than you wanted? The lemon and parsley pull it back."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

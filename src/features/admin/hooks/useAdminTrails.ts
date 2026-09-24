@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { trailAdminService, type AdminTrail, type TrailDraft } from "../services/trailAdminService";
+import { trailAdminService, type AdminTrail } from "../services/trailAdminService";
 
 export const adminTrailsQueryKey = ["admin", "trails"] as const;
 
@@ -11,21 +11,11 @@ export function useAdminTrails() {
   });
 }
 
-/** O trilho com o currículo, para o formulário de edição o poder mostrar. */
-export function useTrailDetail(id: string | null) {
-  return useQuery({
-    queryKey: ["admin", "trails", id, "detail"],
-    queryFn: () => trailAdminService.get(id as string),
-    enabled: id !== null,
-  });
-}
-
 /**
- * Tudo o que muda um trilho invalida a mesma lista, por isso partilham o
- * `onSuccess`. Publicar também mexe no que quem aprende vê, e é por isso que
- * as queries do lado do aluno caem com ele.
+ * Publicar/despublicar invalidam a mesma lista, e mexem no que quem aprende
+ * vê — é por isso que as queries do lado do aluno caem com elas.
  */
-function useTrailMutation<TArgs>(fn: (args: TArgs) => Promise<AdminTrail | string>) {
+function useTrailMutation(fn: (id: string) => Promise<AdminTrail>) {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: fn,
@@ -37,24 +27,10 @@ function useTrailMutation<TArgs>(fn: (args: TArgs) => Promise<AdminTrail | strin
   });
 }
 
-export function useCreateTrail() {
-  return useTrailMutation((draft: TrailDraft) => trailAdminService.create(draft));
-}
-
-export function useUpdateTrail() {
-  return useTrailMutation(({ id, patch }: { id: string; patch: Partial<TrailDraft> }) =>
-    trailAdminService.update(id, patch),
-  );
-}
-
 export function usePublishTrail() {
   return useTrailMutation((id: string) => trailAdminService.publish(id));
 }
 
 export function useUnpublishTrail() {
   return useTrailMutation((id: string) => trailAdminService.unpublish(id));
-}
-
-export function useDeleteTrail() {
-  return useTrailMutation((id: string) => trailAdminService.remove(id));
 }

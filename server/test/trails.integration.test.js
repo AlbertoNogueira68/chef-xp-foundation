@@ -2,6 +2,7 @@ import test, { after, before, describe } from "node:test";
 import assert from "node:assert/strict";
 
 import { query } from "../db/index.js";
+import { DEFAULT_TRAIL, getLessonOrder } from "../domain/curriculum.js";
 import {
   closeDatabase,
   createClient,
@@ -11,12 +12,34 @@ import {
 } from "./helpers.js";
 
 /**
+ * Marca todas as lições do fundacional como feitas, direto na base. Os
+ * testes deste ficheiro são sobre trilhos especializados, não sobre a
+ * mecânica de responder a uma lição — passar por ela lição a lição só
+ * tornaria estes testes lentos e frágeis sem cobrir nada de novo.
+ */
+async function completarFundacional(userId) {
+  for (const lessonId of getLessonOrder(DEFAULT_TRAIL)) {
+    await query(
+      `INSERT INTO lesson_progress (user_id, lesson_id, trail_id, xp_earned, hearts_left)
+       VALUES ($1, $2, $3, 0, 3)
+       ON CONFLICT (user_id, lesson_id) DO NOTHING`,
+      [userId, lessonId, DEFAULT_TRAIL],
+    );
+  }
+}
+
+/**
  * Trilhos, pela API.
  *
  * A regressão que isto guarda é a que já aconteceu: pedir um trilho que não
  * existe devolvia o currículo fundacional em silêncio, e um rascunho por
  * publicar era servido a quem soubesse adivinhar o id. As duas coisas
  * pareciam funcionar — davam 200 com o conteúdo errado.
+ *
+ * Os trilhos especializados também têm um pré-requisito: o fundacional
+ * completo. `aluno` já o tem feito no `before`, porque estes testes são sobre
+ * o comportamento de "italian", não sobre esse bloqueio — que tem os seus
+ * próprios testes, com um estudante que ainda não o completou.
  */
 describe("trilhos", skipWithoutDatabase, () => {
   let server;
@@ -27,7 +50,8 @@ describe("trilhos", skipWithoutDatabase, () => {
     server = await startTestServer();
 
     aluno = server.client;
-    await registerUser(aluno);
+    const { id: alunoId } = await registerUser(aluno);
+    await completarFundacional(alunoId);
 
     admin = createClient(server.baseUrl);
     const { id } = await registerUser(admin, {
@@ -108,137 +132,36 @@ describe("trilhos", skipWithoutDatabase, () => {
     assert.equal(resposta.status, 403);
   });
 
-  test("um currículo inválido é recusado com a lista de problemas", async () => {
-    const resposta = await admin.post("/api/admin/trails", {
-      id: "trilho-mau",
-      name: "Trilho mau",
-      difficulty: "beginner",
-      curriculum: { skills: [], units: [] },
-    });
+  test("um trilho especializado só aparece depois do fundacional completo", async () => {
+    const novato = createClient(server.baseUrl);
+    await registerUser(novato);
 
-    assert.equal(resposta.status, 400);
-    assert.ok(resposta.body.details.length > 0, "o painel precisa de saber o que corrigir");
-
-    // E não fica nada para trás.
-    const { rows } = await query(`SELECT 1 FROM trails WHERE id = 'trilho-mau'`);
-    assert.equal(rows.length, 0);
-  });
-
-  test("o currículo de um trilho de ficheiro não se edita pelo painel", async () => {
-    const resposta = await admin.put("/api/admin/trails/italian", { curriculum: { units: [] } });
-    assert.equal(resposta.status, 409);
-  });
-
-  test("um trilho criado pelo painel chega a quem aprende", async () => {
-    const criado = await admin.post("/api/admin/trails", {
-      id: "teste-painel",
-      name: "Trilho de teste",
-      difficulty: "beginner",
-      curriculum: curriculoMinimo(),
-    });
-    assert.equal(criado.status, 201);
-
-    // Em rascunho ainda não se vê.
-    let lista = await aluno.get("/api/learning/trails");
-    assert.ok(!lista.body.trails.some((trail) => trail.id === "teste-painel"));
-
-    assert.equal((await admin.post("/api/admin/trails/teste-painel/publish", {})).status, 200);
-
-    lista = await aluno.get("/api/learning/trails");
-    assert.ok(lista.body.trails.some((trail) => trail.id === "teste-painel"));
-
-    const percurso = await aluno.get("/api/learning/path?trailId=teste-painel");
-    assert.equal(percurso.status, 200);
+    const lista = await novato.get("/api/learning/trails");
+    assert.equal(lista.status, 200);
     assert.deepEqual(
-      percurso.body.units.flatMap((u) => u.lessons).map((l) => l.id),
-      ["painel-l1"],
+      lista.body.trails.map((trail) => trail.id),
+      [DEFAULT_TRAIL],
+      "sem o fundacional feito, só ele aparece na lista",
     );
 
-    // A competência tem de ter chegado à tabela: `skill_practice` depende dela.
-    const { rows } = await query(`SELECT 1 FROM skills WHERE id = 'painel.competencia'`);
-    assert.equal(rows.length, 1);
+    assert.equal((await novato.get("/api/learning/path?trailId=italian")).status, 404);
+    assert.equal((await novato.post("/api/learning/trails/italian/start", {})).status, 404);
+
+    // O administrador continua a pré-visualizar tudo, feito o fundacional ou não.
+    assert.ok((await admin.get("/api/learning/trails")).body.trails.some((t) => t.id === "italian"));
   });
 
-  test("um trilho com gente lá dentro não se apaga", async () => {
-    await aluno.post("/api/learning/trails/teste-painel/start", {});
+  test("completar o fundacional destranca os trilhos especializados", async () => {
+    const formado = createClient(server.baseUrl);
+    const { id } = await registerUser(formado);
 
-    const recusa = await admin.delete("/api/admin/trails/teste-painel");
-    assert.equal(recusa.status, 409);
+    assert.equal((await formado.get("/api/learning/path?trailId=italian")).status, 404);
 
-    await aluno.delete("/api/learning/trails/teste-painel");
-    assert.equal((await admin.delete("/api/admin/trails/teste-painel")).status, 200);
+    await completarFundacional(id);
 
-    assert.equal((await aluno.get("/api/learning/path?trailId=teste-painel")).status, 404);
+    const lista = await formado.get("/api/learning/trails");
+    assert.ok(lista.body.trails.some((trail) => trail.id === "italian"));
+    assert.equal((await formado.get("/api/learning/path?trailId=italian")).status, 200);
+    assert.equal((await formado.post("/api/learning/trails/italian/start", {})).status, 200);
   });
 });
-
-/** O mais pequeno currículo que passa na validação. */
-function curriculoMinimo() {
-  return {
-    skills: [
-      {
-        id: "painel.competencia",
-        name: "Competência do painel",
-        category: "organizacao",
-        description: "Existe para provar que o painel chega ao fim.",
-      },
-    ],
-    units: [
-      {
-        id: "painel-u1",
-        title: "Unidade",
-        missionId: "painel.missao",
-        lessons: [
-          {
-            id: "painel-l1",
-            title: "Lição",
-            xpReward: 10,
-            teaches: ["painel.competencia"],
-            questions: [
-              {
-                id: "painel-l1-q1",
-                type: "choice",
-                skills: ["painel.competencia"],
-                prompt: "Qual das duas?",
-                options: ["Esta", "A outra"],
-                correctAnswer: "Esta",
-                explanation: "Porque sim.",
-                explainWrong: "Porque a outra não.",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-    missions: [
-      {
-        id: "painel.missao",
-        unitId: "painel-u1",
-        title: "Missão",
-        practices: ["painel.competencia"],
-        ingredients: ["Um ingrediente"],
-        steps: [
-          {
-            id: "s1",
-            title: "Um",
-            description: "Primeiro passo.",
-            rescues: [{ kind: "pronto", answer: "Quando estiver." }],
-          },
-          {
-            id: "s2",
-            title: "Dois",
-            description: "Segundo passo.",
-            rescues: [{ kind: "pronto", answer: "Quando estiver." }],
-          },
-          {
-            id: "s3",
-            title: "Três",
-            description: "Terceiro passo.",
-            checkpoint: true,
-            rescues: [{ kind: "pronto", answer: "Quando estiver." }],
-          },
-        ],
-      },
-    ],
-  };
-}

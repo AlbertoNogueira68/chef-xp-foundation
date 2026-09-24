@@ -1,0 +1,769 @@
+{
+  "id": "gymbro",
+  "version": 1,
+  "name": "Gymbro Cooking: Protein Without Drying It Out",
+  "description": "Portion protein for your macros, cook chicken breast without turning it to rubber, and meal prep that doesn't taste like meal prep.",
+  "icon": "🍗",
+  "color": "#DC2626",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "beginner",
+  "estimatedHours": 12,
+  "skills": [
+    {
+      "id": "gymbro.porcionar-proteina",
+      "name": "Weighing and Portioning Protein",
+      "category": "organizacao",
+      "description": "Knowing roughly what 150g of chicken looks like on the plate, without weighing every single gram forever.",
+      "requires": [
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "gymbro.frango-suculento",
+      "name": "Juicy Chicken Breast",
+      "category": "calor",
+      "description": "The leanest cut turns to rubber the fastest — the difference between juicy and dry is a few degrees and a rest.",
+      "requires": [
+        "ponto.douramento"
+      ]
+    },
+    {
+      "id": "gymbro.meal-prep",
+      "name": "Real Meal Prep",
+      "category": "organizacao",
+      "description": "Cooking once and eating well all week, without every container tasting like the same reheated sadness.",
+      "requires": [
+        "org.sequenciar"
+      ]
+    },
+    {
+      "id": "gymbro.molho-proteico",
+      "name": "Sauces That Don't Wreck the Macros",
+      "category": "tempero",
+      "description": "A Greek yoghurt or cottage cheese base carries flavour without the calories of a cream or oil-heavy sauce.",
+      "requires": [
+        "tempero.camadas"
+      ]
+    },
+    {
+      "id": "gymbro.proteina-ao-dia",
+      "name": "Protein Across the Day",
+      "category": "organizacao",
+      "description": "Spreading the day's protein over every meal instead of stacking it all into dinner, and knowing roughly what each portion carries.",
+      "requires": [
+        "gymbro.porcionar-proteina"
+      ]
+    },
+    {
+      "id": "gymbro.ovos-em-lote",
+      "name": "Eggs, Cooked Ahead",
+      "category": "ponto",
+      "description": "Baked or boiled egg portions made in one go: breakfast protein that survives four days in the fridge.",
+      "requires": [
+        "ponto.ovo"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-gymbro-1",
+      "title": "Protein That Isn't Dry",
+      "subtitle": "Portioning and Technique",
+      "color": "#DC2626",
+      "lessons": [
+        {
+          "id": "lesson.gymbro-porcionar",
+          "title": "Weighing and Portioning",
+          "dayNumber": 1,
+          "dishName": "Portioned Chicken Breast",
+          "description": "Knowing what a real portion looks like, without weighing every gram for the rest of your life.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 140,
+          "icon": "⚖️",
+          "imageUrl": "https://images.unsplash.com/photo-1612874742237-6526221fcf4f?w=400",
+          "ingredients": [
+            "Chicken breast"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Weigh it raw, a few times",
+              "description": "Weighing raw chicken repeatedly for a couple of weeks teaches your eye what a portion looks like."
+            },
+            {
+              "title": "Use your palm as a rough guide",
+              "description": "A palm-sized, palm-thick piece is a reasonable estimate once you've calibrated your eye against a scale."
+            },
+            {
+              "title": "Cut before or after cooking, consistently",
+              "description": "Weight changes during cooking — decide once whether you portion raw or cooked, and stick to it."
+            }
+          ],
+          "teaches": [
+            "gymbro.porcionar-proteina"
+          ],
+          "requires": [
+            "org.mise-en-place"
+          ],
+          "questions": [
+            {
+              "id": "gb-u1-l1-q1",
+              "type": "choice",
+              "prompt": "You want to stop weighing every meal eventually. What actually builds an accurate eye for portions?",
+              "options": [
+                "Guessing from the start and adjusting later",
+                "Weighing consistently for a couple of weeks, then checking your eye against the scale occasionally",
+                "Always eating the same restaurant portion",
+                "Only weighing on days you're not sure"
+              ],
+              "correctAnswer": "Weighing consistently for a couple of weeks, then checking your eye against the scale occasionally",
+              "explanation": "The eye calibrates against real numbers over repeated tries — guessing from day one just repeats the same error.",
+              "skills": [
+                "gymbro.porcionar-proteina"
+              ],
+              "explainWrong": "Guessing without ever checking against a scale never corrects itself, and restaurant portions vary wildly between places. Only weighing when unsure means you never actually calibrate your eye at all."
+            }
+          ]
+        },
+        {
+          "id": "lesson.gymbro-frango",
+          "title": "Juicy Chicken Breast",
+          "dayNumber": 2,
+          "dishName": "Pan-Seared Chicken Breast",
+          "description": "The leanest cut dries out the fastest — a few degrees and a rest make all the difference.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 200,
+          "icon": "🍗",
+          "imageUrl": "/lessons/gymbro/gymbro-frango.jpg",
+          "ingredients": [
+            "Chicken breast",
+            "Oil",
+            "Salt"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Pound to an even thickness",
+              "description": "A breast that's thick on one end and thin on the other cooks unevenly — flatten it out first."
+            },
+            {
+              "title": "Sear hard, don't overcook",
+              "description": "Pull it off the heat as soon as it's just cooked through — a couple of extra minutes turns it to rubber."
+            },
+            {
+              "title": "Rest before cutting",
+              "description": "A few minutes resting lets the juices redistribute instead of running out onto the board."
+            }
+          ],
+          "teaches": [
+            "gymbro.frango-suculento"
+          ],
+          "requires": [
+            "ponto.douramento"
+          ],
+          "questions": [
+            {
+              "id": "gb-u1-l2-q1",
+              "type": "choice",
+              "prompt": "You cut into your chicken breast right off the pan and all the juices run out onto the board, leaving it dry. What should you have done?",
+              "options": [
+                "Cooked it for even longer next time",
+                "Rested it a few minutes before cutting",
+                "Used a colder pan",
+                "Salted it right before cutting"
+              ],
+              "correctAnswer": "Rested it a few minutes before cutting",
+              "explanation": "Cutting immediately lets the juices spill out under pressure. A short rest lets them settle back through the meat.",
+              "skills": [
+                "gymbro.frango-suculento"
+              ],
+              "explainWrong": "Cooking it longer only dries it out further, and a colder pan or last-second salt don't address what happens the moment you cut into hot meat. The juices need a few minutes to redistribute before the knife goes in."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.frango-grelhado-macros"
+    },
+    {
+      "id": "unit-gymbro-2",
+      "title": "Real Meal Prep",
+      "subtitle": "Cook Once, Eat Well All Week",
+      "color": "#1D4ED8",
+      "lessons": [
+        {
+          "id": "lesson.gymbro-mealprep",
+          "title": "Cook Once, Eat All Week",
+          "dayNumber": 4,
+          "dishName": "Weekly Meal Prep",
+          "description": "Batch cooking that doesn't taste like the same reheated meal five days in a row.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 190,
+          "icon": "🍱",
+          "imageUrl": "/lessons/gymbro/gymbro-mealprep.jpg",
+          "ingredients": [
+            "Protein",
+            "Two different vegetables",
+            "A grain"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Cook components separately",
+              "description": "Protein, vegetables and grain cooked and stored separately mix and match into different combinations."
+            },
+            {
+              "title": "Vary the sauce, not the base",
+              "description": "The same chicken and rice can taste completely different across the week with two or three different sauces on rotation."
+            },
+            {
+              "title": "Cool before sealing containers",
+              "description": "Sealing hot food traps steam, which turns everything soggy by the next day."
+            }
+          ],
+          "teaches": [
+            "gymbro.meal-prep"
+          ],
+          "requires": [
+            "org.sequenciar"
+          ],
+          "questions": [
+            {
+              "id": "gb-u2-l1-q1",
+              "type": "choice",
+              "prompt": "By Wednesday you're already sick of your meal prep. What's the most likely fix for next week?",
+              "options": [
+                "Cook even more of the exact same dish",
+                "Store components separately and rotate two or three different sauces across the week",
+                "Skip meal prep entirely and eat out",
+                "Mix everything into one dish before storing so it's ready to go"
+              ],
+              "correctAnswer": "Store components separately and rotate two or three different sauces across the week",
+              "explanation": "Keeping protein, vegetables and grain separate lets you vary the combination and sauce daily, instead of eating one static dish five times.",
+              "skills": [
+                "gymbro.meal-prep"
+              ],
+              "explainWrong": "Cooking more of the same dish doesn't fix boredom, it just makes more of it, and mixing everything into one dish before storing locks you into that exact combination for the whole week. Separate storage is what makes variety possible."
+            }
+          ]
+        },
+        {
+          "id": "lesson.gymbro-molho",
+          "title": "Sauces That Don't Wreck the Macros",
+          "dayNumber": 5,
+          "dishName": "Greek Yoghurt Sauce",
+          "description": "A yoghurt or cottage cheese base carries flavour without the calories of cream or oil-heavy sauces.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 160,
+          "icon": "🥣",
+          "imageUrl": "/lessons/gymbro/gymbro-molho.jpg",
+          "ingredients": [
+            "Greek yoghurt",
+            "Garlic",
+            "Lemon",
+            "Herbs"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Start from a high-protein base",
+              "description": "Greek yoghurt or cottage cheese blended smooth gives body without the calories of cream."
+            },
+            {
+              "title": "Season it like you would any sauce",
+              "description": "Garlic, lemon, herbs, salt — a bland high-protein base still needs seasoning to taste like something."
+            }
+          ],
+          "teaches": [
+            "gymbro.molho-proteico"
+          ],
+          "requires": [
+            "tempero.camadas"
+          ],
+          "questions": [
+            {
+              "id": "gb-u2-l2-q1",
+              "type": "choice",
+              "prompt": "You want a creamy sauce for your chicken and rice without blowing your calorie target. What's the better base?",
+              "options": [
+                "Heavy cream reduced on the stove",
+                "Greek yoghurt or cottage cheese, blended and seasoned",
+                "A store-bought ranch dressing",
+                "Extra olive oil whisked with herbs"
+              ],
+              "correctAnswer": "Greek yoghurt or cottage cheese, blended and seasoned",
+              "explanation": "A high-protein dairy base gives the same creamy texture at a fraction of the calories of cream or oil-based sauces.",
+              "skills": [
+                "gymbro.molho-proteico"
+              ],
+              "explainWrong": "Cream and oil are both calorie-dense fats with little protein, and bottled ranch is usually similar or worse. A yoghurt or cottage cheese base gets the same creaminess with far more protein and far fewer calories."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.meal-prep-semanal"
+    },
+    {
+      "id": "unit-gymbro-3",
+      "title": "Hitting the Number, Every Day",
+      "subtitle": "Protein From Breakfast On",
+      "color": "#7C3AED",
+      "missionId": "mission.dia-completo-proteina",
+      "lessons": [
+        {
+          "id": "lesson.gymbro-proteina-dia",
+          "title": "Protein Across the Day, Not All at Dinner",
+          "dayNumber": 7,
+          "dishName": "The Day's Total",
+          "description": "Most people miss the number not because dinner is too small but because breakfast and lunch had almost no protein in them.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 210,
+          "icon": "📊",
+          "imageUrl": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400",
+          "ingredients": [
+            "Eggs",
+            "Chicken breast",
+            "Greek yoghurt",
+            "Canned tuna",
+            "Cottage cheese"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Know four portions by sight",
+              "description": "A chicken breast, three eggs, a tub of Greek yoghurt, a can of tuna — roughly 30, 18, 20 and 25 grams. Four numbers cover most days."
+            },
+            {
+              "title": "Put protein in every meal, including breakfast",
+              "description": "Spread across four meals, the day's target is four ordinary portions. Stacked into dinner, it's a plate nobody finishes."
+            },
+            {
+              "title": "Weigh once, then trust your eye",
+              "description": "Weigh a portion a few times so you learn what it looks like. After that the scale is for checking, not for every meal."
+            }
+          ],
+          "teaches": [
+            "gymbro.proteina-ao-dia"
+          ],
+          "requires": [
+            "gymbro.porcionar-proteina",
+            "gymbro.meal-prep"
+          ],
+          "questions": [
+            {
+              "id": "gymbro-u3-l1-q1",
+              "type": "choice",
+              "prompt": "You need 120 g of protein today. Breakfast was toast and coffee, lunch was a salad. What's the realistic problem?",
+              "options": [
+                "Dinner just needs to be bigger",
+                "Two meals carried almost no protein, so dinner would have to be an implausible amount of food",
+                "You should skip dinner and use a shake",
+                "120 g is impossible without supplements"
+              ],
+              "correctAnswer": "Two meals carried almost no protein, so dinner would have to be an implausible amount of food",
+              "explanation": "Spread over four meals, 120 g is four ordinary portions. Left to one meal it's close to 400 g of chicken at a sitting, which is why the day gets missed.",
+              "skills": [
+                "gymbro.proteina-ao-dia"
+              ],
+              "explainWrong": "Making dinner bigger is exactly the plate that doesn't get finished, and 120 g is easily reachable from normal food — a shake is a convenience, not the only route."
+            },
+            {
+              "id": "gymbro-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Roughly how much protein is in three eggs?",
+              "options": [
+                "About 6 g",
+                "About 18 g",
+                "About 40 g",
+                "About 60 g"
+              ],
+              "correctAnswer": "About 18 g",
+              "explanation": "Around six grams an egg. Knowing four or five portions by heart is faster than looking anything up, and accurate enough to plan a day.",
+              "skills": [
+                "gymbro.proteina-ao-dia"
+              ],
+              "explainWrong": "Six grams is one egg, not three, and 40 or 60 g would be more than a whole chicken breast — overestimating is how a day that looks fine on paper comes in low."
+            }
+          ]
+        },
+        {
+          "id": "lesson.gymbro-ovos-lote",
+          "title": "Breakfast That Actually Has Protein",
+          "dayNumber": 8,
+          "dishName": "Baked Egg Portions",
+          "description": "Breakfast is the meal that gets skipped in a prep, and it's the one where the protein is easiest to add ahead of time.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 30,
+          "xpReward": 220,
+          "icon": "🥚",
+          "imageUrl": "/lessons/gymbro/gymbro-ovos-lote.jpg",
+          "ingredients": [
+            "8 eggs",
+            "Spinach",
+            "Peppers",
+            "Cottage cheese",
+            "Muffin tin",
+            "Olive oil"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Bake a tray, not a pan",
+              "description": "Eggs beaten with vegetables and baked in a muffin tin give six to eight single portions in one go, with no pan to watch."
+            },
+            {
+              "title": "Pull them slightly under",
+              "description": "Baked egg keeps cooking in its own heat and gets cooked again when you reheat it. Out of the oven just set, or it's rubber by Wednesday."
+            },
+            {
+              "title": "Cool before the fridge, four days maximum",
+              "description": "Warm egg in a sealed box sweats and goes off early. Cool them on a rack, box them, and eat them within four days."
+            }
+          ],
+          "teaches": [
+            "gymbro.ovos-em-lote"
+          ],
+          "requires": [
+            "ponto.ovo",
+            "gymbro.meal-prep"
+          ],
+          "questions": [
+            {
+              "id": "gymbro-u3-l2-q1",
+              "type": "choice",
+              "prompt": "Your baked egg muffins are rubbery and weeping water by the second morning. Most likely cause?",
+              "options": [
+                "Not enough oil in the tin",
+                "They were baked until firm, then reheated on top of that",
+                "Too much spinach",
+                "The oven was too cold"
+              ],
+              "correctAnswer": "They were baked until firm, then reheated on top of that",
+              "explanation": "Egg protein tightens and squeezes out water when overcooked. Baked to firm plus carry-over heat plus a reheat is three cooks — pull them just set instead.",
+              "skills": [
+                "gymbro.ovos-em-lote"
+              ],
+              "explainWrong": "Oil affects whether they stick, not their texture, and a cold oven would leave them wet rather than rubbery. Spinach adds water but it's the overcooking that makes them squeak."
+            },
+            {
+              "id": "gymbro-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Why cool the egg portions on a rack before boxing them?",
+              "options": [
+                "It sets the shape",
+                "Sealed warm, they sweat and spoil sooner",
+                "It adds protein",
+                "It makes them reheat faster"
+              ],
+              "correctAnswer": "Sealed warm, they sweat and spoil sooner",
+              "explanation": "Warm food in a closed box makes its own condensation, which is water sitting on your breakfast for four days — cooling first is what buys the week.",
+              "skills": [
+                "gymbro.ovos-em-lote"
+              ],
+              "explainWrong": "The shape is set by the tin and the bake, and cooling changes neither the protein nor the reheating time. What it changes is how long they stay good."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.frango-grelhado-macros",
+      "unitId": "unit-gymbro-1",
+      "title": "Portioned, Juicy Chicken",
+      "dishName": "Pan-Seared Chicken Breast",
+      "cookTimeMin": 30,
+      "summary": "A properly portioned, evenly cooked chicken breast that's actually juicy, not dry cardboard.",
+      "estimatedCostEur": 3,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "gymbro.porcionar-proteina",
+        "gymbro.frango-suculento"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "Chicken breast",
+        "Oil",
+        "Salt",
+        "Pepper"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Portion and pound the chicken",
+          "description": "Weigh or estimate a reasonable portion, then pound it to an even thickness.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No meat mallet? A heavy pan works fine for pounding it flat."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Sear hot, don't overcook",
+          "description": "Season and sear on both sides, pulling it off the heat the moment it's just cooked through.",
+          "durationSec": 480,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Still pink in the middle after both sides are browned? Lower the heat and cover for another minute or two rather than blasting it higher."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Golden outside, opaque and just cooked through inside, no pink."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Rest before cutting",
+          "description": "A few minutes off the heat before slicing.",
+          "durationSec": 240,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Juices stay in the meat instead of pooling on the board when cut."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.meal-prep-semanal",
+      "unitId": "unit-gymbro-2",
+      "title": "Weekly Meal Prep",
+      "dishName": "Chicken, Rice and Vegetables — Three Ways",
+      "cookTimeMin": 60,
+      "summary": "One cooking session, separated components, and a couple of sauces that make the same base taste different all week.",
+      "estimatedCostEur": 6,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "gymbro.meal-prep",
+        "gymbro.molho-proteico"
+      ],
+      "xpReward": 550,
+      "ingredients": [
+        "Chicken breast",
+        "Rice",
+        "Two different vegetables",
+        "Greek yoghurt",
+        "Garlic",
+        "Lemon",
+        "Herbs"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Cook the chicken in batches",
+          "description": "Season and sear all the portions needed for the week, without overcrowding the pan.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Pan too small for it all at once? Cook in batches rather than crowding it."
+            },
+            {
+              "kind": "pronto",
+              "answer": "All portions cooked through, still juicy, not dried out from sitting."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Cook the rice and vegetables separately",
+          "description": "Rice in one pot, vegetables steamed or roasted separately, so nothing goes soggy sitting in the others' liquid.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Short on time? Frozen vegetables steam just as fast and work fine here."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Make the yoghurt sauce",
+          "description": "Blend Greek yoghurt with garlic, lemon and herbs, seasoned to actually taste like something.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Tastes flat? It usually just needs more salt and a bit more lemon than you'd expect."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Cool and portion into containers",
+          "description": "Let everything cool before sealing, then split into containers keeping components separate.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Sealed it while still hot? Pop the lids back off for a few minutes to let steam escape."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Components stay separate in each container, nothing soggy, sauce stored on the side."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.dia-completo-proteina",
+      "unitId": "unit-gymbro-3",
+      "title": "A Full Day, Cooked Ahead",
+      "dishName": "Egg Muffins, Portioned Chicken and a Yoghurt Bowl",
+      "cookTimeMin": 75,
+      "summary": "One session that covers breakfast, lunch and dinner protein for four days — and the day's number met without a shake.",
+      "estimatedCostEur": 9,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_frutos_secos",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "gymbro.porcionar-proteina",
+        "gymbro.frango-suculento",
+        "gymbro.meal-prep",
+        "gymbro.molho-proteico",
+        "gymbro.proteina-ao-dia",
+        "gymbro.ovos-em-lote"
+      ],
+      "xpReward": 800,
+      "ingredients": [
+        "8 eggs",
+        "4 chicken breasts",
+        "500 g Greek yoghurt",
+        "Spinach",
+        "2 peppers",
+        "Rice",
+        "Olive oil",
+        "Paprika",
+        "Lemon",
+        "Kitchen scale"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Weigh and portion everything first",
+          "description": "Weigh the chicken into four equal portions and note what one looks like on the board. Everything after this is cooking, not deciding.",
+          "durationSec": 420,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No scale? Portion by eye against your palm, and weigh once next shop to calibrate."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Bake the egg muffins, pull them just set",
+          "description": "Beat the eggs with chopped spinach and pepper, fill an oiled muffin tin, and bake at 180 °C until just set and still slightly soft in the centre — about 15 minutes.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Tops browning and domed hard? They're past it — out now, and drop the oven next time."
+            },
+            {
+              "kind": "falta",
+              "answer": "No muffin tin? A shallow dish, baked and cut into squares."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Cook the chicken portions without drying them",
+          "description": "Sear the portions, then finish them covered over low heat until just cooked through. Off the heat before the outside tightens — a dry breast is the whole point of this unit.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Outside darkening before the middle is done? Lower the heat and cover."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Juices run clear and the meat gives slightly when pressed, not springs back hard."
+            },
+            {
+              "kind": "cola",
+              "answer": "Sticking? Leave it a moment longer — it releases when the crust forms."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Rice and a yoghurt sauce",
+          "description": "Cook the rice while the chicken rests. Stir yoghurt with lemon, paprika and pepper for a sauce that adds protein instead of spending the day's fat budget.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No lemon? Vinegar and a little garlic."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Rice separate and tender, sauce thick enough to coat a spoon."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Build four days of boxes and add up the day",
+          "description": "Cool everything, then box it by meal: egg muffins for breakfast, a chicken-and-rice box for lunch, chicken and sauce for dinner, yoghurt for the gap. Write the protein of one day's set on the top box.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Short of boxes? Bag the rice separately and keep the protein in the box."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Four labelled days, breakfast included, and a number written down that reaches your target."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

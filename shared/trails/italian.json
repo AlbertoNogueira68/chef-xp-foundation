@@ -2,13 +2,33 @@
   "id": "italian",
   "version": 1,
   "name": "Italian Cuisine: From Pasta to Tradition",
-  "description": "Master the techniques of Italian cooking: fresh pasta, classic sauces, risotto, and artisan breads.",
+  "description": "Start with dried pasta done properly, then the sauces, fresh pasta by hand, risotto and a pizza from a cold rise.",
   "icon": "🇮🇹",
   "color": "#E31937",
-  "requires": ["main-course"],
-  "difficulty": "medium",
-  "estimatedHours": 25,
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "advanced",
+  "estimatedHours": 28,
   "skills": [
+    {
+      "id": "italiana.agua-de-cozedura",
+      "name": "The Cooking Water Is an Ingredient",
+      "category": "tempero",
+      "description": "The starch the pasta leaves in the water is what makes a sauce cling. You keep a cup of it before draining, always.",
+      "requires": [
+        "tempero.agua-salgada"
+      ]
+    },
+    {
+      "id": "italiana.saltare-in-padella",
+      "name": "Finishing Pasta in the Pan",
+      "category": "calor",
+      "description": "Pasta drained a minute early and finished in the pan with the sauce and its own water, instead of sauce poured over a plate of pasta.",
+      "requires": [
+        "ponto.al-dente"
+      ]
+    },
     {
       "id": "italiana.pasta-tipi",
       "name": "Pasta Types",
@@ -28,70 +48,82 @@
       "name": "Kneading Pasta",
       "category": "faca",
       "description": "Develop gluten without overworking: smooth, supple dough.",
-      "requires": ["italiana.pasta-agua-farinha"]
+      "requires": [
+        "italiana.pasta-agua-farinha"
+      ]
     },
     {
       "id": "italiana.pasta-esticar",
       "name": "Rolling Pasta",
       "category": "faca",
       "description": "Thin, even sheets without tearing: the sign of skill.",
-      "requires": ["italiana.pasta-amassar"]
+      "requires": [
+        "italiana.pasta-amassar"
+      ]
     },
     {
       "id": "italiana.tomate-reducao",
       "name": "Sauce Reduction",
       "category": "calor",
       "description": "Low heat, time, and patience: concentrate flavour without burning.",
-      "requires": ["calor.lume-brando"]
+      "requires": [
+        "calor.lume-brando"
+      ]
     },
     {
       "id": "italiana.tomate-acidez",
       "name": "Balancing Acidity",
       "category": "tempero",
       "description": "Tomato sauce needs fat and time to soften the acid bite.",
-      "requires": ["italiana.tomate-reducao"]
+      "requires": [
+        "italiana.tomate-reducao"
+      ]
     },
     {
       "id": "italiana.carbonara-emulsao",
       "name": "Carbonara Emulsion",
       "category": "calor",
       "description": "Eggs and cheese as a sauce: the science of not scrambling.",
-      "requires": ["ponto.ovo"]
-    },
-    {
-      "id": "italiana.pesto-mortaio",
-      "name": "Mortar & Pestle",
-      "category": "faca",
-      "description": "Bruise instead of shred: releases oil without grinding into slurry.",
-      "requires": []
+      "requires": [
+        "ponto.ovo"
+      ]
     },
     {
       "id": "italiana.ragu-brasear",
       "name": "Ragù Braising",
       "category": "calor",
       "description": "Long, slow cooking of meat and tomato: the soul of Bolognese.",
-      "requires": ["calor.lume-brando", "tempero.camadas"]
+      "requires": [
+        "calor.lume-brando",
+        "tempero.camadas"
+      ]
     },
     {
       "id": "italiana.risotto-stirring",
       "name": "Constant Stirring",
       "category": "organizacao",
       "description": "Risotto demands attention: stir slowly, listen to the rhythm.",
-      "requires": ["calor.niveis"]
+      "requires": [
+        "calor.niveis"
+      ]
     },
     {
       "id": "italiana.risotto-mantecatura",
       "name": "Mantecatura Finish",
       "category": "calor",
       "description": "Cold butter into hot rice: creates the creamy wave.",
-      "requires": ["italiana.risotto-stirring"]
+      "requires": [
+        "italiana.risotto-stirring"
+      ]
     },
     {
       "id": "italiana.risotto-ponto",
       "name": "Risotto Doneness",
       "category": "ponto",
       "description": "All dente, flowing but not soupy: the edge between two states.",
-      "requires": ["ponto.al-dente"]
+      "requires": [
+        "ponto.al-dente"
+      ]
     },
     {
       "id": "italiana.pao-fermentacao",
@@ -105,31 +137,460 @@
       "name": "Gluten Development",
       "category": "faca",
       "description": "Stretch and fold: build structure without overworking.",
-      "requires": ["italiana.pao-fermentacao"]
+      "requires": [
+        "italiana.pao-fermentacao"
+      ]
     },
     {
       "id": "italiana.pao-forno",
       "name": "Oven Spring",
       "category": "calor",
       "description": "High heat and steam: the final rise before the crust sets.",
-      "requires": ["italiana.pao-gluten"]
+      "requires": [
+        "italiana.pao-gluten"
+      ]
     },
     {
       "id": "italiana.pizza-massa",
       "name": "Pizza Dough",
       "category": "organizacao",
       "description": "Hydration, fermentation, shaping: the foundation.",
-      "requires": ["italiana.pao-fermentacao"]
+      "requires": [
+        "italiana.pao-fermentacao"
+      ]
     },
     {
       "id": "italiana.pizza-cornicione",
       "name": "Puffy Crust",
       "category": "calor",
       "description": "The edge that should char and puff: technique and heat.",
-      "requires": ["italiana.pizza-massa"]
+      "requires": [
+        "italiana.pizza-massa"
+      ]
     }
   ],
   "units": [
+    {
+      "id": "unit-italiano-6",
+      "title": "Dried Pasta, Done Properly",
+      "subtitle": "Salt, Starch and the Pan",
+      "color": "#1E8449",
+      "missionId": "mission.aglio-olio",
+      "lessons": [
+        {
+          "id": "lesson.pasta-agua-cozedura",
+          "title": "The Cooking Water Is an Ingredient",
+          "dayNumber": 1,
+          "dishName": "Starchy Water",
+          "description": "The cloudy water you have been pouring down the sink is the only thing that makes a sauce stick to pasta.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "💧",
+          "imageUrl": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400",
+          "ingredients": [
+            "Dried spaghetti",
+            "Coarse salt",
+            "Olive oil",
+            "A mug"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Salt the water properly, and nothing else",
+              "description": "Enough salt that the water tastes seasoned. No oil in the water — it coats the pasta and then the sauce slides off."
+            },
+            {
+              "title": "Keep a mug of the water before you drain",
+              "description": "Put a mug in the sink and fill it from the pot before draining. Once the water is gone, it is gone, and there is no substitute."
+            },
+            {
+              "title": "It is starch, which is why it thickens",
+              "description": "The pasta sheds starch as it cooks. That starch is an emulsifier: it binds oil and water into something that coats, instead of two things that separate."
+            }
+          ],
+          "teaches": [
+            "italiana.agua-de-cozedura"
+          ],
+          "requires": [
+            "tempero.agua-salgada"
+          ],
+          "questions": [
+            {
+              "id": "it-u6-l1-q1",
+              "type": "choice",
+              "prompt": "You drained the pasta, tipped all the water away, and your olive-oil sauce is sitting in a puddle at the bottom of the bowl. What was missing?",
+              "options": [
+                "More olive oil",
+                "A little of the starchy cooking water, to bind the oil into a sauce",
+                "Butter",
+                "You should have cooked the pasta longer"
+              ],
+              "correctAnswer": "A little of the starchy cooking water, to bind the oil into a sauce",
+              "explanation": "Oil and water separate on their own. The starch from the pasta is what holds them together, which is why a spoon of the cooking water turns oil into a sauce that coats.",
+              "skills": [
+                "italiana.agua-de-cozedura"
+              ],
+              "explainWrong": "More oil gives you a bigger puddle, and butter is a different dish. Cooking the pasta longer only makes it soft — it does nothing about a sauce that will not cling."
+            },
+            {
+              "id": "it-u6-l1-q2",
+              "type": "choice",
+              "prompt": "Should you add olive oil to the pasta cooking water to stop it sticking?",
+              "options": [
+                "Yes, always",
+                "No — it coats the pasta and the sauce then slides off",
+                "Only for fresh pasta",
+                "Only if the pot is small"
+              ],
+              "correctAnswer": "No — it coats the pasta and the sauce then slides off",
+              "explanation": "Oil floats and coats the strands as you drain, leaving them slippery. Pasta does not stick if there is enough water and you stir it in the first minute.",
+              "skills": [
+                "italiana.agua-de-cozedura"
+              ],
+              "explainWrong": "It is a common habit, but it works against the whole point of the next step: sauce needs a surface it can grip. Stirring early and using enough water is what stops sticking."
+            }
+          ]
+        },
+        {
+          "id": "lesson.pasta-saltare",
+          "title": "Pasta Finishes in the Pan, Not on the Plate",
+          "dayNumber": 2,
+          "dishName": "Saltare in Padella",
+          "description": "The difference between home pasta and restaurant pasta is thirty seconds in the pan, not a better sauce.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 180,
+          "icon": "🍝",
+          "imageUrl": "/lessons/italian/pasta-saltare.jpg",
+          "ingredients": [
+            "Dried spaghetti",
+            "Sauce",
+            "The cooking water",
+            "A wide pan"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Drain it a minute early",
+              "description": "Take the pasta out while it is still slightly firmer than you want to eat it. It finishes cooking in the pan."
+            },
+            {
+              "title": "Pasta into the sauce, never sauce onto the pasta",
+              "description": "The sauce is in a wide pan on the heat; the pasta goes in there. Sauce spooned over a plate only ever touches the top."
+            },
+            {
+              "title": "Water in, and keep it moving",
+              "description": "A splash of the cooking water, and toss or stir hard for half a minute. It looks too wet and then suddenly turns glossy — that is the sauce forming."
+            },
+            {
+              "title": "Cheese and fresh herbs off the heat",
+              "description": "Once it is glossy, off the heat. Cheese added over a flame goes stringy and splits out of the sauce."
+            }
+          ],
+          "teaches": [
+            "italiana.saltare-in-padella"
+          ],
+          "requires": [
+            "ponto.al-dente",
+            "italiana.agua-de-cozedura"
+          ],
+          "questions": [
+            {
+              "id": "it-u6-l2-q1",
+              "type": "choice",
+              "prompt": "Why drain the pasta a minute before it is done?",
+              "options": [
+                "To save gas",
+                "Because it finishes cooking in the pan with the sauce",
+                "So it stays crunchy",
+                "It makes no difference"
+              ],
+              "correctAnswer": "Because it finishes cooking in the pan with the sauce",
+              "explanation": "That last minute in the pan is where the pasta absorbs sauce instead of water. Drained fully cooked, it goes past al dente while you are tossing it.",
+              "skills": [
+                "italiana.saltare-in-padella"
+              ],
+              "explainWrong": "It is not about gas, and it is not meant to stay crunchy — it finishes to exactly al dente in the pan, which is the point. Draining it done and then heating it again is how pasta gets soft."
+            },
+            {
+              "id": "it-u6-l2-q2",
+              "type": "choice",
+              "prompt": "Your pasta and sauce look wet and loose in the pan after tossing for ten seconds. What do you do?",
+              "options": [
+                "Add more sauce",
+                "Keep it moving on the heat for another twenty or thirty seconds until it turns glossy",
+                "Drain the liquid off",
+                "Add flour"
+              ],
+              "correctAnswer": "Keep it moving on the heat for another twenty or thirty seconds until it turns glossy",
+              "explanation": "It always looks too wet just before it comes together. The starch and the fat emulsify with movement and heat, and then it visibly tightens and shines.",
+              "skills": [
+                "italiana.saltare-in-padella"
+              ],
+              "explainWrong": "Adding sauce makes it wetter, draining pours away the starch that is about to do the work, and flour is not how an Italian sauce thickens. It needs a few more seconds of agitation."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-italiano-2",
+      "title": "Sauces: Tomato to Ragù",
+      "subtitle": "The Soul of Pasta",
+      "color": "#E31937",
+      "lessons": [
+        {
+          "id": "lesson.tomate-simple",
+          "title": "Tomato Sauce from Three Things",
+          "dayNumber": 3,
+          "dishName": "Salsa di Pomodoro",
+          "description": "Tomato, garlic, olive oil. That's it. Learn why this is enough.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 35,
+          "xpReward": 200,
+          "icon": "🍅",
+          "imageUrl": "/lessons/italian/tomate-simple.jpg",
+          "ingredients": [
+            "800g canned tomatoes",
+            "4 cloves garlic",
+            "Olive oil",
+            "Salt"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Slice garlic thin",
+              "description": "Not minced — thin slices so you can fish them out later if you want."
+            },
+            {
+              "title": "Gentle heat, oil, garlic",
+              "description": "Low heat, don't let it brown. You want sweet, not bitter."
+            },
+            {
+              "title": "Add tomatoes",
+              "description": "Crush them in by hand. Bring to a bubble, not a boil."
+            },
+            {
+              "title": "Time and salt",
+              "description": "20 minutes minimum. Salt at the end, not before."
+            }
+          ],
+          "teaches": [
+            "italiana.tomate-reducao",
+            "italiana.tomate-acidez"
+          ],
+          "questions": [
+            {
+              "id": "it-u2-l1-q1",
+              "type": "choice",
+              "prompt": "Your garlic is turning brown in the oil. What went wrong?",
+              "options": [
+                "The garlic is old",
+                "The heat is too high",
+                "You used minced garlic",
+                "The oil is bad"
+              ],
+              "correctAnswer": "The heat is too high",
+              "explanation": "Garlic burns at high heat. Low heat until the tomatoes go in, then keep it at a bubble.",
+              "skills": [
+                "italiana.tomate-reducao"
+              ],
+              "explainWrong": "Old garlic and cheap oil do not brown on their own — heat does. Turn the flame down before you change anything else, or the next clove burns exactly the same way."
+            },
+            {
+              "id": "it-u2-l1-q2",
+              "type": "choice",
+              "prompt": "After 20 minutes, the sauce tastes too acidic. How do you fix it?",
+              "options": [
+                "Add sugar",
+                "Add more salt",
+                "Cook it longer with a lid off",
+                "Add butter or cream"
+              ],
+              "correctAnswer": "Cook it longer with a lid off",
+              "explanation": "Time reduces acidity. Fat (butter, cream, or good oil) rounds it out too.",
+              "skills": [
+                "italiana.tomate-acidez"
+              ],
+              "explainWrong": "Sugar leaves the sauce tasting sweet instead of ripe, and salt sharpens acidity rather than softening it. Fat does round the edge, but it is the uncovered simmer that actually drives the sharpness off."
+            }
+          ]
+        },
+        {
+          "id": "lesson.ragu-brasear",
+          "title": "Ragù Is Time, Not Technique",
+          "dayNumber": 4,
+          "dishName": "The Long Braise",
+          "description": "A ragù asks for three hours and almost no skill. What ruins it is heat, not inexperience.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 230,
+          "icon": "🥘",
+          "imageUrl": "/lessons/italian/ragu-brasear.jpg",
+          "ingredients": [
+            "Minced beef and pork",
+            "Onion, carrot, celery",
+            "Tomato paste",
+            "White wine",
+            "Milk",
+            "Bay leaf"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Brown the meat properly, in batches",
+              "description": "Colour is flavour, and crowded mince steams grey instead of browning. Two batches in a hot pan beats one full one."
+            },
+            {
+              "title": "Soffritto slowly, before anything else goes in",
+              "description": "Onion, carrot and celery, finely chopped, softened gently for ten minutes. Rushed, they stay raw-tasting through three hours of cooking."
+            },
+            {
+              "title": "A bare simmer for three hours, lid ajar",
+              "description": "Barely a bubble. A rolling boil tightens the meat and it stays tough no matter how long you give it."
+            },
+            {
+              "title": "Milk near the end, and taste before salting",
+              "description": "A little milk softens the acidity and the texture. The pot concentrates as it reduces, so the salt goes in at the end, not at the start."
+            }
+          ],
+          "teaches": [
+            "italiana.ragu-brasear"
+          ],
+          "requires": [
+            "calor.lume-brando",
+            "tempero.camadas",
+            "italiana.tomate-reducao"
+          ],
+          "questions": [
+            {
+              "id": "it-u2-l2-q1",
+              "type": "choice",
+              "prompt": "Your ragù simmered for three hours and the meat is still tough and grainy. What went wrong?",
+              "options": [
+                "It needed longer still",
+                "It was boiling rather than simmering, which tightens the meat",
+                "You used too much tomato",
+                "The meat was too lean"
+              ],
+              "correctAnswer": "It was boiling rather than simmering, which tightens the meat",
+              "explanation": "A braise softens meat by holding it just below a boil for hours. At a rolling boil the proteins tighten and squeeze out water, and no amount of extra time reverses that.",
+              "skills": [
+                "italiana.ragu-brasear"
+              ],
+              "explainWrong": "Lean meat and too much tomato make a ragù drier and sharper, but neither makes it grainy — and more hours at a boil only makes it worse. The heat is the whole answer."
+            },
+            {
+              "id": "it-u2-l2-q2",
+              "type": "choice",
+              "prompt": "When does the salt go in?",
+              "options": [
+                "At the start, with the soffritto",
+                "Near the end, once it has reduced",
+                "Half at the start, half at the end",
+                "It does not matter in a long braise"
+              ],
+              "correctAnswer": "Near the end, once it has reduced",
+              "explanation": "Three hours of reducing concentrates whatever salt is in the pot. Seasoned at the start, a ragù that tasted right at hour one is inedible at hour three.",
+              "skills": [
+                "italiana.ragu-brasear"
+              ],
+              "explainWrong": "It matters more in a long braise than anywhere else, precisely because the liquid halves. Salting early — even half of it — is how a good ragù ends up too salty to serve."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.ragu"
+    },
+    {
+      "id": "unit-italiano-5",
+      "title": "Carbonara: The Emulsion",
+      "subtitle": "Egg, fat and starch held together by nothing but heat and timing",
+      "color": "#E31937",
+      "missionId": "mission.carbonara",
+      "lessons": [
+        {
+          "id": "lesson.carbonara-tecnica",
+          "title": "Carbonara: The Science",
+          "dayNumber": 5,
+          "dishName": "Pasta alla Carbonara",
+          "description": "Eggs and cheese as sauce, without cream. Learn the temperature window.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 25,
+          "xpReward": 250,
+          "icon": "🥚",
+          "imageUrl": "/lessons/italian/carbonara-tecnica.jpg",
+          "ingredients": [
+            "Pasta",
+            "Guanciale or pancetta",
+            "Eggs",
+            "Pecorino cheese"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Dice the guanciale",
+              "description": "Small cubes, render them gently so the fat releases."
+            },
+            {
+              "title": "Beat eggs with cheese",
+              "description": "Not cooking them — just mixing until you have a glossy paste."
+            },
+            {
+              "title": "Cook pasta",
+              "description": "Al dente. Reserve a cup of starchy water."
+            },
+            {
+              "title": "The trick: temperature control",
+              "description": "Drain pasta, toss with fat from guanciale, then add egg mix off heat while stirring fast."
+            }
+          ],
+          "teaches": [
+            "italiana.carbonara-emulsao"
+          ],
+          "requires": [
+            "ponto.ovo"
+          ],
+          "questions": [
+            {
+              "id": "it-u5-l1-q1",
+              "type": "choice",
+              "prompt": "Your carbonara scrambled. What happened?",
+              "options": [
+                "The eggs were too old",
+                "The pan was too hot when you added the egg mix",
+                "You didn't use guanciale",
+                "You cooked it too long"
+              ],
+              "correctAnswer": "The pan was too hot when you added the egg mix",
+              "explanation": "Off heat, stirring fast, splash of pasta water to cool it down. Those three things prevent scrambling.",
+              "skills": [
+                "italiana.carbonara-emulsao"
+              ],
+              "explainWrong": "Egg age and guanciale change the flavour, not the texture. Scrambling is heat: the pan was still cooking when the egg went in. Off the heat, moving fast, with a splash of pasta water — that is what keeps it a sauce."
+            },
+            {
+              "id": "it-u5-l1-q2",
+              "type": "choice",
+              "prompt": "The sauce is too thick, coating the pasta like glue. Fix it?",
+              "options": [
+                "Add more egg",
+                "Splash of pasta water and stir",
+                "Cook it longer",
+                "Add cream"
+              ],
+              "correctAnswer": "Splash of pasta water and stir",
+              "explanation": "Starch in the water loosens it. Cream is not traditional and breaks the emulsion.",
+              "skills": [
+                "italiana.carbonara-emulsao"
+              ],
+              "explainWrong": "More egg thickens what is already too thick, and more cooking sets it harder. Cream is the tempting fix and the one that breaks it — starchy water loosens an emulsion without washing out the flavour."
+            }
+          ]
+        }
+      ]
+    },
     {
       "id": "unit-italiano-1",
       "title": "Fresh Pasta Mastery",
@@ -139,7 +600,7 @@
         {
           "id": "lesson.pasta-tipi",
           "title": "Which Pasta, Which Sauce",
-          "dayNumber": 1,
+          "dayNumber": 6,
           "dishName": "Pasta Shapes",
           "description": "Learn why every shape exists and which sauce it was born for.",
           "type": "lesson",
@@ -147,7 +608,7 @@
           "cookTimeMin": 5,
           "xpReward": 150,
           "icon": "🍝",
-          "imageUrl": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400",
+          "imageUrl": "/lessons/italian/pasta-tipi.jpg",
           "ingredients": [],
           "preparationSteps": [
             {
@@ -163,36 +624,59 @@
               "description": "Ravioli, tortellini: the filling is the sauce."
             }
           ],
-          "teaches": ["italiana.pasta-tipi"],
+          "teaches": [
+            "italiana.pasta-tipi"
+          ],
           "questions": [
             {
               "id": "it-u1-l1-q1",
               "type": "choice",
               "prompt": "You have a chunky Bolognese sauce. Which pasta shape holds it best?",
-              "options": ["Spaghetti", "Rigatoni", "Linguine", "Angel hair"],
+              "options": [
+                "Spaghetti",
+                "Rigatoni",
+                "Linguine",
+                "Angel hair"
+              ],
               "correctAnswer": "Rigatoni",
               "explanation": "Tubes trap the chunky sauce inside. Oil-based sauces need thin, long strands.",
-              "skills": ["italiana.pasta-tipi"],
+              "skills": [
+                "italiana.pasta-tipi"
+              ],
               "explainWrong": "Long thin strands let a chunky ragù slide straight off onto the plate. The meat ends up at the bottom of the bowl and the pasta comes up bare — the shape has nowhere to hold it."
             },
             {
               "id": "it-u1-l1-q2",
               "type": "choice",
               "prompt": "A creamy sauce with seafood: which long pasta?",
-              "options": ["Spaghetti", "Fettuccine", "Spaghettini", "Capellini"],
+              "options": [
+                "Spaghetti",
+                "Fettuccine",
+                "Spaghettini",
+                "Capellini"
+              ],
               "correctAnswer": "Fettuccine",
               "explanation": "Flat ribbons hold cream better than round strands.",
-              "skills": ["italiana.pasta-tipi"],
+              "skills": [
+                "italiana.pasta-tipi"
+              ],
               "explainWrong": "Round strands shed a cream sauce as fast as you lift them. A flat ribbon gives the sauce a surface to sit on, which is why cream is almost always served on ribbons."
             },
             {
               "id": "it-u1-l1-q3",
               "type": "choice",
               "prompt": "Pesto is best served with?",
-              "options": ["Penne", "Linguine", "Trofie or hand-rolled", "Ravioli"],
+              "options": [
+                "Penne",
+                "Linguine",
+                "Trofie or hand-rolled",
+                "Ravioli"
+              ],
               "correctAnswer": "Linguine",
               "explanation": "Pesto clings to flat pasta. Hand-rolled (trofie) also works beautifully.",
-              "skills": ["italiana.pasta-tipi"],
+              "skills": [
+                "italiana.pasta-tipi"
+              ],
               "explainWrong": "Penne and ravioli give pesto nowhere to cling — it slides off and pools at the bottom. Trofie is the Ligurian classic and works beautifully too, but of these the flat strand is the one that carries pesto best."
             }
           ]
@@ -200,7 +684,7 @@
         {
           "id": "lesson.pasta-preparacao",
           "title": "Dough: Water, Flour, Hands",
-          "dayNumber": 2,
+          "dayNumber": 7,
           "dishName": "Pasta Dough",
           "description": "Learn the ratio that binds: not too wet, not too dry.",
           "type": "lesson",
@@ -208,8 +692,13 @@
           "cookTimeMin": 20,
           "xpReward": 200,
           "icon": "🍜",
-          "imageUrl": "https://images.unsplash.com/photo-1551632786-de41ec16a41d?w=400",
-          "ingredients": ["300g flour", "3 eggs", "Salt", "Water if needed"],
+          "imageUrl": "/lessons/italian/pasta-preparacao.jpg",
+          "ingredients": [
+            "300g flour",
+            "3 eggs",
+            "Salt",
+            "Water if needed"
+          ],
           "preparationSteps": [
             {
               "title": "Pile the Flour",
@@ -232,7 +721,10 @@
               "description": "Push away with the heel of your hand, fold back, turn 45°, repeat. 8-10 minutes."
             }
           ],
-          "teaches": ["italiana.pasta-agua-farinha", "italiana.pasta-amassar"],
+          "teaches": [
+            "italiana.pasta-agua-farinha",
+            "italiana.pasta-amassar"
+          ],
           "questions": [
             {
               "id": "it-u1-l2-q1",
@@ -246,7 +738,9 @@
               ],
               "correctAnswer": "Add a tiny drop of water",
               "explanation": "Cracks mean too little hydration. A single drop on each crack, then knead.",
-              "skills": ["italiana.pasta-agua-farinha"],
+              "skills": [
+                "italiana.pasta-agua-farinha"
+              ],
               "explainWrong": "Adding flour or kneading harder makes it worse: cracking is a dry dough asking for water, and both answers take water away or force a dough that has none to give. Starting over throws out a dough that is one drop from right."
             },
             {
@@ -261,7 +755,9 @@
               ],
               "correctAnswer": "Yes, keep going, it'll smooth out",
               "explanation": "Sticky dough becomes smooth with kneading. Don't add flour — you'll dry it out.",
-              "skills": ["italiana.pasta-amassar"],
+              "skills": [
+                "italiana.pasta-amassar"
+              ],
               "explainWrong": "Adding flour now is the reflex that ruins fresh pasta. Sticky at five minutes is the gluten still forming; flour at that moment gives you a dough that rolls stiff and cooks tough, and you cannot take it back out."
             },
             {
@@ -277,7 +773,10 @@
                 "Rest wrapped for 30 minutes"
               ],
               "explanation": "This is the order that builds structure without tearing or drying.",
-              "skills": ["italiana.pasta-agua-farinha", "italiana.pasta-amassar"],
+              "skills": [
+                "italiana.pasta-agua-farinha",
+                "italiana.pasta-amassar"
+              ],
               "explainWrong": "Beating the eggs before the well is built sends them across the counter. And kneading before the flour is drawn in leaves dry pockets that never hydrate — resting cannot fix what the mixing skipped.",
               "correctOrder": [
                 "Pile flour and make a well",
@@ -293,7 +792,7 @@
         {
           "id": "lesson.pasta-esticar",
           "title": "Rolling Thin",
-          "dayNumber": 3,
+          "dayNumber": 8,
           "dishName": "Hand-Rolled Pasta Sheet",
           "description": "The feel of thin, even dough: paper-thin but not torn.",
           "type": "lesson",
@@ -301,8 +800,10 @@
           "cookTimeMin": 25,
           "xpReward": 250,
           "icon": "📄",
-          "imageUrl": "https://images.unsplash.com/photo-1585335268335-f1995092ec2f?w=400",
-          "ingredients": ["Rested pasta dough"],
+          "imageUrl": "/lessons/italian/pasta-esticar.jpg",
+          "ingredients": [
+            "Rested pasta dough"
+          ],
           "preparationSteps": [
             {
               "title": "Start in the Middle",
@@ -325,18 +826,28 @@
               "description": "Cut into sheets, lay on a drying rack for 10-15 minutes before cooking."
             }
           ],
-          "teaches": ["italiana.pasta-esticar"],
-          "requires": ["italiana.pasta-amassar"],
+          "teaches": [
+            "italiana.pasta-esticar"
+          ],
+          "requires": [
+            "italiana.pasta-amassar"
+          ],
           "questions": [
             {
               "id": "it-u1-l3-q1",
               "type": "judge",
               "prompt": "Is this pasta sheet ready for cutting?",
-              "imageUrl": "https://images.unsplash.com/photo-1585335268335-f1995092ec2f?w=400",
-              "options": ["Yes, it's thin enough", "No, it's too thick", "It's torn, start over"],
+              "imageUrl": "/lessons/italian/it-u1-l3-q1.jpg",
+              "options": [
+                "Yes, it's thin enough",
+                "No, it's too thick",
+                "It's torn, start over"
+              ],
               "correctAnswer": "Yes, it's thin enough",
               "explanation": "You can see hand shadows through it — that's the right thickness.",
-              "skills": ["italiana.pasta-esticar"],
+              "skills": [
+                "italiana.pasta-esticar"
+              ],
               "explainWrong": "Calling a sheet too thick when the light already passes through means you keep rolling until it tears. The shadow test is the whole point: once you can see through it, stop."
             },
             {
@@ -351,87 +862,15 @@
               ],
               "correctAnswer": "It wasn't rested long enough between presses",
               "explanation": "Gluten needs to relax. If you press continuously, it fights back and tears.",
-              "skills": ["italiana.pasta-esticar"],
+              "skills": [
+                "italiana.pasta-esticar"
+              ],
               "explainWrong": "Pressing harder or blaming the water reads the tear backwards. A rested dough stretches; an unrested one springs back and splits along the line you just pushed. The fix is time, not force."
             }
           ]
         }
       ],
       "missionId": "mission.pasta-fresca"
-    },
-    {
-      "id": "unit-italiano-2",
-      "title": "Sauces: Tomato to Ragù",
-      "subtitle": "The Soul of Pasta",
-      "color": "#E31937",
-      "lessons": [
-        {
-          "id": "lesson.tomate-simple",
-          "title": "Tomato Sauce from Three Things",
-          "dayNumber": 5,
-          "dishName": "Salsa di Pomodoro",
-          "description": "Tomato, garlic, olive oil. That's it. Learn why this is enough.",
-          "type": "lesson",
-          "difficulty": "facil",
-          "cookTimeMin": 35,
-          "xpReward": 200,
-          "icon": "🍅",
-          "imageUrl": "https://images.unsplash.com/photo-1612874742237-6526221fcf4f?w=400",
-          "ingredients": ["800g canned tomatoes", "4 cloves garlic", "Olive oil", "Salt"],
-          "preparationSteps": [
-            {
-              "title": "Slice garlic thin",
-              "description": "Not minced — thin slices so you can fish them out later if you want."
-            },
-            {
-              "title": "Gentle heat, oil, garlic",
-              "description": "Low heat, don't let it brown. You want sweet, not bitter."
-            },
-            {
-              "title": "Add tomatoes",
-              "description": "Crush them in by hand. Bring to a bubble, not a boil."
-            },
-            {
-              "title": "Time and salt",
-              "description": "20 minutes minimum. Salt at the end, not before."
-            }
-          ],
-          "teaches": ["italiana.tomate-reducao", "italiana.tomate-acidez"],
-          "questions": [
-            {
-              "id": "it-u2-l1-q1",
-              "type": "choice",
-              "prompt": "Your garlic is turning brown in the oil. What went wrong?",
-              "options": [
-                "The garlic is old",
-                "The heat is too high",
-                "You used minced garlic",
-                "The oil is bad"
-              ],
-              "correctAnswer": "The heat is too high",
-              "explanation": "Garlic burns at high heat. Low heat until the tomatoes go in, then keep it at a bubble.",
-              "skills": ["italiana.tomate-reducao"],
-              "explainWrong": "Old garlic and cheap oil do not brown on their own — heat does. Turn the flame down before you change anything else, or the next clove burns exactly the same way."
-            },
-            {
-              "id": "it-u2-l1-q2",
-              "type": "choice",
-              "prompt": "After 20 minutes, the sauce tastes too acidic. How do you fix it?",
-              "options": [
-                "Add sugar",
-                "Add more salt",
-                "Cook it longer with a lid off",
-                "Add butter or cream"
-              ],
-              "correctAnswer": "Cook it longer with a lid off",
-              "explanation": "Time reduces acidity. Fat (butter, cream, or good oil) rounds it out too.",
-              "skills": ["italiana.tomate-acidez"],
-              "explainWrong": "Sugar leaves the sauce tasting sweet instead of ripe, and salt sharpens acidity rather than softening it. Fat does round the edge, but it is the uncovered simmer that actually drives the sharpness off."
-            }
-          ]
-        }
-      ],
-      "missionId": "mission.ragu"
     },
     {
       "id": "unit-italiano-3",
@@ -442,7 +881,7 @@
         {
           "id": "lesson.risotto-basico",
           "title": "Risotto Fundamentals",
-          "dayNumber": 10,
+          "dayNumber": 9,
           "dishName": "Risotto al Burro e Formaggio",
           "description": "The technique that demands attention: constant stirring, hot stock, rice that gives off starch.",
           "type": "lesson",
@@ -450,7 +889,7 @@
           "cookTimeMin": 30,
           "xpReward": 300,
           "icon": "🥘",
-          "imageUrl": "https://images.unsplash.com/photo-1614521267537-b85faf00021b?w=400",
+          "imageUrl": "/lessons/italian/risotto-basico.jpg",
           "ingredients": [
             "300g risotto rice (Arborio or Carnaroli)",
             "1 onion",
@@ -503,7 +942,9 @@
               ],
               "correctAnswer": "When the previous liquid is almost absorbed",
               "explanation": "Not bone dry, not swimming. Almost absorbed. That's the rhythm of risotto.",
-              "skills": ["italiana.risotto-stirring"],
+              "skills": [
+                "italiana.risotto-stirring"
+              ],
               "explainWrong": "A timer ignores how fast your pan runs, and waiting for dry rice means the grains stick and catch. Almost absorbed is the point where the rice still has something to work with."
             },
             {
@@ -518,7 +959,9 @@
               ],
               "correctAnswer": "Cook it longer without adding stock",
               "explanation": "Time varies. If it's still soupy at 18 minutes, keep stirring until the rice is creamy and coats the spoon.",
-              "skills": ["italiana.risotto-ponto"],
+              "skills": [
+                "italiana.risotto-ponto"
+              ],
               "explainWrong": "Stopping early leaves raw rice in a soup, and more stock makes more soup. Finishing with butter and cheese onto a loose risotto just thins them. Let the liquid go before you finish it."
             }
           ]
@@ -535,16 +978,22 @@
         {
           "id": "lesson.pizza-dough",
           "title": "Pizza Dough Basics",
-          "dayNumber": 15,
+          "dayNumber": 10,
           "dishName": "Pizza Dough",
           "description": "The foundation: hydration, fermentation, salt timing.",
           "type": "lesson",
-          "difficulty": "media",
+          "difficulty": "medio",
           "cookTimeMin": 15,
           "xpReward": 250,
           "icon": "🍕",
-          "imageUrl": "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=400",
-          "ingredients": ["500g flour", "325ml water", "2g yeast", "10g salt", "15ml olive oil"],
+          "imageUrl": "/lessons/italian/pizza-dough.jpg",
+          "ingredients": [
+            "500g flour",
+            "325ml water",
+            "2g yeast",
+            "10g salt",
+            "15ml olive oil"
+          ],
           "preparationSteps": [
             {
               "title": "Mix the dough",
@@ -559,7 +1008,10 @@
               "description": "4-8 hours at room temperature. Fold every hour for the first 3 hours."
             }
           ],
-          "teaches": ["italiana.pizza-massa", "italiana.pao-fermentacao"],
+          "teaches": [
+            "italiana.pizza-massa",
+            "italiana.pao-fermentacao"
+          ],
           "questions": [
             {
               "id": "it-u4-l1-q1",
@@ -573,200 +1025,244 @@
               ],
               "correctAnswer": "Salt kills yeast if added too early",
               "explanation": "Salt directly on dry yeast can kill it. After hydration, it's safe.",
-              "skills": ["italiana.pizza-massa"],
+              "skills": [
+                "italiana.pizza-massa"
+              ],
               "explainWrong": "Oil slows gluten a little but does not stop it, and tradition is never the reason in bread. Salt straight onto dry yeast draws the water out of it, and a dough that never rises will not tell you why."
+            }
+          ]
+        },
+        {
+          "id": "lesson.pizza-gluten-forno",
+          "title": "Gluten, Rise and the Puffy Edge",
+          "dayNumber": 11,
+          "dishName": "The Crust",
+          "description": "You are not kneading this dough into shape — time does that. What you control is the oven and how you handle the edge.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 270,
+          "icon": "🔥",
+          "imageUrl": "/lessons/italian/pizza-gluten-forno.jpg",
+          "ingredients": [
+            "The risen dough",
+            "Semolina or flour",
+            "Passata",
+            "Mozzarella",
+            "Basil",
+            "The hottest oven you have"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Time builds the gluten, not your arms",
+              "description": "A wet dough left alone develops strength by itself. A few folds twenty minutes apart do more than ten minutes of kneading, which is why this is the easiest dough to start with."
+            },
+            {
+              "title": "The cold rise is doing the work",
+              "description": "A night in the fridge gives the flavour and the structure. It is also forgiving: an hour more or less changes nothing."
+            },
+            {
+              "title": "Never touch the last two centimetres",
+              "description": "Press and stretch from the centre outwards and leave the rim alone. The gas trapped in that rim is the whole cornicione — rolled with a pin, it is gone."
+            },
+            {
+              "title": "Hottest oven, and preheat the tray",
+              "description": "As hot as your oven goes, with the tray or a pan already scorching inside it. Pizza needs a blast of heat from below in the first minute or it dries out instead of puffing."
+            }
+          ],
+          "teaches": [
+            "italiana.pao-gluten",
+            "italiana.pao-forno",
+            "italiana.pizza-cornicione"
+          ],
+          "requires": [
+            "italiana.pao-fermentacao",
+            "italiana.pizza-massa",
+            "calor.pre-aquecer"
+          ],
+          "questions": [
+            {
+              "id": "it-u4-l2-q1",
+              "type": "choice",
+              "prompt": "Your pizza came out flat, with no raised edge. You rolled the dough out with a rolling pin. What happened?",
+              "options": [
+                "The oven was too hot",
+                "The pin pushed out the gas in the rim, which is what puffs into the crust",
+                "There was too much sauce",
+                "The dough needed more yeast"
+              ],
+              "correctAnswer": "The pin pushed out the gas in the rim, which is what puffs into the crust",
+              "explanation": "The cornicione is made of bubbles the long rise put there. A rolling pin flattens them out of the dough, and nothing in the oven can put them back.",
+              "skills": [
+                "italiana.pizza-cornicione"
+              ],
+              "explainWrong": "A hot oven is what you want, and more yeast gives a yeastier flavour rather than a better rim. Too much sauce makes the middle soggy, but it is the pin that removed the edge."
+            },
+            {
+              "id": "it-u4-l2-q2",
+              "type": "choice",
+              "prompt": "You put the pizza on a cold tray into a preheated oven. Why is the base pale and dry?",
+              "options": [
+                "The dough was underproved",
+                "The cold tray had to heat up first, so the base never got its blast of heat",
+                "There was not enough oil",
+                "The oven was too hot"
+              ],
+              "correctAnswer": "The cold tray had to heat up first, so the base never got its blast of heat",
+              "explanation": "A pizza base cooks from below in the first minute. A cold tray spends that minute warming up, so the base dries out slowly instead of blistering.",
+              "skills": [
+                "italiana.pao-forno"
+              ],
+              "explainWrong": "An underproved dough would be dense rather than pale and dry, oil is not what browns a base, and the oven being hot is exactly what you need — it just has to be hot in the metal under the dough, not only in the air."
+            },
+            {
+              "id": "it-u4-l2-q3",
+              "type": "choice",
+              "prompt": "This dough gets a few folds instead of ten minutes of kneading. Why does that work?",
+              "options": [
+                "It does not — kneading is always better",
+                "A wet dough left to rest develops gluten on its own; the folds just line it up",
+                "Folding adds air",
+                "It only works with strong flour"
+              ],
+              "correctAnswer": "A wet dough left to rest develops gluten on its own; the folds just line it up",
+              "explanation": "Gluten forms when flour is hydrated and given time. Folding organises the structure that resting already built, which is why a long cold rise beats hard kneading for pizza.",
+              "skills": [
+                "italiana.pao-gluten"
+              ],
+              "explainWrong": "Kneading is one route, not the only one, and the air in the dough comes from fermentation rather than from folding. Strong flour helps but the resting does the work either way."
             }
           ]
         }
       ],
       "missionId": "mission.pizza"
-    },
-    {
-      "id": "unit-italiano-5",
-      "title": "Carbonara: The Emulsion",
-      "subtitle": "Egg, fat and starch held together by nothing but heat and timing",
-      "color": "#E31937",
-      "missionId": "mission.carbonara",
-      "lessons": [
-        {
-          "id": "lesson.carbonara-tecnica",
-          "title": "Carbonara: The Science",
-          "dayNumber": 6,
-          "dishName": "Pasta alla Carbonara",
-          "description": "Eggs and cheese as sauce, without cream. Learn the temperature window.",
-          "type": "lesson",
-          "difficulty": "medio",
-          "cookTimeMin": 25,
-          "xpReward": 250,
-          "icon": "🥚",
-          "imageUrl": "https://images.unsplash.com/photo-1645112411341-6c4ee32510d8?w=400",
-          "ingredients": ["Pasta", "Guanciale or pancetta", "Eggs", "Pecorino cheese"],
-          "preparationSteps": [
-            {
-              "title": "Dice the guanciale",
-              "description": "Small cubes, render them gently so the fat releases."
-            },
-            {
-              "title": "Beat eggs with cheese",
-              "description": "Not cooking them — just mixing until you have a glossy paste."
-            },
-            {
-              "title": "Cook pasta",
-              "description": "Al dente. Reserve a cup of starchy water."
-            },
-            {
-              "title": "The trick: temperature control",
-              "description": "Drain pasta, toss with fat from guanciale, then add egg mix off heat while stirring fast."
-            }
-          ],
-          "teaches": ["italiana.carbonara-emulsao"],
-          "requires": ["ponto.ovo"],
-          "questions": [
-            {
-              "id": "it-u5-l1-q1",
-              "type": "choice",
-              "prompt": "Your carbonara scrambled. What happened?",
-              "options": [
-                "The eggs were too old",
-                "The pan was too hot when you added the egg mix",
-                "You didn't use guanciale",
-                "You cooked it too long"
-              ],
-              "correctAnswer": "The pan was too hot when you added the egg mix",
-              "explanation": "Off heat, stirring fast, splash of pasta water to cool it down. Those three things prevent scrambling.",
-              "skills": ["italiana.carbonara-emulsao"],
-              "explainWrong": "Egg age and guanciale change the flavour, not the texture. Scrambling is heat: the pan was still cooking when the egg went in. Off the heat, moving fast, with a splash of pasta water — that is what keeps it a sauce."
-            },
-            {
-              "id": "it-u5-l1-q2",
-              "type": "choice",
-              "prompt": "The sauce is too thick, coating the pasta like glue. Fix it?",
-              "options": [
-                "Add more egg",
-                "Splash of pasta water and stir",
-                "Cook it longer",
-                "Add cream"
-              ],
-              "correctAnswer": "Splash of pasta water and stir",
-              "explanation": "Starch in the water loosens it. Cream is not traditional and breaks the emulsion.",
-              "skills": ["italiana.carbonara-emulsao"],
-              "explainWrong": "More egg thickens what is already too thick, and more cooking sets it harder. Cream is the tempting fix and the one that breaks it — starchy water loosens an emulsion without washing out the flavour."
-            }
-          ]
-        }
-      ]
     }
   ],
   "missions": [
     {
-      "id": "mission.pasta-fresca",
-      "unitId": "unit-italiano-1",
-      "title": "Your First Fresh Pasta",
-      "dishName": "Hand-Rolled Tagliatelle",
-      "cookTimeMin": 45,
-      "summary": "From dough to plate: make, roll, dry, cook and eat your own pasta.",
-      "practices": [
-        "italiana.pasta-agua-farinha",
-        "italiana.pasta-amassar",
-        "italiana.pasta-esticar",
-        "italiana.pasta-tipi"
+      "id": "mission.aglio-olio",
+      "unitId": "unit-italiano-6",
+      "title": "Aglio, olio e peperoncino",
+      "dishName": "Spaghetti Aglio, Olio e Peperoncino",
+      "cookTimeMin": 15,
+      "summary": "Four ingredients and no sauce to make: the dish that teaches you what the cooking water is for.",
+      "estimatedCostEur": 1.2,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
       ],
-      "xpReward": 500,
-      "ingredients": ["300g flour", "3 eggs", "Salt", "Butter", "Parmesan"],
+      "practices": [
+        "italiana.agua-de-cozedura",
+        "italiana.saltare-in-padella",
+        "tempero.agua-salgada",
+        "ponto.al-dente"
+      ],
+      "xpReward": 400,
+      "ingredients": [
+        "200 g dried spaghetti",
+        "4 garlic cloves",
+        "4 tbsp olive oil",
+        "Chilli flakes",
+        "Coarse salt",
+        "Parsley (optional)"
+      ],
       "steps": [
         {
           "id": "s1",
           "index": 0,
-          "title": "Make the dough",
-          "description": "Follow the lesson: flour well, eggs, fork, hands, knead 8-10 minutes.",
-          "durationSec": 600,
+          "title": "Salted water on, and nothing else in it",
+          "description": "Plenty of water, salted until it tastes seasoned. No oil. Put the spaghetti in and stir for the first minute so it does not stick.",
+          "durationSec": 420,
           "rescues": [
             {
               "kind": "falta",
-              "answer": "Too crumbly? One drop of water. Too sticky? Work it longer before adding flour."
+              "answer": "No coarse salt? Fine salt works, just use less than it looks like you need."
             },
             {
-              "kind": "pronto",
-              "answer": "Smooth, elastic, not sticky. Wrap and rest 30 minutes."
+              "kind": "cola",
+              "answer": "Sticking together? Stir now — it only happens in the first minute."
             }
           ]
         },
         {
           "id": "s2",
           "index": 1,
-          "title": "Rest the dough",
-          "description": "30 minutes wrapped in plastic. This lets gluten relax.",
-          "durationSec": 1800,
+          "title": "Garlic gently in the oil while the pasta cooks",
+          "description": "Sliced garlic and chilli into cold oil in a wide pan, over low heat. Low, slowly, until the garlic is pale gold and smells sweet. Brown garlic is bitter and there is no way back.",
+          "durationSec": 300,
           "rescues": [
             {
-              "kind": "pronto",
-              "answer": "You can't over-rest it at room temperature."
+              "kind": "queimei",
+              "answer": "Garlic gone brown? Start the oil and garlic again — bitter garlic ruins a four-ingredient dish."
+            },
+            {
+              "kind": "falta",
+              "answer": "No fresh chilli or flakes? Black pepper is a different dish but a good one."
+            },
+            {
+              "kind": "cola",
+              "answer": "Garlic colouring too fast? Pan off the heat for a moment; the oil carries on cooking it."
             }
           ]
         },
         {
           "id": "s3",
           "index": 2,
-          "title": "Roll it out",
-          "description": "Press, spiral, rotate. Let it rest 1 minute every 2-3 presses. Aim for thin enough to see your hand.",
-          "durationSec": 900,
-          "checkpoint": true,
+          "title": "Keep a mug of the water, then drain a minute early",
+          "description": "Fill a mug from the pot before you drain. Take the spaghetti out while it is still slightly firm — it has another minute to go in the pan.",
+          "durationSec": 60,
           "rescues": [
             {
-              "kind": "falta",
-              "answer": "If it tears, let it rest and try again from a thicker part. You can patch."
+              "kind": "pronto",
+              "answer": "Firmer than you would want to eat it, and a full mug of cloudy water saved."
             },
             {
-              "kind": "pronto",
-              "answer": "Even thickness, translucent, no holes."
+              "kind": "falta",
+              "answer": "Already poured the water away? Hot water with a spoon of the pasta's own starch is a poor substitute — next time, mug in the sink first."
             }
           ]
         },
         {
           "id": "s4",
           "index": 3,
-          "title": "Cut and dry",
-          "description": "Cut into ribbons (tagliatelle), lay on a clean towel or drying rack. 15 minutes before cooking.",
-          "durationSec": 900,
+          "title": "Pasta into the pan, water in, and keep it moving",
+          "description": "Spaghetti into the garlic oil with a good splash of the cooking water. Toss or stir hard over medium heat. It looks too wet, then turns glossy and coats every strand — that is when it is done.",
+          "durationSec": 90,
+          "checkpoint": true,
           "rescues": [
             {
+              "kind": "pronto",
+              "answer": "Glossy and clinging to the strands, no oil pooling at the bottom of the pan."
+            },
+            {
               "kind": "falta",
-              "answer": "Not drying? It'll stick in the pot. 15 minutes is the minimum."
+              "answer": "Still not coming together? Another splash of water and keep moving — it needs agitation, not more oil."
+            },
+            {
+              "kind": "cola",
+              "answer": "Too dry and clumping? A little more of the cooking water loosens it straight away."
             }
           ]
         },
         {
           "id": "s5",
           "index": 4,
-          "title": "Cook in salted water",
-          "description": "Boiling, salted water. Fresh pasta takes 2-3 minutes only.",
-          "durationSec": 300,
+          "title": "Off the heat, parsley, eat it now",
+          "description": "Heat off, chopped parsley through it, and to the table. This dish waits for nobody — it tightens and dulls as it sits.",
+          "durationSec": 60,
           "rescues": [
             {
               "kind": "pronto",
-              "answer": "As soon as it floats and stays up, it's done. Taste one strand."
+              "answer": "Still glossy on the plate, garlic pale gold and sweet rather than brown and bitter."
             },
-            {
-              "kind": "cola",
-              "answer": "It's sinking and cooking unevenly? The water might not be boiling hard enough."
-            }
-          ]
-        },
-        {
-          "id": "s6",
-          "index": 5,
-          "title": "Finish with butter and cheese",
-          "description": "Reserve pasta water. Drain, toss with cold butter, grated Parmesan, splash of pasta water.",
-          "durationSec": 300,
-          "checkpoint": true,
-          "rescues": [
             {
               "kind": "falta",
-              "answer": "No Parmesan? Use any hard cheese you have. Pecorino is traditional."
-            },
-            {
-              "kind": "pronto",
-              "answer": "Silky, coating the pasta, no grease pooling."
+              "answer": "No parsley? It is optional; the dish is the garlic, the oil and the water."
             }
           ]
         }
@@ -779,6 +1275,12 @@
       "dishName": "Pasta al Ragù",
       "cookTimeMin": 120,
       "summary": "Slow, low heat: meat, tomato, and time create depth. The engine of Italian cooking.",
+      "estimatedCostEur": 8,
+      "dietaryTags": [
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
       "practices": [
         "italiana.ragu-brasear",
         "italiana.tomate-reducao",
@@ -892,7 +1394,15 @@
       "dishName": "Spaghetti alla carbonara",
       "cookTimeMin": 25,
       "summary": "No cream, no pan on the heat at the end. The sauce is egg, cheese and pasta water, held together by the warmth already in the bowl.",
-      "practices": ["italiana.carbonara-emulsao", "italiana.pasta-tipi"],
+      "estimatedCostEur": 6,
+      "dietaryTags": [
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "italiana.carbonara-emulsao",
+        "italiana.pasta-tipi"
+      ],
       "ingredients": [
         "200 g spaghetti",
         "80 g guanciale or pancetta",
@@ -972,12 +1482,143 @@
       ]
     },
     {
+      "id": "mission.pasta-fresca",
+      "unitId": "unit-italiano-1",
+      "title": "Your First Fresh Pasta",
+      "dishName": "Hand-Rolled Tagliatelle",
+      "cookTimeMin": 45,
+      "summary": "From dough to plate: make, roll, dry, cook and eat your own pasta.",
+      "estimatedCostEur": 4,
+      "dietaryTags": [
+        "vegetariano"
+      ],
+      "practices": [
+        "italiana.pasta-agua-farinha",
+        "italiana.pasta-amassar",
+        "italiana.pasta-esticar",
+        "italiana.pasta-tipi"
+      ],
+      "xpReward": 500,
+      "ingredients": [
+        "300g flour",
+        "3 eggs",
+        "Salt",
+        "Butter",
+        "Parmesan"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Make the dough",
+          "description": "Follow the lesson: flour well, eggs, fork, hands, knead 8-10 minutes.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Too crumbly? One drop of water. Too sticky? Work it longer before adding flour."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Smooth, elastic, not sticky. Wrap and rest 30 minutes."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Rest the dough",
+          "description": "30 minutes wrapped in plastic. This lets gluten relax.",
+          "durationSec": 1800,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "You can't over-rest it at room temperature."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Roll it out",
+          "description": "Press, spiral, rotate. Let it rest 1 minute every 2-3 presses. Aim for thin enough to see your hand.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "If it tears, let it rest and try again from a thicker part. You can patch."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Even thickness, translucent, no holes."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Cut and dry",
+          "description": "Cut into ribbons (tagliatelle), lay on a clean towel or drying rack. 15 minutes before cooking.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Not drying? It'll stick in the pot. 15 minutes is the minimum."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Cook in salted water",
+          "description": "Boiling, salted water. Fresh pasta takes 2-3 minutes only.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "As soon as it floats and stays up, it's done. Taste one strand."
+            },
+            {
+              "kind": "cola",
+              "answer": "It's sinking and cooking unevenly? The water might not be boiling hard enough."
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "index": 5,
+          "title": "Finish with butter and cheese",
+          "description": "Reserve pasta water. Drain, toss with cold butter, grated Parmesan, splash of pasta water.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No Parmesan? Use any hard cheese you have. Pecorino is traditional."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Silky, coating the pasta, no grease pooling."
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "mission.risotto",
       "unitId": "unit-italiano-3",
       "title": "Risotto, by the spoon",
       "dishName": "Risotto alla parmigiana",
       "cookTimeMin": 35,
       "summary": "Twenty minutes at the pan without walking away. It is the one dish where the stirring is the technique, not a chore.",
+      "estimatedCostEur": 7,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
       "practices": [
         "italiana.risotto-stirring",
         "italiana.risotto-mantecatura",
@@ -1087,7 +1728,20 @@
       "dishName": "Pizza margherita",
       "cookTimeMin": 90,
       "summary": "Almost all of it is waiting. Twenty minutes of work, a long rise, and the hottest oven you own.",
-      "practices": ["italiana.pizza-massa", "italiana.pao-fermentacao"],
+      "estimatedCostEur": 5,
+      "dietaryTags": [
+        "vegetariano",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "italiana.pizza-massa",
+        "italiana.pao-fermentacao",
+        "italiana.pao-gluten",
+        "italiana.pao-forno",
+        "italiana.pizza-cornicione"
+      ],
       "ingredients": [
         "500 g strong bread flour",
         "325 ml cold water",

@@ -2,8 +2,7 @@ import {
   getAllTrailIds,
   trailExists,
   curriculumFor,
-  registerTrail,
-  unregisterTrail,
+  getLessonOrder,
   DEFAULT_TRAIL,
 } from "../domain/curriculum.js";
 
@@ -11,45 +10,14 @@ import {
  * Trilhos: o que existe, quem os está a fazer, e onde vai cada um.
  *
  * Um trilho tem duas metades. O currículo — unidades, lições, missões — vive
- * no JSON e é carregado e validado no arranque. Os metadados — nome, cor,
- * dificuldade, se está publicado — vivem na base de dados, que é onde o
- * administrador lhes pode mexer sem um deploy.
+ * em `shared/trails/<id>.json`, carregado e validado no arranque. Os
+ * metadados — nome, cor, dificuldade, se está publicado — vivem na base de
+ * dados, que é onde o administrador os pode mudar sem um deploy.
  *
  * Só aparece a quem aprende o que tem as duas: JSON carregado e linha
  * publicada. Um trilho sem currículo não se serve, e um currículo sem linha
  * publicada ainda é rascunho.
  */
-
-/**
- * Põe em circulação os trilhos escritos pelo painel.
- *
- * Corre no arranque, a seguir às migrations e antes do sync do currículo —
- * as competências destes trilhos também têm de chegar à tabela `skills`, ou
- * a primeira missão concluída rebenta na chave estrangeira.
- *
- * Um trilho com currículo inválido é deixado de fora e comunicado. Não é
- * motivo para o servidor não subir: o conteúdo é de quem o escreveu pelo
- * painel, e derrubar a aplicação inteira por causa dele seria dar a um
- * administrador distraído um botão de desligar.
- */
-export async function loadDbTrails(db) {
-  const { rows } = await db.query(
-    `SELECT id, curriculum_json FROM trails WHERE curriculum_json IS NOT NULL`,
-  );
-
-  const carregados = [];
-  const rejeitados = [];
-
-  for (const row of rows) {
-    const porLingua = row.curriculum_json?.en ? row.curriculum_json : { en: row.curriculum_json };
-
-    const { ok, errors } = registerTrail(row.id, porLingua);
-    if (ok) carregados.push(row.id);
-    else rejeitados.push({ id: row.id, errors });
-  }
-
-  return { carregados, rejeitados };
-}
 
 /** Um trilho está publicado quando a linha existe e tem `published_at`. */
 export async function isTrailPublished(db, trailId) {
@@ -61,9 +29,38 @@ export async function isTrailPublished(db, trailId) {
 }
 
 /**
+ * O fundacional é o único trilho sem pré-requisito. Todos os outros só
+ * abrem depois de todas as lições do fundacional estarem feitas — é o que
+ * dá ao "Main Course" a função de introdução obrigatória em vez de mais um
+ * trilho entre outros.
+ */
+export async function hasCompletedMainCourse(db, userId) {
+  const total = getLessonOrder(DEFAULT_TRAIL).length;
+  if (total === 0) return true;
+
+  const { rows } = await db.query(
+    `SELECT COUNT(DISTINCT lesson_id)::int AS feitas
+       FROM lesson_progress
+      WHERE user_id = $1 AND trail_id = $2`,
+    [userId, DEFAULT_TRAIL],
+  );
+  return rows[0].feitas >= total;
+}
+
+/** A equipa pré-visualiza tudo, publicado ou não, feito o fundacional ou não. */
+async function isTeamMember(db, userId) {
+  const { rows } = await db.query(`SELECT (role <> 'user') AS equipa FROM users WHERE id = $1`, [
+    userId,
+  ]);
+  return Boolean(rows[0]?.equipa);
+}
+
+/**
  * Quem pode abrir este trilho.
  *
- * Um rascunho é visível a quem o está a preparar e a mais ninguém. O papel
+ * Um rascunho é visível a quem o está a preparar e a mais ninguém. Um trilho
+ * especializado só é visível depois do fundacional estar completo — os dois
+ * bloqueios juntam-se aqui para que só haja um sítio a decidir "não". O papel
  * vem da base de dados de propósito: o token só transporta o id e o email, e
  * ler o papel de lá dava uma verificação que passava sempre.
  */
@@ -80,7 +77,9 @@ export async function canSeeTrail(db, userId, trailId) {
   );
 
   const linha = rows[0];
-  return Boolean(linha?.publicado || linha?.equipa);
+  if (linha?.equipa) return true;
+  if (!linha?.publicado) return false;
+  return hasCompletedMainCourse(db, userId);
 }
 
 /**
@@ -88,17 +87,21 @@ export async function canSeeTrail(db, userId, trailId) {
  *
  * Cruza os dois lados numa consulta só: sem isto era uma query por trilho, e
  * um trilho publicado cujo JSON não carregou continuava a aparecer na lista
- * para depois dar 404 ao ser aberto.
+ * para depois dar 404 ao ser aberto. Antes do fundacional estar completo, só
+ * ele aparece — o resto fica escondido em vez de tentador e trancado.
  */
-export async function getAllAvailableTrails(db, { includeUnpublished = false } = {}) {
+export async function getAllAvailableTrails(db, userId, { includeUnpublished = false } = {}) {
   const loaded = getAllTrailIds();
+  const desbloqueado =
+    includeUnpublished || (await isTeamMember(db, userId)) || (await hasCompletedMainCourse(db, userId));
 
   const { rows } = await db.query(
     `SELECT * FROM trails
       WHERE id = ANY($1::text[])
         AND (published_at IS NOT NULL OR $2)
+        AND (id = $3 OR $4)
       ORDER BY order_index ASC, name ASC`,
-    [loaded, includeUnpublished],
+    [loaded, includeUnpublished, DEFAULT_TRAIL, desbloqueado],
   );
   return rows;
 }
@@ -140,11 +143,19 @@ export async function getUserTrails(db, userId) {
  * `started_at` nem apaga o progresso de quem voltou.
  *
  * Um rascunho não se começa. Se isso fosse permitido, despublicar um trilho
- * deixava gente a meio de conteúdo que já não existe.
+ * deixava gente a meio de conteúdo que já não existe. E um trilho
+ * especializado não se começa antes do fundacional estar completo — é o
+ * mesmo bloqueio de `canSeeTrail`, repetido aqui porque começar um trilho não
+ * passa por lá.
  */
 export async function startUserTrail(db, userId, trailId) {
   if (!trailExists(trailId)) return null;
-  if (trailId !== DEFAULT_TRAIL && !(await isTrailPublished(db, trailId))) return null;
+  if (trailId !== DEFAULT_TRAIL) {
+    if (!(await isTrailPublished(db, trailId))) return null;
+    if (!(await isTeamMember(db, userId)) && !(await hasCompletedMainCourse(db, userId))) {
+      return null;
+    }
+  }
 
   const { rows } = await db.query(
     `INSERT INTO user_trail_progress (user_id, trail_id)

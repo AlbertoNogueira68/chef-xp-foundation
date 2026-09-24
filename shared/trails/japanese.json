@@ -1,0 +1,922 @@
+{
+  "id": "japanese",
+  "version": 1,
+  "name": "Japanese Cuisine: Rice, Dashi, Precision",
+  "description": "Master the quiet techniques of Japanese cooking: rice, dashi, miso, knife cuts and donburi assembly.",
+  "icon": "🇯🇵",
+  "color": "#BC002D",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "intermediate",
+  "estimatedHours": 16,
+  "skills": [
+    {
+      "id": "japon.rice-washing",
+      "name": "Washing Rice",
+      "category": "organizacao",
+      "description": "Rinse until the water runs clear: removes surface starch that would make rice gluey.",
+      "requires": []
+    },
+    {
+      "id": "japon.rice-ratio",
+      "name": "Rice-to-Water Ratio",
+      "category": "calor",
+      "description": "Steamed rice lives or dies by the ratio, not the eye.",
+      "requires": [
+        "calor.racio-agua"
+      ]
+    },
+    {
+      "id": "japon.dashi-base",
+      "name": "Dashi Extraction",
+      "category": "calor",
+      "description": "Kombu steeped low, then bonito off the heat: the umami base of everything.",
+      "requires": [
+        "calor.lume-brando"
+      ]
+    },
+    {
+      "id": "japon.miso-timing",
+      "name": "Miso Timing",
+      "category": "tempero",
+      "description": "Miso stirred in off the boil: heat kills its aroma and turns it bitter.",
+      "requires": [
+        "japon.dashi-base"
+      ]
+    },
+    {
+      "id": "japon.knife-oshigiri",
+      "name": "Oshigiri Push Cuts",
+      "category": "faca",
+      "description": "One smooth push through fish or vegetable, no sawing: the cut that keeps a clean face.",
+      "requires": [
+        "faca.cubos"
+      ]
+    },
+    {
+      "id": "japon.donburi-assembly",
+      "name": "Donburi Assembly",
+      "category": "organizacao",
+      "description": "Rice, topping, garnish, in that order: a bowl built to be eaten hot, not photographed cold.",
+      "requires": [
+        "org.empratar"
+      ]
+    },
+    {
+      "id": "japon.panko-linha",
+      "name": "Flour, Egg, Panko — In That Order",
+      "category": "organizacao",
+      "description": "Three trays in a line, one dry hand and one wet: the breading holds because nothing got mixed on the way.",
+      "requires": [
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "japon.oleo-temperatura",
+      "name": "Reading Oil Temperature",
+      "category": "calor",
+      "description": "Judging frying oil by what a crumb does in it: too cold and the coating drinks oil, too hot and it browns before the middle cooks.",
+      "requires": [
+        "calor.niveis",
+        "calor.gordura"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-japones-1",
+      "title": "Rice & Dashi Fundamentals",
+      "subtitle": "The Base of Every Bowl",
+      "color": "#F4D03F",
+      "lessons": [
+        {
+          "id": "lesson.japon-rice",
+          "title": "Washing and Ratio",
+          "dayNumber": 1,
+          "dishName": "Steamed Rice",
+          "description": "Learn why rice is rinsed and why the ratio matters more than the pot.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 25,
+          "xpReward": 150,
+          "icon": "🍚",
+          "imageUrl": "/lessons/japanese/japon-rice.jpg",
+          "ingredients": [
+            "2 cups short-grain rice",
+            "Water"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Rinse",
+              "description": "Swirl rice in cold water, drain, repeat until the water runs mostly clear."
+            },
+            {
+              "title": "Measure water",
+              "description": "Use the ratio, not the eye — short-grain rice needs less water than long-grain."
+            },
+            {
+              "title": "Rest before heat",
+              "description": "Let rinsed rice sit 20 minutes so it absorbs water evenly before cooking."
+            }
+          ],
+          "teaches": [
+            "japon.rice-washing",
+            "japon.rice-ratio"
+          ],
+          "questions": [
+            {
+              "id": "jp-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Your rinsed rice water is still cloudy after two rinses. What do you do?",
+              "options": [
+                "Cook it anyway, cloudy is fine",
+                "Rinse again until it's mostly clear",
+                "Add more water to the pot instead",
+                "Switch to long-grain rice"
+              ],
+              "correctAnswer": "Rinse again until it's mostly clear",
+              "explanation": "Surface starch makes rice gummy. Clearer water means less starch left on the grains.",
+              "skills": [
+                "japon.rice-washing"
+              ],
+              "explainWrong": "Cooking with cloudy water carries the starch straight into the pot, which is exactly what makes a batch of sushi rice turn to paste. More water in the pot doesn't wash anything — it just changes the ratio you were trying to protect."
+            },
+            {
+              "id": "jp-u1-l1-q2",
+              "type": "estimate",
+              "prompt": "You have 2 cups of rinsed short-grain rice. How much water, in cups, do you add?",
+              "correctAnswer": 2.2,
+              "tolerance": 0.3,
+              "unit": "cups",
+              "explanation": "Short-grain rice takes roughly a 1:1.1 ratio — slightly more water than rice, not double.",
+              "skills": [
+                "japon.rice-ratio"
+              ],
+              "explainWrong": "Doubling the water, the habit from long-grain rice, drowns short-grain rice into mush. The grains here are shorter and starchier and need only a little more water than their own volume."
+            }
+          ]
+        },
+        {
+          "id": "lesson.japon-dashi",
+          "title": "Dashi: The Base of Everything",
+          "dayNumber": 2,
+          "dishName": "Kombu-Bonito Dashi",
+          "description": "Two ingredients, one rule: never let it boil.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 200,
+          "icon": "🍵",
+          "imageUrl": "/lessons/japanese/japon-dashi.jpg",
+          "ingredients": [
+            "10g kombu",
+            "20g bonito flakes",
+            "1L water"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Steep kombu cold",
+              "description": "Kombu goes into cold water and heats up slowly — boiling it turns the broth bitter and slimy."
+            },
+            {
+              "title": "Pull kombu before boiling",
+              "description": "Remove the kombu just as small bubbles start to form at the edge of the pot."
+            },
+            {
+              "title": "Add bonito, then heat off",
+              "description": "Bring to a bare simmer, add bonito flakes, then turn off the heat immediately."
+            },
+            {
+              "title": "Strain",
+              "description": "Let bonito settle for a few minutes, then strain through a fine cloth."
+            }
+          ],
+          "teaches": [
+            "japon.dashi-base"
+          ],
+          "questions": [
+            {
+              "id": "jp-u1-l2-q1",
+              "type": "choice",
+              "prompt": "Your kombu dashi is starting to taste bitter and slimy. What happened?",
+              "options": [
+                "You used too little kombu",
+                "You let it boil",
+                "The water was too cold to start",
+                "You added bonito too early"
+              ],
+              "correctAnswer": "You let it boil",
+              "explanation": "Boiling kombu releases bitter compounds and its gelatinous texture into the broth.",
+              "skills": [
+                "japon.dashi-base"
+              ],
+              "explainWrong": "Too little kombu gives a weak dashi, not a bitter one, and starting from cold water is the correct method, not the mistake. Bitterness and sliminess both point to one thing: the kombu spent too long at too high a heat."
+            },
+            {
+              "id": "jp-u1-l2-q2",
+              "type": "order",
+              "prompt": "Order the steps for making a clean kombu-bonito dashi",
+              "items": [
+                "Steep kombu in cold water",
+                "Heat slowly, pull kombu before it boils",
+                "Bring to a bare simmer",
+                "Add bonito flakes, turn off heat",
+                "Let bonito settle, then strain"
+              ],
+              "explanation": "Each ingredient is treated gently and removed before it turns the broth bitter or cloudy.",
+              "skills": [
+                "japon.dashi-base"
+              ],
+              "explainWrong": "Adding bonito before pulling the kombu, or straining before the flakes settle, muddies a broth that is supposed to come out clear. Dashi rewards patience at each handoff, not speed.",
+              "correctOrder": [
+                "Steep kombu in cold water",
+                "Heat slowly, pull kombu before it boils",
+                "Bring to a bare simmer",
+                "Add bonito flakes, turn off heat",
+                "Let bonito settle, then strain"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson.japon-miso",
+          "title": "Miso Soup Without Bitterness",
+          "dayNumber": 3,
+          "dishName": "Miso Soup",
+          "description": "Miso is alive — heat it too hard and you lose everything it's for.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 180,
+          "icon": "🥣",
+          "imageUrl": "/lessons/japanese/japon-miso.jpg",
+          "ingredients": [
+            "3 tbsp miso paste",
+            "Dashi",
+            "Tofu",
+            "Scallions"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Warm the dashi",
+              "description": "Bring dashi to a gentle simmer, add tofu to warm through."
+            },
+            {
+              "title": "Loosen the miso",
+              "description": "Ladle a little warm dashi into the miso paste and whisk smooth before adding it back."
+            },
+            {
+              "title": "Stir in off the heat",
+              "description": "Turn off the heat, then stir the loosened miso into the pot."
+            }
+          ],
+          "teaches": [
+            "japon.miso-timing"
+          ],
+          "requires": [
+            "japon.dashi-base"
+          ],
+          "questions": [
+            {
+              "id": "jp-u1-l3-q1",
+              "type": "judge",
+              "prompt": "This miso soup is at a rolling boil with miso already stirred in. Is this correct technique?",
+              "imageUrl": "https://images.unsplash.com/photo-1612874742237-6526221fcf4f?w=400",
+              "options": [
+                "Yes, boiling sterilizes it",
+                "No, miso should go in off the heat"
+              ],
+              "correctAnswer": "No, miso should go in off the heat",
+              "explanation": "Boiling miso drives off its aroma and turns the flavour flat and bitter.",
+              "skills": [
+                "japon.miso-timing"
+              ],
+              "explainWrong": "Miso isn't a safety ingredient that needs sterilizing — it's a fermented seasoning that loses its aroma under sustained heat. A rolling boil after the miso goes in is the one thing the recipe tells you to avoid."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.miso-rice-bowl"
+    },
+    {
+      "id": "unit-japones-2",
+      "title": "Knife Work & Donburi",
+      "subtitle": "Precision Into a Bowl",
+      "color": "#2C3E50",
+      "lessons": [
+        {
+          "id": "lesson.japon-oshigiri",
+          "title": "The Push Cut",
+          "dayNumber": 5,
+          "dishName": "Sliced Chicken Thigh",
+          "description": "One motion forward, no sawing back: the cut that keeps a clean face on fish and meat.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 200,
+          "icon": "🔪",
+          "imageUrl": "/lessons/japanese/japon-oshigiri.jpg",
+          "ingredients": [
+            "Chicken thigh"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Angle the blade",
+              "description": "Lay the blade against the food at a shallow angle, not straight down."
+            },
+            {
+              "title": "Push through in one motion",
+              "description": "Draw the whole edge through in a single forward push — no back-and-forth sawing."
+            },
+            {
+              "title": "Let the blade do the work",
+              "description": "Guide it, don't force it. Sawing tears the surface instead of slicing it."
+            }
+          ],
+          "teaches": [
+            "japon.knife-oshigiri"
+          ],
+          "requires": [
+            "faca.cubos"
+          ],
+          "questions": [
+            {
+              "id": "jp-u2-l1-q1",
+              "type": "choice",
+              "prompt": "Your slices of chicken look ragged and torn at the edges. What's the likely cause?",
+              "options": [
+                "The knife is too sharp",
+                "You sawed back and forth instead of one push",
+                "The chicken was too cold",
+                "You used too much pressure at the start"
+              ],
+              "correctAnswer": "You sawed back and forth instead of one push",
+              "explanation": "A single forward push cuts cleanly. Sawing tears the fibres and leaves a ragged edge.",
+              "skills": [
+                "japon.knife-oshigiri"
+              ],
+              "explainWrong": "A sharp knife is what a clean push cut needs, not the problem — a dull one would tear worse. Ragged edges are the signature of a sawing motion; the fix is one smooth push, not less pressure."
+            }
+          ]
+        },
+        {
+          "id": "lesson.japon-donburi",
+          "title": "Building a Donburi Bowl",
+          "dayNumber": 6,
+          "dishName": "Chicken Donburi",
+          "description": "Rice on the bottom, topping over it, garnish last: the order that keeps every bite balanced.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 180,
+          "icon": "🍱",
+          "imageUrl": "/lessons/japanese/japon-donburi.jpg",
+          "ingredients": [
+            "Steamed rice",
+            "Cooked chicken",
+            "Egg",
+            "Scallions"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Rice first",
+              "description": "Pack warm rice loosely into the bottom of the bowl — don't compress it."
+            },
+            {
+              "title": "Topping over the rice",
+              "description": "Ladle the chicken and sauce over the rice so it soaks slightly into the top layer."
+            },
+            {
+              "title": "Garnish last",
+              "description": "Scallions and any garnish go on right before serving, so they stay bright and crisp."
+            }
+          ],
+          "teaches": [
+            "japon.donburi-assembly"
+          ],
+          "requires": [
+            "japon.knife-oshigiri"
+          ],
+          "questions": [
+            {
+              "id": "jp-u2-l2-q1",
+              "type": "order",
+              "prompt": "Order the steps for assembling a donburi bowl",
+              "items": [
+                "Pack warm rice loosely into the bowl",
+                "Ladle topping and sauce over the rice",
+                "Add garnish just before serving"
+              ],
+              "explanation": "Rice as the base, topping soaking in slightly, garnish added last so it stays fresh.",
+              "skills": [
+                "japon.donburi-assembly"
+              ],
+              "explainWrong": "Garnish added early wilts under the hot topping before anyone takes a bite, and topping under the rice leaves the bottom soggy without seasoning the grains above it. The order exists so every layer stays exactly what it should be.",
+              "correctOrder": [
+                "Pack warm rice loosely into the bowl",
+                "Ladle topping and sauce over the rice",
+                "Add garnish just before serving"
+              ]
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.chicken-donburi"
+    },
+    {
+      "id": "unit-japones-3",
+      "title": "Katsu: Breading and Frying",
+      "subtitle": "The Coating and the Oil",
+      "color": "#B91C1C",
+      "missionId": "mission.katsu-don",
+      "lessons": [
+        {
+          "id": "lesson.japones-panko",
+          "title": "Flour, Egg, Panko — In That Order",
+          "dayNumber": 7,
+          "dishName": "The Breading Line",
+          "description": "A coating that falls off in the oil was almost always assembled wrong, not fried wrong.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 220,
+          "icon": "🍞",
+          "imageUrl": "/lessons/japanese/japones-panko.jpg",
+          "ingredients": [
+            "Pork loin cutlets",
+            "Flour",
+            "2 eggs",
+            "Panko breadcrumbs",
+            "Salt",
+            "Pepper"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Dry the meat, then flour it thinly",
+              "description": "Flour sticks to dry meat and gives the egg something to grip. A wet surface means the whole coating slides off in the pan."
+            },
+            {
+              "title": "Three trays, left to right, and keep one hand dry",
+              "description": "Flour, then beaten egg, then panko. Use one hand for the dry steps and one for the egg, or you end up breading your fingers."
+            },
+            {
+              "title": "Press the panko on, don't roll it",
+              "description": "Press firmly so the crumbs bed into the egg. Panko stays coarse and airy — that's what gives katsu its crust, so don't crush it fine."
+            }
+          ],
+          "teaches": [
+            "japon.panko-linha"
+          ],
+          "requires": [
+            "org.mise-en-place",
+            "japon.knife-oshigiri"
+          ],
+          "questions": [
+            {
+              "id": "japones-u3-l1-q1",
+              "type": "choice",
+              "prompt": "The breading slid off your cutlet in the oil, in one sheet. What was the most likely cause?",
+              "options": [
+                "The oil was too hot",
+                "The meat was still wet, so the flour never gripped it",
+                "You used too much panko",
+                "You needed a third egg"
+              ],
+              "correctAnswer": "The meat was still wet, so the flour never gripped it",
+              "explanation": "Flour is the bridge between meat and egg, and it only bridges a dry surface. Wet meat turns the flour to paste, and the whole coating comes away as one piece.",
+              "skills": [
+                "japon.panko-linha"
+              ],
+              "explainWrong": "Hot oil sets a coating faster, it doesn't remove one, and extra panko or extra egg pile more onto a bond that was never made. The fix is drying the meat before the flour."
+            },
+            {
+              "id": "japones-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Why keep one hand for the dry trays and one for the egg?",
+              "options": [
+                "It's faster",
+                "Otherwise egg and flour turn to dough on your fingers and stop coating the meat",
+                "It's more hygienic",
+                "It keeps the panko whiter"
+              ],
+              "correctAnswer": "Otherwise egg and flour turn to dough on your fingers and stop coating the meat",
+              "explanation": "One wet hand touching flour makes lumps of paste that end up on everything but the cutlet. Separating the hands keeps all three trays usable to the last piece.",
+              "skills": [
+                "japon.panko-linha"
+              ],
+              "explainWrong": "It happens to be faster and cleaner, but the reason is mechanical: mixed wet and dry hands ruin the trays, and by the third cutlet there's nothing left to bread with."
+            }
+          ]
+        },
+        {
+          "id": "lesson.japones-oleo",
+          "title": "Oil Hot Enough, Not Too Hot",
+          "dayNumber": 8,
+          "dishName": "Reading the Oil",
+          "description": "Without a thermometer you still have two tests: what a crumb of panko does, and what the bubbles sound like.",
+          "type": "lesson",
+          "difficulty": "dificil",
+          "cookTimeMin": 25,
+          "xpReward": 260,
+          "icon": "🌡️",
+          "imageUrl": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=400",
+          "ingredients": [
+            "Neutral oil",
+            "Panko",
+            "Breaded cutlets",
+            "Deep pan",
+            "Tongs",
+            "Rack"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Test with a crumb, not a guess",
+              "description": "A crumb dropped in should sink slightly and come up sizzling steadily — around 170 °C. Straight to the top in violent bubbles is too hot; sitting still is too cold."
+            },
+            {
+              "title": "Too cold means greasy, too hot means raw inside",
+              "description": "Below temperature, the coating soaks oil before it sets. Above it, the panko is dark before the pork is cooked through."
+            },
+            {
+              "title": "Fry in batches and let the oil recover",
+              "description": "Every cutlet you add drops the temperature. Two at a time, with a pause between batches, beats four at once."
+            },
+            {
+              "title": "Drain on a rack, never on paper in a pile",
+              "description": "A rack keeps the underside crisp. Stacked on paper, the steam trapped underneath softens the crust you just made."
+            }
+          ],
+          "teaches": [
+            "japon.oleo-temperatura"
+          ],
+          "requires": [
+            "calor.niveis",
+            "calor.gordura",
+            "japon.panko-linha"
+          ],
+          "questions": [
+            {
+              "id": "japones-u3-l2-q1",
+              "type": "choice",
+              "prompt": "Your katsu is dark brown outside but the pork is still pink in the middle. What do you change?",
+              "options": [
+                "Fry it longer at the same temperature",
+                "Lower the oil temperature so the inside has time before the crust darkens",
+                "Use more panko",
+                "Use a wider pan"
+              ],
+              "correctAnswer": "Lower the oil temperature so the inside has time before the crust darkens",
+              "explanation": "Crust colour and internal doneness are a race. Too-hot oil wins the crust long before the middle is cooked — dropping the temperature lets them finish together.",
+              "skills": [
+                "japon.oleo-temperatura"
+              ],
+              "explainWrong": "Longer at the same heat just burns the outside, and more panko or a wider pan don't change how fast heat reaches the centre. A thinner cutlet would also help, but the oil is what's wrong here."
+            },
+            {
+              "id": "japones-u3-l2-q2",
+              "type": "choice",
+              "prompt": "You drop a crumb of panko into the oil and it sits on the bottom barely bubbling. What does that tell you?",
+              "options": [
+                "The oil is ready",
+                "The oil is too cold — the coating will soak up oil before it sets",
+                "The oil is too hot",
+                "The crumb is stale"
+              ],
+              "correctAnswer": "The oil is too cold — the coating will soak up oil before it sets",
+              "explanation": "A crumb at frying temperature comes back up sizzling steadily. One that sinks and sits means the oil isn't sealing anything yet, and anything you add now turns greasy.",
+              "skills": [
+                "japon.oleo-temperatura"
+              ],
+              "explainWrong": "Ready oil sizzles steadily and too-hot oil throws the crumb up in violent bubbles — a crumb that just sits is the cold signal, and it has nothing to do with the crumb itself."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.miso-rice-bowl",
+      "unitId": "unit-japones-1",
+      "title": "Rice, Dashi, and Miso Soup",
+      "dishName": "Steamed Rice with Miso Soup",
+      "cookTimeMin": 50,
+      "summary": "The two things that anchor almost every Japanese meal: a pot of rice and a bowl of dashi-based miso soup.",
+      "estimatedCostEur": 6,
+      "dietaryTags": [
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "japon.rice-washing",
+        "japon.rice-ratio",
+        "japon.dashi-base",
+        "japon.miso-timing"
+      ],
+      "xpReward": 500,
+      "ingredients": [
+        "2 cups short-grain rice",
+        "10g kombu",
+        "20g bonito flakes",
+        "3 tbsp miso paste",
+        "Tofu",
+        "Scallions"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Rinse and soak the rice",
+          "description": "Rinse until the water runs mostly clear, then let it rest 20 minutes before cooking.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Water still cloudy after a few rinses? A couple more passes is fine — don't over-rinse past that."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Water runs mostly clear and the rice has rested — ready to cook."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Cook the rice",
+          "description": "Use the measured ratio and cook covered until the water is absorbed.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "A scorched layer at the bottom means the heat was too high near the end — lower it next time and don't lift the lid early."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Fluffy, no standing water, grains separate but sticky enough to hold together."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Make the dashi",
+          "description": "Steep kombu from cold, pull it before boiling, add bonito, then kill the heat.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No bonito flakes on hand? Kombu-only dashi is lighter but still works for this soup."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Clear, fragrant broth with no bitterness."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Finish the miso soup",
+          "description": "Warm tofu in the dashi, loosen the miso separately, then stir it in off the heat.",
+          "durationSec": 400,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No tofu? Thin-sliced mushrooms work just as well in the broth."
+            },
+            {
+              "kind": "cola",
+              "answer": "Miso lumps floating on top? Loosen it in a ladle of warm dashi first, then whisk it in."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Fragrant, no visible boiling, miso fully dissolved."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.chicken-donburi",
+      "unitId": "unit-japones-2",
+      "title": "Chicken Donburi",
+      "dishName": "Chicken Donburi Bowl",
+      "cookTimeMin": 35,
+      "summary": "Clean knife cuts and a bowl built in the right order: rice, topping, garnish.",
+      "estimatedCostEur": 5,
+      "dietaryTags": [
+        "sem_lactose",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "japon.knife-oshigiri",
+        "japon.donburi-assembly"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "Chicken thigh",
+        "Steamed rice",
+        "Egg",
+        "Soy sauce",
+        "Mirin",
+        "Scallions"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Slice the chicken",
+          "description": "Use a single forward push per slice — no sawing.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Ragged slices from sawing? Trim the torn edges and slow the next cuts down."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Clean, even slices with smooth faces."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Cook the chicken in sauce",
+          "description": "Simmer the sliced chicken in soy sauce and mirin until glazed.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Sauce gone dark and sticky to the pan? Lower the heat and add a splash of water to loosen it."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Chicken cooked through and coated in a glossy glaze."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Assemble the bowl",
+          "description": "Rice first, chicken and sauce over it, egg and scallions on top last.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No egg? The bowl works without it — just add a little extra sauce."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Rice visible at the base, glossy topping over it, garnish bright on top."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.katsu-don",
+      "unitId": "unit-japones-3",
+      "title": "Katsu Don",
+      "dishName": "Pork Katsu Over Rice, Simmered in Dashi and Egg",
+      "cookTimeMin": 60,
+      "summary": "Everything the trail taught in one bowl: your rice, your dashi, a breaded cutlet fried right, finished with barely-set egg.",
+      "estimatedCostEur": 7,
+      "dietaryTags": [
+        "sem_lactose",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "japon.rice-washing",
+        "japon.rice-ratio",
+        "japon.dashi-base",
+        "japon.donburi-assembly",
+        "japon.knife-oshigiri",
+        "japon.panko-linha",
+        "japon.oleo-temperatura"
+      ],
+      "xpReward": 800,
+      "ingredients": [
+        "2 pork loin cutlets",
+        "Flour",
+        "3 eggs",
+        "Panko breadcrumbs",
+        "Japanese rice",
+        "Dashi",
+        "Soy sauce",
+        "Mirin",
+        "1 onion",
+        "Neutral oil for frying",
+        "Spring onion"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Rice on, dashi ready",
+          "description": "Wash the rice until the water runs nearly clear and set it to cook at your ratio. Have the dashi warm and the soy and mirin measured — once the frying starts there's no time for this.",
+          "durationSec": 1500,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Rice grains separate and tender, dashi warm and tasting of itself rather than of nothing."
+            },
+            {
+              "kind": "falta",
+              "answer": "No mirin? A pinch of sugar in the soy and dashi covers it."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Set up the breading line and bread the cutlets",
+          "description": "Pat the cutlets dry, season, then flour, egg, panko — three trays in that order, one dry hand and one wet. Press the panko on firmly.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Coating clumping on your fingers? You're using one hand for everything — separate them."
+            },
+            {
+              "kind": "falta",
+              "answer": "No panko? Ordinary breadcrumbs work but the crust will be finer and denser."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Fry at 170 °C, in batches, and rest on a rack",
+          "description": "Test with a crumb: it should sink slightly and come up sizzling steadily. One or two cutlets at a time, about four minutes a side, then straight onto a rack — never a paper pile.",
+          "durationSec": 720,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Dark before three minutes? Too hot — off the heat for a moment and drop the flame."
+            },
+            {
+              "kind": "cola",
+              "answer": "Coating soaking and greasy? Too cold. Let the oil recover before the next batch."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Deep golden, crust crisp when tapped, and juices clear where you slice it."
+            },
+            {
+              "kind": "falta",
+              "answer": "Shallow pan? Two centimetres of oil and turn more often still works."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Simmer onion in the dashi, soy and mirin",
+          "description": "Sliced onion into the dashi mix in a small pan, simmered until soft and sweet. This is the sauce the rice soaks up, so let it reduce a little.",
+          "durationSec": 420,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No dashi left? Water with a little soy and mirin is thinner but works."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Onion translucent and soft, liquid reduced enough to taste seasoned."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Cutlet in, beaten egg over, lid on for barely a minute",
+          "description": "Slice the katsu, lay it in the simmering pan, pour beaten egg over it and cover. Off the heat while the egg is still just set and glossy, then slide the whole thing onto the rice and scatter spring onion.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Egg just set and glossy, still soft — not firm and dry; crust visible through it, not soggy through."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Egg firming fast? Heat off immediately and let the lid finish it."
+            },
+            {
+              "kind": "falta",
+              "answer": "Only two eggs? Use both for the breading and skip the egg topping — it becomes a plain katsu don."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

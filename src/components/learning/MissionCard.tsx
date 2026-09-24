@@ -1,5 +1,7 @@
 import { ChefHat, Clock, Lock, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { dietaryTagLabel } from "@/constants/dietaryTags";
 import type { Mission, Skill } from "@/types/learning";
 import { SkillChips } from "./SkillChip";
 import { cn } from "@/lib/utils";
@@ -73,7 +75,20 @@ export function MissionCard({
           <Clock className="size-3" />
           {mission.cookTimeMin} min
         </span>
+        {mission.estimatedCostEur !== undefined && (
+          <span>~€{mission.estimatedCostEur.toFixed(2).replace(/\.00$/, "")}</span>
+        )}
       </div>
+
+      {mission.dietaryTags && mission.dietaryTags.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1">
+          {mission.dietaryTags.map((tag) => (
+            <Badge key={tag} variant="secondary" className="rounded-full px-2 py-0.5 text-[10px]">
+              {dietaryTagLabel(tag)}
+            </Badge>
+          ))}
+        </div>
+      )}
 
       <div className="mt-2">
         <SkillChips ids={mission.practices} skills={skills} muted={!unlocked} max={4} />

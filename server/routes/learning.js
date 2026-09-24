@@ -328,7 +328,7 @@ router.get(
   "/trails",
   asyncHandler(async (req, res) => {
     const [trails, mine] = await Promise.all([
-      getAllAvailableTrails(getPool()),
+      getAllAvailableTrails(getPool(), req.user.id),
       getUserTrails(getPool(), req.user.id),
     ]);
 

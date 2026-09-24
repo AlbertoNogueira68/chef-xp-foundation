@@ -1,0 +1,1208 @@
+{
+  "id": "portuguese",
+  "version": 1,
+  "name": "Portuguese Cuisine: Bacalhau to Refogado",
+  "description": "Soup the way every Portuguese kitchen makes it, then desalting cod, building a refogado, rice that's meant to be saucy, and pork with clams.",
+  "icon": "🇵🇹",
+  "color": "#046A38",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "intermediate",
+  "estimatedHours": 17,
+  "skills": [
+    {
+      "id": "portuguesa.sopa-batata",
+      "name": "Potato Thickens It, Not Flour",
+      "category": "calor",
+      "description": "A Portuguese soup gets its body from a potato cooked soft and crushed into it — no flour, no cream, no stock cube doing the work.",
+      "requires": [
+        "calor.lume-brando"
+      ]
+    },
+    {
+      "id": "portuguesa.sopa-passar",
+      "name": "Blend the Base, Keep Something to Chew",
+      "category": "organizacao",
+      "description": "The base goes smooth and a handful of vegetables goes in after, whole: the difference between a soup and a bowl of purée.",
+      "requires": [
+        "org.sequenciar"
+      ]
+    },
+    {
+      "id": "portuguesa.bacalhau-demolha",
+      "name": "Desalting Bacalhau",
+      "category": "organizacao",
+      "description": "Salted cod needs days of water changes, not a quick soak — rush it and every dish tastes of salt.",
+      "requires": []
+    },
+    {
+      "id": "portuguesa.refogado",
+      "name": "The Refogado",
+      "category": "calor",
+      "description": "Onion and garlic sweated slowly in olive oil: the base under half of Portuguese cooking.",
+      "requires": [
+        "calor.gordura"
+      ]
+    },
+    {
+      "id": "portuguesa.arroz-malandrinho",
+      "name": "Malandrinho Rice",
+      "category": "calor",
+      "description": "Portuguese seafood rice is meant to be loose and saucy, not dry and separate like a pilaf.",
+      "requires": [
+        "calor.racio-agua"
+      ]
+    },
+    {
+      "id": "portuguesa.tempero-louro-colorau",
+      "name": "Bay Leaf & Paprika",
+      "category": "tempero",
+      "description": "The two seasonings that show up again and again: bay leaf for depth, sweet paprika for colour and warmth.",
+      "requires": [
+        "tempero.camadas"
+      ]
+    },
+    {
+      "id": "portuguesa.massa-de-pimentao",
+      "name": "Massa de Pimentão",
+      "category": "tempero",
+      "description": "A paste of salted red pepper, garlic and paprika rubbed into meat hours ahead — a marinade that seasons through, not a sauce poured over.",
+      "requires": [
+        "portuguesa.tempero-louro-colorau"
+      ]
+    },
+    {
+      "id": "portuguesa.ameijoas-abertura",
+      "name": "Clams Open, Then Stop",
+      "category": "ponto",
+      "description": "Clams are done the second the shell opens. Pull each one as it goes and the rest keep cooking — leave them all in and they turn to rubber.",
+      "requires": [
+        "calor.niveis"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-portugues-4",
+      "title": "Sopa: Where Portuguese Cooking Starts",
+      "subtitle": "Potato, Water, Patience",
+      "color": "#65A30D",
+      "missionId": "mission.sopa-de-legumes",
+      "lessons": [
+        {
+          "id": "lesson.portugues-sopa-batata",
+          "title": "Potato Thickens It, Not Flour",
+          "dayNumber": 1,
+          "dishName": "The Soup Base",
+          "description": "Every Portuguese soup is the same trick: a potato cooked until it collapses, and that is the whole thickener.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 30,
+          "xpReward": 150,
+          "icon": "🥔",
+          "imageUrl": "/lessons/portuguese/portugues-sopa-batata.jpg",
+          "ingredients": [
+            "2 potatoes",
+            "1 onion",
+            "Olive oil",
+            "Water",
+            "Coarse salt"
+          ],
+          "preparationSteps": [
+            {
+              "title": "One potato per two bowls, roughly",
+              "description": "The potato is not an ingredient you taste, it is the body of the soup. Too little and it is flavoured water; too much and it is mashed potato."
+            },
+            {
+              "title": "Low heat until it falls apart on its own",
+              "description": "A potato that still holds its shape has not thickened anything. Bare simmer, twenty minutes, until it breaks when you press it against the pan."
+            },
+            {
+              "title": "No flour, no cream, no stock cube",
+              "description": "Flour tastes of flour and a cube tastes of the cube. The onion, the olive oil and the potato are enough, which is also why this costs almost nothing."
+            }
+          ],
+          "teaches": [
+            "portuguesa.sopa-batata"
+          ],
+          "requires": [
+            "calor.lume-brando"
+          ],
+          "questions": [
+            {
+              "id": "portugues-u4-l1-q1",
+              "type": "choice",
+              "prompt": "Your vegetable soup is thin and watery, like flavoured water. What is the fix?",
+              "options": [
+                "A stock cube",
+                "More potato, cooked until it collapses and crushed into the soup",
+                "A spoon of flour",
+                "Boil it harder"
+              ],
+              "correctAnswer": "More potato, cooked until it collapses and crushed into the soup",
+              "explanation": "The body of a Portuguese soup is collapsed potato. Nothing else in the pot is thickening it, which is why a thin soup almost always means not enough potato or a potato still holding its shape.",
+              "skills": [
+                "portuguesa.sopa-batata"
+              ],
+              "explainWrong": "A cube adds salt and flavour but no body, flour makes it cloudy and pasty, and boiling harder evaporates water without giving the potato what it needs, which is time at low heat."
+            },
+            {
+              "id": "portugues-u4-l1-q2",
+              "type": "choice",
+              "prompt": "The potato has been in for eight minutes and still holds its shape. Is the soup ready to blend?",
+              "options": [
+                "Yes, blending will break it up anyway",
+                "No — a potato that still holds its shape has not released its starch",
+                "Yes, if you blend for longer",
+                "It depends on the potato"
+              ],
+              "correctAnswer": "No — a potato that still holds its shape has not released its starch",
+              "explanation": "Blending chops a firm potato into small firm pieces. The starch that gives the soup its texture only comes out once the potato has actually cooked to collapse.",
+              "skills": [
+                "portuguesa.sopa-batata"
+              ],
+              "explainWrong": "A blender changes the size of the pieces, not whether they have cooked. Blending longer just gives you a gritty soup — the potato needs twenty minutes at a bare simmer first."
+            }
+          ]
+        },
+        {
+          "id": "lesson.portugues-sopa-passar",
+          "title": "Blend the Base, Keep Something to Chew",
+          "dayNumber": 2,
+          "dishName": "Sopa de Legumes",
+          "description": "A soup blended to the last carrot is a purée. The base goes smooth; the vegetables you want to find go in afterwards.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 20,
+          "xpReward": 170,
+          "icon": "🥬",
+          "imageUrl": "/lessons/portuguese/portugues-sopa-passar.jpg",
+          "ingredients": [
+            "Potato and onion base",
+            "Carrot",
+            "Green beans or cabbage",
+            "Olive oil",
+            "Whatever is going off in the fridge"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Blend the base, then stop",
+              "description": "Potato, onion and whatever soft vegetables went in first get blended smooth. That is the soup."
+            },
+            {
+              "title": "Add the vegetables you want to find, after blending",
+              "description": "Sliced carrot, green beans, shredded cabbage go into the blended base and cook there for ten minutes. They stay recognisable, which is the whole difference."
+            },
+            {
+              "title": "Finish with raw olive oil in the bowl",
+              "description": "A thread of olive oil on top, off the heat, in the bowl. Cooked into the pot it is just fat; poured on at the end you can taste it."
+            },
+            {
+              "title": "It is where the fridge leftovers go",
+              "description": "This is the dish that absorbs the half courgette and the tired carrots. Nothing here is a fixed recipe except the potato."
+            }
+          ],
+          "teaches": [
+            "portuguesa.sopa-passar"
+          ],
+          "requires": [
+            "org.sequenciar",
+            "portuguesa.sopa-batata"
+          ],
+          "questions": [
+            {
+              "id": "portugues-u4-l2-q1",
+              "type": "choice",
+              "prompt": "You blended everything together and it came out as a uniform orange purée. What would you do differently?",
+              "options": [
+                "Use less water",
+                "Blend only the potato-and-onion base, then cook the carrot and greens in it whole",
+                "Blend for less time",
+                "Add the vegetables at the very start"
+              ],
+              "correctAnswer": "Blend only the potato-and-onion base, then cook the carrot and greens in it whole",
+              "explanation": "A Portuguese sopa de legumes is a smooth base with pieces in it. Which vegetables go in before the blender and which go in after is the only decision that separates the two.",
+              "skills": [
+                "portuguesa.sopa-passar"
+              ],
+              "explainWrong": "Less water gives you a thicker purée and less blending gives you a lumpy one — both are still purée. Adding the vegetables at the start puts them in the blender, which is the problem."
+            },
+            {
+              "id": "portugues-u4-l2-q2",
+              "type": "choice",
+              "prompt": "Why add the olive oil in the bowl rather than in the pot?",
+              "options": [
+                "It is cheaper",
+                "Raw olive oil has a taste that cooking removes",
+                "It stops the soup sticking",
+                "It makes the soup thicker"
+              ],
+              "correctAnswer": "Raw olive oil has a taste that cooking removes",
+              "explanation": "Good olive oil is an aroma, and heat drives it off. Cooked into the pot for twenty minutes it is just fat; poured over the bowl it is the thing you notice first.",
+              "skills": [
+                "portuguesa.sopa-passar"
+              ],
+              "explainWrong": "It is the same amount of oil either way, so nothing is saved, and oil neither thickens a soup nor stops one sticking — the potato and the low heat handle that."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-portugues-1",
+      "title": "Bacalhau & Refogado",
+      "subtitle": "The Two Foundations",
+      "color": "#046A38",
+      "lessons": [
+        {
+          "id": "lesson.portuguesa-demolha",
+          "title": "Desalting Bacalhau",
+          "dayNumber": 3,
+          "dishName": "Bacalhau Demolhado",
+          "description": "Days of water changes turn a slab of salt into fish you can actually cook.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 150,
+          "icon": "🐟",
+          "imageUrl": "https://images.unsplash.com/photo-1551632786-de41ec16a41d?w=400",
+          "ingredients": [
+            "1 salted bacalhau loin"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Rinse off surface salt",
+              "description": "A quick rinse under cold water before it even goes into the soaking water."
+            },
+            {
+              "title": "Submerge, skin side up",
+              "description": "Skin up lets the salt drain down and out instead of pooling under the flesh."
+            },
+            {
+              "title": "Change the water twice a day",
+              "description": "For 24 to 48 hours depending on thickness, always in the fridge."
+            }
+          ],
+          "teaches": [
+            "portuguesa.bacalhau-demolha"
+          ],
+          "questions": [
+            {
+              "id": "pt-u1-l1-q1",
+              "type": "choice",
+              "prompt": "You soaked a thick bacalhau loin for only 6 hours, changing the water once. Is it ready to cook?",
+              "options": [
+                "Yes, 6 hours is plenty",
+                "No, it needs a day or two with several water changes",
+                "Yes, as long as you salt it again after",
+                "No, it needs to be soaked in milk instead"
+              ],
+              "correctAnswer": "No, it needs a day or two with several water changes",
+              "explanation": "A thick loin holds salt deep in the flesh. Rushing the soak leaves it too salty to eat.",
+              "skills": [
+                "portuguesa.bacalhau-demolha"
+              ],
+              "explainWrong": "Salting it again is the opposite of what's needed, and milk is a technique for other fish, not a substitute for the water changes bacalhau actually needs. Thick cuts hold salt deep, and only time with fresh water pulls it out."
+            },
+            {
+              "id": "pt-u1-l1-q2",
+              "type": "choice",
+              "prompt": "Why does the bacalhau go into the water skin side up?",
+              "options": [
+                "It cooks more evenly that way",
+                "So the salt drains down and out instead of pooling under the flesh",
+                "It's just tradition, it doesn't matter",
+                "So the skin doesn't fall apart"
+              ],
+              "correctAnswer": "So the salt drains down and out instead of pooling under the flesh",
+              "explanation": "Skin up lets gravity help: salt drawn out of the flesh sinks away instead of sitting trapped underneath.",
+              "skills": [
+                "portuguesa.bacalhau-demolha"
+              ],
+              "explainWrong": "The fish isn't being cooked yet, so evenness doesn't apply, and the skin holds up fine either way during soaking — this step is purely about which way the drawn-out salt can drain."
+            }
+          ]
+        },
+        {
+          "id": "lesson.portuguesa-refogado",
+          "title": "The Refogado",
+          "dayNumber": 4,
+          "dishName": "Refogado Base",
+          "description": "Onion and garlic, slow and patient: the base that shows up under almost everything.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 180,
+          "icon": "🧅",
+          "imageUrl": "/lessons/portuguese/portuguesa-refogado.jpg",
+          "ingredients": [
+            "2 onions",
+            "3 garlic cloves",
+            "Olive oil",
+            "1 bay leaf"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Slice the onion thin",
+              "description": "Thin, even slices sweat down evenly instead of some pieces burning before others soften."
+            },
+            {
+              "title": "Low heat, generous oil",
+              "description": "Olive oil should just cover the onion. Low heat, no rush."
+            },
+            {
+              "title": "Add garlic later, bay leaf early",
+              "description": "Garlic burns fast — add it once the onion is already soft and golden."
+            }
+          ],
+          "teaches": [
+            "portuguesa.refogado"
+          ],
+          "requires": [
+            "calor.gordura"
+          ],
+          "questions": [
+            {
+              "id": "pt-u1-l2-q1",
+              "type": "choice",
+              "prompt": "Your refogado's garlic turned dark and bitter while the onion was still pale. What went wrong?",
+              "options": [
+                "The oil wasn't hot enough",
+                "The garlic went in too early, before the onion had softened",
+                "You used too little oil",
+                "The bay leaf burned first"
+              ],
+              "correctAnswer": "The garlic went in too early, before the onion had softened",
+              "explanation": "Garlic cooks much faster than onion. Added at the same time, it burns long before the onion is ready.",
+              "skills": [
+                "portuguesa.refogado"
+              ],
+              "explainWrong": "More oil or higher heat wouldn't change the fact that garlic simply cooks faster than onion — the fix is timing, not quantity or temperature. A bay leaf is tough and doesn't burn on its own this fast."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.bacalhau-com-natas"
+    },
+    {
+      "id": "unit-portugues-2",
+      "title": "Arroz Malandrinho & Tempero",
+      "subtitle": "Rice That's Meant to Be Wet",
+      "color": "#DA291C",
+      "lessons": [
+        {
+          "id": "lesson.portuguesa-arroz",
+          "title": "Malandrinho, Not Dry",
+          "dayNumber": 5,
+          "dishName": "Arroz de Marisco",
+          "description": "Portuguese seafood rice is meant to be loose and saucy — treating it like a pilaf ruins it.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 30,
+          "xpReward": 220,
+          "icon": "🦐",
+          "imageUrl": "https://images.unsplash.com/photo-1614521267537-b85faf00021b?w=400",
+          "ingredients": [
+            "2 cups rice",
+            "Shellfish stock",
+            "Prawns",
+            "Clams",
+            "Tomato"
+          ],
+          "preparationSteps": [
+            {
+              "title": "More liquid than usual",
+              "description": "Roughly double the water-to-rice ratio of a dry rice — this dish should end up soupy."
+            },
+            {
+              "title": "Don't let it dry out",
+              "description": "Keep adding hot stock if it looks like it's drying — it should never look like plain steamed rice."
+            },
+            {
+              "title": "Rest briefly, off the heat",
+              "description": "A couple of minutes off heat lets the rice finish absorbing without turning to mush."
+            }
+          ],
+          "teaches": [
+            "portuguesa.arroz-malandrinho"
+          ],
+          "requires": [
+            "calor.racio-agua"
+          ],
+          "questions": [
+            {
+              "id": "pt-u2-l1-q1",
+              "type": "choice",
+              "prompt": "Your arroz de marisco came out with separate, dry grains like a pilaf. What went wrong?",
+              "options": [
+                "You used too much rice",
+                "You used the same water ratio as a dry rice, not double",
+                "You stirred it too much",
+                "The shellfish stock was too weak"
+              ],
+              "correctAnswer": "You used the same water ratio as a dry rice, not double",
+              "explanation": "Arroz malandrinho needs roughly double the liquid of a dry rice — it's supposed to be loose and saucy.",
+              "skills": [
+                "portuguesa.arroz-malandrinho"
+              ],
+              "explainWrong": "Stirring or a weaker stock changes flavour and creaminess, not whether the grains end up separate and dry. Dry, separate grains point straight at not enough liquid for the style being made."
+            },
+            {
+              "id": "pt-u2-l1-q2",
+              "type": "order",
+              "prompt": "Order the steps for a proper arroz malandrinho",
+              "items": [
+                "Build the refogado base",
+                "Add rice and toast briefly",
+                "Add roughly double the usual water in hot stock",
+                "Keep it saucy, topping up stock as needed",
+                "Rest briefly off the heat before serving"
+              ],
+              "explanation": "The rice is built on the refogado, then kept wet throughout instead of left to dry and separate.",
+              "skills": [
+                "portuguesa.arroz-malandrinho"
+              ],
+              "explainWrong": "Adding all the stock at once with no topping up, or skipping the rest, either dries the dish out early or serves it half-cooked. The order keeps it saucy the whole way through.",
+              "correctOrder": [
+                "Build the refogado base",
+                "Add rice and toast briefly",
+                "Add roughly double the usual water in hot stock",
+                "Keep it saucy, topping up stock as needed",
+                "Rest briefly off the heat before serving"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson.portuguesa-tempero",
+          "title": "Bay Leaf & Paprika",
+          "dayNumber": 6,
+          "dishName": "Seasoned Refogado",
+          "description": "The two seasonings behind most Portuguese stews: bay leaf for depth, sweet paprika for colour and warmth.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "🍂",
+          "imageUrl": "/lessons/portuguese/portuguesa-tempero.jpg",
+          "ingredients": [
+            "Bay leaf",
+            "Sweet paprika (colorau)",
+            "Refogado base"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Bay leaf goes in early",
+              "description": "It needs time in the liquid to release its flavour — add it with the onion, not at the end."
+            },
+            {
+              "title": "Paprika off direct high heat",
+              "description": "Add it once the pan is off the highest heat, or stir it in quickly — direct high heat scorches it bitter."
+            }
+          ],
+          "teaches": [
+            "portuguesa.tempero-louro-colorau"
+          ],
+          "requires": [
+            "tempero.camadas"
+          ],
+          "questions": [
+            {
+              "id": "pt-u2-l2-q1",
+              "type": "choice",
+              "prompt": "You added sweet paprika directly into very hot oil and it turned dark and bitter almost instantly. What should you have done?",
+              "options": [
+                "Used more paprika to compensate",
+                "Added it off the highest heat, or stirred it in fast and moved on",
+                "Added it at the very start with the onion",
+                "Toasted it dry in a separate pan first"
+              ],
+              "correctAnswer": "Added it off the highest heat, or stirred it in fast and moved on",
+              "explanation": "Paprika scorches fast in hot oil. Pulling the pan off the highest heat first protects its colour and sweetness.",
+              "skills": [
+                "portuguesa.tempero-louro-colorau"
+              ],
+              "explainWrong": "More paprika just burns more paprika, and adding it at the very start puts it through the whole cooking time at high heat, which is worse, not better. The fix is heat control at the moment it goes in, not timing at the start or quantity."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.arroz-de-marisco"
+    },
+    {
+      "id": "unit-portugues-3",
+      "title": "Carne de Porco à Alentejana",
+      "subtitle": "Marinade and Timing",
+      "color": "#B45309",
+      "missionId": "mission.porco-a-alentejana",
+      "lessons": [
+        {
+          "id": "lesson.portugues-massa-pimentao",
+          "title": "Massa de Pimentão Is a Marinade, Not a Sauce",
+          "dayNumber": 7,
+          "dishName": "The Pepper Paste",
+          "description": "The paste goes on hours before the pan, not minutes — that's the difference between seasoned pork and painted pork.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 210,
+          "icon": "🌶️",
+          "imageUrl": "/lessons/portuguese/portugues-massa-pimentao.jpg",
+          "ingredients": [
+            "2 red peppers",
+            "Coarse salt",
+            "4 garlic cloves",
+            "Paprika",
+            "Olive oil",
+            "Pork loin or shoulder"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Salt the peppers and wait",
+              "description": "Roasted or raw red pepper layered with coarse salt gives up its water and concentrates. That water is what would otherwise stop the meat browning."
+            },
+            {
+              "title": "Pound it with garlic and paprika",
+              "description": "Blend or pound to a thick paste with garlic, paprika and a little oil. Thick, not pourable — it has to cling to the meat."
+            },
+            {
+              "title": "Rub it in and refrigerate at least four hours",
+              "description": "Overnight is better. Rubbed on at the last minute it burns in the pan and never reaches past the surface."
+            }
+          ],
+          "teaches": [
+            "portuguesa.massa-de-pimentao"
+          ],
+          "requires": [
+            "portuguesa.tempero-louro-colorau",
+            "tempero.sal-momento"
+          ],
+          "questions": [
+            {
+              "id": "portugues-u3-l1-q1",
+              "type": "choice",
+              "prompt": "You rub massa de pimentão on the pork and put it straight in the hot pan. What happens?",
+              "options": [
+                "It works the same as marinating overnight",
+                "The paste scorches on the outside while the meat inside stays unseasoned",
+                "The meat cooks faster",
+                "The paste dissolves into the oil and seasons everything evenly"
+              ],
+              "correctAnswer": "The paste scorches on the outside while the meat inside stays unseasoned",
+              "explanation": "Salt and paprika need hours to travel into the meat. In the pan immediately, the paprika burns at high heat and all you've seasoned is the crust.",
+              "skills": [
+                "portuguesa.massa-de-pimentao"
+              ],
+              "explainWrong": "Marinating is a matter of time, not of contact: straight into the pan it neither penetrates nor survives the heat. It also doesn't speed the cooking, and paprika in hot oil turns bitter rather than spreading evenly."
+            },
+            {
+              "id": "portugues-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Why salt the peppers and let them sit before making the paste?",
+              "options": [
+                "To make them spicier",
+                "To draw out water, so the paste is thick and the meat can still brown",
+                "To keep the colour bright",
+                "Because salt won't stick otherwise"
+              ],
+              "correctAnswer": "To draw out water, so the paste is thick and the meat can still brown",
+              "explanation": "A watery paste puts liquid on the surface of the meat, and wet meat steams instead of searing — the salting step is what makes the crust possible.",
+              "skills": [
+                "portuguesa.massa-de-pimentao"
+              ],
+              "explainWrong": "Salt doesn't add heat and the colour comes from the pepper and the paprika. The point is removing water, which is exactly what stands between the pork and a crust."
+            }
+          ]
+        },
+        {
+          "id": "lesson.portugues-ameijoas",
+          "title": "Clams Open, Clams Overcook",
+          "dayNumber": 8,
+          "dishName": "The Clams",
+          "description": "There is no doneness test for a clam other than the shell opening — and about thirty seconds between that and rubber.",
+          "type": "lesson",
+          "difficulty": "dificil",
+          "cookTimeMin": 20,
+          "xpReward": 250,
+          "icon": "🐚",
+          "imageUrl": "/lessons/portuguese/portugues-ameijoas.jpg",
+          "ingredients": [
+            "1 kg clams",
+            "Coarse salt",
+            "White wine",
+            "Garlic",
+            "Coriander",
+            "Lemon"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Purge them in salted water first",
+              "description": "An hour or two in cold salted water and the clams spit out their sand. Skip it and the whole dish is gritty, however well you cooked it."
+            },
+            {
+              "title": "Discard any that stay open when tapped",
+              "description": "A live clam closes when you tap it. One that doesn't goes in the bin — not in the pan."
+            },
+            {
+              "title": "Lift each one out as it opens",
+              "description": "They don't open together. Take them out with tongs as they go and return them at the end, off the heat."
+            }
+          ],
+          "teaches": [
+            "portuguesa.ameijoas-abertura"
+          ],
+          "requires": [
+            "calor.niveis",
+            "portuguesa.refogado"
+          ],
+          "questions": [
+            {
+              "id": "portugues-u3-l2-q1",
+              "type": "choice",
+              "prompt": "Half the clams in the pan have opened, the rest haven't. What do you do?",
+              "options": [
+                "Turn the heat up so the rest catch up",
+                "Lift out the open ones and let the others finish, then return them at the end",
+                "Cover and cook them all another five minutes",
+                "Take them all out now"
+              ],
+              "correctAnswer": "Lift out the open ones and let the others finish, then return them at the end",
+              "explanation": "An open clam is already done; every extra second is shrinkage. Removing them as they go is the only way to get the whole pan tender.",
+              "skills": [
+                "portuguesa.ameijoas-abertura"
+              ],
+              "explainWrong": "More heat or five more minutes under a lid cooks the open ones to rubber while waiting for the rest, and pulling them all out now leaves you serving closed, raw clams."
+            },
+            {
+              "id": "portugues-u3-l2-q2",
+              "type": "choice",
+              "prompt": "A clam that stays open when you tap it, before cooking. What now?",
+              "options": [
+                "Cook it — it opens the same way",
+                "Throw it away: it isn't alive",
+                "Soak it longer until it closes",
+                "Cook it separately"
+              ],
+              "correctAnswer": "Throw it away: it isn't alive",
+              "explanation": "Closing when tapped is the one check you have that a clam is alive. One that doesn't respond is the one that makes people ill, and cooking doesn't fix that.",
+              "skills": [
+                "portuguesa.ameijoas-abertura"
+              ],
+              "explainWrong": "There is no amount of soaking or separate cooking that revives a dead clam, and putting it in the pan risks the whole dish and whoever eats it."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.sopa-de-legumes",
+      "unitId": "unit-portugues-4",
+      "title": "Sopa de legumes",
+      "dishName": "Sopa de Legumes",
+      "cookTimeMin": 40,
+      "summary": "The pot every Portuguese kitchen has on the stove: cheap, forgiving, four bowls out of one potato and whatever is in the fridge.",
+      "estimatedCostEur": 2,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "portuguesa.sopa-batata",
+        "portuguesa.sopa-passar",
+        "calor.lume-brando"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "2 potatoes",
+        "1 onion",
+        "2 carrots",
+        "A handful of green beans or cabbage",
+        "4 tbsp olive oil",
+        "Coarse salt",
+        "Water"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Onion and potato into the pot with oil and water",
+          "description": "Chopped onion, peeled potato in chunks, two tablespoons of oil, and water to cover by a couple of centimetres. Salt lightly — it reduces.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No onion? The soup is flatter but the potato still does its job."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Everything covered by water, not swimming in it — you can always add more later."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Bare simmer until the potato collapses",
+          "description": "Lowest heat that keeps it moving, about twenty minutes. It is ready when a piece of potato breaks apart under the back of a spoon with no resistance.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "The potato crushes against the side of the pot without effort."
+            },
+            {
+              "kind": "cola",
+              "answer": "Catching on the bottom? Heat is too high — lower it and add a little water."
+            },
+            {
+              "kind": "falta",
+              "answer": "Too thick already? Hot water, a little at a time."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Blend the base smooth",
+          "description": "Blend it — stick blender in the pot, or in a jug and back in. This is the soup; everything from here is what you add to it.",
+          "durationSec": 180,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No blender? Crush it hard against the side of the pot with a fork or a masher; it is rougher but it works."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Smooth and thick enough to coat the back of a spoon, no lumps of potato left."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Carrot and greens into the blended base",
+          "description": "Sliced carrot and the beans or shredded cabbage into the soup, and ten minutes more at a simmer. These are the pieces you want to find in the bowl, so they do not go near the blender.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Carrot tender but still in slices, greens bright rather than grey."
+            },
+            {
+              "kind": "falta",
+              "answer": "Whatever vegetable you have works — this is the dish that uses up the fridge."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Greens gone dull? Still perfectly good soup; add them later next time."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Taste, salt, and olive oil in the bowl",
+          "description": "Now the salt, now that it has reduced. Into bowls, and a thread of raw olive oil over each one — off the heat, not in the pot.",
+          "durationSec": 120,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Tastes seasoned on its own, thick but pourable, oil visible on the surface of the bowl."
+            },
+            {
+              "kind": "falta",
+              "answer": "No good olive oil? Use what you have, but this is the one place it shows."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.bacalhau-com-natas",
+      "unitId": "unit-portugues-1",
+      "title": "Bacalhau com Natas",
+      "dishName": "Bacalhau com Natas",
+      "cookTimeMin": 60,
+      "summary": "Desalted cod, a proper refogado, and the creamy bake that turns both into a classic.",
+      "estimatedCostEur": 9,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "portuguesa.bacalhau-demolha",
+        "portuguesa.refogado"
+      ],
+      "xpReward": 500,
+      "ingredients": [
+        "Desalted bacalhau",
+        "Potatoes",
+        "2 onions",
+        "3 garlic cloves",
+        "Olive oil",
+        "Cream",
+        "Cheese"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Flake the desalted bacalhau",
+          "description": "Poach briefly, then flake into large pieces, checking for bones.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Still tastes salty? It needed more soaking time — nothing at this stage fixes that."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Flaked into large pieces, no bones, tastes seasoned but not salty."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Build the refogado",
+          "description": "Onion and garlic sweated slowly in olive oil until soft and golden.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Garlic gone dark and bitter? Scoop it out and start a fresh batch of garlic — don't carry the bitterness forward."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Soft, golden, sweet-smelling, no dark bitter spots."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Layer and bake",
+          "description": "Layer potato, bacalhau, refogado and cream in a dish, top with cheese, bake until golden.",
+          "durationSec": 1800,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No cheese on hand? A breadcrumb top also gives a good crust."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Golden and bubbling on top, creamy underneath."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.arroz-de-marisco",
+      "unitId": "unit-portugues-2",
+      "title": "Arroz de Marisco",
+      "dishName": "Arroz de Marisco",
+      "cookTimeMin": 60,
+      "summary": "A loose, saucy seafood rice on a proper refogado — with the stock made from the prawn shells instead of bought, which is what makes it affordable.",
+      "estimatedCostEur": 6.5,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "portuguesa.arroz-malandrinho",
+        "portuguesa.tempero-louro-colorau",
+        "portuguesa.refogado"
+      ],
+      "xpReward": 550,
+      "ingredients": [
+        "2 cups carolino or short-grain rice",
+        "300 g frozen whole prawns, shells on",
+        "500 g mussels",
+        "2 tomatoes",
+        "2 onions",
+        "4 garlic cloves",
+        "1 bay leaf",
+        "Sweet paprika",
+        "Olive oil",
+        "Coriander",
+        "Water"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Peel the prawns and make the stock from the shells",
+          "description": "Peel the thawed prawns and keep the shells and heads. Fry the shells in a little oil until they turn bright and smell sweet, cover with water, and simmer 15 minutes. This is the stock — the shop-bought one is the single most expensive thing in this dish and the worst.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Prawns already peeled? Use water with a tomato and an onion half, but the rice will taste noticeably flatter."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Shells gone dark brown? Still fine — that's flavour. Black and acrid is not; start again."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Orange-tinted liquid that tastes of prawn on its own, strained and kept hot."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Open the mussels in a covered pan, keep the liquor",
+          "description": "Scrub the mussels and discard any that won't close when tapped. Into a dry covered pan on high heat for two or three minutes, just until they open. Take them out and strain their liquid into the stock — that liquid is free seasoning.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Any that stay shut after four minutes go in the bin, not in the rice."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Shells open, mussels still plump rather than shrunken, and a cup of their liquid saved."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Left too long and gone rubbery? Add them right at the end anyway; they still season the rice."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Build the seasoned refogado",
+          "description": "Onion and garlic in olive oil, bay leaf in early, then the tomato. Paprika goes in off the highest heat — it scorches in hot oil and there is no way back from bitter paprika.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Paprika gone dark and bitter? Wipe out the pan and start the refogado again — it can't be saved once scorched."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Deep red-gold colour, sweet smell, no burnt or bitter note."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Toast the rice, then the hot stock",
+          "description": "Stir the rice into the refogado for a minute so it takes on the fat and colour, then add roughly double the usual amount of liquid in hot prawn stock and mussel liquor.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Short on stock? Top up with hot water rather than cold, and hold back some for later."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Every grain coated and glossy before any liquid goes in."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Cook it loose and saucy",
+          "description": "Simmer, topping up with hot stock so it never looks dry, until the rice is just cooked. Malandrinho means it should still move when you shake the pan — a dry arroz de marisco is a different, worse dish.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Looking dry before the rice is done? More hot stock, a splash at a time."
+            },
+            {
+              "kind": "cola",
+              "answer": "Catching on the bottom? Lower the heat and stir it up from the base."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Loose, saucy, rice just cooked through, still moving when you shake the pan."
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "index": 5,
+          "title": "Prawns in, mussels back, coriander, rest",
+          "description": "The peeled prawns go into the hot rice for the last two minutes — they need almost nothing. Heat off, then the mussels back in, coriander through it, and two minutes' rest before serving.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Prawns just turned pink and firm, mussels warmed through rather than cooked twice, rice still loose."
+            },
+            {
+              "kind": "falta",
+              "answer": "No coriander? Parsley changes it but doesn't spoil it."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Prawns gone tight and small? They were in too long — next time, two minutes and off the heat."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.porco-a-alentejana",
+      "unitId": "unit-portugues-3",
+      "title": "Carne de Porco à Alentejana",
+      "dishName": "Pork and Clams, Alentejo Style",
+      "cookTimeMin": 80,
+      "summary": "The dish that puts everything together: a marinade made hours ahead, a real sear, and clams pulled at the second they open.",
+      "estimatedCostEur": 9.5,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "portuguesa.refogado",
+        "portuguesa.tempero-louro-colorau",
+        "portuguesa.massa-de-pimentao",
+        "portuguesa.ameijoas-abertura"
+      ],
+      "xpReward": 850,
+      "ingredients": [
+        "800 g pork shoulder, cubed",
+        "1 kg clams",
+        "Massa de pimentão",
+        "4 garlic cloves",
+        "1 bay leaf",
+        "White wine",
+        "Olive oil",
+        "Coriander",
+        "Potatoes",
+        "Lemon"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Marinate the pork, purge the clams",
+          "description": "Rub the cubed pork with massa de pimentão, garlic and bay and refrigerate — four hours minimum, overnight if you can. Clams go into cold salted water for at least an hour.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No massa de pimentão ready? Blend roasted red pepper, coarse salt, garlic and paprika into a thick paste."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Pork evenly coated and cold, clams sitting in clear water with grit at the bottom of the bowl."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Sear the pork hard, in batches",
+          "description": "Pat the cubes dry and sear them in a hot pan with a little oil, in batches with space between them. Crowd the pan and you boil the pork in its own juices.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Sticking? Don't force it — it releases once the crust forms."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Paprika going dark fast? Lower the heat slightly; the paste catches before the meat does."
+            },
+            {
+              "kind": "falta",
+              "answer": "Small pan? Three batches is better than one crowded one."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Deglaze with wine and let the pork finish low",
+          "description": "Wine into the hot pan, scrape everything off the bottom, then low heat and covered until the pork is tender. That scraped-up fond is most of the sauce.",
+          "durationSec": 1500,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No wine? Water and a splash of vinegar lifts the fond too."
+            },
+            {
+              "kind": "cola",
+              "answer": "Bottom catching? Add a little more liquid and lower the heat."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Pork gives easily to a fork and the sauce has body rather than being watery."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Clams in, and out as they open",
+          "description": "Discard any clam that won't close when tapped. Add the rest to the simmering pan, lid on, and lift each one out with tongs the moment its shell opens.",
+          "durationSec": 420,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Every shell open, each clam pulled as it went rather than boiled with the others."
+            },
+            {
+              "kind": "falta",
+              "answer": "A few refuse to open after five minutes? Those go in the bin, not on the plate."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Sauce reducing too fast while you wait? Off the heat between clams."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Return the clams off the heat, finish with coriander and lemon",
+          "description": "Heat off, clams back in, chopped coriander and a squeeze of lemon stirred through. Serve with the potatoes — and taste the sauce before you salt it.",
+          "durationSec": 240,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Clams tender, not shrunken and chewy; sauce coating the pork; coriander still green."
+            },
+            {
+              "kind": "falta",
+              "answer": "No coriander? Parsley changes the dish but doesn't ruin it."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

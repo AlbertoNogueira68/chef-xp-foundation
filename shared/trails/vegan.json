@@ -1,0 +1,792 @@
+{
+  "id": "vegan",
+  "version": 1,
+  "name": "Vegan Cooking: Texture and Umami Without Animal Products",
+  "description": "Plant protein sources, tofu with real texture, replacing egg in baking, and building umami without meat.",
+  "icon": "🌱",
+  "color": "#15803D",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "intermediate",
+  "estimatedHours": 13,
+  "skills": [
+    {
+      "id": "vegan.proteina-vegetal",
+      "name": "Plant Protein Sources",
+      "category": "organizacao",
+      "description": "Legumes, tofu, tempeh and seitan each behave differently in a pan — knowing which fits which dish.",
+      "requires": [
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "vegan.tofu-textura",
+      "name": "Tofu With Real Texture",
+      "category": "calor",
+      "description": "Pressed to remove water, then seared hard: the difference between crisp tofu and a wet, bland cube.",
+      "requires": [
+        "calor.gordura"
+      ]
+    },
+    {
+      "id": "vegan.substituir-ovo",
+      "name": "Replacing Egg",
+      "category": "tempero",
+      "description": "Flax mixed with water, or the liquid from a can of chickpeas, can bind and lift a batter the way egg does.",
+      "requires": [
+        "ponto.ovo"
+      ]
+    },
+    {
+      "id": "vegan.umami-sem-carne",
+      "name": "Umami Without Meat",
+      "category": "tempero",
+      "description": "Mushrooms, soy sauce, miso and nutritional yeast build the savoury depth meat usually provides.",
+      "requires": [
+        "tempero.camadas"
+      ]
+    },
+    {
+      "id": "vegan.cremoso-sem-lacteos",
+      "name": "Creamy Without Dairy",
+      "category": "tempero",
+      "description": "Body and richness from coconut milk, blended legumes or soaked nuts — and knowing which of them survives heat without splitting.",
+      "requires": [
+        "vegan.umami-sem-carne"
+      ]
+    },
+    {
+      "id": "vegan.leguminosas-de-raiz",
+      "name": "Dried Legumes From Scratch",
+      "category": "calor",
+      "description": "Soaking, then a long low simmer, and salt only once the skins are soft — a fifth of the price of cans and a better texture.",
+      "requires": [
+        "calor.lume-brando",
+        "vegan.proteina-vegetal"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-vegan-1",
+      "title": "Plant Protein",
+      "subtitle": "Knowing What You're Working With",
+      "color": "#15803D",
+      "lessons": [
+        {
+          "id": "lesson.vegan-proteina",
+          "title": "Plant Protein Sources",
+          "dayNumber": 1,
+          "dishName": "Legumes, Tofu, Tempeh",
+          "description": "Each plant protein behaves differently — knowing which one fits which dish saves a lot of disappointment.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 140,
+          "icon": "🫘",
+          "imageUrl": "/lessons/vegan/vegan-proteina.jpg",
+          "ingredients": [],
+          "preparationSteps": [
+            {
+              "title": "Legumes for stews and bulk",
+              "description": "Beans and lentils break down slightly and thicken whatever they cook in."
+            },
+            {
+              "title": "Tofu for absorbing flavour",
+              "description": "Tofu tastes like almost nothing on its own — it takes on whatever it's marinated or cooked in."
+            },
+            {
+              "title": "Tempeh for texture and bite",
+              "description": "Fermented and firm, tempeh holds together on a grill or in a pan without falling apart."
+            }
+          ],
+          "teaches": [
+            "vegan.proteina-vegetal"
+          ],
+          "requires": [
+            "org.mise-en-place"
+          ],
+          "questions": [
+            {
+              "id": "vg-u1-l1-q1",
+              "type": "choice",
+              "prompt": "You want a plant protein that holds together well on a grill without falling apart. Which is the better choice?",
+              "options": [
+                "Soft tofu",
+                "Tempeh",
+                "Red lentils",
+                "Canned chickpeas mashed into a paste"
+              ],
+              "correctAnswer": "Tempeh",
+              "explanation": "Tempeh is firm and fibrous, which is exactly what holds a shape on a grill without crumbling.",
+              "skills": [
+                "vegan.proteina-vegetal"
+              ],
+              "explainWrong": "Soft tofu and mashed chickpeas both fall apart under grill heat, and red lentils cook down into a soft mush rather than staying in one piece — none of them hold a shape the way tempeh's firm, fibrous texture does."
+            }
+          ]
+        },
+        {
+          "id": "lesson.vegan-tofu",
+          "title": "Tofu With Real Texture",
+          "dayNumber": 2,
+          "dishName": "Crispy Seared Tofu",
+          "description": "Pressed and seared hard: the difference between crisp tofu and a wet, bland cube.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 25,
+          "xpReward": 200,
+          "icon": "🧈",
+          "imageUrl": "/lessons/vegan/vegan-tofu.jpg",
+          "ingredients": [
+            "1 block firm tofu",
+            "Cornstarch",
+            "Oil"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Press out the water",
+              "description": "Wrap in a towel with something heavy on top for at least 15 minutes — water in the tofu steams it instead of letting it sear."
+            },
+            {
+              "title": "Coat lightly in cornstarch",
+              "description": "A thin dusting crisps up in the pan far better than bare tofu."
+            },
+            {
+              "title": "Sear in a hot, dry-ish pan without moving it",
+              "description": "Let each side develop a crust before flipping — moving it too soon tears the coating off."
+            }
+          ],
+          "teaches": [
+            "vegan.tofu-textura"
+          ],
+          "requires": [
+            "calor.gordura"
+          ],
+          "questions": [
+            {
+              "id": "vg-u1-l2-q1",
+              "type": "choice",
+              "prompt": "Your seared tofu came out soft and steamed instead of crisp, even in a hot pan. What's the likely cause?",
+              "options": [
+                "You used too much oil",
+                "The tofu wasn't pressed to remove its water first",
+                "The cornstarch coating was too thick",
+                "The pan wasn't hot enough"
+              ],
+              "correctAnswer": "The tofu wasn't pressed to remove its water first",
+              "explanation": "Water still inside the tofu turns to steam in the pan, which stops a real sear from ever forming.",
+              "skills": [
+                "vegan.tofu-textura"
+              ],
+              "explainWrong": "Extra oil or higher heat can't fix tofu that's still releasing water — that water steams the surface no matter how hot the pan gets. Pressing it out beforehand is what makes a sear possible at all."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.tofu-grelhado"
+    },
+    {
+      "id": "unit-vegan-2",
+      "title": "Flavour Without Animal Products",
+      "subtitle": "Egg and Umami, Replaced",
+      "color": "#7C3AED",
+      "lessons": [
+        {
+          "id": "lesson.vegan-ovo",
+          "title": "Replacing Egg",
+          "dayNumber": 4,
+          "dishName": "Vegan Pancakes",
+          "description": "Flax and water, or aquafaba, can bind and lift a batter the way egg usually does.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 180,
+          "icon": "🥞",
+          "imageUrl": "/lessons/vegan/vegan-ovo.jpg",
+          "ingredients": [
+            "1 tbsp ground flax",
+            "3 tbsp water",
+            "Flour",
+            "Plant milk"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Mix flax and water, let it sit",
+              "description": "A few minutes turns it gel-like — that gel is what binds the batter the way egg white would."
+            },
+            {
+              "title": "Fold it into the batter",
+              "description": "Treat it exactly like you would a beaten egg going into pancake batter."
+            }
+          ],
+          "teaches": [
+            "vegan.substituir-ovo"
+          ],
+          "requires": [
+            "ponto.ovo"
+          ],
+          "questions": [
+            {
+              "id": "vg-u2-l1-q1",
+              "type": "choice",
+              "prompt": "Your vegan pancake batter is falling apart in the pan with no egg in it. What's the most reliable fix?",
+              "options": [
+                "Add more flour to thicken it",
+                "Mix ground flax with water, let it gel, and fold it into the batter",
+                "Cook it at a much higher heat",
+                "Use less plant milk"
+              ],
+              "correctAnswer": "Mix ground flax with water, let it gel, and fold it into the batter",
+              "explanation": "A flax-and-water gel does the binding job egg normally does, holding the batter together as it cooks.",
+              "skills": [
+                "vegan.substituir-ovo"
+              ],
+              "explainWrong": "More flour changes texture without adding any binding, and neither heat nor less liquid replaces what a binder does. The batter is falling apart because it's missing something that holds it together, not because of moisture or heat."
+            }
+          ]
+        },
+        {
+          "id": "lesson.vegan-umami",
+          "title": "Umami Without Meat",
+          "dayNumber": 5,
+          "dishName": "Mushroom & Nutritional Yeast Base",
+          "description": "Mushrooms, soy sauce and nutritional yeast build the savoury depth meat usually provides.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 200,
+          "icon": "🍄",
+          "imageUrl": "/lessons/vegan/vegan-umami.jpg",
+          "ingredients": [
+            "Mushrooms",
+            "Soy sauce",
+            "Nutritional yeast",
+            "Garlic"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Sear the mushrooms hard",
+              "description": "Don't crowd the pan — a hard sear browns them instead of steaming them soft and watery."
+            },
+            {
+              "title": "Add soy sauce and garlic",
+              "description": "Soy sauce brings the same glutamates meat would, garlic rounds it out."
+            },
+            {
+              "title": "Finish with nutritional yeast",
+              "description": "Stirred in off the heat, it adds a savoury, almost cheesy depth without any dairy."
+            }
+          ],
+          "teaches": [
+            "vegan.umami-sem-carne"
+          ],
+          "requires": [
+            "tempero.camadas"
+          ],
+          "questions": [
+            {
+              "id": "vg-u2-l2-q1",
+              "type": "order",
+              "prompt": "Order the steps for building a savoury, meat-free umami base",
+              "items": [
+                "Sear the mushrooms hard, without crowding the pan",
+                "Add soy sauce and garlic",
+                "Finish with nutritional yeast off the heat"
+              ],
+              "explanation": "Each ingredient adds a different layer of savoury depth, built in an order that keeps each one from overpowering or burning.",
+              "skills": [
+                "vegan.umami-sem-carne"
+              ],
+              "explainWrong": "Adding nutritional yeast too early lets it scorch and turn bitter, and soy sauce before the mushrooms are seared just steams them instead of letting them brown. The order lets each ingredient do its job at the right moment.",
+              "correctOrder": [
+                "Sear the mushrooms hard, without crowding the pan",
+                "Add soy sauce and garlic",
+                "Finish with nutritional yeast off the heat"
+              ]
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.carbonara-vegan"
+    },
+    {
+      "id": "unit-vegan-3",
+      "title": "From Dried Beans, Creamy Without Cream",
+      "subtitle": "The Long Simmer",
+      "color": "#B45309",
+      "missionId": "mission.caril-grao-cremoso",
+      "lessons": [
+        {
+          "id": "lesson.vegan-cremoso",
+          "title": "Creamy Without Cream",
+          "dayNumber": 7,
+          "dishName": "Body Without Dairy",
+          "description": "Richness in a vegan dish comes from fat, starch or blended solids — and only some of them hold up to a simmer.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 210,
+          "icon": "🥥",
+          "imageUrl": "/lessons/vegan/vegan-cremoso.jpg",
+          "ingredients": [
+            "Full-fat coconut milk",
+            "Cooked chickpeas",
+            "Cashews",
+            "Oat milk",
+            "Lemon"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Full-fat coconut milk for anything simmered",
+              "description": "The fat carries the spice and it doesn't split on low heat. Light coconut milk and most oat milks thin out or curdle."
+            },
+            {
+              "title": "Blend a ladle of the dish back into itself",
+              "description": "A ladle of cooked legumes blended and stirred back in thickens with starch instead of fat, and costs nothing."
+            },
+            {
+              "title": "Soaked nuts, blended, go in off the heat",
+              "description": "Cashews soaked and blended give the closest thing to cream, but they can catch and split if boiled — stir them in at the end."
+            }
+          ],
+          "teaches": [
+            "vegan.cremoso-sem-lacteos"
+          ],
+          "requires": [
+            "vegan.umami-sem-carne",
+            "vegan.substituir-ovo"
+          ],
+          "questions": [
+            {
+              "id": "vegan-u3-l1-q1",
+              "type": "choice",
+              "prompt": "You added oat milk to a simmering curry and it went thin and slightly split. What should have gone in instead?",
+              "options": [
+                "More oat milk",
+                "Full-fat coconut milk, which doesn't split on a simmer",
+                "Water and flour",
+                "Nothing — curries aren't meant to be creamy"
+              ],
+              "correctAnswer": "Full-fat coconut milk, which doesn't split on a simmer",
+              "explanation": "Coconut fat is stable at simmering temperature; the proteins and gums in most oat milks are not, which is why they thin and separate the moment the pan holds heat.",
+              "skills": [
+                "vegan.cremoso-sem-lacteos"
+              ],
+              "explainWrong": "More of what split will split further, and flour thickens without adding any richness. Creaminess is very much achievable here — it just has to come from a fat that tolerates the heat."
+            },
+            {
+              "id": "vegan-u3-l1-q2",
+              "type": "choice",
+              "prompt": "The cheapest way to give a chickpea curry body, using nothing extra?",
+              "options": [
+                "Boil it much longer",
+                "Blend a ladle of the chickpeas and stir them back in",
+                "Add oil",
+                "Add more water and reduce it"
+              ],
+              "correctAnswer": "Blend a ladle of the chickpeas and stir them back in",
+              "explanation": "Blended legumes thicken with their own starch. It costs nothing, changes no flavour, and is the same trick that gives a good soup its texture.",
+              "skills": [
+                "vegan.cremoso-sem-lacteos"
+              ],
+              "explainWrong": "Long boiling breaks the chickpeas up but leaves the liquid watery, oil adds richness without body, and adding water to then reduce it is work for no gain."
+            }
+          ]
+        },
+        {
+          "id": "lesson.vegan-leguminosas",
+          "title": "Dried Beans, Cooked From Scratch",
+          "dayNumber": 8,
+          "dishName": "The Long Simmer",
+          "description": "Dried chickpeas cost a fifth of canned and have a better texture — but salt at the wrong moment leaves them stubborn.",
+          "type": "lesson",
+          "difficulty": "dificil",
+          "cookTimeMin": 90,
+          "xpReward": 250,
+          "icon": "🫛",
+          "imageUrl": "/lessons/vegan/vegan-leguminosas.jpg",
+          "ingredients": [
+            "250 g dried chickpeas",
+            "Bicarbonate of soda",
+            "Bay leaf",
+            "Salt",
+            "Onion",
+            "Garlic"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Soak overnight, in plenty of water",
+              "description": "They double in size. Twelve hours in cold water, or a fast soak of an hour in boiling water if you forgot."
+            },
+            {
+              "title": "A pinch of bicarbonate softens the skins",
+              "description": "It raises the pH slightly and the skins break down faster. A pinch, not a spoon — too much and they turn to mush and taste soapy."
+            },
+            {
+              "title": "Low simmer, never a rolling boil",
+              "description": "A hard boil knocks them apart and leaves the middles hard. You want the surface barely moving for an hour or more."
+            },
+            {
+              "title": "Salt once they're soft, not before",
+              "description": "Salt early and the skins stay tough. Season when they're already tender — and keep the cooking water, it's the best liquid in the dish."
+            }
+          ],
+          "teaches": [
+            "vegan.leguminosas-de-raiz"
+          ],
+          "requires": [
+            "calor.lume-brando",
+            "vegan.proteina-vegetal",
+            "tempero.sal-momento"
+          ],
+          "questions": [
+            {
+              "id": "vegan-u3-l2-q1",
+              "type": "choice",
+              "prompt": "You soaked chickpeas overnight, salted the water, and simmered them for two hours. They're still firm. Why?",
+              "options": [
+                "They needed longer still",
+                "Salt added at the start keeps the skins tough",
+                "The soak was too short",
+                "Dried chickpeas are always firm"
+              ],
+              "correctAnswer": "Salt added at the start keeps the skins tough",
+              "explanation": "Salt in the cooking water slows the skins from breaking down, so the chickpeas stay stubborn however long you give them. Season after they're tender instead.",
+              "skills": [
+                "vegan.leguminosas-de-raiz"
+              ],
+              "explainWrong": "Two hours is already generous and an overnight soak is correct, so time isn't the problem — and properly cooked dried chickpeas are creamy, not firm. The salt is what held them back."
+            },
+            {
+              "id": "vegan-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Why a bare simmer rather than a rolling boil?",
+              "options": [
+                "It saves gas",
+                "A hard boil breaks the outsides apart before the middles are cooked",
+                "It keeps the colour",
+                "It makes no difference, only speed"
+              ],
+              "correctAnswer": "A hard boil breaks the outsides apart before the middles are cooked",
+              "explanation": "Violent water knocks the chickpeas against each other and against the pan: the skins and outer layers disintegrate while the centres are still chalky.",
+              "skills": [
+                "vegan.leguminosas-de-raiz"
+              ],
+              "explainWrong": "It does use less gas, but the reason is texture — you get broken skins and hard centres at once, which is the opposite of what the extra speed was meant to buy."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.tofu-grelhado",
+      "unitId": "unit-vegan-1",
+      "title": "Crispy Tofu Bowl",
+      "dishName": "Crispy Tofu with Rice",
+      "cookTimeMin": 40,
+      "summary": "Pressed, coated and seared tofu, built into a full bowl with a plant protein that actually holds its shape.",
+      "estimatedCostEur": 4,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "vegan.proteina-vegetal",
+        "vegan.tofu-textura"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "1 block firm tofu",
+        "Cornstarch",
+        "Oil",
+        "Rice",
+        "Soy sauce"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Press the tofu",
+          "description": "Wrap in a towel with weight on top for at least 15 minutes to force the water out.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No time to press it long? Even 10 minutes helps more than skipping it entirely."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Coat and sear",
+          "description": "Toss the pressed cubes lightly in cornstarch, then sear undisturbed in a hot pan until crisp on each side.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Sticking to the pan? Give it another minute before trying to flip — a proper crust releases on its own."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Golden and crisp on the outside, still soft inside."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Build the bowl",
+          "description": "Serve the crispy tofu over rice with a drizzle of soy sauce.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "No rice on hand? Any grain, or even greens, works as the base."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Tofu still crisp on top of the rice, not gone soggy from sitting."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.carbonara-vegan",
+      "unitId": "unit-vegan-2",
+      "title": "Vegan \"Carbonara\"",
+      "dishName": "Vegan Mushroom Carbonara",
+      "cookTimeMin": 35,
+      "summary": "No egg, no cheese, no meat — mushrooms and nutritional yeast build the same savoury richness, bound by a flax-based sauce.",
+      "estimatedCostEur": 5,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "vegan.umami-sem-carne",
+        "vegan.substituir-ovo"
+      ],
+      "xpReward": 500,
+      "ingredients": [
+        "Pasta",
+        "Mushrooms",
+        "Garlic",
+        "Soy sauce",
+        "Nutritional yeast",
+        "1 tbsp ground flax",
+        "Plant milk"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Sear the mushrooms",
+          "description": "Hard sear, no crowding, until well browned.",
+          "durationSec": 480,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Crowded pan releasing water instead of browning? Cook the mushrooms in two batches."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Build the umami base",
+          "description": "Add garlic, soy sauce, and off the heat, the nutritional yeast.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Deep savoury smell, no bitterness from scorched yeast."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Make the flax-bound sauce",
+          "description": "Whisk ground flax with a little water and plant milk into a light, creamy binder.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Too thin? Let it sit a couple more minutes — the flax thickens as it gels."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Combine with the pasta",
+          "description": "Toss the cooked pasta with the mushroom base and the flax sauce until coated.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Looks dry? A splash of the pasta cooking water loosens it right up."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Glossy, coated pasta with visible mushrooms, no dry patches."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.caril-grao-cremoso",
+      "unitId": "unit-vegan-3",
+      "title": "Creamy Chickpea Curry, From Dried",
+      "dishName": "Chickpea and Coconut Curry, Chickpeas Cooked From Scratch",
+      "cookTimeMin": 110,
+      "summary": "The trail's hardest and cheapest dish at once: dried chickpeas simmered from scratch, creamy without a drop of dairy.",
+      "estimatedCostEur": 4.5,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "vegan.proteina-vegetal",
+        "vegan.umami-sem-carne",
+        "vegan.cremoso-sem-lacteos",
+        "vegan.leguminosas-de-raiz"
+      ],
+      "xpReward": 900,
+      "ingredients": [
+        "250 g dried chickpeas",
+        "1 pinch bicarbonate of soda",
+        "1 bay leaf",
+        "1 can full-fat coconut milk",
+        "2 onions",
+        "4 garlic cloves",
+        "Fresh ginger",
+        "2 tbsp curry spices",
+        "Tomato paste",
+        "Oil",
+        "Lemon",
+        "Coriander",
+        "Rice to serve"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Soak the chickpeas, then simmer them low with bay",
+          "description": "Overnight in plenty of cold water, drained, then fresh water, a bay leaf and a pinch of bicarbonate. Bare simmer, no salt yet, until a chickpea crushes easily against the pan — an hour to an hour and a half.",
+          "durationSec": 4800,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Forgot to soak? An hour covered in boiling water, then cook as normal — allow longer."
+            },
+            {
+              "kind": "cola",
+              "answer": "Sticking or boiling hard? Lower the heat and top up with hot water; they must stay covered."
+            },
+            {
+              "kind": "pronto",
+              "answer": "A chickpea crushes to a paste between two fingers, with no chalky centre."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Build the base while they cook",
+          "description": "Onion softened slowly in oil, then garlic and ginger, then the spices and tomato paste fried for a minute in the fat. Frying the spices is where the depth comes from.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Spices darkening? Off the heat and add a spoon of the chickpea water straight away."
+            },
+            {
+              "kind": "falta",
+              "answer": "No fresh ginger? Ground works, added with the other spices."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Chickpeas and their water into the base, then season",
+          "description": "Drained chickpeas plus a couple of ladles of their cooking water into the pan. Now salt — they're tender, so it can go in. Simmer fifteen minutes so it comes together.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Threw the cooking water away? Use hot water, but the dish loses body."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Tastes seasoned on its own, chickpeas soft, liquid no longer tasting raw."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Blend a ladle back in, then the coconut milk",
+          "description": "Blend or mash a ladle of the curry and stir it back through — that's the body. Then the full-fat coconut milk, and keep it at a bare simmer so it doesn't split.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Catching on the bottom now that it's thick? Lowest heat and stir more often."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Thick enough to coat a spoon, creamy, and not separated or oily on top."
+            },
+            {
+              "kind": "falta",
+              "answer": "Only light coconut milk? Blend more chickpeas back in to make up the body."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Finish with lemon and coriander, off the heat",
+          "description": "Heat off, then lemon juice and chopped coriander. Taste one more time: a creamy curry usually wants more acid than you expect.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Creamy, not split; chickpeas whole but soft; bright from the lemon rather than heavy."
+            },
+            {
+              "kind": "falta",
+              "answer": "No coriander? Lemon alone still lifts it."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
