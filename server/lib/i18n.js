@@ -50,6 +50,24 @@ const PT = {
   "At most 500 characters": "Máximo 500 caracteres",
   "Authorisation cancelled": "Autorização cancelada",
   "Challenge not found": "Desafio não encontrado",
+  "This challenge hasn't started yet": "Este desafio ainda não começou",
+  "This challenge is over": "Este desafio já terminou",
+  "You've already entered this challenge": "Já participaste neste desafio",
+  "You've used all your entries in this challenge":
+    "Já usaste todas as tuas submissões neste desafio",
+  "You can only submit a recipe of your own": "Só podes submeter uma receita tua",
+  "That recipe is already in another challenge": "Essa receita já está noutro desafio",
+  "You're not entered in this challenge": "Não estás inscrito neste desafio",
+  "Rules can't change once people have entered":
+    "As regras não mudam depois de haver participações",
+  "The deadline can be extended, not shortened": "O prazo pode ser esticado, não encurtado",
+  "The new end date has to be in the future": "A nova data de fim tem de ser no futuro",
+  "This challenge is closed and its result was paid":
+    "Este desafio está fechado e o resultado já foi pago",
+  "This challenge already has entries": "Este desafio já tem participações",
+  "This challenge hasn't ended yet, or is already closed":
+    "Este desafio ainda não terminou, ou já foi fechado",
+  "Tell us a bit more about the challenge": "Conta um pouco mais sobre o desafio",
   "Choose a new password": "Escolher password nova",
   "Choose username and password": "Escolher nome e password",
   "Comment not found": "Comentário não encontrado",

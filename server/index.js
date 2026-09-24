@@ -3,8 +3,8 @@ import { createApp } from "./app.js";
 import { getPool, closePool } from "./db/index.js";
 import { runMigrations } from "./db/runMigrations.js";
 import { syncCurriculum } from "./scripts/sync-curriculum.js";
-import { loadDbTrails } from "./services/trailService.js";
 import { ensureUploadDir } from "./lib/imageStore.js";
+import { startChallengeScheduler } from "./lib/challengeScheduler.js";
 
 const port = Number(process.env.PORT || 3010);
 
@@ -25,18 +25,6 @@ async function boot() {
    * É idempotente e valida antes de escrever, por isso arrancar mil vezes
    * dá o mesmo resultado que arrancar uma.
    */
-  /**
-   * Os trilhos escritos pelo painel entram antes do sync, porque o sync é
-   * que leva as competências deles para a tabela `skills` — e é dessa tabela
-   * que `skill_practice` depende.
-   */
-  const trilhos = await loadDbTrails(getPool());
-  for (const { id, errors } of trilhos.rejeitados) {
-    console.error(
-      `[trilhos] ${id} ficou de fora, currículo inválido:\n  - ${errors.join("\n  - ")}`,
-    );
-  }
-
   const sync = await syncCurriculum(getPool());
   console.log(
     `[db] currículo sincronizado: ${sync.skills} competências, ${sync.lessonSkills} ligações`,
@@ -45,6 +33,12 @@ async function boot() {
   await ensureUploadDir();
 
   const app = createApp();
+
+  /**
+   * Os desafios fecham-se sozinhos: o prazo que quem os cria escolheu tem de
+   * valer sem depender de alguém se lembrar de carregar num botão.
+   */
+  const stopChallengeScheduler = startChallengeScheduler(getPool());
 
   const server = app.listen(port, "0.0.0.0", () => {
     console.log(`[server] a escutar em http://0.0.0.0:${port}`);
@@ -55,6 +49,7 @@ async function boot() {
   for (const signal of ["SIGTERM", "SIGINT"]) {
     process.on(signal, () => {
       console.log(`[server] ${signal} recebido, a encerrar…`);
+      stopChallengeScheduler();
       server.close(async () => {
         await closePool();
         process.exit(0);

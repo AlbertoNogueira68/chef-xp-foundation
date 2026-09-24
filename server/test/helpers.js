@@ -56,6 +56,7 @@ const TABLES = [
   "auth_tokens",
   "pending_signups",
   "notifications",
+  "challenge_results",
   "challenge_entries",
   "comments",
   "recipe_likes",
@@ -168,8 +169,8 @@ export async function resetDatabase() {
   for (const trilho of trilhosSemente) {
     await query(
       `INSERT INTO trails (id, name, description, icon, color, difficulty,
-                           curriculum_json, published_at, order_index)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                           published_at, order_index)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        ON CONFLICT (id) DO NOTHING`,
       [
         trilho.id,
@@ -178,7 +179,6 @@ export async function resetDatabase() {
         trilho.icon,
         trilho.color,
         trilho.difficulty,
-        trilho.curriculum_json,
         trilho.published_at,
         trilho.order_index,
       ],
@@ -308,6 +308,25 @@ export async function registerUser(client, overrides = {}) {
   return { ...response.body.user, password: payload.password, email: payload.email };
 }
 
+/**
+ * Uma receita publicada dentro de um desafio — que é o que participar é.
+ *
+ * Devolve a resposta inteira (receita, XP e desafio) para os testes poderem
+ * olhar para o estado, e não atira em caso de recusa: metade destes testes
+ * existe precisamente para provar que a recusa acontece.
+ */
+export async function enterChallenge(client, challengeId, overrides = {}) {
+  return client.post("/api/recipes", {
+    title: "Prato de desafio",
+    description: "Uma receita feita para o desafio.",
+    ingredients: "arroz\ntomate\ncebola",
+    cookTimeMin: 25,
+    difficulty: "facil",
+    ...overrides,
+    challengeId,
+  });
+}
+
 /** Uma receita publicada pelo utilizador da sessão atual. */
 export async function publishRecipe(client, overrides = {}) {
   const response = await client.post("/api/recipes", {
@@ -324,13 +343,69 @@ export async function publishRecipe(client, overrides = {}) {
   return response.body;
 }
 
-/** Um desafio a decorrer, criado diretamente porque não há rota que os crie. */
-export async function createChallenge({ xpReward = 100, endsInDays = 7 } = {}) {
+/**
+ * Um desafio, escrito diretamente na base.
+ *
+ * A rota de criação existe (POST /api/challenges) e tem testes próprios, mas
+ * a maioria dos testes só precisa de um desafio para participar nele — e
+ * passar por moderador, sessão e CSRF em cada um deles seria testar a criação
+ * cem vezes de borla. `endsInDays` negativo dá um desafio já terminado, que é
+ * o que a liquidação precisa.
+ */
+export async function createChallenge({
+  xpReward = 100,
+  endsInDays = 7,
+  maxEntriesPerUser = 1,
+  podium = [300, 200, 100],
+  createdBy = null,
+} = {}) {
   const { rows } = await query(
-    `INSERT INTO challenges (title, description, xp_reward, ends_at)
-     VALUES ($1, $2, $3, now() + ($4 || ' days')::interval)
-     RETURNING id, xp_reward, ends_at`,
-    ["Desafio de teste", "Um desafio criado por um teste.", xpReward, String(endsInDays)],
+    `INSERT INTO challenges
+       (title, description, xp_reward, starts_at, ends_at,
+        max_entries_per_user, first_place_xp, second_place_xp, third_place_xp, created_by)
+     VALUES ($1, $2, $3,
+             least(now(), now() + ($4 || ' days')::interval),
+             now() + ($4 || ' days')::interval,
+             $5, $6, $7, $8, $9)
+     RETURNING id, xp_reward, ends_at, max_entries_per_user, settled_at`,
+    [
+      "Desafio de teste",
+      "Um desafio criado por um teste.",
+      xpReward,
+      String(endsInDays),
+      maxEntriesPerUser,
+      podium[0],
+      podium[1],
+      podium[2],
+      createdBy,
+    ],
   );
   return rows[0];
+}
+
+/**
+ * Dá um papel a alguém sem passar pela aplicação.
+ *
+ * A promoção pela API precisa de um administrador, e o primeiro administrador
+ * nasce na linha de comandos de propósito (ver migrations/013). Nos testes, a
+ * linha de comandos é este UPDATE.
+ */
+export async function setRole(userId, role) {
+  await query(`UPDATE users SET role = $2 WHERE id = $1`, [userId, role]);
+}
+
+/** Gostos verdadeiros numa receita, dados por quem se quiser. */
+export async function likeRecipeAs(userId, recipeId) {
+  await query(
+    `INSERT INTO recipe_likes (user_id, recipe_id) VALUES ($1, $2)
+     ON CONFLICT DO NOTHING`,
+    [userId, recipeId],
+  );
+}
+
+/** Empurra o fim de um desafio para trás, para ele poder ser liquidado. */
+export async function endChallengeNow(challengeId) {
+  await query(`UPDATE challenges SET ends_at = now() - interval '1 minute' WHERE id = $1`, [
+    challengeId,
+  ]);
 }

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { firstFailedRule } from "../domain/passwordPolicy.js";
 import { REPORT_REASONS, REPORT_SUBJECTS, ROLES } from "../domain/moderation.js";
+import { DIETARY_TAGS } from "../domain/dietaryTags.js";
 
 export const uuid = z.string().uuid("Invalid identifier");
 
@@ -68,22 +69,59 @@ export const recipeCreateSchema = z.object({
   ingredients: z.string().trim().min(5, "List at least a few ingredients").max(4000),
   cookTimeMin: z.coerce.number().int().min(5).max(600).default(30),
   difficulty: z.enum(["facil", "medio", "dificil"]).default("medio"),
+  // Estimativa de quem publica, não um preço calculado — por isso é opcional.
+  estimatedCostEur: z.coerce.number().min(0).max(999.99).nullish(),
+  dietaryTags: z.array(z.enum(DIETARY_TAGS)).max(DIETARY_TAGS.length).default([]),
   imageDataUrl: z.string().max(6_000_000).nullish(),
+  /**
+   * Publicar já dentro de um desafio.
+   *
+   * Participar num desafio é publicar uma receita nova — a mesma publicação
+   * de sempre, com o desafio agarrado. Por isso o desafio entra aqui e não
+   * numa rota à parte: era a única maneira de a receita e a participação
+   * nascerem na mesma transação.
+   */
+  challengeId: uuid.nullish(),
 });
 
 /**
  * Editar é o mesmo conjunto de campos, todos opcionais. `imageDataUrl` ausente
  * mantém a fotografia atual; `null` retira-a.
+ *
+ * O desafio fica de fora: a submissão aconteceu no momento em que a receita
+ * foi publicada, e mudá-la depois seria passar uma receita de um desafio para
+ * outro a meio — retirar a participação é o caminho, e tem porta própria.
  */
 export const recipeUpdateSchema = recipeCreateSchema
+  .omit({ challengeId: true })
   .partial()
   .refine((value) => Object.keys(value).length > 0, { message: "Nothing to update" });
+
+/**
+ * `dietaryTags` chega na query como uma string separada por vírgulas
+ * (`?dietaryTags=vegetariano,sem_gluten`), não como array — é assim que
+ * `URLSearchParams` a manda. Filtrar exige *todas* as etiquetas escolhidas,
+ * porque é assim que uma restrição alimentar funciona: alguém vegetariano e
+ * sem glúten precisa das duas ao mesmo tempo, não de uma ou outra.
+ */
+const dietaryTagsQuery = z.preprocess(
+  (value) => {
+    if (typeof value !== "string" || value.length === 0) return undefined;
+    return value
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+  },
+  z.array(z.enum(DIETARY_TAGS)).max(DIETARY_TAGS.length).optional(),
+);
 
 export const recipeListSchema = z.object({
   q: z.string().trim().max(80).optional(),
   scope: z.enum(["all", "following", "popular"]).default("all"),
   difficulty: z.enum(["facil", "medio", "dificil"]).optional(),
   maxTime: z.coerce.number().int().min(5).max(600).optional(),
+  maxCost: z.coerce.number().min(0).max(999.99).optional(),
+  dietaryTags: dietaryTagsQuery,
   authorId: uuid.optional(),
   limit: z.coerce.number().int().min(1).max(50).default(12),
   cursor: z.string().max(200).optional(),
@@ -154,8 +192,51 @@ export const missionCompleteSchema = z.object({
 /* Desafios                                                         */
 /* ---------------------------------------------------------------- */
 
-export const challengeEntrySchema = z.object({
-  recipeId: uuid,
+/**
+ * Criar um desafio (moderadores e administradores).
+ *
+ * Os quatro números são a mecânica inteira, e são de quem cria: quanto paga
+ * participar, quantas submissões cabem a cada pessoa, quantos dias dura e o
+ * que valem os três lugares do pódio. Os limites de cada um não são gosto
+ * pessoal — são o que impede um desafio de três anos a pagar 100 000 XP de
+ * tornar todo o resto da aplicação irrelevante.
+ */
+export const challengeCreateSchema = z.object({
+  title: z.string().trim().min(3, "At least 3 characters").max(120),
+  description: z.string().trim().min(10, "Tell us a bit more about the challenge").max(2000),
+  xpReward: z.coerce.number().int().min(0).max(1000).default(100),
+  maxEntriesPerUser: z.coerce.number().int().min(1).max(10).default(1),
+  durationDays: z.coerce.number().int().min(1).max(90).default(7),
+  firstPlaceXp: z.coerce.number().int().min(0).max(5000).default(300),
+  secondPlaceXp: z.coerce.number().int().min(0).max(5000).default(200),
+  thirdPlaceXp: z.coerce.number().int().min(0).max(5000).default(100),
+  imageDataUrl: z.string().max(6_000_000).nullish(),
+});
+
+/**
+ * Editar. Tudo opcional, e o prazo passa a ser uma data em vez de dias: a
+ * duração só faz sentido no momento em que o desafio nasce; depois disso o
+ * que existe é um fim, e mexer nele é adiá-lo. O que se pode mesmo mudar com
+ * gente lá dentro é decidido em `domain/challenges.js`, não aqui.
+ */
+export const challengeUpdateSchema = z
+  .object({
+    title: challengeCreateSchema.shape.title.optional(),
+    description: challengeCreateSchema.shape.description.optional(),
+    xpReward: challengeCreateSchema.shape.xpReward.optional(),
+    maxEntriesPerUser: challengeCreateSchema.shape.maxEntriesPerUser.optional(),
+    firstPlaceXp: challengeCreateSchema.shape.firstPlaceXp.optional(),
+    secondPlaceXp: challengeCreateSchema.shape.secondPlaceXp.optional(),
+    thirdPlaceXp: challengeCreateSchema.shape.thirdPlaceXp.optional(),
+    endsAt: z.coerce.date().optional(),
+    imageDataUrl: z.string().max(6_000_000).nullish(),
+  })
+  .refine((value) => Object.keys(value).length > 0, { message: "Nothing to update" });
+
+/** Uma submissão em particular, para a retirar sem levar as outras. */
+export const challengeEntryParamsSchema = z.object({
+  id: uuid,
+  entryId: z.coerce.number().int().positive(),
 });
 
 /* ---------------------------------------------------------------- */

@@ -105,6 +105,8 @@ export function createApp() {
    */
   app.use("/api/recipes", express.json({ limit: "6mb" }));
   app.use("/api/missions", express.json({ limit: "6mb" }));
+  // Criar um desafio leva a imagem de capa pelo mesmo caminho.
+  app.use("/api/challenges", express.json({ limit: "6mb" }));
   app.use(express.json({ limit: "1mb" }));
 
   // A partir daqui, `req.lang` diz em que língua se responde.

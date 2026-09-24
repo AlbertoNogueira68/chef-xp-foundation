@@ -53,17 +53,35 @@ CREATE TABLE IF NOT EXISTS recipes (
 CREATE INDEX IF NOT EXISTS recipes_created_at_idx ON recipes (created_at DESC);
 CREATE INDEX IF NOT EXISTS recipes_title_idx ON recipes (title);
 
+-- Um desafio é criado por moderadores e administradores (ver
+-- migrations/026_challenge_authoring.sql). Quem o cria escolhe o XP de
+-- participação, quantas submissões cada pessoa pode publicar, quanto tempo
+-- dura e o que valem os três lugares do pódio.
 CREATE TABLE IF NOT EXISTS challenges (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   description TEXT NOT NULL,
   xp_reward INTEGER NOT NULL DEFAULT 100,
   image_url TEXT,
+  starts_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   ends_at TIMESTAMPTZ NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  created_by UUID REFERENCES users(id) ON DELETE SET NULL,
+  max_entries_per_user INTEGER NOT NULL DEFAULT 1
+    CONSTRAINT challenges_entries_per_user_check CHECK (max_entries_per_user BETWEEN 1 AND 10),
+  first_place_xp  INTEGER NOT NULL DEFAULT 300,
+  second_place_xp INTEGER NOT NULL DEFAULT 200,
+  third_place_xp  INTEGER NOT NULL DEFAULT 100,
+  -- O momento em que o ranking fechou e o pódio foi pago. Nulo = por liquidar.
+  settled_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  CONSTRAINT challenges_podium_check
+    CHECK (first_place_xp >= 0 AND second_place_xp >= 0 AND third_place_xp >= 0)
 );
 
 CREATE INDEX IF NOT EXISTS challenges_ends_at_idx ON challenges (ends_at);
+
+CREATE INDEX IF NOT EXISTS challenges_unsettled_idx
+  ON challenges (ends_at) WHERE settled_at IS NULL;
 
 -- ---------------------------------------------------------------- --
 -- Social + progressão (ver migrations/003_social_and_progress.sql)
@@ -74,7 +92,7 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE TABLE IF NOT EXISTS xp_events (
   id         BIGSERIAL PRIMARY KEY,
   user_id    UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  source     TEXT NOT NULL CHECK (source IN ('legacy', 'lesson', 'recipe', 'challenge', 'streak')),
+  source     TEXT NOT NULL CHECK (source IN ('legacy', 'lesson', 'recipe', 'challenge', 'challenge_podium', 'streak')),
   source_ref TEXT NOT NULL DEFAULT '',
   amount     INTEGER NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -293,8 +311,9 @@ CREATE TABLE IF NOT EXISTS challenge_entries (
   user_id      UUID NOT NULL REFERENCES users(id)      ON DELETE CASCADE,
   recipe_id    UUID NOT NULL REFERENCES recipes(id)    ON DELETE CASCADE,
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
-  -- Uma participação por pessoa; a mesma receita não entra duas vezes.
-  UNIQUE (challenge_id, user_id),
+  -- A mesma receita não entra duas vezes no mesmo desafio. Quantas submissões
+  -- cada pessoa pode ter é `challenges.max_entries_per_user`, contado na rota
+  -- dentro da transação que tranca o desafio — um UNIQUE não sabe contar até N.
   UNIQUE (challenge_id, recipe_id)
 );
 
@@ -303,6 +322,24 @@ CREATE INDEX IF NOT EXISTS challenge_entries_challenge_idx
 
 CREATE INDEX IF NOT EXISTS challenge_entries_user_idx
   ON challenge_entries (user_id, created_at DESC);
+
+CREATE INDEX IF NOT EXISTS challenge_entries_challenge_user_idx
+  ON challenge_entries (challenge_id, user_id);
+
+-- O pódio congelado no fim do desafio: os gostos continuam a mudar depois,
+-- o resultado que pagou o XP não.
+CREATE TABLE IF NOT EXISTS challenge_results (
+  challenge_id UUID NOT NULL REFERENCES challenges(id) ON DELETE CASCADE,
+  user_id      UUID NOT NULL REFERENCES users(id)      ON DELETE CASCADE,
+  place        INTEGER NOT NULL CHECK (place >= 1),
+  likes        INTEGER NOT NULL DEFAULT 0,
+  xp_awarded   INTEGER NOT NULL DEFAULT 0,
+  created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (challenge_id, user_id)
+);
+
+CREATE INDEX IF NOT EXISTS challenge_results_challenge_idx
+  ON challenge_results (challenge_id, place ASC);
 
 -- ------------------------------------------------------------------ --
 -- Notificações (ver migrations/008_notifications.sql)
@@ -440,5 +477,26 @@ CREATE TABLE IF NOT EXISTS role_changes (
 
 CREATE INDEX IF NOT EXISTS role_changes_target_idx
   ON role_changes (target_id, created_at DESC);
+
+-- ------------------------------------------------------------------ --
+-- Orçamento e preferências alimentares (ver migrations/020_recipe_budget_and_diet.sql)
+-- ------------------------------------------------------------------ --
+--
+-- `estimated_cost_eur` é uma estimativa de quem publica, não um preço
+-- calculado. `dietary_tags` é um conjunto fechado, validado por CHECK.
+
+ALTER TABLE recipes ADD COLUMN IF NOT EXISTS estimated_cost_eur NUMERIC(6,2)
+  CHECK (estimated_cost_eur IS NULL OR estimated_cost_eur >= 0);
+
+ALTER TABLE recipes ADD COLUMN IF NOT EXISTS dietary_tags TEXT[] NOT NULL DEFAULT '{}';
+
+ALTER TABLE recipes ADD CONSTRAINT recipes_dietary_tags_check
+  CHECK (dietary_tags <@ ARRAY[
+    'vegetariano', 'vegano', 'sem_gluten', 'sem_lactose', 'sem_frutos_secos',
+    'sem_ovo', 'sem_soja', 'sem_acucar', 'halal', 'kosher'
+  ]::text[]);
+
+CREATE INDEX IF NOT EXISTS recipes_cost_idx ON recipes (estimated_cost_eur);
+CREATE INDEX IF NOT EXISTS recipes_dietary_tags_idx ON recipes USING gin (dietary_tags);
 
 CREATE INDEX IF NOT EXISTS users_staff_idx ON users (role) WHERE role <> 'user';

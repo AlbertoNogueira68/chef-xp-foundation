@@ -47,6 +47,8 @@ export function toRecipe(row) {
     cookTimeMin: row.cook_time_min,
     difficulty: row.difficulty,
     xpReward: row.xp_reward,
+    estimatedCostEur: row.estimated_cost_eur == null ? null : Number(row.estimated_cost_eur),
+    dietaryTags: row.dietary_tags ?? [],
     imageUrl: row.image_url ?? null,
     likesCount: Number(row.likes_count ?? 0),
     commentsCount: Number(row.comments_count ?? 0),
@@ -58,6 +60,17 @@ export function toRecipe(row) {
       level: Number(row.author_level ?? 1),
       photoUrl: row.author_photo ?? null,
     },
+    /**
+     * O desafio a que esta receita foi submetida, quando há um.
+     *
+     * Vai em todas as receitas e não só nas do desafio: uma receita publicada
+     * para um desafio aparece no feed como qualquer outra, e é o selo que
+     * explica porque é que ela existe. Sem isto, a interface tinha de ir
+     * perguntar desafio a desafio a quem pertencia cada receita.
+     */
+    challenge: row.challenge_id
+      ? { id: row.challenge_id, title: row.challenge_title }
+      : null,
   };
 }
 
@@ -76,21 +89,61 @@ export function toComment(row) {
 }
 
 export function toChallenge(row) {
+  const startsAt = row.starts_at ?? row.created_at;
+  const endsAt = row.ends_at;
+
   return {
     id: row.id,
     title: row.title,
     description: row.description,
-    xpReward: row.xp_reward,
+    xpReward: Number(row.xp_reward ?? 0),
     imageUrl: row.image_url ?? null,
-    endsAt: row.ends_at,
+    startsAt,
+    endsAt,
     createdAt: row.created_at,
-    active: new Date(row.ends_at) > new Date(),
+    // Os dias que quem criou o desafio escolheu, reconstruídos a partir das
+    // duas pontas: a duração não é uma coluna porque seria uma terceira
+    // verdade a ter de bater certo com as outras duas.
+    durationDays: durationInDays(startsAt, endsAt),
+    active: new Date(endsAt) > new Date(),
+    maxEntriesPerUser: Number(row.max_entries_per_user ?? 1),
+    // O pódio: o que vale cada lugar, escolhido por quem criou o desafio.
+    podiumXp: [
+      Number(row.first_place_xp ?? 0),
+      Number(row.second_place_xp ?? 0),
+      Number(row.third_place_xp ?? 0),
+    ],
+    // `settledAt` é o que separa "acabou" de "acabou e já pagou": entre os
+    // dois há a janela do agendador, e nessa janela o pódio ainda não existe.
+    settledAt: row.settled_at ?? null,
     entriesCount: Number(row.entries_count ?? 0),
-    // A participação de quem está a pedir, quando a query a trouxe. Poupa um
-    // segundo pedido só para saber se o botão diz "Participar" ou "Retirar".
-    myEntry: row.my_entry_recipe_id
-      ? { recipeId: row.my_entry_recipe_id, createdAt: row.my_entry_created_at }
+    participantsCount: Number(row.participants_count ?? row.entries_count ?? 0),
+    createdBy: row.created_by
+      ? { id: row.created_by, username: row.created_by_username ?? null }
       : null,
+    // Quantas submissões quem está a pedir já tem aqui. Poupa um segundo
+    // pedido só para saber se o botão diz "Participar" ou "Já participaste".
+    myEntriesCount: Number(row.my_entries_count ?? 0),
+  };
+}
+
+function durationInDays(startsAt, endsAt) {
+  const dias = (new Date(endsAt).getTime() - new Date(startsAt).getTime()) / 86_400_000;
+  return Math.max(1, Math.round(dias));
+}
+
+/** Uma linha do pódio congelado, já com quem a ocupa. */
+export function toChallengeResult(row) {
+  return {
+    place: Number(row.place),
+    likes: Number(row.likes ?? 0),
+    xp: Number(row.xp_awarded ?? 0),
+    user: {
+      id: row.user_id,
+      username: row.username,
+      photoUrl: row.photo_url ?? null,
+      level: Number(row.level ?? 1),
+    },
   };
 }
 
@@ -99,6 +152,7 @@ export function toChallengeEntry(row) {
   return {
     id: String(row.entry_id),
     createdAt: row.entered_at,
+    userId: row.author_id,
     recipe: toRecipe(row),
   };
 }

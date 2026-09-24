@@ -5,6 +5,7 @@ import {
   closeDatabase,
   createChallenge,
   createClient,
+  enterChallenge,
   publishRecipe,
   registerUser,
   skipWithoutDatabase,
@@ -112,11 +113,8 @@ describe("rankings", skipWithoutDatabase, () => {
   test("as participações de um desafio vêm ordenadas por gostos", async () => {
     const desafio = await createChallenge();
 
-    const primeira = await publishRecipe(eu, { title: "Submetida cedo" });
-    const segunda = await publishRecipe(outro, { title: "Submetida depois" });
-
-    await eu.post(`/api/challenges/${desafio.id}/entries`, { recipeId: primeira.recipe.id });
-    await outro.post(`/api/challenges/${desafio.id}/entries`, { recipeId: segunda.recipe.id });
+    await enterChallenge(eu, desafio.id, { title: "Submetida cedo" });
+    const segunda = (await enterChallenge(outro, desafio.id, { title: "Submetida depois" })).body;
 
     // A segunda recebe dois gostos, a primeira nenhum.
     await eu.post(`/api/recipes/${segunda.recipe.id}/like`);

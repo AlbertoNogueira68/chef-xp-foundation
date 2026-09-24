@@ -65,7 +65,7 @@ INSERT INTO xp_events (user_id, source, source_ref, amount)
 SELECT id, 'legacy', 'baseline', xp FROM users WHERE xp > 0
 ON CONFLICT (user_id, source, source_ref) DO NOTHING;
 
-INSERT INTO recipes (id, author_id, title, description, ingredients, cook_time_min, difficulty, xp_reward, image_url, created_at)
+INSERT INTO recipes (id, author_id, title, description, ingredients, cook_time_min, difficulty, xp_reward, image_url, created_at, estimated_cost_eur, dietary_tags)
 VALUES
   (
     'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
@@ -75,7 +75,8 @@ VALUES
     E'400g bacalhau desfiado\n2 cebolas\n3 ovos\nbatata palha\nazeite\nsalsinha',
     35, 'medio', 40,
     'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=800&fit=crop',
-    now() - interval '2 hours'
+    now() - interval '2 hours',
+    6.50, ARRAY[]::text[]
   ),
   (
     'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
@@ -85,7 +86,8 @@ VALUES
     E'1 chávena quinoa\nabóbora\nbrócolos\ngrão-de-bico\niogurte grego\nlimão',
     40, 'facil', 30,
     'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=800&fit=crop',
-    now() - interval '5 hours'
+    now() - interval '5 hours',
+    4.00, ARRAY['vegetariano', 'sem_gluten']
   ),
   (
     'cccccccc-cccc-cccc-cccc-cccccccccccc',
@@ -95,7 +97,8 @@ VALUES
     E'3 bananas\n2 ovos\nfarinha de aveia\ncanela\nfermento\nnozes',
     55, 'facil', 25,
     'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&h=800&fit=crop',
-    now() - interval '1 day'
+    now() - interval '1 day',
+    3.00, ARRAY['vegetariano']
   ),
   (
     'dddddddd-dddd-dddd-dddd-dddddddddddd',
@@ -105,7 +108,8 @@ VALUES
     E'arroz arborio\ncogumelos mistos\ncaldo de legumes\nvinho branco\nparmesão\nmanteiga',
     45, 'dificil', 60,
     'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=800&fit=crop',
-    now() - interval '30 minutes'
+    now() - interval '30 minutes',
+    5.50, ARRAY['vegetariano', 'sem_gluten']
   ),
   (
     'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
@@ -115,7 +119,8 @@ VALUES
     E'1 lata grão\n1 lata atum\ntomate cherry\npepino\nazeite\noreganos',
     15, 'facil', 20,
     'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=800&fit=crop',
-    now() - interval '3 days'
+    now() - interval '3 days',
+    3.50, ARRAY['sem_gluten', 'sem_lactose']
   ),
   (
     'ffffffff-ffff-ffff-ffff-fffffffffffe',
@@ -125,7 +130,8 @@ VALUES
     E'peito de frango\ntortillas\nrepolho roxo\niogurte\nlima\npáprica',
     25, 'medio', 35,
     'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=800&fit=crop',
-    now() - interval '8 hours'
+    now() - interval '8 hours',
+    4.50, ARRAY['sem_frutos_secos']
   )
 ON CONFLICT (id) DO NOTHING;
 
