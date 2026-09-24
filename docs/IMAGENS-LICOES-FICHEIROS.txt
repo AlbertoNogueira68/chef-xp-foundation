@@ -1,0 +1,95 @@
+# public/lessons/main-course/
+u1-l1.jpg
+u1-l1-q4.jpg
+u1-l2.jpg
+u1-l2-q2.jpg
+u1-l3.jpg
+u1-l3-q4.jpg
+u1-l4.jpg
+u1-l4-q3.jpg
+u1-l5.jpg
+u1-l5-q4.jpg
+u1-l6.jpg
+u1-l6-q5.jpg
+u2-l1.jpg
+u2-l1-q4.jpg
+u2-l2.jpg
+u2-l2-q2.jpg
+u2-l3.jpg
+u2-l3-q2.jpg
+u2-l4.jpg
+u2-l4-q2.jpg
+u3-l1.jpg
+u3-l1-q2.jpg
+u3-l2.jpg
+u3-l2-q2.jpg
+u3-l3.jpg
+u3-l3-q2.jpg
+u4-l1.jpg
+u4-l1-q4.jpg
+u4-l2.jpg
+u4-l2-q4.jpg
+u4-l3.jpg
+u4-l3-q2.jpg
+u5-l1.jpg
+u5-l1-q3.jpg
+u5-l2.jpg
+u5-l2-q4.jpg
+u5-l3.jpg
+u5-l3-q2.jpg
+
+# public/lessons/gymbro/
+gymbro-porcionar.jpg
+gymbro-frango.jpg
+gymbro-mealprep.jpg
+gymbro-molho.jpg
+
+# public/lessons/healthy/
+saudavel-vapor.jpg
+saudavel-prato.jpg
+saudavel-gordura.jpg
+saudavel-doce.jpg
+
+# public/lessons/italian/
+pasta-tipi.jpg
+pasta-preparacao.jpg
+pasta-esticar.jpg
+it-u1-l3-q1.jpg
+tomate-simple.jpg
+risotto-basico.jpg
+pizza-dough.jpg
+carbonara-tecnica.jpg
+
+# public/lessons/japanese/
+japon-rice.jpg
+japon-dashi.jpg
+japon-miso.jpg
+jp-u1-l3-q1.jpg
+japon-oshigiri.jpg
+japon-donburi.jpg
+
+# public/lessons/mexican/
+mexicana-roasting.jpg
+mx-u1-l1-q2.jpg
+mexicana-blending.jpg
+mexicana-masa.jpg
+mexicana-pressing.jpg
+mexicana-searing.jpg
+
+# public/lessons/portuguese/
+portuguesa-demolha.jpg
+portuguesa-refogado.jpg
+portuguesa-arroz.jpg
+portuguesa-tempero.jpg
+
+# public/lessons/university/
+uni-despensa.jpg
+uni-uma-panela.jpg
+uni-esticar.jpg
+uni-sobras.jpg
+
+# public/lessons/vegan/
+vegan-proteina.jpg
+vegan-tofu.jpg
+vegan-ovo.jpg
+vegan-umami.jpg
