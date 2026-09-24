@@ -34,28 +34,36 @@
       "name": "Pinch grip",
       "category": "faca",
       "description": "Hold the knife by the blade with thumb and index finger, not by the handle.",
-      "requires": ["seguranca.faca-romba"]
+      "requires": [
+        "seguranca.faca-romba"
+      ]
     },
     {
       "id": "faca.garra",
       "name": "Claw hand",
       "category": "faca",
       "description": "Tuck your fingertips in and guide the blade with your knuckles.",
-      "requires": ["faca.pega"]
+      "requires": [
+        "faca.pega"
+      ]
     },
     {
       "id": "faca.cubos",
       "name": "Even dice",
       "category": "faca",
       "description": "Cut to the same size so everything cooks at the same time.",
-      "requires": ["faca.garra"]
+      "requires": [
+        "faca.garra"
+      ]
     },
     {
       "id": "org.mise-en-place",
       "name": "Mise en place",
       "category": "organizacao",
       "description": "Everything chopped and within reach before the hob goes on.",
-      "requires": ["seguranca.bancada"]
+      "requires": [
+        "seguranca.bancada"
+      ]
     },
     {
       "id": "calor.pre-aquecer",
@@ -69,35 +77,45 @@
       "name": "Reading the heat",
       "category": "calor",
       "description": "Tell low, medium and high apart by sound and smell.",
-      "requires": ["calor.pre-aquecer"]
+      "requires": [
+        "calor.pre-aquecer"
+      ]
     },
     {
       "id": "calor.gordura",
       "name": "Choosing the fat",
       "category": "calor",
       "description": "Olive oil, butter or neutral oil, by the heat each one takes.",
-      "requires": ["calor.pre-aquecer"]
+      "requires": [
+        "calor.pre-aquecer"
+      ]
     },
     {
       "id": "ponto.douramento",
       "name": "Browning",
       "category": "ponto",
       "description": "Recognise a golden crust and what stops one forming.",
-      "requires": ["calor.niveis"]
+      "requires": [
+        "calor.niveis"
+      ]
     },
     {
       "id": "calor.lume-brando",
       "name": "Low heat",
       "category": "calor",
       "description": "Cook slowly without burning the edges.",
-      "requires": ["calor.niveis"]
+      "requires": [
+        "calor.niveis"
+      ]
     },
     {
       "id": "ponto.ovo",
       "name": "Egg doneness",
       "category": "ponto",
       "description": "Know when the white is set and the yolk still soft.",
-      "requires": ["calor.lume-brando"]
+      "requires": [
+        "calor.lume-brando"
+      ]
     },
     {
       "id": "tempero.sal-momento",
@@ -111,42 +129,54 @@
       "name": "Salted water",
       "category": "tempero",
       "description": "Season from the inside, in the cooking water.",
-      "requires": ["tempero.sal-momento"]
+      "requires": [
+        "tempero.sal-momento"
+      ]
     },
     {
       "id": "ponto.al-dente",
       "name": "Al dente",
       "category": "ponto",
       "description": "Taste instead of trusting the clock.",
-      "requires": ["calor.niveis"]
+      "requires": [
+        "calor.niveis"
+      ]
     },
     {
       "id": "calor.racio-agua",
       "name": "Water ratio",
       "category": "calor",
       "description": "The proportion that makes rice loose instead of mush.",
-      "requires": ["calor.lume-brando"]
+      "requires": [
+        "calor.lume-brando"
+      ]
     },
     {
       "id": "org.sequenciar",
       "name": "Sequencing",
       "category": "organizacao",
       "description": "Start with what takes longest so everything reaches the table hot.",
-      "requires": ["org.mise-en-place"]
+      "requires": [
+        "org.mise-en-place"
+      ]
     },
     {
       "id": "tempero.camadas",
       "name": "Seasoning in layers",
       "category": "tempero",
       "description": "Salt at every stage instead of all of it at the end.",
-      "requires": ["tempero.sal-momento"]
+      "requires": [
+        "tempero.sal-momento"
+      ]
     },
     {
       "id": "org.empratar",
       "name": "Plating",
       "category": "organizacao",
       "description": "Hot plate, height, and a colour that contrasts.",
-      "requires": ["org.sequenciar"]
+      "requires": [
+        "org.sequenciar"
+      ]
     }
   ],
   "missions": [
@@ -157,6 +187,13 @@
       "dishName": "Fried egg",
       "cookTimeMin": 10,
       "summary": "Dez minutos, com o que já tens em casa. Falha de formas visíveis e recuperáveis.",
+      "estimatedCostEur": 0.5,
+      "dietaryTags": [
+        "vegetariano",
+        "sem_gluten",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
       "practices": [
         "seguranca.bancada",
         "seguranca.higiene",
@@ -165,7 +202,13 @@
         "faca.pega",
         "org.mise-en-place"
       ],
-      "ingredients": ["1 egg", "Olive oil or butter", "Salt", "A small frying pan", "A lid"],
+      "ingredients": [
+        "1 egg",
+        "Olive oil or butter",
+        "Salt",
+        "A small frying pan",
+        "A lid"
+      ],
       "steps": [
         {
           "id": "s1",
@@ -273,6 +316,17 @@
       "dishName": "Caramelised onion",
       "cookTimeMin": 25,
       "summary": "Uma cebola, uma frigideira e paciência: a base de metade do que vais cozinhar.",
+      "estimatedCostEur": 0.6,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
       "practices": [
         "faca.garra",
         "faca.cubos",
@@ -281,7 +335,12 @@
         "calor.gordura",
         "ponto.douramento"
       ],
-      "ingredients": ["2 onions", "Olive oil", "Salt", "A wide frying pan"],
+      "ingredients": [
+        "2 onions",
+        "Olive oil",
+        "Salt",
+        "A wide frying pan"
+      ],
       "steps": [
         {
           "id": "s1",
@@ -356,8 +415,24 @@
       "dishName": "Plain omelette",
       "cookTimeMin": 15,
       "summary": "O teste do lume brando: se a base ficou castanha, o lume estava alto.",
-      "practices": ["ponto.ovo", "calor.lume-brando", "tempero.sal-momento"],
-      "ingredients": ["3 eggs", "Salt", "Butter", "A non-stick pan"],
+      "estimatedCostEur": 1,
+      "dietaryTags": [
+        "vegetariano",
+        "sem_gluten",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "ponto.ovo",
+        "calor.lume-brando",
+        "tempero.sal-momento"
+      ],
+      "ingredients": [
+        "3 eggs",
+        "Salt",
+        "Butter",
+        "A non-stick pan"
+      ],
       "steps": [
         {
           "id": "s1",
@@ -431,8 +506,29 @@
       "dishName": "Plain rice",
       "cookTimeMin": 20,
       "summary": "Medir em vez de adivinhar. É o rácio que decide, não o talento.",
-      "practices": ["tempero.agua-salgada", "ponto.al-dente", "calor.racio-agua"],
-      "ingredients": ["1 cup of rice", "2 cups of water", "Salt", "Olive oil", "A pan with a lid"],
+      "estimatedCostEur": 0.4,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "tempero.agua-salgada",
+        "ponto.al-dente",
+        "calor.racio-agua"
+      ],
+      "ingredients": [
+        "1 cup of rice",
+        "2 cups of water",
+        "Salt",
+        "Olive oil",
+        "A pan with a lid"
+      ],
       "steps": [
         {
           "id": "s1",
@@ -506,7 +602,19 @@
       "dishName": "Chicken with rice and salad",
       "cookTimeMin": 45,
       "summary": "Três coisas ao mesmo tempo, tudo quente à mesa. É aqui que se vê a diferença.",
-      "practices": ["org.sequenciar", "tempero.camadas", "org.empratar"],
+      "estimatedCostEur": 3.5,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja"
+      ],
+      "practices": [
+        "org.sequenciar",
+        "tempero.camadas",
+        "org.empratar"
+      ],
       "ingredients": [
         "2 chicken thighs",
         "1 cup of rice",
@@ -600,12 +708,20 @@
           "type": "lesson",
           "xpReward": 25,
           "icon": "chef-hat",
-          "imageUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u1-l1.jpg",
           "cookTimeMin": 5,
           "difficulty": "facil",
-          "teaches": ["seguranca.bancada", "seguranca.higiene"],
+          "teaches": [
+            "seguranca.bancada",
+            "seguranca.higiene"
+          ],
           "requires": [],
-          "ingredients": ["A chopping board", "A tea towel", "A chef's knife", "An onion"],
+          "ingredients": [
+            "A chopping board",
+            "A tea towel",
+            "A chef's knife",
+            "An onion"
+          ],
           "preparationSteps": [
             {
               "title": "Clean and dry",
@@ -634,7 +750,9 @@
             {
               "id": "u1-l1-q1",
               "type": "choice",
-              "skills": ["seguranca.bancada"],
+              "skills": [
+                "seguranca.bancada"
+              ],
               "prompt": "The board slides on the counter every time you cut. What do you do?",
               "options": [
                 "Put a folded damp cloth underneath",
@@ -649,7 +767,9 @@
             {
               "id": "u1-l1-q2",
               "type": "choice",
-              "skills": ["seguranca.higiene"],
+              "skills": [
+                "seguranca.higiene"
+              ],
               "prompt": "You've just cut raw chicken. Next you need to cut lettuce. What do you do with the board?",
               "options": [
                 "Wash it with hot water and soap, or use another board",
@@ -664,7 +784,10 @@
             {
               "id": "u1-l1-q3",
               "type": "order",
-              "skills": ["seguranca.bancada", "org.mise-en-place"],
+              "skills": [
+                "seguranca.bancada",
+                "org.mise-en-place"
+              ],
               "prompt": "Put in order what you do before the first cut.",
               "correctOrder": [
                 "Lavar as mãos",
@@ -678,10 +801,15 @@
             {
               "id": "u1-l1-q4",
               "type": "judge",
-              "skills": ["seguranca.bancada"],
+              "skills": [
+                "seguranca.bancada"
+              ],
               "prompt": "Is this counter ready to start cutting?",
               "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=500&fit=crop",
-              "options": ["Yes, it's workable", "No, there's no free space around the board"],
+              "options": [
+                "Yes, it's workable",
+                "No, there's no free space around the board"
+              ],
               "correctAnswer": "No, there's no free space around the board",
               "explanation": "You need room for what you've already cut. Without it, the cuts pile up on the board and the next one gets cramped.",
               "explainWrong": "A full counter looks productive but forces you to cut inside a small square. That's where the knife meets a jar instead of the board."
@@ -689,7 +817,10 @@
             {
               "id": "u1-l1-q6",
               "type": "choice",
-              "skills": ["seguranca.bancada", "seguranca.faca-romba"],
+              "skills": [
+                "seguranca.bancada",
+                "seguranca.faca-romba"
+              ],
               "prompt": "You're going to the fridge for an ingredient. Where do you put the knife?",
               "options": [
                 "On the counter, edge facing in and handle away from the edge",
@@ -712,12 +843,19 @@
           "type": "lesson",
           "xpReward": 25,
           "icon": "knife",
-          "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u1-l2.jpg",
           "cookTimeMin": 5,
           "difficulty": "facil",
-          "teaches": ["seguranca.faca-romba"],
-          "requires": ["seguranca.bancada"],
-          "ingredients": ["Your chef's knife", "A ripe tomato"],
+          "teaches": [
+            "seguranca.faca-romba"
+          ],
+          "requires": [
+            "seguranca.bancada"
+          ],
+          "ingredients": [
+            "Your chef's knife",
+            "A ripe tomato"
+          ],
           "preparationSteps": [
             {
               "title": "The tomato test",
@@ -750,7 +888,9 @@
             {
               "id": "u1-l2-q1",
               "type": "choice",
-              "skills": ["seguranca.faca-romba"],
+              "skills": [
+                "seguranca.faca-romba"
+              ],
               "prompt": "Why is a blunt knife more dangerous than a sharp one?",
               "options": [
                 "It slides instead of biting, and your hand follows",
@@ -765,10 +905,15 @@
             {
               "id": "u1-l2-q2",
               "type": "judge",
-              "skills": ["seguranca.faca-romba"],
+              "skills": [
+                "seguranca.faca-romba"
+              ],
               "prompt": "The blade slid across the tomato's skin without marking it. Is this knife ready to use?",
               "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=500&fit=crop",
-              "options": ["Yes, just press harder", "No, it needs an edge before it cuts"],
+              "options": [
+                "Yes, just press harder",
+                "No, it needs an edge before it cuts"
+              ],
               "correctAnswer": "No, it needs an edge before it cuts",
               "explanation": "The tomato test is binary: either the skin gives to the weight of the blade, or you have no edge.",
               "explainWrong": "\"Press harder\" is the answer that sends people to A&E. If the blade won't bite under its own weight, what force changes is how fast it slides."
@@ -776,7 +921,10 @@
             {
               "id": "u1-l2-q5",
               "type": "choice",
-              "skills": ["seguranca.faca-romba", "seguranca.bancada"],
+              "skills": [
+                "seguranca.faca-romba",
+                "seguranca.bancada"
+              ],
               "prompt": "The knife slips off the counter and is falling. What do you do?",
               "options": [
                 "Step back and let it fall",
@@ -791,7 +939,10 @@
             {
               "id": "u1-l2-q6",
               "type": "choice",
-              "skills": ["seguranca.faca-romba", "seguranca.higiene"],
+              "skills": [
+                "seguranca.faca-romba",
+                "seguranca.higiene"
+              ],
               "prompt": "How do you wash the knife after using it?",
               "options": [
                 "By hand, straight away, and dry it",
@@ -817,9 +968,16 @@
           "imageUrl": "https://images.unsplash.com/photo-1603133872877-684f208fb84b?w=800&h=600&fit=crop",
           "cookTimeMin": 5,
           "difficulty": "facil",
-          "teaches": ["faca.pega"],
-          "requires": ["seguranca.faca-romba"],
-          "ingredients": ["Your chef's knife", "Two carrots"],
+          "teaches": [
+            "faca.pega"
+          ],
+          "requires": [
+            "seguranca.faca-romba"
+          ],
+          "ingredients": [
+            "Your chef's knife",
+            "Two carrots"
+          ],
           "preparationSteps": [
             {
               "title": "Move your hand up",
@@ -848,7 +1006,9 @@
             {
               "id": "u1-l3-q1",
               "type": "choice",
-              "skills": ["faca.pega"],
+              "skills": [
+                "faca.pega"
+              ],
               "prompt": "Where do the thumb and index finger go in the pinch grip?",
               "options": [
                 "Gripping the blade, in front of the handle",
@@ -863,7 +1023,9 @@
             {
               "id": "u1-l3-q2",
               "type": "choice",
-              "skills": ["faca.pega"],
+              "skills": [
+                "faca.pega"
+              ],
               "prompt": "Your wrist hurts after two carrots. What's wrong?",
               "options": [
                 "I'm cutting with my wrist instead of my arm",
@@ -878,7 +1040,9 @@
             {
               "id": "u1-l3-q3",
               "type": "order",
-              "skills": ["faca.pega"],
+              "skills": [
+                "faca.pega"
+              ],
               "prompt": "Put the steps for picking up the knife in order.",
               "correctOrder": [
                 "Pousar a faca na tábua com o gume para baixo",
@@ -892,7 +1056,9 @@
             {
               "id": "u1-l3-q4",
               "type": "judge",
-              "skills": ["faca.pega"],
+              "skills": [
+                "faca.pega"
+              ],
               "prompt": "The hand in this picture holds the whole handle, index finger stretched along the spine of the blade. Is it correct?",
               "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop",
               "options": [
@@ -906,7 +1072,10 @@
             {
               "id": "u1-l3-q6",
               "type": "choice",
-              "skills": ["faca.pega", "seguranca.bancada"],
+              "skills": [
+                "faca.pega",
+                "seguranca.bancada"
+              ],
               "prompt": "You need to pass the knife to someone else. How?",
               "options": [
                 "Put it on the counter and let them pick it up",
@@ -929,12 +1098,20 @@
           "type": "lesson",
           "xpReward": 25,
           "icon": "shield",
-          "imageUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u1-l4.png",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": ["faca.garra"],
-          "requires": ["faca.pega"],
-          "ingredients": ["Your chef's knife", "A carrot", "A courgette"],
+          "teaches": [
+            "faca.garra"
+          ],
+          "requires": [
+            "faca.pega"
+          ],
+          "ingredients": [
+            "Your chef's knife",
+            "A carrot",
+            "A courgette"
+          ],
           "preparationSteps": [
             {
               "title": "Tuck the tips in",
@@ -963,9 +1140,16 @@
             {
               "id": "u1-l4-q1",
               "type": "choice",
-              "skills": ["faca.garra"],
+              "skills": [
+                "faca.garra"
+              ],
               "prompt": "What acts as the stop for the blade in the claw grip?",
-              "options": ["Your knuckles", "Your nails", "Your thumb", "Your palm"],
+              "options": [
+                "Your knuckles",
+                "Your nails",
+                "Your thumb",
+                "Your palm"
+              ],
               "correctAnswer": "Your knuckles",
               "explanation": "The knuckles are the most prominent part of a curled hand. The blade rests against them and never reaches your fingertips.",
               "explainWrong": "Nails and fingertips are exactly what the claw hides. If the blade touches them, the hand isn't curled enough."
@@ -973,7 +1157,10 @@
             {
               "id": "u1-l4-q2",
               "type": "order",
-              "skills": ["faca.garra", "faca.pega"],
+              "skills": [
+                "faca.garra",
+                "faca.pega"
+              ],
               "prompt": "Put the cycle of a claw-hand cut in order.",
               "correctOrder": [
                 "Dobrar os dedos e segurar o ingrediente",
@@ -987,10 +1174,15 @@
             {
               "id": "u1-l4-q3",
               "type": "judge",
-              "skills": ["faca.garra"],
+              "skills": [
+                "faca.garra"
+              ],
               "prompt": "In this picture the fingers are stretched out holding the carrot. Can you cut like that?",
               "imageUrl": "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=800&h=500&fit=crop",
-              "options": ["Yes, as long as I cut slowly", "No, the fingertips are in the way"],
+              "options": [
+                "Yes, as long as I cut slowly",
+                "No, the fingertips are in the way"
+              ],
               "correctAnswer": "No, the fingertips are in the way",
               "explanation": "With fingers stretched out there's no stop. The only thing between the blade and your nail is your attention.",
               "explainWrong": "\"Slowly\" isn't protection — it's what you do while you're concentrating, and nobody concentrates through a whole onion. The claw protects you even when you drift off."
@@ -998,7 +1190,10 @@
             {
               "id": "u1-l4-q5",
               "type": "choice",
-              "skills": ["faca.garra", "faca.cubos"],
+              "skills": [
+                "faca.garra",
+                "faca.cubos"
+              ],
               "prompt": "You're cutting a round courgette that rolls on the board. What do you do first?",
               "options": [
                 "Cut a thin slice lengthways to make a flat base",
@@ -1013,7 +1208,9 @@
             {
               "id": "u1-l4-q6",
               "type": "choice",
-              "skills": ["faca.garra"],
+              "skills": [
+                "faca.garra"
+              ],
               "prompt": "Halfway through an onion you catch your fingers stretched out again. Why?",
               "options": [
                 "The claw is tiring until it becomes habit — it's normal, and you fix it by pausing",
@@ -1036,12 +1233,20 @@
           "type": "lesson",
           "xpReward": 25,
           "icon": "onion",
-          "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u1-l5.jpg",
           "cookTimeMin": 8,
           "difficulty": "facil",
-          "teaches": ["faca.cubos"],
-          "requires": ["faca.garra"],
-          "ingredients": ["Two onions", "Your chef's knife", "The board"],
+          "teaches": [
+            "faca.cubos"
+          ],
+          "requires": [
+            "faca.garra"
+          ],
+          "ingredients": [
+            "Two onions",
+            "Your chef's knife",
+            "The board"
+          ],
           "preparationSteps": [
             {
               "title": "Halve it",
@@ -1078,7 +1283,9 @@
             {
               "id": "u1-l5-q1",
               "type": "choice",
-              "skills": ["faca.cubos"],
+              "skills": [
+                "faca.cubos"
+              ],
               "prompt": "Why do you leave the onion's root whole?",
               "options": [
                 "It's what holds all the layers together",
@@ -1093,7 +1300,10 @@
             {
               "id": "u1-l5-q2",
               "type": "order",
-              "skills": ["faca.cubos", "faca.garra"],
+              "skills": [
+                "faca.cubos",
+                "faca.garra"
+              ],
               "prompt": "Put the onion dice in order.",
               "correctOrder": [
                 "Cortar ao meio, do topo à raiz",
@@ -1108,7 +1318,9 @@
             {
               "id": "u1-l5-q4",
               "type": "judge",
-              "skills": ["faca.cubos"],
+              "skills": [
+                "faca.cubos"
+              ],
               "prompt": "This chopped onion has pieces the size of a pea and others the size of a fingernail. Is it good enough for a soffritto?",
               "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
               "options": [
@@ -1122,7 +1334,9 @@
             {
               "id": "u1-l5-q6",
               "type": "choice",
-              "skills": ["faca.cubos"],
+              "skills": [
+                "faca.cubos"
+              ],
               "prompt": "The tears are stopping you seeing what you're cutting. What actually helps?",
               "options": [
                 "A cold onion and a sharp knife",
@@ -1145,11 +1359,16 @@
           "type": "boss",
           "xpReward": 40,
           "icon": "flame",
-          "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u1-l6.jpg",
           "cookTimeMin": 10,
           "difficulty": "facil",
-          "teaches": ["org.mise-en-place", "seguranca.fogo"],
-          "requires": ["faca.cubos"],
+          "teaches": [
+            "org.mise-en-place",
+            "seguranca.fogo"
+          ],
+          "requires": [
+            "faca.cubos"
+          ],
           "ingredients": [
             "Whatever the recipe asks for",
             "Small bowls",
@@ -1188,7 +1407,9 @@
             {
               "id": "u1-l6-q1",
               "type": "choice",
-              "skills": ["org.mise-en-place"],
+              "skills": [
+                "org.mise-en-place"
+              ],
               "prompt": "Why do you chop everything before turning on the hob?",
               "options": [
                 "Because once the heat is on, the time belongs to the food, not to you",
@@ -1203,7 +1424,9 @@
             {
               "id": "u1-l6-q2",
               "type": "choice",
-              "skills": ["seguranca.fogo"],
+              "skills": [
+                "seguranca.fogo"
+              ],
               "prompt": "The oil in the pan has caught fire. What do you do?",
               "options": [
                 "Turn off the heat and cover it with a lid",
@@ -1218,7 +1441,10 @@
             {
               "id": "u1-l6-q3",
               "type": "order",
-              "skills": ["org.mise-en-place", "seguranca.fogo"],
+              "skills": [
+                "org.mise-en-place",
+                "seguranca.fogo"
+              ],
               "prompt": "Put the prep before lighting the hob in order.",
               "correctOrder": [
                 "Ler a receita do princípio ao fim",
@@ -1233,7 +1459,9 @@
             {
               "id": "u1-l6-q5",
               "type": "judge",
-              "skills": ["org.mise-en-place"],
+              "skills": [
+                "org.mise-en-place"
+              ],
               "prompt": "The bowls are full and lined up, but on the right of the hob — and you're right-handed, with the spoon in your right hand. Is that fine?",
               "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop",
               "options": [
@@ -1247,7 +1475,10 @@
             {
               "id": "u1-l6-q6",
               "type": "choice",
-              "skills": ["org.mise-en-place", "seguranca.bancada"],
+              "skills": [
+                "org.mise-en-place",
+                "seguranca.bancada"
+              ],
               "prompt": "The recipe says the onion goes in first and the garlic two minutes later. How do you prep?",
               "options": [
                 "Separate bowls: together, the garlic burns",
@@ -1279,12 +1510,20 @@
           "type": "lesson",
           "xpReward": 25,
           "icon": "flame",
-          "imageUrl": "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u2-l1.jpg",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": ["calor.pre-aquecer"],
-          "requires": ["org.mise-en-place"],
-          "ingredients": ["A frying pan", "A drizzle of olive oil", "A few drops of water"],
+          "teaches": [
+            "calor.pre-aquecer"
+          ],
+          "requires": [
+            "org.mise-en-place"
+          ],
+          "ingredients": [
+            "A frying pan",
+            "A drizzle of olive oil",
+            "A few drops of water"
+          ],
           "preparationSteps": [
             {
               "title": "Empty pan on the heat",
@@ -1313,7 +1552,9 @@
             {
               "id": "u2-l1-q1",
               "type": "choice",
-              "skills": ["calor.pre-aquecer"],
+              "skills": [
+                "calor.pre-aquecer"
+              ],
               "prompt": "You put the steak in a pan that was still lukewarm. What happens?",
               "options": [
                 "It releases water and ends up boiled instead of browned",
@@ -1328,7 +1569,10 @@
             {
               "id": "u2-l1-q2",
               "type": "order",
-              "skills": ["calor.pre-aquecer", "calor.gordura"],
+              "skills": [
+                "calor.pre-aquecer",
+                "calor.gordura"
+              ],
               "prompt": "Put the start of any sauté in order.",
               "correctOrder": [
                 "Frigideira vazia ao lume médio",
@@ -1342,10 +1586,16 @@
             {
               "id": "u2-l1-q4",
               "type": "judge",
-              "skills": ["calor.pre-aquecer", "calor.gordura"],
+              "skills": [
+                "calor.pre-aquecer",
+                "calor.gordura"
+              ],
               "prompt": "The oil in this pan is smoking and the food hasn't gone in yet. Can you carry on?",
               "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=500&fit=crop",
-              "options": ["Yes, the hotter the better the sear", "No, that oil is already burnt"],
+              "options": [
+                "Yes, the hotter the better the sear",
+                "No, that oil is already burnt"
+              ],
               "correctAnswer": "No, that oil is already burnt",
               "explanation": "Smoke is the fat going past its limit. The bitterness that shows up there stays in everything that goes in next.",
               "explainWrong": "Hotter isn't always better. Past the smoke point the fat breaks down — the bitterness won't come out of anything, and the best move is to start again with a clean pan."
@@ -1353,7 +1603,9 @@
             {
               "id": "u2-l1-q5",
               "type": "choice",
-              "skills": ["calor.pre-aquecer"],
+              "skills": [
+                "calor.pre-aquecer"
+              ],
               "prompt": "How do you know the pan is hot before the fat goes in?",
               "options": [
                 "A few drops of water dance on the surface instead of evaporating at once",
@@ -1376,12 +1628,20 @@
           "type": "lesson",
           "xpReward": 25,
           "icon": "flame",
-          "imageUrl": "https://images.unsplash.com/photo-1603133872877-684f208fb84b?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u2-l2.png",
           "cookTimeMin": 7,
           "difficulty": "facil",
-          "teaches": ["calor.niveis"],
-          "requires": ["calor.pre-aquecer"],
-          "ingredients": ["A frying pan", "An onion", "Olive oil"],
+          "teaches": [
+            "calor.niveis"
+          ],
+          "requires": [
+            "calor.pre-aquecer"
+          ],
+          "ingredients": [
+            "A frying pan",
+            "An onion",
+            "Olive oil"
+          ],
           "preparationSteps": [
             {
               "title": "High heat",
@@ -1410,7 +1670,9 @@
             {
               "id": "u2-l2-q1",
               "type": "choice",
-              "skills": ["calor.niveis"],
+              "skills": [
+                "calor.niveis"
+              ],
               "prompt": "You want soft, sweet onion for a soffritto. Which heat?",
               "options": [
                 "Medium, for a good while",
@@ -1425,7 +1687,9 @@
             {
               "id": "u2-l2-q2",
               "type": "judge",
-              "skills": ["calor.niveis"],
+              "skills": [
+                "calor.niveis"
+              ],
               "prompt": "This pan is sizzling loudly and smoke is coming off the sides. You're sweating onion. Right or wrong?",
               "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=500&fit=crop",
               "options": [
@@ -1439,7 +1703,10 @@
             {
               "id": "u2-l2-q3",
               "type": "order",
-              "skills": ["calor.niveis", "calor.pre-aquecer"],
+              "skills": [
+                "calor.niveis",
+                "calor.pre-aquecer"
+              ],
               "prompt": "Put the heats for a steak with a pan sauce in order.",
               "correctOrder": [
                 "Lume alto para selar os dois lados",
@@ -1453,7 +1720,10 @@
             {
               "id": "u2-l2-q5",
               "type": "choice",
-              "skills": ["calor.niveis", "calor.pre-aquecer"],
+              "skills": [
+                "calor.niveis",
+                "calor.pre-aquecer"
+              ],
               "prompt": "The food has started sticking and going too dark. What's the first move?",
               "options": [
                 "Lower the heat, and only then scrape the base with a spoon",
@@ -1479,9 +1749,17 @@
           "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": ["calor.gordura"],
-          "requires": ["calor.pre-aquecer"],
-          "ingredients": ["Olive oil", "Sunflower oil", "Butter"],
+          "teaches": [
+            "calor.gordura"
+          ],
+          "requires": [
+            "calor.pre-aquecer"
+          ],
+          "ingredients": [
+            "Olive oil",
+            "Sunflower oil",
+            "Butter"
+          ],
           "preparationSteps": [
             {
               "title": "Smoke point",
@@ -1510,7 +1788,9 @@
             {
               "id": "u2-l3-q1",
               "type": "choice",
-              "skills": ["calor.gordura"],
+              "skills": [
+                "calor.gordura"
+              ],
               "prompt": "You're searing a steak on high heat. Which fat?",
               "options": [
                 "Neutral oil, and butter only at the end",
@@ -1525,7 +1805,9 @@
             {
               "id": "u2-l3-q2",
               "type": "judge",
-              "skills": ["calor.gordura"],
+              "skills": [
+                "calor.gordura"
+              ],
               "prompt": "The butter in this pan has dark brown specks and smells strongly toasted. Good for finishing the sauce?",
               "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop",
               "options": [
@@ -1539,7 +1821,10 @@
             {
               "id": "u2-l3-q4",
               "type": "order",
-              "skills": ["calor.gordura", "calor.pre-aquecer"],
+              "skills": [
+                "calor.gordura",
+                "calor.pre-aquecer"
+              ],
               "prompt": "Put a seared steak finished in butter in order.",
               "correctOrder": [
                 "Frigideira bem quente",
@@ -1554,7 +1839,10 @@
             {
               "id": "u2-l3-q5",
               "type": "choice",
-              "skills": ["calor.gordura", "seguranca.fogo"],
+              "skills": [
+                "calor.gordura",
+                "seguranca.fogo"
+              ],
               "prompt": "A pan of oil has caught fire. What do you do?",
               "options": [
                 "Turn off the heat and cover it with a lid",
@@ -1580,9 +1868,18 @@
           "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
           "cookTimeMin": 9,
           "difficulty": "medio",
-          "teaches": ["ponto.douramento"],
-          "requires": ["calor.niveis", "calor.gordura"],
-          "ingredients": ["An onion", "Olive oil", "A pinch of salt"],
+          "teaches": [
+            "ponto.douramento"
+          ],
+          "requires": [
+            "calor.niveis",
+            "calor.gordura"
+          ],
+          "ingredients": [
+            "An onion",
+            "Olive oil",
+            "A pinch of salt"
+          ],
           "preparationSteps": [
             {
               "title": "Spread it out",
@@ -1605,7 +1902,9 @@
             {
               "id": "u2-l4-q1",
               "type": "choice",
-              "skills": ["ponto.douramento"],
+              "skills": [
+                "ponto.douramento"
+              ],
               "prompt": "You put all the mushrooms in at once and they released water instead of browning. Why?",
               "options": [
                 "The pan was crowded and the temperature dropped off a cliff",
@@ -1620,7 +1919,9 @@
             {
               "id": "u2-l4-q2",
               "type": "judge",
-              "skills": ["ponto.douramento"],
+              "skills": [
+                "ponto.douramento"
+              ],
               "prompt": "This onion is honey-coloured, has shrunk by half and smells sweet. Take it out or leave it longer?",
               "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
               "options": [
@@ -1634,7 +1935,9 @@
             {
               "id": "u2-l4-q3",
               "type": "estimate",
-              "skills": ["ponto.douramento"],
+              "skills": [
+                "ponto.douramento"
+              ],
               "prompt": "How long does diced onion take to go golden on medium heat?",
               "correctAnswer": 12,
               "tolerance": 5,
@@ -1645,7 +1948,10 @@
             {
               "id": "u2-l4-q4",
               "type": "order",
-              "skills": ["ponto.douramento", "calor.niveis"],
+              "skills": [
+                "ponto.douramento",
+                "calor.niveis"
+              ],
               "prompt": "Put what the onion does, from start to finish, in order.",
               "correctOrder": [
                 "Chia ao entrar na gordura quente",
@@ -1659,7 +1965,10 @@
             {
               "id": "u2-l4-q5",
               "type": "choice",
-              "skills": ["ponto.douramento", "tempero.sal-momento"],
+              "skills": [
+                "ponto.douramento",
+                "tempero.sal-momento"
+              ],
               "prompt": "What's a pinch of salt on the onion at the very start for?",
               "options": [
                 "It draws the water out and the onion softens faster",
@@ -1691,12 +2000,20 @@
           "type": "lesson",
           "xpReward": 25,
           "icon": "soup",
-          "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop",
+          "imageUrl": "/lessons/main-course/u3-l1.jpg",
           "cookTimeMin": 7,
           "difficulty": "facil",
-          "teaches": ["calor.lume-brando"],
-          "requires": ["calor.niveis"],
-          "ingredients": ["A saucepan", "Water", "A wooden spoon"],
+          "teaches": [
+            "calor.lume-brando"
+          ],
+          "requires": [
+            "calor.niveis"
+          ],
+          "ingredients": [
+            "A saucepan",
+            "Water",
+            "A wooden spoon"
+          ],
           "preparationSteps": [
             {
               "title": "Recognise it",
@@ -1725,7 +2042,9 @@
             {
               "id": "u3-l1-q1",
               "type": "choice",
-              "skills": ["calor.lume-brando"],
+              "skills": [
+                "calor.lume-brando"
+              ],
               "prompt": "Why is a tomato sauce better simmered than boiled?",
               "options": [
                 "Boiling churns and breaks everything up; a simmer lets the flavours come together",
@@ -1740,9 +2059,11 @@
             {
               "id": "u3-l1-q2",
               "type": "judge",
-              "skills": ["calor.lume-brando"],
+              "skills": [
+                "calor.lume-brando"
+              ],
               "prompt": "This pan's surface is churning with bubbles everywhere. Would you call that a simmer?",
-              "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop",
+              "imageUrl": "/lessons/main-course/u3-l1-q2.jpg",
               "options": [
                 "Yes, the bubbles are small",
                 "No, that's a boil — a simmer is the occasional bubble"
@@ -1754,7 +2075,10 @@
             {
               "id": "u3-l1-q4",
               "type": "order",
-              "skills": ["calor.lume-brando", "calor.niveis"],
+              "skills": [
+                "calor.lume-brando",
+                "calor.niveis"
+              ],
               "prompt": "Put reducing a sauce in order.",
               "correctOrder": [
                 "Levantar fervura em lume médio",
@@ -1768,7 +2092,9 @@
             {
               "id": "u3-l1-q5",
               "type": "choice",
-              "skills": ["calor.lume-brando"],
+              "skills": [
+                "calor.lume-brando"
+              ],
               "prompt": "The sauce is catching on the base even on low heat. What's most likely?",
               "options": [
                 "The pan is thin and makes a hot spot where the sauce burns",
@@ -1794,9 +2120,17 @@
           "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=500&fit=crop",
           "cookTimeMin": 8,
           "difficulty": "medio",
-          "teaches": ["ponto.ovo"],
-          "requires": ["calor.lume-brando"],
-          "ingredients": ["Three eggs", "Butter", "Salt"],
+          "teaches": [
+            "ponto.ovo"
+          ],
+          "requires": [
+            "calor.lume-brando"
+          ],
+          "ingredients": [
+            "Three eggs",
+            "Butter",
+            "Salt"
+          ],
           "preparationSteps": [
             {
               "title": "Beat, but not too much",
@@ -1825,7 +2159,9 @@
             {
               "id": "u3-l2-q1",
               "type": "choice",
-              "skills": ["ponto.ovo"],
+              "skills": [
+                "ponto.ovo"
+              ],
               "prompt": "Why do scrambled eggs turn out dry even when you take them off at the right moment?",
               "options": [
                 "They keep cooking on the plate from the heat they already hold",
@@ -1840,18 +2176,26 @@
             {
               "id": "u3-l2-q2",
               "type": "judge",
-              "skills": ["ponto.ovo"],
-              "prompt": "These scrambled eggs still glisten and are slightly runny at the edges. Take them off?",
-              "imageUrl": "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=800&h=500&fit=crop",
-              "options": ["Yes, they finish cooking on the plate", "No, they're still raw"],
-              "correctAnswer": "Yes, they finish cooking on the plate",
-              "explanation": "Glistening and slightly runny is the moment to take them off. Thirty seconds later, on the plate, they're exactly right.",
-              "explainWrong": "They aren't raw — they're one step before done, which is where they have to be when they come off. Waiting for the finished look in the pan guarantees they reach the table overcooked."
+              "skills": [
+                "ponto.ovo"
+              ],
+              "prompt": "These scrambled eggs are dry, broken into firm curds and catching on the pan. Did they come off the heat at the right moment?",
+              "imageUrl": "/lessons/main-course/u3-l2-q2.jpg",
+              "options": [
+                "No, they were already past it before they left the heat",
+                "Yes, that is what cooked scrambled eggs look like"
+              ],
+              "correctAnswer": "No, they were already past it before they left the heat",
+              "explanation": "An egg carries on cooking in its own heat after the pan. Wait until it looks done in the pan and it reaches the plate dry — it has to come off while still glistening and a little loose.",
+              "explainWrong": "That look belongs on the plate, not in the pan. By the time eggs set this firmly over the heat, the residual heat has already taken them one step further."
             },
             {
               "id": "u3-l2-q4",
               "type": "order",
-              "skills": ["ponto.ovo", "calor.lume-brando"],
+              "skills": [
+                "ponto.ovo",
+                "calor.lume-brando"
+              ],
               "prompt": "Put creamy scrambled eggs in order.",
               "correctOrder": [
                 "Bater os ovos só até ficarem uniformes",
@@ -1866,7 +2210,10 @@
             {
               "id": "u3-l2-q5",
               "type": "choice",
-              "skills": ["ponto.ovo", "calor.niveis"],
+              "skills": [
+                "ponto.ovo",
+                "calor.niveis"
+              ],
               "prompt": "A fried egg with firm white and soft yolk: which heat?",
               "options": [
                 "Medium-low, with a lid on at the end",
@@ -1889,12 +2236,20 @@
           "type": "lesson",
           "xpReward": 25,
           "icon": "salad",
-          "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u3-l3.jpg",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": ["tempero.sal-momento"],
-          "requires": ["calor.lume-brando"],
-          "ingredients": ["Coarse salt", "Fine salt", "A tomato"],
+          "teaches": [
+            "tempero.sal-momento"
+          ],
+          "requires": [
+            "calor.lume-brando"
+          ],
+          "ingredients": [
+            "Coarse salt",
+            "Fine salt",
+            "A tomato"
+          ],
           "preparationSteps": [
             {
               "title": "Salt early",
@@ -1923,7 +2278,9 @@
             {
               "id": "u3-l3-q1",
               "type": "choice",
-              "skills": ["tempero.sal-momento"],
+              "skills": [
+                "tempero.sal-momento"
+              ],
               "prompt": "You're going to reduce a sauce for half an hour. When do you salt?",
               "options": [
                 "A little at the start and adjust at the end, once it's reduced",
@@ -1938,7 +2295,9 @@
             {
               "id": "u3-l3-q2",
               "type": "judge",
-              "skills": ["tempero.sal-momento"],
+              "skills": [
+                "tempero.sal-momento"
+              ],
               "prompt": "You salted the aubergine and ten minutes later there's water on the board. Did it go wrong?",
               "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
               "options": [
@@ -1952,7 +2311,10 @@
             {
               "id": "u3-l3-q3",
               "type": "order",
-              "skills": ["tempero.sal-momento", "calor.lume-brando"],
+              "skills": [
+                "tempero.sal-momento",
+                "calor.lume-brando"
+              ],
               "prompt": "Put the seasoning of a soup that will cook for an hour in order.",
               "correctOrder": [
                 "Uma pitada com os legumes, no início",
@@ -1966,7 +2328,9 @@
             {
               "id": "u3-l3-q5",
               "type": "choice",
-              "skills": ["tempero.sal-momento"],
+              "skills": [
+                "tempero.sal-momento"
+              ],
               "prompt": "A steak: salt before or after searing?",
               "options": [
                 "Before, and right before it hits the pan",
@@ -1998,12 +2362,20 @@
           "type": "lesson",
           "xpReward": 25,
           "icon": "soup",
-          "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800&h=500&fit=crop",
+          "imageUrl": "/lessons/main-course/u4-l1.jpg",
           "cookTimeMin": 6,
           "difficulty": "facil",
-          "teaches": ["tempero.agua-salgada"],
-          "requires": ["tempero.sal-momento"],
-          "ingredients": ["A large pot", "Water", "Coarse salt"],
+          "teaches": [
+            "tempero.agua-salgada"
+          ],
+          "requires": [
+            "tempero.sal-momento"
+          ],
+          "ingredients": [
+            "A large pot",
+            "Water",
+            "Coarse salt"
+          ],
           "preparationSteps": [
             {
               "title": "Plenty of water",
@@ -2026,7 +2398,9 @@
             {
               "id": "u4-l1-q1",
               "type": "estimate",
-              "skills": ["tempero.agua-salgada"],
+              "skills": [
+                "tempero.agua-salgada"
+              ],
               "prompt": "How much salt per litre of water for pasta?",
               "correctAnswer": 10,
               "tolerance": 5,
@@ -2037,7 +2411,9 @@
             {
               "id": "u4-l1-q2",
               "type": "choice",
-              "skills": ["tempero.agua-salgada"],
+              "skills": [
+                "tempero.agua-salgada"
+              ],
               "prompt": "What's oil in the pasta water for?",
               "options": [
                 "Nothing: it floats on top and makes the sauce slide off",
@@ -2052,7 +2428,10 @@
             {
               "id": "u4-l1-q3",
               "type": "order",
-              "skills": ["tempero.agua-salgada", "calor.niveis"],
+              "skills": [
+                "tempero.agua-salgada",
+                "calor.niveis"
+              ],
               "prompt": "Put cooking pasta in order.",
               "correctOrder": [
                 "Água ao lume, em quantidade",
@@ -2067,9 +2446,11 @@
             {
               "id": "u4-l1-q4",
               "type": "judge",
-              "skills": ["tempero.agua-salgada"],
-              "prompt": "This pasta is in a small pot, with little water, all touching. Will it do?",
-              "imageUrl": "https://images.unsplash.com/photo-1622973536968-3ead9e780960?w=800&h=500&fit=crop",
+              "skills": [
+                "tempero.agua-salgada"
+              ],
+              "prompt": "This pasta is in a small pot, with the strands still sticking out above the water. Will it do?",
+              "imageUrl": "/lessons/main-course/u4-l1-q4.jpg",
               "options": [
                 "Yes, it saves water and time",
                 "No, with little water the pasta sticks and cooks badly"
@@ -2081,7 +2462,10 @@
             {
               "id": "u4-l1-q5",
               "type": "choice",
-              "skills": ["tempero.agua-salgada", "tempero.sal-momento"],
+              "skills": [
+                "tempero.agua-salgada",
+                "tempero.sal-momento"
+              ],
               "prompt": "Why do you salt the water only after it boils?",
               "options": [
                 "The salt dissolves at once and doesn't mark the base of the pot",
@@ -2104,12 +2488,21 @@
           "type": "lesson",
           "xpReward": 30,
           "icon": "rice",
-          "imageUrl": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u4-l2.jpg",
           "cookTimeMin": 9,
           "difficulty": "medio",
-          "teaches": ["calor.racio-agua"],
-          "requires": ["calor.lume-brando"],
-          "ingredients": ["One cup of rice", "Two cups of water", "Salt", "Olive oil"],
+          "teaches": [
+            "calor.racio-agua"
+          ],
+          "requires": [
+            "calor.lume-brando"
+          ],
+          "ingredients": [
+            "One cup of rice",
+            "Two cups of water",
+            "Salt",
+            "Olive oil"
+          ],
           "preparationSteps": [
             {
               "title": "Measure with the same cup",
@@ -2132,7 +2525,9 @@
             {
               "id": "u4-l2-q1",
               "type": "estimate",
-              "skills": ["calor.racio-agua"],
+              "skills": [
+                "calor.racio-agua"
+              ],
               "prompt": "For one cup of long-grain rice, how many cups of water?",
               "correctAnswer": 2,
               "tolerance": 0.5,
@@ -2143,7 +2538,9 @@
             {
               "id": "u4-l2-q2",
               "type": "choice",
-              "skills": ["calor.racio-agua"],
+              "skills": [
+                "calor.racio-agua"
+              ],
               "prompt": "Why shouldn't you lift the lid off rice halfway through cooking?",
               "options": [
                 "The steam that escapes is what's cooking the grains on top",
@@ -2158,7 +2555,10 @@
             {
               "id": "u4-l2-q3",
               "type": "order",
-              "skills": ["calor.racio-agua", "calor.lume-brando"],
+              "skills": [
+                "calor.racio-agua",
+                "calor.lume-brando"
+              ],
               "prompt": "Put loose rice in order.",
               "correctOrder": [
                 "Refogar o arroz no azeite, um minuto",
@@ -2173,7 +2573,9 @@
             {
               "id": "u4-l2-q4",
               "type": "judge",
-              "skills": ["calor.racio-agua"],
+              "skills": [
+                "calor.racio-agua"
+              ],
               "prompt": "This rice still has water on the surface and the time is up. Do you serve it?",
               "imageUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=500&fit=crop",
               "options": [
@@ -2187,7 +2589,9 @@
             {
               "id": "u4-l2-q5",
               "type": "choice",
-              "skills": ["calor.racio-agua"],
+              "skills": [
+                "calor.racio-agua"
+              ],
               "prompt": "What's toasting the rice in oil before the water for?",
               "options": [
                 "It coats the grain and helps it stay loose instead of sticky",
@@ -2210,12 +2614,20 @@
           "type": "lesson",
           "xpReward": 30,
           "icon": "pasta",
-          "imageUrl": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u4-l3.jpg",
           "cookTimeMin": 8,
           "difficulty": "medio",
-          "teaches": ["ponto.al-dente"],
-          "requires": ["tempero.agua-salgada"],
-          "ingredients": ["Dried pasta", "Boiling salted water", "The sauce, already made"],
+          "teaches": [
+            "ponto.al-dente"
+          ],
+          "requires": [
+            "tempero.agua-salgada"
+          ],
+          "ingredients": [
+            "Dried pasta",
+            "Boiling salted water",
+            "The sauce, already made"
+          ],
           "preparationSteps": [
             {
               "title": "Taste early",
@@ -2238,7 +2650,9 @@
             {
               "id": "u4-l3-q1",
               "type": "choice",
-              "skills": ["ponto.al-dente"],
+              "skills": [
+                "ponto.al-dente"
+              ],
               "prompt": "When do you drain pasta that's going into a pan of sauce?",
               "options": [
                 "A minute early: it finishes cooking in the sauce",
@@ -2253,7 +2667,9 @@
             {
               "id": "u4-l3-q2",
               "type": "judge",
-              "skills": ["ponto.al-dente"],
+              "skills": [
+                "ponto.al-dente"
+              ],
               "prompt": "You snapped a spaghetti strand and there's a thin white thread in the centre. Is it al dente?",
               "imageUrl": "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=800&h=500&fit=crop",
               "options": [
@@ -2267,7 +2683,9 @@
             {
               "id": "u4-l3-q3",
               "type": "estimate",
-              "skills": ["ponto.al-dente"],
+              "skills": [
+                "ponto.al-dente"
+              ],
               "prompt": "How many minutes before the packet time should you first taste it?",
               "correctAnswer": 2,
               "tolerance": 1,
@@ -2278,7 +2696,10 @@
             {
               "id": "u4-l3-q4",
               "type": "order",
-              "skills": ["ponto.al-dente", "tempero.agua-salgada"],
+              "skills": [
+                "ponto.al-dente",
+                "tempero.agua-salgada"
+              ],
               "prompt": "Put bringing pasta and sauce together in order.",
               "correctOrder": [
                 "Provar a massa dois minutos antes do tempo",
@@ -2293,7 +2714,9 @@
             {
               "id": "u4-l3-q5",
               "type": "choice",
-              "skills": ["ponto.al-dente"],
+              "skills": [
+                "ponto.al-dente"
+              ],
               "prompt": "The pasta went past the point and turned soft. What can you do?",
               "options": [
                 "Nothing that brings it back: the starch has broken down",
@@ -2328,9 +2751,16 @@
           "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop",
           "cookTimeMin": 8,
           "difficulty": "medio",
-          "teaches": ["org.sequenciar"],
-          "requires": ["org.mise-en-place"],
-          "ingredients": ["A pen and paper", "The whole recipe, read beforehand"],
+          "teaches": [
+            "org.sequenciar"
+          ],
+          "requires": [
+            "org.mise-en-place"
+          ],
+          "ingredients": [
+            "A pen and paper",
+            "The whole recipe, read beforehand"
+          ],
           "preparationSteps": [
             {
               "title": "Read it all first",
@@ -2353,7 +2783,9 @@
             {
               "id": "u5-l1-q1",
               "type": "choice",
-              "skills": ["org.sequenciar"],
+              "skills": [
+                "org.sequenciar"
+              ],
               "prompt": "Pasta with tomato sauce and a salad. What's the first move?",
               "options": [
                 "Put the water on, since it takes longest and doesn't need you",
@@ -2368,7 +2800,10 @@
             {
               "id": "u5-l1-q2",
               "type": "order",
-              "skills": ["org.sequenciar", "org.mise-en-place"],
+              "skills": [
+                "org.sequenciar",
+                "org.mise-en-place"
+              ],
               "prompt": "Put the start of a pasta dinner in order.",
               "correctOrder": [
                 "Ler a receita toda",
@@ -2383,7 +2818,9 @@
             {
               "id": "u5-l1-q3",
               "type": "judge",
-              "skills": ["org.sequenciar"],
+              "skills": [
+                "org.sequenciar"
+              ],
               "prompt": "On this counter there are three pans on the heat at once and nothing chopped. Is that good organisation?",
               "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=500&fit=crop",
               "options": [
@@ -2397,7 +2834,9 @@
             {
               "id": "u5-l1-q4",
               "type": "estimate",
-              "skills": ["org.sequenciar"],
+              "skills": [
+                "org.sequenciar"
+              ],
               "prompt": "How long does a pot of water take to come to the boil on high heat?",
               "correctAnswer": 10,
               "tolerance": 5,
@@ -2408,7 +2847,9 @@
             {
               "id": "u5-l1-q5",
               "type": "choice",
-              "skills": ["org.sequenciar"],
+              "skills": [
+                "org.sequenciar"
+              ],
               "prompt": "Everything is ready except the steak, which takes four minutes. When do you cook it?",
               "options": [
                 "Last, with the rest already plated or covered",
@@ -2431,12 +2872,20 @@
           "type": "lesson",
           "xpReward": 30,
           "icon": "salad",
-          "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
+          "imageUrl": "/lessons/main-course/u5-l2.jpg",
           "cookTimeMin": 7,
           "difficulty": "medio",
-          "teaches": ["tempero.camadas"],
-          "requires": ["tempero.sal-momento"],
-          "ingredients": ["Salt", "Lemon or vinegar", "A spoon for tasting"],
+          "teaches": [
+            "tempero.camadas"
+          ],
+          "requires": [
+            "tempero.sal-momento"
+          ],
+          "ingredients": [
+            "Salt",
+            "Lemon or vinegar",
+            "A spoon for tasting"
+          ],
           "preparationSteps": [
             {
               "title": "Season each stage",
@@ -2465,7 +2914,9 @@
             {
               "id": "u5-l2-q1",
               "type": "choice",
-              "skills": ["tempero.camadas"],
+              "skills": [
+                "tempero.camadas"
+              ],
               "prompt": "One soffritto seasoned only at the end, another seasoned at every stage. What's the difference?",
               "options": [
                 "The layered one tastes seasoned all the way through, not just on the surface",
@@ -2480,7 +2931,9 @@
             {
               "id": "u5-l2-q2",
               "type": "choice",
-              "skills": ["tempero.camadas"],
+              "skills": [
+                "tempero.camadas"
+              ],
               "prompt": "The sauce has enough salt but still tastes flat. What do you try first?",
               "options": [
                 "A few drops of lemon or vinegar",
@@ -2495,7 +2948,10 @@
             {
               "id": "u5-l2-q3",
               "type": "order",
-              "skills": ["tempero.camadas", "tempero.sal-momento"],
+              "skills": [
+                "tempero.camadas",
+                "tempero.sal-momento"
+              ],
               "prompt": "Put the seasoning of a tomato sauce in order, from start to finish.",
               "correctOrder": [
                 "Pitada de sal na cebola a refogar",
@@ -2510,15 +2966,17 @@
             {
               "id": "u5-l2-q4",
               "type": "judge",
-              "skills": ["tempero.camadas"],
-              "prompt": "This finished dish got coarse salt and a drizzle of raw olive oil at the table. Does that make sense?",
-              "imageUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop",
+              "skills": [
+                "tempero.camadas"
+              ],
+              "prompt": "This steak got coarse salt scattered over it after it came off the heat. Does that make sense?",
+              "imageUrl": "/lessons/main-course/u5-l2-q4.jpg",
               "options": [
                 "Yes, raw seasoning at the end comes through far more",
                 "No, everything should have been seasoned on the heat"
               ],
               "correctAnswer": "Yes, raw seasoning at the end comes through far more",
-              "explanation": "Whole crystals of coarse salt and oil that never saw the heat give a contrast that cooked seasoning can't.",
+              "explanation": "Whole crystals of coarse salt that never dissolved in the pan give bursts of seasoning and a crunch that salt stirred in earlier can't.",
               "explainWrong": "The two don't compete: seasoning on the heat builds the base, raw seasoning is the finish. A dish with only one of them always stops halfway."
             }
           ]
@@ -2532,12 +2990,20 @@
           "type": "lesson",
           "xpReward": 35,
           "icon": "crown",
-          "imageUrl": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800&h=500&fit=crop",
+          "imageUrl": "/lessons/main-course/u5-l3.jpg",
           "cookTimeMin": 6,
           "difficulty": "medio",
-          "teaches": ["org.empratar"],
-          "requires": ["org.sequenciar"],
-          "ingredients": ["Plates", "A tea towel", "What you cooked"],
+          "teaches": [
+            "org.empratar"
+          ],
+          "requires": [
+            "org.sequenciar"
+          ],
+          "ingredients": [
+            "Plates",
+            "A tea towel",
+            "What you cooked"
+          ],
           "preparationSteps": [
             {
               "title": "Warm plates",
@@ -2570,7 +3036,9 @@
             {
               "id": "u5-l3-q1",
               "type": "choice",
-              "skills": ["org.empratar"],
+              "skills": [
+                "org.empratar"
+              ],
               "prompt": "Why do you warm the plates?",
               "options": [
                 "A cold plate steals the food's heat in seconds",
@@ -2585,7 +3053,9 @@
             {
               "id": "u5-l3-q2",
               "type": "judge",
-              "skills": ["org.empratar"],
+              "skills": [
+                "org.empratar"
+              ],
               "prompt": "This plate has food spread to the rim and splashes of sauce over the edge. Do you serve it like that?",
               "imageUrl": "https://images.unsplash.com/photo-1547592166-23ac45744acd?w=800&h=600&fit=crop",
               "options": [
@@ -2599,7 +3069,10 @@
             {
               "id": "u5-l3-q3",
               "type": "order",
-              "skills": ["org.empratar", "org.sequenciar"],
+              "skills": [
+                "org.empratar",
+                "org.sequenciar"
+              ],
               "prompt": "Put plating in order.",
               "correctOrder": [
                 "Aquecer os pratos",

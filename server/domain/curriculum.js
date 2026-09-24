@@ -140,53 +140,6 @@ function lessonIdCollision(trailId, lessonOrder) {
 
 loadAllTrails();
 
-/**
- * Instala um trilho escrito pelo painel de administração.
- *
- * Os trilhos de ficheiro são código versionado e carregam no arranque. Estes
- * vêm de `trails.curriculum_json` e chegam depois — é o que permite criar um
- * trilho sem deploy. Passam exatamente pela mesma validação: o caminho pelo
- * qual o currículo entrou não muda o que se exige dele.
- *
- * Devolve `{ ok, errors }` em vez de atirar. Um JSON mau na base de dados é
- * conteúdo mau, não um erro de código: o servidor arranca à mesma e diz qual
- * é o trilho que ficou de fora.
- */
-export function registerTrail(trailId, rawByLang, { dryRun = false } = {}) {
-  if (trailId === DEFAULT_TRAIL) {
-    return { ok: false, errors: ["o trilho fundacional não se substitui em runtime"] };
-  }
-
-  const carregados = {};
-  for (const [lang, raw] of Object.entries(rawByLang)) {
-    if (!LANGUAGES.includes(lang)) continue;
-
-    const check = validateCurriculum(raw, { inheritedSkills: FOUNDATIONAL_SKILL_IDS });
-    if (!check.ok) return { ok: false, errors: check.errors };
-
-    carregados[lang] = indexar(raw);
-  }
-
-  if (!carregados[DEFAULT_LANGUAGE]) {
-    return { ok: false, errors: [`o trilho ${trailId} não traz a versão ${DEFAULT_LANGUAGE}`] };
-  }
-
-  const colisao = lessonIdCollision(trailId, carregados[DEFAULT_LANGUAGE].lessonOrder);
-  if (colisao) return { ok: false, errors: [colisao] };
-
-  // `dryRun` é o que o painel usa para dizer "isto está mal" antes de gravar:
-  // validar e instalar num passo só deixava um trilho em circulação sem linha
-  // na base de dados sempre que a escrita falhasse a seguir.
-  if (!dryRun) TRAILS_BY_ID[trailId] = carregados;
-  return { ok: true, errors: [] };
-}
-
-/** Tira um trilho de circulação — despublicar, no painel. */
-export function unregisterTrail(trailId) {
-  if (trailId === DEFAULT_TRAIL) return false;
-  return delete TRAILS_BY_ID[trailId];
-}
-
 /** Os ids de todos os trilhos carregados, com o fundacional à cabeça. */
 export function getAllTrailIds() {
   return Object.keys(TRAILS_BY_ID);

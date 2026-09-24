@@ -65,17 +65,80 @@ test("todos os quatro tipos de exercício estão em uso", () => {
 /* As regras apanham mesmo o erro                                       */
 /* -------------------------------------------------------------------- */
 
-/** Currículo mínimo e válido, para depois se estragar uma coisa de cada vez. */
+/** Uma missão de três passos, o mínimo que as regras aceitam. */
+function missao(id, unitId, skill) {
+  return {
+    id,
+    unitId,
+    title: "M",
+    practices: [skill],
+    ingredients: ["x"],
+    steps: [
+      { id: "p1", title: "T", description: "D", rescues: [{ kind: "pronto", answer: "R" }] },
+      { id: "p2", title: "T", description: "D", rescues: [{ kind: "cola", answer: "R" }] },
+      {
+        id: "p3",
+        title: "T",
+        description: "D",
+        checkpoint: true,
+        rescues: [{ kind: "falta", answer: "R" }],
+      },
+    ],
+  };
+}
+
+/** Uma unidade de uma lição, fechada pela missão com o número correspondente. */
+function unidade(id, skill, dayNumber, difficulty) {
+  return {
+    id,
+    lessons: [
+      {
+        id: `${id}-l1`,
+        title: id.toUpperCase(),
+        dayNumber,
+        difficulty,
+        xpReward: 10,
+        teaches: [skill],
+        requires: [],
+        questions: [
+          {
+            id: `${id}-q1`,
+            type: "choice",
+            skills: [skill],
+            prompt: "p",
+            options: ["x", "y"],
+            correctAnswer: "x",
+            explanation: "e",
+            explainWrong: "w",
+          },
+        ],
+      },
+    ],
+    missionId: id.replace("u", "m"),
+  };
+}
+
+/**
+ * Currículo mínimo e válido, para depois se estragar uma coisa de cada vez.
+ *
+ * Três unidades e três missões porque é esse o mínimo de um trilho, e todas as
+ * lições com `difficulty` e `dayNumber` a subir: as regras de progressão
+ * recusam um trilho com menos, e a fixture tem de continuar a ser o caso
+ * válido contra o qual se mede cada estrago.
+ */
 function fixture(overrides = {}) {
   return {
     version: 2,
     skills: [
       { id: "a", name: "A", category: "faca", description: "d", requires: [] },
       { id: "b", name: "B", category: "calor", description: "d", requires: ["a"] },
+      { id: "c", name: "C", category: "tempero", description: "d", requires: [] },
+      { id: "d", name: "D", category: "ponto", description: "d", requires: [] },
     ],
     missions: [
       {
         id: "m1",
+        unitId: "u1",
         title: "M",
         practices: ["a", "b"],
         ingredients: ["x"],
@@ -91,6 +154,8 @@ function fixture(overrides = {}) {
           },
         ],
       },
+      missao("m2", "u2", "c"),
+      missao("m3", "u3", "d"),
     ],
     units: [
       {
@@ -99,6 +164,8 @@ function fixture(overrides = {}) {
           {
             id: "l1",
             title: "L1",
+            dayNumber: 1,
+            difficulty: "facil",
             xpReward: 10,
             teaches: ["a"],
             requires: [],
@@ -118,6 +185,8 @@ function fixture(overrides = {}) {
           {
             id: "l2",
             title: "L2",
+            dayNumber: 2,
+            difficulty: "medio",
             xpReward: 10,
             teaches: ["b"],
             requires: ["a"],
@@ -135,7 +204,10 @@ function fixture(overrides = {}) {
             ],
           },
         ],
+        missionId: "m1",
       },
+      unidade("u2", "c", 3, "medio"),
+      unidade("u3", "d", 4, "dificil"),
     ],
     ...overrides,
   };
