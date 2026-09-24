@@ -1,0 +1,884 @@
+[
+  {
+    "folder": "main-course",
+    "id": "u1-l1",
+    "slug": "u1-l1",
+    "title": "A tábua que não trai",
+    "kind": "lição",
+    "brief": "Tábua de corte assente na bancada com um pano dobrado e húmido visível por baixo, e bancada livre à volta (~20 cm de cada lado). Faca pousada ao lado.",
+    "must": "O pano por baixo e o espaço livre têm de ser visíveis — são o conteúdo da lição."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l1-q4",
+    "slug": "u1-l1-q4",
+    "title": "Quiz: esta bancada está pronta?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Bancada APERTADA: a tábua encurralada entre taças, embalagens, um tacho. Sem espaço livre à volta.",
+    "must": "Tem de mostrar o estado ERRADO. Se a bancada parecer arrumada, a pergunta fica sem resposta."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l2",
+    "slug": "u1-l2",
+    "title": "A faca romba é a que te corta",
+    "kind": "lição",
+    "brief": "Gume de uma faca de chef visto de perfil, em plano próximo, a apanhar luz. Em alternativa: a lâmina a atravessar a pele de um tomate só com o próprio peso.",
+    "must": "O foco é o gume, não a faca inteira nem o prato."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l2-q2",
+    "slug": "u1-l2-q2",
+    "title": "Quiz: esta faca está pronta?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Lâmina pousada sobre um tomate a afundar/enrugar a pele SEM a cortar.",
+    "must": "Estado ERRADO. A pele tem de ceder sem romper — é isso que se avalia."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l3",
+    "slug": "u1-l3",
+    "title": "Pegar na faca",
+    "kind": "lição",
+    "brief": "Mão em pinch grip: polegar e indicador a apertar a lâmina à frente da virola, restantes três dedos no cabo. Plano próximo e nítido.",
+    "must": "Os dedos têm de estar na LÂMINA, não só no cabo."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l3-q4",
+    "slug": "u1-l3-q4",
+    "title": "Quiz: esta pega está correta?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Pega ERRADA: mão toda à volta do cabo e indicador esticado ao longo do dorso da lâmina.",
+    "must": "O indicador esticado por cima tem de ser inequívoco na foto."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l4",
+    "slug": "u1-l4",
+    "title": "A mão em garra",
+    "kind": "lição",
+    "brief": "Mão-guia em garra sobre um legume: nós dos dedos à frente, pontas recolhidas, lâmina encostada aos nós.",
+    "must": "As pontas dos dedos têm de estar visivelmente recuadas atrás dos nós."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l4-q3",
+    "slug": "u1-l4-q3",
+    "title": "Quiz: pode cortar-se assim?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "ERRADO: dedos esticados e espalmados a segurar uma cenoura, pontas expostas junto à lâmina.",
+    "must": "O contraste com u1-l4 é a lição toda — mesma cenoura, mesmo enquadramento, mão errada."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l5",
+    "slug": "u1-l5",
+    "title": "Cebola em cubos",
+    "kind": "lição",
+    "brief": "Monte de cebola picada em cubos UNIFORMES sobre a tábua, faca ao lado.",
+    "must": "A uniformidade é o conteúdo. Cubos todos do mesmo tamanho."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l5-q4",
+    "slug": "u1-l5-q4",
+    "title": "Quiz: serve para um refogado?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Cebola picada IRREGULAR: pedaços do tamanho de uma ervilha misturados com tiras finas, na mesma tábua.",
+    "must": "A disparidade de tamanhos tem de saltar à vista."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l6",
+    "slug": "u1-l6",
+    "title": "Tudo pronto antes do calor",
+    "kind": "lição",
+    "brief": "Taças pequenas alinhadas com ingredientes já preparados; fogão ao fundo DESLIGADO, frigideira vazia.",
+    "must": "Nada ao lume. Se houver comida a cozinhar, contradiz a lição."
+  },
+  {
+    "folder": "main-course",
+    "id": "u1-l6-q5",
+    "slug": "u1-l6-q5",
+    "title": "Quiz: as taças estão bem colocadas?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Fogão com frigideira ao lume; taças de ingredientes colocadas à DIREITA do fogão; mão direita a segurar a colher sobre a frigideira.",
+    "must": "Foto difícil mas específica: o erro é a taça estar do lado da mão que mexe."
+  },
+  {
+    "folder": "main-course",
+    "id": "u2-l1",
+    "slug": "u2-l1",
+    "title": "Frigideira fria não sela nada",
+    "kind": "lição",
+    "brief": "Frigideira vazia ao lume com um véu de óleo a brilhar e a ondular — SEM fumo.",
+    "must": "Brilho e ondulação sim; fumo não. O fumo é o quiz seguinte."
+  },
+  {
+    "folder": "main-course",
+    "id": "u2-l1-q4",
+    "slug": "u2-l1-q4",
+    "title": "Quiz: pode continuar?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Frigideira VAZIA com o óleo claramente a FUMEGAR, fios de fumo a subir. Nada dentro.",
+    "must": "O fumo tem de ser óbvio e a frigideira tem de estar vazia."
+  },
+  {
+    "folder": "main-course",
+    "id": "u2-l2",
+    "slug": "u2-l2",
+    "title": "Forte, médio, brando",
+    "kind": "lição",
+    "brief": "Bico de gás com chama média sob uma frigideira, chama bem visível e contida sob o fundo.",
+    "must": "A chama é o assunto — enquadrar o bico, não a comida."
+  },
+  {
+    "folder": "main-course",
+    "id": "u2-l2-q2",
+    "slug": "u2-l2-q2",
+    "title": "Quiz: certo ou errado para suar cebola?",
+    "kind": "quiz — resposta certa: ERRADO",
+    "brief": "Cebola numa frigideira em lume VIOLENTO: chama alta a lamber os lados, fumo, bordos da cebola já a tostar/queimar.",
+    "must": "Tem de parecer agressivo. Cebola dourada e calma anula a pergunta."
+  },
+  {
+    "folder": "main-course",
+    "id": "u2-l3",
+    "slug": "u2-l3",
+    "title": "Cada gordura tem o seu calor",
+    "kind": "lição",
+    "brief": "As gorduras lado a lado e identificáveis: azeite virgem extra, manteiga, óleo neutro.",
+    "must": "Comparação entre gorduras, não uma frigideira."
+  },
+  {
+    "folder": "main-course",
+    "id": "u2-l3-q2",
+    "slug": "u2-l3-q2",
+    "title": "Quiz: serve para acabar o molho?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Manteiga numa frigideira com partículas CASTANHO-ESCURAS/PRETAS e líquido escuro. Queimada, passou do noisette.",
+    "must": "Manteiga dourada cor de avelã é a resposta contrária — tem de estar visivelmente além disso."
+  },
+  {
+    "folder": "main-course",
+    "id": "u2-l4",
+    "slug": "u2-l4",
+    "title": "Dourado, não escuro",
+    "kind": "lição",
+    "brief": "Cebola numa frigideira cor de mel, reduzida a metade do volume, brilhante.",
+    "must": "Cor de mel. Nem pálida nem castanha escura."
+  },
+  {
+    "folder": "main-course",
+    "id": "u2-l4-q2",
+    "slug": "u2-l4-q2",
+    "title": "Quiz: tirar ou deixar mais?",
+    "kind": "quiz — resposta certa: TIRAR",
+    "brief": "Mesmo estado de u2-l4 — cor de mel, reduzida a metade, brilhante — mas enquadramento diferente (picado sobre a frigideira).",
+    "must": "Estado CERTO. Foto distinta de u2-l4, não a mesma imagem."
+  },
+  {
+    "folder": "main-course",
+    "id": "u3-l1",
+    "slug": "u3-l1",
+    "title": "Devagar também é técnica",
+    "kind": "lição",
+    "brief": "Tacho em fervura mansa: superfície quase parada, uma ou duas bolhas, chama baixa.",
+    "must": "A superfície tem de estar calma."
+  },
+  {
+    "folder": "main-course",
+    "id": "u3-l1-q2",
+    "slug": "u3-l1-q2",
+    "title": "Quiz: isto é lume brando?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Fervura FORTE: superfície a borbulhar por todo o lado, agitada.",
+    "must": "Estado ERRADO — o contraste com u3-l1 é a pergunta."
+  },
+  {
+    "folder": "main-course",
+    "id": "u3-l2",
+    "slug": "u3-l2",
+    "title": "O ovo cozinha com o calor que já tem",
+    "kind": "lição",
+    "brief": "Ovos mexidos na frigideira, brilhantes, acabados de coalhar e ainda ligeiramente moles.",
+    "must": "Nunca ovos secos ou granulados."
+  },
+  {
+    "folder": "main-course",
+    "id": "u3-l2-q2",
+    "slug": "u3-l2-q2",
+    "title": "Quiz: tirar do lume?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Ovos mexidos PASSADOS: secos, em grumos firmes, a agarrar ao fundo da frigideira.",
+    "must": "Estado ERRADO. A pergunta foi reescrita para este estado — o brilhante e mole passou a ser a resposta."
+  },
+  {
+    "folder": "main-course",
+    "id": "u3-l3",
+    "slug": "u3-l3",
+    "title": "Quando entra o sal",
+    "kind": "lição",
+    "brief": "Mão a pegar uma pitada de sal de uma taça e a polvilhar de alto sobre uma frigideira ou tábua.",
+    "must": "O gesto de temperar é o assunto."
+  },
+  {
+    "folder": "main-course",
+    "id": "u3-l3-q2",
+    "slug": "u3-l3-q2",
+    "title": "Quiz: correu mal?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Beringela às fatias, salgada, com gotas de água claramente puxadas à superfície, num escorredor ou tábua.",
+    "must": "A água à superfície tem de ser visível — é a resposta."
+  },
+  {
+    "folder": "main-course",
+    "id": "u4-l1",
+    "slug": "u4-l1",
+    "title": "A água tem de saber a alguma coisa",
+    "kind": "lição",
+    "brief": "Tacho grande de água a ferver com um punhado de sal grosso a cair lá dentro.",
+    "must": "Tacho GRANDE e muita água — contrasta com o quiz."
+  },
+  {
+    "folder": "main-course",
+    "id": "u4-l1-q4",
+    "slug": "u4-l1-q4",
+    "title": "Quiz: serve assim?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Esparguete num tacho PEQUENO, com os fios ainda de fora por cima da água.",
+    "must": "Estado ERRADO: tacho pequeno e massa por submergir."
+  },
+  {
+    "folder": "main-course",
+    "id": "u4-l2",
+    "slug": "u4-l2",
+    "title": "Duas de água para uma de arroz",
+    "kind": "lição",
+    "brief": "Uma medida de arroz cru — colher ou concha de medida cheia de grão.",
+    "must": "Arroz CRU e medido. A lição é o rácio, não arroz cozinhado."
+  },
+  {
+    "folder": "main-course",
+    "id": "u4-l2-q4",
+    "slug": "u4-l2-q4",
+    "title": "Quiz: serve o arroz?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Arroz no tacho com água ainda visivelmente parada à superfície.",
+    "must": "A água à superfície é o que se avalia."
+  },
+  {
+    "folder": "main-course",
+    "id": "u4-l3",
+    "slug": "u4-l3",
+    "title": "Al dente prova-se, não se lê",
+    "kind": "lição",
+    "brief": "Um fio de esparguete a ser retirado do tacho com um garfo, ou a ser provado.",
+    "must": "O gesto de provar, não a embalagem nem o relógio."
+  },
+  {
+    "folder": "main-course",
+    "id": "u4-l3-q2",
+    "slug": "u4-l3-q2",
+    "title": "Quiz: está al dente?",
+    "kind": "quiz — resposta certa: SIM",
+    "brief": "MACRO de um fio de esparguete partido ao meio, com o fio branco FINO visível no centro.",
+    "must": "Estado CERTO. Tem de ser macro — o fio branco é minúsculo."
+  },
+  {
+    "folder": "main-course",
+    "id": "u5-l1",
+    "slug": "u5-l1",
+    "title": "Começa pelo que demora mais",
+    "kind": "lição",
+    "brief": "Bancada calma a meio da preparação: um tacho em lume brando e tudo o resto já cortado em taças.",
+    "must": "Transmitir ordem e sequência, não azáfama."
+  },
+  {
+    "folder": "main-course",
+    "id": "u5-l1-q3",
+    "slug": "u5-l1-q3",
+    "title": "Quiz: isto é boa organização?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "CAOS: três tachos/frigideiras ao lume ao mesmo tempo e legumes ainda inteiros por cortar na tábua.",
+    "must": "Estado ERRADO. Os três tachos e os legumes por cortar têm de aparecer na mesma foto."
+  },
+  {
+    "folder": "main-course",
+    "id": "u5-l2",
+    "slug": "u5-l2",
+    "title": "O tempero vai em camadas",
+    "kind": "lição",
+    "brief": "Sal a ser adicionado a uma frigideira a meio da cozedura, com mais sal e pimenta ao lado.",
+    "must": "Temperar DURANTE, não no fim."
+  },
+  {
+    "folder": "main-course",
+    "id": "u5-l2-q4",
+    "slug": "u5-l2-q4",
+    "title": "Quiz: faz sentido?",
+    "kind": "quiz — resposta certa: SIM",
+    "brief": "Bife já fora do lume com cristais de sal grosso espalhados por cima.",
+    "must": "Estado CERTO. Os cristais inteiros têm de se ver. O azeite saiu do enunciado."
+  },
+  {
+    "folder": "main-course",
+    "id": "u5-l3",
+    "slug": "u5-l3",
+    "title": "O prato também é servir",
+    "kind": "lição",
+    "brief": "Prato limpo, comida reunida ao centro, aro do prato impecável.",
+    "must": "O aro limpo é o assunto."
+  },
+  {
+    "folder": "main-course",
+    "id": "u5-l3-q2",
+    "slug": "u5-l3-q2",
+    "title": "Quiz: serve-se assim?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Prato DESLEIXADO: comida espalhada até ao aro e salpicos de molho por cima do bordo.",
+    "must": "Estado ERRADO — contraste direto com u5-l3."
+  },
+  {
+    "folder": "gymbro",
+    "id": "lesson.gymbro-porcionar",
+    "slug": "gymbro-porcionar",
+    "title": "Pesar e porcionar",
+    "kind": "lição",
+    "brief": "Peito de frango cru numa balança de cozinha com o peso legível, ou várias porções iguais alinhadas.",
+    "must": "A balança/porção é o assunto, não um prato pronto."
+  },
+  {
+    "folder": "gymbro",
+    "id": "lesson.gymbro-frango",
+    "slug": "gymbro-frango",
+    "title": "Peito de frango suculento",
+    "kind": "lição",
+    "brief": "Peito de frango selado e CORTADO ao meio, a mostrar o interior branco e suculento, a repousar numa tábua.",
+    "must": "O corte transversal é obrigatório — é o que prova a suculência."
+  },
+  {
+    "folder": "gymbro",
+    "id": "lesson.gymbro-mealprep",
+    "slug": "gymbro-mealprep",
+    "title": "Cozinhar uma vez, comer a semana",
+    "kind": "lição",
+    "brief": "Fila de recipientes de meal prep iguais, destapados, com frango, arroz e legumes.",
+    "must": "Vários recipientes. Um prato único não transmite meal prep."
+  },
+  {
+    "folder": "gymbro",
+    "id": "lesson.gymbro-molho",
+    "slug": "gymbro-molho",
+    "title": "Molhos que não estragam as macros",
+    "kind": "lição",
+    "brief": "Taça de molho branco de iogurte grego com ervas e colher; embalagem de iogurte grego ao lado.",
+    "must": "Não pode parecer maionese nem natas — a base de iogurte tem de se identificar."
+  },
+  {
+    "folder": "gymbro",
+    "id": "lesson.gymbro-proteina-dia",
+    "slug": "gymbro-proteina-dia",
+    "title": "Proteína ao longo do dia",
+    "kind": "lição",
+    "brief": "Três ou quatro refeições do dia alinhadas — pequeno-almoço, almoço, snack, jantar — cada uma com proteína visível: ovos, iogurte, frango, atum.",
+    "must": "Tem de haver MAIS do que uma refeição na foto. Um prato único não transmite \"ao longo do dia\"."
+  },
+  {
+    "folder": "gymbro",
+    "id": "lesson.gymbro-ovos-lote",
+    "slug": "gymbro-ovos-lote",
+    "title": "Pequeno-almoço com proteína a sério",
+    "kind": "lição",
+    "brief": "Forma de queques com ovo batido assado em porções individuais, acabadas de sair do forno.",
+    "must": "Porções múltiplas e iguais — é pequeno-almoço feito em lote, não um ovo estrelado."
+  },
+  {
+    "folder": "healthy",
+    "id": "lesson.saudavel-vapor",
+    "slug": "saudavel-vapor",
+    "title": "Cozinhar a vapor",
+    "kind": "lição",
+    "brief": "Cesto de vapor sobre um tacho, tampa levantada, vapor a subir, brócolos/feijão-verde vivos lá dentro.",
+    "must": "O vapor tem de ser visível. Legumes cozidos em água anulam a lição."
+  },
+  {
+    "folder": "healthy",
+    "id": "lesson.saudavel-prato",
+    "slug": "saudavel-prato",
+    "title": "O prato equilibrado",
+    "kind": "lição",
+    "brief": "Prato visto de cima com três porções nitidamente separadas: proteína, legume e hidrato.",
+    "must": "Tudo misturado não deixa ver as proporções — têm de estar separadas."
+  },
+  {
+    "folder": "healthy",
+    "id": "lesson.saudavel-gordura",
+    "slug": "saudavel-gordura",
+    "title": "A dose certa de gordura boa",
+    "kind": "lição",
+    "brief": "Azeite a ser deitado de uma COLHER sobre uma salada, com meio abacate ao lado.",
+    "must": "Uma colher medida, não um jorro da garrafa — a lição é a dose."
+  },
+  {
+    "folder": "healthy",
+    "id": "lesson.saudavel-doce",
+    "slug": "saudavel-doce",
+    "title": "Doce sem açúcar adicionado",
+    "kind": "lição",
+    "brief": "Fruta assada (peras, maçãs, ameixas) num tabuleiro, caramelizada nos bordos, pau de canela.",
+    "must": "Sem açúcar, cobertura ou chantilly visíveis."
+  },
+  {
+    "folder": "healthy",
+    "id": "lesson.saudavel-tabuleiro",
+    "slug": "saudavel-tabuleiro",
+    "title": "Um tabuleiro, jantar inteiro",
+    "kind": "lição",
+    "brief": "Tabuleiro de forno com legumes e proteína assados, espalhados numa camada única com espaço entre os pedaços.",
+    "must": "Os pedaços NÃO podem estar amontoados — a lição diz expressamente que o tabuleiro não pode estar cheio."
+  },
+  {
+    "folder": "healthy",
+    "id": "lesson.saudavel-tempero",
+    "slug": "saudavel-tempero",
+    "title": "Ácido, erva e picante em vez de sal",
+    "kind": "lição",
+    "brief": "Limão ou vinagre, ervas frescas e malagueta juntos numa bancada.",
+    "must": "Nada de sal na foto — nem saleiro nem flor de sal. O ácido tem de dominar."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.pasta-tipi",
+    "slug": "pasta-tipi",
+    "title": "Que massa, que molho",
+    "kind": "lição",
+    "brief": "Vários formatos de massa SECA dispostos separadamente e distinguíveis: esparguete, penne, rigatoni, farfalle.",
+    "must": "Massa crua e separada por formato. Um prato pronto não ensina formatos."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.pasta-preparacao",
+    "slug": "pasta-preparacao",
+    "title": "Massa: água, farinha, mãos",
+    "kind": "lição",
+    "brief": "Vulcão de farinha numa bancada de madeira com ovos/água no centro e mãos a trabalhar.",
+    "must": "Massa em formação, não massa já feita."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.pasta-esticar",
+    "slug": "pasta-esticar",
+    "title": "Esticar fino",
+    "kind": "lição",
+    "brief": "Folha de massa fina segura contra a luz ou a sair da máquina, com a luz a atravessá-la.",
+    "must": "A transparência é a prova da espessura."
+  },
+  {
+    "folder": "italian",
+    "id": "it-u1-l3-q1",
+    "slug": "it-u1-l3-q1",
+    "title": "Quiz: a folha está pronta?",
+    "kind": "quiz — resposta certa: SIM",
+    "brief": "Folha de massa fina ao ponto de se ver a mão ou a luz através dela.",
+    "must": "Estado CERTO. Foto distinta de pasta-esticar."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.tomate-simple",
+    "slug": "tomate-simple",
+    "title": "Molho de tomate de três coisas",
+    "kind": "lição",
+    "brief": "Exatamente três ingredientes visíveis — tomate, dentes de alho, azeite — ao lado de um tacho de molho a apurar.",
+    "must": "Três e só três. Cebola, manjericão ou cenoura contradizem o título."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.risotto-basico",
+    "slug": "risotto-basico",
+    "title": "Fundamentos do risoto",
+    "kind": "lição",
+    "brief": "Risoto a ser mexido numa frigideira larga com uma concha de caldo a entrar, cremoso, a meio da cozedura.",
+    "must": "A meio da cozedura e a mexer — não empratado."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.pizza-dough",
+    "slug": "pizza-dough",
+    "title": "Massa de pizza",
+    "kind": "lição",
+    "brief": "Bola de massa de pizza levedada, ou massa a ser esticada à mão.",
+    "must": "MASSA, não pizza cozida. (É exatamente o erro atual.)"
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.carbonara-tecnica",
+    "slug": "carbonara-tecnica",
+    "title": "Carbonara: a ciência",
+    "kind": "lição",
+    "brief": "Carbonara a ser envolvida fora do lume, emulsão brilhante de ovo e queijo a cobrir a massa, guanciale visível.",
+    "must": "Sem natas e sem salsa/manjericão — é o erro clássico que a lição corrige."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.pasta-agua-cozedura",
+    "slug": "pasta-agua-cozedura",
+    "title": "A água da cozedura é um ingrediente",
+    "kind": "lição",
+    "brief": "Concha ou caneca a tirar água turva e amidalada do tacho da massa.",
+    "must": "A turvação tem de se ver. Água transparente anula a lição."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.pasta-saltare",
+    "slug": "pasta-saltare",
+    "title": "A massa acaba na frigideira",
+    "kind": "lição",
+    "brief": "Massa a ser saltada numa frigideira com o molho, em movimento.",
+    "must": "Massa e molho na MESMA frigideira. Massa empratada com molho por cima é o erro que a lição corrige."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.ragu-brasear",
+    "slug": "ragu-brasear",
+    "title": "O ragù é tempo, não técnica",
+    "kind": "lição",
+    "brief": "Tacho pesado destapado com ragù a estalar em lume muito brando, superfície quase parada.",
+    "must": "Fervura mansa, não borbulhante — \"o que o estraga é o calor\"."
+  },
+  {
+    "folder": "italian",
+    "id": "lesson.pizza-gluten-forno",
+    "slug": "pizza-gluten-forno",
+    "title": "Glúten, levedação e o bordo inchado",
+    "kind": "lição",
+    "brief": "Bordo (cornicione) de uma pizza acabada de sair do forno, inchado e com bolhas tostadas, em plano próximo.",
+    "must": "O assunto é o BORDO, não a pizza inteira vista de cima."
+  },
+  {
+    "folder": "japanese",
+    "id": "lesson.japon-rice",
+    "slug": "japon-rice",
+    "title": "Lavar e o rácio",
+    "kind": "lição",
+    "brief": "Arroz a ser lavado numa taça, com a água branca e turva a ser escorrida.",
+    "must": "A água turva é o conteúdo da lição."
+  },
+  {
+    "folder": "japanese",
+    "id": "lesson.japon-dashi",
+    "slug": "japon-dashi",
+    "title": "Dashi: a base de tudo",
+    "kind": "lição",
+    "brief": "Tira de kombu em infusão num tacho de água limpa, com flocos de bonito ao lado. Água transparente, sem fervura.",
+    "must": "Sem borbulhar — \"nunca deixar ferver\" é a regra da lição."
+  },
+  {
+    "folder": "japanese",
+    "id": "lesson.japon-miso",
+    "slug": "japon-miso",
+    "title": "Sopa de miso sem amargor",
+    "kind": "lição",
+    "brief": "Pasta de miso a ser dissolvida com um passador para dentro do tacho FORA do lume, ou taça de sopa de miso com tofu e wakame.",
+    "must": "Nada a ferver."
+  },
+  {
+    "folder": "japanese",
+    "id": "jp-u1-l3-q1",
+    "slug": "jp-u1-l3-q1",
+    "title": "Quiz: técnica correta?",
+    "kind": "quiz — resposta certa: NÃO",
+    "brief": "Tacho de sopa de miso turva em FERVURA FORTE, a borbulhar intensamente.",
+    "must": "Estado ERRADO. A fervura tem de ser inequívoca."
+  },
+  {
+    "folder": "japanese",
+    "id": "lesson.japon-oshigiri",
+    "slug": "japon-oshigiri",
+    "title": "O corte de empurrar",
+    "kind": "lição",
+    "brief": "Faca a meio de um corte de empurrar em coxa de frango ou peixe, com a face das fatias limpa.",
+    "must": "Movimento único para a frente — sem serrar."
+  },
+  {
+    "folder": "japanese",
+    "id": "lesson.japon-donburi",
+    "slug": "japon-donburi",
+    "title": "Montar um donburi",
+    "kind": "lição",
+    "brief": "Tigela de donburi: base de arroz, cobertura de frango e ovo, cebolinho por cima.",
+    "must": "As camadas têm de ler-se pela ordem."
+  },
+  {
+    "folder": "japanese",
+    "id": "lesson.japones-panko",
+    "slug": "japones-panko",
+    "title": "Farinha, ovo, panko — por esta ordem",
+    "kind": "lição",
+    "brief": "Três taças alinhadas pela ordem — farinha, ovo batido, panko — com uma peça de carne a passar por elas.",
+    "must": "As três taças têm de estar visíveis e pela ordem certa. É a lição inteira."
+  },
+  {
+    "folder": "japanese",
+    "id": "lesson.japones-oleo",
+    "slug": "japones-oleo",
+    "title": "Óleo quente q.b., não a mais",
+    "kind": "lição",
+    "brief": "Migalhas de panko largadas em óleo quente, a chiar e a subir à superfície, em plano próximo.",
+    "must": "O teste da migalha tem de ser reconhecível. Óleo com comida já lá dentro não serve."
+  },
+  {
+    "folder": "mexican",
+    "id": "lesson.mexicana-roasting",
+    "slug": "mexicana-roasting",
+    "title": "Tostar para a salsa",
+    "kind": "lição",
+    "brief": "Tomates, chiles, alho e cebola a tostar num comal/frigideira SECA, peles tisnadas e empoladas.",
+    "must": "Frigideira seca, sem óleo. As manchas pretas são o assunto."
+  },
+  {
+    "folder": "mexican",
+    "id": "mx-u1-l1-q2",
+    "slug": "mx-u1-l1-q2",
+    "title": "Quiz: estão tostados que chegue?",
+    "kind": "quiz — resposta certa: SIM",
+    "brief": "Tomates com manchas pretas empoladas bem visíveis, mas não queimados por igual.",
+    "must": "Estado CERTO. Manchado, não uniformemente carbonizado."
+  },
+  {
+    "folder": "mexican",
+    "id": "lesson.mexicana-blending",
+    "slug": "mexicana-blending",
+    "title": "Equilibrar uma salsa",
+    "kind": "lição",
+    "brief": "Salsa verde a ser vertida de um molcajete de pedra para uma taça.",
+    "must": "Molcajete à vista — a lição é a decisão humana de temperar, não a liquidificadora."
+  },
+  {
+    "folder": "mexican",
+    "id": "lesson.mexicana-masa",
+    "slug": "mexicana-masa",
+    "title": "Hidratação da masa",
+    "kind": "lição",
+    "brief": "Bola de masa numa taça com mãos a amassar e masa harina visível.",
+    "must": "Masa de milho, não massa de trigo."
+  },
+  {
+    "folder": "mexican",
+    "id": "lesson.mexicana-pressing",
+    "slug": "mexicana-pressing",
+    "title": "Prensar tortilhas",
+    "kind": "lição",
+    "brief": "Prensa de tortilhas com uma bola de masa a ser prensada, ou tortilhas cruas acabadas de prensar empilhadas.",
+    "must": "A prensa é o assunto."
+  },
+  {
+    "folder": "mexican",
+    "id": "lesson.mexicana-searing",
+    "slug": "mexicana-searing",
+    "title": "Carne selada e montagem",
+    "kind": "lição",
+    "brief": "Tacos al pastor: tortilhas de milho com porco selado, ananás, cebola e coentros.",
+    "must": "Tortilha de milho, não de trigo."
+  },
+  {
+    "folder": "mexican",
+    "id": "lesson.mexicano-chiles",
+    "slug": "mexicano-chiles",
+    "title": "Chiles secos: tostar, não queimar",
+    "kind": "lição",
+    "brief": "Chiles secos inteiros (ancho, guajillo) a tostar num comal seco, ainda flexíveis.",
+    "must": "Chiles SECOS inteiros — não frescos nem em pó. Tostados, sem manchas pretas."
+  },
+  {
+    "folder": "mexican",
+    "id": "lesson.mexicano-enchiladas",
+    "slug": "mexicano-enchiladas",
+    "title": "Enchiladas que não se desfazem",
+    "kind": "lição",
+    "brief": "Enchiladas enroladas e alinhadas num tabuleiro, com molho por cima mas sem estarem submersas.",
+    "must": "Enroladas e inteiras. Não podem estar a nadar em molho."
+  },
+  {
+    "folder": "portuguese",
+    "id": "lesson.portuguesa-demolha",
+    "slug": "portuguesa-demolha",
+    "title": "Demolhar o bacalhau",
+    "kind": "lição",
+    "brief": "Postas de bacalhau salgado submersas em água numa taça ou tabuleiro.",
+    "must": "A demolha, não um prato cozinhado."
+  },
+  {
+    "folder": "portuguese",
+    "id": "lesson.portuguesa-refogado",
+    "slug": "portuguesa-refogado",
+    "title": "O refogado",
+    "kind": "lição",
+    "brief": "Cebola e alho picados a suar devagar em azeite numa frigideira, translúcidos, SEM alourar.",
+    "must": "Translúcido, não dourado — \"devagar e paciente\" é a lição."
+  },
+  {
+    "folder": "portuguese",
+    "id": "lesson.portuguesa-arroz",
+    "slug": "portuguesa-arroz",
+    "title": "Malandrinho, não seco",
+    "kind": "lição",
+    "brief": "Arroz de marisco num tacho de barro, visivelmente CALDOSO e solto, com marisco à vista.",
+    "must": "O caldo tem de se ver. Arroz seco e solto contradiz a lição inteira."
+  },
+  {
+    "folder": "portuguese",
+    "id": "lesson.portuguesa-tempero",
+    "slug": "portuguesa-tempero",
+    "title": "Louro e colorau",
+    "kind": "lição",
+    "brief": "Folhas de louro e uma colher de colorau ao lado ou por cima de um refogado.",
+    "must": "Os dois temperos têm de estar identificáveis."
+  },
+  {
+    "folder": "portuguese",
+    "id": "lesson.portugues-sopa-batata",
+    "slug": "portugues-sopa-batata",
+    "title": "A batata é que engrossa",
+    "kind": "lição",
+    "brief": "Batatas descascadas aos pedaços num tacho de caldo, já a desfazer-se nos bordos.",
+    "must": "A batata tem de estar a desfazer-se. Sem farinha nem natas à vista."
+  },
+  {
+    "folder": "portuguese",
+    "id": "lesson.portugues-sopa-passar",
+    "slug": "portugues-sopa-passar",
+    "title": "Passar a base, guardar o que se mastiga",
+    "kind": "lição",
+    "brief": "Taça de sopa com base cremosa e pedaços inteiros de legume por cima — os dois níveis visíveis.",
+    "must": "Tem de haver textura à vista. Um creme liso contradiz o título."
+  },
+  {
+    "folder": "portuguese",
+    "id": "lesson.portugues-massa-pimentao",
+    "slug": "portugues-massa-pimentao",
+    "title": "Massa de pimentão é marinada",
+    "kind": "lição",
+    "brief": "Cubos de porco CRU cobertos da pasta vermelha de pimentão, numa taça, a marinar.",
+    "must": "Carne crua coberta de pasta. Carne já cozinhada com molho por cima é precisamente o erro."
+  },
+  {
+    "folder": "portuguese",
+    "id": "lesson.portugues-ameijoas",
+    "slug": "portugues-ameijoas",
+    "title": "Amêijoas abrem, amêijoas passam",
+    "kind": "lição",
+    "brief": "Amêijoas acabadas de abrir, conchas escancaradas e o bivalve ainda cheio.",
+    "must": "Conchas abertas com o bivalve cheio. Amêijoas encolhidas e secas são o estado errado."
+  },
+  {
+    "folder": "university",
+    "id": "lesson.uni-despensa",
+    "slug": "uni-despensa",
+    "title": "A despensa que dura o mês",
+    "kind": "lição",
+    "brief": "Prateleira ou mesa com básicos baratos: arroz, massa, ovos, tomate de lata, cebolas, feijão de lata.",
+    "must": "Despensa, não prato pronto."
+  },
+  {
+    "folder": "university",
+    "id": "lesson.uni-uma-panela",
+    "slug": "uni-uma-panela",
+    "title": "Cozinhar numa só panela",
+    "kind": "lição",
+    "brief": "Uma ÚNICA panela ao lume, com massa e tomate à volta. Nada mais no fogão.",
+    "must": "Uma panela só — é literalmente o título."
+  },
+  {
+    "folder": "university",
+    "id": "lesson.uni-esticar",
+    "slug": "uni-esticar",
+    "title": "Esticar a proteína",
+    "kind": "lição",
+    "brief": "Prato de arroz com feijão e uma pequena quantidade de carne ou ovo envolvida no meio.",
+    "must": "Pouca proteína, bem distribuída — a proporção é a lição."
+  },
+  {
+    "folder": "university",
+    "id": "lesson.uni-sobras",
+    "slug": "uni-sobras",
+    "title": "Reinventar as sobras",
+    "kind": "lição",
+    "brief": "Arroz frito numa wok/frigideira com restos de legumes e ovo; idealmente um recipiente de arroz frio ao lado.",
+    "must": "A ligação ao arroz de ontem é o que faz a lição."
+  },
+  {
+    "folder": "university",
+    "id": "lesson.uni-escalar",
+    "slug": "uni-escalar",
+    "title": "Cozinhar para seis com orçamento de estudante",
+    "kind": "lição",
+    "brief": "Tacho grande e cheio de guisado ou massa, com colher de pau, a dar claramente para muitas doses.",
+    "must": "A escala tem de se ler — tacho grande, não uma panela individual."
+  },
+  {
+    "folder": "university",
+    "id": "lesson.uni-congelar",
+    "slug": "uni-congelar",
+    "title": "O congelador é a segunda despensa",
+    "kind": "lição",
+    "brief": "Recipientes ou sacos de porções individuais, etiquetados, arrumados no congelador.",
+    "must": "Porções individuais E o congelador. Recipientes na bancada não transmitem a lição."
+  },
+  {
+    "folder": "vegan",
+    "id": "lesson.vegan-proteina",
+    "slug": "vegan-proteina",
+    "title": "Fontes de proteína vegetal",
+    "kind": "lição",
+    "brief": "As fontes lado a lado e identificáveis: bloco de tofu, bloco de tempeh, lentilhas e grão.",
+    "must": "ZERO produtos animais."
+  },
+  {
+    "folder": "vegan",
+    "id": "lesson.vegan-tofu",
+    "slug": "vegan-tofu",
+    "title": "Tofu com textura a sério",
+    "kind": "lição",
+    "brief": "Cubos de tofu selados, dourados e estaladiços na frigideira, com crosta visível.",
+    "must": "Sem queijo nem lacticínios."
+  },
+  {
+    "folder": "vegan",
+    "id": "lesson.vegan-ovo",
+    "slug": "vegan-ovo",
+    "title": "Substituir o ovo",
+    "kind": "lição",
+    "brief": "Taça com gel de linhaça e água, ou aquafaba batida em picos, ao lado da massa de panquecas.",
+    "must": "O SUBSTITUTO tem de aparecer — panquecas sozinhas não ensinam nada."
+  },
+  {
+    "folder": "vegan",
+    "id": "lesson.vegan-umami",
+    "slug": "vegan-umami",
+    "title": "Umami sem carne",
+    "kind": "lição",
+    "brief": "Cogumelos bem alourados na frigideira com molho de soja, e taça de levedura nutricional e colher de miso ao lado.",
+    "must": "Os agentes de umami têm de estar visíveis."
+  },
+  {
+    "folder": "vegan",
+    "id": "lesson.vegan-cremoso",
+    "slug": "vegan-cremoso",
+    "title": "Cremoso sem natas",
+    "kind": "lição",
+    "brief": "Creme vegetal a ser vertido ou batido — base de castanha de caju, ou sopa de legumes passada, visivelmente untuosa.",
+    "must": "Sem lacticínios à vista: nada de natas, manteiga ou queijo."
+  },
+  {
+    "folder": "vegan",
+    "id": "lesson.vegan-leguminosas",
+    "slug": "vegan-leguminosas",
+    "title": "Leguminosas secas, cozidas de raiz",
+    "kind": "lição",
+    "brief": "Grão seco cru ao lado de grão já demolhado, ou um tacho de grão em fervura mansa.",
+    "must": "Grão SECO, não de lata. A lata é precisamente o que a lição substitui."
+  }
+]
