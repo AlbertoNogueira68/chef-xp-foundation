@@ -19,6 +19,7 @@ import { resolveImageInput } from "../lib/imageStore.js";
 import { awardXp, revokeXp } from "../lib/xpLedger.js";
 import { notifyQuietly } from "../lib/notifications.js";
 import { XP_RULES } from "../domain/xp.js";
+import { canEnterChallenge } from "../domain/challenges.js";
 
 const router = Router();
 
@@ -32,6 +33,7 @@ const SELECT_RECIPE = `
   SELECT
     r.id, r.author_id, r.title, r.description, r.ingredients,
     r.cook_time_min, r.difficulty, r.xp_reward, r.image_url, r.created_at,
+    r.estimated_cost_eur, r.dietary_tags,
     u.username  AS author_username,
     u.level     AS author_level,
     u.photo_url AS author_photo,
@@ -39,9 +41,16 @@ const SELECT_RECIPE = `
     (SELECT COUNT(*) FROM comments c       WHERE c.recipe_id = r.id) AS comments_count,
     EXISTS (
       SELECT 1 FROM recipe_likes rl WHERE rl.recipe_id = r.id AND rl.user_id = $1
-    ) AS liked_by_me
+    ) AS liked_by_me,
+    ch.id    AS challenge_id,
+    ch.title AS challenge_title
   FROM recipes r
   JOIN users u ON u.id = r.author_id
+  -- O desafio a que a receita foi submetida, se foi a algum. LEFT JOIN e não
+  -- subconsulta porque é no máximo uma linha: uma receita entra num desafio e
+  -- só num, e quem a publica fá-lo já de dentro dele.
+  LEFT JOIN challenge_entries ce ON ce.recipe_id = r.id
+  LEFT JOIN challenges        ch ON ch.id = ce.challenge_id
 `;
 
 /**
@@ -61,7 +70,8 @@ router.get(
   "/",
   validate({ query: recipeListSchema }),
   asyncHandler(async (req, res) => {
-    const { q, scope, difficulty, maxTime, authorId, limit, cursor } = req.valid.query;
+    const { q, scope, difficulty, maxTime, maxCost, dietaryTags, authorId, limit, cursor } =
+      req.valid.query;
 
     const params = [req.user.id];
 
@@ -94,6 +104,19 @@ router.get(
     if (maxTime) {
       params.push(maxTime);
       where.push(`r.cook_time_min <= $${params.length}`);
+    }
+
+    if (maxCost !== undefined) {
+      // Uma receita sem estimativa não passa por um filtro de orçamento: não
+      // há como garantir que cabe no limite pedido.
+      params.push(maxCost);
+      where.push(`r.estimated_cost_eur IS NOT NULL AND r.estimated_cost_eur <= $${params.length}`);
+    }
+
+    if (dietaryTags?.length) {
+      // Todas as etiquetas escolhidas têm de estar presentes — não basta uma.
+      params.push(dietaryTags);
+      where.push(`r.dietary_tags @> $${params.length}::text[]`);
     }
 
     if (authorId) {
@@ -167,12 +190,35 @@ router.get(
   }),
 );
 
+/**
+ * Publicar uma receita — e, quando vem um `challengeId`, participar com ela.
+ *
+ * Participar num desafio é publicar. Não há um sítio onde se escolhe uma
+ * receita já feita: quem entra num desafio cozinha para ele, e a receita que
+ * daí sai é uma receita normal — aparece no feed, ganha gostos e comentários
+ * como qualquer outra — com o desafio agarrado, que é o que o selo mostra.
+ *
+ * As duas coisas nascem na mesma transação. Se o desafio recusar a entrada
+ * (acabou, ou a pessoa já gastou as submissões que lhe cabiam), a receita não
+ * chega a ser publicada: quem carregou em "participar" não pediu para
+ * publicar uma receita solta, e ficar com ela no feed sem estar no desafio
+ * seria dar-lhe o contrário do que pediu.
+ */
 router.post(
   "/",
   validate({ body: recipeCreateSchema }),
   asyncHandler(async (req, res) => {
-    const { title, description, ingredients, cookTimeMin, difficulty, imageDataUrl } =
-      req.valid.body;
+    const {
+      title,
+      description,
+      ingredients,
+      cookTimeMin,
+      difficulty,
+      estimatedCostEur,
+      dietaryTags,
+      imageDataUrl,
+      challengeId,
+    } = req.valid.body;
 
     // Grava a imagem antes de abrir a transação: I/O de disco não pertence
     // dentro de uma transação de base de dados.
@@ -190,9 +236,51 @@ router.post(
       );
       const timeZone = userRows[0]?.time_zone ?? "UTC";
 
+      /**
+       * O desafio é trancado antes de a receita existir: é essa tranca que
+       * faz a contagem de submissões valer alguma coisa. Sem ela, duas
+       * publicações em paralelo passavam as duas o limite.
+       */
+      let challenge = null;
+      if (challengeId) {
+        const { rows: challengeRows } = await client.query(
+          `SELECT id, title, starts_at, ends_at, xp_reward, max_entries_per_user
+             FROM challenges WHERE id = $1 FOR UPDATE`,
+          [challengeId],
+        );
+        challenge = challengeRows[0] ?? null;
+
+        if (!challenge) {
+          await client.query("ROLLBACK");
+          return res.status(404).json({ error: "Challenge not found" });
+        }
+
+        const { rows: counted } = await client.query(
+          `SELECT COUNT(*)::int AS entry_count
+             FROM challenge_entries WHERE challenge_id = $1 AND user_id = $2`,
+          [challengeId, req.user.id],
+        );
+
+        const verdict = canEnterChallenge({
+          startsAt: challenge.starts_at,
+          endsAt: challenge.ends_at,
+          // A receita é desta pessoa por construção: está a ser criada agora,
+          // por ela, e ainda não está em desafio nenhum.
+          recipeAuthorId: req.user.id,
+          userId: req.user.id,
+          entryCount: counted[0].entry_count,
+          maxEntries: Number(challenge.max_entries_per_user ?? 1),
+        });
+
+        if (!verdict.ok) {
+          await client.query("ROLLBACK");
+          return res.status(409).json({ error: verdict.message });
+        }
+      }
+
       const { rows: created } = await client.query(
-        `INSERT INTO recipes (author_id, title, description, ingredients, cook_time_min, difficulty, xp_reward, image_url)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        `INSERT INTO recipes (author_id, title, description, ingredients, cook_time_min, difficulty, xp_reward, image_url, estimated_cost_eur, dietary_tags)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
          RETURNING id`,
         [
           req.user.id,
@@ -203,6 +291,8 @@ router.post(
           difficulty,
           XP_RULES.recipePublished,
           imageUrl,
+          estimatedCostEur ?? null,
+          dietaryTags ?? [],
         ],
       );
 
@@ -217,6 +307,29 @@ router.post(
         timeZone,
       });
 
+      /**
+       * O XP do desafio é pago com `source_ref = challengeId`, portanto é uma
+       * vez por desafio e não por foto: quem publica as três que o desafio
+       * permite ganha o XP de participação uma vez, e as três contam é para o
+       * pódio no fim.
+       */
+      let challengeAward = null;
+      if (challenge) {
+        await client.query(
+          `INSERT INTO challenge_entries (challenge_id, user_id, recipe_id)
+           VALUES ($1, $2, $3)`,
+          [challenge.id, req.user.id, recipeId],
+        );
+
+        challengeAward = await awardXp(client, {
+          userId: req.user.id,
+          source: "challenge",
+          sourceRef: challenge.id,
+          amount: Number(challenge.xp_reward ?? 0),
+          timeZone,
+        });
+      }
+
       const { rows } = await client.query(`${SELECT_RECIPE} WHERE r.id = $2`, [
         req.user.id,
         recipeId,
@@ -224,9 +337,18 @@ router.post(
 
       await client.query("COMMIT");
 
+      /**
+       * Os dois ganhos somam-se numa resposta só: quem publicou dentro de um
+       * desafio ganhou o XP da receita e o da participação ao mesmo tempo, e
+       * a interface tem uma frase para dizer, não duas.
+       */
+      const earned = award.amount + (challengeAward?.amount ?? 0);
+      const totals = challengeAward ?? award;
+
       res.status(201).json({
         recipe: toRecipe(rows[0]),
-        xp: { earned: award.amount, total: award.xp, level: award.level },
+        xp: { earned, total: totals.xp, level: totals.level },
+        challenge: challenge ? { id: challenge.id, title: challenge.title } : null,
       });
     } catch (error) {
       await client.query("ROLLBACK");
@@ -266,8 +388,16 @@ router.patch(
   asyncHandler(async (req, res) => {
     if (!(await requireOwnRecipe(req, res))) return;
 
-    const { title, description, ingredients, cookTimeMin, difficulty, imageDataUrl } =
-      req.valid.body;
+    const {
+      title,
+      description,
+      ingredients,
+      cookTimeMin,
+      difficulty,
+      estimatedCostEur,
+      dietaryTags,
+      imageDataUrl,
+    } = req.valid.body;
 
     const fields = [];
     const values = [];
@@ -281,6 +411,9 @@ router.patch(
     if (ingredients !== undefined) set("ingredients", ingredients);
     if (cookTimeMin !== undefined) set("cook_time_min", cookTimeMin);
     if (difficulty !== undefined) set("difficulty", difficulty);
+    // `null` explícito retira a estimativa; ausente mantém a que lá está.
+    if (estimatedCostEur !== undefined) set("estimated_cost_eur", estimatedCostEur);
+    if (dietaryTags !== undefined) set("dietary_tags", dietaryTags);
     if (imageDataUrl !== undefined) {
       // Como na publicação: a imagem é gravada fora de qualquer transação, e
       // `null` retira a fotografia em vez de a manter.

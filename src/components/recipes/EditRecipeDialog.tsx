@@ -19,9 +19,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
 import { useUpdateRecipe } from "@/features/feed/hooks/useRecipes";
 import { fileToResizedDataUrl } from "@/lib/image";
-import type { Recipe, RecipeDifficulty, RecipeUpdateInput } from "@/types/recipe";
+import { DIETARY_TAGS } from "@/constants/dietaryTags";
+import type { DietaryTag, Recipe, RecipeDifficulty, RecipeUpdateInput } from "@/types/recipe";
 import { t } from "@/i18n";
 
 /**
@@ -47,9 +49,17 @@ export function EditRecipeDialog({
   const [ingredients, setIngredients] = useState(recipe.ingredients);
   const [cookTimeMin, setCookTimeMin] = useState(recipe.cookTimeMin);
   const [difficulty, setDifficulty] = useState<RecipeDifficulty>(recipe.difficulty);
+  const [costInput, setCostInput] = useState(recipe.estimatedCostEur?.toString() ?? "");
+  const [dietaryTags, setDietaryTags] = useState<DietaryTag[]>(recipe.dietaryTags);
   const [image, setImage] = useState<string | null>(null);
   const [removeImage, setRemoveImage] = useState(false);
   const [processing, setProcessing] = useState(false);
+
+  const toggleDietaryTag = (tag: DietaryTag) => {
+    setDietaryTags((current) =>
+      current.includes(tag) ? current.filter((t) => t !== tag) : [...current, tag],
+    );
+  };
 
   // Reabrir mostra o que está guardado, não o rascunho da vez anterior.
   useEffect(() => {
@@ -59,6 +69,8 @@ export function EditRecipeDialog({
     setIngredients(recipe.ingredients);
     setCookTimeMin(recipe.cookTimeMin);
     setDifficulty(recipe.difficulty);
+    setCostInput(recipe.estimatedCostEur?.toString() ?? "");
+    setDietaryTags(recipe.dietaryTags);
     setImage(null);
     setRemoveImage(false);
   }, [open, recipe]);
@@ -88,6 +100,15 @@ export function EditRecipeDialog({
     if (ingredients.trim() !== recipe.ingredients) patch.ingredients = ingredients.trim();
     if (cookTimeMin !== recipe.cookTimeMin) patch.cookTimeMin = cookTimeMin;
     if (difficulty !== recipe.difficulty) patch.difficulty = difficulty;
+
+    const trimmedCost = costInput.trim();
+    const nextCost = trimmedCost === "" ? null : Number(trimmedCost);
+    if (nextCost !== recipe.estimatedCostEur) patch.estimatedCostEur = nextCost;
+
+    const tagsChanged =
+      JSON.stringify([...dietaryTags].sort()) !== JSON.stringify([...recipe.dietaryTags].sort());
+    if (tagsChanged) patch.dietaryTags = dietaryTags;
+
     // `null` retira a fotografia; ausente mantém a que lá está.
     if (image) patch.imageDataUrl = image;
     else if (removeImage) patch.imageDataUrl = null;
@@ -224,6 +245,44 @@ export function EditRecipeDialog({
                   <SelectItem value="dificil">{t("Hard")}</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+          </div>
+
+          <div className="space-y-1.5">
+            <Label htmlFor="edit-cost">{t("Estimated cost (€)")}</Label>
+            <Input
+              id="edit-cost"
+              type="number"
+              min={0}
+              step="0.5"
+              inputMode="decimal"
+              placeholder={t("Optional")}
+              value={costInput}
+              onChange={(event) => setCostInput(event.target.value)}
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <Label>{t("Dietary preferences")}</Label>
+            <div className="flex flex-wrap gap-2">
+              {DIETARY_TAGS.map((tag) => {
+                const active = dietaryTags.includes(tag.id);
+                return (
+                  <button
+                    key={tag.id}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => toggleDietaryTag(tag.id)}
+                  >
+                    <Badge
+                      variant={active ? "default" : "secondary"}
+                      className="rounded-full px-3 py-1.5 text-xs font-medium"
+                    >
+                      {tag.label}
+                    </Badge>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

@@ -164,6 +164,70 @@ describe("receitas", skipWithoutDatabase, () => {
     assert.equal(porTempo.body.recipes.length, 0);
   });
 
+  test("filtro de orçamento: só passam receitas com estimativa dentro do limite", async () => {
+    const barata = await publishRecipe(client, {
+      title: "Sopa de couve barata",
+      estimatedCostEur: 2,
+    });
+    await publishRecipe(client, { title: "Lagosta suada cara", estimatedCostEur: 40 });
+    // Sem estimativa nenhuma: não há como garantir que cabe no orçamento, por
+    // isso fica de fora quando o filtro está ativo.
+    await publishRecipe(client, { title: "Receita sem preço da sopa" });
+
+    const resposta = await client.get("/api/recipes?maxCost=5&q=sopa");
+    assert.deepEqual(
+      resposta.body.recipes.map((r) => r.id),
+      [barata.recipe.id],
+    );
+  });
+
+  test("filtro de preferências alimentares exige todas as etiquetas escolhidas", async () => {
+    const veganaSemGluten = await publishRecipe(client, {
+      title: "Salada vegan filtro",
+      dietaryTags: ["vegano", "sem_gluten"],
+    });
+    await publishRecipe(client, { title: "Salada vegetariana filtro", dietaryTags: ["vegetariano"] });
+    await publishRecipe(client, { title: "Salada sem etiquetas filtro" });
+
+    const soVegano = await client.get("/api/recipes?dietaryTags=vegano&q=filtro");
+    assert.deepEqual(
+      soVegano.body.recipes.map((r) => r.id),
+      [veganaSemGluten.recipe.id],
+    );
+
+    const veganoESemGluten = await client.get(
+      "/api/recipes?dietaryTags=vegano,sem_gluten&q=filtro",
+    );
+    assert.deepEqual(
+      veganoESemGluten.body.recipes.map((r) => r.id),
+      [veganaSemGluten.recipe.id],
+    );
+
+    // Pedir vegano e sem lactose não devolve a receita que só é vegano e sem glúten.
+    const veganoESemLactose = await client.get(
+      "/api/recipes?dietaryTags=vegano,sem_lactose&q=filtro",
+    );
+    assert.equal(veganoESemLactose.body.recipes.length, 0);
+  });
+
+  test("publicar e editar guardam orçamento e preferências alimentares", async () => {
+    const { recipe } = await publishRecipe(client, {
+      title: "Bowl de tofu",
+      estimatedCostEur: 3.5,
+      dietaryTags: ["vegano", "sem_gluten"],
+    });
+    assert.equal(recipe.estimatedCostEur, 3.5);
+    assert.deepEqual(recipe.dietaryTags, ["vegano", "sem_gluten"]);
+
+    const editado = await client.patch(`/api/recipes/${recipe.id}`, {
+      estimatedCostEur: null,
+      dietaryTags: ["vegetariano"],
+    });
+    assert.equal(editado.status, 200);
+    assert.equal(editado.body.recipe.estimatedCostEur, null);
+    assert.deepEqual(editado.body.recipe.dietaryTags, ["vegetariano"]);
+  });
+
   test("uma receita que não existe dá 404", async () => {
     const resposta = await client.get("/api/recipes/00000000-0000-0000-0000-000000000000");
     assert.equal(resposta.status, 404);

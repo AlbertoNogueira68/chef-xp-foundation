@@ -28,6 +28,8 @@ export function recipesQueryKey(params: RecipeListParams = {}) {
       q: params.q ?? "",
       difficulty: params.difficulty ?? null,
       maxTime: params.maxTime ?? null,
+      maxCost: params.maxCost ?? null,
+      dietaryTags: params.dietaryTags?.length ? [...params.dietaryTags].sort() : null,
       authorId: params.authorId ?? null,
     },
   ] as const;
@@ -71,6 +73,8 @@ export function useCreateRecipe() {
       queryClient.invalidateQueries({ queryKey: [RECIPES_ROOT_KEY] });
       queryClient.invalidateQueries({ queryKey: currentUserQueryKey });
       queryClient.invalidateQueries({ queryKey: ["userStats"] });
+      // Publicar pode ter sido participar: as contagens do desafio mudaram.
+      queryClient.invalidateQueries({ queryKey: ["challenges"] });
     },
   });
 }

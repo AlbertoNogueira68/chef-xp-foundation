@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Clock, Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { ChallengeBadge } from "@/components/challenges/ChallengeBadge";
 import type { Recipe } from "@/types/recipe";
 
 export function RecipeMasonryCard({ recipe }: { recipe: Recipe }) {
@@ -17,6 +18,13 @@ export function RecipeMasonryCard({ recipe }: { recipe: Recipe }) {
             className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
+        )}
+        {/* O selo fica por cima da fotografia e não some no hover: é o que
+            explica porque é que esta receita existe. */}
+        {recipe.challenge && (
+          <div className="absolute left-2 top-2 right-2">
+            <ChallengeBadge challenge={recipe.challenge} compact />
+          </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
         <div className="absolute bottom-2 left-2 right-2 flex items-end justify-between opacity-0 transition-opacity group-hover:opacity-100">
@@ -36,6 +44,11 @@ export function RecipeMasonryCard({ recipe }: { recipe: Recipe }) {
           <span className="inline-flex items-center gap-1">
             <Clock className="size-3" /> {recipe.cookTimeMin}m
           </span>
+          {recipe.estimatedCostEur !== null && (
+            <span className="inline-flex items-center gap-1">
+              ~€{recipe.estimatedCostEur.toFixed(2).replace(/\.00$/, "")}
+            </span>
+          )}
         </div>
       </div>
     </Link>

@@ -14,6 +14,8 @@ function buildQuery(params: RecipeListParams): string {
   if (params.scope) search.set("scope", params.scope);
   if (params.difficulty) search.set("difficulty", params.difficulty);
   if (params.maxTime) search.set("maxTime", String(params.maxTime));
+  if (params.maxCost !== undefined) search.set("maxCost", String(params.maxCost));
+  if (params.dietaryTags?.length) search.set("dietaryTags", params.dietaryTags.join(","));
   if (params.authorId) search.set("authorId", params.authorId);
   if (params.limit) search.set("limit", String(params.limit));
   if (params.cursor) search.set("cursor", params.cursor);
@@ -32,15 +34,28 @@ export const recipeService = {
     return data.recipe;
   },
 
-  async create(input: RecipeCreateInput): Promise<{ recipe: Recipe; xpEarned: number }> {
+  /**
+   * Publicar. Com `challengeId`, publica e participa de uma vez — o XP que
+   * vem de volta já é a soma dos dois ganhos.
+   */
+  async create(input: RecipeCreateInput): Promise<{
+    recipe: Recipe;
+    xpEarned: number;
+    challenge: { id: string; title: string } | null;
+  }> {
     const data = await apiFetch<{
       recipe: Recipe;
       xp: { earned: number; total: number; level: number };
+      challenge: { id: string; title: string } | null;
     }>("/recipes", {
       method: "POST",
       body: JSON.stringify(input),
     });
-    return { recipe: data.recipe, xpEarned: data.xp?.earned ?? 0 };
+    return {
+      recipe: data.recipe,
+      xpEarned: data.xp?.earned ?? 0,
+      challenge: data.challenge ?? null,
+    };
   },
 
   async update(id: string, patch: RecipeUpdateInput): Promise<Recipe> {

@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Clock, Flame, Heart, MessageCircle, Send } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { ChallengeBadge } from "@/components/challenges/ChallengeBadge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -11,6 +12,7 @@ import { RecipeActionsMenu } from "@/components/recipes/RecipeActionsMenu";
 import { useAddComment, useComments, useDeleteComment } from "@/features/feed/hooks/useComments";
 import { useRecipe, useToggleLike } from "@/features/feed/hooks/useRecipes";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
+import { dietaryTagLabel } from "@/constants/dietaryTags";
 import type { Recipe } from "@/types/recipe";
 import { shareLink } from "@/lib/share";
 import { cn } from "@/lib/utils";
@@ -116,6 +118,10 @@ export function RecipePage() {
           <RecipeActionsMenu recipe={recipe} onDeleted={() => navigate("/feed")} />
         </div>
 
+        {/* Aqui o selo é clicável: quem chega a uma receita por um link
+            partilhado tem de poder ir ver o desafio de onde ela veio. */}
+        {recipe.challenge && <ChallengeBadge challenge={recipe.challenge} />}
+
         <Link
           to={`/chef/${recipe.author.id}`}
           className="inline-flex items-center gap-2.5 rounded-full transition-opacity hover:opacity-80"
@@ -143,6 +149,16 @@ export function RecipePage() {
             <Flame className="mr-1 size-3" />
             {difficultyLabel(recipe.difficulty)}
           </Badge>
+          {recipe.estimatedCostEur !== null && (
+            <Badge variant="secondary" className="rounded-full text-[11px]">
+              ~€{recipe.estimatedCostEur.toFixed(2).replace(/\.00$/, "")}
+            </Badge>
+          )}
+          {recipe.dietaryTags.map((tag) => (
+            <Badge key={tag} variant="outline" className="rounded-full text-[11px]">
+              {dietaryTagLabel(tag)}
+            </Badge>
+          ))}
         </div>
       </div>
 
