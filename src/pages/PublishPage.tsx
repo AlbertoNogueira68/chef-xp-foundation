@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { Camera, ImagePlus, Images, Sparkles, X } from "lucide-react";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { Camera, ImagePlus, Images, Sparkles, Trophy, X } from "lucide-react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Badge } from "@/components/ui/badge";
@@ -12,8 +12,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { CameraCapture } from "@/components/CameraCapture";
 import { useCreateRecipe } from "@/features/feed/hooks/useRecipes";
+import { useChallenge } from "@/features/challenges/hooks/useChallenges";
 import { useCamera } from "@/features/missions/hooks/useCamera";
 import { fileToResizedDataUrl } from "@/lib/image";
+import { DIETARY_TAGS } from "@/constants/dietaryTags";
+import type { DietaryTag } from "@/types/recipe";
 import { t } from "@/i18n";
 
 const schema = z.object({
@@ -29,6 +32,19 @@ type FormValues = z.infer<typeof schema>;
 export function PublishPage() {
   const navigate = useNavigate();
   const create = useCreateRecipe();
+
+  /**
+   * `?challenge=<id>` põe esta página a participar num desafio.
+   *
+   * Participar é publicar: em vez de um formulário à parte dentro do desafio,
+   * é esta página — a mesma foto, os mesmos ingredientes, a mesma validação —
+   * com o desafio agarrado ao que vai ser gravado. O que muda é a moldura: um
+   * aviso em cima a dizer para onde vai, e o regresso ao desafio no fim.
+   */
+  const [searchParams] = useSearchParams();
+  const challengeId = searchParams.get("challenge");
+  const { data: challengeData } = useChallenge(challengeId);
+  const challenge = challengeData?.challenge ?? null;
   const fileInput = useRef<HTMLInputElement>(null);
   /**
    * Um segundo input, com `capture`, para quando a câmara da app não está
@@ -40,6 +56,16 @@ export function PublishPage() {
 
   const [image, setImage] = useState<string | null>(null);
   const [processingImage, setProcessingImage] = useState(false);
+  const [dietaryTags, setDietaryTags] = useState<DietaryTag[]>([]);
+  /** Texto livre em vez de um `z.coerce.number()`: uma caixa vazia tem de
+   * ficar "sem estimativa", e `Number("")` é `0`, não vazio. */
+  const [costInput, setCostInput] = useState("");
+
+  const toggleDietaryTag = (tag: DietaryTag) => {
+    setDietaryTags((current) =>
+      current.includes(tag) ? current.filter((t) => t !== tag) : [...current, tag],
+    );
+  };
 
   const {
     register,
@@ -74,12 +100,21 @@ export function PublishPage() {
   };
 
   const onSubmit = handleSubmit((values) => {
+    const trimmedCost = costInput.trim();
+    const estimatedCostEur = trimmedCost === "" ? undefined : Number(trimmedCost);
+
     create.mutate(
-      { ...values, imageDataUrl: image },
+      { ...values, estimatedCostEur, dietaryTags, imageDataUrl: image, challengeId },
       {
-        onSuccess: ({ xpEarned }) => {
-          toast.success(t("Recipe published! +{xp} XP", { xp: xpEarned }));
-          navigate("/feed");
+        onSuccess: ({ xpEarned, challenge: entered }) => {
+          toast.success(
+            entered
+              ? t("You're in {challenge}! +{xp} XP", { challenge: entered.title, xp: xpEarned })
+              : t("Recipe published! +{xp} XP", { xp: xpEarned }),
+          );
+          // Quem veio de um desafio volta para ele: é lá que estão as outras
+          // participações, e é lá que a dele passa a aparecer.
+          navigate(entered ? "/challenges?tab=challenges" : "/feed");
         },
         onError: (error) => toast.error(error.message),
       },
@@ -90,13 +125,30 @@ export function PublishPage() {
     <section className="space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold">{t("New recipe")}</h1>
-          <p className="text-xs text-muted-foreground">{t("Share it with the community")}</p>
+          <h1 className="text-xl font-bold">
+            {challenge ? t("Entry for the challenge") : t("New recipe")}
+          </h1>
+          <p className="text-xs text-muted-foreground">
+            {challenge ? t("It's published in the feed too") : t("Share it with the community")}
+          </p>
         </div>
         <Badge className="rounded-full border-0 bg-amber-500/15 text-amber-700">
           <Sparkles className="mr-1 size-3" /> +25 XP
         </Badge>
       </div>
+
+      {challenge && (
+        <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-3 py-2.5">
+          <p className="inline-flex items-center gap-1.5 text-sm font-semibold text-amber-700 dark:text-amber-400">
+            <Trophy className="size-4" />
+            {challenge.title}
+          </p>
+          <p className="mt-0.5 text-xs text-muted-foreground">{challenge.description}</p>
+          <p className="mt-1.5 text-[11px] text-muted-foreground">
+            {t("+{xp} XP for entering, on top of the recipe's.", { xp: challenge.xpReward })}
+          </p>
+        </div>
+      )}
 
       <input
         ref={fileInput}
@@ -238,6 +290,48 @@ export function PublishPage() {
               <option value="medio">{t("Medium")}</option>
               <option value="dificil">{t("Hard")}</option>
             </select>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="estimatedCostEur">{t("Estimated cost (€)")}</Label>
+          <Input
+            id="estimatedCostEur"
+            type="number"
+            min={0}
+            step="0.5"
+            inputMode="decimal"
+            placeholder={t("Optional")}
+            className="rounded-xl"
+            value={costInput}
+            onChange={(event) => setCostInput(event.target.value)}
+          />
+          <p className="text-[11px] text-muted-foreground">
+            {t("Your estimate, not a calculated price.")}
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          <Label>{t("Dietary preferences")}</Label>
+          <div className="flex flex-wrap gap-2">
+            {DIETARY_TAGS.map((tag) => {
+              const active = dietaryTags.includes(tag.id);
+              return (
+                <button
+                  key={tag.id}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => toggleDietaryTag(tag.id)}
+                >
+                  <Badge
+                    variant={active ? "default" : "secondary"}
+                    className="rounded-full px-3 py-1.5 text-xs font-medium"
+                  >
+                    {tag.label}
+                  </Badge>
+                </button>
+              );
+            })}
           </div>
         </div>
 

@@ -83,12 +83,15 @@ export function makeRecipe(overrides: Partial<Recipe> = {}): Recipe {
     cookTimeMin: 25,
     difficulty: "facil",
     xpReward: 25,
+    estimatedCostEur: null,
+    dietaryTags: [],
     imageUrl: null,
     likesCount: 2,
     commentsCount: 0,
     likedByMe: false,
     createdAt: "2026-03-01T10:00:00.000Z",
     author: { id: "user-1", username: "chefdemo", level: 3, photoUrl: null },
+    challenge: null,
     ...overrides,
   };
 }

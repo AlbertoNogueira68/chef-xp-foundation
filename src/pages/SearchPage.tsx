@@ -9,7 +9,8 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useRecipes } from "@/features/feed/hooks/useRecipes";
 import { useSuggestedChefs, useToggleFollow } from "@/features/profile/hooks/useUserStats";
-import type { RecipeDifficulty } from "@/types/recipe";
+import { DIETARY_TAGS } from "@/constants/dietaryTags";
+import type { DietaryTag, RecipeDifficulty } from "@/types/recipe";
 import { t } from "@/i18n";
 
 /**
@@ -32,13 +33,31 @@ const filters = (): Array<{
 export function SearchPage() {
   const [q, setQ] = useState("");
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  /** Texto livre em vez de presets: cada um escolhe o teto que quiser. */
+  const [budgetInput, setBudgetInput] = useState("");
+  const [activeDietaryTags, setActiveDietaryTags] = useState<DietaryTag[]>([]);
   const deferredQ = useDeferredValue(q);
+  const deferredBudget = useDeferredValue(budgetInput);
 
   const filter = filters().find((f) => f.id === activeFilter);
+  const parsedBudget = Number(deferredBudget);
+  const maxCost =
+    deferredBudget.trim() !== "" && Number.isFinite(parsedBudget) && parsedBudget >= 0
+      ? parsedBudget
+      : undefined;
+
+  const toggleDietaryTag = (tag: DietaryTag) => {
+    setActiveDietaryTags((current) =>
+      current.includes(tag) ? current.filter((t) => t !== tag) : [...current, tag],
+    );
+  };
+
   const { recipes, isFetching } = useRecipes({
     q: deferredQ || undefined,
     difficulty: filter?.difficulty,
     maxTime: filter?.maxTime,
+    maxCost,
+    dietaryTags: activeDietaryTags.length ? activeDietaryTags : undefined,
     limit: 20,
   });
 
@@ -80,6 +99,58 @@ export function SearchPage() {
                     className="rounded-full px-3 py-1.5 text-xs font-medium"
                   >
                     {item.label}
+                  </Badge>
+                </button>
+              );
+            })}
+          </div>
+          <ScrollBar orientation="horizontal" className="hidden" />
+        </ScrollArea>
+      </div>
+
+      <div>
+        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          {t("Budget")}
+        </h2>
+        <div className="relative max-w-40">
+          <Input
+            type="number"
+            min={0}
+            step="0.5"
+            inputMode="decimal"
+            value={budgetInput}
+            onChange={(event) => setBudgetInput(event.target.value)}
+            placeholder={t("Max € per recipe")}
+            aria-label={t("Max € per recipe")}
+            className="rounded-full border-border/60 bg-muted/50 pr-7"
+          />
+          <span className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+            €
+          </span>
+        </div>
+      </div>
+
+      <div>
+        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          {t("Dietary preferences")}
+        </h2>
+        <ScrollArea className="w-full whitespace-nowrap">
+          <div className="flex gap-2">
+            {DIETARY_TAGS.map((tag) => {
+              const active = activeDietaryTags.includes(tag.id);
+              return (
+                <button
+                  key={tag.id}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => toggleDietaryTag(tag.id)}
+                  className="flex h-9 shrink-0 items-center"
+                >
+                  <Badge
+                    variant={active ? "default" : "secondary"}
+                    className="rounded-full px-3 py-1.5 text-xs font-medium"
+                  >
+                    {tag.label}
                   </Badge>
                 </button>
               );

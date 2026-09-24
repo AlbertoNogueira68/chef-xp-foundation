@@ -6,6 +6,7 @@ import { PlatformMetrics } from "@/components/admin/PlatformMetrics";
 import { ReportQueue } from "@/components/admin/ReportQueue";
 import { StaffList } from "@/components/admin/StaffList";
 import { TrailManager } from "@/components/admin/TrailManager";
+import { ChallengeManager } from "@/components/admin/ChallengeManager";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
 import { t } from "@/i18n";
 
@@ -51,19 +52,22 @@ export function AdminPage() {
         <h1 className="text-xl font-bold">{isAdmin ? t("Admin") : t("Moderation")}</h1>
         <p className="text-sm text-muted-foreground">
           {isAdmin
-            ? t("The queue, who moderates, and the app's numbers.")
-            : t("The reports that came in, and what to do with them.")}
+            ? t("The queue, who moderates, the challenges, and the app's numbers.")
+            : t("The reports that came in, and the challenges you put up.")}
         </p>
       </div>
 
       {isAdmin ? (
         <Tabs defaultValue="fila">
-          <TabsList className="grid w-full grid-cols-4 rounded-full">
+          <TabsList className="grid w-full grid-cols-5 rounded-full">
             <TabsTrigger value="fila" className="rounded-full text-xs">
               {t("Queue")}
             </TabsTrigger>
             <TabsTrigger value="contas" className="rounded-full text-xs">
               {t("Accounts")}
+            </TabsTrigger>
+            <TabsTrigger value="desafios" className="rounded-full text-xs">
+              {t("Challenges")}
             </TabsTrigger>
             <TabsTrigger value="trilhos" className="rounded-full text-xs">
               {t("Trails")}
@@ -79,6 +83,9 @@ export function AdminPage() {
           <TabsContent value="contas" className="mt-4">
             <StaffList meId={me?.id} />
           </TabsContent>
+          <TabsContent value="desafios" className="mt-4">
+            <ChallengeManager />
+          </TabsContent>
           <TabsContent value="trilhos" className="mt-4">
             <TrailManager />
           </TabsContent>
@@ -87,7 +94,25 @@ export function AdminPage() {
           </TabsContent>
         </Tabs>
       ) : (
-        <ReportQueue />
+        /* O moderador não vê contas, trilhos nem números — mas cria desafios,
+           que são conteúdo da comunidade como o que ele já modera. */
+        <Tabs defaultValue="fila">
+          <TabsList className="grid w-full grid-cols-2 rounded-full">
+            <TabsTrigger value="fila" className="rounded-full text-xs">
+              {t("Queue")}
+            </TabsTrigger>
+            <TabsTrigger value="desafios" className="rounded-full text-xs">
+              {t("Challenges")}
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="fila" className="mt-4">
+            <ReportQueue />
+          </TabsContent>
+          <TabsContent value="desafios" className="mt-4">
+            <ChallengeManager />
+          </TabsContent>
+        </Tabs>
       )}
     </section>
   );

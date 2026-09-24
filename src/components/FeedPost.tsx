@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { RecipeActionsMenu } from "@/components/recipes/RecipeActionsMenu";
+import { ChallengeBadge } from "@/components/challenges/ChallengeBadge";
 import { useAddComment, useComments } from "@/features/feed/hooks/useComments";
 import type { Recipe } from "@/types/recipe";
 import { shareLink } from "@/lib/share";
@@ -76,6 +77,13 @@ export function FeedPost({
         <Badge className="absolute bottom-3 left-3 border-0 bg-black/50 text-white backdrop-blur-sm">
           +{recipe.xpReward} XP
         </Badge>
+        {/* Uma receita de desafio no feed é uma receita como as outras — o
+            selo é o que diz de onde veio. */}
+        {recipe.challenge && (
+          <div className="absolute left-3 top-3 max-w-[calc(100%-1.5rem)]">
+            <ChallengeBadge challenge={recipe.challenge} compact />
+          </div>
+        )}
       </Link>
 
       <div className="space-y-2 px-3 py-2.5">
