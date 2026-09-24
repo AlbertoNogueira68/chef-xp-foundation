@@ -23,8 +23,14 @@ Stack própria (Vite SPA + Express + PostgreSQL). Sem runtime Lovable/Supabase.
   público, o de qualquer outro chef.
 - **Detalhe de receita** com ingredientes, gostos e comentários, num link que se
   pode partilhar.
-- **Desafios** da comunidade: participa-se com uma receita própria, vê-se quem
-  participou, e o XP do desafio é pago uma vez por desafio.
+- **Desafios** da comunidade, criados por moderadores e administradores: quem
+  cria escolhe o XP de participação, quantas fotos cada pessoa pode publicar, a
+  duração em dias e o que valem os três lugares do pódio. **Participar é
+  cozinhar para o desafio**: abre o formulário de publicação de sempre com o
+  desafio agarrado, e a receita que sai dali é publicada no feed como qualquer
+  outra — com o selo do desafio a dizer de onde veio. O XP de participação é
+  pago uma vez por desafio, e no fim do prazo o ranking fecha sozinho: ganha
+  quem tiver mais gostos, e um empate paga o mesmo a quem empatar.
 - **Notificações** de gostos, comentários e seguidores novos, no sino do
   cabeçalho.
 - **Rankings** semanal e global, e cada desafio ordenado por gostos.
@@ -207,11 +213,37 @@ que responde quando se pede socorro. O que ele diz está todo em
 `POST /api/learning/lessons/:id/answer`, e no fim o servidor volta a corrigir
 tudo antes de atribuir XP.
 
+**Participar é publicar, e as duas coisas nascem na mesma transação.** Não há
+rota que agarre uma receita já feita a um desafio: quem participa cozinha para
+ele, e a receita e a participação são gravadas juntas em `POST /api/recipes`
+com `challengeId`. Se o desafio recusar a entrada — acabou, ou a pessoa já
+gastou as submissões que lhe cabiam — a receita não chega a ser publicada: quem
+carregou em "participar" não pediu para publicar uma receita solta. Retirar a
+participação faz o contrário do esperado e é de propósito: a receita fica
+publicada, só perde o selo.
+
 **Participar num desafio paga uma vez, não por submissão.** A entrada é um
 evento de XP com `source_ref = challengeId`, portanto retirar a participação e
-voltar a entrar não volta a pagar. O evento fica no livro-razão mesmo depois de
-a participação ser retirada: o livro-razão regista o que aconteceu, não o que é
-verdade agora.
+voltar a entrar não volta a pagar — e num desafio de três fotos, as três pagam
+uma vez só. O evento fica no livro-razão mesmo depois de a participação ser
+retirada: o livro-razão regista o que aconteceu, não o que é verdade agora.
+
+**O fim de um desafio é uma tarefa agendada, não um botão.** Uma passagem de
+cinco em cinco minutos (`server/lib/challengeScheduler.js`) fecha os desafios
+cujo prazo passou: congela o ranking em `challenge_results`, paga o pódio pelo
+livro-razão com a fonte `challenge_podium` e marca `settled_at`. O resultado é
+congelado porque os gostos continuam a mudar depois do fim — sem isso, o pódio
+que a aplicação mostra deixava de ser o que pagou o XP. Um moderador pode
+forçar a passagem num desafio já terminado; o que não pode é fechar um que
+ainda corre.
+
+**Os gostos de uma pessoa somam-se, e um empate não desempata.** Num desafio de
+três fotos, as três contam para a mesma pessoa — o limite é igual para toda a
+gente, e avaliar só a melhor tornaria as outras decorativas. Duas pessoas com os
+mesmos gostos ficam as duas no mesmo lugar e levam as duas o mesmo XP; o lugar
+seguinte é o que o empate deixou livre (dois primeiros, e a seguir o terceiro).
+Quem não teve um único gosto não sobe ao pódio, mesmo que tenha sido o único a
+aparecer.
 
 **Apagar uma receita leva o XP atrás.** Gostos, comentários e participações em
 desafios caem por `ON DELETE CASCADE`, mas `xp_events.source_ref` é texto e não
