@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { BarChart3, GraduationCap, Trophy } from "lucide-react";
 import { ChallengesTab } from "@/components/learning/ChallengesTab";
 import { LeaderboardTab } from "@/components/learning/LeaderboardTab";
@@ -30,8 +31,20 @@ function trilhoGuardado() {
   }
 }
 
+/** Os separadores que o endereço pode abrir: `/challenges?tab=challenges`. */
+const TABS = ["learn", "challenges", "ranking"];
+
 export function ChallengesPage() {
   const [trailId, setTrailId] = useState(trilhoGuardado);
+
+  /**
+   * Quem acaba de publicar uma participação volta para aqui — e tem de cair
+   * nos desafios, não no percurso de lições. O separador vem do endereço para
+   * que esse regresso possa apontar para o sítio certo.
+   */
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pedido = searchParams.get("tab");
+  const tab = TABS.includes(pedido ?? "") ? (pedido as string) : "learn";
 
   const { data: path, isLoading: pathLoading } = useLearningPath(trailId);
   useChallenges();
@@ -62,7 +75,11 @@ export function ChallengesPage() {
         </p>
       </header>
 
-      <Tabs defaultValue="learn" className="w-full">
+      <Tabs
+        value={tab}
+        onValueChange={(valor) => setSearchParams(valor === "learn" ? {} : { tab: valor })}
+        className="w-full"
+      >
         {/* Controlo segmentado: o separador ativo é um cartão branco por cima
             do fundo cinzento. Antes só o "Aprender" tinha estado ativo
             desenhado, e o outro parecia desligado. */}

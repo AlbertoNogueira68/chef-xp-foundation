@@ -1,4 +1,4 @@
-import { CalendarDays, Check, ChefHat, Trophy, Users, Zap } from "lucide-react";
+import { CalendarDays, Camera, Trophy, Users, X, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,16 +9,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { RecipeMasonryCard } from "@/components/RecipeMasonryCard";
+import { ChallengePodium } from "@/components/challenges/ChallengePodium";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  useChallenge,
-  useEnterChallenge,
-  useLeaveChallenge,
-} from "@/features/challenges/hooks/useChallenges";
-import { useRecipes } from "@/features/feed/hooks/useRecipes";
+import { useChallenge, useLeaveChallenge } from "@/features/challenges/hooks/useChallenges";
 import { useCurrentUser } from "@/features/profile/hooks/useCurrentUser";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { t } from "@/i18n";
 
 function formatDate(value: string) {
@@ -26,10 +20,13 @@ function formatDate(value: string) {
 }
 
 /**
- * O desafio aberto: quem já participou, e o sítio onde se participa.
+ * O desafio aberto: as regras com que corre, quem já participou, e o sítio
+ * onde se participa.
  *
  * A escolha da receita é feita a partir das receitas do próprio utilizador —
  * o servidor recusa qualquer outra, portanto não faria sentido mostrá-las.
+ * Depois do desafio fechar, o que ocupa o topo é o pódio: é o que a pessoa
+ * vem aqui ver.
  */
 export function ChallengeDetailDialog({
   challengeId,
@@ -40,15 +37,17 @@ export function ChallengeDetailDialog({
 }) {
   const { data, isLoading } = useChallenge(challengeId);
   const { data: user } = useCurrentUser();
-  const { recipes: myRecipes } = useRecipes({ authorId: user?.id, limit: 24 });
-  const enter = useEnterChallenge();
   const leave = useLeaveChallenge();
-  const [picked, setPicked] = useState<string | null>(null);
 
   const challenge = data?.challenge;
   const entries = data?.entries ?? [];
+  const results = data?.results ?? [];
 
-  const entered = challenge?.myEntry ?? null;
+  // As minhas submissões saem da lista de participações, que já vem do
+  // servidor — não há um segundo pedido só para as encontrar.
+  const minhas = entries.filter((entry) => entry.userId === user?.id);
+  const usadas = challenge?.myEntriesCount ?? 0;
+  const restantes = Math.max(0, (challenge?.maxEntriesPerUser ?? 1) - usadas);
 
   return (
     <Dialog open={Boolean(challengeId)} onOpenChange={(open) => !open && onClose()}>
@@ -71,7 +70,15 @@ export function ChallengeDetailDialog({
               </span>
               <span className="inline-flex items-center gap-1">
                 <Users className="size-3.5" />
-                {challenge.entriesCount} {t(challenge.entriesCount === 1 ? "entry" : "entries")}
+                {challenge.participantsCount}{" "}
+                {t(challenge.participantsCount === 1 ? "entrant" : "entrants")}
+              </span>
+              <span className="inline-flex items-center gap-1">
+                <Camera className="size-3.5" />
+                {t(
+                  challenge.maxEntriesPerUser === 1 ? "{count} photo each" : "{count} photos each",
+                  { count: challenge.maxEntriesPerUser },
+                )}
               </span>
               <span className="inline-flex items-center gap-1">
                 <CalendarDays className="size-3.5" />
@@ -81,85 +88,108 @@ export function ChallengeDetailDialog({
               </span>
             </div>
 
-            {/* --- Participar / retirar --- */}
-            {!challenge.active ? (
-              <p className="rounded-xl border border-dashed border-border px-4 py-3 text-center text-xs text-muted-foreground">
-                {t("This challenge is closed. The result stands.")}
-              </p>
-            ) : entered ? (
-              <div className="flex items-center justify-between gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-3 py-2.5">
-                <p className="inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-400">
-                  <Check className="size-4" />
-                  {t("You're in")}
+            {/* O que o pódio paga, enquanto ainda está por decidir. */}
+            {challenge.active && challenge.podiumXp.some((xp) => xp > 0) && (
+              <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-3 py-2.5">
+                <p className="inline-flex items-center gap-1.5 text-xs font-semibold text-amber-700 dark:text-amber-400">
+                  <Trophy className="size-3.5" />
+                  {t("Most likes at the end wins")}
                 </p>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="text-xs"
-                  disabled={leave.isPending}
-                  onClick={() => leave.mutate(challenge.id)}
-                >
-                  {t("Withdraw")}
-                </Button>
-              </div>
-            ) : myRecipes.length === 0 ? (
-              <div className="rounded-xl border border-dashed border-border px-4 py-5 text-center">
-                <ChefHat className="mx-auto size-5 text-muted-foreground/60" />
-                <p className="mt-2 text-sm text-muted-foreground">
-                  {t("You need a published recipe to enter.")}
+                <p className="mt-1 text-[11px] text-muted-foreground">
+                  {t("1st +{first} XP · 2nd +{second} XP · 3rd +{third} XP", {
+                    first: challenge.podiumXp[0] ?? 0,
+                    second: challenge.podiumXp[1] ?? 0,
+                    third: challenge.podiumXp[2] ?? 0,
+                  })}{" "}
+                  · {t("A tie pays the same to everyone tied.")}
                 </p>
-                <Button asChild size="sm" className="mt-3 rounded-full" onClick={onClose}>
-                  <Link to="/publish">{t("Publish a recipe")}</Link>
-                </Button>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                  {t("Choose the recipe")}
-                </p>
-                <div className="max-h-52 space-y-1.5 overflow-y-auto pr-1">
-                  {myRecipes.map((recipe) => (
-                    <button
-                      key={recipe.id}
-                      type="button"
-                      aria-pressed={picked === recipe.id}
-                      onClick={() => setPicked(recipe.id)}
-                      className={cn(
-                        "flex w-full items-center gap-3 rounded-xl border p-2 text-left transition-colors",
-                        picked === recipe.id
-                          ? "border-amber-500 bg-amber-500/10"
-                          : "border-border/60 hover:bg-muted/50",
-                      )}
-                    >
-                      <div className="size-11 shrink-0 overflow-hidden rounded-lg bg-muted">
-                        {recipe.imageUrl && (
-                          <img
-                            src={recipe.imageUrl}
-                            alt=""
-                            className="size-full object-cover"
-                            loading="lazy"
-                          />
-                        )}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="truncate text-sm font-medium">{recipe.title}</p>
-                        <p className="text-[11px] text-muted-foreground">
-                          {recipe.cookTimeMin} min · {recipe.difficulty}
-                        </p>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-                <Button
-                  className="w-full rounded-full"
-                  disabled={!picked || enter.isPending}
-                  onClick={() => picked && enter.mutate({ id: challenge.id, recipeId: picked })}
-                >
-                  <Trophy className="mr-1.5 size-4" />
-                  {enter.isPending ? t("Submitting…") : t("Enter")}
-                </Button>
               </div>
             )}
+
+            {/* --- O resultado, depois do fim --- */}
+            {!challenge.active && (
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {challenge.settledAt ? t("Final ranking") : t("Standing")}
+                </p>
+                {challenge.settledAt ? (
+                  <ChallengePodium results={results} />
+                ) : (
+                  <p className="rounded-xl border border-dashed border-border px-4 py-3 text-center text-xs text-muted-foreground">
+                    {/* Entre o fim e a passagem do agendador há minutos em que
+                        o desafio acabou mas o pódio ainda não existe. */}
+                    {t("This challenge has ended. The result is being counted.")}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* --- As minhas submissões --- */}
+            {minhas.length > 0 && (
+              <div className="space-y-1.5">
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                  {t("Your entries")}
+                </p>
+                {minhas.map((entry) => (
+                  <div
+                    key={entry.id}
+                    className="flex items-center gap-3 rounded-xl border border-emerald-500/30 bg-emerald-500/5 px-3 py-2"
+                  >
+                    <div className="size-9 shrink-0 overflow-hidden rounded-lg bg-muted">
+                      {entry.recipe.imageUrl && (
+                        <img
+                          src={entry.recipe.imageUrl}
+                          alt=""
+                          className="size-full object-cover"
+                          loading="lazy"
+                        />
+                      )}
+                    </div>
+                    <p className="min-w-0 flex-1 truncate text-sm font-medium">
+                      {entry.recipe.title}
+                    </p>
+                    {challenge.active && (
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="size-8 shrink-0 text-muted-foreground"
+                        aria-label={t("Withdraw")}
+                        disabled={leave.isPending}
+                        onClick={() => leave.mutate({ id: challenge.id, entryId: entry.id })}
+                      >
+                        <X className="size-4" />
+                      </Button>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* --- Participar --- */}
+            {challenge.active &&
+              (restantes === 0 ? (
+                <p className="rounded-xl border border-dashed border-border px-4 py-2.5 text-center text-xs text-muted-foreground">
+                  {t("You've used all your entries. Now it's up to the likes.")}
+                </p>
+              ) : (
+                /*
+                 * Participar é cozinhar para o desafio: leva à publicação de
+                 * uma receita nova, com o desafio agarrado. Aqui não se
+                 * escolhe uma receita já feita — a que sair daqui aparece no
+                 * feed como qualquer outra, com o selo do desafio.
+                 */
+                <Button asChild className="w-full rounded-full" onClick={onClose}>
+                  <Link to={`/publish?challenge=${challenge.id}`}>
+                    <Trophy className="mr-1.5 size-4" />
+                    {minhas.length > 0 ? t("Cook another one") : t("Cook and enter")}
+                    {challenge.maxEntriesPerUser > 1 && (
+                      <span className="ml-1 font-normal opacity-80">
+                        · {t("{count} left", { count: restantes })}
+                      </span>
+                    )}
+                  </Link>
+                </Button>
+              ))}
 
             {/* --- Quem participou --- */}
             <div>
