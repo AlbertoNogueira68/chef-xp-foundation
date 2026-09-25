@@ -163,6 +163,30 @@ export function curriculumFor(lang = DEFAULT_LANGUAGE, trailId = DEFAULT_TRAIL) 
   return trail[lang] ?? trail[DEFAULT_LANGUAGE];
 }
 
+/**
+ * O nome e a descrição de um trilho, na língua pedida.
+ *
+ * Vivem no JSON do currículo, que existe por língua. A linha da base de dados
+ * guarda o *estado* do trilho — se está publicado, em que ordem aparece — e
+ * não o texto: uma coluna só não tem onde pôr as duas línguas, e era por isso
+ * que o catálogo aparecia em inglês a quem tinha a app em português.
+ *
+ * Devolve só os campos que o JSON traz. Um trilho que não os declare mantém o
+ * que estiver na base de dados, em vez de ficar sem nome.
+ */
+export function trailTextFor(lang = DEFAULT_LANGUAGE, trailId = DEFAULT_TRAIL) {
+  if (!trailExists(trailId)) return {};
+
+  const { curriculum } = curriculumFor(lang, trailId);
+  const texto = {};
+  for (const campo of ["name", "description"]) {
+    if (typeof curriculum?.[campo] === "string" && curriculum[campo].trim() !== "") {
+      texto[campo] = curriculum[campo];
+    }
+  }
+  return texto;
+}
+
 /*
  * As versões sem língua são as inglesas, e são as que o resto do servidor usa
  * quando o texto não vai para o ecrã de ninguém — a sincronização com a base

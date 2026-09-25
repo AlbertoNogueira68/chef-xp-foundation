@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getPool } from "../../db/index.js";
 import { asyncHandler } from "../../middleware/errorHandler.js";
-import { trailExists } from "../../domain/curriculum.js";
+import { trailExists, trailTextFor } from "../../domain/curriculum.js";
 import { getTrailMetadata } from "../../services/trailService.js";
 
 /**
@@ -18,14 +18,22 @@ const router = Router();
 
 router.get(
   "/",
-  asyncHandler(async (_req, res) => {
+  asyncHandler(async (req, res) => {
     const { rows } = await getPool().query(
       `SELECT id, name, description, icon, color, difficulty, order_index,
               published_at, published_by, created_at, updated_at
          FROM trails
         ORDER BY order_index ASC, name ASC`,
     );
-    res.json({ trails: rows.map((row) => ({ ...row, loaded: trailExists(row.id) })) });
+    // O nome vem do JSON na língua de quem está a ver, como no catálogo. Aqui
+    // ninguém o edita — a coluna guarda o canónico e o painel é só de leitura.
+    res.json({
+      trails: rows.map((row) => ({
+        ...row,
+        ...trailTextFor(req.lang, row.id),
+        loaded: trailExists(row.id),
+      })),
+    });
   }),
 );
 

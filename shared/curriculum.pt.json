@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "name": "Prato Principal",
+  "description": "Os fundamentos: faca, calor, tempero e ponto.",
   "skills": [
     {
       "id": "seguranca.bancada",

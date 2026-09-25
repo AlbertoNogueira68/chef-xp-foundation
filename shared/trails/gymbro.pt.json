@@ -1,0 +1,769 @@
+{
+  "id": "gymbro",
+  "version": 1,
+  "name": "Cozinha de Ginásio: Proteína Sem a Secar",
+  "description": "Doseia a proteína para as tuas macros, coze peito de frango sem o transformar em borracha, e faz meal prep que não tem sabor a meal prep.",
+  "icon": "🍗",
+  "color": "#DC2626",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "beginner",
+  "estimatedHours": 12,
+  "skills": [
+    {
+      "id": "gymbro.porcionar-proteina",
+      "name": "Pesar e Dosear Proteína",
+      "category": "organizacao",
+      "description": "Saber mais ou menos o que são 150 g de frango no prato, sem pesar cada grama para o resto da vida.",
+      "requires": [
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "gymbro.frango-suculento",
+      "name": "Peito de Frango Suculento",
+      "category": "calor",
+      "description": "A parte mais magra é a que vira borracha mais depressa — entre suculento e seco vão uns graus e um descanso.",
+      "requires": [
+        "ponto.douramento"
+      ]
+    },
+    {
+      "id": "gymbro.meal-prep",
+      "name": "Meal Prep a Sério",
+      "category": "organizacao",
+      "description": "Cozinhar uma vez e comer bem toda a semana, sem que cada caixa tenha o sabor da mesma tristeza reaquecida.",
+      "requires": [
+        "org.sequenciar"
+      ]
+    },
+    {
+      "id": "gymbro.molho-proteico",
+      "name": "Molhos Que Não Estragam as Macros",
+      "category": "tempero",
+      "description": "Uma base de iogurte grego ou queijo fresco batido transporta sabor sem as calorias de um molho de nata ou cheio de óleo.",
+      "requires": [
+        "tempero.camadas"
+      ]
+    },
+    {
+      "id": "gymbro.proteina-ao-dia",
+      "name": "Proteína ao Longo do Dia",
+      "category": "organizacao",
+      "description": "Espalhar a proteína do dia por todas as refeições em vez de a empilhar toda no jantar, e saber mais ou menos o que cada porção traz.",
+      "requires": [
+        "gymbro.porcionar-proteina"
+      ]
+    },
+    {
+      "id": "gymbro.ovos-em-lote",
+      "name": "Ovos, Feitos de Véspera",
+      "category": "ponto",
+      "description": "Porções de ovo assadas ou cozidas feitas de uma vez: proteína ao pequeno-almoço que sobrevive quatro dias no frigorífico.",
+      "requires": [
+        "ponto.ovo"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-gymbro-1",
+      "title": "Proteína Que Não Está Seca",
+      "subtitle": "Doseamento e Técnica",
+      "color": "#DC2626",
+      "lessons": [
+        {
+          "id": "lesson.gymbro-porcionar",
+          "title": "Pesar e Dosear",
+          "dayNumber": 1,
+          "dishName": "Peito de Frango Doseado",
+          "description": "Saber o que é uma porção a sério, sem pesar cada grama para o resto da vida.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 140,
+          "icon": "⚖️",
+          "imageUrl": "https://images.unsplash.com/photo-1612874742237-6526221fcf4f?w=400",
+          "ingredients": [
+            "Peito de frango"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Pesa-o cru, algumas vezes",
+              "description": "Pesar frango cru repetidamente durante umas semanas ensina o teu olho a ver uma porção."
+            },
+            {
+              "title": "Usa a palma da mão como guia grosseiro",
+              "description": "Um pedaço do tamanho e da espessura da palma da mão é uma estimativa razoável depois de teres calibrado o olho com uma balança."
+            },
+            {
+              "title": "Corta antes ou depois de cozinhar, sempre da mesma maneira",
+              "description": "O peso muda durante a cozedura — decide uma vez se doseias em cru ou em cozinhado, e mantém-te nisso."
+            }
+          ],
+          "teaches": [
+            "gymbro.porcionar-proteina"
+          ],
+          "requires": [
+            "org.mise-en-place"
+          ],
+          "questions": [
+            {
+              "id": "gb-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Queres deixar de pesar cada refeição um dia. O que constrói de facto um olho certeiro para porções?",
+              "options": [
+                "Adivinhar desde o início e ajustar depois",
+                "Pesar sempre durante umas semanas e depois confirmar o olho na balança de vez em quando",
+                "Comer sempre a mesma porção de restaurante",
+                "Pesar só nos dias em que não tens a certeza"
+              ],
+              "correctAnswer": "Pesar sempre durante umas semanas e depois confirmar o olho na balança de vez em quando",
+              "explanation": "O olho calibra-se contra números reais ao longo de tentativas repetidas — adivinhar desde o primeiro dia só repete o mesmo erro.",
+              "skills": [
+                "gymbro.porcionar-proteina"
+              ],
+              "explainWrong": "Adivinhar sem nunca confirmar na balança nunca se corrige, e as porções de restaurante variam muito de sítio para sítio. Pesar só quando tens dúvidas quer dizer que nunca chegas a calibrar o olho."
+            }
+          ]
+        },
+        {
+          "id": "lesson.gymbro-frango",
+          "title": "Peito de Frango Suculento",
+          "dayNumber": 2,
+          "dishName": "Peito de Frango Salteado na Frigideira",
+          "description": "A parte mais magra é a que seca mais depressa — uns graus e um descanso fazem toda a diferença.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 200,
+          "icon": "🍗",
+          "imageUrl": "/lessons/gymbro/gymbro-frango.jpg",
+          "ingredients": [
+            "Peito de frango",
+            "Óleo",
+            "Sal"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Bate até ficar de espessura igual",
+              "description": "Um peito grosso numa ponta e fino na outra coze de forma desigual — achata-o primeiro."
+            },
+            {
+              "title": "Sela em lume forte, não passes do ponto",
+              "description": "Tira-o do lume assim que estiver cozido por dentro — dois minutos a mais transformam-no em borracha."
+            },
+            {
+              "title": "Deixa descansar antes de cortar",
+              "description": "Uns minutos de descanso deixam os sucos voltar a distribuir-se em vez de escorrerem para a tábua."
+            }
+          ],
+          "teaches": [
+            "gymbro.frango-suculento"
+          ],
+          "requires": [
+            "ponto.douramento"
+          ],
+          "questions": [
+            {
+              "id": "gb-u1-l2-q1",
+              "type": "choice",
+              "prompt": "Cortaste o peito de frango assim que saiu da frigideira e os sucos escorreram todos para a tábua, e ficou seco. O que devias ter feito?",
+              "options": [
+                "Cozinhá-lo ainda mais tempo na próxima vez",
+                "Deixá-lo descansar uns minutos antes de cortar",
+                "Usar uma frigideira mais fria",
+                "Salgá-lo imediatamente antes de cortar"
+              ],
+              "correctAnswer": "Deixá-lo descansar uns minutos antes de cortar",
+              "explanation": "Cortar logo deixa os sucos saírem sob pressão. Um descanso curto deixa-os assentar de volta pela carne.",
+              "skills": [
+                "gymbro.frango-suculento"
+              ],
+              "explainWrong": "Cozinhá-lo mais tempo só o seca ainda mais, e uma frigideira mais fria ou sal no último segundo não resolvem o que acontece no momento em que cortas carne quente. Os sucos precisam de uns minutos para se redistribuírem antes de a faca entrar."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.frango-grelhado-macros"
+    },
+    {
+      "id": "unit-gymbro-2",
+      "title": "Meal Prep a Sério",
+      "subtitle": "Cozinha Uma Vez, Come Bem Toda a Semana",
+      "color": "#1D4ED8",
+      "lessons": [
+        {
+          "id": "lesson.gymbro-mealprep",
+          "title": "Cozinha Uma Vez, Come Toda a Semana",
+          "dayNumber": 4,
+          "dishName": "Meal Prep da Semana",
+          "description": "Cozinhar em lote sem que sejam cinco dias seguidos da mesma refeição reaquecida.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 190,
+          "icon": "🍱",
+          "imageUrl": "/lessons/gymbro/gymbro-mealprep.jpg",
+          "ingredients": [
+            "Proteína",
+            "Dois legumes diferentes",
+            "Um cereal"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Coze os componentes em separado",
+              "description": "Proteína, legumes e cereal cozinhados e guardados em separado combinam-se de maneiras diferentes."
+            },
+            {
+              "title": "Varia o molho, não a base",
+              "description": "O mesmo frango com arroz pode ter um sabor completamente diferente ao longo da semana com dois ou três molhos em rotação."
+            },
+            {
+              "title": "Deixa arrefecer antes de fechar as caixas",
+              "description": "Fechar comida quente prende o vapor, e isso deixa tudo mole no dia seguinte."
+            }
+          ],
+          "teaches": [
+            "gymbro.meal-prep"
+          ],
+          "requires": [
+            "org.sequenciar"
+          ],
+          "questions": [
+            {
+              "id": "gb-u2-l1-q1",
+              "type": "choice",
+              "prompt": "Na quarta-feira já estás farto do teu meal prep. Qual é a solução mais provável para a semana seguinte?",
+              "options": [
+                "Cozinhar ainda mais do mesmo prato",
+                "Guardar os componentes em separado e fazer rodar dois ou três molhos diferentes pela semana",
+                "Desistir do meal prep e comer fora",
+                "Misturar tudo num prato antes de guardar, para estar pronto a levar"
+              ],
+              "correctAnswer": "Guardar os componentes em separado e fazer rodar dois ou três molhos diferentes pela semana",
+              "explanation": "Manter proteína, legumes e cereal separados deixa-te variar a combinação e o molho todos os dias, em vez de comeres um prato fixo cinco vezes.",
+              "skills": [
+                "gymbro.meal-prep"
+              ],
+              "explainWrong": "Cozinhar mais do mesmo prato não resolve o tédio, só faz mais dele, e misturar tudo num prato antes de guardar tranca-te nessa combinação exata para a semana toda. Guardar em separado é o que torna a variedade possível."
+            }
+          ]
+        },
+        {
+          "id": "lesson.gymbro-molho",
+          "title": "Molhos Que Não Estragam as Macros",
+          "dayNumber": 5,
+          "dishName": "Molho de Iogurte Grego",
+          "description": "Uma base de iogurte ou queijo fresco batido transporta sabor sem as calorias das natas ou dos molhos cheios de óleo.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 160,
+          "icon": "🥣",
+          "imageUrl": "/lessons/gymbro/gymbro-molho.jpg",
+          "ingredients": [
+            "Iogurte grego",
+            "Alho",
+            "Limão",
+            "Ervas"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Começa numa base rica em proteína",
+              "description": "Iogurte grego ou queijo fresco batido até ficar liso dá corpo sem as calorias das natas."
+            },
+            {
+              "title": "Tempera-o como temperarias qualquer molho",
+              "description": "Alho, limão, ervas, sal — uma base rica em proteína e sem graça continua a precisar de tempero para ter sabor a algo."
+            }
+          ],
+          "teaches": [
+            "gymbro.molho-proteico"
+          ],
+          "requires": [
+            "tempero.camadas"
+          ],
+          "questions": [
+            {
+              "id": "gb-u2-l2-q1",
+              "type": "choice",
+              "prompt": "Queres um molho cremoso para o frango com arroz sem estourar o teu objetivo de calorias. Qual é a melhor base?",
+              "options": [
+                "Natas reduzidas no lume",
+                "Iogurte grego ou queijo fresco, batidos e temperados",
+                "Um molho ranch de compra",
+                "Mais azeite batido com ervas"
+              ],
+              "correctAnswer": "Iogurte grego ou queijo fresco, batidos e temperados",
+              "explanation": "Uma base de lácteo rico em proteína dá a mesma textura cremosa por uma fração das calorias das natas ou dos molhos à base de óleo.",
+              "skills": [
+                "gymbro.molho-proteico"
+              ],
+              "explainWrong": "As natas e o óleo são ambos gorduras densas em calorias e com pouca proteína, e o ranch de garrafa costuma ser igual ou pior. Uma base de iogurte ou queijo fresco dá a mesma cremosidade com muito mais proteína e muito menos calorias."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.meal-prep-semanal"
+    },
+    {
+      "id": "unit-gymbro-3",
+      "title": "Chegar ao Número, Todos os Dias",
+      "subtitle": "Proteína a Partir do Pequeno-Almoço",
+      "color": "#7C3AED",
+      "missionId": "mission.dia-completo-proteina",
+      "lessons": [
+        {
+          "id": "lesson.gymbro-proteina-dia",
+          "title": "Proteína ao Longo do Dia, Não Toda no Jantar",
+          "dayNumber": 7,
+          "dishName": "O Total do Dia",
+          "description": "A maioria das pessoas falha o número não porque o jantar é pequeno, mas porque o pequeno-almoço e o almoço quase não tinham proteína.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 210,
+          "icon": "📊",
+          "imageUrl": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400",
+          "ingredients": [
+            "Ovos",
+            "Peito de frango",
+            "Iogurte grego",
+            "Atum de lata",
+            "Queijo fresco batido"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Conhece quatro porções de olho",
+              "description": "Um peito de frango, três ovos, uma embalagem de iogurte grego, uma lata de atum — mais ou menos 30, 18, 20 e 25 gramas. Quatro números cobrem quase todos os dias."
+            },
+            {
+              "title": "Põe proteína em todas as refeições, o pequeno-almoço incluído",
+              "description": "Espalhado por quatro refeições, o objetivo do dia são quatro porções normais. Empilhado no jantar, é um prato que ninguém acaba."
+            },
+            {
+              "title": "Pesa uma vez e depois confia no olho",
+              "description": "Pesa uma porção algumas vezes para aprenderes o aspeto dela. Depois disso a balança serve para confirmar, não para cada refeição."
+            }
+          ],
+          "teaches": [
+            "gymbro.proteina-ao-dia"
+          ],
+          "requires": [
+            "gymbro.porcionar-proteina",
+            "gymbro.meal-prep"
+          ],
+          "questions": [
+            {
+              "id": "gymbro-u3-l1-q1",
+              "type": "choice",
+              "prompt": "Precisas de 120 g de proteína hoje. O pequeno-almoço foi torradas e café, o almoço foi uma salada. Qual é o problema real?",
+              "options": [
+                "O jantar só tem de ser maior",
+                "Duas refeições quase não trouxeram proteína, por isso o jantar teria de ser uma quantidade de comida pouco plausível",
+                "Devias saltar o jantar e usar um batido",
+                "120 g é impossível sem suplementos"
+              ],
+              "correctAnswer": "Duas refeições quase não trouxeram proteína, por isso o jantar teria de ser uma quantidade de comida pouco plausível",
+              "explanation": "Espalhados por quatro refeições, 120 g são quatro porções normais. Deixados para uma refeição são quase 400 g de frango de uma vez, e é por isso que o dia falha.",
+              "skills": [
+                "gymbro.proteina-ao-dia"
+              ],
+              "explainWrong": "Fazer o jantar maior é exatamente o prato que não se acaba, e 120 g alcançam-se facilmente com comida normal — um batido é uma conveniência, não o único caminho."
+            },
+            {
+              "id": "gymbro-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Mais ou menos quanta proteína têm três ovos?",
+              "options": [
+                "Cerca de 6 g",
+                "Cerca de 18 g",
+                "Cerca de 40 g",
+                "Cerca de 60 g"
+              ],
+              "correctAnswer": "Cerca de 18 g",
+              "explanation": "Cerca de seis gramas por ovo. Saber quatro ou cinco porções de cor é mais rápido do que ir procurar, e certeiro o suficiente para planear um dia.",
+              "skills": [
+                "gymbro.proteina-ao-dia"
+              ],
+              "explainWrong": "Seis gramas é um ovo, não três, e 40 ou 60 g seriam mais do que um peito de frango inteiro — sobrestimar é como um dia que parece bem no papel acaba abaixo."
+            }
+          ]
+        },
+        {
+          "id": "lesson.gymbro-ovos-lote",
+          "title": "Pequeno-Almoço Que Tem Proteína a Sério",
+          "dayNumber": 8,
+          "dishName": "Porções de Ovo no Forno",
+          "description": "O pequeno-almoço é a refeição que se salta num prep, e é aquela em que a proteína é mais fácil de pôr de véspera.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 30,
+          "xpReward": 220,
+          "icon": "🥚",
+          "imageUrl": "/lessons/gymbro/gymbro-ovos-lote.jpg",
+          "ingredients": [
+            "8 ovos",
+            "Espinafres",
+            "Pimentos",
+            "Queijo fresco batido",
+            "Forma de queques",
+            "Azeite"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Assa um tabuleiro, não uma frigideira",
+              "description": "Ovos batidos com legumes e assados numa forma de queques dão seis a oito porções individuais de uma vez, sem frigideira para vigiar."
+            },
+            {
+              "title": "Tira-os ligeiramente antes do ponto",
+              "description": "O ovo assado continua a cozer no próprio calor e volta a cozer quando o reaqueces. Sai do forno apenas firme, ou é borracha na quarta-feira."
+            },
+            {
+              "title": "Arrefece antes do frigorífico, quatro dias no máximo",
+              "description": "Ovo morno numa caixa fechada transpira e estraga-se cedo. Arrefece-os numa grelha, mete-os na caixa e come-os em quatro dias."
+            }
+          ],
+          "teaches": [
+            "gymbro.ovos-em-lote"
+          ],
+          "requires": [
+            "ponto.ovo",
+            "gymbro.meal-prep"
+          ],
+          "questions": [
+            {
+              "id": "gymbro-u3-l2-q1",
+              "type": "choice",
+              "prompt": "Os teus queques de ovo estão emborrachados e a largar água na segunda manhã. Causa mais provável?",
+              "options": [
+                "Faltou azeite na forma",
+                "Foram assados até ficarem firmes e depois reaquecidos por cima disso",
+                "Demasiados espinafres",
+                "O forno estava demasiado frio"
+              ],
+              "correctAnswer": "Foram assados até ficarem firmes e depois reaquecidos por cima disso",
+              "explanation": "A proteína do ovo aperta e espreme água para fora quando passa do ponto. Assados até firmes mais o calor residual mais um reaquecimento são três cozeduras — tira-os apenas firmes.",
+              "skills": [
+                "gymbro.ovos-em-lote"
+              ],
+              "explainWrong": "O azeite decide se colam, não a textura, e um forno frio deixava-os húmidos em vez de emborrachados. Os espinafres acrescentam água, mas é a cozedura excessiva que os faz guinchar."
+            },
+            {
+              "id": "gymbro-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Porque é que se arrefecem as porções de ovo numa grelha antes de as guardar?",
+              "options": [
+                "Fixa a forma",
+                "Fechadas mornas, transpiram e estragam-se mais cedo",
+                "Acrescenta proteína",
+                "Faz com que reaqueçam mais depressa"
+              ],
+              "correctAnswer": "Fechadas mornas, transpiram e estragam-se mais cedo",
+              "explanation": "Comida morna numa caixa fechada faz a sua própria condensação, que é água a assentar no teu pequeno-almoço durante quatro dias — arrefecer primeiro é o que compra a semana.",
+              "skills": [
+                "gymbro.ovos-em-lote"
+              ],
+              "explainWrong": "A forma é dada pela forma e pela cozedura, e arrefecer não muda nem a proteína nem o tempo de reaquecer. O que muda é quanto tempo se mantêm bons."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.frango-grelhado-macros",
+      "unitId": "unit-gymbro-1",
+      "title": "Frango Doseado e Suculento",
+      "dishName": "Peito de Frango Salteado na Frigideira",
+      "cookTimeMin": 30,
+      "summary": "Um peito de frango bem doseado, cozido por igual e de facto suculento, não cartão seco.",
+      "estimatedCostEur": 3,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "gymbro.porcionar-proteina",
+        "gymbro.frango-suculento"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "Peito de frango",
+        "Óleo",
+        "Sal",
+        "Pimenta"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Doseia e bate o frango",
+          "description": "Pesa ou estima uma porção razoável e depois bate-o até ficar de espessura igual.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens martelo de carne? Uma frigideira pesada serve bem para o achatar."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Sela em lume forte, não passes do ponto",
+          "description": "Tempera e sela dos dois lados, tirando-o do lume no momento em que estiver cozido por dentro.",
+          "durationSec": 480,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Ainda rosado no meio depois de os dois lados estarem alourados? Baixa o lume e tapa mais um minuto ou dois em vez de aumentares o calor."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Dourado por fora, opaco e apenas cozido por dentro, sem rosa."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Deixa descansar antes de cortar",
+          "description": "Uns minutos fora do lume antes de fatiar.",
+          "durationSec": 240,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Os sucos ficam na carne em vez de se juntarem na tábua quando se corta."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.meal-prep-semanal",
+      "unitId": "unit-gymbro-2",
+      "title": "Meal Prep da Semana",
+      "dishName": "Frango, Arroz e Legumes — de Três Maneiras",
+      "cookTimeMin": 60,
+      "summary": "Uma sessão de cozinha, componentes separados e dois molhos que fazem a mesma base saber diferente toda a semana.",
+      "estimatedCostEur": 6,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "gymbro.meal-prep",
+        "gymbro.molho-proteico"
+      ],
+      "xpReward": 550,
+      "ingredients": [
+        "Peito de frango",
+        "Arroz",
+        "Dois legumes diferentes",
+        "Iogurte grego",
+        "Alho",
+        "Limão",
+        "Ervas"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Coze o frango em lotes",
+          "description": "Tempera e sela todas as porções que precisas para a semana, sem encher a frigideira.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Frigideira pequena para tudo de uma vez? Coze em lotes em vez de a encheres."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Todas as porções cozidas por dentro, ainda suculentas, não secas de estarem à espera."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Coze o arroz e os legumes em separado",
+          "description": "Arroz numa panela, legumes cozidos a vapor ou assados em separado, para que nada fique mole no líquido dos outros.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Pouco tempo? Legumes congelados cozem a vapor igualmente depressa e servem bem aqui."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Faz o molho de iogurte",
+          "description": "Bate iogurte grego com alho, limão e ervas, temperado para saber de facto a algo.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Sem graça? Normalmente só precisa de mais sal e de um pouco mais de limão do que esperarias."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Arrefece e divide pelas caixas",
+          "description": "Deixa tudo arrefecer antes de fechar e depois divide pelas caixas, mantendo os componentes separados.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Fechaste enquanto ainda estava quente? Levanta as tampas uns minutos para o vapor sair."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Componentes separados em cada caixa, nada mole, molho guardado à parte."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.dia-completo-proteina",
+      "unitId": "unit-gymbro-3",
+      "title": "Um Dia Inteiro, Feito de Véspera",
+      "dishName": "Queques de Ovo, Frango Doseado e Uma Tigela de Iogurte",
+      "cookTimeMin": 75,
+      "summary": "Uma sessão que cobre a proteína do pequeno-almoço, do almoço e do jantar durante quatro dias — e o número do dia alcançado sem batido.",
+      "estimatedCostEur": 9,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_frutos_secos",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "gymbro.porcionar-proteina",
+        "gymbro.frango-suculento",
+        "gymbro.meal-prep",
+        "gymbro.molho-proteico",
+        "gymbro.proteina-ao-dia",
+        "gymbro.ovos-em-lote"
+      ],
+      "xpReward": 800,
+      "ingredients": [
+        "8 ovos",
+        "4 peitos de frango",
+        "500 g de iogurte grego",
+        "Espinafres",
+        "2 pimentos",
+        "Arroz",
+        "Azeite",
+        "Paprica",
+        "Limão",
+        "Balança de cozinha"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Pesa e doseia tudo primeiro",
+          "description": "Pesa o frango em quatro porções iguais e repara no aspeto de uma delas na tábua. Tudo o que vem depois disto é cozinhar, não decidir.",
+          "durationSec": 420,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens balança? Doseia de olho contra a palma da mão e pesa uma vez nas próximas compras para calibrar."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Assa os queques de ovo e tira-os apenas firmes",
+          "description": "Bate os ovos com espinafres e pimento picados, enche uma forma de queques untada e assa a 180 °C até estarem apenas firmes e ainda ligeiramente moles no centro — cerca de 15 minutos.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Topos a alourar e a abaular rijos? Já passaram do ponto — fora agora, e baixa o forno na próxima."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens forma de queques? Um prato baixo, assado e cortado em quadrados."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Coze as porções de frango sem as secar",
+          "description": "Sela as porções e acaba-as tapadas em lume brando até estarem cozidas por dentro. Fora do lume antes de o exterior apertar — um peito seco é a razão de ser desta unidade.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "O exterior a escurecer antes de o meio estar feito? Baixa o lume e tapa."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Os sucos saem transparentes e a carne cede ligeiramente quando se pressiona, em vez de saltar rija."
+            },
+            {
+              "kind": "cola",
+              "answer": "Está a colar? Deixa-o um momento mais — solta-se quando a crosta se formar."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Arroz e um molho de iogurte",
+          "description": "Coze o arroz enquanto o frango descansa. Mexe o iogurte com limão, paprica e pimenta para um molho que acrescenta proteína em vez de gastar o orçamento de gordura do dia.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens limão? Vinagre e um pouco de alho."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Arroz à parte e tenro, molho espesso o suficiente para cobrir uma colher."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Monta quatro dias de caixas e soma o dia",
+          "description": "Arrefece tudo e depois divide por refeição: queques de ovo para o pequeno-almoço, uma caixa de frango com arroz para o almoço, frango com molho para o jantar, iogurte para o intervalo. Escreve a proteína do conjunto de um dia na caixa de cima.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Poucas caixas? Mete o arroz num saco à parte e guarda a proteína na caixa."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Quatro dias etiquetados, pequeno-almoço incluído, e um número escrito que chega ao teu objetivo."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

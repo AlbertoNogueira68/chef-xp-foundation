@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "name": "Main Course",
+  "description": "The fundamentals: knife, heat, seasoning and doneness.",
   "skills": [
     {
       "id": "seguranca.bancada",

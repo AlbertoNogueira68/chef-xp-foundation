@@ -2,8 +2,10 @@ import {
   getAllTrailIds,
   trailExists,
   curriculumFor,
+  trailTextFor,
   getLessonOrder,
   DEFAULT_TRAIL,
+  DEFAULT_LANGUAGE,
 } from "../domain/curriculum.js";
 
 /**
@@ -18,6 +20,17 @@ import {
  * publicada. Um trilho sem currículo não se serve, e um currículo sem linha
  * publicada ainda é rascunho.
  */
+
+/**
+ * Põe o nome e a descrição da língua pedida por cima da linha da base de dados.
+ *
+ * A linha manda no estado — publicado, ordem, ícone escolhido pelo
+ * administrador — e o JSON manda no texto, porque é ele que existe nas duas
+ * línguas. Sem isto o catálogo de trilhos saía sempre em inglês.
+ */
+function naLingua(rows, lang) {
+  return rows.map((trail) => ({ ...trail, ...trailTextFor(lang, trail.id) }));
+}
 
 /** Um trilho está publicado quando a linha existe e tem `published_at`. */
 export async function isTrailPublished(db, trailId) {
@@ -90,7 +103,11 @@ export async function canSeeTrail(db, userId, trailId) {
  * para depois dar 404 ao ser aberto. Antes do fundacional estar completo, só
  * ele aparece — o resto fica escondido em vez de tentador e trancado.
  */
-export async function getAllAvailableTrails(db, userId, { includeUnpublished = false } = {}) {
+export async function getAllAvailableTrails(
+  db,
+  userId,
+  { includeUnpublished = false, lang = DEFAULT_LANGUAGE } = {},
+) {
   const loaded = getAllTrailIds();
   const desbloqueado =
     includeUnpublished || (await isTeamMember(db, userId)) || (await hasCompletedMainCourse(db, userId));
@@ -103,12 +120,13 @@ export async function getAllAvailableTrails(db, userId, { includeUnpublished = f
       ORDER BY order_index ASC, name ASC`,
     [loaded, includeUnpublished, DEFAULT_TRAIL, desbloqueado],
   );
-  return rows;
+  return naLingua(rows, lang);
 }
 
-export async function getTrailMetadata(db, trailId) {
+export async function getTrailMetadata(db, trailId, lang = DEFAULT_LANGUAGE) {
   const { rows } = await db.query(`SELECT * FROM trails WHERE id = $1`, [trailId]);
-  return rows[0] ?? null;
+  if (!rows[0]) return null;
+  return { ...rows[0], ...trailTextFor(lang, trailId) };
 }
 
 /** O currículo de um trilho, ou `null` se esse trilho não foi carregado. */
@@ -125,7 +143,7 @@ export async function getUserTrailProgress(db, userId, trailId) {
   return rows[0] ?? null;
 }
 
-export async function getUserTrails(db, userId) {
+export async function getUserTrails(db, userId, lang = DEFAULT_LANGUAGE) {
   const { rows } = await db.query(
     `SELECT t.id, t.name, t.description, t.icon, t.color, t.difficulty, t.order_index,
             utp.started_at, utp.completed_at, utp.current_unit_id
@@ -135,7 +153,7 @@ export async function getUserTrails(db, userId) {
       ORDER BY utp.started_at DESC`,
     [userId],
   );
-  return rows;
+  return naLingua(rows, lang);
 }
 
 /**

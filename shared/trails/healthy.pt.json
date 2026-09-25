@@ -1,0 +1,763 @@
+{
+  "id": "healthy",
+  "version": 1,
+  "name": "Cozinha Saudável: Equilíbrio Sem Ser Insípido",
+  "description": "Cozinhar sem perder nutrientes: vapor, prato equilibrado, gorduras boas na dose certa e sobremesa sem açúcar adicionado.",
+  "icon": "🥗",
+  "color": "#16A34A",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "beginner",
+  "estimatedHours": 12,
+  "skills": [
+    {
+      "id": "saudavel.vapor",
+      "name": "Cozer a vapor",
+      "category": "calor",
+      "description": "Calor húmido e brando que coze os legumes por inteiro sem lhes tirar os nutrientes para a água a ferver.",
+      "requires": [
+        "calor.niveis"
+      ]
+    },
+    {
+      "id": "saudavel.prato-equilibrado",
+      "name": "O Prato Equilibrado",
+      "category": "organizacao",
+      "description": "Proteína, legume e hidratos nas proporções certas no mesmo prato, e não comidos como três coisas soltas.",
+      "requires": [
+        "org.empratar"
+      ]
+    },
+    {
+      "id": "saudavel.gordura-boa",
+      "name": "Gordura Boa, Dose Certa",
+      "category": "tempero",
+      "description": "Um fio de azeite ou umas fatias de abacate fazem mais por um prato do que fugir da gordura por completo.",
+      "requires": [
+        "calor.gordura"
+      ]
+    },
+    {
+      "id": "saudavel.doce-sem-acucar",
+      "name": "Doce Sem Açúcar Adicionado",
+      "category": "tempero",
+      "description": "Fruta madura, especiaria e tempo constroem um doce que não vem de um pacote de açúcar.",
+      "requires": [
+        "tempero.sal-momento"
+      ]
+    },
+    {
+      "id": "saudavel.assar-tabuleiro",
+      "name": "Um Tabuleiro, Jantar Inteiro",
+      "category": "calor",
+      "description": "Forno quente e tabuleiro sem estar cheio: os legumes assam e caramelizam em vez de estufarem no próprio vapor.",
+      "requires": [
+        "calor.pre-aquecer",
+        "saudavel.prato-equilibrado"
+      ]
+    },
+    {
+      "id": "saudavel.temperar-sem-sal",
+      "name": "Ácido, Erva e Picante em Vez de Sal",
+      "category": "tempero",
+      "description": "Limão, vinagre, ervas e picante dão ao prato o levantar que as pessoas vão procurar ao saleiro.",
+      "requires": [
+        "tempero.camadas"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-saudavel-1",
+      "title": "Cozinhar Sem Perder Nutrientes",
+      "subtitle": "Vapor e Equilíbrio",
+      "color": "#16A34A",
+      "lessons": [
+        {
+          "id": "lesson.saudavel-vapor",
+          "title": "Cozer a Vapor",
+          "dayNumber": 1,
+          "dishName": "Legumes ao Vapor",
+          "description": "Calor brando que coze os legumes por inteiro sem lhes ferver os nutrientes.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 140,
+          "icon": "♨️",
+          "imageUrl": "/lessons/healthy/saudavel-vapor.jpg",
+          "ingredients": [
+            "Brócolos",
+            "Cenouras",
+            "Água"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Água por baixo do cesto, sem nunca tocar",
+              "description": "Os legumes cozem no vapor, não na água a ferver — o contacto direto levava-lhes os nutrientes."
+            },
+            {
+              "title": "Corta os pedaços de tamanho parecido",
+              "description": "Pedaços iguais cozem ao mesmo tempo — um corte desigual deixa uns crus e outros desfeitos."
+            },
+            {
+              "title": "Vai vendo cedo, não só pelo relógio",
+              "description": "Pica com a ponta da faca — tenro mas ainda com alguma resistência é o ponto."
+            }
+          ],
+          "teaches": [
+            "saudavel.vapor"
+          ],
+          "requires": [
+            "calor.niveis"
+          ],
+          "questions": [
+            {
+              "id": "sd-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Porque é que o vapor mantém mais nutrientes nos legumes do que cozê-los em água?",
+              "options": [
+                "O vapor coze mais depressa do que a água a ferver",
+                "Os legumes nunca tocam na água diretamente, por isso os nutrientes não passam para ela",
+                "Cozer a vapor gasta menos água no total",
+                "O vapor está mais quente do que a água a ferver"
+              ],
+              "correctAnswer": "Os legumes nunca tocam na água diretamente, por isso os nutrientes não passam para ela",
+              "explanation": "Ferver mergulha os legumes em água que lhes puxa os nutrientes solúveis. O vapor coze-os sem esse contacto direto.",
+              "skills": [
+                "saudavel.vapor"
+              ],
+              "explainWrong": "O vapor não está mais quente do que a água a ferver nem é necessariamente mais rápido — a razão verdadeira é que ferver mergulha a comida na água onde os nutrientes se dissolvem, e o vapor nunca deixa esse contacto acontecer."
+            }
+          ]
+        },
+        {
+          "id": "lesson.saudavel-prato",
+          "title": "O Prato Equilibrado",
+          "dayNumber": 2,
+          "dishName": "Uma Tigela Equilibrada",
+          "description": "Proteína, legume e hidratos juntos no prato, nas proporções certas.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "🥙",
+          "imageUrl": "/lessons/healthy/saudavel-prato.jpg",
+          "ingredients": [
+            "Frango grelhado",
+            "Legumes ao vapor",
+            "Arroz integral"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Metade do prato em legumes",
+              "description": "A maior porção devia ser de legumes — e não uma coisa empurrada para o canto."
+            },
+            {
+              "title": "Uma porção de proteína do tamanho da palma da mão",
+              "description": "O suficiente para saciar, sem dominar o prato."
+            },
+            {
+              "title": "Uma porção modesta de hidratos",
+              "description": "Uma mão em concha de arroz ou de outro cereal arredonda o prato sem o esmagar."
+            }
+          ],
+          "teaches": [
+            "saudavel.prato-equilibrado"
+          ],
+          "requires": [
+            "org.empratar"
+          ],
+          "questions": [
+            {
+              "id": "sd-u1-l2-q1",
+              "type": "choice",
+              "prompt": "Qual dos pratos segue melhor a ideia do prato equilibrado?",
+              "options": [
+                "Sobretudo arroz, um pouco de frango ao lado, sem legumes",
+                "Metade legumes, uma porção de proteína do tamanho da palma da mão, uma porção modesta de arroz",
+                "Sobretudo frango, uma colher pequena de arroz, sem legumes",
+                "Arroz e frango em partes iguais, sem legumes"
+              ],
+              "correctAnswer": "Metade legumes, uma porção de proteína do tamanho da palma da mão, uma porção modesta de arroz",
+              "explanation": "Legumes a ocupar a maior fatia, com proteína e hidratos em porções razoáveis e não dominantes, é o equilíbrio em que o prato se apoia.",
+              "skills": [
+                "saudavel.prato-equilibrado"
+              ],
+              "explainWrong": "Um prato que deixe os legumes de fora, ou que deixe o arroz ou o frango tomar quase todo o espaço, não está equilibrado — é um grupo de alimentos com uma nota de pé de página."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.bowl-equilibrado"
+    },
+    {
+      "id": "unit-saudavel-2",
+      "title": "Gordura Boa, Doce a Sério",
+      "subtitle": "Sem Culpa Nem Excesso",
+      "color": "#CA8A04",
+      "lessons": [
+        {
+          "id": "lesson.saudavel-gordura",
+          "title": "A Dose Certa de Gordura Boa",
+          "dayNumber": 4,
+          "dishName": "Molho de Azeite e Abacate",
+          "description": "Um pouco de gordura boa faz mais por um prato do que cortar a gordura toda.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "🥑",
+          "imageUrl": "/lessons/healthy/saudavel-gordura.jpg",
+          "ingredients": [
+            "Azeite",
+            "Abacate",
+            "Limão"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Mede, não deites à sorte",
+              "description": "Uma colher de sopa de azeite leva uma salada; deitar à sorte só acrescenta calorias vazias."
+            },
+            {
+              "title": "Gordura de comida inteira em vez de gordura processada",
+              "description": "Umas fatias de abacate ou uma colher de frutos secos fazem mais em nutrientes do que as mesmas calorias vindas de um molho processado."
+            }
+          ],
+          "teaches": [
+            "saudavel.gordura-boa"
+          ],
+          "requires": [
+            "calor.gordura"
+          ],
+          "questions": [
+            {
+              "id": "sd-u2-l1-q1",
+              "type": "choice",
+              "prompt": "Andas a comer mais leve mas a salada continua sem graça sem gordura nenhuma. Qual é a melhor solução?",
+              "options": [
+                "Juntar uma colher de sopa medida de azeite ou umas fatias de abacate",
+                "Deitar azeite à vontade até ficar com sabor rico",
+                "Cortar a gordura toda e pôr mais sal em vez dela",
+                "Usar um molho de compra magro com vários açúcares adicionados"
+              ],
+              "correctAnswer": "Juntar uma colher de sopa medida de azeite ou umas fatias de abacate",
+              "explanation": "Uma quantidade pequena e medida de gordura boa transporta o sabor sem transformar o prato em calorias vazias.",
+              "skills": [
+                "saudavel.gordura-boa"
+              ],
+              "explainWrong": "Deitar azeite à sorte acrescenta muito mais calorias do que o sabor precisa, e trocar a gordura por mais sal é trocar um problema por outro. Um molho de compra magro troca muitas vezes o sabor da gordura por açúcar adicionado, que também não é o objetivo."
+            }
+          ]
+        },
+        {
+          "id": "lesson.saudavel-doce",
+          "title": "Doce Sem Açúcar Adicionado",
+          "dayNumber": 5,
+          "dishName": "Sobremesa de Fruta Assada",
+          "description": "Fruta madura, especiaria e calor constroem um doce a sério sem um pacote de açúcar.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 20,
+          "xpReward": 170,
+          "icon": "🍎",
+          "imageUrl": "/lessons/healthy/saudavel-doce.jpg",
+          "ingredients": [
+            "2 maçãs",
+            "Canela",
+            "Um pouco de água"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Usa fruta bem madura",
+              "description": "Fruta verde tem amido, não doce — a maturação faz quase todo o trabalho que o açúcar faria."
+            },
+            {
+              "title": "Assa em lume brando e com tempo",
+              "description": "O tempo concentra os açúcares da própria fruta à medida que a água evapora."
+            },
+            {
+              "title": "Especiaria em vez de adoçante",
+              "description": "A canela lê-se como 'sobremesa' no palato sem acrescentar um grama de açúcar."
+            }
+          ],
+          "teaches": [
+            "saudavel.doce-sem-acucar"
+          ],
+          "requires": [
+            "tempero.sal-momento"
+          ],
+          "questions": [
+            {
+              "id": "sd-u2-l2-q1",
+              "type": "choice",
+              "prompt": "A tua maçã assada saiu sem graça e com gosto a amido em vez de doce, mesmo depois de ir ao forno. Qual é a causa provável?",
+              "options": [
+                "Não puseste canela suficiente",
+                "As maçãs não estavam maduras o suficiente para começar",
+                "Assaste durante demasiado tempo",
+                "Usaste demasiada água"
+              ],
+              "correctAnswer": "As maçãs não estavam maduras o suficiente para começar",
+              "explanation": "Fruta verde tem amido em vez de doce, e assar concentra os açúcares que já lá estavam — não consegue criar um doce que não existia.",
+              "skills": [
+                "saudavel.doce-sem-acucar"
+              ],
+              "explainWrong": "A canela dá aroma, não doce, por isso mais canela não arranjava um resultado com gosto a amido, e nem o tempo no forno nem um pouco mais de água mudam o quão madura a fruta estava no início. Assar só concentra o açúcar que já lá está."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.sobremesa-fruta"
+    },
+    {
+      "id": "unit-saudavel-3",
+      "title": "Um Jantar Inteiro, Um Tabuleiro",
+      "subtitle": "Assar e Temperar Bem",
+      "color": "#0E7490",
+      "missionId": "mission.tabuleiro-assado",
+      "lessons": [
+        {
+          "id": "lesson.saudavel-tabuleiro",
+          "title": "Um Tabuleiro, Jantar Inteiro",
+          "dayNumber": 7,
+          "dishName": "Tabuleiro no Forno",
+          "description": "Assar é a maneira menos trabalhosa de fazer um prato equilibrado — desde que o forno esteja quente e o tabuleiro não esteja cheio.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 40,
+          "xpReward": 200,
+          "icon": "🔥",
+          "imageUrl": "/lessons/healthy/saudavel-tabuleiro.jpg",
+          "ingredients": [
+            "Coxas de frango ou grão-de-bico",
+            "Batatas ou batata-doce",
+            "Brócolos",
+            "Cebola roxa",
+            "Azeite",
+            "Limão"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Pré-aquece a sério, 200 °C para cima",
+              "description": "Comida que entra num forno morno larga água antes de conseguir alourar. O tabuleiro e o forno têm de estar quentes primeiro."
+            },
+            {
+              "title": "Uma camada, com espaço entre os pedaços",
+              "description": "Pedaços apertados prendem o vapor e estufam. Se não cabe numa camada só com folga, usa dois tabuleiros."
+            },
+            {
+              "title": "Corta a pensar no tempo de cozedura, não no aspeto",
+              "description": "As batatas entram mais inteiras e primeiro, os brócolos entram nos últimos dez minutos. Mesmo tabuleiro, entradas desencontradas."
+            }
+          ],
+          "teaches": [
+            "saudavel.assar-tabuleiro"
+          ],
+          "requires": [
+            "calor.pre-aquecer",
+            "saudavel.prato-equilibrado"
+          ],
+          "questions": [
+            {
+              "id": "saudavel-u3-l1-q1",
+              "type": "choice",
+              "prompt": "Os teus legumes assados saem pálidos, moles e húmidos em vez de alourados. O forno estava a 200 °C. O que correu mal?",
+              "options": [
+                "Precisavam de mais azeite",
+                "O tabuleiro estava cheio, por isso cozeram no próprio vapor em vez de assarem",
+                "Precisavam de mais tempo à mesma temperatura",
+                "O forno devia estar mais baixo"
+              ],
+              "correctAnswer": "O tabuleiro estava cheio, por isso cozeram no próprio vapor em vez de assarem",
+              "explanation": "A água tem de sair para o alourar começar. Pedaços empilhados prendem esse vapor uns contra os outros, e cozem nele — nenhum tempo extra arranja um tabuleiro cheio.",
+              "skills": [
+                "saudavel.assar-tabuleiro"
+              ],
+              "explainWrong": "Mais azeite ou mais tempo num tabuleiro cheio só te dão legumes mais gordurosos e mais moles, e um forno mais baixo piora o estufar. Espalha-os ou usa um segundo tabuleiro."
+            },
+            {
+              "id": "saudavel-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Batata e brócolos no mesmo tabuleiro. Quando entram os brócolos?",
+              "options": [
+                "No início, com a batata",
+                "Nos últimos dez minutos",
+                "A meio",
+                "Num tabuleiro à parte a uma temperatura mais baixa"
+              ],
+              "correctAnswer": "Nos últimos dez minutos",
+              "explanation": "Os brócolos ficam em cerca de dez minutos; a batata precisa de trinta ou mais. Desencontrar a entrada de cada um é o que deixa um tabuleiro cozer os dois como devem.",
+              "skills": [
+                "saudavel.assar-tabuleiro"
+              ],
+              "explainWrong": "Brócolos que entrem no início ou mesmo a meio saem cinzentos e desfeitos quando a batata estiver pronta, e um segundo tabuleiro a temperatura mais baixa é mais trabalho para um resultado pior."
+            }
+          ]
+        },
+        {
+          "id": "lesson.saudavel-tempero",
+          "title": "Ácido, Erva e Picante em Vez de Sal",
+          "dayNumber": 8,
+          "dishName": "Temperar Sem o Saleiro",
+          "description": "Um prato sem graça normalmente não está com falta de sal — está com falta de ácido.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 10,
+          "xpReward": 190,
+          "icon": "🍋",
+          "imageUrl": "/lessons/healthy/saudavel-tempero.jpg",
+          "ingredients": [
+            "Limão",
+            "Vinagre",
+            "Ervas frescas",
+            "Pimenta preta",
+            "Malagueta em flocos",
+            "Alho"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Experimenta o ácido antes de mais sal",
+              "description": "Um aperto de limão ou um pouco de vinagre deixam o prato mais vivo e mais cheio. Nove vezes em dez é isso que o 'falta-lhe sal' quer dizer."
+            },
+            {
+              "title": "Junta as ervas fora do lume",
+              "description": "As ervas secas entram cedo com a gordura; as frescas entram no fim, ou o calor leva-lhes o aroma por que as puseste."
+            },
+            {
+              "title": "Deixa o picante e os aromáticos trabalhar",
+              "description": "Pimenta, malagueta, alho e especiaria tostada dão ao prato algo para notar, que era o que se estava a pedir ao sal."
+            }
+          ],
+          "teaches": [
+            "saudavel.temperar-sem-sal"
+          ],
+          "requires": [
+            "tempero.camadas",
+            "saudavel.gordura-boa"
+          ],
+          "questions": [
+            {
+              "id": "saudavel-u3-l2-q1",
+              "type": "choice",
+              "prompt": "Um tabuleiro de legumes assados está sem graça. Já lhe puseste sal uma vez. Ao que pegas primeiro?",
+              "options": [
+                "Mais sal",
+                "Um aperto de limão ou um pouco de vinagre",
+                "Manteiga",
+                "Açúcar"
+              ],
+              "correctAnswer": "Um aperto de limão ou um pouco de vinagre",
+              "explanation": "O ácido afia tudo o resto no prato, que é o efeito que as pessoas andam a perseguir quando insistem em pôr sal em algo já salgado.",
+              "skills": [
+                "saudavel.temperar-sem-sal"
+              ],
+              "explainWrong": "Dobrar o sal em algo já salgado deixa-o salgado sem o deixar menos sem graça, e a manteiga ou o açúcar transformam o prato noutra coisa em vez de levantarem o que lá está."
+            },
+            {
+              "id": "saudavel-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Quando é que entram as ervas frescas?",
+              "options": [
+                "No início, para o sabor se espalhar",
+                "Fora do lume, no fim",
+                "A meio da cozedura",
+                "Não faz diferença"
+              ],
+              "correctAnswer": "Fora do lume, no fim",
+              "explanation": "Os aromas voláteis que fazem valer a pena usar ervas frescas são levados pelo calor — postas cedo, pagaste-as e depois cozeste-as até desaparecerem.",
+              "skills": [
+                "saudavel.temperar-sem-sal"
+              ],
+              "explainWrong": "No início ou a meio, as ervas frescas perdem exatamente o aroma por que as puseste e ficam escuras e amargas. As secas são as que querem o calor cedo e prolongado."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.bowl-equilibrado",
+      "unitId": "unit-saudavel-1",
+      "title": "A Tigela Equilibrada",
+      "dishName": "Tigela de Frango e Legumes ao Vapor",
+      "cookTimeMin": 35,
+      "summary": "Legumes ao vapor, proteína grelhada e uma porção modesta de cereal, montados nas proporções certas.",
+      "estimatedCostEur": 4,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "saudavel.vapor",
+        "saudavel.prato-equilibrado"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "Peito de frango",
+        "Brócolos",
+        "Cenouras",
+        "Arroz integral"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Coze os legumes a vapor",
+          "description": "Pedaços de tamanho parecido, água por baixo do cesto, cozer até tenros com alguma resistência.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Ainda duros depois do tempo normal? Dá-lhes mais uns minutos — pedaços cortados grandes demoram mais."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Tenros mas ainda com alguma resistência, cor viva, não desfeitos."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Grelha o frango",
+          "description": "Tempera simples e grelha até estar cozido por dentro, sem o secar.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Parece seco por fora mas rosado por dentro? Baixa o lume e dá-lhe mais uns minutos tapado."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Monta a tigela equilibrada",
+          "description": "Metade da tigela em legumes, uma porção de frango do tamanho da palma da mão, uma porção modesta de arroz.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens arroz integral? Arroz branco ou outro cereal servem, só tens de ajustar a porção da mesma maneira."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Legumes claramente a maior porção, proteína e cereal em proporção, sem esmagar o prato."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.sobremesa-fruta",
+      "unitId": "unit-saudavel-2",
+      "title": "Sobremesa de Fruta Assada",
+      "dishName": "Maçãs Assadas com Canela",
+      "cookTimeMin": 30,
+      "summary": "Doce a sério, de fruta madura e especiaria, com um fio de gordura boa para acabar.",
+      "estimatedCostEur": 2,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "saudavel.doce-sem-acucar",
+        "saudavel.gordura-boa"
+      ],
+      "xpReward": 400,
+      "ingredients": [
+        "2 maçãs maduras",
+        "Canela",
+        "Um pouco de água",
+        "Umas nozes",
+        "Um fio de azeite"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Descaroça e corta as maçãs",
+          "description": "Maçãs maduras, descaroçadas e cortadas por igual para assarem ao mesmo ritmo.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Maçãs não muito maduras? Assa um pouco mais e confia mais na canela e no tempo."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Assa em lume brando e com tempo, com canela",
+          "description": "Uma camada leve de canela, um pouco de água no tabuleiro, assadas até ficarem moles e cheirosas.",
+          "durationSec": 1200,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Ainda firmes depois do tempo normal? Cada forno é diferente — dá-lhes mais tempo em vez de mais calor."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Moles, cheirosas, um pouco caramelizadas nas bordas, doces sem açúcar nenhum adicionado."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Acaba com um toque medido de gordura",
+          "description": "Umas nozes partidas e um fio de azeite acabam o prato sem o carregar.",
+          "durationSec": 120,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens nozes? Qualquer fruto seco, ou uma colher de iogurte, arredonda igual."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Um acabamento leve e medido — mais rico, não gorduroso."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.tabuleiro-assado",
+      "unitId": "unit-saudavel-3",
+      "title": "O Tabuleiro Equilibrado",
+      "dishName": "Frango, Batata e Brócolos no Tabuleiro, com Limão e Ervas",
+      "cookTimeMin": 50,
+      "summary": "Um prato equilibrado inteiro num tabuleiro: proteína, hidratos e legume, temperados com ácido em vez de sal.",
+      "estimatedCostEur": 6.5,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "saudavel.prato-equilibrado",
+        "saudavel.gordura-boa",
+        "saudavel.assar-tabuleiro",
+        "saudavel.temperar-sem-sal"
+      ],
+      "xpReward": 650,
+      "ingredients": [
+        "4 coxas de frango",
+        "600 g de batatas",
+        "1 brócolo",
+        "1 cebola roxa",
+        "2 colheres de sopa de azeite",
+        "1 limão",
+        "Oregãos secos",
+        "Salsa fresca",
+        "Pimenta preta"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Aquece o forno e o tabuleiro a 200 °C",
+          "description": "Põe o tabuleiro vazio lá dentro enquanto o forno sobe. Comida que aterra em metal quente começa a alourar logo em vez de ficar na própria água.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens segundo tabuleiro? Usa o maior que tiveres e conta cozinhar em duas vezes."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Envolve a batata e a cebola e espalha numa camada",
+          "description": "Corta as batatas em pedaços iguais, envolve com uma colher de sopa de azeite, oregãos e pimenta, e espalha-as com folga entre os pedaços. Assa 20 minutos.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens oregãos? Qualquer erva seca, ou só pimenta e alho."
+            },
+            {
+              "kind": "cola",
+              "answer": "Estão a colar ao tabuleiro? Deixa-as — soltam-se quando a crosta se formar."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Junta o frango, com a pele para cima, e continua a assar",
+          "description": "Encaixa as coxas entre os legumes, com a pele para cima, untadas com o resto do azeite e pimenta. De volta ao forno 20 minutos.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "A pele a escurecer depressa demais? Baixa o forno 20 graus, não o tapes."
+            },
+            {
+              "kind": "falta",
+              "answer": "Grão-de-bico em vez de frango? Escorre uma lata, envolve em azeite e junta-o aqui."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Brócolos nos últimos dez minutos",
+          "description": "Separa os brócolos em raminhos, envolve num pouco de azeite e junta-os ao tabuleiro. Dez minutos bastam — queres verdes com as bordas alouradas, não cinzentos.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens brócolos? Qualquer verde rápido: feijão-verde, courgette, pimentos."
+            },
+            {
+              "kind": "cola",
+              "answer": "O tabuleiro está cheio agora? Os brócolos num segundo tabuleiro pequeno servem."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Confirma que o frango está feito e acaba com limão e salsa",
+          "description": "Os sucos na parte mais grossa da coxa devem sair transparentes. Fora do lume, aperta limão por cima do tabuleiro todo e espalha salsa picada — e prova antes de decidires que lhe falta sal.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Sucos transparentes junto ao osso, batata alourada e tenra por dentro, brócolos ainda verdes."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens limão? O vinagre faz o mesmo trabalho."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Legumes mais escuros do que querias? O limão e a salsa puxam aquilo de volta."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

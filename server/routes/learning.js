@@ -328,8 +328,8 @@ router.get(
   "/trails",
   asyncHandler(async (req, res) => {
     const [trails, mine] = await Promise.all([
-      getAllAvailableTrails(getPool(), req.user.id),
-      getUserTrails(getPool(), req.user.id),
+      getAllAvailableTrails(getPool(), req.user.id, { lang: req.lang }),
+      getUserTrails(getPool(), req.user.id, req.lang),
     ]);
 
     // Sem isto o cliente tinha de cruzar duas listas para saber em quais já
@@ -343,7 +343,7 @@ router.get(
 router.get(
   "/my-trails",
   asyncHandler(async (req, res) => {
-    res.json({ trails: await getUserTrails(getPool(), req.user.id) });
+    res.json({ trails: await getUserTrails(getPool(), req.user.id, req.lang) });
   }),
 );
 
