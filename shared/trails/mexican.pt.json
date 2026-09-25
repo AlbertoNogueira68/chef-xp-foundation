@@ -1,0 +1,934 @@
+{
+  "id": "mexican",
+  "version": 1,
+  "name": "Cozinha Mexicana: Salsas, Masa, Fogo",
+  "description": "Domina as técnicas da cozinha mexicana: salsas assadas, masa fresca, carne selada e montagem de tacos.",
+  "icon": "🇲🇽",
+  "color": "#006341",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "intermediate",
+  "estimatedHours": 16,
+  "skills": [
+    {
+      "id": "mexicana.salsa-roasting",
+      "name": "Assar Para Salsa",
+      "category": "calor",
+      "description": "Tostar tomatillos e malaguetas a seco, numa frigideira quente, constrói uma profundidade fumada que nenhuma mistura crua finge.",
+      "requires": [
+        "calor.pre-aquecer"
+      ]
+    },
+    {
+      "id": "mexicana.salsa-blending",
+      "name": "Equilibrar Uma Salsa Batida",
+      "category": "tempero",
+      "description": "Sal, ácido e legume assado na ordem certa: um liquidificador não tempera por ti.",
+      "requires": [
+        "mexicana.salsa-roasting"
+      ]
+    },
+    {
+      "id": "mexicana.masa-hydration",
+      "name": "Hidratação da Masa",
+      "category": "calor",
+      "description": "A masa harina absorve a água de outra maneira que a farinha de trigo: seca demais racha, húmida demais não mantém a forma.",
+      "requires": [
+        "calor.racio-agua"
+      ]
+    },
+    {
+      "id": "mexicana.tortilla-pressing",
+      "name": "Prensar Tortilhas",
+      "category": "organizacao",
+      "description": "Pressão igual, espessura igual: uma tortilha torta coze de forma desigual e rasga quando se dobra.",
+      "requires": [
+        "mexicana.masa-hydration"
+      ]
+    },
+    {
+      "id": "mexicana.searing-meat",
+      "name": "Selar Para Tacos",
+      "category": "calor",
+      "description": "Lume forte, superfície seca, sem encher a frigideira: a crosta que faz o al pastor saber a mais do que especiaria.",
+      "requires": [
+        "calor.gordura",
+        "ponto.douramento"
+      ]
+    },
+    {
+      "id": "mexicana.taco-assembly",
+      "name": "Montagem do Taco",
+      "category": "organizacao",
+      "description": "Tortilha quente, carne e o que é vivo no fim: a cebola e os coentros murcham se ficarem enterrados debaixo de carne quente demasiado tempo.",
+      "requires": [
+        "org.empratar"
+      ]
+    },
+    {
+      "id": "mexicana.chiles-secos",
+      "name": "Tostar e Rehidratar Malaguetas Secas",
+      "category": "calor",
+      "description": "Malaguetas secas tostadas durante segundos e demolhadas em água quente: a base funda e doce a passa de um molho vermelho. Trinta segundos a mais e o lote todo fica amargo.",
+      "requires": [
+        "mexicana.salsa-roasting"
+      ]
+    },
+    {
+      "id": "mexicana.enchilada-montagem",
+      "name": "Enchiladas Que Se Aguentam",
+      "category": "organizacao",
+      "description": "Tortilhas amolecidas em gordura quente e passadas pelo molho antes de serem recheadas, para enrolarem em vez de racharem e não se desfazerem no tabuleiro.",
+      "requires": [
+        "mexicana.tortilla-pressing",
+        "mexicana.taco-assembly"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-mexicano-1",
+      "title": "Salsas do Fogo",
+      "subtitle": "Assar e Equilibrar",
+      "color": "#C0392B",
+      "lessons": [
+        {
+          "id": "lesson.mexicana-roasting",
+          "title": "Assar Para Salsa",
+          "dayNumber": 1,
+          "dishName": "Tomatillo e Malagueta Assados",
+          "description": "Aprende porque é que uma salsa começa numa frigideira seca e quente em vez de num liquidificador.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 20,
+          "xpReward": 150,
+          "icon": "🔥",
+          "imageUrl": "/lessons/mexican/mexicana-roasting.jpg",
+          "ingredients": [
+            "4 tomatillos",
+            "2 malaguetas verdes",
+            "1 quarto de cebola",
+            "2 dentes de alho"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Frigideira seca, sem óleo",
+              "description": "Põe um comal ou uma frigideira pesada bem quente antes de alguma coisa lhe tocar."
+            },
+            {
+              "title": "Tosta, não mexas sem parar",
+              "description": "Deixa cada lado enegrecer em pontos antes de virar — é de lá que vem o sabor."
+            },
+            {
+              "title": "Tosta também as malaguetas",
+              "description": "Empola-as ao lado dos tomatillos até a pele enegrecer em manchas."
+            }
+          ],
+          "teaches": [
+            "mexicana.salsa-roasting"
+          ],
+          "questions": [
+            {
+              "id": "mx-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Os teus tomatillos saíram do comal negros por completo e a salsa sabe a acre. O que correu mal?",
+              "options": [
+                "Passaram de tostados a queimados — manchado de negro é o ponto",
+                "A frigideira não estava quente o suficiente",
+                "Assaste demasiados de uma vez",
+                "As malaguetas deviam ter entrado primeiro"
+              ],
+              "correctAnswer": "Passaram de tostados a queimados — manchado de negro é o ponto",
+              "explanation": "Tostar constrói fumo; queimar constrói amargo, e nada mais à frente na salsa o tira de lá.",
+              "skills": [
+                "mexicana.salsa-roasting"
+              ],
+              "explainWrong": "Uma frigideira mais fria deixa os tomatillos pálidos e com sabor a cru, não acre, e nem a quantidade nem a ordem mudam a maneira como um único tomatillo reage ao calor. Negro por completo é simplesmente tempo demais sobre a chama."
+            },
+            {
+              "id": "mx-u1-l1-q2",
+              "type": "judge",
+              "prompt": "Estes tomatillos estão assados o suficiente para salsa?",
+              "imageUrl": "https://images.unsplash.com/photo-1612874742237-6526221fcf4f?w=400",
+              "options": [
+                "Sim, bem tostados em pontos",
+                "Não, ainda demasiado pálidos"
+              ],
+              "correctAnswer": "Sim, bem tostados em pontos",
+              "explanation": "As manchas enegrecidas são exatamente o que constrói a profundidade fumada que um tomatillo cru não consegue dar.",
+              "skills": [
+                "mexicana.salsa-roasting"
+              ],
+              "explainWrong": "Esperar que a superfície toda enegreça em vez de só pontos transforma a polpa por baixo em pasta e lava o sabor que estavas a tentar construir. Tostado manchado é o ponto, não negro por completo."
+            }
+          ]
+        },
+        {
+          "id": "lesson.mexicana-blending",
+          "title": "Equilibrar Uma Salsa Batida",
+          "dayNumber": 2,
+          "dishName": "Salsa Verde",
+          "description": "Um liquidificador não tempera por ti — o sal e o ácido continuam a precisar de uma decisão humana.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "🌶️",
+          "imageUrl": "/lessons/mexican/mexicana-blending.jpg",
+          "ingredients": [
+            "Tomatillos assados",
+            "Malaguetas assadas",
+            "Sal",
+            "Lima"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Bate os legumes assados juntos",
+              "description": "Dá toques em vez de reduzir a puré liso — alguma textura impede a salsa de saber a nada."
+            },
+            {
+              "title": "Tempera depois de bater",
+              "description": "Prova primeiro e depois junta sal aos poucos — os legumes assados já trazem muito sabor."
+            },
+            {
+              "title": "Acaba com ácido",
+              "description": "Um aperto de lima no fim aviva o que o assar tornou fundo e fumado."
+            }
+          ],
+          "teaches": [
+            "mexicana.salsa-blending"
+          ],
+          "requires": [
+            "mexicana.salsa-roasting"
+          ],
+          "questions": [
+            {
+              "id": "mx-u1-l2-q1",
+              "type": "choice",
+              "prompt": "A tua salsa acabada de bater sabe sem graça e a uma nota só, mesmo com os legumes bem assados. O que falta?",
+              "options": [
+                "Mais tempo a assar",
+                "Sal e um aperto de ácido",
+                "Uma batedura mais fina",
+                "Mais malaguetas"
+              ],
+              "correctAnswer": "Sal e um aperto de ácido",
+              "explanation": "Assar constrói profundidade, mas o sal e o ácido são o que faz essa profundidade saber acabada, e não só fumada.",
+              "skills": [
+                "mexicana.salsa-blending"
+              ],
+              "explainWrong": "Os legumes já estão bem assados, por isso mais tostado ou mais malaguetas só acrescentam fumo e picante a uma salsa que continua sem tempero. Uma batedura mais fina muda a textura, não o sabor sem graça — o sal e o ácido é que a arredondam."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.salsa-roja"
+    },
+    {
+      "id": "unit-mexicano-2",
+      "title": "Masa e Tacos al Pastor",
+      "subtitle": "Da Massa ao Prato",
+      "color": "#F39C12",
+      "lessons": [
+        {
+          "id": "lesson.mexicana-masa",
+          "title": "Hidratação da Masa",
+          "dayNumber": 4,
+          "dishName": "Masa Fresca",
+          "description": "A masa harina absorve água nos seus próprios termos: seca demais racha, húmida demais não se aguenta.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 150,
+          "icon": "🌽",
+          "imageUrl": "/lessons/mexican/mexicana-masa.jpg",
+          "ingredients": [
+            "2 copos de masa harina",
+            "Água morna",
+            "Uma pitada de sal"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Junta a água aos poucos",
+              "description": "Mistura água morna um pouco de cada vez — a masa harina hidrata depressa, tudo de uma vez encharca-a."
+            },
+            {
+              "title": "Deixa a massa repousar",
+              "description": "Deixa-a tapada uns minutos para a farinha absorver a água por completo."
+            },
+            {
+              "title": "Testa uma bolinha",
+              "description": "Achata uma bolinha — bordas limpas sem rachar quer dizer que está pronta."
+            }
+          ],
+          "teaches": [
+            "mexicana.masa-hydration"
+          ],
+          "questions": [
+            {
+              "id": "mx-u2-l1-q1",
+              "type": "choice",
+              "prompt": "Achatas uma bolinha de masa e as bordas racham. Qual é a solução?",
+              "options": [
+                "Juntar mais masa harina",
+                "Juntar um pouco mais de água e deixar repousar outra vez",
+                "Prensar com mais força na próxima",
+                "Cozinhar assim mesmo, as rachas desaparecem"
+              ],
+              "correctAnswer": "Juntar um pouco mais de água e deixar repousar outra vez",
+              "explanation": "Bordas rachadas querem dizer que a massa está seca demais. Uma pequena quantidade de água, trabalhada e deixada a repousar, resolve.",
+              "skills": [
+                "mexicana.masa-hydration"
+              ],
+              "explainWrong": "Juntar mais masa harina tira água a uma massa que já está seca demais, e prensar com mais força só abre mais as rachas em vez de as fechar. As rachas numa tortilha só pioram na frigideira, por isso têm de se resolver antes de cozinhar, não depois."
+            }
+          ]
+        },
+        {
+          "id": "lesson.mexicana-pressing",
+          "title": "Prensar Tortilhas",
+          "dayNumber": 5,
+          "dishName": "Tortilhas Prensadas à Mão",
+          "description": "Pressão igual, espessura igual: a diferença entre uma tortilha que dobra e uma que rasga.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 180,
+          "icon": "🫓",
+          "imageUrl": "/lessons/mexican/mexicana-pressing.jpg",
+          "ingredients": [
+            "Bolas de massa de masa",
+            "Folha de plástico"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Centra a bola",
+              "description": "Põe a bola bem ao centro da prensa para a pressão se espalhar por igual para fora."
+            },
+            {
+              "title": "Prensa uma vez, com firmeza",
+              "description": "Uma prensada por igual. Prensar duas vezes ou fora do centro deixa um lado mais fino do que o outro."
+            },
+            {
+              "title": "Descola com cuidado do plástico",
+              "description": "Descola pela borda num movimento só — puxar pelo centro rasga a tortilha."
+            }
+          ],
+          "teaches": [
+            "mexicana.tortilla-pressing"
+          ],
+          "requires": [
+            "mexicana.masa-hydration"
+          ],
+          "questions": [
+            {
+              "id": "mx-u2-l2-q1",
+              "type": "choice",
+              "prompt": "A tua tortilha prensada está visivelmente mais grossa de um lado. O que causou isso?",
+              "options": [
+                "A masa estava húmida demais",
+                "A bola de massa não estava centrada na prensa",
+                "Não deixaste a massa repousar tempo suficiente",
+                "A prensa não estava limpa"
+              ],
+              "correctAnswer": "A bola de massa não estava centrada na prensa",
+              "explanation": "Uma bola fora do centro recebe pressão desigual, e por isso um lado acaba mais grosso do que o outro.",
+              "skills": [
+                "mexicana.tortilla-pressing"
+              ],
+              "explainWrong": "A hidratação e o repouso decidem se a massa se aguenta, não qual o lado de uma tortilha que fica mais grosso — isso é um problema de pressão, não de humidade. Uma bola posta fora do centro é empurrada de forma desigual, que é exatamente o resultado torto que estás a ver."
+            }
+          ]
+        },
+        {
+          "id": "lesson.mexicana-searing",
+          "title": "Carne Selada e Montagem",
+          "dayNumber": 6,
+          "dishName": "Tacos al Pastor",
+          "description": "Uma selagem forte e uma tigela montada por ordem: carne primeiro, guarnição viva no fim.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 220,
+          "icon": "🌮",
+          "imageUrl": "/lessons/mexican/mexicana-searing.jpg",
+          "ingredients": [
+            "Carne de porco marinada",
+            "Tortilhas",
+            "Cebola",
+            "Coentros",
+            "Ananás"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Seca a carne com papel",
+              "description": "Limpa a marinada a mais — uma superfície húmida coze a vapor em vez de selar."
+            },
+            {
+              "title": "Sela numa frigideira quente e seca",
+              "description": "Não enchas a frigideira. Carne apertada baixa a temperatura e larga líquido em vez de alourar."
+            },
+            {
+              "title": "Monta por ordem",
+              "description": "Tortilha quente, carne, e depois cebola e coentros no fim para se manterem crocantes e vivos."
+            }
+          ],
+          "teaches": [
+            "mexicana.searing-meat",
+            "mexicana.taco-assembly"
+          ],
+          "requires": [
+            "mexicana.tortilla-pressing"
+          ],
+          "questions": [
+            {
+              "id": "mx-u2-l3-q1",
+              "type": "choice",
+              "prompt": "A tua carne de porco está a largar líquido e a cozer a vapor em vez de alourar. Qual é a causa provável?",
+              "options": [
+                "A frigideira está demasiado quente",
+                "A frigideira está cheia, com demasiada carne de uma vez",
+                "A marinada tinha demasiado ácido",
+                "Precisas de um pedaço de carne maior"
+              ],
+              "correctAnswer": "A frigideira está cheia, com demasiada carne de uma vez",
+              "explanation": "Uma frigideira cheia baixa de temperatura e prende vapor, e isso impede o alourar de começar.",
+              "skills": [
+                "mexicana.searing-meat"
+              ],
+              "explainWrong": "Uma frigideira demasiado quente não é o problema aqui — o sinal é cozer a vapor, não queimar. A acidez da marinada e o tamanho do pedaço não causam vapor por si; enchê-la causa, ao baixar o calor da frigideira abaixo do que uma selagem precisa."
+            },
+            {
+              "id": "mx-u2-l3-q2",
+              "type": "order",
+              "prompt": "Ordena os passos para montar um taco al pastor",
+              "items": [
+                "Aquecer a tortilha",
+                "Juntar a carne selada",
+                "Cobrir com cebola e coentros"
+              ],
+              "explanation": "A guarnição vai no fim para os sabores vivos e frescos não murcharem debaixo da carne quente.",
+              "skills": [
+                "mexicana.taco-assembly"
+              ],
+              "explainWrong": "Cebola e coentros postos antes da carne ficam debaixo do calor dela todo o tempo e murcham por completo até o taco ser comido. A ordem mantém a guarnição crocante até ao último momento.",
+              "correctOrder": [
+                "Aquecer a tortilha",
+                "Juntar a carne selada",
+                "Cobrir com cebola e coentros"
+              ]
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.tacos-al-pastor"
+    },
+    {
+      "id": "unit-mexicano-3",
+      "title": "Malaguetas Secas e Enchiladas",
+      "subtitle": "O Molho Vermelho, Enrolado",
+      "color": "#7F1D1D",
+      "missionId": "mission.enchiladas-rojas",
+      "lessons": [
+        {
+          "id": "lesson.mexicano-chiles",
+          "title": "Malaguetas Secas: Tosta, Não Queimes",
+          "dayNumber": 7,
+          "dishName": "Base de Malagueta",
+          "description": "Uma malagueta seca dá-te profundidade em cerca de vinte segundos de calor, e amargo em cerca de trinta.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 220,
+          "icon": "🌶️",
+          "imageUrl": "/lessons/mexican/mexicano-chiles.jpg",
+          "ingredients": [
+            "Malaguetas guajillo",
+            "Malaguetas ancho",
+            "Água quente",
+            "Alho",
+            "Cominhos",
+            "Oregãos"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Abre-as e tira as sementes",
+              "description": "Os pés e as sementes carregam quase toda a aspereza. Rasga cada malagueta e sacode-a antes de ela chegar perto da frigideira."
+            },
+            {
+              "title": "Frigideira seca, segundos de cada lado",
+              "description": "Sem óleo. Pressiona-as achatadas numa frigideira seca e quente até cheirarem a doce e ficarem maleáveis — vinte segundos de cada lado. Se fumegarem, já estão amargas."
+            },
+            {
+              "title": "Demolha em água quente e depois bate com a água da demolha",
+              "description": "Vinte minutos em água quente amolecem-nas. Bate-as com um pouco dessa água, a não ser que ela saiba a amargo — nesse caso usa água nova."
+            }
+          ],
+          "teaches": [
+            "mexicana.chiles-secos"
+          ],
+          "requires": [
+            "mexicana.salsa-roasting",
+            "mexicana.salsa-blending"
+          ],
+          "questions": [
+            {
+              "id": "mexicano-u3-l1-q1",
+              "type": "choice",
+              "prompt": "O teu molho vermelho saiu asperamente amargo. As malaguetas estiveram numa frigideira seca e quente cerca de um minuto de cada lado. O que aconteceu?",
+              "options": [
+                "Precisavam de mais tempo para desenvolver sabor",
+                "Queimaram — malagueta seca queima em segundos, e malagueta queimada é amarga",
+                "Devias ter usado óleo",
+                "A água da demolha estava demasiado quente"
+              ],
+              "correctAnswer": "Queimaram — malagueta seca queima em segundos, e malagueta queimada é amarga",
+              "explanation": "Uma malagueta seca é fina e açucarada. Vinte segundos de cada lado tornam-na aromática; um minuto torna-a carvão, e nada mais à frente na receita tira esse amargo.",
+              "skills": [
+                "mexicana.chiles-secos"
+              ],
+              "explainWrong": "Mais tempo é o contrário do que ela precisa, e o óleo só fritaria a queimadura mais depressa. A água quente de demolha está correta — foi o tempo na frigideira que estragou o lote."
+            },
+            {
+              "id": "mexicano-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Porque é que se tiram as sementes e os pés antes de tostar?",
+              "options": [
+                "Não amolecem",
+                "Carregam quase todo o picante aspero e amargo",
+                "Deixam o molho demasiado espesso",
+                "É só para o aspeto"
+              ],
+              "correctAnswer": "Carregam quase todo o picante aspero e amargo",
+              "explanation": "A polpa é onde vive a profundidade doce, a passa. As sementes e os pés trazem um amargo agressivo que se lê como queimado mesmo quando o teu tostar esteve bem.",
+              "skills": [
+                "mexicana.chiles-secos"
+              ],
+              "explainWrong": "As sementes amolecem e quase não afetam a espessura — e isto não é estético. Deixá-las lá é uma das duas maneiras de acabar com um molho amargo."
+            }
+          ]
+        },
+        {
+          "id": "lesson.mexicano-enchiladas",
+          "title": "Enchiladas Que Não Se Desfazem",
+          "dayNumber": 8,
+          "dishName": "Enroladas e Molhadas",
+          "description": "Uma tortilha tirada direta do pacote racha quando a enrolas, e uma tortilha deixada a nadar em molho desfaz-se. Resolvem-se as duas antes do recheio.",
+          "type": "lesson",
+          "difficulty": "dificil",
+          "cookTimeMin": 30,
+          "xpReward": 260,
+          "icon": "🫔",
+          "imageUrl": "/lessons/mexican/mexicano-enchiladas.jpg",
+          "ingredients": [
+            "Tortilhas de milho",
+            "Molho vermelho de malagueta",
+            "Óleo",
+            "Frango desfiado",
+            "Cebola",
+            "Queijo"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Aquece cada tortilha em óleo quente, por pouco tempo",
+              "description": "Uns segundos de cada lado em óleo quente e pouco fundo tornam as tortilhas de milho flexíveis. Frias do pacote, rebentam no momento em que as enrolas."
+            },
+            {
+              "title": "Passa pelo molho antes de rechear, não depois",
+              "description": "Cada tortilha passa pelo molho morno e só depois é recheada e enrolada. Molho deitado por cima de rolos secos encharca o exterior e deixa o interior sem nada."
+            },
+            {
+              "title": "Põe molho no tabuleiro e leva ao forno por pouco tempo",
+              "description": "Uma camada de molho por baixo dos rolos, uma camada por cima, queijo, e dez a quinze minutos no forno. Mais e as tortilhas viram pasta."
+            }
+          ],
+          "teaches": [
+            "mexicana.enchilada-montagem"
+          ],
+          "requires": [
+            "mexicana.tortilla-pressing",
+            "mexicana.taco-assembly",
+            "mexicana.searing-meat"
+          ],
+          "questions": [
+            {
+              "id": "mexicano-u3-l2-q1",
+              "type": "choice",
+              "prompt": "As tuas enchiladas racharam enquanto as enrolavas. O que faltou?",
+              "options": [
+                "As tortilhas eram demasiado grossas",
+                "As tortilhas não foram aquecidas em óleo quente primeiro",
+                "Havia demasiado recheio",
+                "O molho estava demasiado líquido"
+              ],
+              "correctAnswer": "As tortilhas não foram aquecidas em óleo quente primeiro",
+              "explanation": "As tortilhas de milho são quebradiças a frio e flexíveis a quente. Uns segundos em óleo quente é o que torna o rolo possível, e nenhum cuidado com o recheio substitui isso.",
+              "skills": [
+                "mexicana.enchilada-montagem"
+              ],
+              "explainWrong": "A espessura e a quantidade de recheio mudam a facilidade do rolo, mas uma tortilha de milho fria racha mesmo vazia — e um molho líquido não causa rachas, causa moleza."
+            },
+            {
+              "id": "mexicano-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Levaste o tabuleiro montado ao forno quarenta minutos por segurança. Qual é o resultado?",
+              "options": [
+                "Melhor — os sabores casam",
+                "As tortilhas desfazem-se em pasta",
+                "O queijo protege-as",
+                "Nenhuma diferença, já estão cozinhadas"
+              ],
+              "correctAnswer": "As tortilhas desfazem-se em pasta",
+              "explanation": "Tudo no tabuleiro já está cozinhado; o forno só lá está para derreter queijo e aquecer por dentro. Dez a quinze minutos é a janela toda antes de as tortilhas desistirem.",
+              "skills": [
+                "mexicana.enchilada-montagem"
+              ],
+              "explainWrong": "Não há nada para casar — o recheio está cozinhado, o molho está cozinhado. O queijo não protege as tortilhas por baixo do molho em que elas estão."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.salsa-roja",
+      "unitId": "unit-mexicano-1",
+      "title": "Salsa Verde do Início",
+      "dishName": "Salsa Verde Assada",
+      "cookTimeMin": 30,
+      "summary": "Tostar, bater e equilibrar: a salsa que sustenta metade da cozinha mexicana.",
+      "estimatedCostEur": 3,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "mexicana.salsa-roasting",
+        "mexicana.salsa-blending"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "4 tomatillos",
+        "2 malaguetas verdes",
+        "1 quarto de cebola",
+        "2 dentes de alho",
+        "Sal",
+        "Lima"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Assa os legumes",
+          "description": "Tosta os tomatillos, a cebola e o alho numa frigideira seca e quente até ficarem manchados de negro.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Negro por completo em vez de manchado? Raspa o pior — um pouco mais de fumo não faz mal, negro por completo fica amargo."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Empolados e enegrecidos em pontos, amolecidos mas ainda a manter a forma."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Tosta as malaguetas",
+          "description": "Empola-as na mesma frigideira quente até a pele enegrecer em manchas.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Pele feita cinza em vez de empolada? Descasca o que conseguires — pele enegrecida é o objetivo, cinzento em pó não é."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Bate",
+          "description": "Bate os legumes assados e as malaguetas juntos, dando toques em vez de reduzir a puré liso.",
+          "durationSec": 120,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Demasiado espesso para bater? Um pouco de água solta aquilo sem diluir o sabor."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Textura rústica, não lisa como comida de bebé."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Tempera e acaba",
+          "description": "Prova, junta sal aos poucos e acaba com um aperto de lima.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Sabe sem graça? É quase sempre sal ou ácido a faltar, não mais malagueta."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Fumado, salgado e vivo em equilíbrio — e não a uma nota só."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.tacos-al-pastor",
+      "unitId": "unit-mexicano-2",
+      "title": "Tacos al Pastor",
+      "dishName": "Tacos al Pastor",
+      "cookTimeMin": 45,
+      "summary": "Masa fresca prensada à mão, carne selada com força e uma tigela montada na ordem certa.",
+      "estimatedCostEur": 7,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja"
+      ],
+      "practices": [
+        "mexicana.masa-hydration",
+        "mexicana.tortilla-pressing",
+        "mexicana.searing-meat",
+        "mexicana.taco-assembly"
+      ],
+      "xpReward": 550,
+      "ingredients": [
+        "2 copos de masa harina",
+        "Água morna",
+        "Carne de porco marinada",
+        "Cebola",
+        "Coentros",
+        "Ananás"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Mistura a masa e deixa repousar",
+          "description": "Junta água aos poucos à masa harina e depois deixa repousar uns minutos.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Massa a rachar quando a achatas? Trabalha mais um pouco de água e deixa repousar outra vez."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Uma bolinha prensada tem bordas limpas e sem rachas."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Prensa as tortilhas",
+          "description": "Centra cada bola na prensa e dá uma prensada firme e por igual.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens prensa de tortilhas? Uma frigideira de fundo plano e pressão firme da mão também servem."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Espessura igual na tortilha toda, sem zonas finas nem rasgadas."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Sela a carne",
+          "description": "Seca a carne de porco marinada com papel e depois sela em lotes numa frigideira quente e seca.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Carne a cozer a vapor em vez de alourar? Tira alguma da frigideira — está cheia."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Crosta bem escura, cozida por dentro, não cinzenta e húmida."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Monta os tacos",
+          "description": "Tortilha quente, carne selada, e depois cebola e coentros por cima no fim.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens ananás à mão? Os tacos funcionam sem ele, só menos doces."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Guarnição ainda viva e crocante por cima, não murcha debaixo da carne."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.enchiladas-rojas",
+      "unitId": "unit-mexicano-3",
+      "title": "Enchiladas Rojas",
+      "dishName": "Enchiladas de Frango em Molho de Malagueta Tostada",
+      "cookTimeMin": 65,
+      "summary": "O prato mais difícil do trilho: um molho construído de malaguetas secas que tostaste tu, enrolado em tortilhas que se aguentam.",
+      "estimatedCostEur": 7.5,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "mexicana.salsa-roasting",
+        "mexicana.salsa-blending",
+        "mexicana.tortilla-pressing",
+        "mexicana.searing-meat",
+        "mexicana.taco-assembly",
+        "mexicana.chiles-secos",
+        "mexicana.enchilada-montagem"
+      ],
+      "xpReward": 800,
+      "ingredients": [
+        "6 malaguetas guajillo",
+        "2 malaguetas ancho",
+        "12 tortilhas de milho",
+        "2 peitos de frango",
+        "1 cebola",
+        "3 dentes de alho",
+        "1 colher de chá de cominhos",
+        "Oregãos",
+        "Óleo",
+        "Queijo",
+        "Coentros"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Escalfa e desfia o frango",
+          "description": "Coze o frango com cuidado com meia cebola e um dente de alho até estar apenas cozido e depois desfia-o com dois garfos. Guarda uma caneca do líquido da cozedura.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Desfia-se com facilidade e está branco por dentro, sem rosa na parte mais grossa."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens frango? Feijão preto, escorrido e ligeiramente frito, enche enchiladas igualmente bem."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Tira as sementes e tosta as malaguetas — segundos, não minutos",
+          "description": "Rasga as malaguetas, sacode as sementes e os pés e pressiona-as numa frigideira seca e quente cerca de vinte segundos de cada lado, até cheirarem a doce e ficarem maleáveis. Fora ao primeiro sinal de fumo.",
+          "durationSec": 180,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Fumo ou uma mancha negra? Põe essa malagueta fora — uma malagueta queimada deixa o molho todo amargo."
+            },
+            {
+              "kind": "falta",
+              "answer": "Só tens um tipo de malagueta? A guajillo sozinha serve; o molho fica só menos arredondado."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Demolha, bate e frita o molho",
+          "description": "Vinte minutos em água quente e depois bate com alho, cominhos, oregãos e água da demolha suficiente para andar. Frita o molho batido num pouco de óleo durante cinco minutos — malagueta batida crua sabe a nada.",
+          "durationSec": 1500,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Água da demolha amarga? Bate com água quente nova."
+            },
+            {
+              "kind": "cola",
+              "answer": "Molho a espirrar enquanto frita? Baixa o lume e tapa a frigideira a meio."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Vermelho tijolo fundo, cobre uma colher, sabe a doce e a tostado em vez de aspero ou amargo."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Aquece cada tortilha, passa pelo molho, recheia e enrola",
+          "description": "Uns segundos de cada lado em óleo quente e pouco fundo, direta pelo molho morno, uma linha de frango e cebola, e depois enrola e deita com a costura para baixo num tabuleiro já com molho.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "A rachar enquanto enrolas? O óleo não está quente o suficiente ou a tortilha arrefeceu — de volta à frigideira por um momento."
+            },
+            {
+              "kind": "falta",
+              "answer": "Molho a acabar? Dilui-o com o líquido de escalfar o frango, não com água."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Molho, queijo e não mais de quinze minutos no forno",
+          "description": "O resto do molho por cima, queijo espalhado, 200 °C dez a quinze minutos — apenas o suficiente para derreter e aquecer por dentro. Coentros e cebola à mesa.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Queijo derretido e a borbulhar, rolos ainda a manter a forma quando se levantam com uma espátula."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Bordas das tortilhas a escurecer? Fora agora — já está quente por dentro."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens queijo? Uma colher de molho e cebola crua por cima ainda acabam aquilo."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

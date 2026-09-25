@@ -1,0 +1,922 @@
+{
+  "id": "japanese",
+  "version": 1,
+  "name": "Cozinha Japonesa: Arroz, Dashi, Precisão",
+  "description": "Domina as técnicas silenciosas da cozinha japonesa: arroz, dashi, miso, cortes de faca e montagem de donburi.",
+  "icon": "🇯🇵",
+  "color": "#BC002D",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "intermediate",
+  "estimatedHours": 16,
+  "skills": [
+    {
+      "id": "japon.rice-washing",
+      "name": "Lavar o Arroz",
+      "category": "organizacao",
+      "description": "Enxagua até a água sair transparente: tira o amido da superfície que deixaria o arroz pegajoso.",
+      "requires": []
+    },
+    {
+      "id": "japon.rice-ratio",
+      "name": "Proporção de Arroz e Água",
+      "category": "calor",
+      "description": "O arroz cozido a vapor vive ou morre pela proporção, não pelo olho.",
+      "requires": [
+        "calor.racio-agua"
+      ]
+    },
+    {
+      "id": "japon.dashi-base",
+      "name": "Extração do Dashi",
+      "category": "calor",
+      "description": "Kombu em infusão a baixa temperatura e depois bonito fora do lume: a base de umami de tudo.",
+      "requires": [
+        "calor.lume-brando"
+      ]
+    },
+    {
+      "id": "japon.miso-timing",
+      "name": "O Momento do Miso",
+      "category": "tempero",
+      "description": "Miso mexido fora da fervura: o calor mata-lhe o aroma e torna-o amargo.",
+      "requires": [
+        "japon.dashi-base"
+      ]
+    },
+    {
+      "id": "japon.knife-oshigiri",
+      "name": "Cortes de Empurrar",
+      "category": "faca",
+      "description": "Um empurrão suave através do peixe ou do legume, sem serrar: o corte que mantém a face limpa.",
+      "requires": [
+        "faca.cubos"
+      ]
+    },
+    {
+      "id": "japon.donburi-assembly",
+      "name": "Montagem do Donburi",
+      "category": "organizacao",
+      "description": "Arroz, cobertura, guarnição, por esta ordem: uma tigela montada para ser comida quente, não fotografada fria.",
+      "requires": [
+        "org.empratar"
+      ]
+    },
+    {
+      "id": "japon.panko-linha",
+      "name": "Farinha, Ovo, Panko — Por Esta Ordem",
+      "category": "organizacao",
+      "description": "Três tabuleiros em linha, uma mão seca e uma húmida: o panado aguenta-se porque nada se misturou pelo caminho.",
+      "requires": [
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "japon.oleo-temperatura",
+      "name": "Ler a Temperatura do Óleo",
+      "category": "calor",
+      "description": "Julgar o óleo de fritar pelo que uma migalha faz nele: frio demais e o panado bebe óleo, quente demais e aloura antes de o meio cozer.",
+      "requires": [
+        "calor.niveis",
+        "calor.gordura"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-japones-1",
+      "title": "Fundamentos de Arroz e Dashi",
+      "subtitle": "A Base de Todas as Tigelas",
+      "color": "#F4D03F",
+      "lessons": [
+        {
+          "id": "lesson.japon-rice",
+          "title": "Lavar e Proporção",
+          "dayNumber": 1,
+          "dishName": "Arroz Cozido a Vapor",
+          "description": "Aprende porque é que o arroz se enxagua e porque é que a proporção importa mais do que a panela.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 25,
+          "xpReward": 150,
+          "icon": "🍚",
+          "imageUrl": "/lessons/japanese/japon-rice.jpg",
+          "ingredients": [
+            "2 copos de arroz de grão curto",
+            "Água"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Enxagua",
+              "description": "Roda o arroz em água fria, escorre, repete até a água sair quase transparente."
+            },
+            {
+              "title": "Mede a água",
+              "description": "Usa a proporção, não o olho — o arroz de grão curto precisa de menos água do que o de grão longo."
+            },
+            {
+              "title": "Deixa repousar antes do calor",
+              "description": "Deixa o arroz enxaguado repousar 20 minutos para absorver a água por igual antes de cozer."
+            }
+          ],
+          "teaches": [
+            "japon.rice-washing",
+            "japon.rice-ratio"
+          ],
+          "questions": [
+            {
+              "id": "jp-u1-l1-q1",
+              "type": "choice",
+              "prompt": "A água do teu arroz enxaguado continua turva depois de duas passagens. O que fazes?",
+              "options": [
+                "Cozinha-lo assim mesmo, turvo não faz mal",
+                "Enxaguar outra vez até estar quase transparente",
+                "Juntar mais água à panela em vez disso",
+                "Mudar para arroz de grão longo"
+              ],
+              "correctAnswer": "Enxaguar outra vez até estar quase transparente",
+              "explanation": "O amido da superfície deixa o arroz gomoso. Água mais transparente quer dizer menos amido deixado nos grãos.",
+              "skills": [
+                "japon.rice-washing"
+              ],
+              "explainWrong": "Cozinhar com água turva leva o amido direto para a panela, que é exatamente o que transforma um lote de arroz de sushi em pasta. Mais água na panela não lava nada — só muda a proporção que estavas a tentar proteger."
+            },
+            {
+              "id": "jp-u1-l1-q2",
+              "type": "estimate",
+              "prompt": "Tens 2 copos de arroz de grão curto enxaguado. Quanta água juntas, em copos?",
+              "correctAnswer": 2.2,
+              "tolerance": 0.3,
+              "unit": "copos",
+              "explanation": "O arroz de grão curto pede mais ou menos uma proporção de 1:1,1 — um pouco mais de água do que arroz, não o dobro.",
+              "skills": [
+                "japon.rice-ratio"
+              ],
+              "explainWrong": "Dobrar a água, o hábito que vem do arroz de grão longo, afoga o arroz de grão curto em pasta. Os grãos aqui são mais curtos e com mais amido e precisam de pouco mais água do que o próprio volume."
+            }
+          ]
+        },
+        {
+          "id": "lesson.japon-dashi",
+          "title": "Dashi: A Base de Tudo",
+          "dayNumber": 2,
+          "dishName": "Dashi de Kombu e Bonito",
+          "description": "Dois ingredientes, uma regra: nunca o deixes ferver.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 200,
+          "icon": "🍵",
+          "imageUrl": "/lessons/japanese/japon-dashi.jpg",
+          "ingredients": [
+            "10 g de kombu",
+            "20 g de flocos de bonito",
+            "1 L de água"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Põe o kombu em infusão a frio",
+              "description": "O kombu entra em água fria e aquece devagar — fervê-lo torna o caldo amargo e viscoso."
+            },
+            {
+              "title": "Tira o kombu antes de ferver",
+              "description": "Tira o kombu no momento em que começam a formar-se bolhas pequenas na borda da panela."
+            },
+            {
+              "title": "Junta o bonito e desliga o lume",
+              "description": "Leva a um fervor muito brando, junta os flocos de bonito e desliga o lume logo."
+            },
+            {
+              "title": "Passa por um passador",
+              "description": "Deixa o bonito assentar uns minutos e depois passa por um pano fino."
+            }
+          ],
+          "teaches": [
+            "japon.dashi-base"
+          ],
+          "questions": [
+            {
+              "id": "jp-u1-l2-q1",
+              "type": "choice",
+              "prompt": "O teu dashi de kombu começa a saber a amargo e a viscoso. O que aconteceu?",
+              "options": [
+                "Usaste pouco kombu",
+                "Deixaste-o ferver",
+                "A água estava demasiado fria no início",
+                "Juntaste o bonito cedo demais"
+              ],
+              "correctAnswer": "Deixaste-o ferver",
+              "explanation": "Ferver o kombu solta compostos amargos e a textura gelatinosa dele para o caldo.",
+              "skills": [
+                "japon.dashi-base"
+              ],
+              "explainWrong": "Pouco kombu dá um dashi fraco, não amargo, e começar em água fria é o método correto, não o erro. O amargo e a viscosidade apontam os dois para uma coisa: o kombu passou demasiado tempo a calor demasiado alto."
+            },
+            {
+              "id": "jp-u1-l2-q2",
+              "type": "order",
+              "prompt": "Ordena os passos para fazer um dashi de kombu e bonito limpo",
+              "items": [
+                "Pôr o kombu em infusão em água fria",
+                "Aquecer devagar, tirar o kombu antes de ferver",
+                "Levar a um fervor muito brando",
+                "Juntar os flocos de bonito, desligar o lume",
+                "Deixar o bonito assentar e depois passar por um passador"
+              ],
+              "explanation": "Cada ingrediente é tratado com cuidado e retirado antes de tornar o caldo amargo ou turvo.",
+              "skills": [
+                "japon.dashi-base"
+              ],
+              "explainWrong": "Juntar o bonito antes de tirar o kombu, ou passar por um passador antes de os flocos assentarem, turva um caldo que devia sair transparente. O dashi paga a paciência em cada passagem, não a rapidez.",
+              "correctOrder": [
+                "Pôr o kombu em infusão em água fria",
+                "Aquecer devagar, tirar o kombu antes de ferver",
+                "Levar a um fervor muito brando",
+                "Juntar os flocos de bonito, desligar o lume",
+                "Deixar o bonito assentar e depois passar por um passador"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson.japon-miso",
+          "title": "Sopa de Miso Sem Amargo",
+          "dayNumber": 3,
+          "dishName": "Sopa de Miso",
+          "description": "O miso está vivo — aquece-o com força e perdes tudo aquilo para que ele serve.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 180,
+          "icon": "🥣",
+          "imageUrl": "/lessons/japanese/japon-miso.jpg",
+          "ingredients": [
+            "3 colheres de sopa de pasta de miso",
+            "Dashi",
+            "Tofu",
+            "Cebolinho"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Aquece o dashi",
+              "description": "Leva o dashi a um fervor brando e junta o tofu para aquecer por dentro."
+            },
+            {
+              "title": "Solta o miso",
+              "description": "Põe um pouco de dashi morno na pasta de miso e bate até ficar liso antes de o devolveres à panela."
+            },
+            {
+              "title": "Mexe-o fora do lume",
+              "description": "Desliga o lume e só depois mexe o miso já solto na panela."
+            }
+          ],
+          "teaches": [
+            "japon.miso-timing"
+          ],
+          "requires": [
+            "japon.dashi-base"
+          ],
+          "questions": [
+            {
+              "id": "jp-u1-l3-q1",
+              "type": "judge",
+              "prompt": "Esta sopa de miso está a ferver às três pedras com o miso já mexido. É a técnica correta?",
+              "imageUrl": "https://images.unsplash.com/photo-1612874742237-6526221fcf4f?w=400",
+              "options": [
+                "Sim, ferver esteriliza-o",
+                "Não, o miso deve entrar fora do lume"
+              ],
+              "correctAnswer": "Não, o miso deve entrar fora do lume",
+              "explanation": "Ferver o miso leva-lhe o aroma e torna o sabor sem graça e amargo.",
+              "skills": [
+                "japon.miso-timing"
+              ],
+              "explainWrong": "O miso não é um ingrediente de segurança que precise de esterilização — é um tempero fermentado que perde o aroma sob calor prolongado. Uma fervura forte depois de o miso entrar é a única coisa que a receita te diz para evitares."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.miso-rice-bowl"
+    },
+    {
+      "id": "unit-japones-2",
+      "title": "Trabalho de Faca e Donburi",
+      "subtitle": "Precisão Para Dentro de Uma Tigela",
+      "color": "#2C3E50",
+      "lessons": [
+        {
+          "id": "lesson.japon-oshigiri",
+          "title": "O Corte de Empurrar",
+          "dayNumber": 5,
+          "dishName": "Coxa de Frango Fatiada",
+          "description": "Um movimento para a frente, sem serrar para trás: o corte que mantém uma face limpa no peixe e na carne.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 200,
+          "icon": "🔪",
+          "imageUrl": "/lessons/japanese/japon-oshigiri.jpg",
+          "ingredients": [
+            "Coxa de frango"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Inclina a lâmina",
+              "description": "Assenta a lâmina contra a comida num ângulo baixo, e não a prumo."
+            },
+            {
+              "title": "Empurra através num movimento só",
+              "description": "Puxa o fio todo através num único empurrão para a frente — sem serrar para trás e para a frente."
+            },
+            {
+              "title": "Deixa a lâmina trabalhar",
+              "description": "Guia-a, não a forces. Serrar rasga a superfície em vez de a fatiar."
+            }
+          ],
+          "teaches": [
+            "japon.knife-oshigiri"
+          ],
+          "requires": [
+            "faca.cubos"
+          ],
+          "questions": [
+            {
+              "id": "jp-u2-l1-q1",
+              "type": "choice",
+              "prompt": "As tuas fatias de frango estão esfarrapadas e rasgadas nas bordas. Qual é a causa provável?",
+              "options": [
+                "A faca está demasiado afiada",
+                "Serraste para trás e para a frente em vez de um empurrão só",
+                "O frango estava demasiado frio",
+                "Usaste demasiada pressão no início"
+              ],
+              "correctAnswer": "Serraste para trás e para a frente em vez de um empurrão só",
+              "explanation": "Um único empurrão para a frente corta limpo. Serrar rasga as fibras e deixa uma borda esfarrapada.",
+              "skills": [
+                "japon.knife-oshigiri"
+              ],
+              "explainWrong": "Uma faca afiada é o que um corte de empurrar limpo precisa, não o problema — uma embotada rasgaria mais. Bordas esfarrapadas são a assinatura de um movimento de serra; a solução é um empurrão suave, não menos pressão."
+            }
+          ]
+        },
+        {
+          "id": "lesson.japon-donburi",
+          "title": "Montar Uma Tigela de Donburi",
+          "dayNumber": 6,
+          "dishName": "Donburi de Frango",
+          "description": "Arroz no fundo, cobertura por cima, guarnição no fim: a ordem que mantém cada dentada equilibrada.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 180,
+          "icon": "🍱",
+          "imageUrl": "/lessons/japanese/japon-donburi.jpg",
+          "ingredients": [
+            "Arroz cozido a vapor",
+            "Frango cozinhado",
+            "Ovo",
+            "Cebolinho"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Arroz primeiro",
+              "description": "Assenta o arroz morno solto no fundo da tigela — não o comprimas."
+            },
+            {
+              "title": "Cobertura por cima do arroz",
+              "description": "Deita o frango e o molho por cima do arroz para ele empapar ligeiramente a camada de cima."
+            },
+            {
+              "title": "Guarnição no fim",
+              "description": "O cebolinho e qualquer guarnição entram imediatamente antes de servir, para se manterem vivos e crocantes."
+            }
+          ],
+          "teaches": [
+            "japon.donburi-assembly"
+          ],
+          "requires": [
+            "japon.knife-oshigiri"
+          ],
+          "questions": [
+            {
+              "id": "jp-u2-l2-q1",
+              "type": "order",
+              "prompt": "Ordena os passos para montar uma tigela de donburi",
+              "items": [
+                "Assentar o arroz morno solto na tigela",
+                "Deitar a cobertura e o molho por cima do arroz",
+                "Juntar a guarnição imediatamente antes de servir"
+              ],
+              "explanation": "Arroz como base, cobertura a empapar ligeiramente, guarnição posta no fim para se manter fresca.",
+              "skills": [
+                "japon.donburi-assembly"
+              ],
+              "explainWrong": "Guarnição posta cedo murcha debaixo da cobertura quente antes de alguém dar uma dentada, e cobertura debaixo do arroz deixa o fundo mole sem temperar os grãos por cima. A ordem existe para que cada camada se mantenha exatamente o que deve ser.",
+              "correctOrder": [
+                "Assentar o arroz morno solto na tigela",
+                "Deitar a cobertura e o molho por cima do arroz",
+                "Juntar a guarnição imediatamente antes de servir"
+              ]
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.chicken-donburi"
+    },
+    {
+      "id": "unit-japones-3",
+      "title": "Katsu: Panar e Fritar",
+      "subtitle": "O Panado e o Óleo",
+      "color": "#B91C1C",
+      "missionId": "mission.katsu-don",
+      "lessons": [
+        {
+          "id": "lesson.japones-panko",
+          "title": "Farinha, Ovo, Panko — Por Esta Ordem",
+          "dayNumber": 7,
+          "dishName": "A Linha de Panar",
+          "description": "Um panado que se solta no óleo quase sempre foi mal montado, não mal frito.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 220,
+          "icon": "🍞",
+          "imageUrl": "/lessons/japanese/japones-panko.jpg",
+          "ingredients": [
+            "Costeletas de lombo de porco",
+            "Farinha",
+            "2 ovos",
+            "Pão ralado panko",
+            "Sal",
+            "Pimenta"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Seca a carne e depois passa-a por farinha, em camada fina",
+              "description": "A farinha cola a carne seca e dá ao ovo onde se agarrar. Uma superfície húmida quer dizer que o panado todo escorrega na frigideira."
+            },
+            {
+              "title": "Três tabuleiros, da esquerda para a direita, e mantém uma mão seca",
+              "description": "Farinha, depois ovo batido, depois panko. Usa uma mão para os passos secos e outra para o ovo, ou acabas a panar os teus dedos."
+            },
+            {
+              "title": "Pressiona o panko, não o role",
+              "description": "Pressiona com firmeza para as migalhas assentarem no ovo. O panko fica grosso e arejado — é isso que dá ao katsu a crosta, por isso não o esmagues fino."
+            }
+          ],
+          "teaches": [
+            "japon.panko-linha"
+          ],
+          "requires": [
+            "org.mise-en-place",
+            "japon.knife-oshigiri"
+          ],
+          "questions": [
+            {
+              "id": "japones-u3-l1-q1",
+              "type": "choice",
+              "prompt": "O panado escorregou da tua costeleta no óleo, numa folha só. Qual foi a causa mais provável?",
+              "options": [
+                "O óleo estava demasiado quente",
+                "A carne ainda estava húmida, por isso a farinha nunca se agarrou",
+                "Usaste demasiado panko",
+                "Precisavas de um terceiro ovo"
+              ],
+              "correctAnswer": "A carne ainda estava húmida, por isso a farinha nunca se agarrou",
+              "explanation": "A farinha é a ponte entre a carne e o ovo, e só faz ponte numa superfície seca. Carne húmida transforma a farinha em pasta, e o panado todo sai de uma peça.",
+              "skills": [
+                "japon.panko-linha"
+              ],
+              "explainWrong": "Óleo quente fixa um panado mais depressa, não o retira, e mais panko ou mais ovo empilham coisas sobre uma ligação que nunca se fez. A solução é secar a carne antes da farinha."
+            },
+            {
+              "id": "japones-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Porque é que se guarda uma mão para os tabuleiros secos e outra para o ovo?",
+              "options": [
+                "É mais rápido",
+                "Senão o ovo e a farinha viram massa nos teus dedos e deixam de cobrir a carne",
+                "É mais higiénico",
+                "Mantém o panko mais branco"
+              ],
+              "correctAnswer": "Senão o ovo e a farinha viram massa nos teus dedos e deixam de cobrir a carne",
+              "explanation": "Uma mão húmida a tocar na farinha faz grumos de pasta que acabam em tudo menos na costeleta. Separar as mãos mantém os três tabuleiros utilizáveis até à última peça.",
+              "skills": [
+                "japon.panko-linha"
+              ],
+              "explainWrong": "Por acaso também é mais rápido e mais limpo, mas a razão é mecânica: mãos húmidas e secas misturadas estragam os tabuleiros, e à terceira costeleta já não há com que panar."
+            }
+          ]
+        },
+        {
+          "id": "lesson.japones-oleo",
+          "title": "Óleo Quente o Suficiente, Não Quente Demais",
+          "dayNumber": 8,
+          "dishName": "Ler o Óleo",
+          "description": "Sem termómetro ainda tens dois testes: o que uma migalha de panko faz, e o som que as bolhas fazem.",
+          "type": "lesson",
+          "difficulty": "dificil",
+          "cookTimeMin": 25,
+          "xpReward": 260,
+          "icon": "🌡️",
+          "imageUrl": "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=400",
+          "ingredients": [
+            "Óleo neutro",
+            "Panko",
+            "Costeletas panadas",
+            "Panela funda",
+            "Pinça",
+            "Grelha"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Testa com uma migalha, não com um palpite",
+              "description": "Uma migalha deixada cair deve afundar ligeiramente e subir a crepitar de forma constante — cerca de 170 °C. Direta para o topo em bolhas violentas está demasiado quente; parada no fundo está demasiado frio."
+            },
+            {
+              "title": "Frio demais quer dizer gorduroso, quente demais quer dizer cru por dentro",
+              "description": "Abaixo da temperatura, o panado bebe óleo antes de se fixar. Acima dela, o panko fica escuro antes de o porco estar cozido por dentro."
+            },
+            {
+              "title": "Frita em lotes e deixa o óleo recuperar",
+              "description": "Cada costeleta que juntas baixa a temperatura. Duas de cada vez, com uma pausa entre lotes, vale mais do que quatro de uma vez."
+            },
+            {
+              "title": "Escorre numa grelha, nunca empilhado em papel",
+              "description": "Uma grelha mantém a parte de baixo crocante. Empilhado em papel, o vapor preso por baixo amolece a crosta que acabaste de fazer."
+            }
+          ],
+          "teaches": [
+            "japon.oleo-temperatura"
+          ],
+          "requires": [
+            "calor.niveis",
+            "calor.gordura",
+            "japon.panko-linha"
+          ],
+          "questions": [
+            {
+              "id": "japones-u3-l2-q1",
+              "type": "choice",
+              "prompt": "O teu katsu está castanho escuro por fora mas o porco continua rosado no meio. O que mudas?",
+              "options": [
+                "Fritar mais tempo à mesma temperatura",
+                "Baixar a temperatura do óleo para o interior ter tempo antes de a crosta escurecer",
+                "Usar mais panko",
+                "Usar uma panela mais larga"
+              ],
+              "correctAnswer": "Baixar a temperatura do óleo para o interior ter tempo antes de a crosta escurecer",
+              "explanation": "A cor da crosta e o ponto interior são uma corrida. Óleo demasiado quente ganha a crosta muito antes de o meio estar cozido — baixar a temperatura deixa-os acabar juntos.",
+              "skills": [
+                "japon.oleo-temperatura"
+              ],
+              "explainWrong": "Mais tempo ao mesmo calor só queima o exterior, e mais panko ou uma panela mais larga não mudam a rapidez com que o calor chega ao centro. Uma costeleta mais fina também ajudaria, mas o que está errado aqui é o óleo."
+            },
+            {
+              "id": "japones-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Deitas uma migalha de panko no óleo e ela fica no fundo quase sem borbulhar. O que é que isso te diz?",
+              "options": [
+                "O óleo está pronto",
+                "O óleo está demasiado frio — o panado vai beber óleo antes de se fixar",
+                "O óleo está demasiado quente",
+                "A migalha está velha"
+              ],
+              "correctAnswer": "O óleo está demasiado frio — o panado vai beber óleo antes de se fixar",
+              "explanation": "Uma migalha à temperatura de fritar volta a subir a crepitar de forma constante. Uma que afunda e fica parada quer dizer que o óleo ainda não está a selar nada, e tudo o que juntes agora fica gorduroso.",
+              "skills": [
+                "japon.oleo-temperatura"
+              ],
+              "explainWrong": "Óleo pronto crepita de forma constante e óleo demasiado quente atira a migalha para cima em bolhas violentas — uma migalha que fica parada é o sinal de frio, e não tem nada a ver com a migalha em si."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.miso-rice-bowl",
+      "unitId": "unit-japones-1",
+      "title": "Arroz, Dashi e Sopa de Miso",
+      "dishName": "Arroz Cozido a Vapor com Sopa de Miso",
+      "cookTimeMin": 50,
+      "summary": "As duas coisas que sustentam quase todas as refeições japonesas: uma panela de arroz e uma tigela de sopa de miso feita com dashi.",
+      "estimatedCostEur": 6,
+      "dietaryTags": [
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "japon.rice-washing",
+        "japon.rice-ratio",
+        "japon.dashi-base",
+        "japon.miso-timing"
+      ],
+      "xpReward": 500,
+      "ingredients": [
+        "2 copos de arroz de grão curto",
+        "10 g de kombu",
+        "20 g de flocos de bonito",
+        "3 colheres de sopa de pasta de miso",
+        "Tofu",
+        "Cebolinho"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Enxagua e demolha o arroz",
+          "description": "Enxagua até a água sair quase transparente e depois deixa-o repousar 20 minutos antes de cozer.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Água ainda turva depois de algumas passagens? Mais duas passagens não fazem mal — não enxagues muito além disso."
+            },
+            {
+              "kind": "pronto",
+              "answer": "A água sai quase transparente e o arroz repousou — pronto a cozer."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Coze o arroz",
+          "description": "Usa a proporção medida e coze tapado até a água ser absorvida.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Uma camada queimada no fundo quer dizer que o calor estava demasiado alto no fim — baixa-o na próxima e não levantes a tampa cedo."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Fofo, sem água a sobrar, grãos separados mas pegajosos o suficiente para se aguentarem juntos."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Faz o dashi",
+          "description": "Põe o kombu em infusão a frio, tira-o antes de ferver, junta o bonito e depois desliga o lume.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens flocos de bonito à mão? Dashi só de kombu é mais leve mas serve para esta sopa."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Caldo transparente e aromático, sem amargo."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Acaba a sopa de miso",
+          "description": "Aquece o tofu no dashi, solta o miso à parte e depois mexe-o fora do lume.",
+          "durationSec": 400,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens tofu? Cogumelos em fatias finas servem igualmente bem no caldo."
+            },
+            {
+              "kind": "cola",
+              "answer": "Grumos de miso a flutuar à superfície? Solta-o primeiro num cheio de colher de dashi morno e depois bate-o lá dentro."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Aromática, sem fervura à vista, miso totalmente dissolvido."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.chicken-donburi",
+      "unitId": "unit-japones-2",
+      "title": "Donburi de Frango",
+      "dishName": "Tigela de Donburi de Frango",
+      "cookTimeMin": 35,
+      "summary": "Cortes de faca limpos e uma tigela montada na ordem certa: arroz, cobertura, guarnição.",
+      "estimatedCostEur": 5,
+      "dietaryTags": [
+        "sem_lactose",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "japon.knife-oshigiri",
+        "japon.donburi-assembly"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "Coxa de frango",
+        "Arroz cozido a vapor",
+        "Ovo",
+        "Molho de soja",
+        "Mirin",
+        "Cebolinho"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Fatia o frango",
+          "description": "Usa um único empurrão para a frente por fatia — sem serrar.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Fatias esfarrapadas de serrar? Apara as bordas rasgadas e abranda nos cortes seguintes."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Fatias limpas e iguais, com faces lisas."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Coze o frango em molho",
+          "description": "Deixa o frango fatiado estufar em molho de soja e mirin até ficar envidraçado.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Molho escuro e a colar à frigideira? Baixa o lume e junta um pouco de água para o soltar."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Frango cozido por dentro e coberto por um vidrado brilhante."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Monta a tigela",
+          "description": "Arroz primeiro, frango e molho por cima, ovo e cebolinho em cima no fim.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens ovo? A tigela funciona sem ele — junta só um pouco mais de molho."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Arroz visível na base, cobertura brilhante por cima, guarnição viva em cima."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.katsu-don",
+      "unitId": "unit-japones-3",
+      "title": "Katsu Don",
+      "dishName": "Katsu de Porco Sobre Arroz, Estufado em Dashi e Ovo",
+      "cookTimeMin": 60,
+      "summary": "Tudo o que o trilho ensinou numa tigela: o teu arroz, o teu dashi, uma costeleta panada frita como deve ser, acabada com ovo apenas firme.",
+      "estimatedCostEur": 7,
+      "dietaryTags": [
+        "sem_lactose",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "japon.rice-washing",
+        "japon.rice-ratio",
+        "japon.dashi-base",
+        "japon.donburi-assembly",
+        "japon.knife-oshigiri",
+        "japon.panko-linha",
+        "japon.oleo-temperatura"
+      ],
+      "xpReward": 800,
+      "ingredients": [
+        "2 costeletas de lombo de porco",
+        "Farinha",
+        "3 ovos",
+        "Pão ralado panko",
+        "Arroz japonês",
+        "Dashi",
+        "Molho de soja",
+        "Mirin",
+        "1 cebola",
+        "Óleo neutro para fritar",
+        "Cebolinho"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Arroz ao lume, dashi pronto",
+          "description": "Lava o arroz até a água sair quase transparente e põe-no a cozer na tua proporção. Tem o dashi morno e a soja e o mirin medidos — quando a fritura começar não há tempo para isto.",
+          "durationSec": 1500,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Grãos de arroz separados e tenros, dashi morno e a saber a si próprio em vez de a nada."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens mirin? Uma pitada de açúcar na soja e no dashi resolve."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Monta a linha de panar e pana as costeletas",
+          "description": "Seca as costeletas com papel, tempera e depois farinha, ovo, panko — três tabuleiros nessa ordem, uma mão seca e uma húmida. Pressiona o panko com firmeza.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Panado a juntar-se nos teus dedos? Estás a usar uma mão para tudo — separa-as."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens panko? Pão ralado normal serve, mas a crosta fica mais fina e mais densa."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Frita a 170 °C, em lotes, e deixa repousar numa grelha",
+          "description": "Testa com uma migalha: deve afundar ligeiramente e subir a crepitar de forma constante. Uma ou duas costeletas de cada vez, cerca de quatro minutos de cada lado, e depois direto para uma grelha — nunca uma pilha em papel.",
+          "durationSec": 720,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Escuro antes dos três minutos? Demasiado quente — fora do lume por um momento e baixa a chama."
+            },
+            {
+              "kind": "cola",
+              "answer": "Panado a beber óleo e gorduroso? Demasiado frio. Deixa o óleo recuperar antes do lote seguinte."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Bem dourado, crosta crocante quando se lhe bate, e sucos transparentes onde se corta."
+            },
+            {
+              "kind": "falta",
+              "answer": "Panela pouco funda? Dois centímetros de óleo e virar mais vezes ainda serve."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Estufa a cebola no dashi, na soja e no mirin",
+          "description": "Cebola em fatias para a mistura de dashi numa panela pequena, estufada até ficar mole e doce. Este é o molho que o arroz vai absorver, por isso deixa-o reduzir um pouco.",
+          "durationSec": 420,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Já não tens dashi? Água com um pouco de soja e mirin é mais fraca mas serve."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Cebola translúcida e mole, líquido reduzido o suficiente para saber temperado."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Costeleta lá dentro, ovo batido por cima, tampa durante pouco mais de um minuto",
+          "description": "Fatia o katsu, deita-o na panela a estufar, verte ovo batido por cima e tapa. Fora do lume enquanto o ovo ainda está apenas firme e brilhante e depois desliza tudo para cima do arroz e espalha cebolinho.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Ovo apenas firme e brilhante, ainda mole — não rijo e seco; crosta visível através dele, não empapada."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Ovo a firmar depressa? Lume fora logo e deixa a tampa acabar aquilo."
+            },
+            {
+              "kind": "falta",
+              "answer": "Só tens dois ovos? Usa os dois para panar e deixa a cobertura de ovo de fora — passa a ser um katsu don simples."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
