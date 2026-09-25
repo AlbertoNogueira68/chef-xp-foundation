@@ -399,3 +399,151 @@ test("o trilho português começa na sopa, não no bacalhau de véspera", () => 
   const bacalhau = units.findIndex((unit) => unit.id === "unit-portugues-1");
   assert.ok(bacalhau > 0, "a demolha do bacalhau não pode abrir o trilho");
 });
+
+/**
+ * Cada trilho existe nas duas línguas, com a mesma estrutura.
+ *
+ * O `curriculumFor` cai no inglês quando falta a variante portuguesa, e faz
+ * isso em silêncio — que é a maneira certa de servir alguma coisa em vez de
+ * rebentar, e a maneira errada de dar por falta dela. Os oito trilhos
+ * especializados estiveram meses a servir lições em inglês a quem tinha a app
+ * em português, sem um único erro em sítio nenhum.
+ */
+test("cada trilho tem variante portuguesa, e não cai no inglês", () => {
+  for (const id of getAllTrailIds()) {
+    const en = curriculumFor("en", id);
+    const pt = curriculumFor("pt", id);
+
+    assert.notStrictEqual(
+      pt,
+      en,
+      `o trilho ${id} não tem português: falta shared/trails/${id}.pt.json`,
+    );
+    assert.notStrictEqual(
+      pt.curriculum.name,
+      en.curriculum.name,
+      `o nome do trilho ${id} é igual nas duas línguas — não foi traduzido`,
+    );
+  }
+});
+
+/**
+ * Os ids são o que liga as duas línguas.
+ *
+ * O progresso, o XP e a ordem das lições andam sobre ids. Um id traduzido por
+ * engano não dá erro nenhum: dá uma pessoa que fez a lição em português e a
+ * encontra por fazer quando muda para inglês.
+ */
+test("as duas línguas de um trilho têm exactamente os mesmos ids", () => {
+  for (const id of getAllTrailIds()) {
+    const en = curriculumFor("en", id);
+    const pt = curriculumFor("pt", id);
+
+    assert.deepEqual(pt.lessonOrder, en.lessonOrder, `as lições de ${id} não batem`);
+    assert.deepEqual(
+      pt.skills.map((skill) => skill.id),
+      en.skills.map((skill) => skill.id),
+      `as competências de ${id} não batem`,
+    );
+    assert.deepEqual(
+      pt.missions.map((mission) => mission.id),
+      en.missions.map((mission) => mission.id),
+      `as missões de ${id} não batem`,
+    );
+    assert.deepEqual(
+      pt.units.map((unit) => unit.id),
+      en.units.map((unit) => unit.id),
+      `as unidades de ${id} não batem`,
+    );
+
+    for (const licao of pt.lessons) {
+      const original = en.lessonsById.get(licao.id);
+      assert.deepEqual(
+        (licao.questions ?? []).map((q) => q.id),
+        (original.questions ?? []).map((q) => q.id),
+        `os exercícios de ${id}/${licao.id} não batem`,
+      );
+    }
+  }
+});
+
+/**
+ * A resposta certa tem de estar entre as opções — na língua das opções.
+ *
+ * O `validateCurriculum` já o exige, e por isso um ficheiro mau nem sobe. Este
+ * teste existe para o dizer por trilho e por exercício quando isso acontecer,
+ * em vez de um servidor que não arranca e uma mensagem só.
+ */
+test("a resposta certa de cada exercício está entre as opções, nas duas línguas", () => {
+  for (const id of getAllTrailIds()) {
+    for (const lingua of ["en", "pt"]) {
+      for (const licao of curriculumFor(lingua, id).lessons) {
+        for (const pergunta of licao.questions ?? []) {
+          const onde = `${id}/${licao.id}/${pergunta.id} (${lingua})`;
+
+          if (Array.isArray(pergunta.options) && typeof pergunta.correctAnswer === "string") {
+            assert.ok(
+              pergunta.options.includes(pergunta.correctAnswer),
+              `${onde}: a resposta certa não está entre as opções`,
+            );
+          }
+
+          // O `items` é opcional: sem ele, o `correctOrder` é a própria lista
+          // que se mostra — é o caso do trilho fundacional.
+          if (Array.isArray(pergunta.correctOrder) && Array.isArray(pergunta.items)) {
+            for (const passo of pergunta.correctOrder) {
+              assert.ok(pergunta.items.includes(passo), `${onde}: "${passo}" não está em items`);
+            }
+            assert.equal(
+              pergunta.correctOrder.length,
+              pergunta.items.length,
+              `${onde}: a ordem certa não cobre todos os passos`,
+            );
+          }
+        }
+      }
+    }
+  }
+});
+
+/**
+ * Nada ficou por traduzir no meio do português.
+ *
+ * O `trail-i18n apply` obriga a uma tradução por frase, mas nada o obriga a ser
+ * *outra* frase: copiar o inglês passa. Uma frase igual nas duas línguas é
+ * quase sempre isso — e as que são legitimamente iguais são nomes próprios e
+ * quantidades, que são curtas.
+ */
+test("as frases longas de um trilho não são idênticas nas duas línguas", () => {
+  const CAMPOS = ["title", "description", "prompt", "explanation", "explainWrong", "summary"];
+
+  for (const id of getAllTrailIds()) {
+    const en = curriculumFor("en", id);
+    const pt = curriculumFor("pt", id);
+
+    const iguais = [];
+    const comparar = (a, b, onde) => {
+      for (const campo of CAMPOS) {
+        const original = a?.[campo];
+        // Frases curtas — "Rice", "Dashi" — podem ser iguais de propósito.
+        if (typeof original !== "string" || original.length < 40) continue;
+        if (original === b?.[campo]) iguais.push(`${onde}.${campo}`);
+      }
+    };
+
+    comparar(en.curriculum, pt.curriculum, id);
+    en.skills.forEach((skill, i) => comparar(skill, pt.skills[i], `${id}/${skill.id}`));
+    en.units.forEach((unit, i) => comparar(unit, pt.units[i], `${id}/${unit.id}`));
+    en.missions.forEach((mission, i) => comparar(mission, pt.missions[i], `${id}/${mission.id}`));
+
+    for (const licao of en.lessons) {
+      const traduzida = pt.lessonsById.get(licao.id);
+      comparar(licao, traduzida, `${id}/${licao.id}`);
+      (licao.questions ?? []).forEach((pergunta, i) =>
+        comparar(pergunta, traduzida.questions[i], `${id}/${licao.id}/${pergunta.id}`),
+      );
+    }
+
+    assert.deepEqual(iguais, [], `${id}: frases por traduzir`);
+  }
+});

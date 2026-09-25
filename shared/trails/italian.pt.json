@@ -1,0 +1,1845 @@
+{
+  "id": "italian",
+  "version": 1,
+  "name": "Cozinha Italiana: Da Massa à Tradição",
+  "description": "Começa com massa seca feita como deve ser e depois os molhos, massa fresca à mão, risoto e uma pizza de levedação a frio.",
+  "icon": "🇮🇹",
+  "color": "#E31937",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "advanced",
+  "estimatedHours": 28,
+  "skills": [
+    {
+      "id": "italiana.agua-de-cozedura",
+      "name": "A Água da Cozedura É Um Ingrediente",
+      "category": "tempero",
+      "description": "O amido que a massa deixa na água é o que faz um molho agarrar. Guardas uma caneca dela antes de escorrer, sempre.",
+      "requires": [
+        "tempero.agua-salgada"
+      ]
+    },
+    {
+      "id": "italiana.saltare-in-padella",
+      "name": "Acabar a Massa na Frigideira",
+      "category": "calor",
+      "description": "Massa escorrida um minuto antes e acabada na frigideira com o molho e a própria água, em vez de molho deitado sobre um prato de massa.",
+      "requires": [
+        "ponto.al-dente"
+      ]
+    },
+    {
+      "id": "italiana.pasta-tipi",
+      "name": "Tipos de Massa",
+      "category": "organizacao",
+      "description": "Saber que forma de massa para que molho: longa para azeite, tubo para molhos com pedaços.",
+      "requires": []
+    },
+    {
+      "id": "italiana.pasta-agua-farinha",
+      "name": "Proporção de Água e Farinha",
+      "category": "calor",
+      "description": "A hidratação da massa: húmida demais fica colante, seca demais não liga.",
+      "requires": []
+    },
+    {
+      "id": "italiana.pasta-amassar",
+      "name": "Amassar Massa",
+      "category": "faca",
+      "description": "Desenvolver o glúten sem trabalhar demais: massa lisa e maleável.",
+      "requires": [
+        "italiana.pasta-agua-farinha"
+      ]
+    },
+    {
+      "id": "italiana.pasta-esticar",
+      "name": "Estender Massa",
+      "category": "faca",
+      "description": "Folhas finas e iguais sem rasgar: o sinal de quem sabe.",
+      "requires": [
+        "italiana.pasta-amassar"
+      ]
+    },
+    {
+      "id": "italiana.tomate-reducao",
+      "name": "Redução de Molho",
+      "category": "calor",
+      "description": "Lume brando, tempo e paciência: concentrar sabor sem queimar.",
+      "requires": [
+        "calor.lume-brando"
+      ]
+    },
+    {
+      "id": "italiana.tomate-acidez",
+      "name": "Equilibrar a Acidez",
+      "category": "tempero",
+      "description": "O molho de tomate precisa de gordura e de tempo para amaciar a mordida ácida.",
+      "requires": [
+        "italiana.tomate-reducao"
+      ]
+    },
+    {
+      "id": "italiana.carbonara-emulsao",
+      "name": "A Emulsão da Carbonara",
+      "category": "calor",
+      "description": "Ovos e queijo como molho: a ciência de não fazer ovos mexidos.",
+      "requires": [
+        "ponto.ovo"
+      ]
+    },
+    {
+      "id": "italiana.ragu-brasear",
+      "name": "Estufar um Ragù",
+      "category": "calor",
+      "description": "Cozedura longa e lenta de carne e tomate: a alma do bolonhesa.",
+      "requires": [
+        "calor.lume-brando",
+        "tempero.camadas"
+      ]
+    },
+    {
+      "id": "italiana.risotto-stirring",
+      "name": "Mexer Sem Parar",
+      "category": "organizacao",
+      "description": "O risoto exige atenção: mexe devagar, ouve o ritmo.",
+      "requires": [
+        "calor.niveis"
+      ]
+    },
+    {
+      "id": "italiana.risotto-mantecatura",
+      "name": "O Acabamento da Mantecatura",
+      "category": "calor",
+      "description": "Manteiga fria em arroz quente: cria a onda cremosa.",
+      "requires": [
+        "italiana.risotto-stirring"
+      ]
+    },
+    {
+      "id": "italiana.risotto-ponto",
+      "name": "O Ponto do Risoto",
+      "category": "ponto",
+      "description": "Al dente, a correr mas não em sopa: a fronteira entre dois estados.",
+      "requires": [
+        "ponto.al-dente"
+      ]
+    },
+    {
+      "id": "italiana.pao-fermentacao",
+      "name": "Fermentação do Pão",
+      "category": "organizacao",
+      "description": "Tempo e temperatura: a levedação que constrói sabor.",
+      "requires": []
+    },
+    {
+      "id": "italiana.pao-gluten",
+      "name": "Desenvolvimento do Glúten",
+      "category": "faca",
+      "description": "Esticar e dobrar: construir estrutura sem trabalhar demais.",
+      "requires": [
+        "italiana.pao-fermentacao"
+      ]
+    },
+    {
+      "id": "italiana.pao-forno",
+      "name": "O Salto no Forno",
+      "category": "calor",
+      "description": "Calor forte e vapor: a última levedação antes de a côdea fixar.",
+      "requires": [
+        "italiana.pao-gluten"
+      ]
+    },
+    {
+      "id": "italiana.pizza-massa",
+      "name": "Massa de Pizza",
+      "category": "organizacao",
+      "description": "Hidratação, fermentação, moldagem: o alicerce.",
+      "requires": [
+        "italiana.pao-fermentacao"
+      ]
+    },
+    {
+      "id": "italiana.pizza-cornicione",
+      "name": "Côdea Fofa",
+      "category": "calor",
+      "description": "A borda que deve tostar e inchar: técnica e calor.",
+      "requires": [
+        "italiana.pizza-massa"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-italiano-6",
+      "title": "Massa Seca, Feita Como Deve Ser",
+      "subtitle": "Sal, Amido e a Frigideira",
+      "color": "#1E8449",
+      "missionId": "mission.aglio-olio",
+      "lessons": [
+        {
+          "id": "lesson.pasta-agua-cozedura",
+          "title": "A Água da Cozedura É Um Ingrediente",
+          "dayNumber": 1,
+          "dishName": "Água com Amido",
+          "description": "A água turva que tens andado a deitar no cano é a única coisa que faz um molho colar à massa.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "💧",
+          "imageUrl": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400",
+          "ingredients": [
+            "Espaguete seco",
+            "Sal grosso",
+            "Azeite",
+            "Uma caneca"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Salga a água como deve ser, e mais nada",
+              "description": "Sal suficiente para a água saber temperada. Sem azeite na água — cobre a massa e depois o molho escorrega."
+            },
+            {
+              "title": "Guarda uma caneca da água antes de escorrer",
+              "description": "Põe uma caneca no lava-loiça e enche-a da panela antes de escorrer. Quando a água se vai, vai-se, e não há substituto."
+            },
+            {
+              "title": "É amido, e é por isso que engrossa",
+              "description": "A massa larga amido enquanto coze. Esse amido é um emulsionante: liga o azeite e a água em algo que cobre, em vez de duas coisas que se separam."
+            }
+          ],
+          "teaches": [
+            "italiana.agua-de-cozedura"
+          ],
+          "requires": [
+            "tempero.agua-salgada"
+          ],
+          "questions": [
+            {
+              "id": "it-u6-l1-q1",
+              "type": "choice",
+              "prompt": "Escorreste a massa, deitaste a água toda fora, e o teu molho de azeite está numa poça no fundo da tigela. O que faltou?",
+              "options": [
+                "Mais azeite",
+                "Um pouco da água da cozedura com amido, para ligar o azeite num molho",
+                "Manteiga",
+                "Devias ter cozido a massa mais tempo"
+              ],
+              "correctAnswer": "Um pouco da água da cozedura com amido, para ligar o azeite num molho",
+              "explanation": "O azeite e a água separam-se por si. O amido da massa é o que os segura juntos, e é por isso que uma colher da água da cozedura transforma azeite num molho que cobre.",
+              "skills": [
+                "italiana.agua-de-cozedura"
+              ],
+              "explainWrong": "Mais azeite dá-te uma poça maior, e a manteiga é outro prato. Cozer a massa mais tempo só a deixa mole — não faz nada por um molho que não agarra."
+            },
+            {
+              "id": "it-u6-l1-q2",
+              "type": "choice",
+              "prompt": "Deves juntar azeite à água de cozer a massa para ela não colar?",
+              "options": [
+                "Sim, sempre",
+                "Não — cobre a massa e o molho depois escorrega",
+                "Só para massa fresca",
+                "Só se a panela for pequena"
+              ],
+              "correctAnswer": "Não — cobre a massa e o molho depois escorrega",
+              "explanation": "O azeite flutua e cobre os fios quando escorres, e deixa-os escorregadios. A massa não cola se houver água suficiente e a mexeres no primeiro minuto.",
+              "skills": [
+                "italiana.agua-de-cozedura"
+              ],
+              "explainWrong": "É um hábito comum, mas trabalha contra o objetivo todo do passo seguinte: o molho precisa de uma superfície onde se agarrar. Mexer cedo e usar água suficiente é o que impede que cole."
+            }
+          ]
+        },
+        {
+          "id": "lesson.pasta-saltare",
+          "title": "A Massa Acaba na Frigideira, Não no Prato",
+          "dayNumber": 2,
+          "dishName": "Saltare in Padella",
+          "description": "A diferença entre massa de casa e massa de restaurante são trinta segundos na frigideira, não um molho melhor.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 180,
+          "icon": "🍝",
+          "imageUrl": "/lessons/italian/pasta-saltare.jpg",
+          "ingredients": [
+            "Espaguete seco",
+            "Molho",
+            "A água da cozedura",
+            "Uma frigideira larga"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Escorre-a um minuto antes",
+              "description": "Tira a massa enquanto ainda está um pouco mais firme do que a queres comer. Acaba de cozer na frigideira."
+            },
+            {
+              "title": "A massa vai para o molho, nunca o molho para a massa",
+              "description": "O molho está numa frigideira larga ao lume; a massa vai para lá. Molho deitado por cima de um prato só toca o que está em cima."
+            },
+            {
+              "title": "Água lá dentro, e mantém aquilo em movimento",
+              "description": "Um pouco da água da cozedura, e envolve ou mexe com força durante meio minuto. Parece húmido demais e de repente fica brilhante — é o molho a formar-se."
+            },
+            {
+              "title": "Queijo e ervas frescas fora do lume",
+              "description": "Quando estiver brilhante, fora do lume. Queijo posto sobre uma chama fica em fios e separa-se do molho."
+            }
+          ],
+          "teaches": [
+            "italiana.saltare-in-padella"
+          ],
+          "requires": [
+            "ponto.al-dente",
+            "italiana.agua-de-cozedura"
+          ],
+          "questions": [
+            {
+              "id": "it-u6-l2-q1",
+              "type": "choice",
+              "prompt": "Porque é que se escorre a massa um minuto antes de estar pronta?",
+              "options": [
+                "Para poupar gás",
+                "Porque acaba de cozer na frigideira com o molho",
+                "Para ficar crocante",
+                "Não faz diferença"
+              ],
+              "correctAnswer": "Porque acaba de cozer na frigideira com o molho",
+              "explanation": "Esse último minuto na frigideira é onde a massa absorve molho em vez de água. Escorrida já cozida, passa do al dente enquanto a envolves.",
+              "skills": [
+                "italiana.saltare-in-padella"
+              ],
+              "explainWrong": "Não é por causa do gás, e não é para ficar crocante — acaba exatamente no al dente na frigideira, que é o objetivo. Escorrê-la pronta e depois aquecê-la outra vez é como a massa fica mole."
+            },
+            {
+              "id": "it-u6-l2-q2",
+              "type": "choice",
+              "prompt": "A tua massa e o molho parecem húmidos e soltos na frigideira depois de envolver dez segundos. O que fazes?",
+              "options": [
+                "Juntar mais molho",
+                "Manter aquilo em movimento ao lume mais vinte ou trinta segundos até ficar brilhante",
+                "Escorrer o líquido",
+                "Juntar farinha"
+              ],
+              "correctAnswer": "Manter aquilo em movimento ao lume mais vinte ou trinta segundos até ficar brilhante",
+              "explanation": "Parece sempre húmido demais imediatamente antes de casar. O amido e a gordura emulsionam com movimento e calor, e depois aquilo aperta e brilha à vista.",
+              "skills": [
+                "italiana.saltare-in-padella"
+              ],
+              "explainWrong": "Juntar molho deixa aquilo mais húmido, escorrer despeja o amido que está a ponto de fazer o trabalho, e a farinha não é como um molho italiano engrossa. Precisa de mais uns segundos de agitação."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-italiano-2",
+      "title": "Molhos: Do Tomate ao Ragù",
+      "subtitle": "A Alma da Massa",
+      "color": "#E31937",
+      "lessons": [
+        {
+          "id": "lesson.tomate-simple",
+          "title": "Molho de Tomate de Três Coisas",
+          "dayNumber": 3,
+          "dishName": "Salsa di Pomodoro",
+          "description": "Tomate, alho, azeite. É tudo. Aprende porque é que isto basta.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 35,
+          "xpReward": 200,
+          "icon": "🍅",
+          "imageUrl": "/lessons/italian/tomate-simple.jpg",
+          "ingredients": [
+            "800 g de tomate de lata",
+            "4 dentes de alho",
+            "Azeite",
+            "Sal"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Corta o alho fino",
+              "description": "Não picado — fatias finas para o poderes pescar mais tarde se quiseres."
+            },
+            {
+              "title": "Calor brando, azeite, alho",
+              "description": "Lume brando, não o deixes alourar. Queres doce, não amargo."
+            },
+            {
+              "title": "Junta o tomate",
+              "description": "Esmaga-o com a mão para lá dentro. Leva a borbulhar, não a ferver."
+            },
+            {
+              "title": "Tempo e sal",
+              "description": "20 minutos no mínimo. Sal no fim, não antes."
+            }
+          ],
+          "teaches": [
+            "italiana.tomate-reducao",
+            "italiana.tomate-acidez"
+          ],
+          "questions": [
+            {
+              "id": "it-u2-l1-q1",
+              "type": "choice",
+              "prompt": "O teu alho está a ficar castanho no azeite. O que correu mal?",
+              "options": [
+                "O alho é velho",
+                "O calor está demasiado alto",
+                "Usaste alho picado",
+                "O azeite é mau"
+              ],
+              "correctAnswer": "O calor está demasiado alto",
+              "explanation": "O alho queima em calor alto. Lume brando até o tomate entrar e depois mantém aquilo a borbulhar.",
+              "skills": [
+                "italiana.tomate-reducao"
+              ],
+              "explainWrong": "Alho velho e azeite barato não alouram sozinhos — o calor é que aloura. Baixa a chama antes de mudares qualquer outra coisa, ou o dente seguinte queima exatamente da mesma maneira."
+            },
+            {
+              "id": "it-u2-l1-q2",
+              "type": "choice",
+              "prompt": "Depois de 20 minutos, o molho sabe demasiado ácido. Como o arranjas?",
+              "options": [
+                "Juntar açúcar",
+                "Juntar mais sal",
+                "Cozer mais tempo com a tampa fora",
+                "Juntar manteiga ou nata"
+              ],
+              "correctAnswer": "Cozer mais tempo com a tampa fora",
+              "explanation": "O tempo reduz a acidez. A gordura (manteiga, nata ou bom azeite) também a arredonda.",
+              "skills": [
+                "italiana.tomate-acidez"
+              ],
+              "explainWrong": "O açúcar deixa o molho com sabor a doce em vez de maduro, e o sal afia a acidez em vez de a amaciar. A gordura arredonda a aresta, mas é a cozedura destapada que de facto leva a aspereza."
+            }
+          ]
+        },
+        {
+          "id": "lesson.ragu-brasear",
+          "title": "Um Ragù É Tempo, Não Técnica",
+          "dayNumber": 4,
+          "dishName": "A Estufagem Longa",
+          "description": "Um ragù pede três horas e quase nenhuma perícia. O que o estraga é o calor, não a inexperiência.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 230,
+          "icon": "🥘",
+          "imageUrl": "/lessons/italian/ragu-brasear.jpg",
+          "ingredients": [
+            "Carne picada de vaca e de porco",
+            "Cebola, cenoura, aipo",
+            "Concentrado de tomate",
+            "Vinho branco",
+            "Leite",
+            "Folha de louro"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Aloura a carne como deve ser, em lotes",
+              "description": "A cor é sabor, e carne picada apertada coze a vapor e fica cinzenta em vez de alourar. Dois lotes numa frigideira quente valem mais do que um cheio."
+            },
+            {
+              "title": "Soffritto devagar, antes de mais nada entrar",
+              "description": "Cebola, cenoura e aipo, picados fino, amolecidos com cuidado durante dez minutos. Despachados, ficam com sabor a cru ao longo de três horas de cozedura."
+            },
+            {
+              "title": "Lume muito brando durante três horas, tampa encostada",
+              "description": "Quase sem borbulhar. Uma fervura forte aperta a carne e ela fica rija por muito tempo que lhe dês."
+            },
+            {
+              "title": "Leite perto do fim, e prova antes de salgar",
+              "description": "Um pouco de leite amacia a acidez e a textura. A panela concentra à medida que reduz, por isso o sal entra no fim, e não no início."
+            }
+          ],
+          "teaches": [
+            "italiana.ragu-brasear"
+          ],
+          "requires": [
+            "calor.lume-brando",
+            "tempero.camadas",
+            "italiana.tomate-reducao"
+          ],
+          "questions": [
+            {
+              "id": "it-u2-l2-q1",
+              "type": "choice",
+              "prompt": "O teu ragù estufou três horas e a carne continua rija e granulosa. O que correu mal?",
+              "options": [
+                "Precisava de ainda mais tempo",
+                "Estava a ferver em vez de estufar, e isso aperta a carne",
+                "Usaste demasiado tomate",
+                "A carne era demasiado magra"
+              ],
+              "correctAnswer": "Estava a ferver em vez de estufar, e isso aperta a carne",
+              "explanation": "Uma estufagem amacia a carne por a manter logo abaixo da fervura durante horas. Numa fervura forte as proteínas apertam e espremem a água, e nenhum tempo extra reverte isso.",
+              "skills": [
+                "italiana.ragu-brasear"
+              ],
+              "explainWrong": "Carne magra e demasiado tomate deixam um ragù mais seco e mais aspero, mas nenhum deles o deixa granuloso — e mais horas a ferver só pioram. O calor é a resposta toda."
+            },
+            {
+              "id": "it-u2-l2-q2",
+              "type": "choice",
+              "prompt": "Quando é que entra o sal?",
+              "options": [
+                "No início, com o soffritto",
+                "Perto do fim, quando já reduziu",
+                "Metade no início, metade no fim",
+                "Não faz diferença numa estufagem longa"
+              ],
+              "correctAnswer": "Perto do fim, quando já reduziu",
+              "explanation": "Três horas a reduzir concentram todo o sal que esteja na panela. Temperado no início, um ragù que sabia bem à primeira hora fica incomível à terceira.",
+              "skills": [
+                "italiana.ragu-brasear"
+              ],
+              "explainWrong": "Faz mais diferença numa estufagem longa do que em qualquer outro sítio, precisamente porque o líquido fica a metade. Salgar cedo — mesmo metade — é como um bom ragù acaba demasiado salgado para servir."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.ragu"
+    },
+    {
+      "id": "unit-italiano-5",
+      "title": "Carbonara: A Emulsão",
+      "subtitle": "Ovo, gordura e amido segurados por nada a não ser calor e o momento certo",
+      "color": "#E31937",
+      "missionId": "mission.carbonara",
+      "lessons": [
+        {
+          "id": "lesson.carbonara-tecnica",
+          "title": "Carbonara: A Ciência",
+          "dayNumber": 5,
+          "dishName": "Pasta alla Carbonara",
+          "description": "Ovos e queijo como molho, sem nata. Aprende a janela de temperatura.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 25,
+          "xpReward": 250,
+          "icon": "🥚",
+          "imageUrl": "/lessons/italian/carbonara-tecnica.jpg",
+          "ingredients": [
+            "Massa",
+            "Guanciale ou pancetta",
+            "Ovos",
+            "Queijo pecorino"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Corta o guanciale em cubos",
+              "description": "Cubos pequenos, derrete-os com cuidado para a gordura sair."
+            },
+            {
+              "title": "Bate os ovos com o queijo",
+              "description": "Não os estás a cozer — só a misturar até ficares com uma pasta brilhante."
+            },
+            {
+              "title": "Coze a massa",
+              "description": "Al dente. Guarda uma caneca da água com amido."
+            },
+            {
+              "title": "O truque: controlar a temperatura",
+              "description": "Escorre a massa, envolve-a na gordura do guanciale e depois junta a mistura de ovo fora do lume, a mexer depressa."
+            }
+          ],
+          "teaches": [
+            "italiana.carbonara-emulsao"
+          ],
+          "requires": [
+            "ponto.ovo"
+          ],
+          "questions": [
+            {
+              "id": "it-u5-l1-q1",
+              "type": "choice",
+              "prompt": "A tua carbonara ficou com ovos mexidos. O que aconteceu?",
+              "options": [
+                "Os ovos eram demasiado velhos",
+                "A frigideira estava demasiado quente quando juntaste a mistura de ovo",
+                "Não usaste guanciale",
+                "Cozeste demasiado tempo"
+              ],
+              "correctAnswer": "A frigideira estava demasiado quente quando juntaste a mistura de ovo",
+              "explanation": "Fora do lume, a mexer depressa, um pouco de água da massa para arrefecer aquilo. Estas três coisas impedem os ovos mexidos.",
+              "skills": [
+                "italiana.carbonara-emulsao"
+              ],
+              "explainWrong": "A idade do ovo e o guanciale mudam o sabor, não a textura. Ovos mexidos são calor: a frigideira ainda estava a cozer quando o ovo entrou. Fora do lume, a mexer depressa, com um pouco de água da massa — é isso que o mantém molho."
+            },
+            {
+              "id": "it-u5-l1-q2",
+              "type": "choice",
+              "prompt": "O molho está demasiado espesso, a cobrir a massa como cola. Arranjas como?",
+              "options": [
+                "Juntar mais ovo",
+                "Um pouco de água da massa e mexer",
+                "Cozer mais tempo",
+                "Juntar nata"
+              ],
+              "correctAnswer": "Um pouco de água da massa e mexer",
+              "explanation": "O amido da água solta aquilo. A nata não é tradicional e quebra a emulsão.",
+              "skills": [
+                "italiana.carbonara-emulsao"
+              ],
+              "explainWrong": "Mais ovo engrossa o que já está demasiado espesso, e mais cozedura fixa aquilo mais rijo. A nata é a solução tentadora e a que quebra aquilo — água com amido solta uma emulsão sem lhe lavar o sabor."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-italiano-1",
+      "title": "Domínio da Massa Fresca",
+      "subtitle": "Da Massa à Folha",
+      "color": "#F4D03F",
+      "lessons": [
+        {
+          "id": "lesson.pasta-tipi",
+          "title": "Que Massa, Que Molho",
+          "dayNumber": 6,
+          "dishName": "Formas de Massa",
+          "description": "Aprende porque é que cada forma existe e para que molho nasceu.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 5,
+          "xpReward": 150,
+          "icon": "🍝",
+          "imageUrl": "/lessons/italian/pasta-tipi.jpg",
+          "ingredients": [],
+          "preparationSteps": [
+            {
+              "title": "Entende a Massa Longa",
+              "description": "Espaguete, linguine, fettuccine: para molhos de azeite, leves ou de nata."
+            },
+            {
+              "title": "Entende a Massa em Tubo",
+              "description": "Rigatoni, penne, fusilli: prendem molhos com pedaços lá dentro."
+            },
+            {
+              "title": "Entende a Massa Recheada",
+              "description": "Ravioli, tortellini: o recheio é o molho."
+            }
+          ],
+          "teaches": [
+            "italiana.pasta-tipi"
+          ],
+          "questions": [
+            {
+              "id": "it-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Tens um molho bolonhesa com pedaços. Que forma de massa o segura melhor?",
+              "options": [
+                "Espaguete",
+                "Rigatoni",
+                "Linguine",
+                "Cabelo de anjo"
+              ],
+              "correctAnswer": "Rigatoni",
+              "explanation": "Os tubos prendem o molho com pedaços lá dentro. Molhos de azeite precisam de fios finos e longos.",
+              "skills": [
+                "italiana.pasta-tipi"
+              ],
+              "explainWrong": "Fios finos e longos deixam um ragù com pedaços escorregar direto para o prato. A carne acaba no fundo da tigela e a massa sai nua — a forma não tem onde a segurar."
+            },
+            {
+              "id": "it-u1-l1-q2",
+              "type": "choice",
+              "prompt": "Um molho cremoso com marisco: que massa longa?",
+              "options": [
+                "Espaguete",
+                "Fettuccine",
+                "Espaguetíni",
+                "Capellini"
+              ],
+              "correctAnswer": "Fettuccine",
+              "explanation": "As fitas achatadas seguram a nata melhor do que os fios redondos.",
+              "skills": [
+                "italiana.pasta-tipi"
+              ],
+              "explainWrong": "Os fios redondos largam um molho de nata à velocidade a que os levantas. Uma fita achatada dá ao molho uma superfície onde assentar, e é por isso que a nata é quase sempre servida em fitas."
+            },
+            {
+              "id": "it-u1-l1-q3",
+              "type": "choice",
+              "prompt": "O pesto serve-se melhor com?",
+              "options": [
+                "Penne",
+                "Linguine",
+                "Trofie ou massa enrolada à mão",
+                "Ravioli"
+              ],
+              "correctAnswer": "Linguine",
+              "explanation": "O pesto agarra-se a massa achatada. Enrolada à mão (trofie) também funciona muito bem.",
+              "skills": [
+                "italiana.pasta-tipi"
+              ],
+              "explainWrong": "Penne e ravioli não dão ao pesto onde se agarrar — escorrega e junta-se no fundo. A trofie é o clássico da Ligúria e também funciona muito bem, mas destas é o fio achatado que carrega melhor o pesto."
+            }
+          ]
+        },
+        {
+          "id": "lesson.pasta-preparacao",
+          "title": "Massa: Água, Farinha, Mãos",
+          "dayNumber": 7,
+          "dishName": "Massa de Pasta",
+          "description": "Aprende a proporção que liga: nem húmida demais, nem seca demais.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 20,
+          "xpReward": 200,
+          "icon": "🍜",
+          "imageUrl": "/lessons/italian/pasta-preparacao.jpg",
+          "ingredients": [
+            "300 g de farinha",
+            "3 ovos",
+            "Sal",
+            "Água se for preciso"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Faz um Monte de Farinha",
+              "description": "Amontoa-a numa bancada limpa, não numa tigela. Precisas de espaço para trabalhar."
+            },
+            {
+              "title": "Faz um Poço",
+              "description": "Abre um buraco no topo e junta os ovos e uma pitada de sal."
+            },
+            {
+              "title": "Junta Tudo",
+              "description": "Usa um garfo para partir as gemas e batê-las e depois começa a puxar farinha para dentro."
+            },
+            {
+              "title": "Quando Ficar Espesso",
+              "description": "Usa as mãos. Está colante agora — é normal."
+            },
+            {
+              "title": "Amassa",
+              "description": "Empurra para longe com a base da mão, dobra de volta, roda 45°, repete. 8 a 10 minutos."
+            }
+          ],
+          "teaches": [
+            "italiana.pasta-agua-farinha",
+            "italiana.pasta-amassar"
+          ],
+          "questions": [
+            {
+              "id": "it-u1-l2-q1",
+              "type": "choice",
+              "prompt": "A tua massa está a rachar nas bordas. O que fazes?",
+              "options": [
+                "Juntar mais farinha",
+                "Amassar com mais força",
+                "Juntar uma gota minúscula de água",
+                "Começar de novo"
+              ],
+              "correctAnswer": "Juntar uma gota minúscula de água",
+              "explanation": "As rachas querem dizer pouca hidratação. Uma gota em cada racha e depois amassa.",
+              "skills": [
+                "italiana.pasta-agua-farinha"
+              ],
+              "explainWrong": "Juntar farinha ou amassar com mais força piora: rachar é uma massa seca a pedir água, e as duas respostas ou tiram água ou forçam uma massa que já não tem nada para dar. Começar de novo põe fora uma massa que está a uma gota do ponto."
+            },
+            {
+              "id": "it-u1-l2-q2",
+              "type": "choice",
+              "prompt": "Depois de 5 minutos a amassar, a tua massa continua colante. Normal?",
+              "options": [
+                "Não, junta mais farinha agora",
+                "Sim, continua, vai ficar lisa",
+                "Embrulha-a e deixa repousar primeiro",
+                "Usaste demasiados ovos"
+              ],
+              "correctAnswer": "Sim, continua, vai ficar lisa",
+              "explanation": "Massa colante fica lisa a amassar. Não juntes farinha — vais secá-la.",
+              "skills": [
+                "italiana.pasta-amassar"
+              ],
+              "explainWrong": "Juntar farinha agora é o reflexo que estraga massa fresca. Colante aos cinco minutos é o glúten ainda a formar-se; farinha nesse momento dá-te uma massa que estende rija e coze rija, e não a podes tirar de lá."
+            },
+            {
+              "id": "it-u1-l2-q3",
+              "type": "order",
+              "prompt": "Ordena os passos de fazer massa fresca do início",
+              "items": [
+                "Amontoar farinha e fazer um poço",
+                "Bater os ovos no poço com um garfo",
+                "Começar a puxar farinha para o ovo",
+                "Usar as mãos quando ficar demasiado espesso",
+                "Amassar 8 a 10 minutos até ficar lisa",
+                "Deixar repousar embrulhada 30 minutos"
+              ],
+              "explanation": "Esta é a ordem que constrói estrutura sem rasgar nem secar.",
+              "skills": [
+                "italiana.pasta-agua-farinha",
+                "italiana.pasta-amassar"
+              ],
+              "explainWrong": "Bater os ovos antes de o poço estar feito manda-os pela bancada. E amassar antes de a farinha estar puxada deixa bolsas secas que nunca hidratam — o repouso não arranja o que a mistura saltou.",
+              "correctOrder": [
+                "Amontoar farinha e fazer um poço",
+                "Bater os ovos no poço com um garfo",
+                "Começar a puxar farinha para o ovo",
+                "Usar as mãos quando ficar demasiado espesso",
+                "Amassar 8 a 10 minutos até ficar lisa",
+                "Deixar repousar embrulhada 30 minutos"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson.pasta-esticar",
+          "title": "Estender Fino",
+          "dayNumber": 8,
+          "dishName": "Folha de Massa Estendida à Mão",
+          "description": "O toque de massa fina e igual: fina como papel mas sem rasgar.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 25,
+          "xpReward": 250,
+          "icon": "📄",
+          "imageUrl": "/lessons/italian/pasta-esticar.jpg",
+          "ingredients": [
+            "Massa de pasta em repouso"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Começa no Meio",
+              "description": "Põe a bola no centro da bancada. Trabalha do teu corpo para fora."
+            },
+            {
+              "title": "Pressiona, Não Rodes",
+              "description": "Usa a base da mão, a pressionar para fora em espiral. Roda depois de cada pressão."
+            },
+            {
+              "title": "Deixa Repousar",
+              "description": "A cada 2 ou 3 minutos, deixa repousar um minuto. O glúten relaxa."
+            },
+            {
+              "title": "Vê a Espessura",
+              "description": "Deves ver a sombra da tua mão através dela."
+            },
+            {
+              "title": "Corta e Seca",
+              "description": "Corta em folhas e deita numa grelha de secagem 10 a 15 minutos antes de cozer."
+            }
+          ],
+          "teaches": [
+            "italiana.pasta-esticar"
+          ],
+          "requires": [
+            "italiana.pasta-amassar"
+          ],
+          "questions": [
+            {
+              "id": "it-u1-l3-q1",
+              "type": "judge",
+              "prompt": "Esta folha de massa está pronta para cortar?",
+              "imageUrl": "/lessons/italian/it-u1-l3-q1.jpg",
+              "options": [
+                "Sim, está fina o suficiente",
+                "Não, está demasiado grossa",
+                "Está rasgada, começa de novo"
+              ],
+              "correctAnswer": "Sim, está fina o suficiente",
+              "explanation": "Vês a sombra da mão através dela — é essa a espessura certa.",
+              "skills": [
+                "italiana.pasta-esticar"
+              ],
+              "explainWrong": "Chamar demasiado grossa a uma folha quando a luz já passa quer dizer que continuas a estender até ela rasgar. O teste da sombra é o objetivo todo: quando conseguires ver através, para."
+            },
+            {
+              "id": "it-u1-l3-q2",
+              "type": "choice",
+              "prompt": "A tua massa rasga quando a pressionas. O que aconteceu?",
+              "options": [
+                "Pressionaste com demasiada força",
+                "Não repousou tempo suficiente entre pressões",
+                "A farinha por cima queimou-a",
+                "Usaste demasiada água"
+              ],
+              "correctAnswer": "Não repousou tempo suficiente entre pressões",
+              "explanation": "O glúten precisa de relaxar. Se pressionas sem parar, ele reage e rasga.",
+              "skills": [
+                "italiana.pasta-esticar"
+              ],
+              "explainWrong": "Pressionar com mais força ou culpar a água lê a racha ao contrário. Uma massa em repouso estica; uma sem repouso salta de volta e abre ao longo da linha que acabaste de empurrar. A solução é tempo, não força."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.pasta-fresca"
+    },
+    {
+      "id": "unit-italiano-3",
+      "title": "Risoto: A Arte Paciente",
+      "subtitle": "Mexe, Ouve, Observa",
+      "color": "#C0A080",
+      "lessons": [
+        {
+          "id": "lesson.risotto-basico",
+          "title": "Fundamentos do Risoto",
+          "dayNumber": 9,
+          "dishName": "Risotto al Burro e Formaggio",
+          "description": "A técnica que exige atenção: mexer sem parar, caldo quente, arroz que larga amido.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 30,
+          "xpReward": 300,
+          "icon": "🥘",
+          "imageUrl": "/lessons/italian/risotto-basico.jpg",
+          "ingredients": [
+            "300 g de arroz para risoto (arbóreo ou carnaroli)",
+            "1 cebola",
+            "1 litro de caldo",
+            "Vinho branco",
+            "Manteiga",
+            "Parmesão"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Caldo quente",
+              "description": "O caldo tem de estar a estufar numa panela ao teu lado. Caldo frio para o arroz quente para a cozedura."
+            },
+            {
+              "title": "Tosta o arroz",
+              "description": "Pica a cebola, salteia com cuidado, junta o arroz. Tosta 1 minuto até o arroz andar solto."
+            },
+            {
+              "title": "Vinho primeiro",
+              "description": "Um pouco de vinho, deixa absorver. Estás a selar o arroz, ainda não a cozê-lo."
+            },
+            {
+              "title": "Junta o caldo em ondas",
+              "description": "Um cheio de colher de cada vez. Só quando o líquido está quase absorvido é que juntas o seguinte."
+            },
+            {
+              "title": "Continua a mexer",
+              "description": "Círculos lentos, não partas o arroz. Estás a ouvir e a observar, não a contar o tempo."
+            },
+            {
+              "title": "Mantecatura",
+              "description": "No fim, fora do lume: manteiga fria e queijo envolvidos. Cria a corrida."
+            }
+          ],
+          "teaches": [
+            "italiana.risotto-stirring",
+            "italiana.risotto-mantecatura",
+            "italiana.risotto-ponto"
+          ],
+          "questions": [
+            {
+              "id": "it-u3-l1-q1",
+              "type": "choice",
+              "prompt": "Como é que sabes quando juntar o cheio de colher de caldo seguinte?",
+              "options": [
+                "Depois de exatamente 2 minutos",
+                "Quando o arroz parece seco em cima",
+                "Quando o líquido anterior está quase absorvido",
+                "Quando os grãos de arroz mostram branco"
+              ],
+              "correctAnswer": "Quando o líquido anterior está quase absorvido",
+              "explanation": "Nem seco como osso, nem a nadar. Quase absorvido. É esse o ritmo do risoto.",
+              "skills": [
+                "italiana.risotto-stirring"
+              ],
+              "explainWrong": "Um temporizador ignora a velocidade da tua panela, e esperar por arroz seco quer dizer que os grãos colam e agarram. Quase absorvido é o ponto em que o arroz ainda tem com que trabalhar."
+            },
+            {
+              "id": "it-u3-l1-q2",
+              "type": "choice",
+              "prompt": "O teu risoto está em sopa aos 18 minutos. O que acontece a seguir?",
+              "options": [
+                "Parar de juntar caldo",
+                "Continuar a juntar caldo",
+                "Juntar a manteiga e o queijo agora",
+                "Cozer mais tempo sem juntar caldo"
+              ],
+              "correctAnswer": "Cozer mais tempo sem juntar caldo",
+              "explanation": "O tempo varia. Se ainda estiver em sopa aos 18 minutos, continua a mexer até o arroz ficar cremoso e cobrir a colher.",
+              "skills": [
+                "italiana.risotto-ponto"
+              ],
+              "explainWrong": "Parar cedo deixa arroz cru numa sopa, e mais caldo faz mais sopa. Acabar com manteiga e queijo num risoto solto só os dilui. Deixa o líquido ir antes de o acabares."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.risotto"
+    },
+    {
+      "id": "unit-italiano-4",
+      "title": "Pão Artesanal: Pizza e Focaccia",
+      "subtitle": "Fermentação e Côdea",
+      "color": "#D2B48C",
+      "lessons": [
+        {
+          "id": "lesson.pizza-dough",
+          "title": "Bases da Massa de Pizza",
+          "dayNumber": 10,
+          "dishName": "Massa de Pizza",
+          "description": "O alicerce: hidratação, fermentação, momento do sal.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 250,
+          "icon": "🍕",
+          "imageUrl": "/lessons/italian/pizza-dough.jpg",
+          "ingredients": [
+            "500 g de farinha",
+            "325 ml de água",
+            "2 g de levedura",
+            "10 g de sal",
+            "15 ml de azeite"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Mistura a massa",
+              "description": "Farinha, água, levedura. Mistura até não restar farinha seca. Repousa 30 minutos."
+            },
+            {
+              "title": "Junta o sal e o azeite",
+              "description": "Depois de 30 minutos, junta o sal e o azeite. Amassa 5 minutos até estarem incorporados."
+            },
+            {
+              "title": "Fermentação em bloco",
+              "description": "4 a 8 horas à temperatura ambiente. Dobra a cada hora nas primeiras 3 horas."
+            }
+          ],
+          "teaches": [
+            "italiana.pizza-massa",
+            "italiana.pao-fermentacao"
+          ],
+          "questions": [
+            {
+              "id": "it-u4-l1-q1",
+              "type": "choice",
+              "prompt": "Porque é que se junta o sal e o azeite depois de 30 minutos, e não no início?",
+              "options": [
+                "O sal mata a levedura se for posto cedo demais",
+                "O azeite impede o desenvolvimento do glúten",
+                "É só tradição",
+                "O sal precisa de água para se dissolver"
+              ],
+              "correctAnswer": "O sal mata a levedura se for posto cedo demais",
+              "explanation": "Sal diretamente sobre levedura seca pode matá-la. Depois da hidratação, é seguro.",
+              "skills": [
+                "italiana.pizza-massa"
+              ],
+              "explainWrong": "O azeite atrasa um pouco o glúten mas não o para, e a tradição nunca é a razão no pão. Sal direto sobre levedura seca puxa-lhe a água para fora, e uma massa que nunca leveda não te diz porquê."
+            }
+          ]
+        },
+        {
+          "id": "lesson.pizza-gluten-forno",
+          "title": "Glúten, Levedação e a Borda Fofa",
+          "dayNumber": 11,
+          "dishName": "A Côdea",
+          "description": "Não estás a amassar esta massa até ela ter forma — é o tempo que faz isso. O que controlas é o forno e como tratas a borda.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 270,
+          "icon": "🔥",
+          "imageUrl": "/lessons/italian/pizza-gluten-forno.jpg",
+          "ingredients": [
+            "A massa levedada",
+            "Sêmola ou farinha",
+            "Polpa de tomate",
+            "Mozarela",
+            "Manjericão",
+            "O forno mais quente que tiveres"
+          ],
+          "preparationSteps": [
+            {
+              "title": "O tempo constrói o glúten, não os teus braços",
+              "description": "Uma massa húmida deixada em paz ganha força por si. Umas dobras de vinte em vinte minutos fazem mais do que dez minutos a amassar, e é por isso que esta é a massa mais fácil para começar."
+            },
+            {
+              "title": "A levedação a frio é que está a fazer o trabalho",
+              "description": "Uma noite no frigorífico dá o sabor e a estrutura. Também é tolerante: uma hora a mais ou a menos não muda nada."
+            },
+            {
+              "title": "Nunca toques nos últimos dois centímetros",
+              "description": "Pressiona e estica do centro para fora e deixa a borda em paz. O gás preso nessa borda é o cornicione todo — passado com o rolo, desaparece."
+            },
+            {
+              "title": "Forno o mais quente possível, e pré-aquece o tabuleiro",
+              "description": "O mais quente que o teu forno vá, com o tabuleiro ou uma frigideira já a arder lá dentro. A pizza precisa de uma rajada de calor por baixo no primeiro minuto ou seca em vez de inchar."
+            }
+          ],
+          "teaches": [
+            "italiana.pao-gluten",
+            "italiana.pao-forno",
+            "italiana.pizza-cornicione"
+          ],
+          "requires": [
+            "italiana.pao-fermentacao",
+            "italiana.pizza-massa",
+            "calor.pre-aquecer"
+          ],
+          "questions": [
+            {
+              "id": "it-u4-l2-q1",
+              "type": "choice",
+              "prompt": "A tua pizza saiu plana, sem borda levantada. Estendeste a massa com um rolo. O que aconteceu?",
+              "options": [
+                "O forno estava demasiado quente",
+                "O rolo empurrou para fora o gás da borda, que é o que incha e faz a côdea",
+                "Havia demasiado molho",
+                "A massa precisava de mais levedura"
+              ],
+              "correctAnswer": "O rolo empurrou para fora o gás da borda, que é o que incha e faz a côdea",
+              "explanation": "O cornicione é feito de bolhas que a levedação longa lá pôs. Um rolo achata-as para fora da massa, e nada no forno as consegue pôr de volta.",
+              "skills": [
+                "italiana.pizza-cornicione"
+              ],
+              "explainWrong": "Um forno quente é o que queres, e mais levedura dá um sabor mais a levedura em vez de uma borda melhor. Demasiado molho deixa o meio mole, mas foi o rolo que tirou a borda."
+            },
+            {
+              "id": "it-u4-l2-q2",
+              "type": "choice",
+              "prompt": "Puseste a pizza num tabuleiro frio dentro de um forno pré-aquecido. Porque é que a base está pálida e seca?",
+              "options": [
+                "A massa estava com pouca levedação",
+                "O tabuleiro frio teve de aquecer primeiro, por isso a base nunca levou a rajada de calor",
+                "Faltou azeite",
+                "O forno estava demasiado quente"
+              ],
+              "correctAnswer": "O tabuleiro frio teve de aquecer primeiro, por isso a base nunca levou a rajada de calor",
+              "explanation": "Uma base de pizza coze por baixo no primeiro minuto. Um tabuleiro frio passa esse minuto a aquecer, por isso a base seca devagar em vez de empolar.",
+              "skills": [
+                "italiana.pao-forno"
+              ],
+              "explainWrong": "Uma massa com pouca levedação ficaria densa em vez de pálida e seca, o azeite não é o que doura uma base, e o forno estar quente é exatamente o que precisas — só tem de estar quente no metal debaixo da massa, e não só no ar."
+            },
+            {
+              "id": "it-u4-l2-q3",
+              "type": "choice",
+              "prompt": "Esta massa leva umas dobras em vez de dez minutos a amassar. Porque é que isso funciona?",
+              "options": [
+                "Não funciona — amassar é sempre melhor",
+                "Uma massa húmida deixada a repousar desenvolve glúten por si; as dobras só o alinham",
+                "Dobrar acrescenta ar",
+                "Só funciona com farinha forte"
+              ],
+              "correctAnswer": "Uma massa húmida deixada a repousar desenvolve glúten por si; as dobras só o alinham",
+              "explanation": "O glúten forma-se quando a farinha é hidratada e lhe dão tempo. Dobrar organiza a estrutura que o repouso já construiu, e é por isso que uma levedação longa a frio vale mais do que amassar com força numa pizza.",
+              "skills": [
+                "italiana.pao-gluten"
+              ],
+              "explainWrong": "Amassar é um caminho, não o único, e o ar na massa vem da fermentação e não de dobrar. A farinha forte ajuda mas o repouso faz o trabalho de qualquer maneira."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.pizza"
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.aglio-olio",
+      "unitId": "unit-italiano-6",
+      "title": "Aglio, olio e peperoncino",
+      "dishName": "Spaghetti Aglio, Olio e Peperoncino",
+      "cookTimeMin": 15,
+      "summary": "Quatro ingredientes e nenhum molho para fazer: o prato que te ensina para que serve a água da cozedura.",
+      "estimatedCostEur": 1.2,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "italiana.agua-de-cozedura",
+        "italiana.saltare-in-padella",
+        "tempero.agua-salgada",
+        "ponto.al-dente"
+      ],
+      "xpReward": 400,
+      "ingredients": [
+        "200 g de espaguete seco",
+        "4 dentes de alho",
+        "4 colheres de sopa de azeite",
+        "Malagueta em flocos",
+        "Sal grosso",
+        "Salsa (opcional)"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Água salgada ao lume, e nada mais lá dentro",
+          "description": "Água abundante, salgada até saber temperada. Sem azeite. Põe o espaguete lá dentro e mexe no primeiro minuto para não colar.",
+          "durationSec": 420,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens sal grosso? Sal fino serve, usa só menos do que parece que precisas."
+            },
+            {
+              "kind": "cola",
+              "answer": "A colar? Mexe agora — só acontece no primeiro minuto."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Alho com cuidado no azeite enquanto a massa coze",
+          "description": "Alho em fatias e malagueta para azeite frio numa frigideira larga, em lume brando. Baixo, devagar, até o alho ficar dourado pálido e cheirar a doce. Alho castanho é amargo e não há volta a dar.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Alho ficou castanho? Começa o azeite e o alho outra vez — alho amargo estraga um prato de quatro ingredientes."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens malagueta fresca nem em flocos? Pimenta preta é outro prato mas é bom."
+            },
+            {
+              "kind": "cola",
+              "answer": "Alho a ganhar cor depressa demais? Frigideira fora do lume por um momento; o azeite continua a cozê-lo."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Guarda uma caneca da água e escorre um minuto antes",
+          "description": "Enche uma caneca da panela antes de escorreres. Tira o espaguete enquanto ainda está um pouco firme — tem mais um minuto para ir na frigideira.",
+          "durationSec": 60,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Mais firme do que o quererias comer, e uma caneca cheia de água turva guardada."
+            },
+            {
+              "kind": "falta",
+              "answer": "Já deitaste a água fora? Água quente com uma colher do amido da própria massa é um mau substituto — na próxima, caneca no lava-loiça primeiro."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Massa para a frigideira, água lá dentro, e mantém aquilo em movimento",
+          "description": "Espaguete para o azeite do alho com um bom pouco da água da cozedura. Envolve ou mexe com força em lume médio. Parece húmido demais e depois fica brilhante e cobre cada fio — é aí que está pronto.",
+          "durationSec": 90,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Brilhante e agarrado aos fios, sem azeite em poça no fundo da frigideira."
+            },
+            {
+              "kind": "falta",
+              "answer": "Continua a não casar? Mais um pouco de água e mantém em movimento — precisa de agitação, não de mais azeite."
+            },
+            {
+              "kind": "cola",
+              "answer": "Demasiado seco e a juntar-se? Mais um pouco da água da cozedura solta aquilo logo."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Fora do lume, salsa, come já",
+          "description": "Lume fora, salsa picada por dentro, e para a mesa. Este prato não espera por ninguém — aperta e perde brilho à medida que fica.",
+          "durationSec": 60,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Ainda brilhante no prato, alho dourado pálido e doce em vez de castanho e amargo."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens salsa? É opcional; o prato é o alho, o azeite e a água."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.ragu",
+      "unitId": "unit-italiano-2",
+      "title": "Ragù Bolonhesa",
+      "dishName": "Pasta al Ragù",
+      "cookTimeMin": 120,
+      "summary": "Lume brando e lento: carne, tomate e tempo criam profundidade. O motor da cozinha italiana.",
+      "estimatedCostEur": 8,
+      "dietaryTags": [
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "italiana.ragu-brasear",
+        "italiana.tomate-reducao",
+        "tempero.camadas",
+        "italiana.tomate-acidez"
+      ],
+      "xpReward": 600,
+      "ingredients": [
+        "300 g de carne picada",
+        "100 g de pancetta",
+        "1 cebola",
+        "1 cenoura",
+        "1 aipo",
+        "500 g de tomate",
+        "Leite",
+        "Vinho branco",
+        "Azeite",
+        "Sal"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Soffritto",
+          "description": "Corta a pancetta, a cebola, a cenoura e o aipo em cubos (a santíssima trindade). Derrete a pancetta e depois sua os legumes com cuidado até ficarem moles.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens aipo? Só cebola e cenoura. Não tens cenoura? Cebola e aipo. Pelo menos um."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Carne",
+          "description": "Junta a carne picada. Mexe para a desfazer. Deve ficar cinzenta e depois ligeiramente alourada, mas não crocante.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Castanho escuro quer dizer calor demasiado. O ragù vai saber a queimado mais tarde. Baixa o lume."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Vinho",
+          "description": "Um pouco de vinho branco. Deixa borbulhar até desaparecer — isto acrescenta acidez e profundidade.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens vinho? Um pouco de água, mas o vinho é melhor."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Tomate e leite",
+          "description": "Junta o tomate esmagado e um pouco de leite. O leite amacia a acidez. Lume brando daqui para a frente.",
+          "durationSec": 1800,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Cheira a queimado? Calor demasiado. Passa a panela para um bico mais calmo ou usa um difusor."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Borbulhar lento, azeite a subir à superfície, sabores a ganhar fundura."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Espera",
+          "description": "45 minutos no mínimo, 2 horas é melhor. Mexe de vez em quando. Prova aos 45 — se estiver sem graça, continua.",
+          "durationSec": 2700,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Escuro, complexo, doce, rico. Se estiver aguado, deixa estufar destapado para reduzir."
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "index": 5,
+          "title": "Tempera e acaba",
+          "description": "Sal a provar. Serve sobre massa fresca ou seca. Um pouco de parmesão ralado por cima.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Sabe sem graça? Sal. Sabe amargo? Um pouco de leite e mais 5 minutos a estufar."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.carbonara",
+      "unitId": "unit-italiano-5",
+      "title": "O molho que não se coze",
+      "dishName": "Spaghetti alla carbonara",
+      "cookTimeMin": 25,
+      "summary": "Sem nata, sem frigideira ao lume no fim. O molho é ovo, queijo e água da massa, segurados pelo calor que já está na tigela.",
+      "estimatedCostEur": 6,
+      "dietaryTags": [
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "italiana.carbonara-emulsao",
+        "italiana.pasta-tipi"
+      ],
+      "ingredients": [
+        "200 g de espaguete",
+        "80 g de guanciale ou pancetta",
+        "2 ovos mais 1 gema",
+        "50 g de pecorino, ralado fino",
+        "Pimenta preta",
+        "Sal para a água"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Salga a água",
+          "description": "Uma panela grande, bem salgada — o guanciale e o pecorino são salgados, por isso prova a água e fica abaixo do habitual.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Deve saber temperada mas não a mar. O queijo traz o resto."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Derrete o guanciale",
+          "description": "Frigideira fria, sem azeite, lume brando. Deixa a gordura sair devagar até os pedaços estarem dourados e crocantes nas bordas. Guarda cada gota da gordura.",
+          "durationSec": 420,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Escuro e rijo quer dizer que foi depressa demais. Lume brando e lento é o que derrete gordura em vez de a queimar — começa de novo se souber a amargo."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens guanciale? A pancetta é a prima próxima. Bacon fumado muda o prato mas ensina a mesma emulsão."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Pedaços dourados assentados numa poça de gordura transparente."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "title": "Bate os ovos com o queijo",
+          "description": "Ovos, a gema extra, o pecorino e muita pimenta preta, batidos até ficar uma pasta espessa. Faz isto enquanto a massa coze, não depois de escorrer.",
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Espessa o suficiente para cair do garfo em fita. Líquida quer dizer que precisa de mais queijo."
+            },
+            {
+              "kind": "cola",
+              "answer": "A juntar-se em grumos no garfo é o queijo ralado grosso demais. Rala-o mais fino e derrete em vez de agarrar."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "title": "Fora do lume e só depois o ovo",
+          "description": "Escorre, guardando uma caneca da água. Massa para a frigideira do guanciale fora do lume, espera trinta segundos, e depois a mistura de ovo e um pouco de água, a mexer com força o tempo todo.",
+          "checkpoint": true,
+          "durationSec": 90,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Ovos mexidos quer dizer que a frigideira ainda estava a cozer. Não há como salvar — mas na próxima deixa a frigideira parada meio minuto antes de o ovo entrar."
+            },
+            {
+              "kind": "cola",
+              "answer": "Espesso e pastoso: mais um pouco de água da massa e continua a mexer. O amido é o que solta aquilo sem lhe lavar o sabor."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Cobre cada fio e ainda escorrega no prato. Brilhante, não fixado — se mantiver a forma, foi longe demais."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.pasta-fresca",
+      "unitId": "unit-italiano-1",
+      "title": "A Tua Primeira Massa Fresca",
+      "dishName": "Tagliatelle Estendida à Mão",
+      "cookTimeMin": 45,
+      "summary": "Da massa ao prato: faz, estende, seca, coze e come a tua própria massa.",
+      "estimatedCostEur": 4,
+      "dietaryTags": [
+        "vegetariano"
+      ],
+      "practices": [
+        "italiana.pasta-agua-farinha",
+        "italiana.pasta-amassar",
+        "italiana.pasta-esticar",
+        "italiana.pasta-tipi"
+      ],
+      "xpReward": 500,
+      "ingredients": [
+        "300 g de farinha",
+        "3 ovos",
+        "Sal",
+        "Manteiga",
+        "Parmesão"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Faz a massa",
+          "description": "Segue a lição: poço de farinha, ovos, garfo, mãos, amassar 8 a 10 minutos.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Demasiado esfarelada? Uma gota de água. Demasiado colante? Trabalha-a mais antes de juntares farinha."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Lisa, elástica, não colante. Embrulha e deixa repousar 30 minutos."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Deixa a massa repousar",
+          "description": "30 minutos embrulhada em plástico. Isto deixa o glúten relaxar.",
+          "durationSec": 1800,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Não a podes deixar repousar demasiado à temperatura ambiente."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Estende-a",
+          "description": "Pressiona, espiral, roda. Deixa repousar 1 minuto a cada 2 ou 3 pressões. Aponta a fina o suficiente para ver a mão.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Se rasgar, deixa repousar e tenta outra vez de uma parte mais grossa. Podes remendar."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Espessura igual, translúcida, sem buracos."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Corta e seca",
+          "description": "Corta em fitas (tagliatelle) e deita num pano limpo ou numa grelha de secagem. 15 minutos antes de cozer.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não a secas? Vai colar na panela. 15 minutos é o mínimo."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Coze em água salgada",
+          "description": "Água a ferver, salgada. A massa fresca leva só 2 a 3 minutos.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Assim que flutuar e se mantiver à superfície, está pronta. Prova um fio."
+            },
+            {
+              "kind": "cola",
+              "answer": "Está a afundar e a cozer de forma desigual? A água talvez não esteja a ferver com força suficiente."
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "index": 5,
+          "title": "Acaba com manteiga e queijo",
+          "description": "Guarda água da massa. Escorre, envolve com manteiga fria, parmesão ralado e um pouco de água da massa.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens parmesão? Usa qualquer queijo duro que tenhas. O pecorino é o tradicional."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Sedosa, a cobrir a massa, sem gordura em poça."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.risotto",
+      "unitId": "unit-italiano-3",
+      "title": "Risoto, à colher",
+      "dishName": "Risotto alla parmigiana",
+      "cookTimeMin": 35,
+      "summary": "Vinte minutos à panela sem te ires embora. É o único prato em que mexer é a técnica, não uma chatice.",
+      "estimatedCostEur": 7,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "italiana.risotto-stirring",
+        "italiana.risotto-mantecatura",
+        "italiana.risotto-ponto"
+      ],
+      "ingredients": [
+        "320 g de arroz carnaroli ou arbóreo",
+        "1,5 l de caldo quente, mantido a estufar",
+        "1 cebola pequena, picada fina",
+        "Um copo de vinho branco",
+        "60 g de manteiga fria",
+        "60 g de parmesão, ralado",
+        "Azeite e sal"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Caldo ao lume, e mantém-no quente",
+          "description": "O caldo estufa na própria panela ao teu lado o tempo todo. Caldo frio para arroz quente para a cozedura a seco de cada vez que deitas.",
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens caldo? Água quente salgada com uma folha de louro é honesta e serve. Nunca uses água fria."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Deve estar a fumegar e a tremer à justa, não a ferver às três pedras."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "title": "Soffritto",
+          "description": "Cebola em azeite em lume brando até ficar mole e translúcida — sem cor. Cinco a sete minutos.",
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Cebola alourada dá ao risoto uma aresta aspera que não consegues tirar. Baixa o lume e junta uma colher de caldo para arrefecer a panela."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Mole, vidrada, e cheira a doce em vez de aspero."
+            }
+          ],
+          "durationSec": 400
+        },
+        {
+          "id": "s3",
+          "title": "Tosta o arroz",
+          "description": "Arroz a seco, mexe dois minutos até os grãos estarem quentes e as bordas ficarem translúcidas com um ponto branco no centro. Depois o vinho, e deixa-o desaparecer.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Colar quer dizer que a panela está demasiado quente com pouca gordura. Mantém os grãos em movimento."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Tira um grão: uma borda transparente à volta de um centro branco quer dizer que está tostado."
+            }
+          ],
+          "durationSec": 180
+        },
+        {
+          "id": "s4",
+          "title": "Deita e mexe",
+          "description": "Um cheio de colher de caldo, mexe, espera até estar quase absorvido, repete. Dezoito minutos mais ou menos. Quase absorvido — não seco, não a nadar.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Agarrar no fundo quer dizer que o deixaste secar demais entre colheres. A colher seguinte um pouco mais cedo."
+            },
+            {
+              "kind": "falta",
+              "answer": "Ficaste sem caldo antes de o arroz estar pronto? Água quente acaba aquilo. Melhor isso do que parar cedo."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Prova um grão a partir dos dezoito minutos: tenro com a resistência mais leve no centro, e sem giz."
+            }
+          ],
+          "durationSec": 1080
+        },
+        {
+          "id": "s5",
+          "title": "Mantecatura",
+          "description": "Fora do lume. Manteiga fria e o parmesão, batidos com força durante um minuto. É isto que transforma arroz cozido em risoto.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Rijo e pesado: um pouco de caldo quente e continua a bater. Deve mexer-se, não ficar parado."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Sacode a panela — o risoto deve assentar numa onda lenta. É isso o all'onda, e é esse o teste."
+            }
+          ],
+          "durationSec": 90
+        }
+      ]
+    },
+    {
+      "id": "mission.pizza",
+      "unitId": "unit-italiano-4",
+      "title": "Pizza de levedação a frio",
+      "dishName": "Pizza margherita",
+      "cookTimeMin": 90,
+      "summary": "Quase tudo aquilo é esperar. Vinte minutos de trabalho, uma levedação longa, e o forno mais quente que tiveres.",
+      "estimatedCostEur": 5,
+      "dietaryTags": [
+        "vegetariano",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "italiana.pizza-massa",
+        "italiana.pao-fermentacao",
+        "italiana.pao-gluten",
+        "italiana.pao-forno",
+        "italiana.pizza-cornicione"
+      ],
+      "ingredients": [
+        "500 g de farinha de pão forte",
+        "325 ml de água fria",
+        "3 g de levedura seca",
+        "12 g de sal",
+        "Uma colher de sopa de azeite",
+        "Polpa de tomate, mozarela, manjericão"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "title": "Farinha, água, levedura",
+          "description": "Mistura a farinha, a água e a levedura numa massa desgrenhada. Sem sal, sem azeite ainda. Deixa-a 30 minutos para a farinha beber como deve ser.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "É para estar húmida e desarrumada nesta fase. Molha as mãos em vez de juntares farinha."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Pronta a repousar quando não restar farinha seca na tigela."
+            }
+          ],
+          "durationSec": 1800
+        },
+        {
+          "id": "s2",
+          "title": "Agora o sal e o azeite",
+          "description": "Trabalha o sal e o azeite lá dentro. Sal sobre levedura seca no início puxa-lhe a água para fora e a massa nunca leveda.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Fica mais frouxa antes de ficar mais forte. Dobra-a sobre si mesma em vez de amassares com força."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Trabalhados quando já não sentes grãos de sal entre os dedos."
+            }
+          ],
+          "durationSec": 300
+        },
+        {
+          "id": "s3",
+          "title": "Dobra e depois deixa levedar",
+          "description": "Quatro dobras, de 20 em 20 minutos. Depois tapa e deixa: 6 a 8 horas à temperatura ambiente, ou de um dia para o outro no frigorífico.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Levedada quando tiver mais ou menos duplicado e a superfície estiver abaulada com bolhas por baixo."
+            },
+            {
+              "kind": "falta",
+              "answer": "Pouco tempo? Um sítio mais quente acelera aquilo, mas o sabor vem da levedação longa e lenta."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "title": "Molda-a à mão",
+          "description": "Pressiona do centro para fora e deixa os últimos dois centímetros sem lhes tocar. Essa borda é o cornicione. Nunca uses um rolo.",
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Colar à bancada quer dizer pouca sêmola por baixo. Espalha sêmola, não juntes farinha à massa."
+            },
+            {
+              "kind": "falta",
+              "answer": "Rasgar quer dizer que lhe faltou repouso. Tapa-a e dá-lhe dez minutos, e depois tenta outra vez."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Esticada o suficiente quando vês luz através do meio."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "title": "O forno mais quente que tiveres",
+          "description": "Forno no máximo com um tabuleiro ou pedra pré-aquecidos lá dentro durante 30 minutos. Molho fino, queijo pouco. Seis a dez minutos.",
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Base queimada com o topo pálido: a pedra estava demasiado quente e demasiado baixa. Sobe-a uma prateleira."
+            },
+            {
+              "kind": "cola",
+              "answer": "Colou à pá ou ao tabuleiro? Demasiado molho, ou ficou demasiado tempo antes de entrar. Monta-a depressa e lança-a."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Pronta quando a borda estiver empolada e manchada de castanho e a base se levantar rija do tabuleiro."
+            }
+          ],
+          "durationSec": 600
+        }
+      ]
+    }
+  ]
+}

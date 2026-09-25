@@ -188,7 +188,7 @@
       "title": "Your first egg",
       "dishName": "Fried egg",
       "cookTimeMin": 10,
-      "summary": "Dez minutos, com o que já tens em casa. Falha de formas visíveis e recuperáveis.",
+      "summary": "Ten minutes, with what you already have at home. It fails in ways you can see and fix.",
       "estimatedCostEur": 0.5,
       "dietaryTags": [
         "vegetariano",
@@ -317,7 +317,7 @@
       "title": "Golden onion",
       "dishName": "Caramelised onion",
       "cookTimeMin": 25,
-      "summary": "Uma cebola, uma frigideira e paciência: a base de metade do que vais cozinhar.",
+      "summary": "One onion, one pan and patience: the base of half of what you are going to cook.",
       "estimatedCostEur": 0.6,
       "dietaryTags": [
         "vegetariano",
@@ -416,7 +416,7 @@
       "title": "An omelette that doesn't burn",
       "dishName": "Plain omelette",
       "cookTimeMin": 15,
-      "summary": "O teste do lume brando: se a base ficou castanha, o lume estava alto.",
+      "summary": "The low-heat test: if the base went brown, the heat was too high.",
       "estimatedCostEur": 1,
       "dietaryTags": [
         "vegetariano",
@@ -507,7 +507,7 @@
       "title": "Loose rice",
       "dishName": "Plain rice",
       "cookTimeMin": 20,
-      "summary": "Medir em vez de adivinhar. É o rácio que decide, não o talento.",
+      "summary": "Measuring instead of guessing. It is the ratio that decides, not talent.",
       "estimatedCostEur": 0.4,
       "dietaryTags": [
         "vegetariano",
@@ -603,7 +603,7 @@
       "title": "A whole dish",
       "dishName": "Chicken with rice and salad",
       "cookTimeMin": 45,
-      "summary": "Três coisas ao mesmo tempo, tudo quente à mesa. É aqui que se vê a diferença.",
+      "summary": "Three things at once, everything hot at the table. This is where the difference shows.",
       "estimatedCostEur": 3.5,
       "dietaryTags": [
         "sem_gluten",
@@ -792,10 +792,10 @@
               ],
               "prompt": "Put in order what you do before the first cut.",
               "correctOrder": [
-                "Lavar as mãos",
-                "Limpar e secar a bancada",
-                "Pôr o pano húmido debaixo da tábua",
-                "Pôr a faca e os ingredientes ao alcance"
+                "Wash your hands",
+                "Wipe and dry the counter",
+                "Put the damp cloth under the board",
+                "Put the knife and ingredients within reach"
               ],
               "explanation": "The order isn't arbitrary: each step only makes sense once the one before it is done.",
               "explainWrong": "Putting the board down before drying the counter means lifting everything again. And the knife is always the last thing onto the counter — before that you have nowhere safe to rest it."
@@ -1047,10 +1047,10 @@
               ],
               "prompt": "Put the steps for picking up the knife in order.",
               "correctOrder": [
-                "Pousar a faca na tábua com o gume para baixo",
-                "Agarrar a lâmina com o polegar e o indicador",
-                "Fechar os outros três dedos no cabo",
-                "Levantar e verificar se equilibra sozinha"
+                "Rest the knife on the board, edge down",
+                "Pinch the blade with thumb and index finger",
+                "Close the other three fingers around the handle",
+                "Lift it and check it balances on its own"
               ],
               "explanation": "Always gripping from the board avoids adjusting with the knife in the air.",
               "explainWrong": "Adjusting your grip with the knife already lifted is the moment the blade turns inwards. Every adjustment is made with the knife resting down."
@@ -1165,10 +1165,10 @@
               ],
               "prompt": "Put the cycle of a claw-hand cut in order.",
               "correctOrder": [
-                "Dobrar os dedos e segurar o ingrediente",
-                "Encostar o lado da lâmina aos nós",
-                "Cortar deixando a lâmina deslizar pelos nós",
-                "Recuar a mão a espessura da fatia seguinte"
+                "Curl your fingers and hold the ingredient",
+                "Rest the side of the blade against your knuckles",
+                "Cut, letting the blade slide along your knuckles",
+                "Move your hand back by the thickness of the next slice"
               ],
               "explanation": "Every cut closes the cycle in the same place: that's what makes it repeatable and safe.",
               "explainWrong": "Moving your hand back before cutting removes the blade's stop at the exact moment it comes down. The hand only moves back once the knife has passed."
@@ -1308,11 +1308,11 @@
               ],
               "prompt": "Put the onion dice in order.",
               "correctOrder": [
-                "Cortar ao meio, do topo à raiz",
-                "Descascar deixando a raiz",
-                "Fazer os cortes horizontais, sem chegar à raiz",
-                "Fazer os cortes verticais, sem chegar à raiz",
-                "Fatiar ao contrário para soltar os cubos"
+                "Halve it from top to root",
+                "Peel it, leaving the root on",
+                "Make the horizontal cuts, stopping short of the root",
+                "Make the vertical cuts, stopping short of the root",
+                "Slice across to release the dice"
               ],
               "explanation": "The three sets of cuts make a grid. The last cut is the only one that releases anything.",
               "explainWrong": "Slicing before making the grid gives you half-moons, not dice. And peeling before halving leaves you spinning a slippery sphere on the board."
@@ -1449,11 +1449,11 @@
               ],
               "prompt": "Put the prep before lighting the hob in order.",
               "correctOrder": [
-                "Ler a receita do princípio ao fim",
-                "Cortar tudo e separar por taças",
-                "Alinhar as taças pela ordem de entrada",
-                "Pôr a tampa e o pano seco ao alcance",
-                "Acender o lume"
+                "Read the recipe from start to finish",
+                "Cut everything and separate it into bowls",
+                "Line the bowls up in the order they go in",
+                "Put the lid and a dry cloth within reach",
+                "Light the hob"
               ],
               "explanation": "Reading first is what stops you discovering halfway through that an ingredient was missing. Lighting the hob is always the last step.",
               "explainWrong": "Chopping before reading the whole recipe is how improvising starts: at step four you find the onion was meant to be in half-moons and you've already diced it."
@@ -1577,10 +1577,10 @@
               ],
               "prompt": "Put the start of any sauté in order.",
               "correctOrder": [
-                "Frigideira vazia ao lume médio",
-                "Esperar que aqueça mesmo",
-                "Juntar a gordura",
-                "Pôr a comida, que tem de chiar"
+                "Empty pan over medium heat",
+                "Wait until it is properly hot",
+                "Add the fat",
+                "Add the food — it has to sizzle"
               ],
               "explanation": "The pan heats first, the fat goes in near the end. That way the fat spends little time on the heat and never burns.",
               "explainWrong": "Putting the oil in a cold pan is the most common home-kitchen mistake: it sits there heating for the whole three minutes, and a fat that smokes before the food goes in is already burnt."
@@ -1711,10 +1711,10 @@
               ],
               "prompt": "Put the heats for a steak with a pan sauce in order.",
               "correctOrder": [
-                "Lume alto para selar os dois lados",
-                "Tirar a carne e baixar para médio",
-                "Refogar a cebola no que ficou no fundo",
-                "Lume brando para o molho apurar"
+                "High heat to sear both sides",
+                "Take the meat out and drop to medium",
+                "Sweat the onion in what is left in the pan",
+                "Low heat to reduce the sauce"
               ],
               "explanation": "The same pan does three jobs. What changes between them is the heat, and that change is what makes the dish.",
               "explainWrong": "Leaving the heat high from start to finish burns the base before the sauce reduces — and what was on the base was all the steak's flavour."
@@ -1829,11 +1829,11 @@
               ],
               "prompt": "Put a seared steak finished in butter in order.",
               "correctOrder": [
-                "Frigideira bem quente",
-                "Óleo neutro a cobrir o fundo",
-                "Selar a carne dos dois lados",
-                "Baixar o lume e juntar a manteiga",
-                "Regar a carne com a manteiga da frigideira"
+                "Pan properly hot",
+                "Neutral oil, just covering the base",
+                "Sear the meat on both sides",
+                "Lower the heat and add the butter",
+                "Baste the meat with the butter from the pan"
               ],
               "explanation": "The oil does the hard work, the butter does the flavour. Each goes in at the temperature it can take.",
               "explainWrong": "Butter at the start, with the pan at searing heat, turns black before the meat gets a crust — and from there the dish is bitter."
@@ -1956,10 +1956,10 @@
               ],
               "prompt": "Put what the onion does, from start to finish, in order.",
               "correctOrder": [
-                "Chia ao entrar na gordura quente",
-                "Fica translúcida e perde o branco",
-                "Encolhe e começa a ganhar cor nas pontas",
-                "Fica cor de mel e cheira doce"
+                "It sizzles as it hits the hot fat",
+                "It turns translucent and loses the white",
+                "It shrinks and starts to colour at the edges",
+                "It turns honey-coloured and smells sweet"
               ],
               "explanation": "There are four distinct stages. Knowing which one you're in is knowing how long is left.",
               "explainWrong": "Colour never comes before the onion turns translucent. If brown shows up right at the start, that isn't browning — it's too much heat burning the edges."
@@ -2083,10 +2083,10 @@
               ],
               "prompt": "Put reducing a sauce in order.",
               "correctOrder": [
-                "Levantar fervura em lume médio",
-                "Baixar até as bolhas ficarem raras",
-                "Deixar apurar sem tapar",
-                "Provar e ajustar já no fim"
+                "Bring it to the boil over medium heat",
+                "Drop it until the bubbles are rare",
+                "Let it reduce uncovered",
+                "Taste and adjust right at the end"
               ],
               "explanation": "You bring it to the boil to reach temperature quickly, then drop it straight down. Covered, the water can't leave and the sauce won't reduce.",
               "explainWrong": "Tasting and seasoning at the start is betting blind: as water leaves, the salt already in there concentrates — what was right at the beginning is salty at the end."
@@ -2200,11 +2200,11 @@
               ],
               "prompt": "Put creamy scrambled eggs in order.",
               "correctOrder": [
-                "Bater os ovos só até ficarem uniformes",
-                "Manteiga em frigideira de lume baixo",
-                "Juntar os ovos e mexer devagar",
-                "Tirar do lume com o ovo ainda brilhante",
-                "Temperar já fora do lume"
+                "Beat the eggs only until they are even",
+                "Butter in a pan over low heat",
+                "Add the eggs and stir slowly",
+                "Take them off the heat while the egg is still glossy",
+                "Season off the heat"
               ],
               "explanation": "Low heat from start to finish and taking them off early are what separate creamy from rubbery.",
               "explainWrong": "Seasoning at the start makes the white release water and the eggs turn watery. And waiting for the finished look on the heat is always too late."
@@ -2319,10 +2319,10 @@
               ],
               "prompt": "Put the seasoning of a soup that will cook for an hour in order.",
               "correctOrder": [
-                "Uma pitada com os legumes, no início",
-                "Deixar cozer sem mexer no sal",
-                "Provar quando estiver pronta",
-                "Acertar o sal já fora do lume"
+                "A pinch with the vegetables, at the start",
+                "Let it cook without touching the salt",
+                "Taste it when it is ready",
+                "Adjust the salt off the heat"
               ],
               "explanation": "A pinch at the start helps the vegetables give up flavour; the adjustment is always at the end, when the soup is at its final volume.",
               "explainWrong": "Adjusting the salt halfway through is adjusting for a volume of water that's still going to change. Only at the end is the soup the soup."
@@ -2436,11 +2436,11 @@
               ],
               "prompt": "Put cooking pasta in order.",
               "correctOrder": [
-                "Água ao lume, em quantidade",
-                "Esperar a fervura a sério",
-                "Juntar o sal",
-                "Juntar a massa e mexer no primeiro minuto",
-                "Guardar uma chávena da água antes de escorrer"
+                "Water on the heat, plenty of it",
+                "Wait for a proper boil",
+                "Add the salt",
+                "Add the pasta and stir for the first minute",
+                "Keep a mug of the water before draining"
               ],
               "explanation": "The cooking water carries starch and salt: it's what binds the sauce to the pasta at the end.",
               "explainWrong": "Dropping the pasta in before a proper boil makes the temperature fall and the pasta soften outside while it waits. And pouring everything down the sink throws away the sauce's best ingredient."
@@ -2563,11 +2563,11 @@
               ],
               "prompt": "Put loose rice in order.",
               "correctOrder": [
-                "Refogar o arroz no azeite, um minuto",
-                "Juntar o dobro de água e o sal",
-                "Levantar fervura",
-                "Baixar para brando e tapar",
-                "Deixar repousar cinco minutos fora do lume"
+                "Sweat the rice in the oil for a minute",
+                "Add double the water and the salt",
+                "Bring it to the boil",
+                "Drop to low and cover",
+                "Let it rest five minutes off the heat"
               ],
               "explanation": "The final rest is part of the cooking: the moisture spreads out and the grains come apart.",
               "explainWrong": "Serving the moment the water goes gives you rice that's wet at the bottom and dry on top. Five minutes covered, off the heat, is what evens out the whole pot."
@@ -2704,11 +2704,11 @@
               ],
               "prompt": "Put bringing pasta and sauce together in order.",
               "correctOrder": [
-                "Provar a massa dois minutos antes do tempo",
-                "Guardar uma chávena da água da cozedura",
-                "Escorrer com a massa ainda al dente",
-                "Juntar à frigideira do molho",
-                "Acrescentar água da cozedura até o molho envolver"
+                "Taste the pasta two minutes before the time",
+                "Keep a mug of the cooking water",
+                "Drain it while the pasta is still al dente",
+                "Add it to the pan with the sauce",
+                "Add cooking water until the sauce coats it"
               ],
               "explanation": "The starch in that water is what makes the sauce cling to the pasta instead of pooling at the bottom of the plate.",
               "explainWrong": "Rinsing the pasta under cold water washes all that starch away and the sauce stops gripping. You only do that when the pasta is going into a cold salad."
@@ -2808,11 +2808,11 @@
               ],
               "prompt": "Put the start of a pasta dinner in order.",
               "correctOrder": [
-                "Ler a receita toda",
-                "Pôr a água ao lume",
-                "Cortar e preparar tudo enquanto a água aquece",
-                "Fazer o molho",
-                "Cozer a massa quando o molho estiver quase"
+                "Read the whole recipe",
+                "Put the water on the heat",
+                "Cut and prepare everything while the water heats",
+                "Make the sauce",
+                "Cook the pasta when the sauce is nearly done"
               ],
               "explanation": "The pasta goes in last because it's the thing that waits worst. Everything else holds for a few minutes; cooked pasta doesn't.",
               "explainWrong": "Cooking the pasta first, to \"get it out of the way\", leaves it sticking in the colander while the sauce is made. Pasta always goes in last."
@@ -2956,11 +2956,11 @@
               ],
               "prompt": "Put the seasoning of a tomato sauce in order, from start to finish.",
               "correctOrder": [
-                "Pitada de sal na cebola a refogar",
-                "Pitada no tomate, quando entra",
-                "Deixar apurar sem mexer no sal",
-                "Provar no fim",
-                "Acertar com sal e um toque de ácido"
+                "A pinch of salt on the onion as it sweats",
+                "A pinch on the tomato, as it goes in",
+                "Let it reduce without touching the salt",
+                "Taste at the end",
+                "Adjust with salt and a touch of acid"
               ],
               "explanation": "Each pinch seasons what's in the pan at that moment. The final adjustment is about the whole thing, at its final volume.",
               "explainWrong": "A single dose of salt at the start doesn't survive the reduction — it ends up salty. And a single dose at the end never gets into the ingredients."
@@ -3077,11 +3077,11 @@
               ],
               "prompt": "Put plating in order.",
               "correctOrder": [
-                "Aquecer os pratos",
-                "Pôr a base, ao centro",
-                "Pôr por cima o que é a estrela do prato",
-                "Molho e tempero em cru",
-                "Limpar os bordos e servir logo"
+                "Warm the plates",
+                "Put the base down, in the centre",
+                "Put what the dish is about on top",
+                "Sauce and raw seasoning",
+                "Wipe the rims and serve straight away"
               ],
               "explanation": "Bottom up, always finishing with what you don't want cooked any further: the fresh sauce and the raw olive oil.",
               "explainWrong": "Wiping the rim before adding the sauce means wiping twice. And raw seasoning put on first gets buried, which is the same as not adding it."
