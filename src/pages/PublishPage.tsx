@@ -322,6 +322,7 @@ export function PublishPage() {
                   type="button"
                   aria-pressed={active}
                   onClick={() => toggleDietaryTag(tag.id)}
+                  className="flex h-9 shrink-0 items-center"
                 >
                   <Badge
                     variant={active ? "default" : "secondary"}
