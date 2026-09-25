@@ -1,0 +1,792 @@
+{
+  "id": "vegan",
+  "version": 1,
+  "name": "Cozinha Vegana: Textura e Umami Sem Produtos de Origem Animal",
+  "description": "Fontes de proteína vegetal, tofu com textura a sério, substituir o ovo na pastelaria, e construir umami sem carne.",
+  "icon": "🌱",
+  "color": "#15803D",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "intermediate",
+  "estimatedHours": 13,
+  "skills": [
+    {
+      "id": "vegan.proteina-vegetal",
+      "name": "Fontes de Proteína Vegetal",
+      "category": "organizacao",
+      "description": "Leguminosas, tofu, tempeh e seitan comportam-se de maneiras diferentes na frigideira — saber qual serve qual prato.",
+      "requires": [
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "vegan.tofu-textura",
+      "name": "Tofu Com Textura a Sério",
+      "category": "calor",
+      "description": "Prensado para lhe sair a água e depois selado com força: a diferença entre tofu crocante e um cubo húmido e sem graça.",
+      "requires": [
+        "calor.gordura"
+      ]
+    },
+    {
+      "id": "vegan.substituir-ovo",
+      "name": "Substituir o Ovo",
+      "category": "tempero",
+      "description": "Linhaça misturada com água, ou o líquido de uma lata de grão, ligam e levantam uma massa como o ovo faz.",
+      "requires": [
+        "ponto.ovo"
+      ]
+    },
+    {
+      "id": "vegan.umami-sem-carne",
+      "name": "Umami Sem Carne",
+      "category": "tempero",
+      "description": "Cogumelos, molho de soja, miso e levedura nutricional constroem a profundidade salgada que a carne normalmente dá.",
+      "requires": [
+        "tempero.camadas"
+      ]
+    },
+    {
+      "id": "vegan.cremoso-sem-lacteos",
+      "name": "Cremoso Sem Lácteos",
+      "category": "tempero",
+      "description": "Corpo e riqueza de leite de coco, leguminosas batidas ou frutos secos demolhados — e saber qual deles sobrevive ao calor sem talhar.",
+      "requires": [
+        "vegan.umami-sem-carne"
+      ]
+    },
+    {
+      "id": "vegan.leguminosas-de-raiz",
+      "name": "Leguminosas Secas do Início",
+      "category": "calor",
+      "description": "Demolhar, depois uma cozedura longa em lume brando, e sal só quando as peles estiverem moles — um quinto do preço das latas e melhor textura.",
+      "requires": [
+        "calor.lume-brando",
+        "vegan.proteina-vegetal"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-vegan-1",
+      "title": "Proteína Vegetal",
+      "subtitle": "Saber Com o Que Estás a Trabalhar",
+      "color": "#15803D",
+      "lessons": [
+        {
+          "id": "lesson.vegan-proteina",
+          "title": "Fontes de Proteína Vegetal",
+          "dayNumber": 1,
+          "dishName": "Leguminosas, Tofu, Tempeh",
+          "description": "Cada proteína vegetal comporta-se de maneira diferente — saber qual serve qual prato poupa muita desilusão.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 140,
+          "icon": "🫘",
+          "imageUrl": "/lessons/vegan/vegan-proteina.jpg",
+          "ingredients": [],
+          "preparationSteps": [
+            {
+              "title": "Leguminosas para guisados e volume",
+              "description": "O feijão e as lentilhas desfazem-se ligeiramente e engrossam aquilo em que cozem."
+            },
+            {
+              "title": "Tofu para absorver sabor",
+              "description": "O tofu quase não sabe a nada por si — fica com o sabor daquilo em que é marinado ou cozinhado."
+            },
+            {
+              "title": "Tempeh para textura e mordida",
+              "description": "Fermentado e firme, o tempeh aguenta-se na grelha ou na frigideira sem se desfazer."
+            }
+          ],
+          "teaches": [
+            "vegan.proteina-vegetal"
+          ],
+          "requires": [
+            "org.mise-en-place"
+          ],
+          "questions": [
+            {
+              "id": "vg-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Queres uma proteína vegetal que se aguente bem na grelha sem se desfazer. Qual é a melhor escolha?",
+              "options": [
+                "Tofu mole",
+                "Tempeh",
+                "Lentilhas vermelhas",
+                "Grão de lata esmagado em pasta"
+              ],
+              "correctAnswer": "Tempeh",
+              "explanation": "O tempeh é firme e fibroso, que é exatamente o que mantém a forma na grelha sem esfarelar.",
+              "skills": [
+                "vegan.proteina-vegetal"
+              ],
+              "explainWrong": "O tofu mole e o grão esmagado desfazem-se ambos com o calor da grelha, e as lentilhas vermelhas cozem até ficarem numa pasta mole em vez de se manterem inteiras — nenhum deles mantém a forma como a textura firme e fibrosa do tempeh."
+            }
+          ]
+        },
+        {
+          "id": "lesson.vegan-tofu",
+          "title": "Tofu Com Textura a Sério",
+          "dayNumber": 2,
+          "dishName": "Tofu Crocante Selado",
+          "description": "Prensado e selado com força: a diferença entre tofu crocante e um cubo húmido e sem graça.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 25,
+          "xpReward": 200,
+          "icon": "🧈",
+          "imageUrl": "/lessons/vegan/vegan-tofu.jpg",
+          "ingredients": [
+            "1 bloco de tofu firme",
+            "Amido de milho",
+            "Óleo"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Faz sair a água",
+              "description": "Embrulha num pano com algo pesado por cima durante pelo menos 15 minutos — a água dentro do tofu coze-o a vapor em vez de o deixar selar."
+            },
+            {
+              "title": "Envolve numa camada leve de amido de milho",
+              "description": "Uma camada fina fica crocante na frigideira muito melhor do que o tofu nu."
+            },
+            {
+              "title": "Sela numa frigideira quente e quase seca, sem lhe mexer",
+              "description": "Deixa cada lado criar crosta antes de virar — mexer-lhe cedo demais arranca a camada."
+            }
+          ],
+          "teaches": [
+            "vegan.tofu-textura"
+          ],
+          "requires": [
+            "calor.gordura"
+          ],
+          "questions": [
+            {
+              "id": "vg-u1-l2-q1",
+              "type": "choice",
+              "prompt": "O teu tofu selado saiu mole e cozido a vapor em vez de crocante, mesmo numa frigideira quente. Qual é a causa provável?",
+              "options": [
+                "Usaste demasiado óleo",
+                "O tofu não foi prensado para lhe sair a água primeiro",
+                "A camada de amido de milho estava demasiado grossa",
+                "A frigideira não estava quente o suficiente"
+              ],
+              "correctAnswer": "O tofu não foi prensado para lhe sair a água primeiro",
+              "explanation": "A água que ainda está dentro do tofu vira vapor na frigideira, e isso impede que uma selagem a sério se chegue a formar.",
+              "skills": [
+                "vegan.tofu-textura"
+              ],
+              "explainWrong": "Mais óleo ou mais calor não arranjam tofu que continua a largar água — essa água coze a superfície a vapor por muito quente que a frigideira esteja. Prensá-la para fora antes é o que torna a selagem possível."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.tofu-grelhado"
+    },
+    {
+      "id": "unit-vegan-2",
+      "title": "Sabor Sem Produtos de Origem Animal",
+      "subtitle": "Ovo e Umami, Substituídos",
+      "color": "#7C3AED",
+      "lessons": [
+        {
+          "id": "lesson.vegan-ovo",
+          "title": "Substituir o Ovo",
+          "dayNumber": 4,
+          "dishName": "Panquecas Veganas",
+          "description": "Linhaça com água, ou aquafaba, ligam e levantam uma massa como o ovo normalmente faz.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 180,
+          "icon": "🥞",
+          "imageUrl": "/lessons/vegan/vegan-ovo.jpg",
+          "ingredients": [
+            "1 colher de sopa de linhaça moída",
+            "3 colheres de sopa de água",
+            "Farinha",
+            "Bebida vegetal"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Mistura a linhaça com a água e deixa repousar",
+              "description": "Uns minutos transformam aquilo num gel — é esse gel que liga a massa como a clara de ovo faria."
+            },
+            {
+              "title": "Envolve-o na massa",
+              "description": "Trata-o exatamente como trataria um ovo batido a entrar numa massa de panquecas."
+            }
+          ],
+          "teaches": [
+            "vegan.substituir-ovo"
+          ],
+          "requires": [
+            "ponto.ovo"
+          ],
+          "questions": [
+            {
+              "id": "vg-u2-l1-q1",
+              "type": "choice",
+              "prompt": "A tua massa de panquecas veganas está a desfazer-se na frigideira, sem ovo nenhum. Qual é a solução mais fiável?",
+              "options": [
+                "Juntar mais farinha para engrossar",
+                "Misturar linhaça moída com água, deixar gelificar e envolvê-la na massa",
+                "Cozinhar em lume muito mais forte",
+                "Usar menos bebida vegetal"
+              ],
+              "correctAnswer": "Misturar linhaça moída com água, deixar gelificar e envolvê-la na massa",
+              "explanation": "Um gel de linhaça com água faz o trabalho de ligação que o ovo normalmente faz, e segura a massa enquanto ela coze.",
+              "skills": [
+                "vegan.substituir-ovo"
+              ],
+              "explainWrong": "Mais farinha muda a textura sem acrescentar ligação nenhuma, e nem o calor nem menos líquido substituem o que um ligante faz. A massa está a desfazer-se porque lhe falta algo que a segure, não por causa de humidade ou de calor."
+            }
+          ]
+        },
+        {
+          "id": "lesson.vegan-umami",
+          "title": "Umami Sem Carne",
+          "dayNumber": 5,
+          "dishName": "Base de Cogumelos e Levedura Nutricional",
+          "description": "Cogumelos, molho de soja e levedura nutricional constroem a profundidade salgada que a carne normalmente dá.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 200,
+          "icon": "🍄",
+          "imageUrl": "/lessons/vegan/vegan-umami.jpg",
+          "ingredients": [
+            "Cogumelos",
+            "Molho de soja",
+            "Levedura nutricional",
+            "Alho"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Sela os cogumelos com força",
+              "description": "Não enchas a frigideira — uma selagem forte aloura-os em vez de os cozer a vapor, moles e aguados."
+            },
+            {
+              "title": "Junta o molho de soja e o alho",
+              "description": "O molho de soja traz os mesmos glutamatos que a carne traria, e o alho arredonda aquilo."
+            },
+            {
+              "title": "Acaba com a levedura nutricional",
+              "description": "Mexida fora do lume, acrescenta uma profundidade salgada, quase a queijo, sem lácteo nenhum."
+            }
+          ],
+          "teaches": [
+            "vegan.umami-sem-carne"
+          ],
+          "requires": [
+            "tempero.camadas"
+          ],
+          "questions": [
+            {
+              "id": "vg-u2-l2-q1",
+              "type": "order",
+              "prompt": "Ordena os passos para construir uma base de umami salgada e sem carne",
+              "items": [
+                "Selar os cogumelos com força, sem encher a frigideira",
+                "Juntar o molho de soja e o alho",
+                "Acabar com a levedura nutricional fora do lume"
+              ],
+              "explanation": "Cada ingrediente acrescenta uma camada diferente de profundidade salgada, construída numa ordem que impede cada um de dominar ou de queimar.",
+              "skills": [
+                "vegan.umami-sem-carne"
+              ],
+              "explainWrong": "Juntar a levedura nutricional cedo demais deixa-a queimar e ficar amarga, e o molho de soja antes de os cogumelos estarem selados só os coze a vapor em vez de os deixar alourar. A ordem deixa cada ingrediente fazer o seu trabalho no momento certo.",
+              "correctOrder": [
+                "Selar os cogumelos com força, sem encher a frigideira",
+                "Juntar o molho de soja e o alho",
+                "Acabar com a levedura nutricional fora do lume"
+              ]
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.carbonara-vegan"
+    },
+    {
+      "id": "unit-vegan-3",
+      "title": "De Feijão Seco, Cremoso Sem Nata",
+      "subtitle": "A Cozedura Longa",
+      "color": "#B45309",
+      "missionId": "mission.caril-grao-cremoso",
+      "lessons": [
+        {
+          "id": "lesson.vegan-cremoso",
+          "title": "Cremoso Sem Nata",
+          "dayNumber": 7,
+          "dishName": "Corpo Sem Lácteos",
+          "description": "A riqueza num prato vegano vem da gordura, do amido ou de sólidos batidos — e só alguns deles aguentam uma cozedura em lume brando.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 210,
+          "icon": "🥥",
+          "imageUrl": "/lessons/vegan/vegan-cremoso.jpg",
+          "ingredients": [
+            "Leite de coco gordo",
+            "Grão cozido",
+            "Castanhas de caju",
+            "Bebida de aveia",
+            "Limão"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Leite de coco gordo para tudo o que coza em lume brando",
+              "description": "A gordura transporta a especiaria e não talha em lume brando. O leite de coco magro e a maioria das bebidas de aveia aguam ou coalham."
+            },
+            {
+              "title": "Bate um cheio de colher do prato de volta ao prato",
+              "description": "Um cheio de colher de leguminosas cozidas, batido e devolvido à panela, engrossa com amido em vez de gordura, e não custa nada."
+            },
+            {
+              "title": "Frutos secos demolhados e batidos entram fora do lume",
+              "description": "Caju demolhado e batido dá a coisa mais parecida com nata, mas podem agarrar e talhar se ferverem — mistura-os no fim."
+            }
+          ],
+          "teaches": [
+            "vegan.cremoso-sem-lacteos"
+          ],
+          "requires": [
+            "vegan.umami-sem-carne",
+            "vegan.substituir-ovo"
+          ],
+          "questions": [
+            {
+              "id": "vegan-u3-l1-q1",
+              "type": "choice",
+              "prompt": "Juntaste bebida de aveia a um caril a estufar e ele ficou aguado e ligeiramente talhado. O que devia ter entrado em vez dela?",
+              "options": [
+                "Mais bebida de aveia",
+                "Leite de coco gordo, que não talha em lume brando",
+                "Água e farinha",
+                "Nada — os caris não são para ser cremosos"
+              ],
+              "correctAnswer": "Leite de coco gordo, que não talha em lume brando",
+              "explanation": "A gordura do coco é estável à temperatura de estufar; as proteínas e as gomas da maioria das bebidas de aveia não são, e é por isso que aguam e se separam no momento em que a panela mantém calor.",
+              "skills": [
+                "vegan.cremoso-sem-lacteos"
+              ],
+              "explainWrong": "Mais daquilo que talhou vai talhar mais, e a farinha engrossa sem acrescentar riqueza nenhuma. A cremosidade é perfeitamente possível aqui — só tem de vir de uma gordura que tolere o calor."
+            },
+            {
+              "id": "vegan-u3-l1-q2",
+              "type": "choice",
+              "prompt": "A maneira mais barata de dar corpo a um caril de grão, sem usar nada de extra?",
+              "options": [
+                "Fervê-lo muito mais tempo",
+                "Bater um cheio de colher do grão e devolvê-lo à panela",
+                "Juntar óleo",
+                "Juntar mais água e reduzir"
+              ],
+              "correctAnswer": "Bater um cheio de colher do grão e devolvê-lo à panela",
+              "explanation": "Leguminosas batidas engrossam com o próprio amido. Não custa nada, não muda o sabor, e é o mesmo truque que dá a textura a uma boa sopa.",
+              "skills": [
+                "vegan.cremoso-sem-lacteos"
+              ],
+              "explainWrong": "Ferver muito tempo desfaz o grão mas deixa o líquido aguado, o óleo acrescenta riqueza sem corpo, e juntar água para depois a reduzir é trabalho sem ganho."
+            }
+          ]
+        },
+        {
+          "id": "lesson.vegan-leguminosas",
+          "title": "Feijão Seco, Cozinhado do Início",
+          "dayNumber": 8,
+          "dishName": "A Cozedura Longa",
+          "description": "Grão seco custa um quinto do de lata e tem melhor textura — mas sal no momento errado deixa-o teimoso.",
+          "type": "lesson",
+          "difficulty": "dificil",
+          "cookTimeMin": 90,
+          "xpReward": 250,
+          "icon": "🫛",
+          "imageUrl": "/lessons/vegan/vegan-leguminosas.jpg",
+          "ingredients": [
+            "250 g de grão seco",
+            "Bicarbonato de sódio",
+            "Folha de louro",
+            "Sal",
+            "Cebola",
+            "Alho"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Demolha de um dia para o outro, em água abundante",
+              "description": "Duplicam de tamanho. Doze horas em água fria, ou uma demolha rápida de uma hora em água a ferver se te esqueceste."
+            },
+            {
+              "title": "Uma pitada de bicarbonato amolece as peles",
+              "description": "Sobe ligeiramente o pH e as peles desfazem-se mais depressa. Uma pitada, não uma colher — demasiado e ficam em pasta e com sabor a sabão."
+            },
+            {
+              "title": "Lume brando, nunca a ferver às três pedras",
+              "description": "Uma fervura forte desfaz-lhes o exterior e deixa os meios duros. Queres a superfície quase sem se mover durante uma hora ou mais."
+            },
+            {
+              "title": "Sal quando já estiverem moles, não antes",
+              "description": "Sal cedo e as peles ficam rijas. Tempera quando já estiverem tenros — e guarda a água da cozedura, é o melhor líquido do prato."
+            }
+          ],
+          "teaches": [
+            "vegan.leguminosas-de-raiz"
+          ],
+          "requires": [
+            "calor.lume-brando",
+            "vegan.proteina-vegetal",
+            "tempero.sal-momento"
+          ],
+          "questions": [
+            {
+              "id": "vegan-u3-l2-q1",
+              "type": "choice",
+              "prompt": "Demolhaste grão de um dia para o outro, salgaste a água e cozeste-o duas horas. Continua firme. Porquê?",
+              "options": [
+                "Precisava de ainda mais tempo",
+                "Sal posto no início mantém as peles rijas",
+                "A demolha foi demasiado curta",
+                "Grão seco é sempre firme"
+              ],
+              "correctAnswer": "Sal posto no início mantém as peles rijas",
+              "explanation": "O sal na água da cozedura atrasa o desfazer das peles, por isso o grão fica teimoso por muito tempo que lhe dês. Tempera depois de estar tenro.",
+              "skills": [
+                "vegan.leguminosas-de-raiz"
+              ],
+              "explainWrong": "Duas horas já é generoso e uma demolha de um dia para o outro está correta, por isso o tempo não é o problema — e grão seco bem cozido fica cremoso, não firme. Foi o sal que o travou."
+            },
+            {
+              "id": "vegan-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Porquê lume brando em vez de ferver às três pedras?",
+              "options": [
+                "Poupa gás",
+                "Uma fervura forte desfaz os exteriores antes de os meios estarem cozidos",
+                "Mantém a cor",
+                "Não faz diferença, só na rapidez"
+              ],
+              "correctAnswer": "Uma fervura forte desfaz os exteriores antes de os meios estarem cozidos",
+              "explanation": "Água violenta bate o grão uns contra os outros e contra a panela: as peles e as camadas de fora desfazem-se enquanto os centros ainda estão a giz.",
+              "skills": [
+                "vegan.leguminosas-de-raiz"
+              ],
+              "explainWrong": "Também gasta menos gás, mas a razão é a textura — ficas com peles desfeitas e centros duros ao mesmo tempo, que é o contrário do que a rapidez extra queria comprar."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.tofu-grelhado",
+      "unitId": "unit-vegan-1",
+      "title": "Tigela de Tofu Crocante",
+      "dishName": "Tofu Crocante com Arroz",
+      "cookTimeMin": 40,
+      "summary": "Tofu prensado, envolvido e selado, montado numa tigela completa com uma proteína vegetal que de facto mantém a forma.",
+      "estimatedCostEur": 4,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "vegan.proteina-vegetal",
+        "vegan.tofu-textura"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "1 bloco de tofu firme",
+        "Amido de milho",
+        "Óleo",
+        "Arroz",
+        "Molho de soja"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Prensa o tofu",
+          "description": "Embrulha num pano com peso por cima durante pelo menos 15 minutos para forçar a água a sair.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Sem tempo para o prensar muito? Mesmo 10 minutos ajudam mais do que não o fazer."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Envolve e sela",
+          "description": "Envolve os cubos prensados numa camada leve de amido de milho e depois sela sem lhes mexer numa frigideira quente até estarem crocantes de cada lado.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "A colar à frigideira? Dá-lhe mais um minuto antes de tentares virar — uma crosta a sério solta-se sozinha."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Dourado e crocante por fora, ainda mole por dentro."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Monta a tigela",
+          "description": "Serve o tofu crocante sobre arroz com um fio de molho de soja.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens arroz à mão? Qualquer cereal, ou mesmo verduras, servem de base."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Tofu ainda crocante por cima do arroz, e não mole de estar à espera."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.carbonara-vegan",
+      "unitId": "unit-vegan-2",
+      "title": "\"Carbonara\" Vegana",
+      "dishName": "Carbonara Vegana de Cogumelos",
+      "cookTimeMin": 35,
+      "summary": "Sem ovo, sem queijo, sem carne — os cogumelos e a levedura nutricional constroem a mesma riqueza salgada, ligada por um molho de linhaça.",
+      "estimatedCostEur": 5,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "vegan.umami-sem-carne",
+        "vegan.substituir-ovo"
+      ],
+      "xpReward": 500,
+      "ingredients": [
+        "Massa",
+        "Cogumelos",
+        "Alho",
+        "Molho de soja",
+        "Levedura nutricional",
+        "1 colher de sopa de linhaça moída",
+        "Bebida vegetal"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Sela os cogumelos",
+          "description": "Selagem forte, sem encher a frigideira, até estarem bem alourados.",
+          "durationSec": 480,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Frigideira cheia a largar água em vez de alourar? Coze os cogumelos em duas vezes."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Constrói a base de umami",
+          "description": "Junta o alho, o molho de soja e, fora do lume, a levedura nutricional.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Cheiro salgado e fundo, sem amargo de levedura queimada."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Faz o molho ligado com linhaça",
+          "description": "Bate a linhaça moída com um pouco de água e bebida vegetal até ficar um ligante leve e cremoso.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Demasiado aguado? Deixa-o repousar mais dois minutos — a linhaça engrossa à medida que gelifica."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Junta com a massa",
+          "description": "Envolve a massa cozida com a base de cogumelos e o molho de linhaça até ficar coberta.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Parece seco? Um pouco da água de cozer a massa solta aquilo logo."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Massa brilhante e coberta, com cogumelos à vista, sem zonas secas."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.caril-grao-cremoso",
+      "unitId": "unit-vegan-3",
+      "title": "Caril de Grão Cremoso, do Seco",
+      "dishName": "Caril de Grão e Coco, com o Grão Cozido do Início",
+      "cookTimeMin": 110,
+      "summary": "O prato mais difícil e mais barato do trilho ao mesmo tempo: grão seco cozido do início, cremoso sem uma gota de lácteo.",
+      "estimatedCostEur": 4.5,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "vegan.proteina-vegetal",
+        "vegan.umami-sem-carne",
+        "vegan.cremoso-sem-lacteos",
+        "vegan.leguminosas-de-raiz"
+      ],
+      "xpReward": 900,
+      "ingredients": [
+        "250 g de grão seco",
+        "1 pitada de bicarbonato de sódio",
+        "1 folha de louro",
+        "1 lata de leite de coco gordo",
+        "2 cebolas",
+        "4 dentes de alho",
+        "Gengibre fresco",
+        "2 colheres de sopa de especiarias de caril",
+        "Concentrado de tomate",
+        "Óleo",
+        "Limão",
+        "Coentros",
+        "Arroz para acompanhar"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Demolha o grão e coze-o em lume brando com louro",
+          "description": "De um dia para o outro em água fria abundante, escorrido, depois água nova, uma folha de louro e uma pitada de bicarbonato. Lume brando, sem sal ainda, até um grão se esmagar com facilidade contra a panela — uma hora a hora e meia.",
+          "durationSec": 4800,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Esqueceste-te de demolhar? Uma hora coberto de água a ferver e depois cozinha como sempre — conta com mais tempo."
+            },
+            {
+              "kind": "cola",
+              "answer": "A agarrar ou a ferver forte? Baixa o lume e junta água quente; têm de continuar cobertos."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Um grão esmaga-se em pasta entre dois dedos, sem centro a giz."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Constrói a base enquanto eles cozem",
+          "description": "Cebola amolecida devagar em óleo, depois alho e gengibre, depois as especiarias e o concentrado de tomate fritos um minuto na gordura. Fritar as especiarias é de onde vem a profundidade.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Especiarias a escurecer? Fora do lume e junta logo uma colher da água do grão."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens gengibre fresco? Em pó serve, junto com as outras especiarias."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Grão e a sua água para a base, e depois temperar",
+          "description": "Grão escorrido mais dois cheios de colher da água de cozedura para a panela. Agora sim, sal — estão tenros, por isso pode entrar. Deixa estufar quinze minutos para aquilo casar.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Deitaste a água da cozedura fora? Usa água quente, mas o prato perde corpo."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Sabe temperado por si, grão mole, líquido já sem sabor a cru."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Bate um cheio de colher de volta e depois o leite de coco",
+          "description": "Bate ou esmaga um cheio de colher do caril e devolve-o à panela — é isso o corpo. Depois o leite de coco gordo, e mantém em lume muito brando para não talhar.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "A agarrar no fundo agora que está espesso? Lume no mínimo e mexe mais vezes."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Espesso o suficiente para cobrir uma colher, cremoso, e não separado nem oleoso à superfície."
+            },
+            {
+              "kind": "falta",
+              "answer": "Só tens leite de coco magro? Bate mais grão de volta para compensar o corpo."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Acaba com limão e coentros, fora do lume",
+          "description": "Lume desligado e depois sumo de limão e coentros picados. Prova mais uma vez: um caril cremoso costuma querer mais ácido do que esperas.",
+          "durationSec": 180,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Cremoso, não talhado; grão inteiro mas mole; vivo do limão em vez de pesado."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens coentros? O limão sozinho ainda o levanta."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

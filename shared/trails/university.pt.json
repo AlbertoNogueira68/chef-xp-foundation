@@ -1,0 +1,760 @@
+{
+  "id": "university",
+  "version": 1,
+  "name": "Cozinha de Estudante: Barato, Rápido, Suficiente",
+  "description": "Sobrevive ao mês com orçamento de estudante: uma despensa que estica, refeições de uma panela só, e transformar as sobras de ontem no jantar de hoje.",
+  "icon": "🎓",
+  "color": "#4B5563",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "beginner",
+  "estimatedHours": 12,
+  "skills": [
+    {
+      "id": "uni.despensa-base",
+      "name": "A Despensa Que Dura o Mês",
+      "category": "organizacao",
+      "description": "Um punhado de básicos baratos — arroz, massa, ovos, tomate de lata, cebola — que se combinam em doze refeições diferentes.",
+      "requires": []
+    },
+    {
+      "id": "uni.uma-panela",
+      "name": "Cozinhar Numa Panela Só",
+      "category": "organizacao",
+      "description": "Uma refeição completa numa panela só: menos loiça, e o hidrato apanha o sabor de tudo o que se cozinhou com ele.",
+      "requires": [
+        "org.sequenciar"
+      ]
+    },
+    {
+      "id": "uni.esticar-proteina",
+      "name": "Esticar a Proteína",
+      "category": "tempero",
+      "description": "Uma pequena quantidade de carne, ovo ou feijão, temperada e espalhada por um prato inteiro em vez de comida como um acompanhamento pequeno.",
+      "requires": [
+        "tempero.sal-momento"
+      ]
+    },
+    {
+      "id": "uni.sobras-reinventar",
+      "name": "Reinventar as Sobras",
+      "category": "organizacao",
+      "description": "O arroz ou a massa de ontem não são a repetição da mesma refeição — são o ingrediente base de outra.",
+      "requires": [
+        "org.mise-en-place"
+      ]
+    },
+    {
+      "id": "uni.escalar-receita",
+      "name": "Cozinhar Para Seis, Não Para Um",
+      "category": "organizacao",
+      "description": "Aumentar uma panela: o que se multiplica (básicos, líquido), o que não se multiplica (sal, especiaria, tempo de cozedura), e o tamanho de panela que isso exige.",
+      "requires": [
+        "uni.uma-panela"
+      ]
+    },
+    {
+      "id": "uni.congelar-porcoes",
+      "name": "O Congelador Como Segunda Despensa",
+      "category": "organizacao",
+      "description": "Arrefecer depressa, dividir em porções achatadas, etiquetar com a data — para que uma panela de domingo ainda sejam quatro jantares dentro de três semanas.",
+      "requires": [
+        "uni.sobras-reinventar"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-universitaria-1",
+      "title": "Sobreviver ao Fim do Mês",
+      "subtitle": "Uma Despensa, Uma Panela",
+      "color": "#4B5563",
+      "lessons": [
+        {
+          "id": "lesson.uni-despensa",
+          "title": "A Despensa Que Dura",
+          "dayNumber": 1,
+          "dishName": "A Despensa do Estudante",
+          "description": "Alguns básicos baratos, combinados de maneiras diferentes, cobrem quase todas as noites do mês.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 5,
+          "xpReward": 130,
+          "icon": "🥫",
+          "imageUrl": "/lessons/university/uni-despensa.jpg",
+          "ingredients": [],
+          "preparationSteps": [
+            {
+              "title": "Escolhe básicos que se combinem",
+              "description": "Arroz, massa, tomate de lata, cebola, ovos, feijão de lata — cada um casa com todos os outros."
+            },
+            {
+              "title": "Compra o que se conserva",
+              "description": "Os secos e as latas não se estragam enquanto não estás a cozinhar todos os dias."
+            },
+            {
+              "title": "Junta uma coisa fresca de cada vez",
+              "description": "Um único legume fresco ou um pedaço de carne por cima da base de despensa impede que as refeições pareçam todas iguais."
+            }
+          ],
+          "teaches": [
+            "uni.despensa-base"
+          ],
+          "questions": [
+            {
+              "id": "uni-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Tens 15 € para a semana. Que lista de compras te dá mais refeições diferentes?",
+              "options": [
+                "Uma refeição congelada grande já feita",
+                "Arroz, massa, tomate de lata, cebola, ovos, feijão de lata",
+                "Um único bife grande",
+                "Três sabores diferentes de macarrão instantâneo"
+              ],
+              "correctAnswer": "Arroz, massa, tomate de lata, cebola, ovos, feijão de lata",
+              "explanation": "Básicos que se combinam entre si dão-te muito mais refeições diferentes do que um artigo grande comido sempre da mesma maneira.",
+              "skills": [
+                "uni.despensa-base"
+              ],
+              "explainWrong": "Uma refeição congelada ou um bife é uma refeição e mais nada, e três sabores de macarrão continuam a ser o mesmo prato três vezes. Um punhado de básicos que se combinam cobre tigelas de arroz, massa, feijão em tosta e mais, das mesmas compras."
+            }
+          ]
+        },
+        {
+          "id": "lesson.uni-uma-panela",
+          "title": "Cozinhar Numa Panela Só",
+          "dayNumber": 2,
+          "dishName": "Massa Numa Panela Só",
+          "description": "Menos loiça para lavar, e a massa coze em sabor em vez de água simples.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 20,
+          "xpReward": 180,
+          "icon": "🍝",
+          "imageUrl": "/lessons/university/uni-uma-panela.jpg",
+          "ingredients": [
+            "Massa",
+            "Tomate de lata",
+            "Cebola",
+            "Alho",
+            "Água"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Sua a cebola e o alho na panela",
+              "description": "A mesma panela em que vais cozinhar tudo o resto — não é preciso frigideira à parte."
+            },
+            {
+              "title": "Junta a massa, o tomate e água apenas o suficiente",
+              "description": "A massa coze diretamente no líquido do molho e absorve sabor enquanto amolece."
+            },
+            {
+              "title": "Mexe de vez em quando até a massa estar no ponto",
+              "description": "O amido que se solta engrossa o molho sozinho — não é preciso escorrer."
+            }
+          ],
+          "teaches": [
+            "uni.uma-panela"
+          ],
+          "requires": [
+            "org.sequenciar"
+          ],
+          "questions": [
+            {
+              "id": "uni-u1-l2-q1",
+              "type": "choice",
+              "prompt": "Porque é que a massa numa panela só não precisa de ser escorrida no fim?",
+              "options": [
+                "Usas menos massa do que o normal",
+                "A massa coze diretamente no líquido do molho, que engrossa à medida que o amido se solta",
+                "Coze menos tempo do que massa fervida",
+                "Juntas farinha para engrossar à parte"
+              ],
+              "correctAnswer": "A massa coze diretamente no líquido do molho, que engrossa à medida que o amido se solta",
+              "explanation": "Cozer massa exatamente na quantidade de líquido de que ela precisa quer dizer que não há água a mais para escorrer — passa tudo a molho.",
+              "skills": [
+                "uni.uma-panela"
+              ],
+              "explainWrong": "A quantidade de massa e o tempo de cozedura não são o que muda aqui, e não entra farinha nenhuma — o truque é usar só o líquido que a massa vai absorver, para que o que fica já seja molho e não água para despejar."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.esparguete-uma-panela"
+    },
+    {
+      "id": "unit-universitaria-2",
+      "title": "Estica, Não Desperdices",
+      "subtitle": "Proteína e Sobras",
+      "color": "#B45309",
+      "lessons": [
+        {
+          "id": "lesson.uni-esticar",
+          "title": "Esticar a Proteína",
+          "dayNumber": 4,
+          "dishName": "Arroz com Feijão",
+          "description": "Uma pequena quantidade de proteína, temperada e espalhada por um prato inteiro, alimenta mais do que a mesma proteína comida sozinha.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 170,
+          "icon": "🫘",
+          "imageUrl": "/lessons/university/uni-esticar.jpg",
+          "ingredients": [
+            "1 lata de feijão",
+            "2 ovos",
+            "Arroz",
+            "Cebola"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Tempera bem o pouco que tens",
+              "description": "Põe sal e especiaria no feijão ou no ovo como devem ser — uma quantidade pequena e temperada lê-se como intenção, não como falta."
+            },
+            {
+              "title": "Espalha-o pelo prato todo",
+              "description": "Mistura-o pelo arroz em vez de o servires como uma porção pequena e separada ao lado."
+            },
+            {
+              "title": "Encorpa com legumes, se os tiveres",
+              "description": "Cebola, ou o legume mais baratos dessa semana, estica o prato mais longe sem precisar de mais proteína."
+            }
+          ],
+          "teaches": [
+            "uni.esticar-proteina"
+          ],
+          "requires": [
+            "tempero.sal-momento"
+          ],
+          "questions": [
+            {
+              "id": "uni-u2-l1-q1",
+              "type": "choice",
+              "prompt": "Só tens uma lata de feijão para duas pessoas. O que faz a refeição parecer suficiente?",
+              "options": [
+                "Dividir a lata e servi-la como acompanhamento pequeno, sem tempero",
+                "Temperar bem o feijão e misturá-lo por uma panela cheia de arroz",
+                "Deixar o feijão de fora e comer só arroz simples",
+                "Usar a lata toda só para uma pessoa"
+              ],
+              "correctAnswer": "Temperar bem o feijão e misturá-lo por uma panela cheia de arroz",
+              "explanation": "Uma pequena quantidade de proteína bem temperada misturada por um hidrato lê-se como um prato a sério, não como escassez.",
+              "skills": [
+                "uni.esticar-proteina"
+              ],
+              "explainWrong": "Uma porção de acompanhamento sem tempero continua a parecer escassez, esteja como estiver no prato, e deixar o feijão de fora ou dá-lo só a uma pessoa não estica nada — só tira a proteína a metade da refeição."
+            }
+          ]
+        },
+        {
+          "id": "lesson.uni-sobras",
+          "title": "Reinventar as Sobras",
+          "dayNumber": 5,
+          "dishName": "Arroz Frito de Ontem",
+          "description": "O arroz de ontem não é a mesma refeição outra vez — é o ingrediente base de uma completamente diferente.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 170,
+          "icon": "🍳",
+          "imageUrl": "/lessons/university/uni-sobras.jpg",
+          "ingredients": [
+            "Arroz que sobrou",
+            "1 ovo",
+            "Cebola",
+            "Molho de soja"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Usa arroz frio, do dia anterior",
+              "description": "Arroz fresco desfaz-se quando frito — um dia no frigorífico seca-o o suficiente para fritar como deve ser."
+            },
+            {
+              "title": "Lume forte, sempre em movimento",
+              "description": "Frita com força e depressa, desfazendo os grumos, até o arroz estar quente por dentro e ligeiramente crocante em pontos."
+            },
+            {
+              "title": "Tempera no fim",
+              "description": "O molho de soja e o resto que tiveres entram no fim, envolvidos rapidamente."
+            }
+          ],
+          "teaches": [
+            "uni.sobras-reinventar"
+          ],
+          "requires": [
+            "org.mise-en-place"
+          ],
+          "questions": [
+            {
+              "id": "uni-u2-l2-q1",
+              "type": "choice",
+              "prompt": "Tentas fazer arroz frito com arroz que acabaste de cozer há dez minutos. Fica uma pasta pegajosa na frigideira. Porquê?",
+              "options": [
+                "Usaste pouco óleo",
+                "Arroz fresco tem húmido demais e junta-se em grumos em vez de fritar solto",
+                "A frigideira não estava quente o suficiente",
+                "Tens de juntar mais molho de soja"
+              ],
+              "correctAnswer": "Arroz fresco tem húmido demais e junta-se em grumos em vez de fritar solto",
+              "explanation": "O arroz do dia anterior secou ligeiramente no frigorífico, e é exatamente isso que deixa os grãos separar-se e fritar em vez de cozerem num grumo.",
+              "skills": [
+                "uni.sobras-reinventar"
+              ],
+              "explainWrong": "Mais óleo ou mais calor não secam arroz que ainda está fresco e húmido — essa humidade é o problema real. O molho de soja é tempero, não solução para a textura."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.arroz-de-sobras"
+    },
+    {
+      "id": "unit-universitaria-3",
+      "title": "Cozinha Uma Vez, Come Toda a Semana",
+      "subtitle": "Aumentar e Congelar",
+      "color": "#1D4ED8",
+      "missionId": "mission.tacho-para-a-semana",
+      "lessons": [
+        {
+          "id": "lesson.uni-escalar",
+          "title": "Cozinhar Para Seis Com Orçamento de Estudante",
+          "dayNumber": 7,
+          "dishName": "A Panela Grande",
+          "description": "Cozinhar uma panela grande custa menos por refeição do que cozinhar seis pequenas — mas uma receita a multiplicar por seis não é cada número a multiplicar por seis.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 20,
+          "xpReward": 200,
+          "icon": "🍲",
+          "imageUrl": "/lessons/university/uni-escalar.jpg",
+          "ingredients": [
+            "Feijão ou lentilhas secas",
+            "Arroz ou massa",
+            "2 latas de tomate",
+            "2 cebolas",
+            "Cubo de caldo"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Multiplica o volume, não o tempero",
+              "description": "Básicos, legumes e líquido aumentam a par. O sal, a malagueta e a especiaria forte aumentam mais devagar — começa em metade e sobe a provar."
+            },
+            {
+              "title": "Vê a panela antes de ir às compras",
+              "description": "Seis porções precisam de uma panela onde caibam com espaço para mexer. Uma panela a abarrotar coze a vapor em vez de estufar e o fundo agarra."
+            },
+            {
+              "title": "Conta com mais tempo, não com tempo proporcional",
+              "description": "Seis vezes a comida demora mais a chegar à temperatura, mas não seis vezes mais a cozer — vai pelo aspeto, não por multiplicar o relógio."
+            }
+          ],
+          "teaches": [
+            "uni.escalar-receita"
+          ],
+          "requires": [
+            "uni.uma-panela"
+          ],
+          "questions": [
+            {
+              "id": "uni-u3-l1-q1",
+              "type": "choice",
+              "prompt": "Estás a transformar um chili para uma pessoa em seis porções. O que multiplicas por seis?",
+              "options": [
+                "Tudo na receita, incluindo o sal e o tempo de cozedura",
+                "O feijão, o tomate, a cebola e o líquido — e depois temperas a provar no fim",
+                "Só o feijão, mantendo o líquido igual",
+                "Nada: cozinha a mesma panela pequena seis vezes"
+              ],
+              "correctAnswer": "O feijão, o tomate, a cebola e o líquido — e depois temperas a provar no fim",
+              "explanation": "Os ingredientes de volume aumentam um para um. O sal e a especiaria não: seis vezes o sal numa panela que concentra enquanto reduz fica incomível, por isso temperas no fim, a provar.",
+              "skills": [
+                "uni.escalar-receita"
+              ],
+              "explainWrong": "Multiplicar o sal e o relógio por seis dá-te uma panela salgada demais e passada do ponto. Manter o líquido igual deixa o feijão seco e cru, e cozinhar seis panelas pequenas em separado é exatamente o gás, o tempo e a loiça que cozinhar em lote existe para evitar."
+            },
+            {
+              "id": "uni-u3-l1-q2",
+              "type": "choice",
+              "prompt": "A tua panela maior está cheia até dois dedos da borda antes mesmo de começar a cozer. O que acontece?",
+              "options": [
+                "Nada — uma panela cheia coze igual a uma meia cheia",
+                "Não consegue estufar nem ser mexida, por isso coze a vapor em cima e agarra no fundo",
+                "Coze mais depressa porque há mais calor lá dentro",
+                "O sabor fica mais forte"
+              ],
+              "correctAnswer": "Não consegue estufar nem ser mexida, por isso coze a vapor em cima e agarra no fundo",
+              "explanation": "A comida precisa de espaço para se mover. Sem ele não consegues mexer o fundo, por isso o fundo queima enquanto o topo só coze a vapor — e transborda no momento em que pegar.",
+              "skills": [
+                "uni.escalar-receita"
+              ],
+              "explainWrong": "Uma panela cheia não se comporta como uma meia cheia: mais comida quer dizer mais devagar, não mais depressa, e o sabor que vem de um fundo queimado é queimado, não mais forte. Cozinha em duas vezes ou numa panela maior."
+            }
+          ]
+        },
+        {
+          "id": "lesson.uni-congelar",
+          "title": "O Congelador É a Tua Segunda Despensa",
+          "dayNumber": 8,
+          "dishName": "Porções Para Depois",
+          "description": "Uma panela de domingo só te poupa dinheiro se ainda estiver comível na quinta — e isso depende da rapidez com que a arrefeceste e de como a embalaste.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 210,
+          "icon": "🧊",
+          "imageUrl": "https://images.unsplash.com/photo-1584270354949-c26b0d5b4a0c?w=400",
+          "ingredients": [
+            "Comida cozinhada",
+            "Caixas ou sacos de congelação",
+            "Marcador e fita"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Arrefece depressa e só depois congela",
+              "description": "Espalha num tabuleiro baixo ou divide pelas caixas para sair depressa do morno. Uma panela morna posta diretamente no congelador aquece tudo o que está à volta."
+            },
+            {
+              "title": "Divide em porções antes de congelar, nunca depois",
+              "description": "Uma refeição por caixa. Um bloco congelado único quer dizer descongelar a semana toda para comer um jantar."
+            },
+            {
+              "title": "Sacos achatados, etiquetados com a data",
+              "description": "Congelado achatado, um saco descongela em minutos e empilha-se. Escreve o que é e a data — comida congelada sem etiqueta acaba no lixo."
+            }
+          ],
+          "teaches": [
+            "uni.congelar-porcoes"
+          ],
+          "requires": [
+            "uni.sobras-reinventar"
+          ],
+          "questions": [
+            {
+              "id": "uni-u3-l2-q1",
+              "type": "choice",
+              "prompt": "Fizeste uma panela grande de chili. Queres tirar dela quatro jantares. O que lhe fazes?",
+              "options": [
+                "Pôr a panela morna inteira no congelador e lascar pedaços conforme precisares",
+                "Arrefecê-la depressa, dividi-la por quatro caixas etiquetadas e depois congelar",
+                "Deixá-la no fogão e reaquecer a panela todas as noites",
+                "Congelá-la num bloco só e descongelar tudo de cada vez"
+              ],
+              "correctAnswer": "Arrefecê-la depressa, dividi-la por quatro caixas etiquetadas e depois congelar",
+              "explanation": "Arrefecer depressa mantém-na fora da faixa de temperatura onde a comida se estraga, e dividir antes de congelar é o que a transforma num jantar em vez de um bloco de tudo ou nada.",
+              "skills": [
+                "uni.congelar-porcoes"
+              ],
+              "explainWrong": "Uma panela morna no congelador arrefece devagar e aquece o que está à volta, e lascar um bloco congelado ou descongelar as quatro porções para comer uma desperdiça a comida que estavas a tentar poupar. Deixá-la no fogão durante dias é como se fica doente."
+            },
+            {
+              "id": "uni-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Porque é que se congelam as porções achatadas num saco em vez de fundas numa caixa?",
+              "options": [
+                "Fica com melhor sabor",
+                "Descongela muito mais depressa e empilha-se num congelador pequeno",
+                "Conserva-se mais tempo",
+                "Gasta menos electricidade a congelar"
+              ],
+              "correctAnswer": "Descongela muito mais depressa e empilha-se num congelador pequeno",
+              "explanation": "Um bloco fino e achatado descongela em minutos debaixo de água fria; uma caixa funda leva horas ou uma noite no frigorífico — que é a diferença entre comê-lo e pedir comida.",
+              "skills": [
+                "uni.congelar-porcoes"
+              ],
+              "explainWrong": "Achatado ou fundo, o sabor e o tempo de conservação são os mesmos e o congelador gasta o mesmo. O ganho é a rapidez a descongelar e o espaço que poupa — que é o que decide de facto se o comes."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.esparguete-uma-panela",
+      "unitId": "unit-universitaria-1",
+      "title": "Espaguete Numa Panela Só",
+      "dishName": "Espaguete ao Tomate Numa Panela Só",
+      "cookTimeMin": 25,
+      "summary": "Uma refeição completa, uma panela, uma loiça: básicos de despensa transformados em jantar.",
+      "estimatedCostEur": 1.5,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "uni.despensa-base",
+        "uni.uma-panela"
+      ],
+      "xpReward": 400,
+      "ingredients": [
+        "Espaguete",
+        "1 lata de tomate",
+        "1 cebola",
+        "2 dentes de alho",
+        "Azeite",
+        "Água"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Sua a cebola e o alho",
+          "description": "Na panela onde vais cozinhar tudo, amolece a cebola e o alho num pouco de azeite.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens alho à mão? A cebola sozinha ainda dá uma base decente."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Junta a massa, o tomate e a água",
+          "description": "Parte o espaguete a meio se for preciso, junta o tomate de lata e água apenas o suficiente para o cobrir.",
+          "durationSec": 120,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens tomate de lata? Um pouco de concentrado de tomate e mais água servem à justa."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Deixa estufar, mexendo de vez em quando",
+          "description": "Coze até a massa estar tenra e o líquido ter engrossado em molho, mexendo para não colar.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Demasiado seco antes de a massa estar no ponto? Junta mais um pouco de água."
+            },
+            {
+              "kind": "cola",
+              "answer": "A colar no fundo? Baixa o lume e mexe mais vezes."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Massa tenra, molho a cobri-la, sem água a mais na panela."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.arroz-de-sobras",
+      "unitId": "unit-universitaria-2",
+      "title": "Arroz e Feijão de Ontem, Reinventados",
+      "dishName": "Arroz Frito com Feijão",
+      "cookTimeMin": 20,
+      "summary": "O arroz de ontem, uma lata de feijão esticada e um ovo: nada vai para o lixo.",
+      "estimatedCostEur": 1.2,
+      "dietaryTags": [
+        "vegetariano",
+        "sem_lactose",
+        "sem_frutos_secos"
+      ],
+      "practices": [
+        "uni.esticar-proteina",
+        "uni.sobras-reinventar"
+      ],
+      "xpReward": 400,
+      "ingredients": [
+        "Arroz que sobrou",
+        "1 lata de feijão",
+        "1 ovo",
+        "Cebola",
+        "Molho de soja"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Tempera o feijão",
+          "description": "Aquece o feijão com um pouco de cebola e tempero até saber a um componente a sério, e não a uma coisa deixada para o fim.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Feijão sem graça? Um pouco de molho de soja ou vinagre acorda-o depressa."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Frita o arroz frio com força e depressa",
+          "description": "Lume forte, a desfazer os grumos, até estar quente por dentro e ligeiramente crocante em pontos.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "A juntar-se e a colar? O arroz talvez não estivesse frio o suficiente — separa-o com a espátula e mantém o lume forte."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Grãos separados, quente por dentro, ligeiramente crocante em pontos."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Junta tudo e acaba com o ovo",
+          "description": "Mistura o feijão pelo arroz, empurra tudo para o lado, mexe o ovo no espaço livre e depois envolve tudo.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens ovo? O prato funciona sem ele, só menos rico."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Feijão e ovo espalhados por igual pelo arroz, temperado, nada sem graça nem seco."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.tacho-para-a-semana",
+      "unitId": "unit-universitaria-3",
+      "title": "A Panela Que Alimenta a Semana",
+      "dishName": "Chili de Feijão e Lentilhas, Quatro Porções Congeladas",
+      "cookTimeMin": 70,
+      "summary": "Uma panela ao domingo, quatro jantares etiquetados no congelador, a menos de euro e meio por refeição.",
+      "estimatedCostEur": 5.5,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "uni.despensa-base",
+        "uni.uma-panela",
+        "uni.escalar-receita",
+        "uni.congelar-porcoes"
+      ],
+      "xpReward": 700,
+      "ingredients": [
+        "250 g de lentilhas vermelhas secas",
+        "2 latas de feijão",
+        "2 latas de tomate picado",
+        "2 cebolas",
+        "3 dentes de alho",
+        "1 colher de sopa de paprica",
+        "1 colher de chá de cominhos",
+        "Cubo de caldo",
+        "Azeite",
+        "Arroz para acompanhar"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Sua a cebola e o alho na panela grande",
+          "description": "Usa a maior panela que tiveres. Amolece duas cebolas picadas e o alho em azeite em lume brando até ficarem translúcidos — esta é a base das seis porções, por isso não te apresses.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens alho? A cebola sozinha ainda constrói uma base."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Alourou depressa demais? Baixa o lume e junta um pouco de água para o travar."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Abre as especiarias e depois junta o volume",
+          "description": "Mexe a paprica e os cominhos no azeite durante meio minuto e depois junta as lentilhas, o feijão escorrido, o tomate e água que cubra dois dedos acima. Tempera de leve — corriges no fim.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens cominhos? A paprica sozinha serve; junta uma folha de louro se tiveres."
+            },
+            {
+              "kind": "cola",
+              "answer": "Especiarias a agarrar? Bastam-lhes segundos — junta o tomate logo."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Deixa estufar em lume brando até as lentilhas se desfazerem",
+          "description": "Lume brando, tampa encostada, a mexer o fundo a cada dez minutos. Está pronto quando as lentilhas se desfizerem e a panela estiver espessa o suficiente para o rasto da colher ficar.",
+          "durationSec": 1800,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "A agarrar no fundo? Baixa mais o lume e junta água — uma panela grande agarra com facilidade."
+            },
+            {
+              "kind": "falta",
+              "answer": "Demasiado espesso antes de as lentilhas estarem moles? Junta água quente, não fria."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Lentilhas desfeitas, sem camada de água, uma colher arrastada pelo fundo deixa rasto."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Tempera a provar, agora que já reduziu",
+          "description": "Só agora é que se põe sal, e mais especiaria se for preciso. Prova, ajusta, prova outra vez — a panela concentrou enquanto cozeu, e é por isso que isto é o último passo e não o primeiro.",
+          "durationSec": 180,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens lima nem limão fresco? Um pouco de vinagre levanta aquilo da mesma maneira."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Sabe temperado por si, e não só quando se come com arroz."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Arrefece depressa, divide em quatro, etiqueta e congela",
+          "description": "Guarda duas porções para os dois dias seguintes e espalha o resto em camada baixa para arrefecer depressa. Mete quatro refeições individuais em saco ou caixa, escreve o nome e a data de hoje em cada uma, e congela-as achatadas.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens caixas? Sacos de congelação deitados achatados funcionam melhor, até."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Quatro porções de uma refeição cada, cada uma etiquetada com a data, frias ao toque antes de entrarem."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
