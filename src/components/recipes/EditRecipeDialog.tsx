@@ -151,7 +151,7 @@ export function EditRecipeDialog({
                   variant="secondary"
                   size="icon"
                   className="absolute right-2 top-2 size-8 rounded-full"
-                  aria-label="Retirar fotografia"
+                  aria-label={t("Remove photo")}
                   onClick={() => {
                     setImage(null);
                     setRemoveImage(true);
@@ -279,7 +279,7 @@ export function EditRecipeDialog({
                       variant={active ? "default" : "secondary"}
                       className="rounded-full px-3 py-1.5 text-xs font-medium"
                     >
-                      {tag.label}
+                      {t(tag.label)}
                     </Badge>
                   </button>
                 );

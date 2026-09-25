@@ -180,7 +180,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
   }
 
   if (!res.ok) {
-    let message = "O pedido falhou";
+    let message = t("The request failed");
     let details: unknown;
     try {
       const data = (await res.json()) as { error?: string; details?: unknown };

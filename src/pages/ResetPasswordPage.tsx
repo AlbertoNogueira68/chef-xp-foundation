@@ -96,7 +96,7 @@ export function ResetPasswordPage() {
         {redefinir.isError && (
           <div className="space-y-2">
             <p className="text-xs text-destructive">
-              {redefinir.error instanceof Error ? redefinir.error.message : "O pedido falhou"}
+              {redefinir.error instanceof Error ? redefinir.error.message : t("The request failed")}
             </p>
             <Link
               to="/forgot-password"
@@ -112,7 +112,7 @@ export function ResetPasswordPage() {
           className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
           disabled={redefinir.isPending}
         >
-          {redefinir.isPending ? "A guardar…" : t("Save password")}
+          {redefinir.isPending ? t("Saving…") : t("Save password")}
         </Button>
       </form>
     </AuthCard>

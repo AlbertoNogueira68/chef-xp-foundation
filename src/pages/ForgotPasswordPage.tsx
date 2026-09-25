@@ -79,7 +79,7 @@ export function ForgotPasswordPage() {
     >
       <form onSubmit={onSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="forgot-email">Email</Label>
+          <Label htmlFor="forgot-email">{t("Email")}</Label>
           <Input
             id="forgot-email"
             type="email"
@@ -93,7 +93,7 @@ export function ForgotPasswordPage() {
 
         {pedir.isError && (
           <p className="text-xs text-destructive">
-            {pedir.error instanceof Error ? pedir.error.message : "O pedido falhou"}
+            {pedir.error instanceof Error ? pedir.error.message : t("The request failed")}
           </p>
         )}
 
@@ -102,7 +102,7 @@ export function ForgotPasswordPage() {
           className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
           disabled={pedir.isPending}
         >
-          {pedir.isPending ? "A enviar…" : t("Send the link")}
+          {pedir.isPending ? t("Sending…") : t("Send the link")}
         </Button>
       </form>
     </AuthCard>

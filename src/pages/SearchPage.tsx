@@ -74,7 +74,7 @@ export function SearchPage() {
           placeholder={t("Recipes, chefs, ingredients…")}
           className="rounded-full border-border/60 bg-muted/50 pl-10"
           autoComplete="off"
-          aria-label="Pesquisar"
+          aria-label={t("Search")}
         />
       </div>
 
@@ -150,7 +150,7 @@ export function SearchPage() {
                     variant={active ? "default" : "secondary"}
                     className="rounded-full px-3 py-1.5 text-xs font-medium"
                   >
-                    {tag.label}
+                    {t(tag.label)}
                   </Badge>
                 </button>
               );

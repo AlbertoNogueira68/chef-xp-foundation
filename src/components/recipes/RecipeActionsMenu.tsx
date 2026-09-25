@@ -148,7 +148,7 @@ export function RecipeActionsMenu({
                 confirmDelete();
               }}
             >
-              {remove.isPending ? "A apagar…" : t("Delete")}
+              {remove.isPending ? t("Deleting…") : t("Delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -177,7 +177,7 @@ export function RecipeActionsMenu({
                 );
               }}
             >
-              {toggleBlock.isPending ? "A bloquear…" : "Bloquear"}
+              {toggleBlock.isPending ? t("Blocking…") : t("Block")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

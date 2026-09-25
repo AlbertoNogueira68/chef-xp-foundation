@@ -11,7 +11,7 @@ import { t } from "@/i18n";
 export async function shareLink({
   path,
   title,
-  copiedMessage = "Link copiado",
+  copiedMessage = t("Link copied"),
 }: {
   path: string;
   title: string;

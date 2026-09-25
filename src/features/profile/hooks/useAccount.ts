@@ -17,7 +17,7 @@ export function useExportData() {
       link.click();
       // Sem isto o blob fica em memória até a página ser recarregada.
       URL.revokeObjectURL(url);
-      toast.success("Os teus dados foram descarregados");
+      toast.success(t("Your data was downloaded"));
     },
     onError: (error: ApiError) => toast.error(error.message || t("Couldn't export")),
   });

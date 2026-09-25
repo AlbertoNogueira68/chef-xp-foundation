@@ -65,7 +65,7 @@ export function CreateAccountPage() {
 
   if (link.isPending) {
     return (
-      <AuthCard titulo="A abrir o link…">
+      <AuthCard titulo={t("Opening the link…")}>
         <div className="h-32 animate-pulse rounded-xl bg-muted/50" aria-hidden />
       </AuthCard>
     );
@@ -77,7 +77,7 @@ export function CreateAccountPage() {
 
   return (
     <AuthCard
-      titulo="Escolhe o nome e a password"
+      titulo={t("Choose username and password")}
       descricao={
         <>
           {t("The address")}
@@ -125,7 +125,7 @@ export function CreateAccountPage() {
           className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
           disabled={criar.isPending}
         >
-          {criar.isPending ? "A criar a conta…" : t("Create account")}
+          {criar.isPending ? t("Creating account…") : t("Create account")}
         </Button>
       </form>
     </AuthCard>

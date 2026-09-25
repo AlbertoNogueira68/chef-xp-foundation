@@ -102,7 +102,7 @@ export function useMissionRun() {
               }
             : current,
         );
-        toast.success("Foto guardada.");
+        toast.success(t("Photo saved."));
       } catch (error) {
         // Sem rede, a fotografia vai para a caixa de saída em vez de se
         // perder. Quem está a cozinhar tira a foto no momento em que o prato

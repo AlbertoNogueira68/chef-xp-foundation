@@ -32,7 +32,7 @@ export function LoginForm({ onSuccess }: { onSuccess?: () => void }) {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="login-email">Email</Label>
+        <Label htmlFor="login-email">{t("Email")}</Label>
         <Input
           id="login-email"
           type="email"

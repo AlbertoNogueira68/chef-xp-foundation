@@ -35,7 +35,7 @@ export function useToggleBlock() {
     onSuccess: (_data, { blocked }) => {
       toast.success(blocked ? t("Account unblocked") : t("Account blocked"), {
         description: blocked
-          ? "Volta a aparecer-te no feed e na pesquisa."
+          ? t("They show up in your feed and search again.")
           : t("You stop seeing what they post, and they stop seeing you."),
       });
     },

@@ -31,7 +31,7 @@ export function ChefsToFollowRow() {
   if (!chefs || chefs.length === 0) return null;
 
   return (
-    <section aria-label="Chefs a seguir">
+    <section aria-label={t("Chefs to follow")}>
       <h2 className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
         {t("Chefs to follow")}
       </h2>

@@ -143,7 +143,7 @@ export function ProfilePage() {
               value={stats.followers}
               onClick={() => setFollowList("followers")}
             />
-            <Stat label="Streak" value={`${stats.streak}d`} />
+            <Stat label={t("Streak")} value={`${stats.streak}d`} />
           </>
         )}
       </div>
@@ -173,7 +173,8 @@ export function ProfilePage() {
           {stats.lessonsCompleted}{" "}
           {stats.lessonsCompleted === 1 ? t("lesson completed") : t("lessons completed")}
           {" · "}
-          {stats.likesReceived} {stats.likesReceived === 1 ? "gosto recebido" : "gostos recebidos"}
+          {stats.likesReceived}{" "}
+          {stats.likesReceived === 1 ? t("like received") : t("likes received")}
         </p>
       )}
 

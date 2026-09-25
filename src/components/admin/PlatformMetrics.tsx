@@ -53,7 +53,7 @@ export function PlatformMetrics() {
             nota={t("earned XP, not just signed up")}
           />
           <Numero
-            label="Email confirmado"
+            label={t("Email confirmed")}
             value={data.contasConfirmadas}
             nota={t("of {total}", { total: data.contas })}
           />
@@ -72,7 +72,7 @@ export function PlatformMetrics() {
             nota={t("+{count} in the last 7 days", { count: data.receitasUltimos7Dias })}
           />
           <Numero label={t("Comments")} value={data.comentarios} />
-          <Numero label="Gostos" value={data.gostos} />
+          <Numero label={t("Likes")} value={data.gostos} />
           <Numero label={t("Live challenges")} value={data.desafiosAtivos} />
         </div>
       </section>
@@ -98,7 +98,7 @@ export function PlatformMetrics() {
             value={data.denunciasAbertas}
             nota={t("{count} since the start", { count: data.denunciasTotal })}
           />
-          <Numero label="Bloqueios" value={data.bloqueios} nota="entre utilizadores" />
+          <Numero label={t("Blocks")} value={data.bloqueios} nota={t("between accounts")} />
         </div>
       </section>
     </div>

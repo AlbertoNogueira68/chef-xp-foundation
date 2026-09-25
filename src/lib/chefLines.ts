@@ -66,6 +66,24 @@ const PATH = [
   "One dish at a time, and in a month you won't recognise yourself.",
 ];
 
+/**
+ * Todas as frases, para o teste do dicionário.
+ *
+ * São traduzidas por variável — `t(frases[...])` — e o varredor de `t("…")`
+ * não as vê. Sem esta lista, uma frase sem tradução passava o teste e o Chef
+ * falava inglês a meio do português.
+ */
+export const CHEF_LINES = [
+  ...GREETINGS,
+  ...PREP,
+  ...QUIZ,
+  ...CORRECT,
+  ...WRONG,
+  ...FAILED,
+  ...COMPLETE,
+  ...PATH,
+] as const;
+
 /** Hash simples e estável: só precisa de espalhar, não de ser criptográfico. */
 function semente(texto: string) {
   let h = 0;

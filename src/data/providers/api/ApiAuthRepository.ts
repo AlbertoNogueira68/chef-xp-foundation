@@ -39,7 +39,7 @@ export class ApiAuthRepository implements AuthRepository {
       notify("SIGNED_IN", session);
       return session;
     } catch (error) {
-      throw new AuthError(error instanceof Error ? error.message : "Falha no login", error);
+      throw new AuthError(error instanceof Error ? error.message : t("Login failed"), error);
     }
   }
 
@@ -60,7 +60,7 @@ export class ApiAuthRepository implements AuthRepository {
         needsEmailConfirmation: data.needsEmailConfirmation,
       };
     } catch (error) {
-      throw new AuthError(error instanceof Error ? error.message : "Falha no registo", error);
+      throw new AuthError(error instanceof Error ? error.message : t("Sign-up failed"), error);
     }
   }
 

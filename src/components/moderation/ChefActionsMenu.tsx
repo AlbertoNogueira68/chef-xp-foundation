@@ -109,7 +109,7 @@ export function ChefActionsMenu({
                 );
               }}
             >
-              {toggleBlock.isPending ? "A bloquear…" : t("Block")}
+              {toggleBlock.isPending ? t("Blocking…") : t("Block")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

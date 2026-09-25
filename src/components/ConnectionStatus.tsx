@@ -103,7 +103,9 @@ export function ConnectionStatus() {
       >
         <UploadCloud className="size-4 shrink-0" aria-hidden />
         <span>
-          A enviar {porEnviar} {porEnviar === 1 ? "resposta guardada" : "respostas guardadas"}…
+          {porEnviar === 1
+            ? t("Sending 1 saved answer…")
+            : t("Sending {count} saved answers…", { count: porEnviar })}
         </span>
       </div>
     );
@@ -118,7 +120,11 @@ export function ConnectionStatus() {
       : t("The server isn't responding. Carry on — it's saved here.");
 
   const mensagem =
-    porEnviar > 0 ? `${base} ${porEnviar} ${porEnviar === 1 ? "por enviar" : "por enviar"}.` : base;
+    porEnviar > 0
+      ? `${base} ${
+          porEnviar === 1 ? t("1 still to send") : t("{count} still to send", { count: porEnviar })
+        }.`
+      : base;
 
   return (
     <div

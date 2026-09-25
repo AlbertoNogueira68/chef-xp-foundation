@@ -61,7 +61,11 @@ export function FollowListDialog({
         <DialogHeader className="text-left">
           <DialogTitle>{copy.title}</DialogTitle>
           <DialogDescription>
-            {data ? `${data.length} ${data.length === 1 ? "pessoa" : "pessoas"}` : "A carregar…"}
+            {data
+              ? data.length === 1
+                ? t("1 person")
+                : t("{count} people", { count: data.length })
+              : t("Loading…")}
           </DialogDescription>
         </DialogHeader>
 

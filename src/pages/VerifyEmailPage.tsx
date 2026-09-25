@@ -34,7 +34,7 @@ export function VerifyEmailPage() {
 
   if (confirmar.isPending) {
     return (
-      <AuthCard titulo={t("Confirming…")} descricao="Um instante.">
+      <AuthCard titulo={t("Confirming…")} descricao={t("Just a moment.")}>
         <div className="flex justify-center py-2">
           <span className="size-6 animate-spin rounded-full border-2 border-muted border-t-amber-500" />
         </div>

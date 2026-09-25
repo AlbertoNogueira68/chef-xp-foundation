@@ -84,7 +84,7 @@ function PedirLinkForm() {
   return (
     <form onSubmit={onSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="signup-email">Email</Label>
+        <Label htmlFor="signup-email">{t("Email")}</Label>
         <Input
           id="signup-email"
           type="email"
@@ -149,7 +149,7 @@ function RegistoDiretoForm({ onSuccess }: { onSuccess?: () => void }) {
         {errors.username && <p className="text-xs text-destructive">{errors.username.message}</p>}
       </div>
       <div className="space-y-2">
-        <Label htmlFor="register-email">Email</Label>
+        <Label htmlFor="register-email">{t("Email")}</Label>
         <Input
           id="register-email"
           type="email"
@@ -176,7 +176,7 @@ function RegistoDiretoForm({ onSuccess }: { onSuccess?: () => void }) {
         className="w-full rounded-full bg-gradient-to-r from-amber-500 to-orange-600 font-semibold"
         disabled={signUp.isPending}
       >
-        {signUp.isPending ? "A criar conta…" : t("Create account")}
+        {signUp.isPending ? t("Creating account…") : t("Create account")}
       </Button>
     </form>
   );

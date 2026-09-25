@@ -164,7 +164,7 @@ export function ChefPage() {
               value={stats.followers}
               onClick={() => setFollowList("followers")}
             />
-            <Stat label="Streak" value={`${stats.streak}d`} />
+            <Stat label={t("Streak")} value={`${stats.streak}d`} />
           </>
         )}
       </div>

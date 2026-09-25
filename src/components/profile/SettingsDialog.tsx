@@ -209,7 +209,7 @@ export function SettingsDialog({
           </div>
 
           <Button type="submit" className="w-full rounded-full" disabled={update.isPending}>
-            {update.isPending ? "A guardar…" : t("Save")}
+            {update.isPending ? t("Saving…") : t("Save")}
           </Button>
         </form>
 

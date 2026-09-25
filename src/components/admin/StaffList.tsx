@@ -69,7 +69,7 @@ export function StaffList({ meId }: { meId?: string }) {
         <Input
           value={q}
           onChange={(event) => setQ(event.target.value)}
-          placeholder="Nome ou email"
+          placeholder={t("Name or email")}
           className="rounded-full pl-10"
           aria-label={t("Search accounts")}
         />
@@ -212,7 +212,7 @@ export function StaffList({ meId }: { meId?: string }) {
               disabled={!nomeCoincide || deleteUser.isPending}
               onClick={confirmarApagar}
             >
-              {deleteUser.isPending ? "A apagar…" : t("Delete for good")}
+              {deleteUser.isPending ? t("Deleting…") : t("Delete for good")}
             </button>
           </AlertDialogFooter>
         </AlertDialogContent>

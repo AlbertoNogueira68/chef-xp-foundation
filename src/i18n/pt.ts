@@ -700,4 +700,66 @@ export const PT: Record<string, string> = {
   "It's published in the feed too": "Também é publicada no feed",
   "+{xp} XP for entering, on top of the recipe's.":
     "+{xp} XP por participares, além do XP da receita.",
+
+  // Etiquetas de dieta. A chave é a inglesa de `src/constants/dietaryTags.ts`;
+  // o servidor só conhece o `id`, que não muda com a língua.
+  Vegetarian: "Vegetariano",
+  Vegan: "Vegano",
+  "Gluten-free": "Sem glúten",
+  "Lactose-free": "Sem lactose",
+  "Nut-free": "Sem frutos secos",
+  "Egg-free": "Sem ovo",
+  "Soy-free": "Sem soja",
+  "Sugar-free": "Sem açúcar",
+  Halal: "Halal",
+  Kosher: "Kosher",
+
+  // Estados de espera e rótulos que ainda estavam presos em português no
+  // código — apareciam em português a quem tinha a app em inglês.
+  "Deleting…": "A apagar…",
+  "Blocking…": "A bloquear…",
+  "Creating account…": "A criar a conta…",
+  "Opening the link…": "A abrir o link…",
+  Sent: "Enviado",
+  "Just a moment.": "Um instante.",
+  "The request failed": "O pedido falhou",
+  "Choose username and password": "Escolhe o nome e a password",
+
+  // Cronómetro do passo.
+  paused: "em pausa",
+  "counting down": "a contar",
+  Pause: "Pausar",
+  Resume: "Retomar",
+  Restart: "Reiniciar",
+
+  // Barra de ligação: a fila de coisas por enviar.
+  "Sending 1 saved answer…": "A enviar 1 resposta guardada…",
+  "Sending {count} saved answers…": "A enviar {count} respostas guardadas…",
+  "1 still to send": "1 por enviar",
+  "{count} still to send": "{count} por enviar",
+
+  // Feed, perfil e números da plataforma.
+  Like: "Gostar",
+  Unlike: "Retirar gosto",
+  Likes: "Gostos",
+  Blocks: "Bloqueios",
+  "between accounts": "entre utilizadores",
+  Streak: "Dias seguidos",
+  "1 person": "1 pessoa",
+  "{count} people": "{count} pessoas",
+  "Name or email": "Nome ou email",
+  "like received": "gosto recebido",
+  "likes received": "gostos recebidos",
+  Search: "Pesquisar",
+  Email: "Email",
+
+  // Mensagens que nascem nos serviços e nos repositórios.
+  "Login failed": "Falha no login",
+  "Sign-up failed": "Falha no registo",
+  "Failed to load user": "Não foi possível carregar o utilizador",
+  "Failed to update user": "Não foi possível atualizar o utilizador",
+  "Photo saved.": "Foto guardada.",
+  "Link copied": "Link copiado",
+  "Your data was downloaded": "Os teus dados foram descarregados",
+  "They show up in your feed and search again.": "Volta a aparecer-te no feed e na pesquisa.",
 };

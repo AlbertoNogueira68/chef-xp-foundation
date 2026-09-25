@@ -86,7 +86,7 @@ export function FeedPage() {
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
         >
-          {isFetchingNextPage ? "A carregar…" : t("Load more")}
+          {isFetchingNextPage ? t("Loading…") : t("Load more")}
         </Button>
       )}
     </section>

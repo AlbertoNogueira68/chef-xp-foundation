@@ -130,7 +130,7 @@ export function DangerZone({ user }: { user: User }) {
               disabled={!nameMatches || deleteAccount.isPending}
               onClick={submit}
             >
-              {deleteAccount.isPending ? "A apagar…" : t("Delete for good")}
+              {deleteAccount.isPending ? t("Deleting…") : t("Delete for good")}
             </button>
           </AlertDialogFooter>
         </AlertDialogContent>

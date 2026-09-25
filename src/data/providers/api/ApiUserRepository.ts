@@ -1,5 +1,6 @@
 import type { UserRepository } from "@/data/contracts/UserRepository";
 import { AppError, NotFoundError } from "@/data/contracts/errors";
+import { t } from "@/i18n";
 import { apiFetch } from "@/services/api";
 import type { User, UserUpdate } from "@/types/user";
 
@@ -12,7 +13,7 @@ export class ApiUserRepository implements UserRepository {
       if (error instanceof Error && "status" in error && error.status === 404) {
         return null;
       }
-      throw new AppError(error instanceof Error ? error.message : "Failed to load user", error);
+      throw new AppError(error instanceof Error ? error.message : t("Failed to load user"), error);
     }
   }
 
@@ -28,7 +29,10 @@ export class ApiUserRepository implements UserRepository {
       if (error instanceof Error && "status" in error && error.status === 404) {
         throw new NotFoundError("User", error);
       }
-      throw new AppError(error instanceof Error ? error.message : "Failed to update user", error);
+      throw new AppError(
+        error instanceof Error ? error.message : t("Failed to update user"),
+        error,
+      );
     }
   }
 }

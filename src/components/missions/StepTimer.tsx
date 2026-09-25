@@ -54,16 +54,21 @@ export function StepTimer({
         {format(remainingMs)}
       </span>
       <span className="text-xs text-muted-foreground">
-        {done ? t("Time's up") : paused ? "paused" : "a contar"}
+        {done ? t("Time's up") : paused ? t("paused") : t("counting down")}
       </span>
 
       <div className="ml-auto flex gap-1">
         {!done && (
-          <Button size="icon" variant="ghost" onClick={onToggle} aria-label="Pausar">
+          <Button
+            size="icon"
+            variant="ghost"
+            onClick={onToggle}
+            aria-label={paused ? t("Resume") : t("Pause")}
+          >
             {paused ? <Play className="size-4" /> : <Pause className="size-4" />}
           </Button>
         )}
-        <Button size="icon" variant="ghost" onClick={onReset} aria-label="Reiniciar">
+        <Button size="icon" variant="ghost" onClick={onReset} aria-label={t("Restart")}>
           <RotateCcw className="size-4" />
         </Button>
       </div>

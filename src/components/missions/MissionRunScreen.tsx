@@ -302,7 +302,7 @@ function CheckpointCapture({ run }: { run: Run }) {
           onClick={() => input.current?.click()}
         >
           <Images className="size-4" />
-          {camera.supported ? t("From device") : run.isUploading ? "A guardar…" : t("Take photo")}
+          {camera.supported ? t("From device") : run.isUploading ? t("Saving…") : t("Take photo")}
         </Button>
       </div>
     </div>

@@ -56,7 +56,7 @@ export function EmailVerification({ user }: { user: User }) {
           })
         }
       >
-        {enviar.isPending ? "A enviar…" : enviar.isSuccess ? "Enviado" : t("Send confirmation")}
+        {enviar.isPending ? t("Sending…") : enviar.isSuccess ? t("Sent") : t("Send confirmation")}
       </Button>
     </div>
   );

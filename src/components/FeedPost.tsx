@@ -95,7 +95,7 @@ export function FeedPost({
               className={cn("size-9 rounded-full", recipe.likedByMe && "text-rose-500")}
               disabled={pending}
               aria-pressed={recipe.likedByMe}
-              aria-label={recipe.likedByMe ? "Retirar gosto" : "Gostar"}
+              aria-label={recipe.likedByMe ? t("Unlike") : t("Like")}
               onClick={() => onToggleLike?.(recipe)}
             >
               <Heart className={cn("size-5", recipe.likedByMe && "fill-current")} />
