@@ -1,0 +1,1208 @@
+{
+  "id": "portuguese",
+  "version": 1,
+  "name": "Cozinha Portuguesa: Do Bacalhau ao Refogado",
+  "description": "Sopa como se faz em todas as cozinhas portuguesas, e depois demolhar bacalhau, construir um refogado, arroz que é para ser malandrinho, e carne de porco com amêijoas.",
+  "icon": "🇵🇹",
+  "color": "#046A38",
+  "requires": [
+    "main-course"
+  ],
+  "difficulty": "intermediate",
+  "estimatedHours": 17,
+  "skills": [
+    {
+      "id": "portuguesa.sopa-batata",
+      "name": "A Batata Engrossa, Não a Farinha",
+      "category": "calor",
+      "description": "Uma sopa portuguesa ganha corpo de uma batata cozida até se desfazer e esmagada lá dentro — sem farinha, sem nata, sem cubo de caldo a fazer o trabalho.",
+      "requires": [
+        "calor.lume-brando"
+      ]
+    },
+    {
+      "id": "portuguesa.sopa-passar",
+      "name": "Triturar a Base, Guardar Algo Para Mastigar",
+      "category": "organizacao",
+      "description": "A base vai a triturar e um punhado de legumes entra depois, inteiros: a diferença entre uma sopa e uma tigela de puré.",
+      "requires": [
+        "org.sequenciar"
+      ]
+    },
+    {
+      "id": "portuguesa.bacalhau-demolha",
+      "name": "Demolhar Bacalhau",
+      "category": "organizacao",
+      "description": "O bacalhau salgado precisa de dias de mudas de água, não de uma demolha rápida — despacha-o e todos os pratos sabem a sal.",
+      "requires": []
+    },
+    {
+      "id": "portuguesa.refogado",
+      "name": "O Refogado",
+      "category": "calor",
+      "description": "Cebola e alho suados devagar em azeite: a base que está debaixo de metade da cozinha portuguesa.",
+      "requires": [
+        "calor.gordura"
+      ]
+    },
+    {
+      "id": "portuguesa.arroz-malandrinho",
+      "name": "Arroz Malandrinho",
+      "category": "calor",
+      "description": "O arroz de marisco português é para ser solto e caldoso, não seco e com os grãos separados como um pilaf.",
+      "requires": [
+        "calor.racio-agua"
+      ]
+    },
+    {
+      "id": "portuguesa.tempero-louro-colorau",
+      "name": "Louro e Colorau",
+      "category": "tempero",
+      "description": "Os dois temperos que aparecem outra e outra vez: louro para profundidade, colorau para cor e calor.",
+      "requires": [
+        "tempero.camadas"
+      ]
+    },
+    {
+      "id": "portuguesa.massa-de-pimentao",
+      "name": "Massa de Pimentão",
+      "category": "tempero",
+      "description": "Uma pasta de pimento vermelho salgado, alho e colorau esfregada na carne horas antes — uma marinada que tempera por dentro, não um molho deitado por cima.",
+      "requires": [
+        "portuguesa.tempero-louro-colorau"
+      ]
+    },
+    {
+      "id": "portuguesa.ameijoas-abertura",
+      "name": "As Amêijoas Abrem e Depois Param",
+      "category": "ponto",
+      "description": "A amêijoa está pronta no segundo em que a casca abre. Tira cada uma à medida que abre e as outras continuam a cozer — deixa-as todas lá e viram borracha.",
+      "requires": [
+        "calor.niveis"
+      ]
+    }
+  ],
+  "units": [
+    {
+      "id": "unit-portugues-4",
+      "title": "Sopa: Onde Começa a Cozinha Portuguesa",
+      "subtitle": "Batata, Água, Paciência",
+      "color": "#65A30D",
+      "missionId": "mission.sopa-de-legumes",
+      "lessons": [
+        {
+          "id": "lesson.portugues-sopa-batata",
+          "title": "A Batata Engrossa, Não a Farinha",
+          "dayNumber": 1,
+          "dishName": "A Base da Sopa",
+          "description": "Todas as sopas portuguesas são o mesmo truque: uma batata cozida até se desfazer, e é esse o espessante todo.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 30,
+          "xpReward": 150,
+          "icon": "🥔",
+          "imageUrl": "/lessons/portuguese/portugues-sopa-batata.jpg",
+          "ingredients": [
+            "2 batatas",
+            "1 cebola",
+            "Azeite",
+            "Água",
+            "Sal grosso"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Uma batata por cada duas tigelas, mais ou menos",
+              "description": "A batata não é um ingrediente que se prove, é o corpo da sopa. Pouca e é água temperada; muita e é puré de batata."
+            },
+            {
+              "title": "Lume brando até se desfazer sozinha",
+              "description": "Uma batata que ainda mantém a forma não engrossou nada. Lume muito brando, vinte minutos, até se partir quando a pressionas contra a panela."
+            },
+            {
+              "title": "Sem farinha, sem nata, sem cubo de caldo",
+              "description": "A farinha sabe a farinha e o cubo sabe ao cubo. A cebola, o azeite e a batata bastam, e é também por isso que isto custa quase nada."
+            }
+          ],
+          "teaches": [
+            "portuguesa.sopa-batata"
+          ],
+          "requires": [
+            "calor.lume-brando"
+          ],
+          "questions": [
+            {
+              "id": "portugues-u4-l1-q1",
+              "type": "choice",
+              "prompt": "A tua sopa de legumes está aguada, como água temperada. Qual é a solução?",
+              "options": [
+                "Um cubo de caldo",
+                "Mais batata, cozida até se desfazer e esmagada na sopa",
+                "Uma colher de farinha",
+                "Ferver com mais força"
+              ],
+              "correctAnswer": "Mais batata, cozida até se desfazer e esmagada na sopa",
+              "explanation": "O corpo de uma sopa portuguesa é batata desfeita. Nada mais na panela a está a engrossar, e é por isso que uma sopa aguada quase sempre quer dizer pouca batata ou batata que ainda mantém a forma.",
+              "skills": [
+                "portuguesa.sopa-batata"
+              ],
+              "explainWrong": "Um cubo acrescenta sal e sabor mas corpo nenhum, a farinha deixa-a turva e pastosa, e ferver com mais força evapora água sem dar à batata o que ela precisa, que é tempo em lume brando."
+            },
+            {
+              "id": "portugues-u4-l1-q2",
+              "type": "choice",
+              "prompt": "A batata está lá dentro há oito minutos e ainda mantém a forma. A sopa está pronta para triturar?",
+              "options": [
+                "Sim, triturar vai desfazê-la de qualquer maneira",
+                "Não — uma batata que ainda mantém a forma não largou o amido",
+                "Sim, se triturares mais tempo",
+                "Depende da batata"
+              ],
+              "correctAnswer": "Não — uma batata que ainda mantém a forma não largou o amido",
+              "explanation": "Triturar corta uma batata firme em pedaços pequenos e firmes. O amido que dá a textura à sopa só sai depois de a batata ter cozido de facto até se desfazer.",
+              "skills": [
+                "portuguesa.sopa-batata"
+              ],
+              "explainWrong": "Um liquidificador muda o tamanho dos pedaços, não se eles cozeram. Triturar mais tempo só te dá uma sopa arenosa — a batata precisa primeiro de vinte minutos em lume muito brando."
+            }
+          ]
+        },
+        {
+          "id": "lesson.portugues-sopa-passar",
+          "title": "Triturar a Base, Guardar Algo Para Mastigar",
+          "dayNumber": 2,
+          "dishName": "Sopa de Legumes",
+          "description": "Uma sopa triturada até à última cenoura é um puré. A base vai a triturar; os legumes que queres encontrar entram depois.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 20,
+          "xpReward": 170,
+          "icon": "🥬",
+          "imageUrl": "/lessons/portuguese/portugues-sopa-passar.jpg",
+          "ingredients": [
+            "Base de batata e cebola",
+            "Cenoura",
+            "Feijão-verde ou couve",
+            "Azeite",
+            "O que estiver a passar no frigorífico"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Tritura a base e depois para",
+              "description": "A batata, a cebola e os legumes moles que entraram primeiro vão a triturar até ficarem lisos. É essa a sopa."
+            },
+            {
+              "title": "Junta os legumes que queres encontrar, depois de triturar",
+              "description": "Cenoura em rodelas, feijão-verde, couve cortada fina entram na base triturada e cozem lá dez minutos. Ficam reconhecíveis, que é a diferença toda."
+            },
+            {
+              "title": "Acaba com azeite cru na tigela",
+              "description": "Um fio de azeite por cima, fora do lume, na tigela. Cozido na panela é só gordura; deitado no fim consegues prová-lo."
+            },
+            {
+              "title": "É onde vão as sobras do frigorífico",
+              "description": "Este é o prato que absorve a meia courgette e as cenouras cansadas. Nada aqui é uma receita fixa, exceto a batata."
+            }
+          ],
+          "teaches": [
+            "portuguesa.sopa-passar"
+          ],
+          "requires": [
+            "org.sequenciar",
+            "portuguesa.sopa-batata"
+          ],
+          "questions": [
+            {
+              "id": "portugues-u4-l2-q1",
+              "type": "choice",
+              "prompt": "Trituraste tudo junto e saiu um puré laranja uniforme. O que farias de diferente?",
+              "options": [
+                "Usar menos água",
+                "Triturar só a base de batata e cebola e depois cozer a cenoura e os verdes lá dentro, inteiros",
+                "Triturar menos tempo",
+                "Juntar os legumes logo no início"
+              ],
+              "correctAnswer": "Triturar só a base de batata e cebola e depois cozer a cenoura e os verdes lá dentro, inteiros",
+              "explanation": "Uma sopa de legumes portuguesa é uma base lisa com pedaços dentro. Que legumes entram antes do liquidificador e quais entram depois é a única decisão que separa as duas coisas.",
+              "skills": [
+                "portuguesa.sopa-passar"
+              ],
+              "explainWrong": "Menos água dá-te um puré mais espesso e triturar menos dá-te um puré com grumos — continuam os dois a ser puré. Juntar os legumes no início mete-os no liquidificador, que é o problema."
+            },
+            {
+              "id": "portugues-u4-l2-q2",
+              "type": "choice",
+              "prompt": "Porque é que se junta o azeite na tigela em vez de na panela?",
+              "options": [
+                "É mais barato",
+                "O azeite cru tem um sabor que cozinhar lhe tira",
+                "Impede a sopa de colar",
+                "Deixa a sopa mais espessa"
+              ],
+              "correctAnswer": "O azeite cru tem um sabor que cozinhar lhe tira",
+              "explanation": "Um bom azeite é um aroma, e o calor leva-o. Cozido na panela durante vinte minutos é só gordura; deitado por cima da tigela é a primeira coisa que se nota.",
+              "skills": [
+                "portuguesa.sopa-passar"
+              ],
+              "explainWrong": "É a mesma quantidade de azeite de qualquer maneira, por isso não se poupa nada, e o azeite nem engrossa uma sopa nem impede que ela cole — a batata e o lume brando é que tratam disso."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unit-portugues-1",
+      "title": "Bacalhau e Refogado",
+      "subtitle": "Os Dois Alicerces",
+      "color": "#046A38",
+      "lessons": [
+        {
+          "id": "lesson.portuguesa-demolha",
+          "title": "Demolhar Bacalhau",
+          "dayNumber": 3,
+          "dishName": "Bacalhau Demolhado",
+          "description": "Dias de mudas de água transformam uma posta de sal em peixe que se pode de facto cozinhar.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 150,
+          "icon": "🐟",
+          "imageUrl": "https://images.unsplash.com/photo-1551632786-de41ec16a41d?w=400",
+          "ingredients": [
+            "1 lombo de bacalhau salgado"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Passa o sal da superfície por água",
+              "description": "Uma passagem rápida por água fria antes de ele entrar na água de demolha."
+            },
+            {
+              "title": "Submerge, com a pele para cima",
+              "description": "A pele para cima deixa o sal escorrer para baixo e para fora em vez de se juntar debaixo da carne."
+            },
+            {
+              "title": "Muda a água duas vezes por dia",
+              "description": "Durante 24 a 48 horas, conforme a espessura, sempre no frigorífico."
+            }
+          ],
+          "teaches": [
+            "portuguesa.bacalhau-demolha"
+          ],
+          "questions": [
+            {
+              "id": "pt-u1-l1-q1",
+              "type": "choice",
+              "prompt": "Demolhaste um lombo grosso de bacalhau só 6 horas, mudando a água uma vez. Está pronto a cozinhar?",
+              "options": [
+                "Sim, 6 horas é mais que suficiente",
+                "Não, precisa de um dia ou dois com várias mudas de água",
+                "Sim, desde que o salgues outra vez depois",
+                "Não, tem de ser demolhado em leite"
+              ],
+              "correctAnswer": "Não, precisa de um dia ou dois com várias mudas de água",
+              "explanation": "Um lombo grosso guarda sal fundo na carne. Despachar a demolha deixa-o demasiado salgado para comer.",
+              "skills": [
+                "portuguesa.bacalhau-demolha"
+              ],
+              "explainWrong": "Salgá-lo outra vez é o contrário do que é preciso, e o leite é uma técnica para outros peixes, não um substituto das mudas de água que o bacalhau precisa. Postas grossas guardam sal fundo, e só o tempo com água nova o tira de lá."
+            },
+            {
+              "id": "pt-u1-l1-q2",
+              "type": "choice",
+              "prompt": "Porque é que o bacalhau vai para a água com a pele para cima?",
+              "options": [
+                "Coze de forma mais uniforme assim",
+                "Para o sal escorrer para baixo e para fora em vez de se juntar debaixo da carne",
+                "É só tradição, não faz diferença",
+                "Para a pele não se desfazer"
+              ],
+              "correctAnswer": "Para o sal escorrer para baixo e para fora em vez de se juntar debaixo da carne",
+              "explanation": "A pele para cima deixa a gravidade ajudar: o sal que sai da carne afunda em vez de ficar preso por baixo.",
+              "skills": [
+                "portuguesa.bacalhau-demolha"
+              ],
+              "explainWrong": "O peixe ainda não está a ser cozinhado, por isso a uniformidade não se aplica, e a pele aguenta-se bem de qualquer maneira durante a demolha — este passo é só sobre para que lado o sal que sai pode escorrer."
+            }
+          ]
+        },
+        {
+          "id": "lesson.portuguesa-refogado",
+          "title": "O Refogado",
+          "dayNumber": 4,
+          "dishName": "Base de Refogado",
+          "description": "Cebola e alho, devagar e com paciência: a base que aparece debaixo de quase tudo.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 15,
+          "xpReward": 180,
+          "icon": "🧅",
+          "imageUrl": "/lessons/portuguese/portuguesa-refogado.jpg",
+          "ingredients": [
+            "2 cebolas",
+            "3 dentes de alho",
+            "Azeite",
+            "1 folha de louro"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Corta a cebola fina",
+              "description": "Fatias finas e iguais suam por igual em vez de uns pedaços queimarem antes de os outros amolecerem."
+            },
+            {
+              "title": "Lume brando, azeite generoso",
+              "description": "O azeite deve cobrir a cebola à justa. Lume brando, sem pressa."
+            },
+            {
+              "title": "Junta o alho mais tarde, o louro cedo",
+              "description": "O alho queima depressa — junta-o quando a cebola já estiver mole e dourada."
+            }
+          ],
+          "teaches": [
+            "portuguesa.refogado"
+          ],
+          "requires": [
+            "calor.gordura"
+          ],
+          "questions": [
+            {
+              "id": "pt-u1-l2-q1",
+              "type": "choice",
+              "prompt": "O alho do teu refogado ficou escuro e amargo enquanto a cebola ainda estava pálida. O que correu mal?",
+              "options": [
+                "O azeite não estava quente o suficiente",
+                "O alho entrou cedo demais, antes de a cebola ter amolecido",
+                "Usaste pouco azeite",
+                "O louro queimou primeiro"
+              ],
+              "correctAnswer": "O alho entrou cedo demais, antes de a cebola ter amolecido",
+              "explanation": "O alho coze muito mais depressa do que a cebola. Posto ao mesmo tempo, queima muito antes de a cebola estar pronta.",
+              "skills": [
+                "portuguesa.refogado"
+              ],
+              "explainWrong": "Mais azeite ou mais calor não mudavam o facto de o alho simplesmente cozer mais depressa do que a cebola — a solução é o momento, não a quantidade nem a temperatura. Uma folha de louro é rija e não queima sozinha tão depressa."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.bacalhau-com-natas"
+    },
+    {
+      "id": "unit-portugues-2",
+      "title": "Arroz Malandrinho e Tempero",
+      "subtitle": "Arroz Que É Para Ser Caldoso",
+      "color": "#DA291C",
+      "lessons": [
+        {
+          "id": "lesson.portuguesa-arroz",
+          "title": "Malandrinho, Não Seco",
+          "dayNumber": 5,
+          "dishName": "Arroz de Marisco",
+          "description": "O arroz de marisco português é para ser solto e caldoso — tratá-lo como um pilaf estraga-o.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 30,
+          "xpReward": 220,
+          "icon": "🦐",
+          "imageUrl": "https://images.unsplash.com/photo-1614521267537-b85faf00021b?w=400",
+          "ingredients": [
+            "2 copos de arroz",
+            "Caldo de marisco",
+            "Camarões",
+            "Amêijoas",
+            "Tomate"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Mais líquido do que o habitual",
+              "description": "Mais ou menos o dobro da proporção de água para arroz de um arroz seco — este prato deve acabar caldoso."
+            },
+            {
+              "title": "Não o deixes secar",
+              "description": "Continua a juntar caldo quente se parecer que está a secar — nunca deve ficar com aspeto de arroz simples cozido a vapor."
+            },
+            {
+              "title": "Deixa repousar um pouco, fora do lume",
+              "description": "Dois minutos fora do lume deixam o arroz acabar de absorver sem se transformar em pasta."
+            }
+          ],
+          "teaches": [
+            "portuguesa.arroz-malandrinho"
+          ],
+          "requires": [
+            "calor.racio-agua"
+          ],
+          "questions": [
+            {
+              "id": "pt-u2-l1-q1",
+              "type": "choice",
+              "prompt": "O teu arroz de marisco saiu com os grãos separados e secos, como um pilaf. O que correu mal?",
+              "options": [
+                "Usaste demasiado arroz",
+                "Usaste a mesma proporção de água de um arroz seco, e não o dobro",
+                "Mexeste demasiado",
+                "O caldo de marisco estava demasiado fraco"
+              ],
+              "correctAnswer": "Usaste a mesma proporção de água de um arroz seco, e não o dobro",
+              "explanation": "O arroz malandrinho precisa de mais ou menos o dobro do líquido de um arroz seco — é para ser solto e caldoso.",
+              "skills": [
+                "portuguesa.arroz-malandrinho"
+              ],
+              "explainWrong": "Mexer ou um caldo mais fraco mudam o sabor e a cremosidade, não se os grãos acabam separados e secos. Grãos secos e separados apontam diretamente para pouco líquido para o estilo que se está a fazer."
+            },
+            {
+              "id": "pt-u2-l1-q2",
+              "type": "order",
+              "prompt": "Ordena os passos de um arroz malandrinho como deve ser",
+              "items": [
+                "Construir a base de refogado",
+                "Juntar o arroz e tostá-lo um pouco",
+                "Juntar mais ou menos o dobro da água habitual em caldo quente",
+                "Mantê-lo caldoso, acrescentando caldo conforme for preciso",
+                "Deixar repousar um pouco fora do lume antes de servir"
+              ],
+              "explanation": "O arroz constrói-se sobre o refogado e depois mantém-se caldoso do início ao fim, em vez de o deixar secar e separar-se.",
+              "skills": [
+                "portuguesa.arroz-malandrinho"
+              ],
+              "explainWrong": "Juntar o caldo todo de uma vez sem ir acrescentando, ou saltar o repouso, ou seca o prato cedo ou o serve meio cru. A ordem mantém aquilo caldoso todo o caminho.",
+              "correctOrder": [
+                "Construir a base de refogado",
+                "Juntar o arroz e tostá-lo um pouco",
+                "Juntar mais ou menos o dobro da água habitual em caldo quente",
+                "Mantê-lo caldoso, acrescentando caldo conforme for preciso",
+                "Deixar repousar um pouco fora do lume antes de servir"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "lesson.portuguesa-tempero",
+          "title": "Louro e Colorau",
+          "dayNumber": 6,
+          "dishName": "Refogado Temperado",
+          "description": "Os dois temperos por trás da maioria dos guisados portugueses: louro para profundidade, colorau para cor e calor.",
+          "type": "lesson",
+          "difficulty": "facil",
+          "cookTimeMin": 10,
+          "xpReward": 150,
+          "icon": "🍂",
+          "imageUrl": "/lessons/portuguese/portuguesa-tempero.jpg",
+          "ingredients": [
+            "Folha de louro",
+            "Colorau",
+            "Base de refogado"
+          ],
+          "preparationSteps": [
+            {
+              "title": "O louro entra cedo",
+              "description": "Precisa de tempo no líquido para largar o sabor — junta-o com a cebola, não no fim."
+            },
+            {
+              "title": "O colorau fora do lume forte",
+              "description": "Junta-o quando a panela já estiver fora do calor mais alto, ou mexe-o depressa — calor forte direto queima-o e deixa-o amargo."
+            }
+          ],
+          "teaches": [
+            "portuguesa.tempero-louro-colorau"
+          ],
+          "requires": [
+            "tempero.camadas"
+          ],
+          "questions": [
+            {
+              "id": "pt-u2-l2-q1",
+              "type": "choice",
+              "prompt": "Juntaste colorau diretamente em azeite muito quente e ele ficou escuro e amargo quase logo. O que devias ter feito?",
+              "options": [
+                "Usar mais colorau para compensar",
+                "Juntá-lo fora do calor mais alto, ou mexê-lo depressa e seguir",
+                "Juntá-lo logo no início com a cebola",
+                "Tostá-lo a seco numa frigideira à parte primeiro"
+              ],
+              "correctAnswer": "Juntá-lo fora do calor mais alto, ou mexê-lo depressa e seguir",
+              "explanation": "O colorau queima depressa em azeite quente. Tirar a panela do calor mais alto primeiro protege-lhe a cor e o doce.",
+              "skills": [
+                "portuguesa.tempero-louro-colorau"
+              ],
+              "explainWrong": "Mais colorau só queima mais colorau, e juntá-lo logo no início passa-o pelo tempo de cozedura todo em calor alto, que é pior e não melhor. A solução é o controlo do calor no momento em que ele entra, não o momento no início nem a quantidade."
+            }
+          ]
+        }
+      ],
+      "missionId": "mission.arroz-de-marisco"
+    },
+    {
+      "id": "unit-portugues-3",
+      "title": "Carne de Porco à Alentejana",
+      "subtitle": "Marinada e Momento Certo",
+      "color": "#B45309",
+      "missionId": "mission.porco-a-alentejana",
+      "lessons": [
+        {
+          "id": "lesson.portugues-massa-pimentao",
+          "title": "A Massa de Pimentão É Uma Marinada, Não Um Molho",
+          "dayNumber": 7,
+          "dishName": "A Massa de Pimentão",
+          "description": "A massa entra horas antes da frigideira, não minutos — é essa a diferença entre carne temperada e carne pintada.",
+          "type": "lesson",
+          "difficulty": "medio",
+          "cookTimeMin": 15,
+          "xpReward": 210,
+          "icon": "🌶️",
+          "imageUrl": "/lessons/portuguese/portugues-massa-pimentao.jpg",
+          "ingredients": [
+            "2 pimentos vermelhos",
+            "Sal grosso",
+            "4 dentes de alho",
+            "Colorau",
+            "Azeite",
+            "Lombo ou cachaço de porco"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Salga os pimentos e espera",
+              "description": "Pimento vermelho assado ou cru em camadas com sal grosso larga a água e concentra. É essa água que de outra maneira impediria a carne de alourar."
+            },
+            {
+              "title": "Pisa-a com alho e colorau",
+              "description": "Tritura ou pisa até ficar uma pasta espessa com alho, colorau e um pouco de azeite. Espessa, não líquida — tem de se agarrar à carne."
+            },
+            {
+              "title": "Esfrega-a bem e põe no frigorífico pelo menos quatro horas",
+              "description": "De um dia para o outro é melhor. Esfregada no último minuto queima na frigideira e nunca chega para além da superfície."
+            }
+          ],
+          "teaches": [
+            "portuguesa.massa-de-pimentao"
+          ],
+          "requires": [
+            "portuguesa.tempero-louro-colorau",
+            "tempero.sal-momento"
+          ],
+          "questions": [
+            {
+              "id": "portugues-u3-l1-q1",
+              "type": "choice",
+              "prompt": "Esfregas massa de pimentão no porco e metes-lo diretamente na frigideira quente. O que acontece?",
+              "options": [
+                "Funciona igual a marinar de um dia para o outro",
+                "A massa queima por fora enquanto a carne por dentro fica sem tempero",
+                "A carne coze mais depressa",
+                "A massa dissolve-se no azeite e tempera tudo por igual"
+              ],
+              "correctAnswer": "A massa queima por fora enquanto a carne por dentro fica sem tempero",
+              "explanation": "O sal e o colorau precisam de horas para viajar para dentro da carne. Na frigideira logo, o colorau queima em calor alto e tudo o que temperaste foi a crosta.",
+              "skills": [
+                "portuguesa.massa-de-pimentao"
+              ],
+              "explainWrong": "Marinar é uma questão de tempo, não de contacto: direto para a frigideira, não penetra nem sobrevive ao calor. Também não acelera a cozedura, e colorau em azeite quente fica amargo em vez de se espalhar por igual."
+            },
+            {
+              "id": "portugues-u3-l1-q2",
+              "type": "choice",
+              "prompt": "Porque é que se salgam os pimentos e se deixam repousar antes de fazer a massa?",
+              "options": [
+                "Para ficarem mais picantes",
+                "Para lhes tirar água, para a massa ficar espessa e a carne conseguir alourar",
+                "Para manter a cor viva",
+                "Porque o sal não se cola de outra maneira"
+              ],
+              "correctAnswer": "Para lhes tirar água, para a massa ficar espessa e a carne conseguir alourar",
+              "explanation": "Uma massa aguada põe líquido na superfície da carne, e carne húmida coze a vapor em vez de selar — o passo de salgar é o que torna a crosta possível.",
+              "skills": [
+                "portuguesa.massa-de-pimentao"
+              ],
+              "explainWrong": "O sal não acrescenta picante e a cor vem do pimento e do colorau. A questão é tirar a água, que é exatamente o que está entre o porco e uma crosta."
+            }
+          ]
+        },
+        {
+          "id": "lesson.portugues-ameijoas",
+          "title": "As Amêijoas Abrem, As Amêijoas Passam do Ponto",
+          "dayNumber": 8,
+          "dishName": "As Amêijoas",
+          "description": "Não há teste de ponto para uma amêijoa a não ser a casca abrir — e cerca de trinta segundos entre isso e borracha.",
+          "type": "lesson",
+          "difficulty": "dificil",
+          "cookTimeMin": 20,
+          "xpReward": 250,
+          "icon": "🐚",
+          "imageUrl": "/lessons/portuguese/portugues-ameijoas.jpg",
+          "ingredients": [
+            "1 kg de amêijoas",
+            "Sal grosso",
+            "Vinho branco",
+            "Alho",
+            "Coentros",
+            "Limão"
+          ],
+          "preparationSteps": [
+            {
+              "title": "Põe-nas em água salgada primeiro",
+              "description": "Uma hora ou duas em água fria salgada e as amêijoas cospem a areia. Salta este passo e o prato todo fica com areia, por muito bem que o tenhas cozinhado."
+            },
+            {
+              "title": "Põe fora as que fiquem abertas quando lhes bates",
+              "description": "Uma amêijoa viva fecha quando lhe bates. Uma que não feche vai para o lixo — não para a panela."
+            },
+            {
+              "title": "Tira cada uma à medida que abre",
+              "description": "Não abrem todas juntas. Tira-as com uma pinça à medida que vão abrindo e devolve-as no fim, fora do lume."
+            }
+          ],
+          "teaches": [
+            "portuguesa.ameijoas-abertura"
+          ],
+          "requires": [
+            "calor.niveis",
+            "portuguesa.refogado"
+          ],
+          "questions": [
+            {
+              "id": "portugues-u3-l2-q1",
+              "type": "choice",
+              "prompt": "Metade das amêijoas na panela abriram, as outras não. O que fazes?",
+              "options": [
+                "Aumentar o lume para as outras apanharem as primeiras",
+                "Tirar as abertas e deixar as outras acabar, e depois devolvê-las no fim",
+                "Tapar e cozê-las todas mais cinco minutos",
+                "Tirá-las todas agora"
+              ],
+              "correctAnswer": "Tirar as abertas e deixar as outras acabar, e depois devolvê-las no fim",
+              "explanation": "Uma amêijoa aberta já está pronta; cada segundo a mais é encolhimento. Tirá-las à medida que vão abrindo é a única maneira de ter a panela toda tenra.",
+              "skills": [
+                "portuguesa.ameijoas-abertura"
+              ],
+              "explainWrong": "Mais calor ou cinco minutos a mais debaixo de uma tampa cozem as abertas até ficarem borracha enquanto esperam pelas outras, e tirá-las todas agora deixa-te a servir amêijoas fechadas e cruas."
+            },
+            {
+              "id": "portugues-u3-l2-q2",
+              "type": "choice",
+              "prompt": "Uma amêijoa que fica aberta quando lhe bates, antes de cozinhar. E agora?",
+              "options": [
+                "Cozinhá-la — abre da mesma maneira",
+                "Pô-la fora: não está viva",
+                "Deixá-la em água mais tempo até fechar",
+                "Cozinhá-la em separado"
+              ],
+              "correctAnswer": "Pô-la fora: não está viva",
+              "explanation": "Fechar quando se lhe bate é a única verificação que tens de que uma amêijoa está viva. Uma que não responde é a que põe as pessoas doentes, e cozinhar não resolve isso.",
+              "skills": [
+                "portuguesa.ameijoas-abertura"
+              ],
+              "explainWrong": "Não há demolha nem cozedura à parte que reanime uma amêijoa morta, e pô-la na panela arrisca o prato todo e quem o comer."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "mission.sopa-de-legumes",
+      "unitId": "unit-portugues-4",
+      "title": "Sopa de legumes",
+      "dishName": "Sopa de Legumes",
+      "cookTimeMin": 40,
+      "summary": "A panela que todas as cozinhas portuguesas têm ao lume: barata, tolerante, quatro tigelas de uma batata e do que houver no frigorífico.",
+      "estimatedCostEur": 2,
+      "dietaryTags": [
+        "vegetariano",
+        "vegano",
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "portuguesa.sopa-batata",
+        "portuguesa.sopa-passar",
+        "calor.lume-brando"
+      ],
+      "xpReward": 450,
+      "ingredients": [
+        "2 batatas",
+        "1 cebola",
+        "2 cenouras",
+        "Um punhado de feijão-verde ou couve",
+        "4 colheres de sopa de azeite",
+        "Sal grosso",
+        "Água"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Cebola e batata para a panela com azeite e água",
+          "description": "Cebola picada, batata descascada em pedaços, duas colheres de sopa de azeite, e água que cubra dois centímetros acima. Salga de leve — vai reduzir.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens cebola? A sopa fica mais sem graça mas a batata continua a fazer o trabalho dela."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Tudo coberto de água, não a nadar nela — podes sempre juntar mais depois."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Lume muito brando até a batata se desfazer",
+          "description": "O lume mais baixo que a mantenha a mexer, uns vinte minutos. Está pronta quando um pedaço de batata se parte debaixo das costas de uma colher sem resistência.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "A batata esmaga-se contra a parede da panela sem esforço."
+            },
+            {
+              "kind": "cola",
+              "answer": "A agarrar no fundo? O lume está demasiado alto — baixa-o e junta um pouco de água."
+            },
+            {
+              "kind": "falta",
+              "answer": "Já demasiado espessa? Água quente, um pouco de cada vez."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Tritura a base até ficar lisa",
+          "description": "Tritura-a — varinha mágica na panela, ou num jarro e de volta. É esta a sopa; tudo daqui para a frente é o que lhe juntas.",
+          "durationSec": 180,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens varinha? Esmaga-a com força contra a parede da panela com um garfo ou um passe-vite; fica mais rústica mas serve."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Lisa e espessa o suficiente para cobrir as costas de uma colher, sem grumos de batata."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Cenoura e verdes para a base triturada",
+          "description": "Cenoura em rodelas e o feijão-verde ou a couve cortada fina para a sopa, e mais dez minutos em lume brando. Estes são os pedaços que queres encontrar na tigela, por isso não chegam perto do liquidificador.",
+          "durationSec": 600,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Cenoura tenra mas ainda em rodelas, verdes vivos em vez de cinzentos."
+            },
+            {
+              "kind": "falta",
+              "answer": "Qualquer legume que tenhas serve — este é o prato que gasta o frigorífico."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Verdes sem cor? Continua a ser sopa perfeitamente boa; junta-os mais tarde na próxima."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Prova, sal, e azeite na tigela",
+          "description": "Agora o sal, agora que já reduziu. Para as tigelas, e um fio de azeite cru por cima de cada uma — fora do lume, não na panela.",
+          "durationSec": 120,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Sabe temperada por si, espessa mas de deitar, azeite visível à superfície da tigela."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens bom azeite? Usa o que tens, mas este é o sítio onde se nota."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.bacalhau-com-natas",
+      "unitId": "unit-portugues-1",
+      "title": "Bacalhau com Natas",
+      "dishName": "Bacalhau com Natas",
+      "cookTimeMin": 60,
+      "summary": "Bacalhau demolhado, um refogado como deve ser, e o assado cremoso que transforma os dois num clássico.",
+      "estimatedCostEur": 9,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "portuguesa.bacalhau-demolha",
+        "portuguesa.refogado"
+      ],
+      "xpReward": 500,
+      "ingredients": [
+        "Bacalhau demolhado",
+        "Batatas",
+        "2 cebolas",
+        "3 dentes de alho",
+        "Azeite",
+        "Nata",
+        "Queijo"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Lasca o bacalhau demolhado",
+          "description": "Escalfa-o um pouco e depois lasca-o em pedaços grandes, à procura de espinhas.",
+          "durationSec": 600,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Continua a saber a salgado? Faltou-lhe tempo de demolha — nada nesta fase resolve isso."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Lascado em pedaços grandes, sem espinhas, sabe temperado mas não salgado."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Constrói o refogado",
+          "description": "Cebola e alho suados devagar em azeite até ficarem moles e dourados.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Alho escuro e amargo? Tira-o e começa alho novo — não leves o amargo para a frente."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Mole, dourado, de cheiro doce, sem pontos escuros e amargos."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Faz as camadas e leva ao forno",
+          "description": "Faz camadas de batata, bacalhau, refogado e nata num tabuleiro, cobre com queijo e leva ao forno até ficar dourado.",
+          "durationSec": 1800,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens queijo à mão? Uma cobertura de pão ralado também dá uma boa crosta."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Dourado e a borbulhar em cima, cremoso por baixo."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.arroz-de-marisco",
+      "unitId": "unit-portugues-2",
+      "title": "Arroz de Marisco",
+      "dishName": "Arroz de Marisco",
+      "cookTimeMin": 60,
+      "summary": "Um arroz de marisco solto e caldoso sobre um refogado como deve ser — com o caldo feito das cascas do camarão em vez de comprado, que é o que o torna acessível.",
+      "estimatedCostEur": 6.5,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_ovo",
+        "sem_frutos_secos",
+        "sem_soja"
+      ],
+      "practices": [
+        "portuguesa.arroz-malandrinho",
+        "portuguesa.tempero-louro-colorau",
+        "portuguesa.refogado"
+      ],
+      "xpReward": 550,
+      "ingredients": [
+        "2 copos de arroz carolino ou de grão curto",
+        "300 g de camarão inteiro congelado, com casca",
+        "500 g de mexilhão",
+        "2 tomates",
+        "2 cebolas",
+        "4 dentes de alho",
+        "1 folha de louro",
+        "Colorau",
+        "Azeite",
+        "Coentros",
+        "Água"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Descasca os camarões e faz o caldo das cascas",
+          "description": "Descasca os camarões descongelados e guarda as cascas e as cabeças. Frita as cascas num pouco de azeite até ficarem vivas de cor e cheirarem a doce, cobre com água e deixa estufar 15 minutos. É este o caldo — o de compra é a coisa mais cara deste prato e a pior.",
+          "durationSec": 1200,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Camarão já descascado? Usa água com um tomate e meia cebola, mas o arroz vai saber visivelmente mais a nada."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Cascas ficaram castanho-escuras? Continua bem — isso é sabor. Negro e acre não é; começa de novo."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Líquido de tom laranja que sabe a camarão por si, coado e mantido quente."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Abre o mexilhão numa panela tapada e guarda a água dele",
+          "description": "Escova o mexilhão e põe fora os que não fecham quando lhes bates. Para uma panela seca e tapada em lume forte dois ou três minutos, só até abrirem. Tira-os e coa a água deles para o caldo — essa água é tempero de graça.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Os que fiquem fechados depois de quatro minutos vão para o lixo, não para o arroz."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Cascas abertas, mexilhão ainda gordo em vez de encolhido, e uma caneca da água dele guardada."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Passaram tempo demais e ficaram borracha? Junta-os no fim mesmo assim; continuam a temperar o arroz."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Constrói o refogado temperado",
+          "description": "Cebola e alho em azeite, louro cedo, e depois o tomate. O colorau entra fora do calor mais alto — queima em azeite quente e não há volta a dar a colorau amargo.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "queimei",
+              "answer": "Colorau escuro e amargo? Limpa a panela e começa o refogado outra vez — não se salva depois de queimado."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Cor de vermelho-dourado funda, cheiro doce, sem nota queimada nem amarga."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Tosta o arroz e depois o caldo quente",
+          "description": "Mexe o arroz no refogado durante um minuto para ele apanhar a gordura e a cor, e depois junta mais ou menos o dobro da quantidade habitual de líquido em caldo de camarão quente e água do mexilhão.",
+          "durationSec": 300,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Pouco caldo? Acrescenta água quente em vez de fria, e guarda alguma para depois."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Cada grão coberto e brilhante antes de qualquer líquido entrar."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Coze-o solto e caldoso",
+          "description": "Deixa estufar, acrescentando caldo quente para nunca parecer seco, até o arroz estar apenas cozido. Malandrinho quer dizer que ainda deve mexer-se quando sacodes a panela — um arroz de marisco seco é um prato diferente e pior.",
+          "durationSec": 900,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "A parecer seco antes de o arroz estar pronto? Mais caldo quente, um pouco de cada vez."
+            },
+            {
+              "kind": "cola",
+              "answer": "A agarrar no fundo? Baixa o lume e mexe desde a base."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Solto, caldoso, arroz apenas cozido, ainda a mexer-se quando sacodes a panela."
+            }
+          ]
+        },
+        {
+          "id": "s6",
+          "index": 5,
+          "title": "Camarão lá dentro, mexilhão de volta, coentros, repouso",
+          "description": "Os camarões descascados entram no arroz quente nos últimos dois minutos — quase não precisam de nada. Lume fora, depois o mexilhão de volta, coentros por dentro, e dois minutos de repouso antes de servir.",
+          "durationSec": 300,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Camarões apenas cor-de-rosa e firmes, mexilhão aquecido em vez de cozido duas vezes, arroz ainda solto."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens coentros? A salsa muda aquilo mas não estraga."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Camarões apertados e pequenos? Estiveram tempo demais — na próxima, dois minutos e fora do lume."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mission.porco-a-alentejana",
+      "unitId": "unit-portugues-3",
+      "title": "Carne de Porco à Alentejana",
+      "dishName": "Carne de Porco com Amêijoas, à Alentejana",
+      "cookTimeMin": 80,
+      "summary": "O prato que junta tudo: uma marinada feita horas antes, uma selagem a sério, e amêijoas tiradas no segundo em que abrem.",
+      "estimatedCostEur": 9.5,
+      "dietaryTags": [
+        "sem_gluten",
+        "sem_lactose",
+        "sem_frutos_secos",
+        "sem_ovo",
+        "sem_soja",
+        "sem_acucar"
+      ],
+      "practices": [
+        "portuguesa.refogado",
+        "portuguesa.tempero-louro-colorau",
+        "portuguesa.massa-de-pimentao",
+        "portuguesa.ameijoas-abertura"
+      ],
+      "xpReward": 850,
+      "ingredients": [
+        "800 g de cachaço de porco, em cubos",
+        "1 kg de amêijoas",
+        "Massa de pimentão",
+        "4 dentes de alho",
+        "1 folha de louro",
+        "Vinho branco",
+        "Azeite",
+        "Coentros",
+        "Batatas",
+        "Limão"
+      ],
+      "steps": [
+        {
+          "id": "s1",
+          "index": 0,
+          "title": "Marina o porco, põe as amêijoas em água salgada",
+          "description": "Esfrega o porco em cubos com massa de pimentão, alho e louro e põe no frigorífico — quatro horas no mínimo, de um dia para o outro se conseguires. As amêijoas vão para água fria salgada pelo menos uma hora.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens massa de pimentão pronta? Tritura pimento vermelho assado, sal grosso, alho e colorau numa pasta espessa."
+            },
+            {
+              "kind": "pronto",
+              "answer": "Porco coberto por igual e frio, amêijoas em água transparente com areia no fundo da tigela."
+            }
+          ]
+        },
+        {
+          "id": "s2",
+          "index": 1,
+          "title": "Sela o porco com força, em lotes",
+          "description": "Seca os cubos com papel e sela-os numa frigideira quente com um pouco de azeite, em lotes e com espaço entre eles. Enche a frigideira e ferves o porco nos próprios sucos.",
+          "durationSec": 900,
+          "rescues": [
+            {
+              "kind": "cola",
+              "answer": "Está a colar? Não forces — solta-se quando a crosta se formar."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Colorau a escurecer depressa? Baixa ligeiramente o lume; a massa agarra antes da carne."
+            },
+            {
+              "kind": "falta",
+              "answer": "Frigideira pequena? Três lotes é melhor do que um cheio."
+            }
+          ]
+        },
+        {
+          "id": "s3",
+          "index": 2,
+          "title": "Desglaça com vinho e deixa o porco acabar em lume brando",
+          "description": "Vinho para a frigideira quente, raspa tudo do fundo, e depois lume brando e tapado até o porco estar tenro. O que raspaste do fundo é quase todo o molho.",
+          "durationSec": 1500,
+          "rescues": [
+            {
+              "kind": "falta",
+              "answer": "Não tens vinho? Água e um pouco de vinagre também levantam o fundo da frigideira."
+            },
+            {
+              "kind": "cola",
+              "answer": "Fundo a agarrar? Junta mais um pouco de líquido e baixa o lume."
+            },
+            {
+              "kind": "pronto",
+              "answer": "O porco cede com facilidade a um garfo e o molho tem corpo em vez de estar aguado."
+            }
+          ]
+        },
+        {
+          "id": "s4",
+          "index": 3,
+          "title": "Amêijoas lá dentro, e fora à medida que abrem",
+          "description": "Põe fora qualquer amêijoa que não feche quando lhe bates. Junta as outras à panela a estufar, tapa, e tira cada uma com a pinça no momento em que a casca abrir.",
+          "durationSec": 420,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Todas as cascas abertas, cada amêijoa tirada à medida que abriu em vez de fervida com as outras."
+            },
+            {
+              "kind": "falta",
+              "answer": "Algumas recusam-se a abrir depois de cinco minutos? Essas vão para o lixo, não para o prato."
+            },
+            {
+              "kind": "queimei",
+              "answer": "Molho a reduzir depressa demais enquanto esperas? Fora do lume entre amêijoas."
+            }
+          ]
+        },
+        {
+          "id": "s5",
+          "index": 4,
+          "title": "Devolve as amêijoas fora do lume e acaba com coentros e limão",
+          "description": "Lume fora, amêijoas de volta, coentros picados e um aperto de limão mexidos por dentro. Serve com as batatas — e prova o molho antes de o salgares.",
+          "durationSec": 240,
+          "checkpoint": true,
+          "rescues": [
+            {
+              "kind": "pronto",
+              "answer": "Amêijoas tenras, não encolhidas e rijas; molho a cobrir o porco; coentros ainda verdes."
+            },
+            {
+              "kind": "falta",
+              "answer": "Não tens coentros? A salsa muda o prato mas não o estraga."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
