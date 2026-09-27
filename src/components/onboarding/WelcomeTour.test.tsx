@@ -11,11 +11,12 @@ vi.mock("react-router-dom", async () => {
   return { ...real, useNavigate: () => navegar };
 });
 
-const utilizador = makeUser();
+/** Mutável de propósito: o utilizador vem do servidor outra vez a cada XP. */
+const sessao = vi.hoisted(() => ({ user: null as ReturnType<typeof makeUser> | null }));
 
 vi.mock("@/features/profile/hooks/useCurrentUser", () => ({
   currentUserQueryKey: ["currentUser"],
-  useCurrentUser: () => ({ data: utilizador }),
+  useCurrentUser: () => ({ data: sessao.user }),
 }));
 
 /**
@@ -26,6 +27,7 @@ vi.mock("@/features/profile/hooks/useCurrentUser", () => ({
 beforeEach(() => {
   localStorage.clear();
   navegar.mockClear();
+  sessao.user = makeUser();
 });
 
 const abrir = () => renderWithProviders(<WelcomeTour />);
@@ -64,6 +66,22 @@ describe("apresentação de quem entra pela primeira vez", () => {
 
     await pessoa.click(screen.getByRole("button", { name: /^back$/i }));
     expect(screen.getByRole("dialog")).toHaveTextContent(/welcome, chef chefdemo/i);
+  });
+
+  test("o XP a chegar do servidor não atira a pessoa para o primeiro passo", async () => {
+    const pessoa = userEvent.setup();
+    const { rerender } = abrir();
+
+    await waitFor(() => expect(screen.getByRole("dialog")).toBeInTheDocument());
+    await pessoa.click(screen.getByRole("button", { name: /^next$/i }));
+    expect(screen.getByRole("dialog")).toHaveTextContent(/learn one skill at a time/i);
+
+    // O que acontece quando uma lição paga XP: o mesmo utilizador volta do
+    // servidor num objeto novo. A visita guiada tem de ficar onde estava.
+    sessao.user = makeUser({ xp: 999 });
+    rerender(<WelcomeTour />);
+
+    expect(screen.getByRole("dialog")).toHaveTextContent(/learn one skill at a time/i);
   });
 
   test("quem a salta não volta a vê-la na visita seguinte", async () => {

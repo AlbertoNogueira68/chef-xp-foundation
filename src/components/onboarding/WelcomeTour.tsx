@@ -58,7 +58,7 @@ const passos = (nome: string): Passo[] => [
     mood: "aprovar",
     title: t("Cooked it? Publish it"),
     body: t(
-      "The orange button is where the dish goes up. A photo, the ingredients, and the XP is yours — with or without a connection, it's sent when the network comes back.",
+      "The orange button is where the dish goes up: a photo, the ingredients, and the XP lands in your account — more if the dish is an entry in the week's challenge.",
     ),
   },
   {
@@ -66,7 +66,7 @@ const passos = (nome: string): Passo[] => [
     mood: "normal",
     title: t("The feed is the kitchen next door"),
     body: t(
-      "Follow other chefs, see what they cooked today, and enter the week's challenges to appear on the leaderboard.",
+      "Follow other chefs and see what they cooked today. The magnifier next to it searches recipes by time, budget or diet.",
     ),
   },
   {
@@ -87,13 +87,20 @@ export function WelcomeTour() {
   const [aberto, setAberto] = useState(false);
   const [passo, setPasso] = useState(0);
 
-  // Só depois de saber quem é: a marca de "já viu" é por pessoa, e abrir antes
-  // de a sessão responder mostrava o tutorial a quem já o tinha dispensado.
+  /**
+   * Abre-se sozinha a quem ainda não a viu — e só depois de a sessão
+   * responder, porque a marca de "já viu" é por pessoa.
+   *
+   * A dependência é o `id` e não o utilizador inteiro: o mesmo utilizador
+   * volta do servidor num objeto novo a cada ganho de XP, e com o objeto na
+   * lista quem estivesse a meio da visita era atirado para o primeiro passo.
+   */
+  const userId = user?.id;
   useEffect(() => {
-    if (!user || tutorialVisto(user.id)) return;
+    if (!userId || tutorialVisto(userId)) return;
     setPasso(0);
     setAberto(true);
-  }, [user]);
+  }, [userId]);
 
   // O botão das definições. O primeiro valor do contador não é um pedido — é
   // o estado inicial de quem acaba de ouvir.
@@ -125,11 +132,7 @@ export function WelcomeTour() {
 
   return (
     <Dialog open={aberto} onOpenChange={(estado) => (estado ? setAberto(true) : fechar())}>
-      <DialogContent
-        className="max-w-sm gap-5 rounded-2xl"
-        aria-label={t("Welcome tour")}
-        onOpenAutoFocus={(evento) => evento.preventDefault()}
-      >
+      <DialogContent className="max-w-sm gap-5 rounded-2xl">
         <div className="flex flex-col items-center text-center">
           {Icon ? (
             <span className="flex size-14 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg shadow-orange-500/25">
@@ -145,22 +148,23 @@ export function WelcomeTour() {
           </DialogDescription>
         </div>
 
-        {/* Onde se vai: sem isto, "Seguinte" é uma porta sem fim à vista. */}
-        <ol
-          className="flex items-center justify-center gap-1.5"
-          aria-label={t("Step {current} of {total}", { current: passo + 1, total: ecras.length })}
-        >
+        {/* Onde se vai: sem isto, "Seguinte" é uma porta sem fim à vista. Os
+            pontos são desenho — quem ouve a app recebe a mesma contagem por
+            escrito, e recebe-a a cada passo. */}
+        <p aria-live="polite" className="sr-only">
+          {t("Step {current} of {total}", { current: passo + 1, total: ecras.length })}
+        </p>
+        <div aria-hidden className="flex items-center justify-center gap-1.5">
           {ecras.map((ecra, i) => (
-            <li
+            <span
               key={ecra.title}
-              aria-hidden
               className={cn(
                 "h-1.5 rounded-full transition-all",
                 i === passo ? "w-6 bg-amber-500" : "w-1.5 bg-muted-foreground/25",
               )}
             />
           ))}
-        </ol>
+        </div>
 
         <div className="flex items-center gap-2">
           {passo > 0 && (
