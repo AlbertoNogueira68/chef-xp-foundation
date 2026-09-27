@@ -26,16 +26,18 @@ export type ChefMascotSize = keyof typeof TAMANHOS;
 
 /**
  * A cara do chef conforme o que acabou de acontecer: acertaste (`aprovar`),
- * enganaste-te (`erro`), ficaste sem corações (`triste`) ou ganhaste XP
- * (`celebrar`). Fora desses momentos, é o chef de sempre.
+ * enganaste-te (`erro`), ficaste sem corações (`triste`), ganhaste XP
+ * (`celebrar`) ou está ele a explicar alguma coisa (`falar`). Fora desses
+ * momentos, é o chef de sempre.
  */
-export type ChefMood = "normal" | "aprovar" | "celebrar" | "erro" | "triste";
+export type ChefMood = "normal" | "aprovar" | "celebrar" | "erro" | "falar" | "triste";
 
 const IMAGENS: Record<ChefMood, string> = {
   normal: "chef-frog-avatar",
   aprovar: "chef-frog-aprovar",
   celebrar: "chef-frog-celebrar",
   erro: "chef-frog-erro",
+  falar: "chef-frog-falar",
   triste: "chef-frog-triste",
 };
 
@@ -81,12 +83,17 @@ export type ChefTone = keyof typeof TONS;
  * virado para ele. É o formato de toda a app — quando o chef fala, fala
  * sempre assim, para que se perceba de relance que aquilo é ele e não um
  * aviso do sistema.
+ *
+ * Por omissão usa a cara de quem está a falar — boca aberta, mão no ar —, e
+ * não o avatar parado: é a diferença entre o chef estar ali e o chef estar a
+ * dizer aquilo. Quem passa um humor (acertou, errou, chumbou) continua a
+ * mandar nele, que nesses momentos o que a cara diz é mais importante.
  */
 export function ChefSpeech({
   children,
   tone = "neutro",
   size = "md",
-  mood = "normal",
+  mood = "falar",
   title,
   className,
 }: {

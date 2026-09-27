@@ -10,6 +10,25 @@
  */
 
 export const PT: Record<string, string> = {
+  "Cooked it? Publish it": "Cozinhaste? Publica",
+  "Follow other chefs and see what they cooked today. The magnifier next to it searches recipes by time, budget or diet.":
+    "Segue outros chefs e vê o que cozinharam hoje. A lupa ao lado procura receitas por tempo, orçamento ou dieta.",
+  "Here you learn to cook the way a game is played: short lessons, real dishes, and XP for everything you cook.":
+    "Aqui aprende-se a cozinhar como se joga: lições curtas, pratos a sério e XP por tudo o que cozinhares.",
+  "Learn one skill at a time": "Aprende uma competência de cada vez",
+  "Level, XP, day streak and the daily goal — change it whenever the week asks for less, or for more.":
+    "Nível, XP, dias seguidos e o objetivo diário — muda-o sempre que a semana pedir menos, ou mais.",
+  "Replay the welcome tour": "Ver a apresentação outra vez",
+  "Start the first lesson": "Começar a primeira lição",
+  Skip: "Saltar",
+  "Step {current} of {total}": "Passo {current} de {total}",
+  "The feed is the kitchen next door": "O feed é a cozinha do lado",
+  "The orange button is where the dish goes up: a photo, the ingredients, and the XP lands in your account — more if the dish is an entry in the week's challenge.":
+    "O botão cor de laranja é por onde o prato sobe: uma fotografia, os ingredientes, e o XP cai na tua conta — mais ainda se o prato for uma participação no desafio da semana.",
+  "Under the trophy is the trail of lessons. Each skill ends in a mission: a dish to cook in your own kitchen, with the chef guiding you step by step.":
+    "Debaixo do troféu está o trilho das lições. Cada competência acaba numa missão: um prato para fazeres na tua cozinha, com o chef a guiar-te passo a passo.",
+  "Welcome, chef {name}!": "Bem-vindo, chef {name}!",
+  "Your progress lives in the profile": "O teu progresso está no perfil",
   Enter: "Participar",
   " · {count} reports": " · {count} denúncias",
   " · {count}d left": " · faltam {count} dias",

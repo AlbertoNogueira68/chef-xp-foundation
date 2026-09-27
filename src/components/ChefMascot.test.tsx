@@ -32,6 +32,14 @@ describe("chef sapo", () => {
     ]);
   });
 
+  test("no balão, e sem mais nada dito, é a cara de quem está a falar", () => {
+    const { container } = renderWithProviders(<ChefSpeech>Salt at the end.</ChefSpeech>);
+
+    expect(container.querySelector("img")!.getAttribute("src")).toBe(
+      "/mascot/chef-frog-falar-96.png",
+    );
+  });
+
   test("o balão mostra o que o chef diz", () => {
     renderWithProviders(<ChefSpeech title="That's it!">Salt at the end, always.</ChefSpeech>);
 

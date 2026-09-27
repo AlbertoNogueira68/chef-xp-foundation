@@ -92,13 +92,30 @@ function isento(el) {
   });
 }
 
-async function entrar(page) {
+/**
+ * Entra, e trata da visita guiada.
+ *
+ * Quem entra pela primeira vez recebe a apresentação da app por cima do feed —
+ * e um contexto do browser novo é sempre a primeira vez. Se ficasse aberta,
+ * tapava todas as rotas seguintes e os cliques nos diálogos batiam nela.
+ *
+ * Mede-se antes de a dispensar, que é um ecrã como os outros, e a marca de
+ * "já viu" fica no `localStorage` deste contexto: não volta a aparecer.
+ */
+async function entrar(page, largura) {
   await page.goto(`${BASE}/auth`, { waitUntil: "domcontentloaded" });
   await page.locator("input[type=email]").first().fill(EMAIL);
   await page.locator("input[type=password]").first().fill(PASSWORD);
   await page.locator("button[type=submit]").first().click();
   await page.waitForURL(/\/feed/, { timeout: 20_000 });
   await page.waitForTimeout(800);
+
+  const visita = page.getByRole("dialog");
+  if (await visita.count()) {
+    await medir(page, "diálogo: apresentação", largura);
+    await page.getByRole("button", { name: /^skip$/i }).click();
+    await page.waitForTimeout(500);
+  }
 }
 
 async function medir(page, onde, largura) {
@@ -188,7 +205,7 @@ try {
     // escolheu: aqui fixa-se, para os nomes procurados serem sempre os mesmos.
     await ctx.addInitScript(() => localStorage.setItem("chefxp.lang", "en"));
     const page = await ctx.newPage();
-    await entrar(page);
+    await entrar(page, largura);
 
     for (const rota of ROTAS) {
       await page.goto(`${BASE}${rota}`, { waitUntil: "domcontentloaded" });
@@ -252,7 +269,7 @@ try {
 
 if (problemas.length === 0) {
   console.log(
-    `[responsivo] ok — ${ROTAS.length + 5} ecrãs em ${LARGURAS.join(", ")}px: ` +
+    `[responsivo] ok — ${ROTAS.length + 6} ecrãs em ${LARGURAS.join(", ")}px: ` +
       "sem scroll horizontal, sem cortes e sem alvos pequenos",
   );
   process.exit(0);
