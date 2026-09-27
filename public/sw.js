@@ -46,9 +46,10 @@ const SHELL = [
   // balões de fala com um buraco ao lado.
   "/mascot/chef-frog-avatar.png",
   "/mascot/chef-frog-avatar-96.png",
-  // As caras do chef ao acertar, errar, chumbar e ganhar XP: sem elas, a
+  // As caras do chef ao acertar, errar, chumbar e ganhar XP — e a de quem está
+  // a explicar, que é a que aparece em cada balão de fala: sem elas, a
   // primeira resposta dada offline mostrava um buraco no lugar do chef.
-  ...["aprovar", "celebrar", "erro", "triste"].flatMap((humor) => [
+  ...["aprovar", "celebrar", "erro", "falar", "triste"].flatMap((humor) => [
     `/mascot/chef-frog-${humor}.png`,
     `/mascot/chef-frog-${humor}-96.png`,
   ]),

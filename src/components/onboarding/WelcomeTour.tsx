@@ -39,7 +39,7 @@ type Passo = {
 // traduzido no momento em que se desenha, e a língua pode mudar antes disso.
 const passos = (nome: string): Passo[] => [
   {
-    mood: "celebrar",
+    mood: "falar",
     title: t("Welcome, chef {name}!", { name: nome }),
     body: t(
       "Here you learn to cook the way a game is played: short lessons, real dishes, and XP for everything you cook.",

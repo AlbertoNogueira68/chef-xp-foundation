@@ -24,11 +24,12 @@ const ICONS = path.join(RAIZ, "public/icons");
 const MASCOTE = path.join(RAIZ, "public/mascot");
 
 /**
- * As caras do chef para cada momento da lição. Os originais vivem em
+ * As caras do chef: uma por cada momento da lição, e a de quem está a falar,
+ * que é a que aparece em cada balão. Os originais vivem em
  * `design/mascot/` e não em `public/`: são uns 200 kB cada e a app só usa os
  * recortes pequenos que saem daqui.
  */
-const HUMORES = ["aprovar", "celebrar", "erro", "triste"];
+const HUMORES = ["aprovar", "celebrar", "erro", "falar", "triste"];
 const DESENHOS = path.join(RAIZ, "design/mascot");
 
 /**
@@ -102,6 +103,12 @@ function circuloAoCentro(imagem) {
     cy: (cima + baixo) / 2,
     raio: Math.min(direita - esquerda, baixo - cima) / 2 - 2,
   };
+}
+
+/** O canto da imagem: é o fundo, e diz qual das duas medições serve. */
+function escuroNoCanto(imagem) {
+  const [r, g, b] = corDoFundo(imagem);
+  return (r + g + b) / 3 <= 40;
 }
 
 /**
@@ -210,7 +217,14 @@ await escrever(path.join(MASCOTE, "chef-frog-avatar-96.png"), recorteRedondo(fon
    chumbar, ganhar XP). */
 for (const humor of HUMORES) {
   const desenho = decodePng(await readFile(path.join(DESENHOS, `chef-frog-${humor}.png`)));
-  const circulo = circuloAoCentro(desenho);
+  /**
+   * Os desenhos não vieram todos com o mesmo fundo — uns são brancos, o do
+   * chef a falar é escuro como a fonte — e a maneira de medir o círculo
+   * depende disso. Em vez de manter uma lista de excepções, pergunta-se ao
+   * canto da imagem: com fundo escuro serve a caixa do que é claro, com fundo
+   * claro é preciso medir pelo meio, senão os confettis entram na conta.
+   */
+  const circulo = escuroNoCanto(desenho) ? encontrarCirculo(desenho) : circuloAoCentro(desenho);
   await escrever(
     path.join(MASCOTE, `chef-frog-${humor}.png`),
     recorteRedondo(desenho, 256, circulo),
