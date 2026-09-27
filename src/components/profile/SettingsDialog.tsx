@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { ImagePlus, Loader2 } from "lucide-react";
+import { ImagePlus, Loader2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +23,7 @@ import {
 import { DangerZone } from "@/components/profile/DangerZone";
 import { EmailVerification } from "@/components/profile/EmailVerification";
 import { useUpdateProfile } from "@/features/profile/hooks/useUpdateProfile";
+import { abrirTutorial } from "@/features/onboarding/tourStore";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { User, UserUpdate } from "@/types/user";
 import { t } from "@/i18n";
@@ -212,6 +213,23 @@ export function SettingsDialog({
             {update.isPending ? t("Saving…") : t("Save")}
           </Button>
         </form>
+
+        {/* A apresentação da app só aparece sozinha uma vez. Quem a saltou no
+            primeiro dia — ou quem emprestou o telemóvel a alguém — não tem
+            como lá voltar sem isto. Fecha as definições: as duas coisas em
+            cima uma da outra não se liam. */}
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full rounded-full"
+          onClick={() => {
+            onOpenChange(false);
+            abrirTutorial();
+          }}
+        >
+          <Sparkles className="mr-1.5 size-3.5" />
+          {t("Replay the welcome tour")}
+        </Button>
 
         <EmailVerification user={user} />
 

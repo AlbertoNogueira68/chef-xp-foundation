@@ -10,6 +10,26 @@
  */
 
 export const PT: Record<string, string> = {
+  "Cooked it? Publish it": "Cozinhaste? Publica",
+  "Follow other chefs, see what they cooked today, and enter the week's challenges to appear on the leaderboard.":
+    "Segue outros chefs, vê o que cozinharam hoje e entra nos desafios da semana para apareceres no ranking.",
+  "Here you learn to cook the way a game is played: short lessons, real dishes, and XP for everything you cook.":
+    "Aqui aprende-se a cozinhar como se joga: lições curtas, pratos a sério e XP por tudo o que cozinhares.",
+  "Learn one skill at a time": "Aprende uma competência de cada vez",
+  "Level, XP, day streak and the daily goal — change it whenever the week asks for less, or for more.":
+    "Nível, XP, dias seguidos e o objetivo diário — muda-o sempre que a semana pedir menos, ou mais.",
+  "Replay the welcome tour": "Ver a apresentação outra vez",
+  "Start the first lesson": "Começar a primeira lição",
+  Skip: "Saltar",
+  "Step {current} of {total}": "Passo {current} de {total}",
+  "The feed is the kitchen next door": "O feed é a cozinha do lado",
+  "The orange button is where the dish goes up. A photo, the ingredients, and the XP is yours — with or without a connection, it's sent when the network comes back.":
+    "O botão cor de laranja é por onde o prato sobe. Uma fotografia, os ingredientes, e o XP é teu — com ou sem ligação, segue assim que houver rede.",
+  "Under the trophy is the trail of lessons. Each skill ends in a mission: a dish to cook in your own kitchen, with the chef guiding you step by step.":
+    "Debaixo do troféu está o trilho das lições. Cada competência acaba numa missão: um prato para fazeres na tua cozinha, com o chef a guiar-te passo a passo.",
+  "Welcome tour": "Apresentação da app",
+  "Welcome, chef {name}!": "Bem-vindo, chef {name}!",
+  "Your progress lives in the profile": "O teu progresso está no perfil",
   Enter: "Participar",
   " · {count} reports": " · {count} denúncias",
   " · {count}d left": " · faltam {count} dias",
