@@ -159,6 +159,31 @@ try {
   if (login !== 200) throw new Error(`o login de demonstração devolveu ${login}`);
 
   await abrir(`${URL_BASE}/challenges`);
+
+  /**
+   * A visita guiada abre por cima do percurso, e um perfil de Chrome novo é
+   * sempre a primeira vez de alguém. Dispensa-se antes de procurar a lição
+   * por duas razões: tapa o trilho, e um dos seus botões diz "Start the first
+   * lesson" — era nele que o robô ia carregar.
+   */
+  for (let i = 0; i < 12; i++) {
+    const dispensada = await js(`
+      const visita = document.querySelector("[role=dialog]");
+      if (!visita) return false;
+      const saltar = [...visita.querySelectorAll("button")].find((b) =>
+        /^skip$/i.test(b.innerText.trim()),
+      );
+      if (!saltar) return false;
+      saltar.click();
+      return true;`);
+    if (dispensada) {
+      console.log("[lição] visita guiada dispensada");
+      await esperar(400);
+      break;
+    }
+    await esperar(250);
+  }
+
   // Esperar pelo botão e não pela ausência de "Loading": o texto de espera
   // mudou de língua uma vez, e a espera passou a não esperar por nada.
   await ate("o percurso carregar", () =>
