@@ -12,6 +12,9 @@ import { cspDirectives } from "./lib/cspConfig.js";
 import { csrfProtection } from "./middleware/csrf.js";
 import { language } from "./middleware/language.js";
 import { errorHandler, notFound, requestId } from "./middleware/errorHandler.js";
+import { httpLog } from "./middleware/httpLog.js";
+import { log } from "./lib/logger.js";
+import { getPool } from "./db/index.js";
 import { UPLOAD_DIR, UPLOAD_ROUTE } from "./lib/imageStore.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/users.js";
@@ -45,6 +48,10 @@ export function createApp() {
   app.set("trust proxy", 1);
 
   app.use(requestId);
+  // Uma linha por pedido, no fim dele. Vem depois do `requestId` para a
+  // linha poder levar o id, e antes de tudo o resto para não haver pedido
+  // que se resolva sem deixar rasto — incluindo os que uma rota recusa.
+  app.use(httpLog);
   app.use(
     helmet({
       contentSecurityPolicy: isProd ? { directives: cspDirectives } : false,
@@ -65,14 +72,36 @@ export function createApp() {
     .filter(Boolean)
     .concat(isProd ? [] : ["http://localhost:5173", "http://127.0.0.1:5173"]);
 
+  /**
+   * A origem do próprio pedido.
+   *
+   * "Sem Origin = same-origin" é quase verdade, e o quase custou um ecrã
+   * branco: o Vite marca os módulos da build com `crossorigin`, e um módulo
+   * com `crossorigin` leva cabeçalho `Origin` **mesmo quando é do mesmo sítio**.
+   * Servida pelo próprio Express numa porta que não estivesse na lista — o que
+   * o `npm run preview` faz, em :4173, com a lista a apontar para o Vite em
+   * :5173 — a aplicação era recusada a si própria: cada `/assets/*.js` dava
+   * 500 e a página ficava em branco, sem nada no ecrã a dizer porquê.
+   *
+   * Comparar com o `Host` do pedido resolve-o sem abrir nada: só é aceite o
+   * que vem exactamente do mesmo sítio para onde o pedido foi feito.
+   *
+   * O protocolo vem do `X-Forwarded-Proto` quando há um proxy à frente (o
+   * `trust proxy` está ligado), porque atrás do Caddy o Express vê http e o
+   * browser diz https.
+   */
+  function mesmaOrigem(req) {
+    const host = req.headers.host;
+    return host ? `${req.protocol}://${host}` : null;
+  }
+
   app.use(
-    cors({
-      origin(origin, callback) {
-        // Sem Origin = pedido same-origin ou de uma ferramenta local.
-        if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-        return callback(new Error("Origin not allowed by CORS"));
-      },
-      credentials: true,
+    cors((req, callback) => {
+      const origin = req.headers.origin;
+      const aceite = !origin || origin === mesmaOrigem(req) || allowedOrigins.includes(origin);
+
+      if (!aceite) return callback(new Error("Origin not allowed by CORS"));
+      callback(null, { origin: true, credentials: true });
     }),
   );
 
@@ -113,7 +142,32 @@ export function createApp() {
   app.use("/api", language);
   app.use("/api", csrfProtection);
 
-  app.get("/api/health", (_req, res) => res.json({ status: "ok" }));
+  /**
+   * Saúde do serviço — e da base, que é a parte que interessa.
+   *
+   * Isto respondia `{status:"ok"}` sem verificar nada. Um health check que
+   * responde ok com o Postgres em baixo é pior do que não haver nenhum: quem
+   * vigia o serviço fica a pensar que está de pé, e o restart que o resolveria
+   * nunca acontece.
+   *
+   * O `SELECT 1` tem um limite de tempo próprio: sem ele, uma base a aceitar
+   * ligações mas a não responder deixava este pedido pendurado, e um health
+   * check que nunca responde é outra maneira de mentir.
+   */
+  app.get("/api/health", async (_req, res) => {
+    try {
+      await Promise.race([
+        getPool().query("SELECT 1"),
+        new Promise((_ok, falhar) =>
+          setTimeout(() => falhar(new Error("a base não respondeu em 2s")), 2000).unref(),
+        ),
+      ]);
+      res.json({ status: "ok", db: "ok" });
+    } catch (err) {
+      log.error({ err }, "health check falhou");
+      res.status(503).json({ status: "degraded", db: "down" });
+    }
+  });
 
   app.use("/api/auth", authRoutes);
   app.use("/api/users", userRoutes);

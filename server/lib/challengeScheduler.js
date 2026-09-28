@@ -1,4 +1,5 @@
 import { settleDueChallenges } from "../services/challengeSettlement.js";
+import { log } from "./logger.js";
 
 /** De quanto em quanto tempo se passa pelos desafios terminados. */
 const DEFAULT_INTERVAL_MS = 5 * 60 * 1000;
@@ -34,14 +35,14 @@ export function startChallengeScheduler(
     try {
       const resultado = await settleDueChallenges(pool);
       if (resultado.settled.length > 0) {
-        console.log(`[challenges] ${resultado.settled.length} desafio(s) fechado(s)`);
+        log.info({ fechados: resultado.settled.length }, "desafios fechados pelo agendador");
       }
       for (const falha of resultado.failed) {
-        console.error(`[challenges] falha ao fechar ${falha.id}:`, falha.error);
+        log.error({ challengeId: falha.id, err: falha.error }, "falha ao fechar o desafio");
       }
     } catch (error) {
       // O agendador nunca derruba o servidor: a próxima passagem tenta outra vez.
-      console.error("[challenges] falha na passagem do agendador:", error);
+      log.error({ err: error }, "falha na passagem do agendador de desafios");
     } finally {
       running = false;
     }
