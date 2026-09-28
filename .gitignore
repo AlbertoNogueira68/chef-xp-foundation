@@ -34,3 +34,7 @@ dist-ssr
 
 # Imagens carregadas pelos utilizadores
 uploads/
+
+# O ecrã que o `check:journey` guarda quando a jornada falha. É para olhar
+# na hora, não para versionar.
+journey-failure.png
