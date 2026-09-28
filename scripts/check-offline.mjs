@@ -68,15 +68,64 @@ try {
   });
   console.log("[offline] service worker ativo");
 
-  await ate("o worker tomar conta da página", () =>
-    js(`return Boolean(navigator.serviceWorker.controller);`),
-  );
-  console.log(`[offline] ${await js(`return (await caches.keys()).length;`)} caches criadas`);
+  /**
+   * O que tem mesmo de ser verdade antes de cortar a rede.
+   *
+   * Aqui esperava-se por `navigator.serviceWorker.controller` e contava-se
+   * `caches.keys().length`. As duas coisas estavam erradas, e a primeira
+   * fazia esta verificação falhar sozinha de vez em quando.
+   *
+   * O `controller` só fica preenchido quando o `clients.claim()` do worker
+   * apanha esta página — que foi aberta antes de existir worker nenhum. Isso
+   * é uma corrida, e não é sequer o que interessa: o que a app precisa para
+   * abrir sem rede é de a **navegação seguinte** ser servida pelo worker, e
+   * uma navegação em scope é servida pelo worker ativo esteja a página atual
+   * controlada ou não. Estava-se a esperar por um efeito secundário em vez da
+   * condição.
+   *
+   * E a contagem de caches variava entre 3 e 4 conforme o momento, porque as
+   * caches de assets e de API nascem à primeira utilização. Contar coisas que
+   * ainda estão a ser criadas é medir o relógio, não o estado.
+   *
+   * O que se espera agora é conteúdo: a cache do shell tem de ter resposta
+   * para "/" (é ela que o `navegacao()` do worker devolve sem rede) e para
+   * "/offline.html". Nenhuma das duas aparece a meio — o `install` do worker
+   * grava-as com um `addAll`, que é tudo ou nada, e só depois disso é que o
+   * worker chega a "activated". Ou seja: isto é verdade no instante em que a
+   * espera anterior terminou, e a falha passa a significar alguma coisa.
+   */
+  const noShell = await ate("o shell guardado na cache", async () => {
+    const guardados = await js(`
+      const nome = (await caches.keys()).find((n) => n.startsWith("chefxp-shell-"));
+      if (!nome) return null;
+      const cache = await caches.open(nome);
+      const essenciais = ["/", "/offline.html"];
+      const encontrados = [];
+      for (const url of essenciais) {
+        if (await cache.match(url)) encontrados.push(url);
+      }
+      return encontrados.length === essenciais.length ? (await cache.keys()).length : null;`);
+    return guardados;
+  });
+  console.log(`[offline] shell na cache: ${noShell} entradas, com "/" e "/offline.html"`);
 
   /* 2. Cortar a rede e recarregar. */
   await rede(false);
   console.log("[offline] rede cortada");
   await recarregar();
+
+  /**
+   * Agora sim, o worker tem de estar ao comando — e agora é determinista.
+   *
+   * Depois de uma navegação com um worker ativo, a página **é** controlada;
+   * se não for, foi a rede que a serviu e não o worker, e o que se seguisse
+   * não provava nada sobre funcionar sem rede. Antes, esta pergunta era feita
+   * no único momento em que a resposta ainda podia ser "ainda não".
+   */
+  const controlada = await js(`return Boolean(navigator.serviceWorker.controller);`);
+  if (!controlada) {
+    throw new Error("a página recarregou sem o worker ao comando — não foi ele que a serviu");
+  }
 
   // Não basta o `#root` ter filhos: o primeiro que lá aparece é o indicador
   // de "A carregar…", e dar isso por bom era aceitar uma app eternamente a
