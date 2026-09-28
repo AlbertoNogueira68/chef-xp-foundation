@@ -115,6 +115,20 @@ const dietaryTagsQuery = z.preprocess(
   z.array(z.enum(DIETARY_TAGS)).max(DIETARY_TAGS.length).optional(),
 );
 
+/**
+ * O que um cursor de paginação pode ser, depois de desembrulhado.
+ *
+ * O cursor é base64 que nós emitimos, mas volta pela mão de quem quiser — é
+ * entrada como qualquer outra. Sem isto, um cursor forjado com um `createdAt`
+ * que não é data passava direito para a consulta e dava 500 no `::timestamptz`.
+ * As duas formas são as duas paginações: por chave (recentes) e por
+ * deslocamento (em alta).
+ */
+export const cursorSchema = z.union([
+  z.object({ createdAt: z.coerce.date(), id: uuid }),
+  z.object({ offset: z.coerce.number().int().min(0).max(100_000) }),
+]);
+
 export const recipeListSchema = z.object({
   q: z.string().trim().max(80).optional(),
   scope: z.enum(["all", "following", "popular"]).default("all"),
@@ -167,6 +181,18 @@ export const lessonParamSchema = z.object({ id: z.string().min(1).max(80) });
 /* ---------------------------------------------------------------- */
 
 export const missionParamSchema = z.object({ id: z.string().min(1).max(80) });
+
+/**
+ * Os cozinhados partilhados de alguém.
+ *
+ * Sem `userId`, são os meus. Era a única rota da API que lia `req.query` em
+ * cru: um identificador malformado chegava ao Postgres, que recusava a
+ * conversão para `uuid`, e a pessoa recebia um 500 onde devia estar um 400.
+ */
+export const missionPostsSchema = z.object({
+  userId: uuid.optional(),
+  limit: z.coerce.number().int().min(1).max(50).default(24),
+});
 export const runParamSchema = z.object({ runId: z.coerce.number().int().positive() });
 
 export const stepMoveSchema = z.object({

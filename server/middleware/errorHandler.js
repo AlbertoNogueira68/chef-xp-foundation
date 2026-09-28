@@ -2,9 +2,22 @@ import crypto from "node:crypto";
 
 import { translate } from "../lib/i18n.js";
 
-/** Um id por pedido, para ligar o que o utilizador vê ao que está no log. */
+/**
+ * Um id por pedido, para ligar o que o utilizador vê ao que está no log.
+ *
+ * O cabeçalho que vem de fora é aceite — é assim que um proxy ou um cliente
+ * correlaciona um pedido seu com o nosso registo — mas só se for mesmo um
+ * UUID. Aceite em cru, ia sem limite de tamanho nem de conteúdo para dentro
+ * de cada linha de log deste pedido, e quem o enviasse escrevia o que
+ * quisesse no meio dos nossos registos. Não chegava para forjar uma linha
+ * inteira (o Node recusa CR/LF num cabeçalho), mas chegava para tornar os
+ * logs ilegíveis, que é metade do trabalho.
+ */
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export function requestId(req, res, next) {
-  req.id = req.get("X-Request-Id") || crypto.randomUUID();
+  const pedido = req.get("X-Request-Id");
+  req.id = pedido && UUID.test(pedido) ? pedido.toLowerCase() : crypto.randomUUID();
   res.setHeader("X-Request-Id", req.id);
   next();
 }

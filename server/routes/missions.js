@@ -2,12 +2,14 @@ import { Router } from "express";
 import { getPool } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
+import { uploadLimiter } from "../middleware/uploadLimit.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 import { notBlockedSql } from "../lib/blocks.js";
 import {
   checkpointSchema,
   missionCompleteSchema,
   missionParamSchema,
+  missionPostsSchema,
   rescueSchema,
   runParamSchema,
   stepMoveSchema,
@@ -143,9 +145,9 @@ router.get(
  */
 router.get(
   "/posts",
+  validate({ query: missionPostsSchema }),
   asyncHandler(async (req, res) => {
-    const userId = typeof req.query.userId === "string" ? req.query.userId : req.user.id;
-    const limit = Math.min(Number(req.query.limit) || 24, 50);
+    const { userId = req.user.id, limit } = req.valid.query;
     const isMe = userId === req.user.id;
 
     const { rows } = await getPool().query(
@@ -310,6 +312,7 @@ router.post(
 
 router.post(
   "/runs/:runId/checkpoint",
+  uploadLimiter,
   validate({ params: runParamSchema, body: checkpointSchema }),
   asyncHandler(async (req, res) => {
     const pool = getPool();

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { getPool, query } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
+import { uploadLimiter } from "../middleware/uploadLimit.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 import { notBlockedSql } from "../lib/blocks.js";
 import {
@@ -144,6 +145,7 @@ router.get(
 router.post(
   "/",
   requireModerator,
+  uploadLimiter,
   validate({ body: challengeCreateSchema }),
   asyncHandler(async (req, res) => {
     const body = req.valid.body;
@@ -202,6 +204,7 @@ const EDITABLE_COLUMNS = {
 router.patch(
   "/:id",
   requireModerator,
+  uploadLimiter,
   validate({ params: idParamSchema, body: challengeUpdateSchema }),
   asyncHandler(async (req, res) => {
     const challengeId = req.valid.params.id;

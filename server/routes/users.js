@@ -2,6 +2,7 @@ import { Router } from "express";
 import { getPool, query } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
+import { uploadLimiter } from "../middleware/uploadLimit.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 import {
   accountDeleteSchema,
@@ -14,7 +15,8 @@ import { blockExistsBetween, notBlockedSql } from "../lib/blocks.js";
 import { loadDailyState } from "../lib/xpLedger.js";
 import bcrypt from "bcryptjs";
 import { badgesFor } from "../domain/xp.js";
-import { resolveImageInput } from "../lib/imageStore.js";
+import { deleteStoredImage, resolveImageInput } from "../lib/imageStore.js";
+import { apagarImagens, imagensDaConta } from "../lib/imageCleanup.js";
 import { notifyQuietly } from "../lib/notifications.js";
 import { clearAuthCookie } from "../middleware/auth.js";
 import { clearCsrfToken } from "../middleware/csrf.js";
@@ -39,6 +41,7 @@ router.get(
 
 router.patch(
   "/me",
+  uploadLimiter,
   validate({ body: userPatchSchema }),
   asyncHandler(async (req, res) => {
     const { username, photoUrl, timeZone, dailyXpGoal } = req.valid.body;
@@ -50,7 +53,16 @@ router.patch(
       values.push(username);
       fields.push(`username = $${values.length}`);
     }
+    /**
+     * Trocar a fotografia de perfil deixava a anterior em disco para sempre,
+     * sem nada na base a apontar-lhe — e uma imagem órfã continua a responder
+     * a quem tiver o endereço.
+     */
+    let fotografiaAnterior = null;
     if (photoUrl !== undefined) {
+      const { rows } = await query(`SELECT photo_url FROM users WHERE id = $1`, [req.user.id]);
+      fotografiaAnterior = rows[0]?.photo_url ?? null;
+
       const resolved = photoUrl === null ? null : await resolveImageInput(photoUrl);
       values.push(resolved);
       fields.push(`photo_url = $${values.length}`);
@@ -73,6 +85,11 @@ router.patch(
         values,
       );
       if (!rows[0]) return res.status(404).json({ error: "User not found" });
+
+      if (fotografiaAnterior && fotografiaAnterior !== rows[0].photo_url) {
+        await deleteStoredImage(fotografiaAnterior);
+      }
+
       res.json({ user: toPublicUser(rows[0], { includeEmail: true }) });
     } catch (error) {
       if (error?.code === "23505") {
@@ -328,7 +345,20 @@ router.delete(
       if (!ok) return res.status(403).json({ error: "Wrong password" });
     }
 
+    /**
+     * As linhas caem por `ON DELETE CASCADE`; os ficheiros não caem por nada.
+     * Sem isto, apagar a conta deixava a fotografia de perfil e as das
+     * receitas a responder para sempre a quem tivesse o endereço — que é o
+     * contrário do que o botão promete.
+     *
+     * Recolher antes de apagar (depois já não há linhas para ler) e apagar os
+     * ficheiros depois (se o DELETE falhasse, ficávamos com uma conta viva
+     * sem fotografias).
+     */
+    const imagens = await imagensDaConta(getPool(), req.user.id);
+
     await query(`DELETE FROM users WHERE id = $1`, [req.user.id]);
+    await apagarImagens(imagens);
 
     clearAuthCookie(res);
     clearCsrfToken(res);

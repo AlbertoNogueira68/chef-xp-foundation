@@ -70,7 +70,18 @@ export function createApp() {
       origin(origin, callback) {
         // Sem Origin = pedido same-origin ou de uma ferramenta local.
         if (!origin || allowedOrigins.includes(origin)) return callback(null, true);
-        return callback(new Error("Origin not allowed by CORS"));
+        /**
+         * 403 e não 500.
+         *
+         * Sem `status`, o `errorHandler` classificava isto como erro do
+         * servidor: escrevia um stack trace completo no log e respondia 500 a
+         * um pedido que foi correctamente recusado. Qualquer pessoa podia
+         * encher os registos de nível `error` à vontade — e é lá que se olha
+         * quando há um problema a sério.
+         */
+        const recusa = new Error("Origin not allowed by CORS");
+        recusa.status = 403;
+        return callback(recusa);
       },
       credentials: true,
     }),

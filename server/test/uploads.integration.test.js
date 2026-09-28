@@ -108,6 +108,83 @@ describe("imagens carregadas", skipWithoutDatabase, () => {
       400,
     );
   });
+
+  /* ---------------------------------------------------------------- *
+   * Apagar conteúdo apaga o ficheiro
+   *
+   * As linhas caíam por CASCADE e os ficheiros ficavam. Uma receita apagada
+   * cuja fotografia continua a responder a quem tiver o endereço não está
+   * apagada — e um volume que só cresce acaba por parar o servidor.
+   * ---------------------------------------------------------------- */
+
+  const existe = async (publicPath) =>
+    fs
+      .access(path.join(UPLOAD_DIR, path.basename(publicPath)))
+      .then(() => true)
+      .catch(() => false);
+
+  test("apagar uma receita apaga a fotografia dela", async () => {
+    const { body } = await publish(PNG_1X1);
+    const { id, imageUrl } = body.recipe;
+    assert.equal(await existe(imageUrl), true);
+
+    assert.equal((await client.delete(`/api/recipes/${id}`)).status, 200);
+    assert.equal(await existe(imageUrl), false, "o ficheiro ficou para trás");
+  });
+
+  test("trocar a fotografia de uma receita apaga a anterior", async () => {
+    const { body } = await publish(PNG_1X1);
+    const { id, imageUrl: primeira } = body.recipe;
+
+    const editada = await client.patch(`/api/recipes/${id}`, { imageDataUrl: PNG_1X1 });
+    const segunda = editada.body.recipe.imageUrl;
+
+    assert.notEqual(segunda, primeira);
+    assert.equal(await existe(primeira), false, "a fotografia antiga ficou para trás");
+    assert.equal(await existe(segunda), true, "a nova devia estar lá");
+
+    await client.delete(`/api/recipes/${id}`);
+  });
+
+  test("retirar a fotografia de uma receita apaga o ficheiro", async () => {
+    const { body } = await publish(PNG_1X1);
+    const { id, imageUrl } = body.recipe;
+
+    await client.patch(`/api/recipes/${id}`, { imageDataUrl: null });
+
+    assert.equal(await existe(imageUrl), false);
+    await client.delete(`/api/recipes/${id}`);
+  });
+
+  test("apagar a conta leva as fotografias todas atrás", async () => {
+    const dono = createClient(server.baseUrl);
+    await registerUser(dono, { username: "levatudo", email: "levatudo@chef-xp.test" });
+
+    const perfil = await dono.patch("/api/users/me", { photoUrl: PNG_1X1 });
+    const fotoPerfil = perfil.body.user.photoUrl;
+
+    const receita = await dono.post("/api/recipes", {
+      title: "A última receita",
+      description: "Publicada só para ver se a fotografia desaparece com a conta.",
+      ingredients: "sal grosso\npimenta",
+      cookTimeMin: 10,
+      imageDataUrl: PNG_1X1,
+    });
+    assert.equal(receita.status, 201, JSON.stringify(receita.body));
+    const fotoReceita = receita.body.recipe.imageUrl;
+
+    assert.equal(await existe(fotoPerfil), true);
+    assert.equal(await existe(fotoReceita), true);
+
+    const apagada = await dono.delete("/api/users/me", {
+      confirmUsername: "levatudo",
+      password: "Chef12345!",
+    });
+    assert.equal(apagada.status, 204);
+
+    assert.equal(await existe(fotoPerfil), false, "a fotografia de perfil sobreviveu à conta");
+    assert.equal(await existe(fotoReceita), false, "a fotografia da receita sobreviveu à conta");
+  });
 });
 
 describe("perfil", skipWithoutDatabase, () => {

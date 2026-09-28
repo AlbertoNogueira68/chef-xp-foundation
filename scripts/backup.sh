@@ -15,11 +15,18 @@
 
 set -eu
 
+# O dump traz a tabela `users` inteira — emails e hashes de passwords — e o
+# tar traz todas as fotografias. Sem isto, os ficheiros nasciam com o umask
+# por omissão, que na maioria das máquinas os deixa legíveis por toda a gente
+# que tenha conta no servidor.
+umask 077
+
 DESTINO="${1:-./backups}"
 DIAS_A_GUARDAR="${DIAS_A_GUARDAR:-14}"
 CARIMBO="$(date +%Y-%m-%d_%H%M)"
 
 mkdir -p "$DESTINO"
+chmod 700 "$DESTINO"
 
 # A base. `--clean` para o restauro não exigir uma base vazia de propósito.
 docker compose -f docker-compose.prod.yml exec -T postgres \

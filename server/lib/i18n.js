@@ -206,8 +206,17 @@ const PT = {
   "Your own account is deleted from your profile": "A tua própria conta apaga-se no perfil",
 };
 
-/** Traduz uma mensagem. Sem tradução, devolve-a como está (em inglês). */
+/**
+ * Traduz uma mensagem. Sem tradução, devolve-a como está (em inglês).
+ *
+ * `Object.hasOwn` e não `PT[mensagem]` directo: um objecto literal herda
+ * `constructor`, `toString` e o resto de `Object.prototype`, e uma mensagem
+ * com um desses nomes devolvia uma função em vez de texto. Hoje as chaves são
+ * todas escritas à mão neste ficheiro, portanto não acontece — mas isto é uma
+ * função de tradução, e a próxima pessoa que lhe passar uma chave vinda de
+ * fora não tem de saber disto.
+ */
 export function translate(mensagem, lang) {
   if (lang !== "pt" || typeof mensagem !== "string") return mensagem;
-  return PT[mensagem] ?? mensagem;
+  return Object.hasOwn(PT, mensagem) ? PT[mensagem] : mensagem;
 }

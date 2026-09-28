@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 
 import { validateEnv, MIN_SECRET_LENGTH } from "./validateEnv.js";
 import { baseCookieOptions, csrfCookieName, tokenCookieName, useSecureCookies } from "./cookies.js";
-import { detectImageType } from "./imageStore.js";
+import { UPLOAD_DIR, deleteStoredImage, detectImageType, isStoredImagePath } from "./imageStore.js";
+import { notBlockedSql } from "./blocks.js";
+import { translate } from "./i18n.js";
 
 const GOOD_SECRET = "a".repeat(MIN_SECRET_LENGTH);
 const baseEnv = { DATABASE_URL: "postgres://x", JWT_SECRET: GOOD_SECRET };
@@ -171,4 +173,84 @@ test("credenciais ganham ao SMTP_AUTH=none do compose, em vez de serem ignoradas
       SMTP_PASSWORD: "password-de-aplicacao",
     }),
   );
+});
+
+/* ------------------------------------------------------------------ *
+ * Caminhos de imagem: só os que esta aplicação gerou
+ * ------------------------------------------------------------------ */
+
+const UUID_EXEMPLO = "3f2504e0-4f89-11d3-9a0c-0305e82c3301";
+
+test("um caminho gerado por nós é reconhecido", () => {
+  for (const ext of ["jpg", "png", "webp"]) {
+    assert.equal(isStoredImagePath(`/uploads/${UUID_EXEMPLO}.${ext}`), true, ext);
+  }
+});
+
+test("tudo o resto é recusado — incluindo o que parece nosso", () => {
+  const recusados = [
+    "/uploads/../../etc/passwd",
+    "/uploads/../api/auth/csrf",
+    "/uploads/qualquer-coisa.png",
+    `/uploads/${UUID_EXEMPLO}.svg`,
+    `/uploads/${UUID_EXEMPLO}.png.html`,
+    `/uploads/sub/${UUID_EXEMPLO}.png`,
+    "https://exemplo.pt/imagem.png",
+    "",
+    null,
+    undefined,
+    42,
+  ];
+
+  for (const valor of recusados) {
+    assert.equal(isStoredImagePath(valor), false, `devia recusar ${JSON.stringify(valor)}`);
+  }
+});
+
+test("apagar recusa-se a tocar no que não é um ficheiro nosso", async () => {
+  // Não há aqui nenhum ficheiro para apagar: o que se prova é que a função
+  // devolve `false` sem sequer tentar, para nenhum destes caminhos.
+  for (const valor of ["/uploads/../../etc/passwd", "/etc/passwd", "/uploads/x.png", null]) {
+    assert.equal(await deleteStoredImage(valor), false, String(valor));
+  }
+});
+
+test("apagar um ficheiro que não existe não atira", async () => {
+  assert.equal(await deleteStoredImage(`/uploads/${UUID_EXEMPLO}.png`), false);
+  // E a pasta continua a ser a que o resto da aplicação usa.
+  assert.ok(UPLOAD_DIR.endsWith("uploads"));
+});
+
+/* ------------------------------------------------------------------ *
+ * Fragmentos de SQL montados à mão
+ * ------------------------------------------------------------------ */
+
+test("notBlockedSql aceita um placeholder e uma coluna", () => {
+  const sql = notBlockedSql("$1", "r.author_id");
+  assert.match(sql, /NOT EXISTS/);
+  assert.match(sql, /b\.blocker_id = \$1/);
+});
+
+test("notBlockedSql recusa tudo o que não seja um placeholder e uma coluna", () => {
+  // Os dois argumentos entram no SQL em cru. Hoje todos os sítios que a
+  // chamam passam literais; isto é para o dia em que alguém passar uma coluna
+  // que veio de um pedido.
+  assert.throws(() => notBlockedSql("1 OR 1=1", "r.author_id"), /placeholder/);
+  assert.throws(() => notBlockedSql("$1", "r.author_id) OR (1=1"), /coluna/);
+  assert.throws(() => notBlockedSql("$1", "(SELECT 1)"), /coluna/);
+});
+
+/* ------------------------------------------------------------------ *
+ * O dicionário de traduções não herda nada
+ * ------------------------------------------------------------------ */
+
+test("uma chave herdada de Object.prototype devolve texto, não uma função", () => {
+  for (const chave of ["constructor", "toString", "__proto__", "hasOwnProperty"]) {
+    assert.equal(translate(chave, "pt"), chave, chave);
+  }
+});
+
+test("uma tradução que existe continua a sair traduzida", () => {
+  assert.equal(translate("User not found", "pt"), "Utilizador não encontrado");
+  assert.equal(translate("User not found", "en"), "User not found");
 });

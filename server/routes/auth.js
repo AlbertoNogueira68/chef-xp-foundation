@@ -55,6 +55,15 @@ const router = Router();
 
 const BCRYPT_ROUNDS = 12;
 
+/**
+ * Um hash válido contra o qual comparar quando a conta não existe.
+ *
+ * Não corresponde a password nenhuma que alguém possa escrever — é gerado no
+ * arranque a partir de 32 bytes aleatórios — e serve só para que o caminho
+ * "email desconhecido" gaste o mesmo tempo que o caminho "password errada".
+ */
+const HASH_DE_REFERENCIA = bcrypt.hashSync(crypto.randomBytes(32).toString("hex"), BCRYPT_ROUNDS);
+
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   // Função e não valor: estes limitadores são criados quando o módulo é
@@ -76,7 +85,21 @@ const registerLimiter = rateLimit({
   message: { error: "Demasiados registos a partir deste dispositivo." },
 });
 
-const USER_COLUMNS = `id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, email_verified_at, role, created_at, updated_at`;
+const USER_COLUMNS = `id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, email_verified_at, role, token_version, created_at, updated_at`;
+
+/**
+ * O que vai dentro do token de sessão.
+ *
+ * `ver` é o `token_version` da conta no momento em que a sessão nasce. O
+ * `requireAuth` compara-o com o valor atual, portanto incrementar a coluna
+ * fecha todas as sessões abertas dessa conta — é o que o `/reset-password`
+ * faz. `toPublicUser` não o expõe: é do servidor, não da interface.
+ */
+const sessionPayload = (user) => ({
+  sub: user.id,
+  email: user.email,
+  ver: Number(user.token_version ?? 0),
+});
 
 router.get("/csrf", (_req, res) => {
   res.json({ csrfToken: issueCsrfToken(res) });
@@ -113,7 +136,7 @@ router.post(
       );
 
       const user = rows[0];
-      setAuthCookie(res, signToken({ sub: user.id, email: user.email }));
+      setAuthCookie(res, signToken(sessionPayload(user)));
       issueCsrfToken(res);
 
       // O token nunca vai no corpo da resposta, nem em dev: se estivesse
@@ -154,14 +177,24 @@ router.post(
       });
     }
 
-    // Mesma mensagem para email inexistente e password errada: não revela
-    // quais os emails registados.
-    const ok = user ? await bcrypt.compare(password, user.password_hash) : false;
-    if (!ok) {
+    /**
+     * Mesma mensagem para email inexistente e password errada — e o mesmo
+     * tempo a chegar lá.
+     *
+     * A mensagem já era igual, mas o relógio não: sem conta, o `bcrypt.compare`
+     * não corria, e as doze rondas que ele leva (uns 250 ms) são uma diferença
+     * que se mede de fora. Quem quisesse saber se um endereço está registado
+     * cronometrava a resposta. Agora compara-se sempre — contra um hash de
+     * referência quando não há conta — e as duas respostas custam o mesmo.
+     */
+    const hashParaComparar = user?.password_hash ?? HASH_DE_REFERENCIA;
+    const confere = await bcrypt.compare(password, hashParaComparar);
+
+    if (!user || !confere) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
-    setAuthCookie(res, signToken({ sub: user.id, email: user.email }));
+    setAuthCookie(res, signToken(sessionPayload(user)));
     issueCsrfToken(res);
 
     res.json({ user: toPublicUser(user, { includeEmail: true }) });
@@ -412,7 +445,7 @@ router.get(
       const user = userRows[0];
       await adotarFotografiaDaGoogle(user, claims.picture);
 
-      setAuthCookie(res, signToken({ sub: user.id, email: user.email }));
+      setAuthCookie(res, signToken(sessionPayload(user)));
       issueCsrfToken(res);
       res.redirect(frontendUrl("/feed"));
     } catch (error) {
@@ -624,7 +657,7 @@ router.post(
       await client.query(`DELETE FROM pending_signups WHERE token_hash = $1`, [tokenHash]);
       await client.query("COMMIT");
 
-      setAuthCookie(res, signToken({ sub: user.id, email: user.email }));
+      setAuthCookie(res, signToken(sessionPayload(user)));
       issueCsrfToken(res);
 
       res.status(201).json({
@@ -734,10 +767,19 @@ router.post(
 
       // Quem chegou aqui leu o email: o endereço fica confirmado de caminho.
       // `COALESCE` para não apagar a data de uma confirmação anterior.
+      /**
+       * `token_version + 1` fecha todas as sessões abertas desta conta.
+       *
+       * Quem redefine a password costuma estar a fazê-lo porque desconfia que
+       * alguém entrou. Deixar essa sessão viva até o JWT expirar, sete dias
+       * depois, era dar-lhe uma semana — e era exactamente o que acontecia
+       * antes desta linha.
+       */
       await client.query(
         `UPDATE users
             SET password_hash = $1,
                 email_verified_at = COALESCE(email_verified_at, now()),
+                token_version = token_version + 1,
                 updated_at = now()
           WHERE id = $2`,
         [passwordHash, check.userId],
@@ -750,10 +792,10 @@ router.post(
 
       await client.query("COMMIT");
 
-      // Nota: as sessões abertas noutros dispositivos continuam válidas até o
-      // JWT expirar. Fechá-las exigiria uma lista de tokens revogados ou um
-      // contador de versão por utilizador — vale a pena, mas é outra decisão,
-      // e não fica escondida aqui dentro.
+      // As sessões abertas noutros dispositivos ficaram todas inválidas com o
+      // incremento acima — incluindo a de quem quer que tenha motivado esta
+      // redefinição. Entrar outra vez custa cinco segundos a quem tem a
+      // password nova.
       res.json({ ok: true });
     } catch (error) {
       await client.query("ROLLBACK");

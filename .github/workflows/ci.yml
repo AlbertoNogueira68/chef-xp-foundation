@@ -5,6 +5,14 @@ on:
     branches: [main]
   pull_request:
 
+# O âmbito por omissão de um `GITHUB_TOKEN` é o que a organização definir, e
+# pode ser de escrita. Nada neste workflow escreve no repositório — só lê o
+# código e corre testes —, e um âmbito de leitura é o que impede que uma ação
+# de terceiros comprometida escreva no `main` com o nosso próprio token.
+# O job de deploy usa uma chave SSH sua, não este token.
+permissions:
+  contents: read
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   # Num PR, um push novo cancela o run anterior. No main não: cancelar a meio
@@ -45,6 +53,19 @@ jobs:
 
       - name: Verificação de PWA (instalável e com ecrã de offline)
         run: node scripts/check-pwa.mjs
+
+      # Só a árvore de produção: é a que vai dentro da imagem (o Dockerfile
+      # faz `npm ci --omit=dev`). Uma falha no toolchain do eslint não chega
+      # ao servidor de ninguém e não deve parar um deploy; uma falha no
+      # `express` ou no `pg` deve.
+      - name: Vulnerabilidades nas dependências de produção
+        run: npm audit --omit=dev --audit-level=high
+
+      # As de desenvolvimento avisam sem reprovar: correm na máquina de quem
+      # programa e no runner, não em produção.
+      - name: Vulnerabilidades nas dependências de desenvolvimento (aviso)
+        continue-on-error: true
+        run: npm audit --audit-level=high
 
   database:
     name: Migrations e seed contra Postgres
@@ -196,6 +217,14 @@ jobs:
 
       - name: Verificar a regra de responsividade
         run: npm run check:responsive
+
+      # No mesmo job que a responsividade porque precisa exactamente do
+      # mesmo: a app construída, servida com NODE_ENV=production (é a única
+      # altura em que a CSP é enviada) e um Chromium. Falha se qualquer ecrã
+      # violar a política — o que apanha tanto um `unsafe-inline` que se
+      # tenha perdido como uma biblioteca nova que injecte estilos.
+      - name: Verificar a Content-Security-Policy num browser a sério
+        run: node scripts/check-csp.mjs
 
   # Só com o CI todo verde, e só em pushes para o main.
   #

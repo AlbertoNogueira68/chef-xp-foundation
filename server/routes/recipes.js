@@ -2,6 +2,7 @@ import { Router } from "express";
 import { getPool, query } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
+import { uploadLimiter } from "../middleware/uploadLimit.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 import {
   commentCreateSchema,
@@ -15,7 +16,7 @@ import { decodeCursor, encodeCursor, toComment, toRecipe } from "../lib/mappers.
 import { notBlockedSql } from "../lib/blocks.js";
 import { roleOf } from "../lib/moderation.js";
 import { commentDeleterRole } from "../domain/moderation.js";
-import { resolveImageInput } from "../lib/imageStore.js";
+import { deleteStoredImage, resolveImageInput } from "../lib/imageStore.js";
 import { awardXp, revokeXp } from "../lib/xpLedger.js";
 import { notifyQuietly } from "../lib/notifications.js";
 import { XP_RULES } from "../domain/xp.js";
@@ -206,6 +207,7 @@ router.get(
  */
 router.post(
   "/",
+  uploadLimiter,
   validate({ body: recipeCreateSchema }),
   asyncHandler(async (req, res) => {
     const {
@@ -384,6 +386,7 @@ async function requireOwnRecipe(req, res, client = null) {
 
 router.patch(
   "/:id",
+  uploadLimiter,
   validate({ params: idParamSchema, body: recipeUpdateSchema }),
   asyncHandler(async (req, res) => {
     if (!(await requireOwnRecipe(req, res))) return;
@@ -414,7 +417,19 @@ router.patch(
     // `null` explícito retira a estimativa; ausente mantém a que lá está.
     if (estimatedCostEur !== undefined) set("estimated_cost_eur", estimatedCostEur);
     if (dietaryTags !== undefined) set("dietary_tags", dietaryTags);
+    /**
+     * Trocar a fotografia deixava a anterior em disco para sempre, sem nada
+     * na base a apontar-lhe — e uma imagem órfã continua a responder a quem
+     * tiver o endereço. Lê-se qual era antes de a substituir; apaga-se
+     * depois, e só se tiver mesmo mudado.
+     */
+    let anterior = null;
     if (imageDataUrl !== undefined) {
+      const { rows } = await query(`SELECT image_url FROM recipes WHERE id = $1`, [
+        req.valid.params.id,
+      ]);
+      anterior = rows[0]?.image_url ?? null;
+
       // Como na publicação: a imagem é gravada fora de qualquer transação, e
       // `null` retira a fotografia em vez de a manter.
       set("image_url", imageDataUrl === null ? null : await resolveImageInput(imageDataUrl));
@@ -422,6 +437,11 @@ router.patch(
 
     values.push(req.valid.params.id);
     await query(`UPDATE recipes SET ${fields.join(", ")} WHERE id = $${values.length}`, values);
+
+    const { rows: depois } = await query(`SELECT image_url FROM recipes WHERE id = $1`, [
+      req.valid.params.id,
+    ]);
+    if (anterior && anterior !== depois[0]?.image_url) await deleteStoredImage(anterior);
 
     return respondWithRecipe(res, req.user.id, req.valid.params.id);
   }),
@@ -455,7 +475,10 @@ router.delete(
         [req.user.id],
       );
 
-      await client.query(`DELETE FROM recipes WHERE id = $1`, [req.valid.params.id]);
+      const { rows: apagadas } = await client.query(
+        `DELETE FROM recipes WHERE id = $1 RETURNING image_url`,
+        [req.valid.params.id],
+      );
 
       const revoked = await revokeXp(client, {
         userId: req.user.id,
@@ -465,6 +488,10 @@ router.delete(
       });
 
       await client.query("COMMIT");
+
+      // Só depois do COMMIT: um ROLLBACK aqui deixava a receita viva e a
+      // fotografia apagada, e dessas duas metades só uma se recupera.
+      await deleteStoredImage(apagadas[0]?.image_url);
 
       res.json({ xp: { revoked: revoked.amount, total: revoked.xp, level: revoked.level } });
     } catch (error) {

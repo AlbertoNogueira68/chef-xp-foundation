@@ -132,6 +132,14 @@ node -e "import('dotenv/config').then(async()=>{const n=await import('nodemailer
 O seed inclui 6 receitas com fotografia, gostos e comentários reais, relações de
 seguidor e 3 desafios.
 
+**O seed não corre em produção, e não é por convenção.** O
+`scripts/run-seed.mjs` recusa-se a arrancar com `NODE_ENV=production` ou contra
+uma base cujo nome contenha "prod": estas contas têm uma password que está
+escrita neste ficheiro, uma delas é administrador, e o `ON CONFLICT` sobrescreve
+a password de qualquer conta existente com o mesmo email. Para uma demonstração
+pública descartável há `ALLOW_PRODUCTION_SEED=true`, que se escreve à mão de
+propósito.
+
 ## Scripts
 
 | Script                                | Descrição                                              |
@@ -150,7 +158,17 @@ seguidor e 3 desafios.
 | `npm run role:set -- <email> <papel>` | Dá ou tira papéis: `user`, `moderator`, `admin`        |
 | `npm run test:hardening`              | Build + bloqueia CDNs proibidas                        |
 | `npm run check:responsive`            | Mede a app em 320–414px (ver `docs/RESPONSIVIDADE.md`) |
+| `npm run check:csp`                   | Abre a app num Chrome e falha se violar a CSP          |
+| `npm run uploads:prune`               | Mostra imagens sem dono (`-- --apply` apaga-as)        |
 | `npm run lint`                        | ESLint                                                 |
+
+## Segurança
+
+O que a app faz para se proteger, como cada controlo funciona e o que ficou
+por fechar (com o motivo) está em **[`docs/SEGURANCA.md`](docs/SEGURANCA.md)**.
+Resumo: sessão em cookie `HttpOnly`/`__Host-` com revogação, CSRF em todas as
+escritas, SQL 100 % parametrizado, Zod em todos os endpoints, autorização
+sempre no servidor, e uma CSP que é medida num browser a sério a cada build.
 
 ## Arquitetura
 

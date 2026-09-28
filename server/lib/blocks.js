@@ -18,6 +18,20 @@ import { query } from "../db/index.js";
  * inverso: as duas metades do OR são procuras por índice, não varrimentos.
  */
 export function notBlockedSql(meParam, authorExpr) {
+  /**
+   * Os dois argumentos entram no SQL em cru — é isso que uma função que monta
+   * um fragmento faz. Todos os sítios que a chamam passam literais escritos no
+   * código, e por isso nunca houve aqui um problema; estas duas linhas existem
+   * para que continue a não haver no dia em que alguém tenha à mão uma coluna
+   * que veio de um pedido e ache que cabe aqui.
+   */
+  if (!/^\$\d+$/.test(meParam)) {
+    throw new Error(`notBlockedSql: "${meParam}" não é um placeholder ($1, $2, …)`);
+  }
+  if (!/^[a-z_][a-z0-9_]*\.[a-z_][a-z0-9_]*$/i.test(authorExpr)) {
+    throw new Error(`notBlockedSql: "${authorExpr}" não é uma coluna (tabela.coluna)`);
+  }
+
   return `NOT EXISTS (
     SELECT 1 FROM user_blocks b
      WHERE (b.blocker_id = ${meParam} AND b.blocked_id = ${authorExpr})

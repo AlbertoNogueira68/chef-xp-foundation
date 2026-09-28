@@ -223,17 +223,31 @@ describe("autenticação e CSRF", skipWithoutDatabase, () => {
     assert.equal(response.status, 403);
   });
 
-  test("o login não exige CSRF — e isso é deliberado", async () => {
-    // Sem cookie de sessão não há autoridade ambiente para roubar, e o
-    // registo tem de poder acontecer antes de existir token nenhum. O teste
-    // está aqui para a decisão não se perder e ninguém a "corrigir" sem saber.
+  test("o login também exige CSRF", async () => {
+    /**
+     * Durante muito tempo não exigia, com o argumento de que sem sessão não
+     * há nada para roubar. Faltava o outro lado: sem esta proteção, um site
+     * terceiro iniciava sessão no browser de alguém com as credenciais do
+     * atacante, e essa pessoa passava a publicar dentro de uma conta que não
+     * era dela. Em produção o `SameSite=Strict` já o travava; aqui, com
+     * cookies de desenvolvimento, não travava.
+     */
     client.forget();
-    const resposta = await client.post(
+    const semToken = await client.post(
       "/api/auth/login",
       { email: "novo@chef-xp.test", password: "Chef12345!" },
       { omitCsrf: true },
     );
-    assert.equal(resposta.status, 200);
+    assert.equal(semToken.status, 403);
+
+    // E com o token — que o cliente vai buscar sozinho, como o browser faz —
+    // entra na mesma.
+    client.forget();
+    const comToken = await client.post("/api/auth/login", {
+      email: "novo@chef-xp.test",
+      password: "Chef12345!",
+    });
+    assert.equal(comToken.status, 200);
   });
 
   test("sem sessão, as rotas protegidas respondem 401", async () => {

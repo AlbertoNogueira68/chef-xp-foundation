@@ -1,0 +1,11 @@
+-- Poder fechar as sessões de uma conta.
+--
+-- Até aqui, redefinir a password não fazia nada às sessões já abertas: o JWT
+-- continuava válido até expirar, sete dias depois. Quem redefine a password
+-- costuma estar a fazê-lo precisamente porque desconfia que alguém entrou —
+-- e ficava com essa pessoa lá dentro durante uma semana.
+--
+-- Um contador por conta resolve-o sem manter uma lista de tokens revogados:
+-- o número vai dentro do token, e um token cujo número já não bate com o da
+-- conta deixa de valer. Incrementar é fechar tudo o que estava aberto.
+ALTER TABLE users ADD COLUMN IF NOT EXISTS token_version INTEGER NOT NULL DEFAULT 0;

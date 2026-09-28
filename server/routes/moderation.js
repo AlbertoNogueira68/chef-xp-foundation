@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getPool, query } from "../db/index.js";
+import { deleteStoredImage } from "../lib/imageStore.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
@@ -139,6 +140,7 @@ router.post(
 
     const pool = getPool();
     const client = await pool.connect();
+    let imagemRemovida = null;
 
     try {
       await client.query("BEGIN");
@@ -146,7 +148,7 @@ router.post(
       if (decision.resolution === "removido") {
         if (report.subject_type === "recipe") {
           const { rows: donos } = await client.query(
-            `SELECT r.author_id, u.time_zone
+            `SELECT r.author_id, r.image_url, u.time_zone
                FROM recipes r JOIN users u ON u.id = r.author_id
               WHERE r.id = $1
               FOR UPDATE OF u`,
@@ -154,6 +156,9 @@ router.post(
           );
 
           if (donos[0]) {
+            // Uma imagem denunciada tem de sair mesmo do servidor, e não só
+            // da aplicação: era o endereço dela que estava a circular.
+            imagemRemovida = donos[0].image_url;
             await client.query(`DELETE FROM recipes WHERE id = $1`, [report.subject_id]);
             await revokeXp(client, {
               userId: donos[0].author_id,
@@ -184,6 +189,9 @@ router.post(
       );
 
       await client.query("COMMIT");
+
+      // Depois do COMMIT: um ROLLBACK deixava a receita viva sem fotografia.
+      await deleteStoredImage(imagemRemovida);
 
       res.json({
         resolved: fechadas.length,

@@ -1,4 +1,5 @@
 import { progressForXp } from "../domain/xp.js";
+import { cursorSchema } from "../schemas/index.js";
 
 /**
  * DTO público de utilizador. A curva de níveis é resolvida aqui, no servidor:
@@ -68,9 +69,7 @@ export function toRecipe(row) {
      * explica porque é que ela existe. Sem isto, a interface tinha de ir
      * perguntar desafio a desafio a quem pertencia cada receita.
      */
-    challenge: row.challenge_id
-      ? { id: row.challenge_id, title: row.challenge_title }
-      : null,
+    challenge: row.challenge_id ? { id: row.challenge_id, title: row.challenge_title } : null,
   };
 }
 
@@ -164,7 +163,13 @@ export function encodeCursor(value) {
 export function decodeCursor(value) {
   if (!value) return null;
   try {
-    return JSON.parse(Buffer.from(value, "base64url").toString("utf8"));
+    const cru = JSON.parse(Buffer.from(value, "base64url").toString("utf8"));
+    // Um cursor que não passe daqui é tratado como "não há cursor", que é o
+    // que já acontecia a um que nem sequer fosse base64 válido. Antes, um
+    // base64 legível com um `createdAt` inventado passava a direito e ia
+    // rebentar no `::timestamptz`, do lado do Postgres, em 500.
+    const verificado = cursorSchema.safeParse(cru);
+    return verificado.success ? verificado.data : null;
   } catch {
     return null;
   }

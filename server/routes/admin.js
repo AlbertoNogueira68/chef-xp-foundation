@@ -10,6 +10,7 @@ import {
   roleChangeSchema,
 } from "../schemas/index.js";
 import { requireAdmin } from "../lib/moderation.js";
+import { apagarImagens, imagensDaConta } from "../lib/imageCleanup.js";
 import { accountDeletionRefusal, roleChangeRefusal } from "../domain/moderation.js";
 import trailRoutes from "./admin/trails.js";
 
@@ -291,9 +292,16 @@ router.delete(
          VALUES ($1, $2, $3, $4)`,
         [target.id, target.username, target.role, req.user.id],
       );
+      // Recolher dentro da transação: depois do DELETE já não há linhas para
+      // ler. Apagar os ficheiros só depois do COMMIT, porque um ROLLBACK aqui
+      // deixava a conta viva e as fotografias apagadas.
+      const imagens = await imagensDaConta(client, target.id);
+
       await client.query(`DELETE FROM users WHERE id = $1`, [target.id]);
 
       await client.query("COMMIT");
+      await apagarImagens(imagens);
+
       res.json({ deleted: { id: target.id, username: target.username } });
     } catch (error) {
       await client.query("ROLLBACK");

@@ -286,4 +286,42 @@ describe("verificação de email", skipWithoutDatabase, () => {
     const resposta = await outro.post("/api/auth/verify-email", { token: tokenDeRecuperacao });
     assert.equal(resposta.status, 400);
   });
+
+  test("redefinir a password fecha as sessões que estavam abertas", async () => {
+    /**
+     * É o ponto todo da recuperação: quem a pede costuma estar a fazê-lo
+     * porque desconfia que alguém entrou. Antes de `token_version`, o JWT
+     * dessa pessoa continuava bom durante sete dias — a password mudava e
+     * quem lá estava dentro ficava lá dentro.
+     */
+    const vitima = createClient(server.baseUrl);
+    const conta = await registerUser(vitima, { username: "sessaoaberta" });
+
+    // O "atacante": outro browser, com uma sessão sua já aberta.
+    const atacante = createClient(server.baseUrl);
+    await atacante.post("/api/auth/login", { email: conta.email, password: "Chef12345!" });
+    assert.equal((await atacante.get("/api/users/me")).status, 200);
+
+    // A vítima recupera a password.
+    await vitima.post("/api/auth/logout");
+    await vitima.post("/api/auth/forgot-password", { email: conta.email });
+    const token = lastEmail().token;
+    const redefinida = await vitima.post("/api/auth/reset-password", {
+      token,
+      password: "Password-nova-9!",
+    });
+    assert.equal(redefinida.status, 200);
+
+    // A sessão do atacante deixou de valer, sem o cookie ter mudado.
+    assert.equal((await atacante.get("/api/users/me")).status, 401);
+
+    // E quem tem a password nova entra na mesma.
+    const depois = createClient(server.baseUrl);
+    const entrada = await depois.post("/api/auth/login", {
+      email: conta.email,
+      password: "Password-nova-9!",
+    });
+    assert.equal(entrada.status, 200);
+    assert.equal((await depois.get("/api/users/me")).status, 200);
+  });
 });

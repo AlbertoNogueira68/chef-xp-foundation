@@ -1,6 +1,5 @@
 import crypto from "node:crypto";
 import { baseCookieOptions, csrfCookieName } from "../lib/cookies.js";
-import { readToken } from "./auth.js";
 
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 const TTL_SECONDS = 7 * 24 * 60 * 60;
@@ -29,18 +28,26 @@ function safeEqual(a, b) {
 }
 
 /**
- * CSRF double-submit.
+ * CSRF double-submit, em todas as escritas.
  *
- * Só é aplicado a pedidos mutantes autenticados por cookie: sem cookie de
- * sessão não há autoridade ambiente para roubar, e o registo/login precisam de
- * poder acontecer antes de existir token. Decisão deliberada, não omissão.
+ * Durante muito tempo o registo e o login ficavam de fora, com o argumento de
+ * que sem cookie de sessão não há autoridade ambiente para roubar. É verdade
+ * para a vítima — e não é o único ataque. Sem esta proteção, um site
+ * terceiro podia iniciar sessão no browser de alguém **com as credenciais do
+ * atacante**, e essa pessoa passava a cozinhar, a publicar e a somar XP dentro
+ * de uma conta que não era dela sem dar por isso. Em produção o
+ * `SameSite=Strict` do cookie já o travava; em desenvolvimento, com `lax`,
+ * não travava, e um controlo que só funciona numa configuração é um controlo
+ * que se esquece de valer quando a configuração muda.
+ *
+ * Não custa nada a quem chega: o cliente pede `GET /api/auth/csrf` antes da
+ * primeira escrita, que é o que já fazia para todas as outras.
+ *
+ * Fica de fora o que o browser faz sem JavaScript nosso — os métodos seguros,
+ * e só eles.
  */
 export function csrfProtection(req, res, next) {
   if (SAFE_METHODS.has(req.method)) {
-    return next();
-  }
-
-  if (!readToken(req)) {
     return next();
   }
 
