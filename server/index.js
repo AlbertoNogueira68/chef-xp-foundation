@@ -5,6 +5,7 @@ import { runMigrations } from "./db/runMigrations.js";
 import { syncCurriculum } from "./scripts/sync-curriculum.js";
 import { ensureUploadDir } from "./lib/imageStore.js";
 import { startChallengeScheduler } from "./lib/challengeScheduler.js";
+import { log } from "./lib/logger.js";
 
 const port = Number(process.env.PORT || 3010);
 
@@ -26,8 +27,9 @@ async function boot() {
    * dá o mesmo resultado que arrancar uma.
    */
   const sync = await syncCurriculum(getPool());
-  console.log(
-    `[db] currículo sincronizado: ${sync.skills} competências, ${sync.lessonSkills} ligações`,
+  log.info(
+    { skills: sync.skills, lessonSkills: sync.lessonSkills },
+    "currículo sincronizado com a base",
   );
 
   await ensureUploadDir();
@@ -41,14 +43,14 @@ async function boot() {
   const stopChallengeScheduler = startChallengeScheduler(getPool());
 
   const server = app.listen(port, "0.0.0.0", () => {
-    console.log(`[server] a escutar em http://0.0.0.0:${port}`);
+    log.info({ port, env: process.env.NODE_ENV ?? "development" }, "servidor a escutar");
   });
 
   // Encerramento limpo: o Docker envia SIGTERM e não queremos ligações
   // a meio nem o pool pendurado.
   for (const signal of ["SIGTERM", "SIGINT"]) {
     process.on(signal, () => {
-      console.log(`[server] ${signal} recebido, a encerrar…`);
+      log.info({ signal }, "sinal recebido, a encerrar");
       stopChallengeScheduler();
       server.close(async () => {
         await closePool();
@@ -59,6 +61,6 @@ async function boot() {
 }
 
 boot().catch((error) => {
-  console.error("[server] falha no arranque:", error.message);
+  log.error({ err: error }, "falha no arranque do servidor");
   process.exit(1);
 });

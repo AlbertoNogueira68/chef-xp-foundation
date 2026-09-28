@@ -157,3 +157,31 @@
     position: relative;
   }
 }
+
+/**
+ * Quem pediu menos movimento leva menos movimento.
+ *
+ * A aplicação anima muito: os ecrãs de lição e de missão entram a deslizar de
+ * baixo, os diálogos do Radix fazem zoom, as barras de progresso crescem. Para
+ * quem tem enxaqueca vestibular ou sensibilidade a movimento, isso não é um
+ * detalhe estético — é a diferença entre poder usar a aplicação e não poder.
+ *
+ * A regra vive aqui, e não em cada componente, por uma razão prática: metade
+ * das animações está dentro dos primitivos do shadcn/ui, que são código gerado
+ * e são substituídos quando se atualizam. Uma media query global sobrevive a
+ * isso; trinta classes `motion-reduce:` espalhadas não sobrevivem.
+ *
+ * Não se põe `animation: none`: uma animação cortada a zero deixa elementos que
+ * animam a opacidade invisíveis para sempre. Reduz-se a duração ao mínimo, que
+ * as leva instantaneamente ao estado final.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

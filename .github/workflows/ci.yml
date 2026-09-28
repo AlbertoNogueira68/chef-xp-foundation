@@ -147,8 +147,8 @@ jobs:
       - name: Testes de integração (API contra Postgres)
         run: npm run test:integration
 
-  responsivo:
-    name: Responsividade em telemóvel
+  navegador:
+    name: No browser — jornada completa e responsividade
     runs-on: ubuntu-latest
     needs: quality
 
@@ -226,6 +226,14 @@ jobs:
       - name: Verificar a Content-Security-Policy num browser a sério
         run: node scripts/check-csp.mjs
 
+      # A jornada que se mostra a quem avalia o projeto: criar conta, fazer a
+      # primeira lição de ponta a ponta, publicar uma receita e vê-la no feed.
+      # É o único teste que junta o browser, a API e a base no mesmo percurso —
+      # foi a escrevê-lo que se descobriu que a aplicação servida pelo próprio
+      # Express era recusada a si própria pelo CORS.
+      - name: A jornada da defesa, de ponta a ponta
+        run: npm run check:journey
+
   # Só com o CI todo verde, e só em pushes para o main.
   #
   # A chave em DEPLOY_SSH_KEY está presa no servidor ao scripts/deploy.sh
@@ -235,7 +243,7 @@ jobs:
   deploy:
     name: Deploy em produção
     runs-on: ubuntu-latest
-    needs: [quality, database, responsivo]
+    needs: [quality, database, navegador]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment:
       name: producao

@@ -262,7 +262,7 @@ function seededShuffle(items, seed) {
  * exercícios de ordenar, os passos vão baralhados — enviá-los pela ordem de
  * autoria era entregar o gabarito na mesma.
  */
-function toClientQuestion(question) {
+export function toClientQuestion(question) {
   const { correctAnswer, correctOrder, explanation, explainWrong, ...rest } = question;
 
   if (question.type === "order") {

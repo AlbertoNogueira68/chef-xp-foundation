@@ -208,7 +208,62 @@ de uma receita não podia apagar um comentário na própria receita.
 
 Fica de fora, dito e não escondido: suspender contas.
 
+## Revisão espaçada
+
+O percurso tinha um fim: 19 lições, e depois um trilho cheio de círculos verdes
+sem nada para onde voltar. A repetição espaçada é o que transforma matéria vista
+uma vez em matéria sabida, e é também o motor que faz a aplicação continuar a
+valer a pena depois de acabada.
+
+- [x] `question_attempts`: uma linha por resposta de quiz (migration 028)
+- [x] Domínio puro e testado (`server/domain/review.js`): escada de intervalos
+      de Leitner, prioridade a quem se errou, dias de calendário no fuso de quem
+      estuda
+- [x] `GET /api/learning/review` — o que está em atraso e a sessão de hoje, sem
+      gabarito
+- [x] `POST /api/learning/review/answer` — corrigido pelo servidor, marcado como
+      revisão
+- [x] `POST /api/learning/review/complete` — XP pago uma vez por dia e por
+      trilho, com a pontuação do servidor e não a do cliente
+- [x] Cartão no percurso (só quando há o que rever) e ecrã de sessão, a
+      reutilizar os exercícios da lição
+
+## Medir em vez de supor
+
+- [x] `npm run metrics`: funil das lições, retorno ao dia 2 e na primeira
+      semana, missões, receitas por pessoa e origem do XP — tudo de tabelas que
+      a aplicação já escrevia para funcionar
+- [x] Aviso automático quando o número de contas é pequeno de mais para as
+      percentagens quererem dizer alguma coisa
+
+## Observabilidade
+
+- [x] Registo estruturado em JSON (`server/lib/logger.js`), sem dependências
+      novas, com passwords, tokens e emails removidos
+- [x] Uma linha por pedido, com identificador, rota, estado e duração
+- [x] `/api/health` a tocar na base, com limite de tempo próprio — antes
+      respondia `ok` com o PostgreSQL em baixo
+
+## Acessibilidade
+
+- [x] Nome acessível no botão de sair da lição (era só um ícone)
+- [x] Corações e correção anunciados a quem ouve a página (`aria-live`)
+- [x] `prefers-reduced-motion` respeitado em toda a aplicação
+
+## Testes que faltavam
+
+- [x] `LessonPlayer` e `MissionRunScreen` — os dois componentes centrais do
+      produto, que não tinham nenhum
+- [x] `npm run check:journey` — a jornada da defesa num browser a sério, no CI
+- [x] CORS: a aplicação servida pelo próprio Express era recusada a si própria
+      (os módulos do Vite levam `crossorigin`, logo mandam `Origin`). Corrigido
+      e com teste de regressão.
+
 ## O que falta
 
-Nada deste plano. As duas linhas que estavam bloqueadas por não haver email
-estão fechadas.
+**Avaliação com utilizadores.** É a única coisa em aberto, e não é código: o
+instrumento está pronto em `docs/AVALIACAO.md` — protocolo, cinco tarefas,
+questionário SUS traduzido e pontuado, consentimento e folhas de registo. O que
+falta são as sessões com 8 a 12 pessoas e a semana de uso a seguir.
+
+Os Capítulos 4, 7.4.4, 7.4.5 e 8 do relatório dependem disso e de mais nada.

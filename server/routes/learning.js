@@ -3,7 +3,13 @@ import { getPool } from "../db/index.js";
 import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
-import { answerSubmitSchema, lessonCompleteSchema, lessonParamSchema } from "../schemas/index.js";
+import {
+  answerSubmitSchema,
+  lessonCompleteSchema,
+  lessonParamSchema,
+  reviewAnswerSchema,
+  reviewCompleteSchema,
+} from "../schemas/index.js";
 import {
   gradeAnswers,
   isAnswerCorrect,
@@ -11,12 +17,15 @@ import {
   getLessonIndex,
   getLessonOrder,
   toClientLesson,
+  toClientQuestion,
   curriculumFor,
   trailExists,
   DEFAULT_TRAIL,
 } from "../domain/curriculum.js";
-import { MAX_HEARTS, xpForLesson } from "../domain/xp.js";
+import { dayInTimeZone, MAX_HEARTS, xpForLesson } from "../domain/xp.js";
 import { awardStreakBonus, awardXp, loadDailyState } from "../lib/xpLedger.js";
+import { loadQuestionHistory, recordQuestionAttempt } from "../lib/attempts.js";
+import { buildReviewQueue, countDue, reviewXp, REVIEW_SESSION_SIZE } from "../domain/review.js";
 import {
   getAllAvailableTrails,
   getTrailCurriculum,
@@ -203,6 +212,22 @@ router.post(
 
     const correct = isAnswerCorrect(question, answer);
 
+    // O rasto da resposta. Gravar isto é o que torna o funil mensurável (uma
+    // lição começada é uma lição com respostas) e a revisão espaçada possível
+    // (repetir mais cedo aquilo em que se errou).
+    //
+    // Um erro a gravar não estraga a resposta: quem está a fazer o quiz tem
+    // direito à correção mesmo que a analítica falhe. O contrário — deixar
+    // cair a correção por causa de um INSERT — seria trocar o produto pela
+    // medição dele.
+    await recordQuestionAttempt(getPool(), {
+      userId: req.user.id,
+      trailId,
+      lessonId: lesson.id,
+      questionId,
+      correct,
+    });
+
     res.json({
       questionId,
       correct,
@@ -313,6 +338,207 @@ router.post(
     } catch (error) {
       await client.query("ROLLBACK");
       throw error;
+    } finally {
+      client.release();
+    }
+  }),
+);
+
+/* ---------------------------------------------------------------- *
+ * Revisão
+ * ---------------------------------------------------------------- */
+
+/**
+ * Lê o fuso de quem está a pedir. A revisão conta em dias de calendário, e o
+ * calendário de cada pessoa é o do sítio onde ela está.
+ */
+async function timeZoneOf(pool, userId) {
+  const { rows } = await pool.query(`SELECT time_zone FROM users WHERE id = $1`, [userId]);
+  return rows[0]?.time_zone ?? "UTC";
+}
+
+/**
+ * O que está à espera de ser revisto, e a sessão de hoje.
+ *
+ * Devolve as perguntas já sem gabarito (`toClientQuestion`, o mesmo caminho
+ * das lições): a revisão não é sítio para o cliente receber as respostas
+ * certas antes de as pedir.
+ */
+router.get(
+  "/review",
+  asyncHandler(async (req, res) => {
+    const trailId = req.trailId;
+    const pool = getPool();
+    const timeZone = await timeZoneOf(pool, req.user.id);
+
+    const { units } = curriculumFor(req.lang, trailId);
+    const licoes = units.flatMap((u) => u.lessons ?? []);
+    const [history, completed] = await Promise.all([
+      loadQuestionHistory(pool, req.user.id, trailId),
+      loadCompletedIds(pool, req.user.id, trailId),
+    ]);
+
+    const argumentos = {
+      lessons: licoes,
+      history,
+      completedLessonIds: completed,
+      now: new Date(),
+      timeZone,
+    };
+
+    const fila = buildReviewQueue({ ...argumentos, size: REVIEW_SESSION_SIZE });
+
+    res.json({
+      // Quantas estão em atraso no total, e quantas vêm nesta sessão. As duas
+      // contas interessam: uma é o tamanho da dívida, a outra é o que se
+      // pede à pessoa agora.
+      due: countDue(argumentos),
+      sessionSize: fila.length,
+      questions: fila.map((item) => ({
+        lessonId: item.lessonId,
+        lessonTitle: item.lessonTitle,
+        question: toClientQuestion(item.question),
+      })),
+    });
+  }),
+);
+
+/**
+ * Corrige uma resposta de revisão.
+ *
+ * É a gémea de `POST /lessons/:id/answer`, e existe separada por duas razões:
+ * a pergunta pode vir de qualquer lição do trilho (e não da que está no
+ * caminho do pedido), e é a rota que decide que a tentativa se grava como
+ * `review`. Se fosse um campo no corpo, um cliente podia mandar as respostas
+ * da lição rotuladas como revisão e estragar o funil.
+ */
+router.post(
+  "/review/answer",
+  validate({ body: reviewAnswerSchema }),
+  asyncHandler(async (req, res) => {
+    const trailId = req.trailId;
+    const { lessonId, questionId, answer } = req.valid.body;
+
+    const lesson = getLesson(lessonId, req.lang, trailId);
+    if (!lesson) return res.status(404).json({ error: "Lesson not found" });
+
+    const question = lesson.questions.find((q) => q.id === questionId);
+    if (!question) return res.status(400).json({ error: "Invalid question" });
+
+    // Só se revê o que já se concluiu — a mesma regra do domínio, aplicada
+    // aqui para não haver como responder a matéria trancada por esta porta.
+    const completed = await loadCompletedIds(getPool(), req.user.id, trailId);
+    if (!completed.has(lessonId)) {
+      return res.status(403).json({ error: "Finish that lesson first" });
+    }
+
+    const correct = isAnswerCorrect(question, answer);
+
+    await recordQuestionAttempt(getPool(), {
+      userId: req.user.id,
+      trailId,
+      lessonId,
+      questionId,
+      correct,
+      origin: "review",
+    });
+
+    res.json({
+      lessonId,
+      questionId,
+      correct,
+      correctAnswer: question.type === "order" ? question.correctOrder : question.correctAnswer,
+      explanation: question.explanation,
+      explainWrong: correct ? null : question.explainWrong,
+      skills: question.skills ?? [],
+    });
+  }),
+);
+
+/**
+ * Fecha a sessão e paga o XP.
+ *
+ * O cliente diz **que** perguntas respondeu, nunca quantas acertou: a
+ * pontuação sai das tentativas que o próprio servidor gravou há pouco, em
+ * `POST /review/answer`. É a mesma desconfiança que faz a lição ser corrigida
+ * outra vez no `complete`.
+ *
+ * `sourceRef` é o trilho e o dia, por isso a revisão paga uma vez por dia e
+ * por trilho. Sem isso, oito perguntas em ciclo eram a maneira mais rápida de
+ * subir de nível na aplicação inteira.
+ */
+router.post(
+  "/review/complete",
+  validate({ body: reviewCompleteSchema }),
+  asyncHandler(async (req, res) => {
+    const trailId = req.trailId;
+    const pool = getPool();
+    const client = await pool.connect();
+
+    try {
+      await client.query("BEGIN");
+
+      const { rows: userRows } = await client.query(
+        `SELECT time_zone FROM users WHERE id = $1 FOR UPDATE`,
+        [req.user.id],
+      );
+      const timeZone = userRows[0]?.time_zone ?? "UTC";
+
+      // A verdade da sessão: para cada pergunta que o cliente diz ter
+      // respondido, a última tentativa de revisão das últimas duas horas.
+      // Duas horas porque uma sessão de oito perguntas não demora mais, e
+      // uma janela aberta deixava somar a revisão de ontem à de hoje.
+      const pares = req.valid.body.answered;
+      const { rows: gravadas } = await client.query(
+        `SELECT DISTINCT ON (lesson_id, question_id) lesson_id, question_id, correct
+           FROM question_attempts
+          WHERE user_id = $1
+            AND trail_id = $2
+            AND origin = 'review'
+            AND created_at > now() - interval '2 hours'
+            AND (lesson_id, question_id) IN (
+              SELECT * FROM UNNEST($3::text[], $4::text[])
+            )
+          ORDER BY lesson_id, question_id, created_at DESC`,
+        [req.user.id, trailId, pares.map((p) => p.lessonId), pares.map((p) => p.questionId)],
+      );
+
+      const total = gravadas.length;
+      const correct = gravadas.filter((r) => r.correct).length;
+
+      if (total === 0) {
+        await client.query("ROLLBACK");
+        return res.status(400).json({ error: "No review answers to score" });
+      }
+
+      const day = dayInTimeZone(new Date(), timeZone);
+      const award = await awardXp(client, {
+        userId: req.user.id,
+        source: "review",
+        sourceRef: `${trailId}:${day}`,
+        amount: reviewXp({ total, correct }),
+        timeZone,
+      });
+
+      const daily = await loadDailyState(client, req.user.id, { timeZone });
+
+      await client.query("COMMIT");
+
+      res.json({
+        total,
+        correct,
+        xpEarned: award.amount,
+        // `false` quando a revisão de hoje já tinha sido paga. O ecrã diz
+        // isso em vez de mostrar "+0 XP" e deixar a pessoa a pensar que
+        // perdeu o que fez.
+        paid: award.awarded,
+        totalXp: award.xp,
+        level: award.level,
+        streak: daily.streak,
+      });
+    } catch (err) {
+      await client.query("ROLLBACK");
+      throw err;
     } finally {
       client.release();
     }

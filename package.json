@@ -41,7 +41,9 @@
     "db:sync-curriculum": "node scripts/sync-curriculum.mjs",
     "db:check-sync": "node scripts/check-curriculum-sync.mjs",
     "db:check-boot": "node scripts/check-boot-sync.mjs",
-    "uploads:prune": "node scripts/prune-orphan-uploads.mjs"
+    "uploads:prune": "node scripts/prune-orphan-uploads.mjs",
+    "metrics": "node scripts/metrics.mjs",
+    "check:journey": "node scripts/check-journey.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

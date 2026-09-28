@@ -50,6 +50,29 @@ describe("a minha conta", skipWithoutDatabase, () => {
     assert.ok(dados.atividadeDiaria.length > 0);
   });
 
+  test("a exportação inclui as respostas de quiz — a tabela nova não ficou de fora", async () => {
+    const cliente = createClient(server.baseUrl);
+    await registerUser(cliente, { username: "respondedor" });
+
+    const curriculum = (await import("../../shared/curriculum.json", { with: { type: "json" } }))
+      .default;
+    const licao = curriculum.units[0].lessons[0];
+    const pergunta = licao.questions[0];
+
+    await cliente.post(`/api/learning/lessons/${licao.id}/answer`, {
+      questionId: pergunta.id,
+      answer: pergunta.type === "order" ? pergunta.correctOrder : pergunta.correctAnswer,
+    });
+
+    const dados = (await cliente.get("/api/users/me/export")).body;
+
+    // A promessa do README é "todos os dados". Uma tabela nova com dados
+    // pessoais que não saia aqui torna essa promessa falsa em silêncio.
+    assert.ok(Array.isArray(dados.respostasDeQuiz), "as respostas de quiz têm de sair");
+    assert.equal(dados.respostasDeQuiz.length, 1);
+    assert.equal(dados.respostasDeQuiz[0].question_id, pergunta.id);
+  });
+
   test("a exportação não inclui a password", async () => {
     const dados = (await eu.get("/api/users/me/export")).body;
     assert.ok(!JSON.stringify(dados).includes("password"), "a hash não pode sair daqui");

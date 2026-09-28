@@ -1,4 +1,4 @@
--- Poder fechar as sessões de uma conta.
+-- 029: poder fechar as sessões de uma conta.
 --
 -- Até aqui, redefinir a password não fazia nada às sessões já abertas: o JWT
 -- continuava válido até expirar, sete dias depois. Quem redefine a password

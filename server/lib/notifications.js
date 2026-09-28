@@ -1,4 +1,5 @@
 import { blockExistsBetween } from "./blocks.js";
+import { log } from "./logger.js";
 
 /**
  * Criar notificações.
@@ -41,7 +42,7 @@ export async function notifyQuietly(client, payload) {
   try {
     return await notify(client, payload);
   } catch (error) {
-    console.error("[notificações] não foi possível criar:", error.message);
+    log.warn({ err: error }, "não foi possível criar a notificação");
     return { created: false };
   }
 }

@@ -82,14 +82,14 @@ A aplicação proposta não só procura promover uma alimentação mais equilibr
 
 > **Reconciliação com o código (mapeamento objetivo → implementação):**
 >
-> | Objetivo específico | Estado no ChefXP hoje | Onde |
-> | --- | --- | --- |
-> | 1. Promover confeção de refeições caseiras | Implementado via missões de cozinha (prato real, passos cronometrados, foto de checkpoint) | `server/domain/missions.js`, `src/features/missions/` |
-> | 2. Elementos de gamificação (níveis, XP, desafios) | Implementado — livro-razão de XP idempotente, curva de níveis, badges, desafios da comunidade | `server/domain/xp.js`, `server/domain/challenges.js` |
-> | 3. Partilha e interação social | Implementado — feed, gostos, comentários, seguir | `server/routes/recipes.js` |
-> | 4. Pesquisa e descoberta de conteúdos | Implementado — pesquisa por texto, filtros de tempo e dificuldade | `src/features/search/` |
-> | 5. Hábitos alimentares equilibrados e sustentáveis | Parcial — a app não dá feedback nutricional nem mede "sedentarismo"; a promoção é indireta, via frequência de confeção e progressão | — |
-> | 6. Experiência apelativa (funcionalidades práticas + sociais) | Implementado | toda a app |
+> | Objetivo específico                                           | Estado no ChefXP hoje                                                                                                               | Onde                                                  |
+> | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+> | 1. Promover confeção de refeições caseiras                    | Implementado via missões de cozinha (prato real, passos cronometrados, foto de checkpoint)                                          | `server/domain/missions.js`, `src/features/missions/` |
+> | 2. Elementos de gamificação (níveis, XP, desafios)            | Implementado — livro-razão de XP idempotente, curva de níveis, badges, desafios da comunidade                                       | `server/domain/xp.js`, `server/domain/challenges.js`  |
+> | 3. Partilha e interação social                                | Implementado — feed, gostos, comentários, seguir                                                                                    | `server/routes/recipes.js`                            |
+> | 4. Pesquisa e descoberta de conteúdos                         | Implementado — pesquisa por texto, filtros de tempo e dificuldade                                                                   | `src/features/search/`                                |
+> | 5. Hábitos alimentares equilibrados e sustentáveis            | Parcial — a app não dá feedback nutricional nem mede "sedentarismo"; a promoção é indireta, via frequência de confeção e progressão | —                                                     |
+> | 6. Experiência apelativa (funcionalidades práticas + sociais) | Implementado                                                                                                                        | toda a app                                            |
 >
 > Isto ainda não inclui um objetivo específico sobre a **avaliação da aplicação junto de utilizadores** nem sobre o uso de **Vibe Coding** como metodologia — ambos fazem parte do teu projeto (ver Capítulos 3 e 7) mas não estavam no texto entregue como objetivos formais. Considera acrescentá-los aqui na próxima revisão, para o Capítulo 9 poder "fechar o ciclo" com eles.
 
@@ -175,20 +175,20 @@ O Duolingo é uma plataforma de aprendizagem de línguas fortemente orientada pa
 
 Tabela comparativa das funcionalidades presentes nas aplicações analisadas face às planeadas para o ChefXP:
 
-| Funcionalidade | Tasty | Cookpad | Gronda | ReciMe | Duolingo | ChefXP |
-| --- | :---: | :---: | :---: | :---: | :---: | :---: |
-| Sistema de utilizadores registados | X | X | X | X | X | X |
-| Receitas adaptadas a preferências e restrições | X | X | X | X | | X |
-| Progressão estruturada por níveis | | | | | X | X |
-| Gamificação (pontos, níveis, badges) | | | | | X | X |
-| Feedback de progresso ao utilizador | | | | X | X | X |
-| Aprendizagem progressiva de competências | | | X | | X | X |
-| Conteúdo acessível a utilizadores iniciantes | X | X | | X | X | X |
-| Promoção de hábitos alimentares saudáveis | X | X | | X | | X |
-| Elementos sociais (partilha/desafios) | | X | | | X | X |
-| Desafios ou tarefas orientadas ao utilizador | | | X | | X | X |
-| Integração de culinária + aprendizagem | | | X | | | X |
-| Motivação contínua baseada em consistência | | | | | X | X |
+| Funcionalidade                                 | Tasty | Cookpad | Gronda | ReciMe | Duolingo | ChefXP |
+| ---------------------------------------------- | :---: | :-----: | :----: | :----: | :------: | :----: |
+| Sistema de utilizadores registados             |   X   |    X    |   X    |   X    |    X     |   X    |
+| Receitas adaptadas a preferências e restrições |   X   |    X    |   X    |   X    |          |   X    |
+| Progressão estruturada por níveis              |       |         |        |        |    X     |   X    |
+| Gamificação (pontos, níveis, badges)           |       |         |        |        |    X     |   X    |
+| Feedback de progresso ao utilizador            |       |         |        |   X    |    X     |   X    |
+| Aprendizagem progressiva de competências       |       |         |   X    |        |    X     |   X    |
+| Conteúdo acessível a utilizadores iniciantes   |   X   |    X    |        |   X    |    X     |   X    |
+| Promoção de hábitos alimentares saudáveis      |   X   |    X    |        |   X    |          |   X    |
+| Elementos sociais (partilha/desafios)          |       |    X    |        |        |    X     |   X    |
+| Desafios ou tarefas orientadas ao utilizador   |       |         |   X    |        |    X     |   X    |
+| Integração de culinária + aprendizagem         |       |         |   X    |        |          |   X    |
+| Motivação contínua baseada em consistência     |       |         |        |        |    X     |   X    |
 
 A análise comparativa evidencia que, embora as aplicações analisadas apresentem funcionalidades relevantes de forma isolada, nenhuma integra de forma consistente culinária, aprendizagem progressiva, gamificação e motivação contínua numa só aplicação.
 
@@ -216,13 +216,13 @@ A gamificação baseia-se na aplicação de elementos típicos dos jogos em cont
 
 #### 2.2.3. Elementos Gamificados e a sua Efetividade
 
-| Elemento | Efetividade | Aplicação / nota |
-| --- | --- | --- |
-| Progressão por níveis | Muito alta | Receitas com dificuldade crescente; visibilidade clara de percurso |
-| Pontos/XP | Alta (curto prazo) | Feedback imediato; requer variação para evitar efeito de novidade |
-| Badges | Alta | Reconhecimento de conquistas |
-| Feedback instantâneo | Muito alta | Validação imediata; crítico para aprendizagem e Flow |
-| Desafios progressivos | Muito alta | Tarefas estruturadas; incentivam consistência |
+| Elemento              | Efetividade        | Aplicação / nota                                                   |
+| --------------------- | ------------------ | ------------------------------------------------------------------ |
+| Progressão por níveis | Muito alta         | Receitas com dificuldade crescente; visibilidade clara de percurso |
+| Pontos/XP             | Alta (curto prazo) | Feedback imediato; requer variação para evitar efeito de novidade  |
+| Badges                | Alta               | Reconhecimento de conquistas                                       |
+| Feedback instantâneo  | Muito alta         | Validação imediata; crítico para aprendizagem e Flow               |
+| Desafios progressivos | Muito alta         | Tarefas estruturadas; incentivam consistência                      |
 
 A progressão por níveis destaca-se como um dos elementos mais eficazes, uma vez que permite estruturar o percurso do utilizador, tornando visível a sua evolução e promovendo o sentimento de competência. Os pontos de experiência (XP) funcionam como mecanismos de feedback imediato, reforçando comportamentos desejados — mas a sua eficácia tende a ser mais elevada a curto prazo, sendo necessária a introdução de variação para evitar o efeito de novidade (ver 2.2.5). Os badges assumem um papel importante no reconhecimento de conquistas, com eficácia reforçada quando associados a uma narrativa clara e a objetivos significativos. O feedback instantâneo e os desafios progressivos apresentam efetividade muito elevada, sendo essenciais para a aprendizagem e para a promoção do estado de flow.
 
@@ -294,41 +294,41 @@ Concluindo, este estado da arte estabelece uma fundação teórica e empírica p
 
 **Referências já compiladas (secção 2.2):**
 
-Deterding, S., Dixon, D., Khaled, R., & Nacke, L. (2011). From game design elements to gamefulness: defining "gamification". *Proceedings of the 15th International Academic MindTrek Conference.*
-Prensky, M. (2007). Digital Game-Based Learning. *Computers in Entertainment*, 5(1), 21.
-McGonigal, J. (2011). *Reality is Broken: Why Games Make Us Better and How They Can Change the World.* Penguin Press.
-Ryan, R. M., & Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being. *American Psychologist*, 55(1), 68–78.
-Csikszentmihalyi, M. (1990). *Flow: The Psychology of Optimal Experience.* Harper & Row.
-Pink, D. H. (2009). *Drive: The Surprising Truth About What Motivates Us.* Riverhead Books.
-Deci, E. L., Koestner, R., & Ryan, R. M. (1999). A meta-analytic review of experiments examining the effects of extrinsic rewards on intrinsic motivation. *Psychological Bulletin*, 125(6), 627–668.
-Hattie, J. (2008). *Visible Learning: A Synthesis of Over 800 Meta-Analyses Relating to Achievement.* Routledge.
-Kayımbaşıoğlu, D., Sözer, H., Şamşu, B., & Sayan, H. (2016). Assessment of gamification and learning analytics in educational contexts. *Journal of Educational Computing Research*, 55(6), 767–786.
-Hamari, J., Koivisto, J., & Sarsa, H. (2014). Does gamification work? A literature review of empirical studies on gamification. *2014 47th Hawaii International Conference on System Sciences*, 3025–3034.
-Sardi, L., Idri, A., & Fernández-Alemán, J. L. (2017). A systematic review of gamification in e-Health. *Journal of Biomedical Informatics*, 71, 31–48.
-Nacke, L. E., & Deterding, S. (2017). The all-game-All-play: Ubiquitous gamification. *Computer Games Journal*, 6(1), 53–62.
-Lally, P., Van Jaarsveld, C. H., Potts, H. W., & Wardle, J. (2010). How are habits formed: Modelling habit formation in the real world. *European Journal of Social Psychology*, 40(6), 998–1009.
-Duolingo Research Team. (2013). *The Effectiveness of Gamification in Language Learning.* Internal research report. Disponível em: https://investor.duolingo.com/
-Classcraft Corporation. (2019). *Implementation Results: 23 Classrooms, 617 Students.* Case study. Disponível em: https://www.classcraft.com/
-Editor Realize. (2024). Gamificação: Impulsionando o Engajamento e a Motivação. *Anais do CONEDU 2024* (Congresso Nacional de Educação).
+Deterding, S., Dixon, D., Khaled, R., & Nacke, L. (2011). From game design elements to gamefulness: defining "gamification". _Proceedings of the 15th International Academic MindTrek Conference._
+Prensky, M. (2007). Digital Game-Based Learning. _Computers in Entertainment_, 5(1), 21.
+McGonigal, J. (2011). _Reality is Broken: Why Games Make Us Better and How They Can Change the World._ Penguin Press.
+Ryan, R. M., & Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being. _American Psychologist_, 55(1), 68–78.
+Csikszentmihalyi, M. (1990). _Flow: The Psychology of Optimal Experience._ Harper & Row.
+Pink, D. H. (2009). _Drive: The Surprising Truth About What Motivates Us._ Riverhead Books.
+Deci, E. L., Koestner, R., & Ryan, R. M. (1999). A meta-analytic review of experiments examining the effects of extrinsic rewards on intrinsic motivation. _Psychological Bulletin_, 125(6), 627–668.
+Hattie, J. (2008). _Visible Learning: A Synthesis of Over 800 Meta-Analyses Relating to Achievement._ Routledge.
+Kayımbaşıoğlu, D., Sözer, H., Şamşu, B., & Sayan, H. (2016). Assessment of gamification and learning analytics in educational contexts. _Journal of Educational Computing Research_, 55(6), 767–786.
+Hamari, J., Koivisto, J., & Sarsa, H. (2014). Does gamification work? A literature review of empirical studies on gamification. _2014 47th Hawaii International Conference on System Sciences_, 3025–3034.
+Sardi, L., Idri, A., & Fernández-Alemán, J. L. (2017). A systematic review of gamification in e-Health. _Journal of Biomedical Informatics_, 71, 31–48.
+Nacke, L. E., & Deterding, S. (2017). The all-game-All-play: Ubiquitous gamification. _Computer Games Journal_, 6(1), 53–62.
+Lally, P., Van Jaarsveld, C. H., Potts, H. W., & Wardle, J. (2010). How are habits formed: Modelling habit formation in the real world. _European Journal of Social Psychology_, 40(6), 998–1009.
+Duolingo Research Team. (2013). _The Effectiveness of Gamification in Language Learning._ Internal research report. Disponível em: https://investor.duolingo.com/
+Classcraft Corporation. (2019). _Implementation Results: 23 Classrooms, 617 Students._ Case study. Disponível em: https://www.classcraft.com/
+Editor Realize. (2024). Gamificação: Impulsionando o Engajamento e a Motivação. _Anais do CONEDU 2024_ (Congresso Nacional de Educação).
 
 ### 2.4. Aplicação dos princípios de gamificação no ChefXP (código atual)
 
 Tabela adicional, cruzando cada conceito teórico do capítulo com a implementação real, para servir de ponte para os Capítulos 5–6:
 
-| Conceito teórico | Aplicação no ChefXP | Onde no código |
-| --- | --- | --- |
-| XP (pontos) | Ganho por publicar receita (+25), lição perfeita (+10 de bónus), marco de streak a cada 7 dias (+20), lições e missões concluídas; registado como livro-razão idempotente (`xp_events`), nunca um contador simples | `server/domain/xp.js`, `server/lib/xpLedger.js` |
-| Níveis | Curva de progressão com passo base de 100 XP + 50 XP por nível adicional, até ao nível 50; calculada num módulo puro e testado, partilhada por cliente e servidor | `server/domain/xp.js` (`xpToAdvance`, `levelForXp`, `progressForXp`) |
-| Badges | 8 conquistas derivadas do estado real do utilizador: primeira receita, 10 receitas, primeira lição, semana de lições, semana ativa (streak ≥7), mês ativo (streak ≥30), nível ≥3, 100 gostos recebidos | `badgesFor()` em `server/domain/xp.js` |
-| Corações / vidas | Sistema de 3 corações por lição, ao estilo Duolingo, para tornar o erro visível mas não impeditivo | `MAX_HEARTS` em `server/domain/xp.js`, `server/routes/learning.js` |
-| Streak (sequência) | Calculado no fuso horário do próprio utilizador a partir de `daily_activity`, só quebra após um dia civil inteiro sem atividade | `server/domain/xp.js`, tabela `daily_activity` |
-| Meta diária | Objetivo configurável de XP por dia (por omissão 50), visível no perfil | `DEFAULT_DAILY_XP_GOAL`, `dailyXpGoal` em `users` |
-| Feedback / personagem | O "Chef Sapo" acompanha lições e missões, com falas deterministas por contexto (boas-vindas, explicação de passo, pergunta, acerto, erro, pedido de socorro) — não um texto genérico | `src/lib/chefLines.ts`, `src/components/ChefMascot.tsx` |
-| Missões práticas | Cada unidade termina numa "missão de cozinha": receita real com passos cronometrados, pedido de socorro e foto de verificação no fim | `server/domain/missions.js`, `src/features/missions/` |
-| Autonomia | Escolha livre de que lição/unidade seguir dentro do percurso desbloqueado, escolha da receita a publicar ou a submeter a um desafio | `src/features/challenges`, `src/features/learning` |
-| Competência | Progressão visível (XP, nível, corações, barra de progresso) e feedback imediato de correção no fim de cada lição/missão | `progressForXp()`, ecrã de resultado de missão |
-| Relacionamento social | Feed com receitas de outros utilizadores, gostos, comentários, seguir, notificações, desafios coletivos, ranking semanal/global | `server/routes/recipes.js`, `server/routes/challenges.js`, `server/routes/leaderboard.js` |
-| Rankings | Semanal (agregado de `daily_activity`) e global (soma de `users.xp`), com `RANK()` para tratar empates de forma justa | `server/routes/leaderboard.js` |
+| Conceito teórico      | Aplicação no ChefXP                                                                                                                                                                                                | Onde no código                                                                            |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| XP (pontos)           | Ganho por publicar receita (+25), lição perfeita (+10 de bónus), marco de streak a cada 7 dias (+20), lições e missões concluídas; registado como livro-razão idempotente (`xp_events`), nunca um contador simples | `server/domain/xp.js`, `server/lib/xpLedger.js`                                           |
+| Níveis                | Curva de progressão com passo base de 100 XP + 50 XP por nível adicional, até ao nível 50; calculada num módulo puro e testado, partilhada por cliente e servidor                                                  | `server/domain/xp.js` (`xpToAdvance`, `levelForXp`, `progressForXp`)                      |
+| Badges                | 8 conquistas derivadas do estado real do utilizador: primeira receita, 10 receitas, primeira lição, semana de lições, semana ativa (streak ≥7), mês ativo (streak ≥30), nível ≥3, 100 gostos recebidos             | `badgesFor()` em `server/domain/xp.js`                                                    |
+| Corações / vidas      | Sistema de 3 corações por lição, ao estilo Duolingo, para tornar o erro visível mas não impeditivo                                                                                                                 | `MAX_HEARTS` em `server/domain/xp.js`, `server/routes/learning.js`                        |
+| Streak (sequência)    | Calculado no fuso horário do próprio utilizador a partir de `daily_activity`, só quebra após um dia civil inteiro sem atividade                                                                                    | `server/domain/xp.js`, tabela `daily_activity`                                            |
+| Meta diária           | Objetivo configurável de XP por dia (por omissão 50), visível no perfil                                                                                                                                            | `DEFAULT_DAILY_XP_GOAL`, `dailyXpGoal` em `users`                                         |
+| Feedback / personagem | O "Chef Sapo" acompanha lições e missões, com falas deterministas por contexto (boas-vindas, explicação de passo, pergunta, acerto, erro, pedido de socorro) — não um texto genérico                               | `src/lib/chefLines.ts`, `src/components/ChefMascot.tsx`                                   |
+| Missões práticas      | Cada unidade termina numa "missão de cozinha": receita real com passos cronometrados, pedido de socorro e foto de verificação no fim                                                                               | `server/domain/missions.js`, `src/features/missions/`                                     |
+| Autonomia             | Escolha livre de que lição/unidade seguir dentro do percurso desbloqueado, escolha da receita a publicar ou a submeter a um desafio                                                                                | `src/features/challenges`, `src/features/learning`                                        |
+| Competência           | Progressão visível (XP, nível, corações, barra de progresso) e feedback imediato de correção no fim de cada lição/missão                                                                                           | `progressForXp()`, ecrã de resultado de missão                                            |
+| Relacionamento social | Feed com receitas de outros utilizadores, gostos, comentários, seguir, notificações, desafios coletivos, ranking semanal/global                                                                                    | `server/routes/recipes.js`, `server/routes/challenges.js`, `server/routes/leaderboard.js` |
+| Rankings              | Semanal (agregado de `daily_activity`) e global (soma de `users.xp`), com `RANK()` para tratar empates de forma justa                                                                                              | `server/routes/leaderboard.js`                                                            |
 
 `[A PREENCHER]`: para cada linha, acrescentar a justificação teórica (porquê esta forma de XP e não outra, porquê corações e não "vidas infinitas", etc.), com referências do ponto 2.3.4.
 
@@ -357,23 +357,23 @@ Tabela adicional, cruzando cada conceito teórico do capítulo com a implementa�
 
 #### 3.3.2. Ferramentas utilizadas
 
-| Categoria | Ferramenta |
-| --- | --- |
-| Prototipagem inicial (MVP) | Lovable (AI app builder) |
-| Assistente de desenvolvimento principal | Claude Code (Anthropic) |
-| Controlo de versões | Git / GitHub |
-| Frontend | React 19, TypeScript, Vite, React Router, Tailwind CSS v4, TanStack Query, React Hook Form, Zod, shadcn/ui (Radix) |
-| Backend | Node.js, Express 5, PostgreSQL 15 (`pg`, SQL-first, sem ORM) |
-| Segurança | JWT em cookie `HttpOnly`, CSRF double-submit, bcrypt, Helmet, CSP própria |
-| Infraestrutura | Docker / Docker Compose (dev e produção), Caddy (TLS automático) |
-| Testes | Test runner nativo do Node.js (`node --test`), Vitest + Testing Library, Playwright (verificação de PWA/offline num Chrome real) |
-| Integração contínua | GitHub Actions |
+| Categoria                               | Ferramenta                                                                                                                       |
+| --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| Prototipagem inicial (MVP)              | Lovable (AI app builder)                                                                                                         |
+| Assistente de desenvolvimento principal | Claude Code (Anthropic)                                                                                                          |
+| Controlo de versões                     | Git / GitHub                                                                                                                     |
+| Frontend                                | React 19, TypeScript, Vite, React Router, Tailwind CSS v4, TanStack Query, React Hook Form, Zod, shadcn/ui (Radix)               |
+| Backend                                 | Node.js, Express 5, PostgreSQL 15 (`pg`, SQL-first, sem ORM)                                                                     |
+| Segurança                               | JWT em cookie `HttpOnly`, CSRF double-submit, bcrypt, Helmet, CSP própria                                                        |
+| Infraestrutura                          | Docker / Docker Compose (dev e produção), Caddy (TLS automático)                                                                 |
+| Testes                                  | Test runner nativo do Node.js (`node --test`), Vitest + Testing Library, Playwright (verificação de PWA/offline num Chrome real) |
+| Integração contínua                     | GitHub Actions                                                                                                                   |
 
 #### 3.3.3. Processo de desenvolvimento através de Vibe Coding
 
 O fluxo seguido, funcionalidade a funcionalidade, foi consistentemente:
 
-1. Definição do requisito em linguagem natural (o que a funcionalidade deve fazer e, muitas vezes, o que deve *recusar* fazer — p.ex. "o gabarito da lição nunca pode chegar ao browser").
+1. Definição do requisito em linguagem natural (o que a funcionalidade deve fazer e, muitas vezes, o que deve _recusar_ fazer — p.ex. "o gabarito da lição nunca pode chegar ao browser").
 2. Criação do pedido/instrução para o assistente de IA, incluindo restrições explícitas de segurança e de modelo de dados.
 3. Geração do código (rotas, módulos de domínio, componentes de interface, migrations SQL).
 4. Escrita e execução de testes (unitários de domínio, de integração contra API+PostgreSQL reais, e de interface) para validar o comportamento gerado.
@@ -420,6 +420,7 @@ O projeto manteve uma separação clara de responsabilidades independente de que
 > **Nota:** a nota de correção do orientador pedia para o "estudo do estado da arte" (incluindo a análise das aplicações concorrentes) vir **antes** de qualquer especificação da app, como Capítulo 2. Isso já foi feito — a análise de Tasty, Cookpad, Gronda, ReciMe e Duolingo, com tabela comparativa e discussão crítica, está agora na secção **2.1** deste documento, exatamente como no texto entregue. Manter este Capítulo 4 como "Análise de aplicações" a seguir seria repetir o mesmo conteúdo duas vezes.
 >
 > Duas opções, à tua escolha:
+>
 > 1. **Remover este capítulo** e renumerar os seguintes (5→4, 6→5, ..., 9→8) — a estrutura fica: Introdução, Estado da arte, Vibe Coding, Especificação, Design/Desenvolvimento, Testes, Reflexão, Conclusão.
 > 2. **Manter o número mas mudar o conteúdo** — por exemplo, transformar o Capítulo 4 num aprofundamento técnico que a secção 2.1 não cobre (ex.: análise de arquitetura/stack de concorrentes, se for relevante), para não ficar vazio.
 >
@@ -456,13 +457,13 @@ A componente de gamificação é o elemento diferenciador da aplicação. O util
 
 > **Reconciliação com o código — este é o ponto mais importante a resolver antes da entrega:**
 >
-> | O que o texto descreve | O que existe hoje no ChefXP | Ação sugerida |
-> | --- | --- | --- |
-> | "Cada nível corresponde a uma receita" apresentada passo a passo | O percurso de aprendizagem é feito de **lições** com preparação teórica + quiz (`shared/curriculum.json`, `server/routes/learning.js`); a aplicação prática de uma receita real acontece separadamente, nas **missões de cozinha** no fim de cada unidade (`server/domain/missions.js`) | Ajustar o texto para descrever os dois momentos (lição/quiz vs. missão prática), ou simplificar a implementação para um único fluxo — decisão de produto, não só de relatório |
-> | Foto do prato como "prova de conclusão do nível", com símbolo distintivo no perfil | A missão já pede foto de checkpoint no fim; não há hoje um símbolo visual próprio para distinguir fotos de missão de fotos de receita publicada no perfil | Verificar se vale a pena implementar o símbolo, ou ajustar o texto |
-> | Filtro de pesquisa **por orçamento** (valor máximo a gastar) | **Implementado (2026-09-22).** `estimated_cost_eur` em `recipes`, filtro `maxCost` na pesquisa, campo no formulário de publicar/editar | `server/routes/recipes.js`, `src/pages/SearchPage.tsx`, `src/pages/PublishPage.tsx` |
-> | Filtro de pesquisa **por preferências alimentares** (alergias, intolerâncias, gosto) | **Implementado (2026-09-22).** `dietary_tags` (conjunto fechado: vegetariano, vegano, sem glúten, sem lactose, sem frutos secos, halal), filtro `dietaryTags` que exige todas as etiquetas escolhidas | mesmos ficheiros acima |
-> | "Metas semanais de alimentação saudável" | A app tem meta **diária** de XP (`dailyXpGoal`), não uma meta nutricional semanal | Ajustar o texto — a meta existente é de atividade, não de composição da dieta |
+> | O que o texto descreve                                                               | O que existe hoje no ChefXP                                                                                                                                                                                                                                                             | Ação sugerida                                                                                                                                                                 |
+> | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+> | "Cada nível corresponde a uma receita" apresentada passo a passo                     | O percurso de aprendizagem é feito de **lições** com preparação teórica + quiz (`shared/curriculum.json`, `server/routes/learning.js`); a aplicação prática de uma receita real acontece separadamente, nas **missões de cozinha** no fim de cada unidade (`server/domain/missions.js`) | Ajustar o texto para descrever os dois momentos (lição/quiz vs. missão prática), ou simplificar a implementação para um único fluxo — decisão de produto, não só de relatório |
+> | Foto do prato como "prova de conclusão do nível", com símbolo distintivo no perfil   | A missão já pede foto de checkpoint no fim; não há hoje um símbolo visual próprio para distinguir fotos de missão de fotos de receita publicada no perfil                                                                                                                               | Verificar se vale a pena implementar o símbolo, ou ajustar o texto                                                                                                            |
+> | Filtro de pesquisa **por orçamento** (valor máximo a gastar)                         | **Implementado (2026-09-22).** `estimated_cost_eur` em `recipes`, filtro `maxCost` na pesquisa, campo no formulário de publicar/editar                                                                                                                                                  | `server/routes/recipes.js`, `src/pages/SearchPage.tsx`, `src/pages/PublishPage.tsx`                                                                                           |
+> | Filtro de pesquisa **por preferências alimentares** (alergias, intolerâncias, gosto) | **Implementado (2026-09-22).** `dietary_tags` (conjunto fechado: vegetariano, vegano, sem glúten, sem lactose, sem frutos secos, halal), filtro `dietaryTags` que exige todas as etiquetas escolhidas                                                                                   | mesmos ficheiros acima                                                                                                                                                        |
+> | "Metas semanais de alimentação saudável"                                             | A app tem meta **diária** de XP (`dailyXpGoal`), não uma meta nutricional semanal                                                                                                                                                                                                       | Ajustar o texto — a meta existente é de atividade, não de composição da dieta                                                                                                 |
 >
 > Duas linhas continuam por reconciliar (a framing de nível/receita e a foto como "prova de nível"), mas os dois filtros — provavelmente o motivo mais visível para o orientador voltar a pedir correções, porque não se viam numa demonstração da app — já estão implementados, com testes de domínio e de integração (`server/test/recipes.integration.test.js`) e verificados manualmente na aplicação a correr.
 
@@ -478,29 +479,29 @@ Estudantes universitários com pouca ou nenhuma experiência de cozinha, tipicam
 
 ### 5.3. Requisitos funcionais
 
-| # | Requisito | Estado | Onde |
-| --- | --- | --- | --- |
-| 5.3.1 | Gestão de utilizadores (registo em duas fases, login, Google OAuth, edição de perfil, exportação e eliminação de conta) | Implementado | `server/routes/auth.js`, `server/routes/users.js` |
-| 5.3.2 | Consulta de receitas (feed, detalhe, três vistas: recentes/a seguir/em alta) | Implementado | `server/routes/recipes.js`, `src/pages/FeedPage.tsx`, `src/pages/RecipePage.tsx` |
-| 5.3.3 | Pesquisa e filtros (dificuldade, tempo, orçamento, preferências alimentares) | Implementado | `src/pages/SearchPage.tsx`, `server/routes/recipes.js`, `server/db/migrations/020_recipe_budget_and_diet.sql` |
-| 5.3.4 | Sistema de XP e níveis | Implementado | `server/domain/xp.js`, `server/lib/xpLedger.js` |
-| 5.3.5 | Sistema de badges | Implementado | `badgesFor()` em `server/domain/xp.js` |
-| 5.3.6 | Progresso de aprendizagem (percurso, corações, streak, meta diária) | Implementado | `server/routes/learning.js`, `shared/curriculum.json` |
-| 5.3.7 | Partilha de fotografias | Implementado, com validação de assinatura de ficheiro | `server/lib/imageStore.js` |
-| 5.3.8 | Likes e comentários | Implementado | `server/routes/recipes.js` |
-| 5.3.9 | Perfil do utilizador (próprio e público) | Implementado | `src/pages/ProfilePage.tsx`, `src/pages/ChefPage.tsx` |
-| 5.3.10 | Área de administração/moderação | Implementado (três papéis: user, moderator, admin) | `server/routes/admin.js`, `server/routes/moderation.js`, `src/pages/AdminPage.tsx` |
-| — | Desafios da comunidade | Implementado | `server/domain/challenges.js`, `server/routes/challenges.js` |
-| — | Notificações | Implementado | `server/routes/notifications.js`, `server/lib/notifications.js` |
-| — | Rankings semanal/global | Implementado | `server/routes/leaderboard.js` |
-| — | Denúncia e bloqueio de conteúdo/contas | Implementado | `server/lib/blocks.js`, `server/domain/moderation.js` |
-| — | Funcionamento offline (lições e fotos de missão em fila) | Implementado | `src/lib/offline/outbox.ts`, `src/lib/offline/sync.ts` |
-| — | Recuperação de password e confirmação de email | Implementado, condicional a SMTP configurado | `server/lib/mailer.js`, `server/domain/authEmails.js` |
+| #      | Requisito                                                                                                               | Estado                                                | Onde                                                                                                          |
+| ------ | ----------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| 5.3.1  | Gestão de utilizadores (registo em duas fases, login, Google OAuth, edição de perfil, exportação e eliminação de conta) | Implementado                                          | `server/routes/auth.js`, `server/routes/users.js`                                                             |
+| 5.3.2  | Consulta de receitas (feed, detalhe, três vistas: recentes/a seguir/em alta)                                            | Implementado                                          | `server/routes/recipes.js`, `src/pages/FeedPage.tsx`, `src/pages/RecipePage.tsx`                              |
+| 5.3.3  | Pesquisa e filtros (dificuldade, tempo, orçamento, preferências alimentares)                                            | Implementado                                          | `src/pages/SearchPage.tsx`, `server/routes/recipes.js`, `server/db/migrations/020_recipe_budget_and_diet.sql` |
+| 5.3.4  | Sistema de XP e níveis                                                                                                  | Implementado                                          | `server/domain/xp.js`, `server/lib/xpLedger.js`                                                               |
+| 5.3.5  | Sistema de badges                                                                                                       | Implementado                                          | `badgesFor()` em `server/domain/xp.js`                                                                        |
+| 5.3.6  | Progresso de aprendizagem (percurso, corações, streak, meta diária)                                                     | Implementado                                          | `server/routes/learning.js`, `shared/curriculum.json`                                                         |
+| 5.3.7  | Partilha de fotografias                                                                                                 | Implementado, com validação de assinatura de ficheiro | `server/lib/imageStore.js`                                                                                    |
+| 5.3.8  | Likes e comentários                                                                                                     | Implementado                                          | `server/routes/recipes.js`                                                                                    |
+| 5.3.9  | Perfil do utilizador (próprio e público)                                                                                | Implementado                                          | `src/pages/ProfilePage.tsx`, `src/pages/ChefPage.tsx`                                                         |
+| 5.3.10 | Área de administração/moderação                                                                                         | Implementado (três papéis: user, moderator, admin)    | `server/routes/admin.js`, `server/routes/moderation.js`, `src/pages/AdminPage.tsx`                            |
+| —      | Desafios da comunidade                                                                                                  | Implementado                                          | `server/domain/challenges.js`, `server/routes/challenges.js`                                                  |
+| —      | Notificações                                                                                                            | Implementado                                          | `server/routes/notifications.js`, `server/lib/notifications.js`                                               |
+| —      | Rankings semanal/global                                                                                                 | Implementado                                          | `server/routes/leaderboard.js`                                                                                |
+| —      | Denúncia e bloqueio de conteúdo/contas                                                                                  | Implementado                                          | `server/lib/blocks.js`, `server/domain/moderation.js`                                                         |
+| —      | Funcionamento offline (lições e fotos de missão em fila)                                                                | Implementado                                          | `src/lib/offline/outbox.ts`, `src/lib/offline/sync.ts`                                                        |
+| —      | Recuperação de password e confirmação de email                                                                          | Implementado, condicional a SMTP configurado          | `server/lib/mailer.js`, `server/domain/authEmails.js`                                                         |
 
 ### 5.4. Requisitos não funcionais
 
 - **Usabilidade**: mobile-first, verificado entre 320–414px sem scroll horizontal e alvos de toque ≥32px (`docs/RESPONSIVIDADE.md`).
-- **Desempenho**: *code-splitting* por rota, bibliotecas em ficheiros próprios para cache entre deploys; landing reduzida de 820kB para 515kB, percurso completo até desafios de 820kB para 704kB (medido a 390px).
+- **Desempenho**: _code-splitting_ por rota, bibliotecas em ficheiros próprios para cache entre deploys; landing reduzida de 820kB para 515kB, percurso completo até desafios de 820kB para 704kB (medido a 390px).
 - **Segurança**: cookies `HttpOnly` + `__Host-` + `SameSite=strict` em produção, CSRF double-submit, bcrypt para passwords, CSP própria, rate limiting (`express-rate-limit`), validação de imagens pelos bytes, `helmet`.
 - **Manutenibilidade**: domínio puro separado de I/O, testado isoladamente; decisões de arquitetura documentadas no `README.md`.
 - **Compatibilidade**: PWA instalável em Android/iOS/desktop, sem dependência de app store.
@@ -540,7 +541,7 @@ Arquitetura em camadas, cliente-servidor:
 UI (React) → hooks → services → API Express → PostgreSQL
 ```
 
-A autenticação e os utilizadores passam por um `Repository` explícito (`src/data/`), que permite trocar de *provider* de dados num único ficheiro. Os restantes domínios (receitas, desafios, aprendizagem, missões) falam com a API através de serviços próprios em `src/features/*/services/`.
+A autenticação e os utilizadores passam por um `Repository` explícito (`src/data/`), que permite trocar de _provider_ de dados num único ficheiro. Os restantes domínios (receitas, desafios, aprendizagem, missões) falam com a API através de serviços próprios em `src/features/*/services/`.
 
 Do lado do servidor, cada domínio tem uma camada de regras puras e testáveis sem I/O (`server/domain/*.js`) separada das rotas HTTP (`server/routes/*.js`), que se limitam a autenticar, validar (Zod) e invocar o domínio.
 
@@ -585,7 +586,7 @@ Frontend e backend comunicam por REST/JSON, mesma origem em produção (o Expres
 
 ### 6.5. Dificuldades encontradas e soluções adotadas
 
-Exemplo documentado e citável (do `README.md`): o `.env` do projeto define `NODE_ENV=development` para o Express, mas o Vite lê o mesmo `.env` e isso fazia com que `import.meta.env.PROD` ficasse `false` mesmo numa build de produção — eliminando código como o registo do service worker por *dead code elimination*, sem qualquer erro visível. A aplicação passava todos os testes e, mesmo assim, não funcionava offline. A correção separou a origem de `PROD`/`DEV` (passaram a vir do modo de build indicado na linha de comandos) da variável de ambiente do servidor, e foi acrescentada uma verificação automática (`check:pwa`) que procura o registo do service worker dentro do JavaScript gerado.
+Exemplo documentado e citável (do `README.md`): o `.env` do projeto define `NODE_ENV=development` para o Express, mas o Vite lê o mesmo `.env` e isso fazia com que `import.meta.env.PROD` ficasse `false` mesmo numa build de produção — eliminando código como o registo do service worker por _dead code elimination_, sem qualquer erro visível. A aplicação passava todos os testes e, mesmo assim, não funcionava offline. A correção separou a origem de `PROD`/`DEV` (passaram a vir do modo de build indicado na linha de comandos) da variável de ambiente do servidor, e foi acrescentada uma verificação automática (`check:pwa`) que procura o registo do service worker dentro do JavaScript gerado.
 
 `[A PREENCHER]`: acrescentar mais 1–2 exemplos de dificuldades técnicas reais encontradas durante o desenvolvimento.
 
@@ -595,7 +596,7 @@ Exemplo documentado e citável (do `README.md`): o `.env` do projeto define `NOD
 
 ### 7.1. Plano de testes
 
-O projeto já tem um plano de testes técnico em produção (ver 7.2); falta o plano de avaliação com utilizadores (7.4). `[A PREENCHER]`
+O plano tem duas metades. A metade técnica está feita e corre em cada alteração ao código (7.2); a metade com utilizadores está **desenhada mas por executar** — o protocolo, o guião de tarefas, o questionário e as folhas de registo estão em `docs/AVALIACAO.md`, e o que falta são as sessões (7.4).
 
 ### 7.2. Testes funcionais
 
@@ -605,7 +606,9 @@ Três camadas de testes automáticos, todas correndo em CI (GitHub Actions):
 - **Integração** (`server/test/*.integration.test.js`): API completa numa porta efémera, contra PostgreSQL real — cobrem CSRF, cookies de sessão, códigos de estado, transações e idempotência do livro-razão de XP.
 - **Interface** (`src/**/*.test.tsx`, Vitest + Testing Library): comportamento de cache, formulários e tratamento de erros da API no browser.
 
-Segundo o `README.md`, a área de moderação e bloqueio sozinha está coberta por 24 testes de domínio, 37 de integração e 13 de interface. `[A PREENCHER]`: consolidar aqui a contagem total de testes de todo o projeto (correr `npm test`, `npm run test:ui` e contar) para citar um número exato no relatório final.
+A quarta camada é de ponta a ponta, num browser a sério (`npm run check:journey`): criar conta, aprender a primeira lição até ao fim, publicar uma receita e encontrá-la no feed — 17 passos verificados, o mesmo percurso que se demonstra a quem avalia. É a única camada que junta browser, API e base de dados no mesmo teste, e foi a escrevê-la que se encontrou um defeito que nenhuma das outras três apanhava: a aplicação servida pelo próprio Express era recusada a si própria pela verificação de CORS, porque os módulos emitidos pelo Vite levam o atributo `crossorigin` e por isso enviam cabeçalho `Origin` mesmo sendo do mesmo sítio. O resultado era um ecrã em branco no `npm run preview`, sem nada a explicar porquê.
+
+**Contagem à data desta versão:** 431 testes de servidor (19 conjuntos, entre domínio puro e integração contra um PostgreSQL real) e 204 testes de interface (31 ficheiros), mais as verificações de responsividade, funcionamento offline, instalabilidade da PWA e a jornada completa. Os números reproduzem-se com `npm run verify`.
 
 ### 7.3. Testes de usabilidade
 
@@ -613,11 +616,11 @@ Segundo o `README.md`, a área de moderação e bloqueio sozinha está coberta p
 
 ### 7.4. Avaliação da experiência de utilização
 
-- 7.4.1. Metodologia de avaliação — `[A PREENCHER — sugestão: testes de usabilidade moderados + questionário pós-uso, p.ex. System Usability Scale (SUS) e/ou um instrumento de motivação adaptado (p.ex. baseado na SDT)]`
-- 7.4.2. Participantes — `[A PREENCHER — recrutar estudantes universitários, público-alvo definido em 5.2]`
-- 7.4.3. Instrumentos de recolha de dados — `[A PREENCHER]`
-- 7.4.4. Resultados — `[A PREENCHER]`
-- 7.4.5. Análise dos resultados — `[A PREENCHER]`
+- **7.4.1. Metodologia de avaliação** — Testes de usabilidade moderados, presenciais, com cinco tarefas sem ajuda e registo de sucesso, tempo e verbalização; questionário SUS (_System Usability Scale_, Brooke 1996) aplicado imediatamente a seguir; três perguntas abertas. A usabilidade mede-se na sessão; a **motivação e a retenção não se medem numa sessão**, e por isso o protocolo acrescenta uma semana de uso livre, ao fim da qual os dados de comportamento se leem da própria base (`npm run metrics`). Protocolo completo em `docs/AVALIACAO.md`.
+- **7.4.2. Participantes** — 8 a 12 estudantes universitários que cozinham pouco, o público-alvo definido em 5.2. Critérios de recrutamento e enviesamentos a evitar em `docs/AVALIACAO.md`, §2.
+- **7.4.3. Instrumentos de recolha de dados** — (a) folha de registo por participante, com resultado e tempo por tarefa; (b) questionário SUS de 10 itens, em português, com o método de pontuação documentado; (c) três perguntas abertas gravadas; (d) consentimento informado assinado; (e) métricas de comportamento extraídas da base ao oitavo dia — funil das lições, retorno ao dia 2 e na primeira semana, missões concluídas, receitas por pessoa e origem do XP.
+- 7.4.4. Resultados — `[A PREENCHER — depende das sessões; o instrumento está pronto]`
+- 7.4.5. Análise dos resultados — `[A PREENCHER — depende de 7.4.4]`
 
 ### 7.5. Avaliação das funcionalidades de gamificação
 
@@ -625,7 +628,24 @@ Segundo o `README.md`, a área de moderação e bloqueio sozinha está coberta p
 
 ### 7.6. Limitações da avaliação
 
-`[A PREENCHER]`
+Estão identificadas antes de a avaliação acontecer, o que é o momento certo para o fazer:
+
+1. **Dimensão da amostra.** Com 8 a 12 participantes, qualquer percentagem é uma indicação, não um resultado estatístico. As afirmações no Capítulo 7 devem ser da forma «no grupo estudado (n=8)», nunca «os utilizadores preferem». O próprio `npm run metrics` imprime um aviso quando o número de contas é demasiado pequeno para sustentar uma conclusão — precisamente para que esse erro não passe despercebido na escrita.
+2. **Enviesamento de simpatia.** Participantes recrutados entre colegas sabem que a aplicação é um projeto final, e tendem a avaliá-la melhor do que a usariam. Mitiga-se recrutando fora do círculo próximo e explicitando, no arranque de cada sessão, que o que está a ser avaliado é a aplicação e não a pessoa.
+3. **Uma sessão não mede motivação.** Trinta minutos medem se a interface se percebe. Se a gamificação faz alguém voltar ao sétimo dia é uma pergunta diferente, e é por isso que o protocolo tem uma semana de uso e lê os dados de retorno da base em vez de os perguntar.
+4. **Ausência de grupo de controlo.** Não há comparação com aprender a cozinhar por outro meio (vídeos, livro, uma aplicação de receitas sem gamificação). Sem isso, não é possível atribuir à gamificação o que se observar — apenas descrevê-lo.
+5. **Efeito de novidade.** Uma semana de uso não distingue interesse genuíno de curiosidade inicial. Uma avaliação que quisesse responder a isso precisaria de meses.
+
+### 7.6.1. Limitações técnicas assumidas
+
+Distintas das anteriores: são decisões de arquitetura, tomadas com conhecimento do que custam.
+
+| Limitação                             | Decisão e fundamento                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Uma só instância do servidor          | O fecho automático dos desafios é um `setInterval` dentro do processo, e não uma fila ou um cron externo. A correção do pagamento não depende disso — depende do `FOR UPDATE ... settled_at IS NULL` na liquidação, que torna a operação segura com qualquer número de instâncias. Pagar uma peça de infraestrutura adicional significaria mantê-la indefinidamente, para um trabalho que consulta um índice parcial de linhas que quase nunca existem. |
+| Imagens em disco local                | Guardadas num volume do Docker e servidas pelo próprio Express, com cópia de segurança noturna. Migrar para armazenamento de objetos é substituir um módulo (`server/lib/imageStore.js`), que está isolado por essa razão.                                                                                                                                                                                                                              |
+| Sem rede de distribuição de conteúdos | Para a escala prevista, o custo de operação não se justifica.                                                                                                                                                                                                                                                                                                                                                                                           |
+| Sem monitorização externa de erros    | Há registo estruturado em JSON com identificador por pedido, que permite reconstruir o que aconteceu; não há agregação nem alertas automáticos.                                                                                                                                                                                                                                                                                                         |
 
 ### 7.7. Melhorias futuras
 
@@ -652,6 +672,7 @@ Relacionáveis com UCs do curso, a confirmar contra o plano curricular real:
 - Inteligência Artificial (uso crítico de ferramentas de IA generativa no desenvolvimento — Vibe Coding)
 
 ### 8.2. Competências adquiridas
+
 - 8.2.1. Desenvolvimento de software — `[A PREENCHER]`
 - 8.2.2. Design de interfaces — `[A PREENCHER]`
 - 8.2.3. Planeamento de projetos — `[A PREENCHER]`
@@ -689,7 +710,7 @@ Relacionáveis com UCs do curso, a confirmar contra o plano curricular real:
 - Sem avaliação formal de acessibilidade (WCAG).
 - Sem avaliação com utilizadores reais à data deste rascunho.
 - Moderação não suporta suspensão/remoção de contas (decisão deliberada, documentada no `README.md`, mas ainda assim uma limitação face a um serviço de produção completo).
-`[A PREENCHER — acrescentar mais, com honestidade]`
+  `[A PREENCHER — acrescentar mais, com honestidade]`
 
 ### 9.5. Trabalho futuro
 

@@ -50,6 +50,7 @@ import {
   generateToken,
   hashToken,
 } from "../domain/authTokens.js";
+import { log } from "../lib/logger.js";
 
 const router = Router();
 
@@ -308,7 +309,7 @@ async function adotarFotografiaDaGoogle(user, picture) {
     ]);
     user.photo_url = caminho;
   } catch (error) {
-    console.warn("[oauth] fotografia da Google não ficou guardada:", error.message);
+    log.warn({ err: error }, "fotografia da Google não ficou guardada");
   }
 }
 
@@ -563,7 +564,7 @@ router.post(
       // Como na recuperação: um SMTP em baixo não pode dar uma resposta
       // diferente da de um email já registado, senão a resposta volta a
       // dizer quem tem conta.
-      console.error("[mail] link de criação de conta não saiu:", error.message);
+      log.error({ err: error }, "o email de criação de conta não saiu");
     }
 
     res.json({ ok: true });
@@ -721,7 +722,7 @@ router.post(
         // O erro fica no registo do servidor e não na resposta: se um SMTP em
         // baixo desse 500 e um email inexistente desse 200, a resposta passava
         // a dizer quem tem conta.
-        console.error("[mail] recuperação de password não saiu:", error.message);
+        log.error({ err: error }, "o email de recuperação de password não saiu");
       }
     }
 
@@ -845,7 +846,7 @@ router.post(
       // Aqui, ao contrário da recuperação, quem pediu está autenticado e sabe
       // que o pediu: esconder a falha só o deixava à espera de um email que
       // nunca chegaria.
-      console.error("[mail] verificação de email não saiu:", error.message);
+      log.error({ err: error }, "o email de verificação de endereço não saiu");
       return res.status(502).json({ error: "Couldn't send the email. Try again later." });
     }
 

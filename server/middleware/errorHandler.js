@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 
 import { translate } from "../lib/i18n.js";
+import { log } from "../lib/logger.js";
 
 /**
  * Um id por pedido, para ligar o que o utilizador vê ao que está no log.
@@ -34,10 +35,22 @@ export function notFound(req, res) {
 export function errorHandler(error, req, res, _next) {
   const status = Number(error?.status || error?.statusCode || 500);
 
+  // Os campos vão separados da mensagem: é o que permite contar os 500 por
+  // rota, ou encontrar tudo o que aconteceu num pedido pelo seu id. O `error`
+  // inteiro (com o stack) só entra nos 5xx — um 400 de validação não precisa
+  // de um stack, e enchê-lo de stacks é a maneira de ninguém ler o log.
+  const campos = {
+    requestId: req.id,
+    method: req.method,
+    url: req.originalUrl,
+    status,
+    userId: req.user?.id,
+  };
+
   if (status >= 500) {
-    console.error(`[error] ${req.id} ${req.method} ${req.originalUrl}`, error);
+    log.error({ ...campos, err: error }, `pedido falhou: ${error?.message ?? "erro sem mensagem"}`);
   } else {
-    console.warn(`[warn] ${req.id} ${req.method} ${req.originalUrl}: ${error?.message}`);
+    log.warn(campos, `pedido recusado: ${error?.message}`);
   }
 
   if (res.headersSent) return;

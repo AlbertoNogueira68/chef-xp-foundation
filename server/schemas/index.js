@@ -161,6 +161,33 @@ export const answerSubmitSchema = z.object({
   answer: answerValueSchema,
 });
 
+/**
+ * Uma resposta dada numa sessão de revisão.
+ *
+ * Leva a lição consigo porque a sessão mistura perguntas de lições
+ * diferentes — ao contrário do quiz, onde a lição está no caminho do pedido.
+ * `origin` não existe aqui de propósito: quem decide que isto é uma revisão é
+ * a rota em que entrou, não um campo que o cliente escolhe.
+ */
+export const reviewAnswerSchema = z.object({
+  lessonId: z.string().min(1).max(80),
+  questionId: z.string().min(1).max(80),
+  answer: answerValueSchema,
+});
+
+/** O fim de uma sessão de revisão: as perguntas que foram respondidas. */
+export const reviewCompleteSchema = z.object({
+  answered: z
+    .array(
+      z.object({
+        lessonId: z.string().min(1).max(80),
+        questionId: z.string().min(1).max(80),
+      }),
+    )
+    .min(1)
+    .max(50),
+});
+
 export const lessonCompleteSchema = z.object({
   answers: z
     .array(

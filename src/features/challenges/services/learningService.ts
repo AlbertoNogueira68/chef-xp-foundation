@@ -6,6 +6,9 @@ import type {
   Lesson,
   LessonCompletion,
   LessonStatus,
+  ReviewAnswerResult,
+  ReviewCompletion,
+  ReviewQueue,
 } from "@/types/learning";
 
 /**
@@ -66,6 +69,52 @@ export const learningService = {
     return apiFetch<LessonCompletion>(url, {
       method: "POST",
       body: JSON.stringify({ answers }),
+    });
+  },
+
+  /* ---------------------------------------------------------------- *
+   * Revisão espaçada
+   * ---------------------------------------------------------------- */
+
+  /** O que está em atraso, e a sessão de hoje. Sem gabarito, como a lição. */
+  getReview(trailId?: string): Promise<ReviewQueue> {
+    const url = trailId
+      ? `/learning/review?trailId=${encodeURIComponent(trailId)}`
+      : "/learning/review";
+    return apiFetch<ReviewQueue>(url);
+  },
+
+  /** Corrige uma resposta de revisão. A lição vai no corpo: a sessão mistura-as. */
+  checkReviewAnswer(
+    lessonId: string,
+    questionId: string,
+    answer: AnswerValue,
+    trailId?: string,
+  ): Promise<ReviewAnswerResult> {
+    const url = trailId
+      ? `/learning/review/answer?trailId=${encodeURIComponent(trailId)}`
+      : "/learning/review/answer";
+    return apiFetch<ReviewAnswerResult>(url, {
+      method: "POST",
+      body: JSON.stringify({ lessonId, questionId, answer }),
+    });
+  },
+
+  /**
+   * Fecha a sessão. Manda só **que** perguntas foram respondidas — a
+   * pontuação é a que o servidor gravou quando as corrigiu, e não uma contagem
+   * que o cliente possa inflacionar.
+   */
+  completeReview(
+    answered: Array<{ lessonId: string; questionId: string }>,
+    trailId?: string,
+  ): Promise<ReviewCompletion> {
+    const url = trailId
+      ? `/learning/review/complete?trailId=${encodeURIComponent(trailId)}`
+      : "/learning/review/complete";
+    return apiFetch<ReviewCompletion>(url, {
+      method: "POST",
+      body: JSON.stringify({ answered }),
     });
   },
 };

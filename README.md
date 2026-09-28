@@ -142,25 +142,27 @@ propósito.
 
 ## Scripts
 
-| Script                                | Descrição                                              |
-| ------------------------------------- | ------------------------------------------------------ |
-| `npm run dev:all`                     | Vite + Express em paralelo                             |
-| `npm run verify`                      | lint + tipos + testes + build (o mesmo que o CI corre) |
-| `npm test`                            | Testes do servidor (`node --test`)                     |
-| `npm run test:unit`                   | Só o domínio puro, sem base de dados                   |
-| `npm run test:integration`            | API contra um Postgres real                            |
-| `npm run test:ui`                     | Interface (Vitest + Testing Library)                   |
-| `npm run typecheck`                   | `tsc --noEmit`                                         |
-| `npm run build`                       | Build do frontend                                      |
-| `npm start`                           | Serve a API (+ `dist` em produção)                     |
-| `npm run db:migrate`                  | Aplica as migrations SQL                               |
-| `npm run db:seed`                     | Popula dados de demonstração                           |
-| `npm run role:set -- <email> <papel>` | Dá ou tira papéis: `user`, `moderator`, `admin`        |
-| `npm run test:hardening`              | Build + bloqueia CDNs proibidas                        |
-| `npm run check:responsive`            | Mede a app em 320–414px (ver `docs/RESPONSIVIDADE.md`) |
-| `npm run check:csp`                   | Abre a app num Chrome e falha se violar a CSP          |
-| `npm run uploads:prune`               | Mostra imagens sem dono (`-- --apply` apaga-as)        |
-| `npm run lint`                        | ESLint                                                 |
+| Script                                | Descrição                                               |
+| ------------------------------------- | ------------------------------------------------------- |
+| `npm run dev:all`                     | Vite + Express em paralelo                              |
+| `npm run verify`                      | lint + tipos + testes + build (o mesmo que o CI corre)  |
+| `npm test`                            | Testes do servidor (`node --test`)                      |
+| `npm run test:unit`                   | Só o domínio puro, sem base de dados                    |
+| `npm run test:integration`            | API contra um Postgres real                             |
+| `npm run test:ui`                     | Interface (Vitest + Testing Library)                    |
+| `npm run typecheck`                   | `tsc --noEmit`                                          |
+| `npm run build`                       | Build do frontend                                       |
+| `npm start`                           | Serve a API (+ `dist` em produção)                      |
+| `npm run db:migrate`                  | Aplica as migrations SQL                                |
+| `npm run db:seed`                     | Popula dados de demonstração                            |
+| `npm run role:set -- <email> <papel>` | Dá ou tira papéis: `user`, `moderator`, `admin`         |
+| `npm run test:hardening`              | Build + bloqueia CDNs proibidas                         |
+| `npm run check:responsive`            | Mede a app em 320–414px (ver `docs/RESPONSIVIDADE.md`)  |
+| `npm run check:csp`                   | Abre a app num Chrome e falha se violar a CSP           |
+| `npm run check:journey`               | A jornada completa num browser: conta → lição → receita |
+| `npm run uploads:prune`               | Mostra imagens sem dono (`-- --apply` apaga-as)         |
+| `npm run metrics`                     | As cinco contas de utilização, direto da base           |
+| `npm run lint`                        | ESLint                                                  |
 
 ## Segurança
 
