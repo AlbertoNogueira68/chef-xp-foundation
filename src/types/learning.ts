@@ -235,3 +235,44 @@ export interface MissionPost {
   minutes: number;
   author: { id: string; username: string; photoUrl: string | null };
 }
+
+/* ------------------------------------------------------------------ *
+ * Revisão espaçada
+ * ------------------------------------------------------------------ */
+
+/** Uma pergunta na fila de revisão, com a lição de onde veio. */
+export interface ReviewItem {
+  lessonId: string;
+  lessonTitle: string | null;
+  question: Question;
+}
+
+/**
+ * O que está à espera de ser revisto.
+ *
+ * `due` é a dívida toda; `sessionSize` é o que se pede agora. As duas contas
+ * são diferentes de propósito: quem tem trinta perguntas em atraso não precisa
+ * de as ver todas hoje.
+ */
+export interface ReviewQueue {
+  due: number;
+  sessionSize: number;
+  questions: ReviewItem[];
+}
+
+/** A correção de uma resposta de revisão. Leva a lição, que a sessão mistura. */
+export interface ReviewAnswerResult extends AnswerResult {
+  lessonId: string;
+}
+
+/** O fim de uma sessão de revisão. */
+export interface ReviewCompletion {
+  total: number;
+  correct: number;
+  xpEarned: number;
+  /** `false` quando a revisão de hoje já tinha sido paga. */
+  paid: boolean;
+  totalXp: number;
+  level: number;
+  streak: number;
+}

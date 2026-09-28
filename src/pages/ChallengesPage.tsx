@@ -6,11 +6,14 @@ import { LeaderboardTab } from "@/components/learning/LeaderboardTab";
 import { LearningPathView } from "@/components/learning/LearningPath";
 import { TrailSelector } from "@/components/learning/TrailSelector";
 import { LessonPlayer } from "@/components/learning/LessonPlayer";
+import { ReviewCard } from "@/components/learning/ReviewCard";
+import { ReviewSession } from "@/components/learning/ReviewSession";
 import { MissionRunScreen } from "@/components/missions/MissionRunScreen";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useChallenges } from "@/features/challenges/hooks/useChallenges";
 import { useLearningPath } from "@/features/challenges/hooks/useLearningPath";
 import { useLessonPlayer } from "@/features/challenges/hooks/useLessonPlayer";
+import { useReview } from "@/features/challenges/hooks/useReview";
 import { useMissionRun } from "@/features/missions/hooks/useMissionRun";
 import type { Skill } from "@/types/learning";
 import { cn } from "@/lib/utils";
@@ -51,6 +54,7 @@ export function ChallengesPage() {
 
   const player = useLessonPlayer(trailId);
   const mission = useMissionRun();
+  const review = useReview(trailId);
 
   function escolherTrilho(id: string) {
     setTrailId(id);
@@ -117,6 +121,9 @@ export function ChallengesPage() {
 
         <TabsContent value="learn" className="mt-4 space-y-4">
           <TrailSelector currentTrailId={trailId} onSelect={escolherTrilho} />
+          {/* Antes do trilho: quem tem matéria em atraso vê-a primeiro, que é
+              a única ordem em que a revisão compete com uma lição nova. */}
+          <ReviewCard due={review.due} onStart={review.open} />
           <LearningPathView
             path={path}
             isLoading={pathLoading}
@@ -135,6 +142,18 @@ export function ChallengesPage() {
           style={{ maxWidth: "32rem", margin: "0 auto", left: 0, right: 0 }}
         >
           <MissionRunScreen run={mission} skills={skillsById} />
+        </div>
+      )}
+
+      {review.isOpen && (
+        <div
+          className={cn(
+            "fixed inset-0 z-[105] flex flex-col bg-background",
+            "animate-in slide-in-from-bottom duration-300 motion-reduce:animate-none",
+          )}
+          style={{ maxWidth: "32rem", margin: "0 auto", left: 0, right: 0 }}
+        >
+          <ReviewSession review={review} />
         </div>
       )}
 
