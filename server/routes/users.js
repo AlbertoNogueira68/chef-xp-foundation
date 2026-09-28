@@ -227,6 +227,7 @@ router.get(
       atividade,
       bloqueados,
       denuncias,
+      respostas,
     ] = await Promise.all([
       um(`SELECT id, username, email, photo_url, level, xp, time_zone, daily_xp_goal, role, created_at
               FROM users WHERE id = $1`),
@@ -260,6 +261,12 @@ router.get(
       // aqui: dá-las era entregar-me quem me denunciou.
       um(`SELECT subject_type, reason, details, status, created_at FROM reports
              WHERE reporter_id = $1 ORDER BY created_at`),
+      // Cada resposta de quiz que dei, e se estava certa. É o que decide
+      // quando a pergunta volta na revisão, portanto faz parte do que a
+      // aplicação sabe sobre mim — e sair daqui é o que impede a exportação
+      // de ser "quase tudo".
+      um(`SELECT trail_id, lesson_id, question_id, correct, origin, created_at
+              FROM question_attempts WHERE user_id = $1 ORDER BY created_at`),
     ]);
 
     // Um nome com data, para quem exportar duas vezes não ficar com dois
@@ -280,6 +287,7 @@ router.get(
       seguidores,
       seguindo,
       progressoLicoes: licoes,
+      respostasDeQuiz: respostas,
       missoes,
       participacoesEmDesafios: desafios,
       livroRazaoXp: xp,
