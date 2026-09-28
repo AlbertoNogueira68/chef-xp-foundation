@@ -181,6 +181,15 @@ jobs:
       # 429 a meio da medição não diz nada sobre o layout. É o mesmo motivo
       # pelo qual os testes de integração o levantam.
       RATE_LIMIT_MAX: "5000"
+      # Este job corre com NODE_ENV=production (é a única maneira de a app ser
+      # servida como chega a quem a usa) e precisa mesmo dos dados de
+      # demonstração — sem eles não há conta com que entrar nem lição para
+      # fazer. O `db:seed` recusa-se a correr em produção de propósito, porque
+      # cria um administrador com uma password que está no repositório; aqui a
+      # base é um contentor descartável que morre no fim do job, e por isso a
+      # excepção é declarada à mão, onde se lê, em vez de o guião passar a
+      # confiar em quem o chama.
+      ALLOW_PRODUCTION_SEED: "true"
 
     steps:
       - uses: actions/checkout@v4

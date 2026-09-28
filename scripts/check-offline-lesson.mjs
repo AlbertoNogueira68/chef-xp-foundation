@@ -149,10 +149,22 @@ try {
   await ate("o ecrã de entrada", () =>
     js(`return Boolean(document.querySelector("#login-email"));`),
   );
+  /**
+   * O token de CSRF antes do login, que é o que a app faz.
+   *
+   * Todas as escritas o exigem — o login incluído, desde que deixou de estar
+   * isento. Este guião fala com a API por `fetch` em vez de preencher o
+   * formulário, portanto tem de repetir a dança que o `services/api.ts` faz
+   * sozinho: pedir `GET /api/auth/csrf`, que planta o cookie e devolve o
+   * valor, e reenviá-lo no cabeçalho.
+   */
   const login = await js(`
+    const pedido = await fetch("/api/auth/csrf", { credentials: "include" });
+    const { csrfToken } = await pedido.json();
+
     const r = await fetch("/api/auth/login", {
       method: "POST", credentials: "include",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
       body: ${JSON.stringify(JSON.stringify(CONTA))},
     });
     return r.status;`);
