@@ -134,23 +134,35 @@ seguidor e 3 desafios.
 
 ## Scripts
 
-| Script                                | Descrição                                              |
-| ------------------------------------- | ------------------------------------------------------ |
-| `npm run dev:all`                     | Vite + Express em paralelo                             |
-| `npm run verify`                      | lint + tipos + testes + build (o mesmo que o CI corre) |
-| `npm test`                            | Testes do servidor (`node --test`)                     |
-| `npm run test:unit`                   | Só o domínio puro, sem base de dados                   |
-| `npm run test:integration`            | API contra um Postgres real                            |
-| `npm run test:ui`                     | Interface (Vitest + Testing Library)                   |
-| `npm run typecheck`                   | `tsc --noEmit`                                         |
-| `npm run build`                       | Build do frontend                                      |
-| `npm start`                           | Serve a API (+ `dist` em produção)                     |
-| `npm run db:migrate`                  | Aplica as migrations SQL                               |
-| `npm run db:seed`                     | Popula dados de demonstração                           |
-| `npm run role:set -- <email> <papel>` | Dá ou tira papéis: `user`, `moderator`, `admin`        |
-| `npm run test:hardening`              | Build + bloqueia CDNs proibidas                        |
-| `npm run check:responsive`            | Mede a app em 320–414px (ver `docs/RESPONSIVIDADE.md`) |
-| `npm run lint`                        | ESLint                                                 |
+| Script                                | Descrição                                               |
+| ------------------------------------- | ------------------------------------------------------- |
+| `npm run dev:all`                     | Vite + Express em paralelo                              |
+| `npm run verify`                      | lint + tipos + testes + build (o mesmo que o CI corre)  |
+| `npm test`                            | Testes do servidor (`node --test`)                      |
+| `npm run test:unit`                   | Só o domínio puro, sem base de dados                    |
+| `npm run test:integration`            | API contra um Postgres real                             |
+| `npm run test:ui`                     | Interface (Vitest + Testing Library)                    |
+| `npm run typecheck`                   | `tsc --noEmit`                                          |
+| `npm run build`                       | Build do frontend                                       |
+| `npm start`                           | Serve a API (+ `dist` em produção)                      |
+| `npm run db:migrate`                  | Aplica as migrations SQL                                |
+| `npm run db:seed`                     | Popula dados de demonstração                            |
+| `npm run role:set -- <email> <papel>` | Dá ou tira papéis: `user`, `moderator`, `admin`         |
+| `npm run test:hardening`              | Build + bloqueia CDNs proibidas                         |
+| `npm run check:responsive`            | Mede a app em 320–414px (ver `docs/RESPONSIVIDADE.md`)  |
+| `npm run check:journey`               | A jornada completa num browser: conta → lição → receita |
+| `npm run metrics`                     | As cinco contas de utilização, direto da base           |
+| `npm run lint`                        | ESLint                                                  |
+
+## Documentos
+
+| Ficheiro                                           | Para quem                                                                                                    |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [`docs/JURI.md`](docs/JURI.md)                     | **Quem avalia o projeto**: a aplicação em 10 minutos, o que reparar em cada passo, e as limitações assumidas |
+| [`docs/AVALIACAO.md`](docs/AVALIACAO.md)           | O protocolo de avaliação com utilizadores: tarefas, SUS, consentimento e folhas de registo                   |
+| [`docs/ROADMAP.md`](docs/ROADMAP.md)               | O que está feito e o que falta                                                                               |
+| [`docs/RELATORIO.md`](docs/RELATORIO.md)           | O relatório de licenciatura                                                                                  |
+| [`docs/RESPONSIVIDADE.md`](docs/RESPONSIVIDADE.md) | A regra de responsividade e como é verificada                                                                |
 
 ## Arquitetura
 
