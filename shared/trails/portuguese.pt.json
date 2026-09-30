@@ -145,7 +145,7 @@
               "skills": [
                 "portuguesa.sopa-batata"
               ],
-              "explainWrong": "Um cubo acrescenta sal e sabor mas corpo nenhum, a farinha deixa-a turva e pastosa, e ferver com mais força evapora água sem dar à batata o que ela precisa, que é tempo em lume brando."
+              "explainWrong": "Um cubo acrescenta sal e sabor, mas corpo nenhum. A farinha deixa a sopa turva e pastosa. E ferver com mais força só evapora água, sem dar à batata o que ela precisa, que é tempo em lume brando."
             },
             {
               "id": "portugues-u4-l1-q2",
@@ -162,7 +162,7 @@
               "skills": [
                 "portuguesa.sopa-batata"
               ],
-              "explainWrong": "Um liquidificador muda o tamanho dos pedaços, não se eles cozeram. Triturar mais tempo só te dá uma sopa arenosa — a batata precisa primeiro de vinte minutos em lume muito brando."
+              "explainWrong": "Uma liquidificadora muda o tamanho dos pedaços, não se eles cozeram. Triturar mais tempo só te dá uma sopa arenosa — a batata precisa primeiro de vinte minutos em lume muito brando."
             }
           ]
         },
@@ -222,11 +222,11 @@
                 "Juntar os legumes logo no início"
               ],
               "correctAnswer": "Triturar só a base de batata e cebola e depois cozer a cenoura e os verdes lá dentro, inteiros",
-              "explanation": "Uma sopa de legumes portuguesa é uma base lisa com pedaços dentro. Que legumes entram antes do liquidificador e quais entram depois é a única decisão que separa as duas coisas.",
+              "explanation": "Uma sopa de legumes portuguesa é uma base lisa com pedaços dentro. Que legumes entram antes da liquidificadora e quais entram depois é a única decisão que separa as duas coisas.",
               "skills": [
                 "portuguesa.sopa-passar"
               ],
-              "explainWrong": "Menos água dá-te um puré mais espesso e triturar menos dá-te um puré com grumos — continuam os dois a ser puré. Juntar os legumes no início mete-os no liquidificador, que é o problema."
+              "explainWrong": "Menos água dá-te um puré mais espesso e triturar menos dá-te um puré com grumos — continuam os dois a ser puré. Juntar os legumes no início mete-os na liquidificadora, que é o problema."
             },
             {
               "id": "portugues-u4-l2-q2",
@@ -243,7 +243,7 @@
               "skills": [
                 "portuguesa.sopa-passar"
               ],
-              "explainWrong": "É a mesma quantidade de azeite de qualquer maneira, por isso não se poupa nada, e o azeite nem engrossa uma sopa nem impede que ela cole — a batata e o lume brando é que tratam disso."
+              "explainWrong": "É a mesma quantidade de azeite de qualquer maneira, por isso não se poupa nada. Além disso, o azeite nem engrossa uma sopa nem impede que ela cole: quem trata disso é a batata e o lume brando."
             }
           ]
         }
@@ -320,7 +320,7 @@
               "skills": [
                 "portuguesa.bacalhau-demolha"
               ],
-              "explainWrong": "O peixe ainda não está a ser cozinhado, por isso a uniformidade não se aplica, e a pele aguenta-se bem de qualquer maneira durante a demolha — este passo é só sobre para que lado o sal que sai pode escorrer."
+              "explainWrong": "O peixe ainda não está a ser cozinhado, por isso a uniformidade não se aplica. A pele também se aguenta bem durante a demolha. Este passo trata só de saber para que lado pode escorrer o sal que sai."
             }
           ]
         },
@@ -790,7 +790,7 @@
           "id": "s4",
           "index": 3,
           "title": "Cenoura e verdes para a base triturada",
-          "description": "Cenoura em rodelas e o feijão-verde ou a couve cortada fina para a sopa, e mais dez minutos em lume brando. Estes são os pedaços que queres encontrar na tigela, por isso não chegam perto do liquidificador.",
+          "description": "Cenoura em rodelas e o feijão-verde ou a couve cortada fina para a sopa, e mais dez minutos em lume brando. Estes são os pedaços que queres encontrar na tigela, por isso não chegam perto da liquidificadora.",
           "durationSec": 600,
           "checkpoint": true,
           "rescues": [
@@ -1009,7 +1009,7 @@
           "id": "s4",
           "index": 3,
           "title": "Tosta o arroz e depois o caldo quente",
-          "description": "Mexe o arroz no refogado durante um minuto para ele apanhar a gordura e a cor, e depois junta mais ou menos o dobro da quantidade habitual de líquido em caldo de camarão quente e água do mexilhão.",
+          "description": "Mexe o arroz no refogado durante um minuto, para apanhar a gordura e a cor. Depois junta cerca do dobro do líquido habitual, em caldo de camarão quente e água do mexilhão.",
           "durationSec": 300,
           "rescues": [
             {
