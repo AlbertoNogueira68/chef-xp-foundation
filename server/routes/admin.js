@@ -9,6 +9,7 @@ import {
   idParamSchema,
   roleChangeSchema,
 } from "../schemas/index.js";
+import { containsPattern } from "../lib/sql.js";
 import { requireAdmin } from "../lib/moderation.js";
 import { apagarImagens, imagensDaConta } from "../lib/imageCleanup.js";
 import { accountDeletionRefusal, roleChangeRefusal } from "../domain/moderation.js";
@@ -107,7 +108,7 @@ router.get(
     const where = [];
 
     if (q) {
-      params.push(`%${q}%`);
+      params.push(containsPattern(q));
       where.push(`(u.username ILIKE $${params.length} OR u.email ILIKE $${params.length})`);
     }
 

@@ -13,6 +13,8 @@ export const DEFAULT_DAILY_XP_GOAL = 50;
 /** XP fixo atribuído por cada tipo de ação. */
 export const XP_RULES = {
   recipePublished: 25,
+  // Quantas receitas por dia pagam XP; as seguintes publicam-se na mesma.
+  recipesPaidPerDay: 5,
   perfectLessonBonus: 10,
   streakMilestoneBonus: 20, // a cada 7 dias consecutivos
 };

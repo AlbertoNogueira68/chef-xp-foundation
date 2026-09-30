@@ -51,6 +51,8 @@ export type OutboxItem = {
   /** Para a app saber o que recarregar quando este item for enviado. */
   tipo: "licao" | "desafio" | "foto";
   ref?: string;
+  /** Vezes que o servidor respondeu 5xx a este item. */
+  falhas?: number;
 };
 
 /* ------------------------------------------------------------------ */
@@ -167,6 +169,13 @@ export async function enqueue(
   await escrever(novo);
   await anunciar();
   return novo;
+}
+
+/** Regista mais uma falha do servidor neste item e devolve o total. */
+export async function registerFailure(item: OutboxItem): Promise<number> {
+  const falhas = (item.falhas ?? 0) + 1;
+  await escrever({ ...item, falhas });
+  return falhas;
 }
 
 export async function removeFromOutbox(id: string) {

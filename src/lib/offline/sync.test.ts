@@ -109,6 +109,49 @@ describe("enviar o que ficou em espera", () => {
     expect(await outboxItems()).toEqual([]);
   });
 
+  test.each([401, 429, 500, 503])(
+    "um %i não diz nada sobre o item: fica na fila para a próxima vez",
+    async (status) => {
+      vi.spyOn(globalThis, "fetch").mockImplementation(async (url: RequestInfo | URL) => {
+        if (String(url).includes("/auth/csrf")) return respostaOk();
+        return new Response(JSON.stringify({ error: "agora não" }), {
+          status,
+          headers: { "Content-Type": "application/json" },
+        });
+      });
+
+      await enqueue(licao("massa"));
+      await enqueue(licao("sopa"));
+      const resumo = await flushOutbox();
+
+      expect(resumo.recusados).toHaveLength(0);
+      expect(resumo.porEnviar).toBe(2);
+      expect((await outboxItems()).map((item) => item.ref)).toEqual(["massa", "sopa"]);
+    },
+  );
+
+  test("um 5xx que se repete sempre para o mesmo item acaba por o tirar da fila", async () => {
+    vi.spyOn(globalThis, "fetch").mockImplementation(async (url: RequestInfo | URL) => {
+      if (String(url).includes("/auth/csrf")) return respostaOk();
+      return new Response(JSON.stringify({ error: "rebentou" }), {
+        status: 500,
+        headers: { "Content-Type": "application/json" },
+      });
+    });
+
+    await enqueue(licao("veneno"));
+    await enqueue(licao("sopa"));
+
+    for (let i = 0; i < 4; i += 1) {
+      const resumo = await flushOutbox();
+      expect(resumo.recusados).toHaveLength(0);
+    }
+
+    // À quinta, o item que nunca passa sai — e não fica a bloquear a sopa.
+    const quinta = await flushOutbox();
+    expect(quinta.recusados.map((r) => r.item.ref)).toEqual(["veneno"]);
+  });
+
   test("avisa quem estiver a ouvir, com o XP que o servidor pagou", async () => {
     redeQueResponde({ passed: true, xpEarned: 40, streakBonus: 10 });
     await enqueue(licao("massa"));

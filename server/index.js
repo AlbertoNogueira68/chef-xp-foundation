@@ -5,6 +5,7 @@ import { runMigrations } from "./db/runMigrations.js";
 import { syncCurriculum } from "./scripts/sync-curriculum.js";
 import { ensureUploadDir } from "./lib/imageStore.js";
 import { startChallengeScheduler } from "./lib/challengeScheduler.js";
+import { startHousekeeping } from "./lib/housekeeping.js";
 import { log } from "./lib/logger.js";
 
 const port = Number(process.env.PORT || 3010);
@@ -42,6 +43,8 @@ async function boot() {
    */
   const stopChallengeScheduler = startChallengeScheduler(getPool());
 
+  const stopHousekeeping = startHousekeeping(getPool());
+
   const server = app.listen(port, "0.0.0.0", () => {
     log.info({ port, env: process.env.NODE_ENV ?? "development" }, "servidor a escutar");
   });
@@ -52,6 +55,7 @@ async function boot() {
     process.on(signal, () => {
       log.info({ signal }, "sinal recebido, a encerrar");
       stopChallengeScheduler();
+      stopHousekeeping();
       server.close(async () => {
         await closePool();
         process.exit(0);

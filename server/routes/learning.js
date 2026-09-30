@@ -206,6 +206,12 @@ router.post(
     const lesson = getLesson(req.valid.params.id, req.lang, trailId);
     if (!lesson) return res.status(404).json({ error: "Lesson not found" });
 
+    // Corrigir devolve o gabarito, por isso não se corrige matéria trancada.
+    const completed = await loadCompletedIds(getPool(), req.user.id, trailId);
+    if (buildStatuses(completed, trailId).get(lesson.id) === "locked") {
+      return res.status(403).json({ error: "Finish the earlier lessons first" });
+    }
+
     const { questionId, answer } = req.valid.body;
     const question = lesson.questions.find((q) => q.id === questionId);
     if (!question) return res.status(400).json({ error: "Invalid question" });

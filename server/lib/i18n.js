@@ -85,6 +85,7 @@ const PT = {
   "Email verification isn't configured": "Verificação de email não está configurada",
   "Endpoint not found": "Endpoint não encontrado",
   "Finish the earlier lessons first": "Termina as lições anteriores primeiro",
+  "Finish all the steps first": "Termina todos os passos primeiro",
   "Finish the unit's lessons first": "Termina as lições da unidade primeiro",
   "First lesson": "Primeira lição",
   "Google isn't configured": "Google não configurado",
@@ -162,8 +163,6 @@ const PT = {
   "The username doesn't match": "O nome de utilizador não coincide",
   "The username must be at least 3 characters":
     "O nome de utilizador tem de ter pelo menos 3 caracteres",
-  "There's already an account for this email, still unconfirmed. Sign in with the password.":
-    "Já existe uma conta com este email, ainda por confirmar. Entra com a password.",
   "This account signs in with Google. Use the «Continue with Google» button.":
     "Esta conta entra com o Google. Usa o botão «Continuar com Google».",
   "This challenge is over": "Este desafio já terminou",

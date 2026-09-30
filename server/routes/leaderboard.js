@@ -4,6 +4,7 @@ import { requireAuth } from "../middleware/auth.js";
 import { validate } from "../middleware/validate.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 import { leaderboardSchema } from "../schemas/index.js";
+import { notBlockedSql } from "../lib/blocks.js";
 
 const router = Router();
 
@@ -26,6 +27,7 @@ const GLOBAL = `
     u.xp::int                        AS score,
     RANK() OVER (ORDER BY u.xp DESC) AS rank
   FROM users u
+ WHERE ${notBlockedSql("$1", "u.id")}
 `;
 
 /**
@@ -49,6 +51,7 @@ const WEEKLY = `
     RANK() OVER (ORDER BY s.score DESC) AS rank
   FROM semana s
   JOIN users u ON u.id = s.user_id
+ WHERE ${notBlockedSql("$1", "u.id")}
 `;
 
 function toRow(row, meId) {
@@ -74,8 +77,8 @@ router.get(
 
     const { rows } = await query(
       `WITH classificados AS (${base})
-       SELECT * FROM classificados ORDER BY rank, username LIMIT $1`,
-      [limit],
+       SELECT * FROM classificados ORDER BY rank, username LIMIT $2`,
+      [req.user.id, limit],
     );
 
     // A minha linha vai à parte: quem está em 84.º quer ver onde está sem ter

@@ -110,7 +110,9 @@ export function PublishPage() {
           toast.success(
             entered
               ? t("You're in {challenge}! +{xp} XP", { challenge: entered.title, xp: xpEarned })
-              : t("Recipe published! +{xp} XP", { xp: xpEarned }),
+              : xpEarned > 0
+                ? t("Recipe published! +{xp} XP", { xp: xpEarned })
+                : t("Recipe published!"),
           );
           // Quem veio de um desafio volta para ele: é lá que estão as outras
           // participações, e é lá que a dele passa a aparecer.

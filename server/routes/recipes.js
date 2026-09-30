@@ -14,6 +14,7 @@ import {
 } from "../schemas/index.js";
 import { decodeCursor, encodeCursor, toComment, toRecipe } from "../lib/mappers.js";
 import { notBlockedSql } from "../lib/blocks.js";
+import { containsPattern } from "../lib/sql.js";
 import { roleOf } from "../lib/moderation.js";
 import { commentDeleterRole } from "../domain/moderation.js";
 import { deleteStoredImage, resolveImageInput } from "../lib/imageStore.js";
@@ -21,6 +22,14 @@ import { awardXp, revokeXp } from "../lib/xpLedger.js";
 import { notifyQuietly } from "../lib/notifications.js";
 import { XP_RULES } from "../domain/xp.js";
 import { canEnterChallenge } from "../domain/challenges.js";
+
+/**
+ * Configurável por ambiente pela mesma razão que os limites de pedidos: uma
+ * bateria de testes publica mais receitas com a mesma conta do que uma pessoa
+ * publica num dia.
+ */
+const recipesPaidPerDay = () =>
+  Number(process.env.RECIPES_PAID_PER_DAY || XP_RULES.recipesPaidPerDay);
 
 const router = Router();
 
@@ -91,7 +100,7 @@ router.get(
     }
 
     if (q) {
-      params.push(`%${q}%`);
+      params.push(containsPattern(q));
       const i = params.length;
       // Coberto pelos índices GIN trigram criados na migration 003.
       where.push(`(r.title ILIKE $${i} OR r.description ILIKE $${i} OR u.username ILIKE $${i})`);
@@ -300,12 +309,26 @@ router.post(
 
       const recipeId = created[0].id;
 
+      /**
+       * Só as primeiras receitas de cada dia pagam XP. Sem tecto, publicar
+       * em série era a maneira mais rápida de subir de nível — o limite de
+       * fotografias por hora travava o disco, não o livro-razão. A conta
+       * está dentro da transação, com o utilizador já trancado.
+       */
+      const { rows: pagasHoje } = await client.query(
+        `SELECT COUNT(*)::int AS n FROM xp_events
+          WHERE user_id = $1 AND source = 'recipe' AND amount > 0
+            AND created_at > now() - interval '24 hours'`,
+        [req.user.id],
+      );
+      const recipeXp = pagasHoje[0].n < recipesPaidPerDay() ? XP_RULES.recipePublished : 0;
+
       // XP e receita na mesma transação: ou acontecem as duas, ou nenhuma.
       const award = await awardXp(client, {
         userId: req.user.id,
         source: "recipe",
         sourceRef: recipeId,
-        amount: XP_RULES.recipePublished,
+        amount: recipeXp,
         timeZone,
       });
 
@@ -575,9 +598,14 @@ router.get(
   validate({ params: idParamSchema }),
   asyncHandler(async (req, res) => {
     const { rows } = await query(
-      `${SELECT_COMMENT}
-        WHERE c.recipe_id = $2 AND ${notBlockedSql("$1", "c.author_id")}
-        ORDER BY c.created_at ASC LIMIT 200`,
+      // Os 200 mais recentes, mostrados do mais antigo para o mais novo: com
+      // `LIMIT` a seguir a `ASC`, numa receita muito comentada os comentários
+      // novos nunca chegavam ao ecrã.
+      `SELECT * FROM (
+         ${SELECT_COMMENT}
+          WHERE c.recipe_id = $2 AND ${notBlockedSql("$1", "c.author_id")}
+          ORDER BY c.created_at DESC, c.id DESC LIMIT 200
+       ) recentes ORDER BY created_at ASC, id ASC`,
       [req.user.id, req.valid.params.id],
     );
     res.json({ comments: rows.map(toComment) });

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { ChefXPLogo } from "@/components/ChefXPLogo";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,11 +8,15 @@ import { LoginForm } from "@/features/auth/components/LoginForm";
 import { RegisterForm } from "@/features/auth/components/RegisterForm";
 import { useAuthProviders } from "@/features/auth/hooks/useAuthProviders";
 import { t } from "@/i18n";
+import { destinoAposEntrar } from "@/lib/redirect";
 import { LanguageToggle } from "@/i18n/LanguageToggle";
 
 export function AuthPage() {
   const navigate = useNavigate();
-  const goToApp = () => navigate("/feed", { replace: true });
+  const location = useLocation();
+  // Quem foi expulso por sessão expirada volta ao sítio onde estava.
+  const destino = destinoAposEntrar((location.state as { from?: unknown } | null)?.from);
+  const goToApp = () => navigate(destino, { replace: true });
   const { data: providers } = useAuthProviders();
   const [params, setParams] = useSearchParams();
 

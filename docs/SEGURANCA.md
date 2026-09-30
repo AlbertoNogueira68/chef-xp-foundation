@@ -199,7 +199,10 @@ cookie `HttpOnly` + `SameSite=Lax` (Strict quebraria o regresso, que é uma
 navegação de topo cross-site). O `id_token` é validado em `domain/oauth.js`:
 emissor, `aud` igual ao nosso `client_id`, `exp`, `sub`, e **`email_verified ===
 true`** — sem isto, uma conta Google com o email de outra pessoa dava acesso à
-conta dela. Uma conta local por confirmar nunca é ligada a uma identidade Google.
+conta dela. Uma conta local por confirmar é ligada, porque a Google acabou de provar que
+a caixa de correio é de quem entra — mas perde a password e todas as sessões
+abertas (`token_version + 1`), para que quem a registou sem ser dono do email
+não fique com acesso. Recupera-se uma password pelo fluxo normal, por email.
 
 ### 3.5 Autorização
 
@@ -262,7 +265,9 @@ levam o ficheiro atrás (`lib/imageCleanup.js`). A recolha é feita dentro da
 transação e o `unlink` depois do `COMMIT` — ao contrário, um ROLLBACK deixava a
 linha viva e o ficheiro morto, e dessas duas metades só uma se recupera. Um
 tecto de 60 imagens por hora e por conta (`middleware/uploadLimit.js`) impede
-que uma conta encha o disco; `npm run uploads:prune` mostra (e, com `--apply`,
+que uma conta encha o disco, e só as 5 primeiras receitas de cada 24 horas pagam
+XP (`RECIPES_PAID_PER_DAY`, `XP_RULES.recipesPaidPerDay`), para que publicar em
+série não seja a via mais rápida de subir de nível; `npm run uploads:prune` mostra (e, com `--apply`,
 apaga) o que possa ter escapado.
 
 `saveRemoteImage` existe só para a fotografia de perfil da Google e **exige**

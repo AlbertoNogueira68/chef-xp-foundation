@@ -19,6 +19,7 @@ import {
   findRescueAnswer,
   getMission,
   getUnitOfMission,
+  checkpointIndexes,
   missionXp,
   toClientMission,
   validateStepMove,
@@ -109,12 +110,21 @@ router.get(
     );
     const byMission = new Map(rows.map((row) => [row.mission_id, row]));
 
+    // Uma consulta só para todas as unidades, e o texto na língua do pedido.
+    const { rows: feitas } = await pool.query(
+      `SELECT lesson_id FROM lesson_progress WHERE user_id = $1`,
+      [req.user.id],
+    );
+    const feitasIds = new Set(feitas.map((row) => row.lesson_id));
+
     const missions = [];
-    for (const mission of MISSIONS) {
+    for (const base of MISSIONS) {
+      const mission = getMission(base.id, req.lang) ?? base;
       const last = byMission.get(mission.id);
+      const unit = getUnitOfMission(mission.id);
       missions.push({
         ...toClientMission(mission),
-        unlocked: await isUnlocked(pool, req.user.id, mission.id),
+        unlocked: Boolean(unit) && unit.lessons.every((lesson) => feitasIds.has(lesson.id)),
         lastRun: last
           ? {
               id: Number(last.id),
@@ -401,12 +411,19 @@ router.post(
       );
       const timeZone = userRows[0]?.time_zone ?? "UTC";
 
-      // A foto do passo de verificação é o que separa "cozinhei" de
-      // "carreguei em seguinte seis vezes".
+      // Só se conclui no último passo: chegar lá é o que separa "cozinhei"
+      // de "carreguei em seguinte seis vezes" (e de arrancar e concluir logo).
+      if (run.current_step < mission.steps.length - 1) {
+        await client.query("ROLLBACK");
+        return res.status(400).json({ error: "Finish all the steps first" });
+      }
+
+      // E a foto do último passo de verificação tem de existir.
+      const ultimoCheckpoint = checkpointIndexes(mission).at(-1);
       const { rows: shots } = await client.query(
         `SELECT step_index, image_url FROM mission_checkpoints
-          WHERE run_id = $1 ORDER BY step_index DESC LIMIT 1`,
-        [run.id],
+          WHERE run_id = $1 AND step_index = $2`,
+        [run.id, ultimoCheckpoint ?? -1],
       );
       const resultImage = shots[0]?.image_url ?? null;
       if (!resultImage) {

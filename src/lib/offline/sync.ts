@@ -1,5 +1,5 @@
 import { type ApiError, apiFetch } from "@/services/api";
-import { outboxItems, removeFromOutbox, type OutboxItem } from "./outbox";
+import { outboxItems, registerFailure, removeFromOutbox, type OutboxItem } from "./outbox";
 
 /**
  * Esvaziar a caixa de saída quando a rede volta.
@@ -45,6 +45,14 @@ export function flushOutbox(): Promise<ResumoDaSincronizacao> {
   return aDecorrer;
 }
 
+/** Quantas respostas 5xx seguidas se aguentam antes de desistir de um item. */
+const FALHAS_MAXIMAS = 5;
+
+/** Erros que passam sozinhos ou dependem de quem envia, não do item. */
+export function esperaPorMelhores(status?: number): boolean {
+  return !status || status === 401 || status === 429 || status >= 500;
+}
+
 async function executar(): Promise<ResumoDaSincronizacao> {
   const enviados: ResultadoDeEnvio[] = [];
   const recusados: ResultadoDeEnvio[] = [];
@@ -61,9 +69,18 @@ async function executar(): Promise<ResumoDaSincronizacao> {
     } catch (erro) {
       const falha = erro as ApiError;
 
-      // `status: 0` é falha de rede: a rede caiu outra vez a meio. Pára aqui,
-      // com este item e os seguintes intactos.
-      if (!falha.status) {
+      // Falhas que não dizem nada sobre o item: rede caída (`status: 0`),
+      // sessão expirada (401), limite de pedidos (429) e erros do servidor
+      // (5xx). Pára aqui, com este item e os seguintes intactos — apagá-los
+      // era perder uma lição concluída por o servidor estar a reiniciar.
+      //
+      // Um 5xx que se repete sempre para o mesmo item já não é o servidor a
+      // reiniciar: é o item. Ao fim de `FALHAS_MAXIMAS` tentativas sai, senão
+      // bloqueava para sempre tudo o que está atrás dele.
+      const persistente =
+        (falha.status ?? 0) >= 500 && (await registerFailure(item)) >= FALHAS_MAXIMAS;
+
+      if (esperaPorMelhores(falha.status) && !persistente) {
         return terminar({ enviados, recusados, porEnviar: fila.length - indice });
       }
 

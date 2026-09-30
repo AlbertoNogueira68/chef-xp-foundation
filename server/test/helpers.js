@@ -126,6 +126,7 @@ export async function startTestServer() {
   process.env.RATE_LIMIT_AUTH_MAX ||= "100000";
   process.env.RATE_LIMIT_MAIL_MAX ||= "100000";
   process.env.RATE_LIMIT_UPLOAD_MAX ||= "100000";
+  process.env.RECIPES_PAID_PER_DAY ||= "100000";
 
   // Credenciais de fachada: `isMailConfigured()` tem de dizer que sim para as
   // rotas existirem, mas nada nestes valores chega a ser usado — o transporte

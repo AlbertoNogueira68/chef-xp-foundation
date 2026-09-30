@@ -381,6 +381,7 @@ export const PT: Record<string, string> = {
   "Recipe options": "Opções da receita",
   "Recipe preview": "Pré-visualização da receita",
   "Recipe published! +{xp} XP": "Receita publicada! +{xp} XP",
+  "Recipe published!": "Receita publicada!",
   "Recipe updated": "Receita atualizada",
   Recipes: "Receitas",
   "Recipes from chefs": "Receitas de chefs",

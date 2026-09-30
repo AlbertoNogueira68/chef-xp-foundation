@@ -374,19 +374,27 @@ router.get(
         //    Só é seguro porque `email_verified` já foi exigido acima: sem
         //    isso, criar uma conta Google com o email de outra pessoa dava
         //    acesso à conta dela aqui.
-        //    E só se a conta local também tiver o email confirmado. Sem SMTP,
-        //    o `/register` cria contas sem confirmar nada: qualquer pessoa
-        //    podia registar o email de outra, esperar que ela entrasse com a
-        //    Google e ficar com uma password para a conta dela.
+        //    Se a conta local não tinha o email confirmado, perde a password
+        //    (ver abaixo). Sem SMTP, o `/register` cria contas sem confirmar
+        //    nada: qualquer pessoa podia registar o email de outra, esperar
+        //    que ela entrasse com a Google e ficar com uma password para a
+        //    conta dela.
         const { rows: existing } = await client.query(
           `SELECT id, email_verified_at FROM users WHERE email = $1`,
           [email],
         );
 
         if (existing[0] && !existing[0].email_verified_at) {
-          await client.query("ROLLBACK");
-          return fail(
-            "There's already an account for this email, still unconfirmed. Sign in with the password.",
+          // A Google acabou de provar que esta caixa de correio é de quem
+          // está a entrar, e a conta local nunca foi confirmada — a password
+          // que lá está pode ser de quem a registou sem ser dono do endereço.
+          // Fica sem password e com as sessões fechadas: a conta passa a
+          // entrar só por aqui (e recupera a password por email, se quiser).
+          await client.query(
+            `UPDATE users
+                SET password_hash = NULL, token_version = token_version + 1, updated_at = now()
+              WHERE id = $1`,
+            [existing[0].id],
           );
         }
 
@@ -477,6 +485,19 @@ const mailLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: "Too many email requests. Try again in an hour." },
+});
+
+/**
+ * Redefinir a password gasta um token que já existe: não manda email a
+ * ninguém, por isso não partilha o limite apertado dos pedidos de email — que
+ * era por IP, e deixava duas pessoas na mesma rede bloquearem-se uma à outra.
+ */
+const resetLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: () => Number(process.env.RATE_LIMIT_AUTH_MAX || 20),
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: "Too many attempts. Try again in an hour." },
 });
 
 /** Emite um token novo e deita fora os anteriores do mesmo tipo. */
@@ -739,7 +760,7 @@ router.post(
  */
 router.post(
   "/reset-password",
-  mailLimiter,
+  resetLimiter,
   validate({ body: resetPasswordSchema }),
   asyncHandler(async (req, res) => {
     const tokenHash = hashToken(req.valid.body.token);
