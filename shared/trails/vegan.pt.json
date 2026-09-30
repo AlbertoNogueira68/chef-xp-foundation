@@ -123,7 +123,7 @@
               "skills": [
                 "vegan.proteina-vegetal"
               ],
-              "explainWrong": "O tofu mole e o grão esmagado desfazem-se ambos com o calor da grelha, e as lentilhas vermelhas cozem até ficarem numa pasta mole em vez de se manterem inteiras — nenhum deles mantém a forma como a textura firme e fibrosa do tempeh."
+              "explainWrong": "O tofu mole e o grão esmagado desfazem-se ambos com o calor da grelha. As lentilhas vermelhas cozem até ficarem numa pasta mole em vez de se manterem inteiras. Nenhum deles mantém a forma como a textura firme e fibrosa do tempeh."
             }
           ]
         },
@@ -370,7 +370,7 @@
                 "Nada — os caris não são para ser cremosos"
               ],
               "correctAnswer": "Leite de coco gordo, que não talha em lume brando",
-              "explanation": "A gordura do coco é estável à temperatura de estufar; as proteínas e as gomas da maioria das bebidas de aveia não são, e é por isso que aguam e se separam no momento em que a panela mantém calor.",
+              "explanation": "A gordura do coco é estável à temperatura de estufar. As proteínas e as gomas da maioria das bebidas de aveia não são, e é por isso que aguam e se separam quando a panela mantém o calor.",
               "skills": [
                 "vegan.cremoso-sem-lacteos"
               ],

@@ -24,7 +24,7 @@
       "id": "mexicana.salsa-blending",
       "name": "Equilibrar Uma Salsa Batida",
       "category": "tempero",
-      "description": "Sal, ácido e legume assado na ordem certa: um liquidificador não tempera por ti.",
+      "description": "Sal, ácido e legume assado na ordem certa: uma liquidificadora não tempera por ti.",
       "requires": [
         "mexicana.salsa-roasting"
       ]
@@ -98,7 +98,7 @@
           "title": "Assar Para Salsa",
           "dayNumber": 1,
           "dishName": "Tomatillo e Malagueta Assados",
-          "description": "Aprende porque é que uma salsa começa numa frigideira seca e quente em vez de num liquidificador.",
+          "description": "Aprende porque é que uma salsa começa numa frigideira seca e quente em vez de numa liquidificadora.",
           "type": "lesson",
           "difficulty": "facil",
           "cookTimeMin": 20,
@@ -169,7 +169,7 @@
           "title": "Equilibrar Uma Salsa Batida",
           "dayNumber": 2,
           "dishName": "Salsa Verde",
-          "description": "Um liquidificador não tempera por ti — o sal e o ácido continuam a precisar de uma decisão humana.",
+          "description": "Um liquidificadora não tempera por ti — o sal e o ácido continuam a precisar de uma decisão humana.",
           "type": "lesson",
           "difficulty": "facil",
           "cookTimeMin": 10,
@@ -893,7 +893,7 @@
           "id": "s4",
           "index": 3,
           "title": "Aquece cada tortilha, passa pelo molho, recheia e enrola",
-          "description": "Uns segundos de cada lado em óleo quente e pouco fundo, direta pelo molho morno, uma linha de frango e cebola, e depois enrola e deita com a costura para baixo num tabuleiro já com molho.",
+          "description": "Passa-a uns segundos de cada lado em óleo quente e pouco fundo e mergulha-a no molho morno. Junta uma linha de frango e cebola, enrola e coloca-a com a costura para baixo num tabuleiro que já tenha molho.",
           "durationSec": 900,
           "rescues": [
             {

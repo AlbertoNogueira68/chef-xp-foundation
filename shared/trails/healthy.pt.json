@@ -127,7 +127,7 @@
               "skills": [
                 "saudavel.vapor"
               ],
-              "explainWrong": "O vapor não está mais quente do que a água a ferver nem é necessariamente mais rápido — a razão verdadeira é que ferver mergulha a comida na água onde os nutrientes se dissolvem, e o vapor nunca deixa esse contacto acontecer."
+              "explainWrong": "O vapor não está mais quente do que a água a ferver, nem é necessariamente mais rápido. A razão verdadeira é outra: ao ferver, a comida fica mergulhada na água onde os nutrientes se dissolvem, e o vapor nunca deixa esse contacto acontecer."
             }
           ]
         },
@@ -184,7 +184,7 @@
               "skills": [
                 "saudavel.prato-equilibrado"
               ],
-              "explainWrong": "Um prato que deixe os legumes de fora, ou que deixe o arroz ou o frango tomar quase todo o espaço, não está equilibrado — é um grupo de alimentos com uma nota de pé de página."
+              "explainWrong": "Um prato sem legumes, ou em que o arroz ou o frango ocupam quase todo o espaço, não está equilibrado. É um só grupo de alimentos com uma nota de rodapé."
             }
           ]
         }
@@ -303,7 +303,7 @@
               "skills": [
                 "saudavel.doce-sem-acucar"
               ],
-              "explainWrong": "A canela dá aroma, não doce, por isso mais canela não arranjava um resultado com gosto a amido, e nem o tempo no forno nem um pouco mais de água mudam o quão madura a fruta estava no início. Assar só concentra o açúcar que já lá está."
+              "explainWrong": "A canela dá aroma, não doce, por isso mais canela não resolvia um resultado com gosto a amido. Também nem o tempo no forno nem um pouco mais de água mudam o grau de maturação que a fruta tinha no início. Assar só concentra o açúcar que já lá está."
             }
           ]
         }

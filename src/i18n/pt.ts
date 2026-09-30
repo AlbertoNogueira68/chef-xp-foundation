@@ -100,7 +100,7 @@ export const PT: Record<string, string> = {
   "ChefXP — home": "Chef XP — página inicial",
   Chest: "Baú",
   "Chefs to follow": "Chefs a seguir",
-  "Choose a new password": "Escolher password nova",
+  "Choose a new password": "Escolher palavra-passe nova",
   "Choose an image file": "Escolhe um ficheiro de imagem",
   "Choose the recipe": "Escolhe a receita",
   "Close help": "Fechar ajuda",
@@ -198,23 +198,23 @@ export const PT: Record<string, string> = {
   Following: "A seguir",
   "For you": "Para ti",
   "Forgot it?": "Esqueceste-te?",
-  "Free · No card · Demo with mock data": "Grátis · Sem cartão · Demo com dados mock",
+  "Free · No card · Demo with mock data": "Grátis · Sem cartão · Demonstração com dados de exemplo",
   "From device": "Do dispositivo",
   "From gallery": "Da galeria",
   "Go to the app": "Ir para a app",
   "Good pick — {dish}. One of those that pays off straight away.":
     "Boa escolha. {dish} é daqueles que compensam logo à primeira.",
   "Google sign-in isn't available in this version":
-    "O login com Google não está disponível nesta versão",
+    "O início de sessão com Google não está disponível nesta versão",
   "Great lesson. Cook the dish today — that's how it sticks.":
     "Excelente lição. Faz o prato hoje, que é assim que fica na cabeça.",
   Hard: "Difícil",
   "Hasn't cooked a mission in public yet.": "Ainda não cozinhou nenhuma missão em público.",
   "Hasn't published a recipe yet.": "Ainda não publicou nenhuma receita.",
-  "Hide password": "Esconder a password",
+  "Hide password": "Esconder a palavra-passe",
   "I already have an account": "Já tenho conta",
   "I don't have this": "Não tenho isto",
-  "I forgot my password": "Esqueci-me da password",
+  "I forgot my password": "Esqueci-me da palavra-passe",
   "I'm done": "Terminei",
   Icon: "Ícone",
   Identifier: "Identificador",
@@ -256,7 +256,7 @@ export const PT: Record<string, string> = {
   "List at least a few ingredients": "Lista pelo menos alguns ingredientes",
   "Listening: say «next», «back» or «repeat».": "A ouvir: diz «próximo», «anterior» ou «repetir».",
   "Live challenges": "Desafios a decorrer",
-  lives: "vidas",
+  lives: "corações",
   "Load more": "Carregar mais",
   "Loading comments…": "A carregar comentários…",
   "Loading…": "A carregar…",
@@ -276,7 +276,7 @@ export const PT: Record<string, string> = {
   "Missions cooked": "Missões cozinhadas",
   Moderation: "Moderação",
   Name: "Nome",
-  "New password": "Password nova",
+  "New password": "Palavra-passe nova",
   "New recipe": "Nova receita",
   Next: "Seguinte",
   "New trail": "Novo trilho",
@@ -290,7 +290,7 @@ export const PT: Record<string, string> = {
   "No comments yet. Say something.": "Ainda não há comentários. Diz alguma coisa.",
   "No longer theory": "Deixaram de ser teoria",
   "No photo, no finished mission — it's what separates cooking from tapping next.":
-    "Sem foto não se conclui a missão — é o que distingue cozinhar de carregar em seguinte.",
+    "Sem foto não se conclui a missão — é o que distingue cozinhar de ir carregando em «Seguinte».",
   "No recipes for these filters.": "Sem receitas para estes filtros.",
   "No recipes yet. Be the first to publish.": "Ainda não há receitas. Sê o primeiro a publicar.",
   "No results for “{query}”.": "Nenhum resultado para “{query}”.",
@@ -323,7 +323,7 @@ export const PT: Record<string, string> = {
   "One line on what this trail teaches": "Uma linha sobre o que este trilho ensina",
   "One number": "Um número",
   "One per line.": "Um por linha.",
-  "One special character (! ? @ # …)": "Um caractere especial (! ? @ # …)",
+  "One special character (! ? @ # …)": "Um carácter especial (! ? @ # …)",
   Optional: "Opcional",
   "One to think about:": "Uma para pensar:",
   "One uppercase letter": "Uma letra maiúscula",
@@ -332,17 +332,17 @@ export const PT: Record<string, string> = {
   "Open only": "Ver só as abertas",
   "Open reports": "Denúncias por tratar",
   "Open the link inside to choose your username and password. If you already have an account with this address, the email says so — and how to recover the password.":
-    "Abre o link que lá está para escolheres o nome de utilizador e a password. Se já tiveres conta com este endereço, o email diz-te isso — e como recuperar a password.",
+    "Abre o link que lá está para escolheres o nome de utilizador e a palavra-passe. Se já tiveres conta com este endereço, o email diz-te isso — e como recuperar a palavra-passe.",
   "Options for {username}'s comment": "Opções do comentário de {username}",
   Other: "Outro",
   "Out of lives!": "Sem corações!",
   Password: "Palavra-passe",
-  "Password (if your account has one)": "Password (se a tua conta tiver uma)",
-  "Password changed. Sign in with the new one.": "Password alterada. Entra com a nova.",
+  "Password (if your account has one)": "Palavra-passe (se a tua conta tiver uma)",
+  "Password changed. Sign in with the new one.": "Palavra-passe alterada. Entra com a nova.",
   Path: "Trilho",
   "Pay attention to this one: it's where most people slip up.":
     "Repara bem neste: é aqui que a maioria se atrapalha.",
-  People: "Gente",
+  People: "Pessoas",
   Photo: "Fotografia",
   "Photo for step {step}": "Foto do passo {step}",
   "Photo missing": "Falta a foto",
@@ -386,11 +386,11 @@ export const PT: Record<string, string> = {
   Recipes: "Receitas",
   "Recipes from chefs": "Receitas de chefs",
   "Recipes, chefs, ingredients…": "Receitas, chefs, ingredientes…",
-  "Recover your password": "Recuperar a password",
+  "Recover your password": "Recuperar a palavra-passe",
   Remove: "Remover",
   "Remove image": "Remover imagem",
   "Remove moderator": "Retirar moderação",
-  "Repeat the password": "Repetir a password",
+  "Repeat the password": "Repetir a palavra-passe",
   Report: "Denunciar",
   "Report account": "Denunciar conta",
   "Report archived": "Denúncia arquivada",
@@ -404,7 +404,7 @@ export const PT: Record<string, string> = {
   Review: "Revisão",
   "Role removed": "Papel retirado",
   Save: "Guardar",
-  "Save password": "Guardar a password",
+  "Save password": "Guardar a palavra-passe",
   "Saved on this device": "Guardado neste dispositivo",
   "Saved. Take another if this one didn't come out well.":
     "Guardada. Podes tirar outra se esta não ficou boa.",
@@ -432,7 +432,7 @@ export const PT: Record<string, string> = {
   "Share profile": "Partilhar perfil",
   "Share recipe": "Partilhar receita",
   "Share. Level up.": "Partilha. Evolui.",
-  "Show password": "Mostrar a password",
+  "Show password": "Mostrar a palavra-passe",
   "Sign in": "Entrar",
   "Sign out": "Terminar sessão",
   "Sign up": "Registar",
@@ -448,7 +448,7 @@ export const PT: Record<string, string> = {
   "Start over": "Recomeçar",
   "Start prep": "Começar preparação",
   "Steady · 50 XP a day": "Normal · 50 XP por dia",
-  "Submitting…": "A submeter…",
+  "Submitting…": "A enviar…",
   "Suggested chefs": "Chefs sugeridos",
   "Switch camera": "Trocar de câmara",
   Take: "Tirar",
@@ -459,32 +459,32 @@ export const PT: Record<string, string> = {
   "Tell us a bit more about the recipe": "Conta um pouco mais sobre a receita",
   "Test what you know": "Testar conhecimentos",
   "Thanks. This address is how you recover the account if you lose your password.":
-    "Obrigado. É por este endereço que recuperas a conta se perderes a password.",
+    "Obrigado. É por este endereço que recuperas a conta se perderes a palavra-passe.",
   "That didn't work": "Isso não resultou",
   "That one got away. Let's go again — now you know where the trick is.":
-    "Esta fugiu-nos. Vamos outra vez, agora já sabes onde é o truque.",
+    "Esta fugiu-nos. Vamos outra vez: agora já sabes onde está o truque.",
   "That's done. Now all that's left is taking it to the stove.":
     "Está feito. Agora só falta levares isto ao fogão.",
   "That's it!": "Isso mesmo!",
   "That's the way!": "É por aí!",
   "The address": "O endereço",
   "The content is gone. The report stays for the record.":
-    "O conteúdo já não existe. A denúncia fica para historial.",
+    "O conteúdo já não existe. A denúncia fica para o histórico.",
   "The curriculum isn't valid JSON: {reason}": "O currículo não é JSON válido: {reason}",
   "The gamified social network for people who love to cook — inspired by the best of Instagram, TikTok and Pinterest.":
-    "A rede social gamificada para quem ama cozinhar — inspirada no melhor do Instagram, TikTok e Pinterest.",
+    "A rede social gamificada para quem adora cozinhar — inspirada no melhor do Instagram, TikTok e Pinterest.",
   "The image is too large, even after resizing":
     "A imagem é demasiado grande, mesmo depois de reduzida",
   "The link is invalid or has expired.": "O link é inválido ou já expirou.",
   "The new password has to meet the same requirements as sign-up. Once you save it, you sign in with it.":
-    "A password nova tem de cumprir os mesmos requisitos do registo. Depois de guardares, entras com ela.",
-  "The passwords don't match": "As passwords não coincidem",
+    "A palavra-passe nova tem de cumprir os mesmos requisitos do registo. Depois de guardares, entras com ela.",
+  "The passwords don't match": "As palavras-passe não coincidem",
   "The photo is too large to sit waiting for a connection.":
-    "A fotografia é grande demais para ficar à espera de rede.",
+    "A fotografia é demasiado grande para ficar à espera de rede.",
   "The queue, who moderates, and the app's numbers.":
-    "A fila, quem modera, e os números da aplicação.",
+    "A fila, quem modera e os números da aplicação.",
   "The reports that came in, and what to do with them.":
-    "As denúncias que chegaram, e o que fazer com elas.",
+    "As denúncias que chegaram e o que fazer com elas.",
   "The server didn't answer. Nothing was saved — try again.":
     "O servidor não respondeu. Nada ficou gravado — tenta outra vez.",
   "The server isn't responding. Carry on — it's saved here.":
@@ -504,7 +504,7 @@ export const PT: Record<string, string> = {
   "This is one of those small steps that changes the whole dish.":
     "Este é dos que parecem pequenos e mudam o prato todo.",
   "This is where the day rolls over, and the day is what decides your streak.":
-    "É neste fuso que o dia muda, e é o dia que decide o streak.",
+    "É neste fuso que o dia muda, e é esse dia que decide a sequência de dias seguidos.",
   "This link no longer works — it was used already, or it expired. Asking for another takes ten seconds.":
     "Este link já não serve — ou já foi usado, ou passou o prazo. Pedir outro leva dez segundos.",
   "This one matters in a real kitchen:": "Esta é importante na cozinha a sério:",
@@ -516,11 +516,11 @@ export const PT: Record<string, string> = {
   "Time's up": "Está na hora",
   Title: "Título",
   "Today: {dish}. Read all the ingredients first — that's half the job.":
-    "Hoje: {dish}. Lê primeiro os ingredientes todos, é meio caminho andado.",
+    "Hoje: {dish}. Lê primeiro os ingredientes todos: é meio caminho andado.",
   "Total XP": "XP total",
   Trending: "Em alta",
   Trails: "Trilhos",
-  "Try again": "Tentar novamente",
+  "Try again": "Tentar outra vez",
   "Try another email": "Tentar com outro email",
   "Turn voice commands off": "Desligar comandos de voz",
   "Turn voice commands on": "Ligar comandos de voz",
@@ -528,7 +528,7 @@ export const PT: Record<string, string> = {
     "Duas linhas chegam. Quanto mais concreto, mais depressa se resolve.",
   Type: "Escreve",
   "Type your account's email. We'll send you a link to choose a new password.":
-    "Escreve o email da tua conta. Mandamos-te um link para escolheres uma password nova.",
+    "Escreve o email da tua conta. Mandamos-te um link para escolheres uma palavra-passe nova.",
   Unblock: "Desbloquear",
   "Under 20 min": "Até 20 min",
   "Under 30 min": "Até 30 min",
@@ -538,7 +538,7 @@ export const PT: Record<string, string> = {
   Username: "Nome de utilizador",
   "Want to show how it came out?": "Queres mostrar como ficou?",
   "We confirm the address before creating the account. You choose the password next, in the link we send you.":
-    "Confirmamos o endereço antes de criar a conta. A password escolhe-se a seguir, no link que te enviamos.",
+    "Confirmamos o endereço antes de criar a conta. A palavra-passe escolhe-se a seguir, no link que te enviamos.",
   "We picked up where you left off.": "Retomámos onde ficaste.",
   "We're out of lives. It happens to everyone — go again with me from the top.":
     "Ficámos sem corações. Acontece a toda a gente — repete comigo do início.",
@@ -551,7 +551,7 @@ export const PT: Record<string, string> = {
     "Sem rede, a correção fica para quando voltares a ter ligação. Podes continuar a lição — não perdes corações por isto.",
   Withdraw: "Retirar",
   "Write a comment…": "Escreve um comentário…",
-  "XP already earned doesn't change when you edit.": "O XP já ganho não muda com as correções.",
+  "XP already earned doesn't change when you edit.": "O XP já ganho não muda quando editas.",
   "XP awarded": "XP distribuído",
   "XP over the last seven days": "XP dos últimos sete dias",
   "XP since day one": "XP desde o primeiro dia",
@@ -590,13 +590,13 @@ export const PT: Record<string, string> = {
     "As tuas respostas vão para o servidor assim que houver rede. É aí que a correção e o XP aparecem — mesmo que feches a app.",
   "Your estimate, not a calculated price.": "A tua estimativa, não um preço calculado.",
   "Your password stays visible on screen while this button is on.":
-    "A password fica visível no ecrã enquanto este botão estiver ativo.",
+    "A palavra-passe fica visível no ecrã enquanto este botão estiver ativo.",
   "Your profile, and the pace you want to learn at.":
     "O teu perfil e o ritmo a que queres aprender.",
   "day streak": "dia seguido",
   "days streak": "dias seguidos",
   Delete: "Apagar",
-  "e.g. Crispy chicken tacos": "Ex: Tacos de frango crocante",
+  "e.g. Crispy chicken tacos": "Ex.: Tacos de frango crocante",
   "earned XP, not just signed up": "ganharam XP, não só abriram",
   Easy: "Fácil",
   "email unconfirmed": "email por confirmar",
@@ -615,7 +615,7 @@ export const PT: Record<string, string> = {
   "one of your recipes": "uma receita tua",
   "one wrong answer": "uma resposta errada",
   "so you can recover the account if you lose your password.":
-    "para poderes recuperar a conta se perderes a password.",
+    "para poderes recuperar a conta se perderes a palavra-passe.",
   "to confirm": "para confirmar",
   "too many mistakes": "erros a mais",
   "{count} Chef tip": "{count} dica do Chef",
@@ -631,7 +631,7 @@ export const PT: Record<string, string> = {
   "{count} since the start": "{count} desde sempre",
   "{count} to handle": "{count} por tratar",
   "{count} wrong answers": "{count} respostas erradas",
-  "{days}-day streak! +{xp} bonus XP": "Streak de {days} dias! +{xp} XP extra",
+  "{days}-day streak! +{xp} bonus XP": "{days} dias seguidos! +{xp} XP extra",
   "{days}d ago": "há {days} d",
   "{dish} · step {step} of {total}": "{dish} · passo {step} de {total}",
   "{dish}, then? Come on — I'm with you from start to finish.":
@@ -669,9 +669,9 @@ export const PT: Record<string, string> = {
   Standing: "Classificação",
   "This challenge has ended. The result is being counted.":
     "Este desafio terminou. O resultado está a ser apurado.",
-  "Your entries": "As tuas submissões",
+  "Your entries": "As tuas participações",
   "You've used all your entries. Now it's up to the likes.":
-    "Já usaste todas as tuas submissões. Agora é com os gostos.",
+    "Já usaste todas as tuas participações. Agora é com os gostos.",
   "Add another photo": "Juntar outra foto",
   "{count} left": "faltam {count}",
   "This challenge closed without entries.": "Este desafio fechou sem participações.",
@@ -710,7 +710,7 @@ export const PT: Record<string, string> = {
   "The queue, who moderates, the challenges, and the app's numbers.":
     "A fila, quem modera, os desafios e os números da aplicação.",
   "The reports that came in, and the challenges you put up.":
-    "As denúncias que chegaram, e os desafios que puseres de pé.",
+    "As denúncias que chegaram e os desafios que puseres de pé.",
   Cover: "Capa",
   "Add a cover": "Juntar uma capa",
   "Remove photo": "Retirar a fotografia",
@@ -744,7 +744,7 @@ export const PT: Record<string, string> = {
   Sent: "Enviado",
   "Just a moment.": "Um instante.",
   "The request failed": "O pedido falhou",
-  "Choose username and password": "Escolhe o nome e a password",
+  "Choose username and password": "Escolhe o nome e a palavra-passe",
 
   // Cronómetro do passo.
   paused: "em pausa",
@@ -778,7 +778,7 @@ export const PT: Record<string, string> = {
   Email: "Email",
 
   // Mensagens que nascem nos serviços e nos repositórios.
-  "Login failed": "Falha no login",
+  "Login failed": "Falha ao iniciar sessão",
   "Sign-up failed": "Falha no registo",
   "Failed to load user": "Não foi possível carregar o utilizador",
   "Failed to update user": "Não foi possível atualizar o utilizador",
@@ -805,5 +805,5 @@ export const PT: Record<string, string> = {
     "O XP da revisão de hoje já tinha sido pago — mas estas respostas contam para o que volta, e quando.",
   "{correct} of {total} right": "{correct} de {total} certas",
   "{count} questions are waiting to come back.": "Há {count} perguntas à espera de voltar.",
-  "{hearts} of {max} lives left": "{hearts} de {max} vidas",
+  "{hearts} of {max} lives left": "{hearts} de {max} corações",
 };

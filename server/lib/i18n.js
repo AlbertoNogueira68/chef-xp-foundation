@@ -12,28 +12,24 @@
 
 const PT = {
   "Hi {name},": "Olá {name},",
-  "24 hours": "24 horas",
   "{days} days": "{days} dias",
-  "1 hour": "1 hora",
   "{hours} hours": "{hours} horas",
   "{minutes} minutes": "{minutes} minutos",
   "The link lasts {validity} and works once.":
     "O link vale {validity} e só pode ser usado uma vez.",
   "The link lasts {validity}.": "O link vale {validity}.",
   "The link lasts {validity} and works once. If this wasn't you, ignore this email — your password stays as it is.":
-    "O link vale {validity} e só pode ser usado uma vez. Se não foste tu, ignora este email — a tua password fica como está.",
+    "O link vale {validity} e só pode ser usado uma vez. Se não foste tu, ignora este email — a tua palavra-passe fica como está.",
   "The link lasts {validity}. If you didn't create a ChefXP account, ignore this email.":
     "O link vale {validity}. Se não criaste conta no ChefXP, ignora este email.",
   "The link lasts {validity} and works once. If you didn't ask for this, ignore this email — no account is created.":
     "O link vale {validity} e só pode ser usado uma vez. Se não foste tu a pedir, ignora este email — não fica conta nenhuma criada.",
   "Hi <strong>{name}</strong>, you asked to reset your account's password.":
-    "Olá <strong>{name}</strong>, pediste para redefinir a password da tua conta.",
+    "Olá <strong>{name}</strong>, pediste para redefinir a palavra-passe da tua conta.",
   "Hi <strong>{name}</strong>, confirm this address is yours — it's how you recover the account if you lose your password.":
-    "Olá <strong>{name}</strong>, confirma que este endereço é teu — é por aqui que recuperas a conta se perderes a password.",
+    "Olá <strong>{name}</strong>, confirma que este endereço é teu — é por aqui que recuperas a conta se perderes a palavra-passe.",
   "Hi <strong>{name}</strong>, someone asked to create an account with this address — but it already has one. If it was you and you don't remember the password, you can reset it.":
-    "Olá <strong>{name}</strong>, alguém pediu para criar uma conta com este endereço — mas ele já tem uma. Se foste tu e não te lembras da password, podes redefini-la.",
-  "If the button doesn't work, copy this address into your browser:":
-    "Se o botão não funcionar, copia este endereço para o browser:",
+    "Olá <strong>{name}</strong>, alguém pediu para criar uma conta com este endereço — mas ele já tem uma. Se foste tu e não te lembras da palavra-passe, podes redefini-la.",
   "1 hour": "1 hora",
   "24 hours": "24 horas",
   "A week of lessons": "Semana de lições",
@@ -51,13 +47,8 @@ const PT = {
   "Authorisation cancelled": "Autorização cancelada",
   "Challenge not found": "Desafio não encontrado",
   "This challenge hasn't started yet": "Este desafio ainda não começou",
-  "This challenge is over": "Este desafio já terminou",
-  "You've already entered this challenge": "Já participaste neste desafio",
   "You've used all your entries in this challenge":
-    "Já usaste todas as tuas submissões neste desafio",
-  "You can only submit a recipe of your own": "Só podes submeter uma receita tua",
-  "That recipe is already in another challenge": "Essa receita já está noutro desafio",
-  "You're not entered in this challenge": "Não estás inscrito neste desafio",
+    "Já usaste todas as tuas participações neste desafio",
   "Rules can't change once people have entered":
     "As regras não mudam depois de haver participações",
   "The deadline can be extended, not shortened": "O prazo pode ser esticado, não encurtado",
@@ -68,32 +59,32 @@ const PT = {
   "This challenge hasn't ended yet, or is already closed":
     "Este desafio ainda não terminou, ou já foi fechado",
   "Tell us a bit more about the challenge": "Conta um pouco mais sobre o desafio",
-  "Choose a new password": "Escolher password nova",
-  "Choose username and password": "Escolher nome e password",
+  "Choose a new password": "Escolher palavra-passe nova",
+  "Choose username and password": "Escolher nome e palavra-passe",
   "Comment not found": "Comentário não encontrado",
   "Confirm email": "Confirmar o email",
   "Confirm this address is yours so we can help you recover the account if you lose your password:":
-    "Confirma que este endereço é teu para podermos ajudar-te a recuperar a conta se perderes a password:",
+    "Confirma que este endereço é teu para podermos ajudar-te a recuperar a conta se perderes a palavra-passe:",
   "Confirm your email": "Confirma o teu email",
   "Confirm your email — ChefXP": "Confirma o teu email — ChefXP",
-  "Couldn't reach Google": "Não foi possível falar com a Google",
+  "Couldn't reach Google": "Não foi possível contactar o Google",
   "Couldn't send the email. Try again later.": "Não foi possível enviar o email. Tenta mais tarde.",
   "Create your account": "Criar a tua conta",
   "Create your account — ChefXP": "Criar a tua conta — ChefXP",
   "Email or username already taken": "Email ou nome de utilizador já em uso",
   "Email sign-up isn't configured": "Criar conta por email não está configurado",
   "Email verification isn't configured": "Verificação de email não está configurada",
-  "Endpoint not found": "Endpoint não encontrado",
+  "Endpoint not found": "Endereço não encontrado",
   "Finish the earlier lessons first": "Termina as lições anteriores primeiro",
   "Finish all the steps first": "Termina todos os passos primeiro",
   "Finish the unit's lessons first": "Termina as lições da unidade primeiro",
   "First lesson": "Primeira lição",
   "Google isn't configured": "Google não configurado",
-  "Google returned no code": "A Google não devolveu código",
-  "Google returned no id_token": "A Google não devolveu id_token",
+  "Google returned no code": "O Google não devolveu código",
+  "Google returned no id_token": "O Google não devolveu id_token",
   "Google sign-in isn't configured": "Início de sessão com Google não está configurado",
   "If it was you and you don't remember the password, reset it here:":
-    "Se foste tu e não te lembras da password, redefine-a aqui:",
+    "Se foste tu e não te lembras da palavra-passe, redefine-a aqui:",
   "If it wasn't you, ignore this email: nothing changed in your account.":
     "Se não foste tu, ignora este email: não mudou nada na tua conta.",
   "If it wasn't you, you can ignore this email: nothing changed in your account.":
@@ -101,7 +92,7 @@ const PT = {
   "If the button doesn't work, copy this address into your browser:":
     "Se o botão não funcionar, copia este endereço para o browser:",
   "If this wasn't you, ignore this email — your password stays as it is.":
-    "Se não foste tu, ignora este email — a tua password fica como está.",
+    "Se não foste tu, ignora este email — a tua palavra-passe fica como está.",
   "If you didn't ask for this, ignore this email — no account is created.":
     "Se não foste tu a pedir, ignora este email — não fica conta nenhuma criada.",
   "If you didn't create a ChefXP account, ignore this email.":
@@ -133,14 +124,14 @@ const PT = {
   "Only base64 PNG, JPEG or WebP images are accepted":
     "Só são aceites imagens PNG, JPEG ou WebP em base64",
   "Open this address to choose your username and password:":
-    "Abre este endereço para escolheres o teu nome de utilizador e a tua password:",
+    "Abre este endereço para escolheres o teu nome de utilizador e a tua palavra-passe:",
   "Origin not allowed by CORS": "Origem não permitida por CORS",
-  "Password recovery isn't configured": "Recuperação de password não está configurada",
-  "Password required": "Password obrigatória",
+  "Password recovery isn't configured": "Recuperação de palavra-passe não está configurada",
+  "Password required": "Palavra-passe obrigatória",
   "Recipe not found": "Receita não encontrada",
   "Report not found": "Denúncia não encontrada",
-  "Reset the password": "Redefinir a password",
-  "Reset your password — ChefXP": "Redefinir a tua password — ChefXP",
+  "Reset the password": "Redefinir a palavra-passe",
+  "Reset your password — ChefXP": "Redefinir a tua palavra-passe — ChefXP",
   "Sign-up goes through a confirmed email. Ask for the link at /signup.":
     "Criar conta é por email confirmado. Pede o link em /signup.",
   "Someone (maybe you) asked to create an account with this address — but it already has one.":
@@ -155,10 +146,10 @@ const PT = {
   "The Google account's email isn't verified": "Email da conta Google não verificado",
   "The name doesn't match the account's": "O nome não coincide com o da conta",
   "The password can't be longer than 200 characters":
-    "A password não pode ter mais de 200 caracteres",
-  "The password needs a number": "A password tem de ter um número",
-  "The password needs a special character": "A password tem de ter um caractere especial",
-  "The password needs an uppercase letter": "A password tem de ter uma letra maiúscula",
+    "A palavra-passe não pode ter mais de 200 caracteres",
+  "The password needs a number": "A palavra-passe tem de ter um número",
+  "The password needs a special character": "A palavra-passe tem de ter um carácter especial",
+  "The password needs an uppercase letter": "A palavra-passe tem de ter uma letra maiúscula",
   "The proof photo is missing": "Falta a foto do passo de verificação",
   "The username doesn't match": "O nome de utilizador não coincide",
   "The username must be at least 3 characters":
@@ -181,20 +172,20 @@ const PT = {
   "Too many email requests. Try again in an hour.":
     "Demasiados pedidos de email. Tenta daqui a uma hora.",
   "Too many sign-in attempts. Try again in a few minutes.":
-    "Demasiadas tentativas de login. Tenta daqui a uns minutos.",
+    "Demasiadas tentativas de início de sessão. Tenta daqui a uns minutos.",
   "Type the account's name": "Escreve o nome da conta",
   "Type your username": "Escreve o teu nome de utilizador",
   "Unknown action": "Ação desconhecida",
   "unreadable id_token": "id_token ilegível",
   "User not found": "Utilizador não encontrado",
   "We've confirmed this address is yours. Now choose your username and password.":
-    "Confirmámos que este endereço é teu. Falta escolheres o nome de utilizador e a password.",
+    "Confirmámos que este endereço é teu. Falta escolheres o nome de utilizador e a palavra-passe.",
   "Welcome to ChefXP!": "Bem-vindo ao ChefXP!",
-  "Wrong password": "Password incorreta",
+  "Wrong password": "Palavra-passe incorreta",
   "You already have a ChefXP account": "Já tens conta no ChefXP",
   "You asked to reset the password for your ChefXP account. Open this address:":
-    "Pediste para redefinir a password da tua conta ChefXP. Abre este endereço:",
-  "You can only submit a recipe of your own": "Só podes submeter uma receita tua",
+    "Pediste para redefinir a palavra-passe da tua conta ChefXP. Abre este endereço:",
+  "You can only submit a recipe of your own": "Só podes inscrever uma receita tua",
   "You can't block yourself": "Não te podes bloquear a ti próprio",
   "You can't change your own role here": "O teu próprio papel não se muda por aqui",
   "You can't follow this person": "Não dá para seguir esta pessoa",
